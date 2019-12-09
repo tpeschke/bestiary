@@ -13,12 +13,16 @@ import { CatalogComponent } from './main-app/catalog/catalog.component';
 import { BeastViewGmComponent } from './main-app/beast-view/beast-view-gm/beast-view-gm.component';
 import { SearchResultsComponent } from './main-app/search-results/search-results.component';
 
+import { BeastService } from './main-app/beast.service'
+import { SingleBeastResolverService } from './main-app/single-beast-resolver.service'
+import { CatalogResolverService } from './main-app/catalog-resolver.service'
+
 const routes: Routes = [
   { path: '', component: LandingComponent, pathMatch: "full" },
   { path: 'main', component: MainAppShellComponent, children: [
     { path: '', redirectTo: 'catalog', pathMatch: "full"},
-    { path: 'catalog', component: CatalogComponent},
-    { path: 'beast/:id/gm', component: BeastViewGmComponent},
+    { path: 'catalog', component: CatalogComponent, resolve: {catalog: CatalogResolverService}},
+    { path: 'beast/:id/gm', component: BeastViewGmComponent, resolve: {beast: SingleBeastResolverService}},
     { path: 'search', component: SearchResultsComponent},
   ]},
   { path: '**', redirectTo: '' },
@@ -35,7 +39,7 @@ const routes: Routes = [
     MatButtonModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [BeastService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

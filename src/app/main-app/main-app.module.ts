@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatChipsModule} from '@angular/material/chips';
 
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
@@ -19,8 +20,6 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { BeastViewPlayerComponent } from './beast-view/beast-view-player/beast-view-player.component';
 import { BeastViewGmComponent } from './beast-view/beast-view-gm/beast-view-gm.component';
 import { MainAppShellComponent } from './main-app-shell/main-app-shell.component';
-
-import { BeastService } from './beast.service'
 
 @NgModule({
   declarations: [SearchBarComponent, SearchResultsComponent, CatalogComponent, BeastViewPlayerComponent, BeastViewGmComponent, MainAppShellComponent],
@@ -36,9 +35,9 @@ import { BeastService } from './beast.service'
     MatSelectModule,
     MatCheckboxModule,
     MatDividerModule,
-    HttpClientModule
+    HttpClientModule,
+    MatChipsModule
   ],
-  providers: [BeastService],
   exports: [SearchBarComponent, SearchResultsComponent, CatalogComponent, BeastViewPlayerComponent, BeastViewGmComponent, MainAppShellComponent]
 })
 export class MainAppModule { }

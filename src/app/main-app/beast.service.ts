@@ -19,7 +19,14 @@ export class BeastService {
   ) { }
 
   getCatalog(): any {
-    return this.http.get(local.endpointBase + '/beasts/catalog')
+    return this.http.get(local.endpointBase + '/api/beasts/catalog')
+      .pipe(
+        // catchError(this.handleError('search', []))
+      )
+  }
+
+  getSingleBeast(id): any {
+    return this.http.get(local.endpointBase + '/api/beasts/' + id)
       .pipe(
         // catchError(this.handleError('search', []))
       )

@@ -1,0 +1,21 @@
+import { Injectable } from '@angular/core';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { BeastService } from './beast.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CatalogResolverService implements Resolve<any> {
+
+  constructor(
+    private beastService: BeastService
+  ) { }
+
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<any> {
+    return this.beastService.getCatalog();
+   }
+}

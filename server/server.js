@@ -10,14 +10,18 @@ app.use(bodyParser.json())
 app.use(cors())
 
 let beasts = []
+let fakeBeastDB = []
 
 let letterArray = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 for (let i = 0; i < letterArray.length; i++) {
-      beasts.push(ctrl.makeMonsters(letterArray[i]))
+    let newBeast = ctrl.makeMonsters(letterArray[i])
+    beasts.push(newBeast)
+    fakeBeastDB.push(...newBeast)
 }
 
-app.get('/beasts/catalog', (req, res) => res.send(beasts))
+app.get('/api/beasts/catalog', (req, res) => res.send(beasts))
+app.get('/api/beasts/:id', (req, res) => res.send(fakeBeastDB[+req.params.id - 1]))
 // ================================== \\
 
 massive(connection).then(dbI => {

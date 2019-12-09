@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ActivatedRoute } from '@angular/router'
 @Component({
   selector: 'app-beast-view-gm',
   templateUrl: './beast-view-gm.component.html',
@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BeastViewGmComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute
+  ) { }
+
+  public beast = {}
 
   ngOnInit() {
+    this.beast = this.route.snapshot.data['beast'];
   }
 
 }

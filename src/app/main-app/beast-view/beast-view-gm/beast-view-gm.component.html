@@ -1,3 +1,92 @@
-<p>
-  beast-view-gm works!
-</p>
+<mat-card>
+  <mat-toolbar color="accent">
+    <h1>{{beast.name}}</h1>
+    <div>
+      <h1>HR: {{beast.hr}}</h1>
+    </div>
+  </mat-toolbar>
+
+  <div class="content-shell">
+
+    <div class="left">
+      <div>
+        <img [src]="beast.image" alt="">
+      </div>
+      <div class="combat-social-shell">
+        Combat Square Placeholder
+      </div>
+      <div class="vitals-shell">
+        <p>Vitality: {{beast.vitality}}</p>
+        <p>Panic: {{beast.panic}}</p>
+        <p>Broken: {{beast.broken}}</p> 
+        <!-- Custom pipes for the above should work -->
+        <p>Size: {{beast.size}}</p>
+      </div>
+
+      <h2>Special Attacks</h2>
+      <p>{{beast.sp_atk}}</p>
+
+      <h2>Special Defenses</h2>
+      <p>{{beast.sp_def}}</p>
+
+      <h2>Tactics</h2>
+      <p>{{beast.tactics}}</p>
+    </div>
+
+    <div class="right">
+      <h2>Beast Information</h2>
+      <p>{{beast.introduction}}</p>
+
+      <h2>Habitat/Society</h2>
+      <p>{{beast.habit}}</p>
+
+      <h2>Ecology</h2>
+      <p>{{beast.ecology}}</p>
+
+      <h2>Type</h2>
+      <mat-chip-list aria-label="Fish selection">
+          <mat-chip color="primary" selected>Undead</mat-chip>
+          <mat-chip color="primary" selected>Humoniod</mat-chip>
+          <mat-chip color="primary" selected>Construct</mat-chip>
+          <mat-chip color="primary" selected>Magical</mat-chip>
+          <mat-chip color="primary" selected>Unique</mat-chip>
+      </mat-chip-list>
+      <!-- list of types that link to search with that type as a parameter -->
+
+      <h2>Misc Information</h2>
+      <p>Environment:</p>
+      <mat-chip-list aria-label="Fish selection">
+          <mat-chip color="primary" selected>Forest</mat-chip>
+          <mat-chip color="primary" selected>Ruins</mat-chip>
+          <mat-chip color="primary" selected>Aquatic</mat-chip>
+          <mat-chip color="primary" selected>Hills</mat-chip>
+      </mat-chip-list>
+      <p>Number Appearing: {{beast.number_min}} - {{beast.number_max}}</p>
+      <p>Senses: {{beast.sense}}</p>
+      <p>Diet: {{beast.diet}}</p>
+      <p>Subsystem: {{beast.subsystem}}</p>
+      <!-- Box here for Environment, number, sense, diet, etc -->
+
+      <!-- <mat-expansion-panel>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  <h2>Variants (0)</h2>
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+      </mat-expansion-panel> -->
+
+      <!-- <h2>Special Harvest</h2> -->
+
+      <h2>Meta Notes</h2>
+      <p>{{beast.meta}}</p>
+
+      <!-- <mat-expansion-panel>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  <h2>Personal Notes</h2>
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+      </mat-expansion-panel> -->
+    </div>
+  </div>
+</mat-card>
