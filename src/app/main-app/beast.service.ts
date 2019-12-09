@@ -1,0 +1,27 @@
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError, tap } from 'rxjs/operators';
+import local from '../../local';
+
+class Beast {
+  id: number
+  name: string
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class BeastService {
+
+  constructor(
+    private http: HttpClient,
+  ) { }
+
+  getCatalog(): any {
+    return this.http.get(local.endpointBase + '/beasts/catalog')
+      .pipe(
+        // catchError(this.handleError('search', []))
+      )
+  }
+}
