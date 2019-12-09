@@ -3,3 +3,8 @@
     font-weight: 500;
     font-size: 35px;
 }
+
+.new-button {
+    position: absolute;
+    right: 25px;
+}

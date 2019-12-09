@@ -1,8 +1,8 @@
 <mat-card>
-    <mat-toolbar color="accent">
-      <h1>{{beast.name}}</h1>
+    <mat-toolbar color="warn">
+      <h1><input matInput type="text" [value]="beast.name"></h1>
       <div>
-        <h1>HR: {{beast.hr}}</h1>
+        <h1>HR: <input matInput type="number" [value]="beast.hr"></h1>
       </div>
     </mat-toolbar>
   
@@ -34,15 +34,21 @@
       </div>
   
       <div class="right">
-        <h2>Beast Information</h2>
-        <p>{{beast.introduction}}</p>
+        <h2>Introduction</h2>
+        <div> 
+          <quill-editor [(ngModel)]="beast.intro" (onBlur)="captureHTML($event, 'intro')"></quill-editor>
+        </div>
   
-        <h2>Habitat/Society</h2>
-        <p>{{beast.habit}}</p>
+        <h2>Habitaty/Society</h2>
+        <div>
+          <quill-editor [(ngModel)]="beast.habitat" (onBlur)="captureHTML($event, 'habitat')"></quill-editor>
+        </div>
   
         <h2>Ecology</h2>
-        <p>{{beast.ecology}}</p>
-  
+        <div>
+            <quill-editor [(ngModel)]="beast.ecology" (onBlur)="captureHTML($event, 'ecology')"></quill-editor>
+          </div>
+
         <h2>Type</h2>
         <mat-chip-list aria-label="Fish selection">
             <mat-chip color="primary" selected>Undead</mat-chip>
@@ -80,7 +86,9 @@
         <!-- <h2>Special Harvest</h2> -->
   
         <h2>Meta Notes</h2>
-        <p>{{beast.meta}}</p>
+        <div>
+          <quill-editor  [(ngModel)]="beast.meta" (onBlur)="captureHTML($event, 'meta')"></quill-editor>
+        </div>
   
         <!-- <mat-expansion-panel>
             <mat-expansion-panel-header>
@@ -92,5 +100,5 @@
       </div>
     </div>
   
-    <button *ngIf="loggedIn === 'owner'" mat-raised-button color="warn">Save</button>
+    <button (click)="saveChanges()" mat-raised-button color="warn">Save</button>
   </mat-card>

@@ -1,6 +1,8 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <h1 routerLink="/main/catalog" class="title">Bonfire Beastiary</h1>
+
+    <button class="new-button" *ngIf="loggedIn === 'owner'" mat-raised-button color="warn" [routerLink]="['/main/beast', 0, 'edit']">New</button>
   </mat-toolbar-row>
 </mat-toolbar>
 

@@ -24,24 +24,35 @@
       </div>
 
       <h2>Special Attacks</h2>
-      <p>{{beast.sp_atk}}</p>
+      <div>
+          <quill-view-html [content]="beast.sp_atk"></quill-view-html>
+      </div>
 
       <h2>Special Defenses</h2>
-      <p>{{beast.sp_def}}</p>
+      <div>
+          <quill-view-html [content]="beast.sp_def"></quill-view-html>
+      </div>
 
       <h2>Tactics</h2>
-      <p>{{beast.tactics}}</p>
+      <div>
+          <quill-view-html [content]="beast.tactics"></quill-view-html>
+      </div>
     </div>
 
     <div class="right">
-      <h2>Beast Information</h2>
-      <p>{{beast.introduction}}</p>
+      <div>
+        <quill-view-html [content]="beast.intro"></quill-view-html>
+      </div>
 
       <h2>Habitat/Society</h2>
-      <p>{{beast.habit}}</p>
+      <div>
+          <quill-view-html [content]="beast.habitat"></quill-view-html>
+      </div>
 
       <h2>Ecology</h2>
-      <p>{{beast.ecology}}</p>
+      <div>
+          <quill-view-html [content]="beast.ecology"></quill-view-html>
+      </div>
 
       <h2>Type</h2>
       <mat-chip-list aria-label="Fish selection">
@@ -78,7 +89,9 @@
       <!-- <h2>Special Harvest</h2> -->
 
       <h2>Meta Notes</h2>
-      <p>{{beast.meta}}</p>
+      <div>
+          <quill-view-html [content]="beast.meta"></quill-view-html>
+      </div>
 
       <!-- <mat-expansion-panel>
           <mat-expansion-panel-header>

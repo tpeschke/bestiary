@@ -22,6 +22,8 @@ import { BeastViewGmComponent } from './beast-view/beast-view-gm/beast-view-gm.c
 import { MainAppShellComponent } from './main-app-shell/main-app-shell.component';
 import { BeastViewEditComponent } from './beast-view/beast-view-edit/beast-view-edit.component';
 
+import { QuillModule } from 'ngx-quill'
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [SearchBarComponent, SearchResultsComponent, CatalogComponent, BeastViewPlayerComponent, BeastViewGmComponent, MainAppShellComponent, BeastViewEditComponent],
   imports: [
@@ -37,7 +39,9 @@ import { BeastViewEditComponent } from './beast-view/beast-view-edit/beast-view-
     MatCheckboxModule,
     MatDividerModule,
     HttpClientModule,
-    MatChipsModule
+    MatChipsModule,
+    FormsModule,
+    QuillModule.forRoot()
   ],
   exports: [SearchBarComponent, SearchResultsComponent, CatalogComponent, BeastViewPlayerComponent, BeastViewGmComponent, MainAppShellComponent]
 })

@@ -33,4 +33,11 @@ export class BeastService {
         // catchError(this.handleError('search', []))
       )
   }
+
+  updateBeast(beast): any {
+    return this.http.patch(local.endpointBase + '/api/beasts/edit', beast)
+    .pipe(
+      // catchError(this.handleError('search', []))
+    )
+  }
 }

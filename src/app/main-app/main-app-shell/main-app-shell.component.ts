@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BeastService } from '../../services/beast.service'
 
 @Component({
   selector: 'app-main-app-shell',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainAppShellComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private beastService: BeastService
+  ) { }
+
+  public loggedIn = this.beastService.loggedIn || false;
 
   ngOnInit() {
   }

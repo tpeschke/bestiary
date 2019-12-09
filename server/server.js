@@ -37,6 +37,11 @@ for (let i = 0; i < letterArray.length; i++) {
 
 app.get('/api/beasts/catalog', (req, res) => res.send(beasts))
 app.get('/api/beasts/:id', (req, res) => res.send(fakeBeastDB[+req.params.id - 1]))
+
+app.patch('/api/beasts/edit', (req, res) => {
+    fakeBeastDB[+req.body.id - 1] = req.body;
+    res.status(200).send({message: 'done'})
+})
 // ================================== \\
 
 massive(connection).then(dbI => {
