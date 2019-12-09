@@ -89,4 +89,6 @@
       </mat-expansion-panel> -->
     </div>
   </div>
+
+  <button *ngIf="loggedIn === 'owner'" mat-raised-button color="warn" [routerLink]="['/main/beast', beast.id, 'edit']">Edit</button>
 </mat-card>

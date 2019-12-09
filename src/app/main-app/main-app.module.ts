@@ -20,9 +20,10 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { BeastViewPlayerComponent } from './beast-view/beast-view-player/beast-view-player.component';
 import { BeastViewGmComponent } from './beast-view/beast-view-gm/beast-view-gm.component';
 import { MainAppShellComponent } from './main-app-shell/main-app-shell.component';
+import { BeastViewEditComponent } from './beast-view/beast-view-edit/beast-view-edit.component';
 
 @NgModule({
-  declarations: [SearchBarComponent, SearchResultsComponent, CatalogComponent, BeastViewPlayerComponent, BeastViewGmComponent, MainAppShellComponent],
+  declarations: [SearchBarComponent, SearchResultsComponent, CatalogComponent, BeastViewPlayerComponent, BeastViewGmComponent, MainAppShellComponent, BeastViewEditComponent],
   imports: [
     CommonModule,
     RouterModule,

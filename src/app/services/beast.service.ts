@@ -18,6 +18,8 @@ export class BeastService {
     private http: HttpClient,
   ) { }
 
+  loggedIn = 'owner';
+
   getCatalog(): any {
     return this.http.get(local.endpointBase + '/api/beasts/catalog')
       .pipe(

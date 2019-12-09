@@ -12,10 +12,11 @@ import { MainAppShellComponent } from './main-app/main-app-shell/main-app-shell.
 import { CatalogComponent } from './main-app/catalog/catalog.component';
 import { BeastViewGmComponent } from './main-app/beast-view/beast-view-gm/beast-view-gm.component';
 import { SearchResultsComponent } from './main-app/search-results/search-results.component';
+import { BeastViewEditComponent } from './main-app/beast-view/beast-view-edit/beast-view-edit.component';
 
-import { BeastService } from './main-app/beast.service'
-import { SingleBeastResolverService } from './main-app/single-beast-resolver.service'
-import { CatalogResolverService } from './main-app/catalog-resolver.service'
+import { BeastService } from './services/beast.service'
+import { SingleBeastResolverService } from './services/single-beast-resolver.service'
+import { CatalogResolverService } from './services/catalog-resolver.service'
 
 const routes: Routes = [
   { path: '', component: LandingComponent, pathMatch: "full" },
@@ -23,6 +24,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'catalog', pathMatch: "full"},
     { path: 'catalog', component: CatalogComponent, resolve: {catalog: CatalogResolverService}},
     { path: 'beast/:id/gm', component: BeastViewGmComponent, resolve: {beast: SingleBeastResolverService}},
+    { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: {beast: SingleBeastResolverService}},
     { path: 'search', component: SearchResultsComponent},
   ]},
   { path: '**', redirectTo: '' },

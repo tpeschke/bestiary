@@ -9,6 +9,21 @@ const app = new express()
 app.use(bodyParser.json())
 app.use(cors())
 
+/////////////////////////////////
+//TESTING TOPLEVEL MIDDLEWARE////
+///COMMENT OUT WHEN AUTH0 READY///
+/////////////////////////////////
+app.use((req, res, next) => {
+    if (!req.user) {
+        req.user = {
+            id: 1,
+            email: "mr.peschke@gmail.com",
+            patreon: 1
+        }
+    }
+    next();
+})
+
 let beasts = []
 let fakeBeastDB = []
 
