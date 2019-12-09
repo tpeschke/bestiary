@@ -1,3 +1,9 @@
-<p>
-  catalog works!
-</p>
+<mat-card>
+  <div *ngFor="let category of beasts">
+    <h2>{{category[0].name.substring(0,1) | uppercase}}</h2>
+    <mat-divider></mat-divider>
+    <div class="beastDiv">
+      <button [routerLink]="['/main/beast', beast.id, 'gm']" *ngFor="let beast of category" class="beastButton" mat-button>{{beast.name}}</button>
+    </div>
+  </div>
+</mat-card>

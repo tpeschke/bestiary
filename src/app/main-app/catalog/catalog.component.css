@@ -1,0 +1,19 @@
+h2 {
+    font-size: 25px;
+    color: #009688;
+    margin: 10px
+}
+
+.beastDiv {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 250px;
+    overflow-y: auto;    
+    align-content: flex-start;
+}
+
+.beastButton {
+    width: 200px;
+    text-align: left;
+}

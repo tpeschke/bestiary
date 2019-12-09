@@ -1,3 +1,135 @@
-<p>
-  search-bar works!
-</p>
+<mat-card>
+  <i class="fas fa-search"></i>
+  <mat-form-field class="example-full-width">
+      <input matInput placeholder="Search by Title" (change)="enterSearchTitle($event)">
+  </mat-form-field>
+
+  <mat-expansion-panel>
+      <mat-expansion-panel-header>
+          <mat-panel-title>
+              Advanced Seach
+          </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="searchBody">
+          <mat-form-field class="example-half-width">
+              <input matInput placeholder="Search by Summary" (change)="enterSearchSummary($event)">
+          </mat-form-field>
+
+          <div>
+              <p>Level Range</p>
+              <mat-form-field class="example-quarter-width">
+                  <input matInput placeholder="Min Level" (change)="enterSearchMinLevel($event)">
+              </mat-form-field>
+              <p>-</p>
+              <mat-form-field class="example-quarter-width">
+                  <input matInput placeholder="Max Level" (change)="enterSearchMaxLevel($event)">
+              </mat-form-field>
+          </div>
+
+          <div>
+              <p>Page Count</p>
+              <mat-form-field class="example-quarter-width">
+                  <input matInput placeholder="Min Page #" (change)="enterSearchMinPage($event)">
+              </mat-form-field>
+              <p>-</p>
+              <mat-form-field class="example-quarter-width">
+                  <input matInput placeholder="Max Page #" (change)="enterSearchMaxPage($event)">
+              </mat-form-field>
+          </div>
+
+          <mat-form-field>
+              <mat-label>Time Period</mat-label>
+              <mat-select (selectionChange)="enterSearchTimePeriod($event)">
+                  <mat-option value="EdgeOfAntiquity">
+                      Edge of Antiquity (Basic)
+                  </mat-option>
+                  <mat-option value="EmpireReborn">
+                      Empire Reborn (Advanced)
+                  </mat-option>
+                  <mat-option>
+                      I Don't Care
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+              <mat-label>Type Of Adventure</mat-label>
+              <mat-select (selectionChange)="enterSearchTypeOf($event)">
+                  <mat-option matTooltip="This is a series of adventures with an overaching plot" matTooltipPosition="right"  value="1">
+                      Campaign
+                  </mat-option>
+                  <mat-option matTooltip="A single adventure that is used to introduce you to the system or a specific part of Bonfire" matTooltipPosition="right" value="2">
+                      Demo
+                  </mat-option>
+                  <mat-option matTooltip="A premade location that a GM can run and build on. Sometimes it has a few mini-adventures to get everyone familiar with the area" matTooltipPosition="right" value="3">
+                      Locale
+                  </mat-option>
+                  <mat-option matTooltip="A one off or module encounter that can be pretty much plug and played. Great for off the cuff sessions" matTooltipPosition="right" value="4">
+                      One-Shot/Encounter
+                  </mat-option>
+                  <mat-option>
+                      I Don't Care
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+              <mat-label>Subsystem Focus</mat-label>
+              <mat-select (selectionChange)="enterSearchSubsystem($event)">
+                  <mat-option value="1">
+                      Combat
+                  </mat-option>
+                  <mat-option value="3">
+                      Conflict
+                  </mat-option>
+                  <mat-option value="2">
+                      Skill
+                  </mat-option>
+                  <mat-option>
+                      I Don't Care
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+
+          <div class="searchCheckboxes">
+              <mat-checkbox color='primary' (change)="enterSearchBattlemaps($event)">Battlemaps</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchHandouts($event)">Handouts/Illustrations</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchPlayersGuide($event)">Player's Guide</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchPlotTwist($event)">Plot Twist</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchPregens($event)">Pregens</mat-checkbox>
+          </div>
+
+      </div>
+
+      <mat-expansion-panel class="environPanel">
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  Environments
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="searchCheckboxes environShell">
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(1, $event)">Dungeon/Ruins</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(2, $event)">Wilderness</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(3, $event)">Forest</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(4, $event)">Castle</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(5, $event)">Cave/Underground</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(6, $event)">Mountain</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(7, $event)">Plains</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(8, $event)">Swamp</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(9, $event)">Urban</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(10, $event)">Ship</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(11, $event)">Coastal</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(12, $event)">Aquatic</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(13, $event)">Other</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(14, $event)">Desert</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(15, $event)">Island</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(16, $event)">Jungle</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(17, $event)">Sewer</mat-checkbox>
+              <mat-checkbox color='primary' (change)="enterSearchEnvirons(18, $event)">House</mat-checkbox>
+          </div>
+      </mat-expansion-panel>
+
+  </mat-expansion-panel>
+</mat-card>
