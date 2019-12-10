@@ -21,8 +21,9 @@ export class BeastViewEditComponent implements OnInit {
   ngOnInit() {
     this.beast = this.route.snapshot.data['beast'];
     if (!this.beast) {
-      this.beast = {id: '', 
-        name: '', 
+      this.beast = {
+        id: '',
+        name: '',
         hr: 0,
         intro: '',
         habitat: '',
@@ -51,16 +52,16 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureHTML(event, type) {
-    this.beast = Object.assign({}, this.beast, {[type]: event.html})
+    this.beast = Object.assign({}, this.beast, { [type]: event.html })
   }
 
   captureInput(event, type, index, secondaryType) {
     if (!secondaryType) {
-      this.beast = Object.assign({}, this.beast, {[type]: event.target.value})
+      this.beast = Object.assign({}, this.beast, { [type]: event.target.value })
     } else {
       let newSecondaryObject = [...this.beast[type]]
       newSecondaryObject[index][secondaryType] = event.target.value
-      this.beast = Object.assign({}, this.beast, {[type]: newSecondaryObject})
+      this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     }
   }
 
@@ -99,7 +100,12 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   saveChanges() {
-    this.beastService.updateBeast(this.beast).subscribe(_=> this.router.navigate([`/main/beast/${this.route.snapshot.paramMap.get('id')}/gm`]))
+    let id = this.route.snapshot.paramMap.get('id');
+    if (+id) {
+      this.beastService.updateBeast(this.beast).subscribe(_=> this.router.navigate([`/main/beast/${id}/gm`]))
+    } else {
+      this.beastService.addBeast(this.beast).subscribe(result => this.router.navigate([`/main/beast/${result.id}/gm`]))
+    }
   }
 
 }

@@ -15,7 +15,7 @@ module.exports = {
         ecology: `this is ${name}'s ecology`,
         number_min: Math.floor(Math.random() * 5),
         number_max: Math.floor(Math.random() * 500),
-        sense: `this is how the ${name} sees`,
+        senses: `this is how the ${name} sees`,
         diet: `this is what the ${name} eats`,
         meta: `this is how to use the ${name}`,
         sp_atk: `the ${name} can dance`,
@@ -28,10 +28,10 @@ module.exports = {
         panic: 1,
         broken: 4,
         types: [
-          'Undead', 'Humanoid', 'Giant', 'Goblin'
+          Math.floor(Math.random() * 5) + 1, Math.floor(Math.random() * 5) + 1, Math.floor(Math.random() * 5) + 1, Math.floor(Math.random() * 5) + 1
         ],
         environ: [
-          'Forest', 'Castle', 'Urban', 'Desert'
+          Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1
         ],
         combat: [
           {
@@ -41,7 +41,7 @@ module.exports = {
             init: Math.floor(Math.random() * 5),
             def: Math.floor(Math.random() * 10),
             encumb: Math.floor(Math.random() * 40),
-            dr: ['4/d + 8'],
+            dr: '4/d + 8',
             measure: Math.floor(Math.random() * 10),
             damage: '2d6! +d8! +d10! +4d4!',
             parry: Math.floor(Math.random() * 4)
@@ -53,7 +53,8 @@ module.exports = {
             init: Math.floor(Math.random() * 5),
             def: Math.floor(Math.random() * 10),
             encumb: Math.floor(Math.random() * 40),
-            dr: ['4/d + 8'],
+            dr: '4/d + 8',
+            shield_dr: null,
             measure: Math.floor(Math.random() * 10),
             damage: '2d6! +4d4! +20',
             parry: Math.floor(Math.random() * 4)
@@ -65,7 +66,8 @@ module.exports = {
             init: Math.floor(Math.random() * 5),
             def: Math.floor(Math.random() * 10),
             encumb: Math.floor(Math.random() * 40),
-            dr: ['4/d + 8', '2/d+2'],
+            dr:'4/d + 8',
+            shield_dr: '2/d+2',
             measure: Math.floor(Math.random() * 10),
             damage: '2d6! +d8! +d10! +4d4! +5',
             parry: Math.floor(Math.random() * 4)
@@ -101,5 +103,37 @@ module.exports = {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result;
+  },
+  // ACTUAL FUNCTIONS
+  // BEAST ENDPOINTS
+  getSingleBeast(req, res) {
+    const db = req.app.get('db')
+  },
+  addBeast({body, app}, res) {
+    const db = app.get('db')
+    let {name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement} = body
+
+    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken).then(result => {
+      let id = result[0].id
+      , promiseArray = []
+      //types
+      types.forEach(val => {
+        promiseArray.push(db.add.beasttype(id, val).then())
+      })
+      //environ
+      environ.forEach(val => {
+        promiseArray.push(db.add.beastenviron(id, val).then())
+      })
+      //combat
+      combat.forEach(({spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon}) => {
+        promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon).then())
+      })
+      //movement
+      movement.forEach(({stroll, walk, jog, run, sprint, type}) => {
+        promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type).then())
+      })
+
+      Promise.all(promiseArray).then(finalArray => res.send({id}))
+    })
   }
 }

@@ -40,8 +40,10 @@ app.get('/api/beasts/:id', (req, res) => res.send(fakeBeastDB[+req.params.id - 1
 
 app.patch('/api/beasts/edit', (req, res) => {
     fakeBeastDB[+req.body.id - 1] = req.body;
-    res.status(200).send({message: 'done'})
+    res.status(200).send({done: true})
 })
+
+app.post('/api/beasts/add', ctrl.addBeast)
 // ================================== \\
 
 massive(connection).then(dbI => {

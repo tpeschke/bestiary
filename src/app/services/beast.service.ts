@@ -40,4 +40,11 @@ export class BeastService {
       // catchError(this.handleError('search', []))
     )
   }
+  
+  addBeast(beast): any {
+    return this.http.post(local.endpointBase + '/api/beasts/add', beast)
+    .pipe(
+      // catchError(this.handleError('search', []))
+    )
+  }
 }
