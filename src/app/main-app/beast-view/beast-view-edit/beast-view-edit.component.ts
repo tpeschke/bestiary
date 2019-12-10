@@ -41,6 +41,10 @@ export class BeastViewEditComponent implements OnInit {
         vitality: '',
         panic: '',
         broken: '',
+        combat: [],
+        movement: [],
+        types: [],
+        environ: [],
         image: `https://picsum.photos/id/${Math.floor(Math.random() * 1000)}/200/300`
       }
     }
@@ -58,6 +62,40 @@ export class BeastViewEditComponent implements OnInit {
       newSecondaryObject[index][secondaryType] = event.target.value
       this.beast = Object.assign({}, this.beast, {[type]: newSecondaryObject})
     }
+  }
+
+  captureSelect(event, type) {
+    this.beast[type] = event.value
+  }
+
+  addNewSecondaryItem(type) {
+    if (type === 'combat') {
+      this.beast[type].push({
+        weapon: '',
+        spd: 0,
+        atk: 0,
+        init: 0,
+        def: 0,
+        encumb: 0,
+        dr: 0,
+        measure: 0,
+        damage: '',
+        parry: 0
+      })
+    } else if (type === 'movement') {
+      this.beast[type].push({
+        stroll: 0,
+        walk: 0,
+        jog: 0,
+        run: 0,
+        sprint: 0,
+        type: ''
+      })
+    }
+  }
+
+  removeNewSecondaryItem(type, index) {
+    this.beast[type].splice(index, 1)
   }
 
   saveChanges() {

@@ -17,6 +17,22 @@
   <div class="content-shell">
 
     <div class="left">
+        <mat-form-field>
+            <mat-label>Patreon Level</mat-label>
+            <mat-select (selectionChange)="captureSelect($event, 'patreon')">
+                <mat-option value="0">
+                    Basic
+                </mat-option>
+                <mat-option value="1">
+                    Advanced
+                </mat-option>
+                <mat-option value="20">
+                    Early Access
+                </mat-option>
+            </mat-select>
+            <p>{{beast.patreon}}</p>
+        </mat-form-field>
+
       <div>
         <img [src]="beast.image" alt="">
       </div>
@@ -49,6 +65,7 @@
             <input placeholder="Encumbrance" matInput [value]="square.encumb"
               (change)="captureInput($event, 'combat', i, 'encumb')">
           </mat-form-field>
+          <!-- This needs to be changed so you can modifiy shields as well -->
           <mat-form-field>
             <input placeholder="DR" matInput [value]="square.dr" (change)="captureInput($event, 'combat', i, 'dr')">
           </mat-form-field>
@@ -64,8 +81,9 @@
             <input placeholder="Parry" matInput [value]="square.parry"
               (change)="captureInput($event, 'combat', i, 'parry')">
           </mat-form-field>
+          <button mat-raised-button (click)="removeNewSecondaryItem('combat', i)" color="warn">REMOVE WEAPON</button>
         </div>
-        <button mat-raised-button color="warn">+</button>
+        <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="warn">+</button>
       </div>
 
       <div class="vitals-shell">
@@ -74,15 +92,47 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="Panic" [value]="beast.panic" (change)="captureInput($event, 'panic')">
+            <mat-label>Panic</mat-label>
+            <mat-select (selectionChange)="captureSelect($event, 'panic')">
+                <mat-option value="0">
+                    Fresh
+                </mat-option>
+                <mat-option value="1">
+                    Hurt
+                </mat-option>
+                <mat-option value="2">
+                    Bloodied
+                </mat-option>
+                <mat-option value="3">
+                    Wounded
+                </mat-option>
+                <mat-option value="4">
+                    Bleeding Out
+                </mat-option>
+            </mat-select>
+            <p>{{beast.panic}}</p>
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="Broken" [value]="beast.broken" (change)="captureInput($event, 'broken')">
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput placeholder="Size" [value]="beast.size" (change)="captureInput($event, 'size')">
+            <mat-label>Broken</mat-label>
+            <mat-select (selectionChange)="captureSelect($event, 'broken')">
+                <mat-option value="0">
+                    Fresh
+                </mat-option>
+                <mat-option value="1">
+                    Hurt
+                </mat-option>
+                <mat-option value="2">
+                    Bloodied
+                </mat-option>
+                <mat-option value="3">
+                    Wounded
+                </mat-option>
+                <mat-option value="4">
+                    Bleeding Out
+                </mat-option>
+            </mat-select>
+            <p>{{beast.broken}}</p>
         </mat-form-field>
       </div>
 
@@ -114,11 +164,12 @@
               (change)="captureInput($event, 'movement', i, 'run')">
           </mat-form-field>
           <mat-form-field>
-            <input placeholder="Spring" matInput [value]="movementType.spring"
-              (change)="captureInput($event, 'movement', i, 'spring')">
+            <input placeholder="Sprint" matInput [value]="movementType.sprint"
+              (change)="captureInput($event, 'movement', i, 'sprint')">
           </mat-form-field>
+          <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="warn">REMOVE MOVEMENT</button>
         </div>
-        <button mat-raised-button color="warn">+</button>
+        <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="warn">+</button>
       </div>
 
       <h2>Special Attacks</h2>
@@ -163,7 +214,7 @@
       <div class="divider"></div>
       <div class="chip-shell box-padding">
         <mat-chip-list>
-          <mat-chip *ngFor="let type of beast.types" color="accent" selected>{{type}}</mat-chip>
+          <mat-chip *ngFor="let type of beast.types; let i = index" (click)="removeNewSecondaryItem('types', i)" color="accent" selected>{{type}}</mat-chip>
           <mat-chip color="warn" selected>+</mat-chip>
         </mat-chip-list>
       </div>
@@ -180,7 +231,7 @@
         <h3>Environment</h3>
         <div class="chip-shell">
           <mat-chip-list>
-            <mat-chip *ngFor="let environ of beast.environ" color="accent" selected>{{environ}}</mat-chip>
+            <mat-chip *ngFor="let environ of beast.environ; let i = index" (click)="removeNewSecondaryItem('environ', i)" color="accent" selected>{{environ}}</mat-chip>
             <mat-chip color="warn" selected>+</mat-chip>
           </mat-chip-list>
         </div>
