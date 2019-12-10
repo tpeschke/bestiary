@@ -23,7 +23,7 @@ module.exports = {
         tactics: `this is how the ${name} fights`,
         size: 'M',
         subsystem: 1,
-        patreon: Math.floor(Math.random() * 20),
+        patreon: Math.floor(Math.random() * 40),
         vitality: '5d8 + 30',
         panic: 1,
         broken: 4,

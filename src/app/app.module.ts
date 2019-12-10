@@ -16,7 +16,7 @@ import { BeastViewEditComponent } from './main-app/beast-view/beast-view-edit/be
 
 import { BeastService } from './services/beast.service'
 import { SingleBeastResolverService } from './services/single-beast-resolver.service'
-import { CatalogResolverService } from './services/catalog-resolver.service'
+import { CatalogResolverService } from './services/catalog-resolver.service';
 
 const routes: Routes = [
   { path: '', component: LandingComponent, pathMatch: "full" },
@@ -32,7 +32,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    LandingComponent,
+    LandingComponent
   ],
   imports: [
     BrowserModule,

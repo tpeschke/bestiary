@@ -95,45 +95,57 @@
         <mat-form-field>
             <mat-label>Panic</mat-label>
             <mat-select (selectionChange)="captureSelect($event, 'panic')">
-                <mat-option value="0">
+                <mat-option value="1">
                     Fresh
                 </mat-option>
-                <mat-option value="1">
-                    Hurt
-                </mat-option>
                 <mat-option value="2">
-                    Bloodied
+                    Tired
                 </mat-option>
                 <mat-option value="3">
-                    Wounded
+                    Hurt
                 </mat-option>
                 <mat-option value="4">
+                    Bloodied
+                </mat-option>
+                <mat-option value="5">
+                    Wounded
+                </mat-option>
+                <mat-option value="6">
                     Bleeding Out
                 </mat-option>
+                <mat-option value="7">
+                    Never
+                </mat-option>
             </mat-select>
-            <p>{{beast.panic}}</p>
+            <p>{{beast.panic | moraleConverter}}</p>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Broken</mat-label>
             <mat-select (selectionChange)="captureSelect($event, 'broken')">
-                <mat-option value="0">
+                <mat-option value="1">
                     Fresh
                 </mat-option>
-                <mat-option value="1">
-                    Hurt
-                </mat-option>
                 <mat-option value="2">
-                    Bloodied
+                    Tired
                 </mat-option>
                 <mat-option value="3">
-                    Wounded
+                    Hurt
                 </mat-option>
                 <mat-option value="4">
+                    Bloodied
+                </mat-option>
+                <mat-option value="5">
+                    Wounded
+                </mat-option>
+                <mat-option value="6">
                     Bleeding Out
                 </mat-option>
-            </mat-select>
-            <p>{{beast.broken}}</p>
+                <mat-option value="7">
+                    Never
+                </mat-option>
+              </mat-select>
+              <p>{{beast.broken | moraleConverter}}</p>
         </mat-form-field>
       </div>
 
@@ -215,7 +227,7 @@
       <div class="divider"></div>
       <div class="chip-shell box-padding">
         <mat-chip-list>
-          <mat-chip *ngFor="let type of beast.types; let i = index" (click)="removeNewSecondaryItem('types', i)" color="accent" selected>{{type}}</mat-chip>
+          <mat-chip *ngFor="let type of beast.types; let i = index" (click)="removeNewSecondaryItem('types', i)" color="accent" selected>{{type | typeConverter}}</mat-chip>
           <mat-chip color="warn" selected>+</mat-chip>
         </mat-chip-list>
       </div>
@@ -232,7 +244,7 @@
         <h3>Environment</h3>
         <div class="chip-shell">
           <mat-chip-list>
-            <mat-chip *ngFor="let environ of beast.environ; let i = index" (click)="removeNewSecondaryItem('environ', i)" color="accent" selected>{{environ}}</mat-chip>
+            <mat-chip *ngFor="let environ of beast.environ; let i = index" (click)="removeNewSecondaryItem('environ', i)" color="accent" selected>{{environ | environConverter}}</mat-chip>
             <mat-chip color="warn" selected>+</mat-chip>
           </mat-chip-list>
         </div>
@@ -270,7 +282,7 @@
                     Skill
                 </mat-option>
             </mat-select>
-            <p>{{beast.subsystem}}</p>
+            <p>{{beast.subsystem | subsystemConverter}}</p>
         </mat-form-field>
       </div>
 

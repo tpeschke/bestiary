@@ -33,6 +33,8 @@ mat-toolbar {
 
 .box-padding {
     padding: 12px 15px;
+    display: flex;
+    flex-direction: column;
 }
 
 .flex-row-opposite {

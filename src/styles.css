@@ -181,3 +181,16 @@ table {
 ::-webkit-scrollbar-thumb:hover {
   background: white; 
 }
+
+.fa-patreon {
+  font-size: 25px;
+}
+
+.icon-white {
+  color: whitesmoke;
+}
+
+.icon-blue {
+  color: #607d8b;
+  font-size: 15px
+}

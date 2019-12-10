@@ -24,8 +24,17 @@ import { BeastViewEditComponent } from './beast-view/beast-view-edit/beast-view-
 
 import { QuillModule } from 'ngx-quill'
 import { FormsModule } from '@angular/forms';
+import { TypeConverterPipe } from '../services/type-converter.pipe';
+import { EnvironConverterPipe } from '../services/environ-converter.pipe';
+import { MoraleConverterPipe } from '../services/morale-converter.pipe'
+import { SubsystemConverterPipe } from '../services/subsystem-converter.pipe';
+
 @NgModule({
-  declarations: [SearchBarComponent, SearchResultsComponent, CatalogComponent, BeastViewPlayerComponent, BeastViewGmComponent, MainAppShellComponent, BeastViewEditComponent],
+  declarations: [SearchBarComponent, SearchResultsComponent, CatalogComponent, BeastViewPlayerComponent, BeastViewGmComponent, MainAppShellComponent, BeastViewEditComponent,
+    TypeConverterPipe,
+    EnvironConverterPipe,
+    MoraleConverterPipe,
+    SubsystemConverterPipe],
   imports: [
     CommonModule,
     RouterModule,
