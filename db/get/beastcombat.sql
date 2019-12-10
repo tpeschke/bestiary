@@ -1,0 +1,1 @@
+select * from bbcombatsquare where beastid = $1

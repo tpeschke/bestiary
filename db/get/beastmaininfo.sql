@@ -1,0 +1,1 @@
+select * from bbindividualbeast where id = $1

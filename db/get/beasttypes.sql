@@ -1,0 +1,1 @@
+select typeid from bbbeasttype where beastid = $1

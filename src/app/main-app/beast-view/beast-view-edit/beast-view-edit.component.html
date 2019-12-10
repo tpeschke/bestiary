@@ -34,7 +34,8 @@
         </mat-form-field>
 
       <div>
-        <img [src]="beast.image" alt="">
+        <img *ngIf="beast.image" [src]="beast.image" [alt]="beast.name">
+        <img *ngIf="!beast.image" src="../../../../assets/imageNotFound.png" alt="Not Found">
       </div>
 
       <div class="combat-social-shell">

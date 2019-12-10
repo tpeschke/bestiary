@@ -1,0 +1,1 @@
+select * from bbmovement where beastid = $1

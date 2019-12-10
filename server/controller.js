@@ -108,6 +108,37 @@ module.exports = {
   // BEAST ENDPOINTS
   getSingleBeast(req, res) {
     const db = req.app.get('db')
+        , id = +req.params.id
+
+      db.get.beastmaininfo(id).then(result => {
+        let beast = result[0]
+          , promiseArray = []
+        promiseArray.push(db.get.beasttypes(id).then(result => {
+          let newTypeArray = []
+          result.forEach(val => newTypeArray.push(val.typeid))
+          beast.types = newTypeArray
+          return newTypeArray
+        }))
+
+        promiseArray.push(db.get.beastenviron(id).then(result => {
+          let newEnvironArray =[]
+          result.forEach(val => newEnvironArray.push(val.environid))
+          beast.environ = newEnvironArray
+          return newEnvironArray
+        }))
+
+        promiseArray.push(db.get.beastcombat(id).then(result => {
+          beast.combat = result
+          return result
+        }))
+
+        promiseArray.push(db.get.beastmovement(id).then(result => {
+          beast.movement = result
+          return result
+        }))
+
+        Promise.all(promiseArray).then(finalArray => res.send(beast))
+      })
   },
   addBeast({body, app}, res) {
     const db = app.get('db')
