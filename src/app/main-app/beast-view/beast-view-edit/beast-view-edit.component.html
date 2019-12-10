@@ -175,19 +175,19 @@
       <h2>Special Attacks</h2>
       <div class="divider"></div>
       <div>
-        <quill-editor [(ngModel)]="beast.sp_atk" (onBlur)="captureHTML($event, 'sp_atk')"></quill-editor>
+        <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')"></quill-editor>
       </div>
 
       <h2>Special Defenses</h2>
       <div class="divider"></div>
       <div>
-        <quill-editor [(ngModel)]="beast.sp_def" (onBlur)="captureHTML($event, 'sp_def')"></quill-editor>
+        <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')"></quill-editor>
       </div>
 
       <h2>Tactics</h2>
       <div class="divider"></div>
       <div>
-        <quill-editor [(ngModel)]="beast.tactics" (onBlur)="captureHTML($event, 'tactics')"></quill-editor>
+        <quill-editor [(ngModel)]="beast.tactics" (onContentChanged)="captureHTML($event, 'tactics')"></quill-editor>
       </div>
     </div>
 
@@ -195,19 +195,19 @@
       <h2>Introduction</h2>
       <div class="divider"></div>
       <div>
-        <quill-editor [(ngModel)]="beast.intro" (onBlur)="captureHTML($event, 'intro')"></quill-editor>
+        <quill-editor [(ngModel)]="beast.intro" (onContentChanged)="captureHTML($event, 'intro')"></quill-editor>
       </div>
 
       <h2>Habitaty/Society</h2>
       <div class="divider"></div>
       <div>
-        <quill-editor [(ngModel)]="beast.habitat" (onBlur)="captureHTML($event, 'habitat')"></quill-editor>
+        <quill-editor [(ngModel)]="beast.habitat" (onContentChanged)="captureHTML($event, 'habitat')"></quill-editor>
       </div>
 
       <h2>Ecology</h2>
       <div class="divider"></div>
       <div>
-        <quill-editor [(ngModel)]="beast.ecology" (onBlur)="captureHTML($event, 'ecology')"></quill-editor>
+        <quill-editor [(ngModel)]="beast.ecology" (onContentChanged)="captureHTML($event, 'ecology')"></quill-editor>
       </div>
 
       <h2>Type</h2>
@@ -257,7 +257,19 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input placholder="Subsystem" matInput [value]="beast.subsystem" (change)="captureInput($event, 'subsystem')">
+            <mat-label>Subsystem Focus</mat-label>
+            <mat-select (selectionChange)="captureSelect($event, 'subsystem')">
+                <mat-option value="1">
+                    Combat
+                </mat-option>
+                <mat-option value="2">
+                    Social
+                </mat-option>
+                <mat-option value="3">
+                    Skill
+                </mat-option>
+            </mat-select>
+            <p>{{beast.subsystem}}</p>
         </mat-form-field>
       </div>
 
@@ -274,7 +286,7 @@
       <h2>Meta Notes</h2>
       <div class="divider"></div>
       <div>
-        <quill-editor [(ngModel)]="beast.meta" (onBlur)="captureHTML($event, 'meta')"></quill-editor>
+        <quill-editor [(ngModel)]="beast.meta" (onContentChanged)="captureHTML($event, 'meta')"></quill-editor>
       </div>
 
       <!-- <mat-expansion-panel>

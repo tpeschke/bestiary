@@ -133,7 +133,7 @@ module.exports = {
         promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type).then())
       })
 
-      Promise.all(promiseArray).then(finalArray => res.send({id}))
+      Promise.all(promiseArray).then(_ => res.send({id}))
     })
   }
 }
