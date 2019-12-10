@@ -4,7 +4,7 @@ import { BeastService } from '../../../services/beast.service';
 @Component({
   selector: 'app-beast-view-gm',
   templateUrl: './beast-view-gm.component.html',
-  styleUrls: ['./beast-view-gm.component.css']
+  styleUrls: ['../beast-view.component.css']
 })
 export class BeastViewGmComponent implements OnInit {
 

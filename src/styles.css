@@ -115,12 +115,32 @@ section {
 }
 body {
   line-height: 1;
-  background: rgb(83, 83, 83);
+  background: grey;
   margin: 0 15px;
   font-family: 'know';
 }
 h1, h2, h3, h4, h5 {
   font-family: 'know';
+}
+h1 {
+  font-size: 25px;
+  color: whitesmoke;
+  margin: 10px
+}
+h2 {
+  color: #795548;
+  font-size: 20px;
+  margin: 10px;
+  font-weight: 600;
+}
+h3 {
+  font-size: 18px;
+  color: #607d8b;
+  font-weight: 600;
+}
+p {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
 }
 ol,
 ul {
@@ -154,10 +174,10 @@ table {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #607d8b; 
+  background: white; 
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #607d8b; 
+  background: white; 
 }

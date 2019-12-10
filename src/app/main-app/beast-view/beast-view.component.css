@@ -1,0 +1,158 @@
+img {
+    width: 100%
+}
+
+.combat-image {
+    width: 150px;
+    z-index: 0;
+}
+
+mat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin: -16px -16px 0 !important;
+    width: unset;
+}
+
+.content-shell {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background: lightgray
+}
+
+.box-padding {
+    padding: 12px 15px;
+}
+
+.flex-row-opposite {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left {
+    padding: 15px;
+    min-height: 500px;
+    width: 40%;
+}
+
+.combat-social-shell {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.combat-social-shell div {
+    margin: 10px 15px 0 0;
+}
+
+.square-shell {
+    height: 143px;
+    width: 150px;
+    position: relative;
+}
+
+.spd {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    left: 13px;
+    font-size: 17px;
+}
+
+.atk {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    left: 70px;
+    font-size: 17px;
+}
+
+.init {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    right: 13px;
+    font-size: 17px;
+}
+
+.def {
+    position: absolute;
+    z-index: 1;
+    left: 30px;
+    top: 65px;
+    font-size: 17px;
+}
+
+.encumb {
+    position: absolute;
+    z-index: 1;    
+    left: 67px;
+    top: 65px;
+    font-size: 15px;
+}
+
+.dr {
+    position: absolute;
+    z-index: 1;
+    right: 13px;
+    top: 54px;
+    max-width: 36px;
+    height: 40px;
+    text-align: center;
+}
+
+.measure {
+    position: absolute;
+    z-index: 1;
+    font-size: 17px;
+    bottom: 18px;
+    left: 13px;
+}
+
+.damage {
+    position: absolute;
+    z-index: 1;font-size: 12px;
+    text-align: center;
+    max-width: 60px;
+    left: 45px;
+    top: 97px;
+}
+
+.parry {
+    position: absolute;
+    z-index: 1;
+    font-size: 17px;
+    bottom: 18px;
+    right: 13px;
+}
+
+.vitals-shell {
+    background: lightgrey;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.vitals-shell h3 {
+    color: #795548;
+}
+
+.chip-shell {
+    margin: 15px 0;
+}
+
+.right {
+    padding: 15px;
+    min-height: 500px;
+    width: 60%;
+}
