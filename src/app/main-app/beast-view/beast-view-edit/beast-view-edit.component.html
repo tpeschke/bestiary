@@ -1,104 +1,157 @@
 <mat-card>
-    <mat-toolbar color="warn">
-      <h1><input matInput type="text" [value]="beast.name"></h1>
-      <div>
-        <h1>HR: <input matInput type="number" [value]="beast.hr"></h1>
-      </div>
-    </mat-toolbar>
-  
-    <div class="content-shell">
-  
-      <div class="left">
-        <div>
-          <img [src]="beast.image" alt="">
-        </div>
-        <div class="combat-social-shell">
-          Combat Square Placeholder
-        </div>
-        <div class="vitals-shell">
-          <p>Vitality: {{beast.vitality}}</p>
-          <p>Panic: {{beast.panic}}</p>
-          <p>Broken: {{beast.broken}}</p> 
-          <!-- Custom pipes for the above should work -->
-          <p>Size: {{beast.size}}</p>
-        </div>
-  
-        <h2>Special Attacks</h2>
-        <p>{{beast.sp_atk}}</p>
-  
-        <h2>Special Defenses</h2>
-        <p>{{beast.sp_def}}</p>
-  
-        <h2>Tactics</h2>
-        <p>{{beast.tactics}}</p>
-      </div>
-  
-      <div class="right">
-        <h2>Introduction</h2>
-        <div> 
-          <quill-editor [(ngModel)]="beast.intro" (onBlur)="captureHTML($event, 'intro')"></quill-editor>
-        </div>
-  
-        <h2>Habitaty/Society</h2>
-        <div>
-          <quill-editor [(ngModel)]="beast.habitat" (onBlur)="captureHTML($event, 'habitat')"></quill-editor>
-        </div>
-  
-        <h2>Ecology</h2>
-        <div>
-            <quill-editor [(ngModel)]="beast.ecology" (onBlur)="captureHTML($event, 'ecology')"></quill-editor>
-          </div>
+  <mat-toolbar color="warn">
+    <h1><input matInput type="text" [value]="beast.name"></h1>
+    <div>
+      <h1>HR: <input class="hr-input" matInput type="number" [value]="beast.hr"></h1>
+    </div>
+  </mat-toolbar>
 
-        <h2>Type</h2>
-        <mat-chip-list aria-label="Fish selection">
-            <mat-chip color="primary" selected>Undead</mat-chip>
-            <mat-chip color="primary" selected>Humoniod</mat-chip>
-            <mat-chip color="primary" selected>Construct</mat-chip>
-            <mat-chip color="primary" selected>Magical</mat-chip>
-            <mat-chip color="primary" selected>Unique</mat-chip>
+  <div class="content-shell">
+
+    <div class="left">
+      <div>
+        <img [src]="beast.image" alt="">
+      </div>
+
+      <div class="combat-social-shell">
+        <div *ngFor="let square of beast.combat">
+          <h3>{{square.weapon}}</h3>
+          <div class="square-shell">
+            <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
+            <p class="spd">{{square.spd}}</p>
+            <p class="atk">{{square.atk}}</p>
+            <p class="init">{{square.init}}</p>
+            <p class="def">{{square.def}}</p>
+            <p class="encumb">{{square.encumb}}</p>
+            <p class="dr">{{square.dr}}</p>
+            <p class="measure">{{square.measure}}</p>
+            <p class="damage">{{square.damage}}</p>
+            <p class="parry">{{square.parry}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="vitals-shell">
+        <div class="flex-row-opposite">
+          <h3>Vitality</h3>
+          <p>{{beast.vitality}}</p>
+        </div>
+        <div class="flex-row-opposite">
+          <h3>Panic</h3>
+          <p>{{beast.panic}}</p>
+        </div>
+        <div class="flex-row-opposite">
+          <h3>Broken</h3>
+          <p>{{beast.broken}}</p>
+        </div>
+        <!-- Custom pipes for the above should work -->
+        <div class="flex-row-opposite">
+          <h3>Size</h3>
+          <p>{{beast.size}}</p>
+        </div>
+      </div>
+
+      <h2>Special Attacks</h2>
+      <div class="divider"></div>
+      <div>
+        <quill-editor [(ngModel)]="beast.sp_atk" (onBlur)="captureHTML($event, 'sp_atk')"></quill-editor>
+      </div>
+
+      <h2>Special Defenses</h2>
+      <div class="divider"></div>
+      <div>
+        <quill-editor [(ngModel)]="beast.sp_def" (onBlur)="captureHTML($event, 'sp_def')"></quill-editor>
+      </div>
+
+      <h2>Tactics</h2>
+      <div class="divider"></div>
+      <div>
+        <quill-editor [(ngModel)]="beast.tactics" (onBlur)="captureHTML($event, 'tactics')"></quill-editor>
+      </div>
+    </div>
+
+    <div class="right">
+      <h2>Introduction</h2>
+      <div class="divider"></div>
+      <div>
+        <quill-editor [(ngModel)]="beast.intro" (onBlur)="captureHTML($event, 'intro')"></quill-editor>
+      </div>
+
+      <h2>Habitaty/Society</h2>
+      <div class="divider"></div>
+      <div>
+        <quill-editor [(ngModel)]="beast.habitat" (onBlur)="captureHTML($event, 'habitat')"></quill-editor>
+      </div>
+
+      <h2>Ecology</h2>
+      <div class="divider"></div>
+      <div>
+        <quill-editor [(ngModel)]="beast.ecology" (onBlur)="captureHTML($event, 'ecology')"></quill-editor>
+      </div>
+
+      <h2>Type</h2>
+      <div class="divider"></div>
+      <div class="chip-shell box-padding">
+          <mat-chip-list>
+            <mat-chip *ngFor="let type of beast.types" color="accent" selected>{{type}}</mat-chip>
             <mat-chip color="warn" selected>+</mat-chip>
-        </mat-chip-list>
-        <!-- list of types that link to search with that type as a parameter -->
-  
-        <h2>Misc Information</h2>
-        <p>Environment:</p>
-        <mat-chip-list aria-label="Fish selection">
-            <mat-chip color="primary" selected>Forest</mat-chip>
-            <mat-chip color="primary" selected>Ruins</mat-chip>
-            <mat-chip color="primary" selected>Aquatic</mat-chip>
-            <mat-chip color="primary" selected>Hills</mat-chip>
+          </mat-chip-list>
+        </div>
+      <!-- list of types that link to search with that type as a parameter -->
+
+      <h2>Misc Information</h2>
+      <div class="divider"></div>
+      <div class="box-padding">
+        <h3>Environment</h3>
+        <div class="chip-shell">
+          <mat-chip-list>
+            <mat-chip *ngFor="let environ of beast.environ" color="accent" selected>{{environ}}</mat-chip>
             <mat-chip color="warn" selected>+</mat-chip>
-        </mat-chip-list>
-        <p>Number Appearing: {{beast.number_min}} - {{beast.number_max}}</p>
-        <p>Senses: {{beast.sense}}</p>
-        <p>Diet: {{beast.diet}}</p>
-        <p>Subsystem: {{beast.subsystem}}</p>
-        <!-- Box here for Environment, number, sense, diet, etc -->
-  
-        <!-- <mat-expansion-panel>
+          </mat-chip-list>
+        </div>
+        <div class="flex-row-opposite">
+          <h3>Number Appearing</h3>
+          <p>{{beast.number_min}} - {{beast.number_max}}</p>
+        </div>
+        <div class="flex-row-opposite">
+          <h3>Senses</h3>
+          <p>{{beast.sense}}</p>
+        </div>
+        <div class="flex-row-opposite">
+          <h3>Diet</h3>
+          <p>{{beast.diet}}</p>
+        </div>
+        <div class="flex-row-opposite">
+          <h3>Subsystem</h3>
+          <p>{{beast.subsystem}}</p>
+        </div>
+      </div>
+
+      <!-- <mat-expansion-panel>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h2>Variants (0)</h2>
                 </mat-panel-title>
             </mat-expansion-panel-header>
         </mat-expansion-panel> -->
-  
-        <!-- <h2>Special Harvest</h2> -->
-  
-        <h2>Meta Notes</h2>
-        <div>
-          <quill-editor  [(ngModel)]="beast.meta" (onBlur)="captureHTML($event, 'meta')"></quill-editor>
-        </div>
-  
-        <!-- <mat-expansion-panel>
+
+      <!-- <h2>Special Harvest</h2> -->
+
+      <h2>Meta Notes</h2>
+      <div class="divider"></div>
+      <div>
+        <quill-editor [(ngModel)]="beast.meta" (onBlur)="captureHTML($event, 'meta')"></quill-editor>
+      </div>
+
+      <!-- <mat-expansion-panel>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h2>Personal Notes</h2>
                 </mat-panel-title>
             </mat-expansion-panel-header>
         </mat-expansion-panel> -->
-      </div>
     </div>
-  
-    <button (click)="saveChanges()" mat-raised-button color="warn">Save</button>
-  </mat-card>
+  </div>
+
+  <button (click)="saveChanges()" mat-raised-button color="warn">Save</button>
+</mat-card>

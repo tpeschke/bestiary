@@ -12,6 +12,7 @@
       <div>
         <img [src]="beast.image" alt="">
       </div>
+
       <div class="combat-social-shell">
         <div *ngFor="let square of beast.combat">
           <h3>{{square.weapon}}</h3>
@@ -29,6 +30,7 @@
           </div>
         </div>
       </div>
+
       <div class="vitals-shell">
         <div class="flex-row-opposite">
           <h3>Vitality</h3>
@@ -89,11 +91,7 @@
       <div class="divider"></div>
       <div class="chip-shell box-padding">
         <mat-chip-list>
-          <mat-chip color="accent" selected>Undead</mat-chip>
-          <mat-chip color="accent" selected>Humoniod</mat-chip>
-          <mat-chip color="accent" selected>Construct</mat-chip>
-          <mat-chip color="accent" selected>Magical</mat-chip>
-          <mat-chip color="accent" selected>Unique</mat-chip>
+          <mat-chip *ngFor="let type of beast.types" color="accent" selected>{{type}}</mat-chip>
         </mat-chip-list>
       </div>
       <!-- list of types that link to search with that type as a parameter -->
@@ -103,11 +101,8 @@
       <div class="box-padding">
         <h3>Environment</h3>
         <div class="chip-shell">
-          <mat-chip-list aria-label="Fish selection">
-            <mat-chip color="accent" selected>Forest</mat-chip>
-            <mat-chip color="accent" selected>Ruins</mat-chip>
-            <mat-chip color="accent" selected>Aquatic</mat-chip>
-            <mat-chip color="accent" selected>Hills</mat-chip>
+          <mat-chip-list>
+              <mat-chip *ngFor="let environ of beast.environ" color="accent" selected>{{environ}}</mat-chip>
           </mat-chip-list>
         </div>
         <div class="flex-row-opposite">

@@ -156,3 +156,7 @@ mat-toolbar {
     min-height: 500px;
     width: 60%;
 }
+
+.hr-input {
+    width: 60px;
+}

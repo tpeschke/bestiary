@@ -27,6 +27,12 @@ module.exports = {
         vitality: '5d8 + 30',
         panic: 1,
         broken: 4,
+        types: [
+          'Undead', 'Humanoid', 'Giant', 'Goblin'
+        ],
+        environ: [
+          'Forest', 'Castle', 'Urban', 'Desert'
+        ],
         combat: [
           {
             weapon: 'longsword',
