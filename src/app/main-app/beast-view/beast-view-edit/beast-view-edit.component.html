@@ -1,8 +1,16 @@
 <mat-card>
   <mat-toolbar color="warn">
-    <h1><input matInput type="text" [value]="beast.name"></h1>
+    <h1>
+      <mat-form-field>
+        <input matInput [value]="beast.name" (change)="captureInput($event, 'name')">
+      </mat-form-field>
+    </h1>
     <div>
-      <h1>HR: <input class="hr-input" matInput type="number" [value]="beast.hr"></h1>
+      <h1>HR:
+        <mat-form-field>
+          <input class="hr-input" matInput [value]="beast.hr" (change)="captureInput($event, 'hr')">
+        </mat-form-field>
+      </h1>
     </div>
   </mat-toolbar>
 
@@ -14,41 +22,103 @@
       </div>
 
       <div class="combat-social-shell">
-        <div *ngFor="let square of beast.combat">
-          <h3>{{square.weapon}}</h3>
-          <div class="square-shell">
-            <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
-            <p class="spd">{{square.spd}}</p>
-            <p class="atk">{{square.atk}}</p>
-            <p class="init">{{square.init}}</p>
-            <p class="def">{{square.def}}</p>
-            <p class="encumb">{{square.encumb}}</p>
-            <p class="dr">{{square.dr}}</p>
-            <p class="measure">{{square.measure}}</p>
-            <p class="damage">{{square.damage}}</p>
-            <p class="parry">{{square.parry}}</p>
-          </div>
+        <div *ngFor="let square of beast.combat; let i = index">
+          <h3>
+            <mat-form-field>
+              <input placeholder="Weapon Name" matInput [value]="square.weapon"
+                (change)="captureInput($event, 'combat', i, 'weapon')">
+            </mat-form-field>
+          </h3>
+          <mat-form-field>
+            <input placeholder="Speed" matInput [value]="square.spd"
+              (change)="captureInput($event, 'combat', i, 'spd')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Attack" matInput [value]="square.atk"
+              (change)="captureInput($event, 'combat', i, 'atk')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Initiative" matInput [value]="square.init"
+              (change)="captureInput($event, 'combat', i, 'init')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Defense" matInput [value]="square.def"
+              (change)="captureInput($event, 'combat', i, 'def')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Encumbrance" matInput [value]="square.encumb"
+              (change)="captureInput($event, 'combat', i, 'encumb')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="DR" matInput [value]="square.dr" (change)="captureInput($event, 'combat', i, 'dr')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Measure" matInput [value]="square.measure"
+              (change)="captureInput($event, 'combat', i, 'measure')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Damage" matInput [value]="square.damage"
+              (change)="captureInput($event, 'combat', i, 'damage')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Parry" matInput [value]="square.parry"
+              (change)="captureInput($event, 'combat', i, 'parry')">
+          </mat-form-field>
         </div>
+        <button mat-raised-button color="warn">+</button>
       </div>
 
       <div class="vitals-shell">
-        <div class="flex-row-opposite">
-          <h3>Vitality</h3>
-          <p>{{beast.vitality}}</p>
+        <mat-form-field>
+          <input matInput placeholder="Vitality" [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Panic" [value]="beast.panic" (change)="captureInput($event, 'panic')">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Broken" [value]="beast.broken" (change)="captureInput($event, 'broken')">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Size" [value]="beast.size" (change)="captureInput($event, 'size')">
+        </mat-form-field>
+      </div>
+
+      <div class="vitals-shell">
+        <h3 class="blue">Movement</h3>
+        <div *ngFor="let movementType of beast.movement; let i = index">
+          <div class="divider white"></div>
+          <h3>
+            <mat-form-field>
+              <input placeholder="Movement Type" matInput [value]="movementType.type"
+                (change)="captureInput($event, 'movement', i, 'type')">
+            </mat-form-field>
+          </h3>
+          <div class="divider white"></div>
+          <mat-form-field>
+            <input placeholder="Stroll/Crawl" matInput [value]="movementType.stroll"
+              (change)="captureInput($event, 'movement', i, 'stroll')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Walk" matInput [value]="movementType.walk"
+              (change)="captureInput($event, 'movement', i, 'walk')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Jog" matInput [value]="movementType.jog"
+              (change)="captureInput($event, 'movement', i, 'jog')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Run" matInput [value]="movementType.run"
+              (change)="captureInput($event, 'movement', i, 'run')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Spring" matInput [value]="movementType.spring"
+              (change)="captureInput($event, 'movement', i, 'spring')">
+          </mat-form-field>
         </div>
-        <div class="flex-row-opposite">
-          <h3>Panic</h3>
-          <p>{{beast.panic}}</p>
-        </div>
-        <div class="flex-row-opposite">
-          <h3>Broken</h3>
-          <p>{{beast.broken}}</p>
-        </div>
-        <!-- Custom pipes for the above should work -->
-        <div class="flex-row-opposite">
-          <h3>Size</h3>
-          <p>{{beast.size}}</p>
-        </div>
+        <button mat-raised-button color="warn">+</button>
       </div>
 
       <h2>Special Attacks</h2>
@@ -92,16 +162,21 @@
       <h2>Type</h2>
       <div class="divider"></div>
       <div class="chip-shell box-padding">
-          <mat-chip-list>
-            <mat-chip *ngFor="let type of beast.types" color="accent" selected>{{type}}</mat-chip>
-            <mat-chip color="warn" selected>+</mat-chip>
-          </mat-chip-list>
-        </div>
+        <mat-chip-list>
+          <mat-chip *ngFor="let type of beast.types" color="accent" selected>{{type}}</mat-chip>
+          <mat-chip color="warn" selected>+</mat-chip>
+        </mat-chip-list>
+      </div>
       <!-- list of types that link to search with that type as a parameter -->
 
       <h2>Misc Information</h2>
       <div class="divider"></div>
       <div class="box-padding">
+
+        <mat-form-field>
+          <input matInput placeholder="Size" [value]="beast.size" (change)="captureInput($event, 'size')">
+        </mat-form-field>
+
         <h3>Environment</h3>
         <div class="chip-shell">
           <mat-chip-list>
@@ -109,22 +184,30 @@
             <mat-chip color="warn" selected>+</mat-chip>
           </mat-chip-list>
         </div>
-        <div class="flex-row-opposite">
-          <h3>Number Appearing</h3>
-          <p>{{beast.number_min}} - {{beast.number_max}}</p>
+
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Minimum Appearing" [value]="beast.number_min"
+              (change)="captureInput($event, 'number_min')">
+          </mat-form-field>
+          -
+          <mat-form-field>
+            <input matInput placeholder="Max Appearing" [value]="beast.number_max"
+              (change)="captureInput($event, 'number_max')">
+          </mat-form-field>
         </div>
-        <div class="flex-row-opposite">
-          <h3>Senses</h3>
-          <p>{{beast.sense}}</p>
-        </div>
-        <div class="flex-row-opposite">
-          <h3>Diet</h3>
-          <p>{{beast.diet}}</p>
-        </div>
-        <div class="flex-row-opposite">
-          <h3>Subsystem</h3>
-          <p>{{beast.subsystem}}</p>
-        </div>
+
+        <mat-form-field>
+          <input placeholder="Senses" matInput [value]="beast.sense" (change)="captureInput($event, 'sense')">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input placholder="Subsystem" matInput [value]="beast.subsystem" (change)="captureInput($event, 'subsystem')">
+        </mat-form-field>
       </div>
 
       <!-- <mat-expansion-panel>

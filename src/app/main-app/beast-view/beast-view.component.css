@@ -160,3 +160,12 @@ mat-toolbar {
 .hr-input {
     width: 60px;
 }
+
+.white {
+    background: white;
+    margin: 7px 0;
+}
+
+.blue {
+    color: #607d8b !important;
+}

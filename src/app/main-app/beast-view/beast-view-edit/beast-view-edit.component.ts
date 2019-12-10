@@ -16,7 +16,6 @@ export class BeastViewEditComponent implements OnInit {
   ) { }
 
   public beast = {}
-  public editedBeast = {}
   public loggedIn = this.beastService.loggedIn || false;
 
   ngOnInit() {
@@ -48,7 +47,17 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureHTML(event, type) {
-    this.editedBeast = Object.assign({}, this.editedBeast, {[type]: event.html})
+    this.beast = Object.assign({}, this.beast, {[type]: event.html})
+  }
+
+  captureInput(event, type, index, secondaryType) {
+    if (!secondaryType) {
+      this.beast = Object.assign({}, this.beast, {[type]: event.target.value})
+    } else {
+      let newSecondaryObject = [...this.beast[type]]
+      newSecondaryObject[index][secondaryType] = event.target.value
+      this.beast = Object.assign({}, this.beast, {[type]: newSecondaryObject})
+    }
   }
 
   saveChanges() {

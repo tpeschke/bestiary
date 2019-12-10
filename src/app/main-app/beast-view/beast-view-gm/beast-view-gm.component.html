@@ -1,6 +1,6 @@
 <mat-card>
   <mat-toolbar color="accent">
-    <h1>{{beast.name}}</h1>
+    <h1>{{beast.name | uppercase}}</h1>
     <div>
       <h1>HR: {{beast.hr}}</h1>
     </div>
@@ -15,7 +15,7 @@
 
       <div class="combat-social-shell">
         <div *ngFor="let square of beast.combat">
-          <h3>{{square.weapon}}</h3>
+          <h3>{{square.weapon | titlecase}}</h3>
           <div class="square-shell">
             <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
             <p class="spd">{{square.spd}}</p>
@@ -48,6 +48,35 @@
         <div class="flex-row-opposite">
           <h3>Size</h3>
           <p>{{beast.size}}</p>
+        </div>
+      </div>
+
+      <div class="vitals-shell">
+        <h3 class="blue">Movement</h3>
+        <div *ngFor="let movementType of beast.movement">
+          <div class="divider white"></div>
+          <h3>{{movementType.type | titlecase}}</h3>
+          <div class="divider white"></div>
+          <div class="flex-row-opposite">
+            <h3>Stroll/Crawl</h3>
+            <p>{{movementType.stroll}}</p>
+          </div>
+          <div class="flex-row-opposite">
+            <h3>Walk</h3>
+            <p>{{movementType.walk}}</p>
+          </div>
+          <div class="flex-row-opposite">
+            <h3>Jog</h3>
+            <p>{{movementType.jog}}</p>
+          </div>
+          <div class="flex-row-opposite">
+            <h3>Run</h3>
+            <p>{{movementType.run}}</p>
+          </div>
+          <div class="flex-row-opposite">
+            <h3>Sprint</h3>
+            <p>{{movementType.sprint}}</p>
+          </div>
         </div>
       </div>
 
@@ -99,10 +128,14 @@
       <h2>Misc Information</h2>
       <div class="divider"></div>
       <div class="box-padding">
+        <div class="flex-row-opposite">
+          <h3>Size</h3>
+          <p>{{beast.size}}</p>
+        </div>
         <h3>Environment</h3>
         <div class="chip-shell">
           <mat-chip-list>
-              <mat-chip *ngFor="let environ of beast.environ" color="accent" selected>{{environ}}</mat-chip>
+            <mat-chip *ngFor="let environ of beast.environ" color="accent" selected>{{environ}}</mat-chip>
           </mat-chip-list>
         </div>
         <div class="flex-row-opposite">

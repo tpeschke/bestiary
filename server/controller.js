@@ -71,6 +71,23 @@ module.exports = {
             parry: Math.floor(Math.random() * 4)
           }
         ],
+        movement: [{
+          stroll: Math.floor(Math.random() * 5) + 1 + " ft/sec",
+          walk: Math.floor(Math.random() * 5) + 1 + " ft/sec",
+          jog: Math.floor(Math.random() * 5) + 1 + " ft/sec",
+          run: Math.floor(Math.random() * 5) + 1 + " ft/sec",
+          sprint: Math.floor(Math.random() * 5) + 1 + " ft/sec",
+          type: 'land'
+        },
+        {
+          stroll: Math.floor(Math.random() * 5) + 1 + " ft/sec",
+          walk: Math.floor(Math.random() * 5) + 1 + " ft/sec",
+          jog: Math.floor(Math.random() * 5) + 1 + " ft/sec",
+          run: Math.floor(Math.random() * 5) + 1 + " ft/sec",
+          sprint: Math.floor(Math.random() * 5) + 1 + " ft/sec",
+          type: 'fly'
+        }
+        ],
         image: `https://picsum.photos/id/${Math.floor(Math.random() * 1000)}/200/300`
       })
     }
