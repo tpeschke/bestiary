@@ -13,19 +13,29 @@ app.use(cors())
 //TESTING TOPLEVEL MIDDLEWARE////
 ///COMMENT OUT WHEN AUTH0 READY///
 /////////////////////////////////
-app.use((req, res, next) => {
-    if (!req.user) {
-        req.user = {
-            id: 1,
-            email: "mr.peschke@gmail.com",
-            patreon: 1
-        }
-    }
-    next();
-})
+// app.use((req, res, next) => {
+//     if (!req.user) {
+//         req.user = {
+//             id: 1,
+//             email: "mr.peschke@gmail.com",
+//             patreon: 21
+//         }
+//     }
+//     next();
+// })
 
 app.get('/api/beasts/catalog', (req, res) => res.send(ctrl.catalogCache))
 app.get('/api/beasts/:id', ctrl.getSingleBeast)
+
+app.use((req, res, next) => {
+    if (!req.user) {
+        res.sendStatus(401)
+    } else if (req.user.id !== 1 && req.user.id !== 21) {
+        res.sendStatus(401)
+    } else {
+        next()
+    }
+})
 
 app.patch('/api/beasts/edit', ctrl.editBeast)
 

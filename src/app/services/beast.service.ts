@@ -3,11 +3,9 @@ import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import local from '../../local';
+import { Router } from '@angular/router';
 
-class Beast {
-  id: number
-  name: string
-}
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +14,25 @@ export class BeastService {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   loggedIn = 'owner';
+
+  handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      if (error.status === 200) {
+        this.toastr.success('', `${error.error.text}`);
+      } else if (error.status === 403) {
+        this.toastr.warning('', `${error.error}`)
+      } else if (error.status === 401) {
+        this.router.navigate(["/main/catalog"]);
+        this.toastr.error('', `${error.error}`);
+      }
+      return of(result as T)
+    }
+  }
 
   getCatalog(): any {
     return this.http.get(local.endpointBase + '/api/beasts/catalog')
@@ -30,7 +44,7 @@ export class BeastService {
   getSingleBeast(id): any {
     return this.http.get(local.endpointBase + '/api/beasts/' + id)
       .pipe(
-        // catchError(this.handleError('search', []))
+        // catchError(this.handleError('get single beast', []))
       )
   }
 

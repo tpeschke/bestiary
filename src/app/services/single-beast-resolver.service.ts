@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BeastService } from './beast.service';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,9 @@ import { BeastService } from './beast.service';
 export class SingleBeastResolverService implements Resolve<any> {
 
   constructor(
-    private beastService: BeastService
-  ) {}
+    private beastService: BeastService,
+    private router: Router
+  ) { }
 
   resolve(
     route: ActivatedRouteSnapshot,
@@ -18,9 +20,12 @@ export class SingleBeastResolverService implements Resolve<any> {
   ): Observable<any> {
     let id = +route.paramMap.get('id');
     if (id) {
-      return this.beastService.getSingleBeast(id);
+      return this.beastService.getSingleBeast(id)
+        .pipe(
+          catchError(this.beastService.handleError('get single monster', [])
+        ));
     } else {
       return null
     }
-   }
+  }
 }

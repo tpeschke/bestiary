@@ -26,27 +26,37 @@ let controllerObj = {
     db.get.beastmaininfo(id).then(result => {
       let beast = result[0]
         , promiseArray = []
-      promiseArray.push(db.get.beasttypes(id).then(result => {
-        beast.types = result
-        return result
-      }))
 
-      promiseArray.push(db.get.beastenviron(id).then(result => {
-        beast.environ = result
-        return result
-      }))
-
-      promiseArray.push(db.get.beastcombat(id).then(result => {
-        beast.combat = result
-        return result
-      }))
-
-      promiseArray.push(db.get.beastmovement(id).then(result => {
-        beast.movement = result
-        return result
-      }))
-
-      Promise.all(promiseArray).then(finalArray => res.send(beast))
+      let patreonTestValue = 0;
+      if (req.user && req.user.patreon) {
+        patreonTestValue = req.user.patreon
+      }
+      
+      if (beast.patreon > patreonTestValue) {
+        res.sendStatus(401).send('You need to update your Patreon tier to access this monster')
+      } else {
+        promiseArray.push(db.get.beasttypes(id).then(result => {
+          beast.types = result
+          return result
+        }))
+  
+        promiseArray.push(db.get.beastenviron(id).then(result => {
+          beast.environ = result
+          return result
+        }))
+  
+        promiseArray.push(db.get.beastcombat(id).then(result => {
+          beast.combat = result
+          return result
+        }))
+  
+        promiseArray.push(db.get.beastmovement(id).then(result => {
+          beast.movement = result
+          return result
+        }))
+  
+        Promise.all(promiseArray).then(finalArray => res.send(beast))
+      }
     })
   },
   addBeast({ body, app }, res) {

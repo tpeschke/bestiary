@@ -28,6 +28,7 @@ import { TypeConverterPipe } from '../services/type-converter.pipe';
 import { EnvironConverterPipe } from '../services/environ-converter.pipe';
 import { MoraleConverterPipe } from '../services/morale-converter.pipe'
 import { SubsystemConverterPipe } from '../services/subsystem-converter.pipe';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [SearchBarComponent, SearchResultsComponent, CatalogComponent, BeastViewPlayerComponent, BeastViewGmComponent, MainAppShellComponent, BeastViewEditComponent,
@@ -50,6 +51,7 @@ import { SubsystemConverterPipe } from '../services/subsystem-converter.pipe';
     HttpClientModule,
     MatChipsModule,
     FormsModule,
+    ToastrModule.forRoot(),
     QuillModule.forRoot()
   ],
   exports: [SearchBarComponent, SearchResultsComponent, CatalogComponent, BeastViewPlayerComponent, BeastViewGmComponent, MainAppShellComponent]
