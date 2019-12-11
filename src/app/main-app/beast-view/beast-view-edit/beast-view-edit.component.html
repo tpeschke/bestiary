@@ -82,9 +82,9 @@
             <input placeholder="Parry" matInput [value]="square.parry"
               (change)="captureInput($event, 'combat', i, 'parry')">
           </mat-form-field>
-          <button mat-raised-button (click)="removeNewSecondaryItem('combat', i)" color="warn">REMOVE WEAPON</button>
+          <button mat-raised-button (click)="removeNewSecondaryItem('combat', i)" color="accent">REMOVE WEAPON</button>
         </div>
-        <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="warn">+</button>
+        <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">+</button>
       </div>
 
       <div class="vitals-shell">
@@ -180,9 +180,9 @@
             <input placeholder="Sprint" matInput [value]="movementType.sprint"
               (change)="captureInput($event, 'movement', i, 'sprint')">
           </mat-form-field>
-          <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="warn">REMOVE MOVEMENT</button>
+          <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="accent">REMOVE MOVEMENT</button>
         </div>
-        <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="warn">+</button>
+        <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">+</button>
       </div>
 
       <h2>Special Attacks</h2>
@@ -228,8 +228,40 @@
       <div class="chip-shell box-padding">
         <mat-chip-list>
           <mat-chip *ngFor="let type of beast.types; let i = index" (click)="removeNewSecondaryItem('types', i)" color="accent" selected>{{type | typeConverter}}</mat-chip>
-          <mat-chip color="warn" selected>+</mat-chip>
         </mat-chip-list>
+        <mat-form-field>
+            <mat-label>Select New Type</mat-label>
+            <mat-select (selectionChange)="captureChip($event, 'types')">
+                <mat-option value="1">
+                    Demon
+                </mat-option>
+                <mat-option value="2">
+                    Undead, Corporeal
+                </mat-option>
+                <mat-option value="3">
+                    Undead, Spirit
+                </mat-option>
+                <mat-option value="4">
+                    Elemental
+                </mat-option>
+                <mat-option value="5">
+                    Natural Creature
+                </mat-option>
+                <mat-option value="6">
+                    Magical Creature
+                </mat-option>
+                <mat-option value="7">
+                    Humanoid
+                </mat-option>
+                <mat-option value="8">
+                    Intelligent Evil
+                </mat-option>
+                <mat-option value="9">
+                    Goblin
+                </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button color="accent" (click)="addChip('types')">Add Type</button>
       </div>
       <!-- list of types that link to search with that type as a parameter -->
 
@@ -245,8 +277,68 @@
         <div class="chip-shell">
           <mat-chip-list>
             <mat-chip *ngFor="let environ of beast.environ; let i = index" (click)="removeNewSecondaryItem('environ', i)" color="accent" selected>{{environ | environConverter}}</mat-chip>
-            <mat-chip color="warn" selected>+</mat-chip>
+            <mat-chip color="accent" selected>+</mat-chip>
           </mat-chip-list>
+          <mat-form-field>
+              <mat-label>Select New Environ</mat-label>
+              <mat-select (selectionChange)="captureChip($event, 'environ')">
+                  <mat-option value="1">
+                      Dungeon/Ruins
+                  </mat-option>
+                  <mat-option value="2">
+                      Wilderness
+                  </mat-option>
+                  <mat-option value="3">
+                      Forest
+                  </mat-option>
+                  <mat-option value="4">
+                      Castle
+                  </mat-option>
+                  <mat-option value="5">
+                      Cave/Underground
+                  </mat-option>
+                  <mat-option value="6">
+                      Mountain
+                  </mat-option>
+                  <mat-option value="7">
+                      Plains
+                  </mat-option>
+                  <mat-option value="8">
+                      Swamp
+                  </mat-option>
+                  <mat-option value="9">
+                      Urban
+                  </mat-option>
+                  <mat-option value="10">
+                      Ship
+                  </mat-option>
+                  <mat-option value="11">
+                      Coastal
+                  </mat-option>
+                  <mat-option value="12">
+                      Aquatic
+                  </mat-option>
+                  <mat-option value="13">
+                      Other
+                  </mat-option>
+                  <mat-option value="14">
+                      Desert
+                  </mat-option>
+                  <mat-option value="15">
+                      Island
+                  </mat-option>
+                  <mat-option value="16">
+                      Jungle
+                  </mat-option>
+                  <mat-option value="17">
+                      Sewer
+                  </mat-option>
+                  <mat-option value="18">
+                      House
+                  </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="addChip('environ')">Add Environment</button>  
         </div>
 
         <div>
@@ -312,5 +404,6 @@
     </div>
   </div>
 
-  <button (click)="saveChanges()" mat-raised-button color="warn">Save</button>
+  <button (click)="saveChanges()" mat-raised-button color="primary">Save</button>
+  <button (click)="saveChanges()" mat-raised-button color="warn">Delete</button>
 </mat-card>

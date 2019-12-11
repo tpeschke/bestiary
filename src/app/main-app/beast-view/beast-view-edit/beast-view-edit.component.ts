@@ -17,6 +17,7 @@ export class BeastViewEditComponent implements OnInit {
 
   public beast = {}
   public loggedIn = this.beastService.loggedIn || false;
+  public type = null;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -71,6 +72,17 @@ export class BeastViewEditComponent implements OnInit {
 
   captureSelect(event, type) {
     this.beast[type] = event.value
+  }
+
+  captureChip(event, type) {
+    this[type] = +event.value
+  }
+
+  addChip(type) {
+    if (this[type]) {
+      this.beast[type].push(this[type])
+      this[type] = null;
+    }
   }
 
   addNewSecondaryItem(type) {

@@ -24,18 +24,7 @@ app.use((req, res, next) => {
     next();
 })
 
-let beasts = []
-let fakeBeastDB = []
-
-let letterArray = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
-for (let i = 0; i < letterArray.length; i++) {
-    let newBeast = ctrl.makeMonsters(letterArray[i])
-    beasts.push(newBeast)
-    fakeBeastDB.push(...newBeast)
-}
-
-app.get('/api/beasts/catalog', (req, res) => res.send(beasts))
+app.get('/api/beasts/catalog', (req, res) => res.send(ctrl.catalogCache))
 app.get('/api/beasts/:id', ctrl.getSingleBeast)
 
 app.patch('/api/beasts/edit', (req, res) => {
@@ -49,6 +38,7 @@ app.post('/api/beasts/add', ctrl.addBeast)
 massive(connection).then(dbI => {
     app.set('db', dbI)
     app.listen(server, _ => {
+        ctrl.collectCache(app, 0)
         console.log(`Sing to me a sweet song of forgetfulness and Ill die on your shore ${server}`)
     })
 })
