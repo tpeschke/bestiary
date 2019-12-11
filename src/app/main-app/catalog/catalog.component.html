@@ -5,9 +5,9 @@
     <div class="beastDiv">
       <button [routerLink]="['/main/beast', beast.id, 'gm']" *ngFor="let beast of category" class="beastButton"
         mat-button>
-        <i *ngIf="beast.patreon < 20 && beast.patreon !== 0" matTooltip="Advanced"
+        <i *ngIf="beast.patreon !== 0" matTooltip="Advanced"
           class="fab fa-patreon icon-blue"></i>
-        <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
+        <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-plus icon-blue"></i>
         {{beast.name}}
       </button>
     </div>

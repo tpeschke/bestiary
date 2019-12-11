@@ -186,6 +186,11 @@ table {
   font-size: 25px;
 }
 
+.fa-plus {
+  margin-left: 2px;
+  font-size: 25px;
+}
+
 .icon-white {
   color: whitesmoke;
 }

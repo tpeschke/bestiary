@@ -2,7 +2,7 @@
   <mat-toolbar color="accent">
     <h1>
       <i *ngIf="beast.patreon < 20 && beast.patreon !== 0" matTooltip="Advanced" class="fab fa-patreon icon-white"></i>
-      <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-white"></i>
+      <i  matTooltip="Early Access" class="fas fa-plus icon-white"></i>
       {{beast.name | uppercase}}
     </h1>
     <div>
