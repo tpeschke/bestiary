@@ -17,21 +17,21 @@
   <div class="content-shell">
 
     <div class="left">
-        <mat-form-field>
-            <mat-label>Patreon Level</mat-label>
-            <mat-select (selectionChange)="captureSelect($event, 'patreon')">
-                <mat-option value="0">
-                    Basic
-                </mat-option>
-                <mat-option value="1">
-                    Advanced
-                </mat-option>
-                <mat-option value="20">
-                    Early Access
-                </mat-option>
-            </mat-select>
-            <p>{{beast.patreon}}</p>
-        </mat-form-field>
+      <mat-form-field>
+        <mat-label>Patreon Level</mat-label>
+        <mat-select (selectionChange)="captureSelect($event, 'patreon')">
+          <mat-option value="0">
+            Basic
+          </mat-option>
+          <mat-option value="1">
+            Advanced
+          </mat-option>
+          <mat-option value="20">
+            Early Access
+          </mat-option>
+        </mat-select>
+        <p>{{beast.patreon}}</p>
+      </mat-form-field>
 
       <div>
         <img *ngIf="beast.image" [src]="beast.image" [alt]="beast.name">
@@ -40,52 +40,55 @@
 
       <div class="combat-social-shell">
         <div *ngFor="let square of beast.combat; let i = index">
-          <h3>
+          <div *ngIf="!square.deleted">
+            <h3>
+              <mat-form-field>
+                <input placeholder="Weapon Name" matInput [value]="square.weapon"
+                  (change)="captureInput($event, 'combat', i, 'weapon')">
+              </mat-form-field>
+            </h3>
             <mat-form-field>
-              <input placeholder="Weapon Name" matInput [value]="square.weapon"
-                (change)="captureInput($event, 'combat', i, 'weapon')">
+              <input placeholder="Speed" matInput [value]="square.spd"
+                (change)="captureInput($event, 'combat', i, 'spd')">
             </mat-form-field>
-          </h3>
-          <mat-form-field>
-            <input placeholder="Speed" matInput [value]="square.spd"
-              (change)="captureInput($event, 'combat', i, 'spd')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Attack" matInput [value]="square.atk"
-              (change)="captureInput($event, 'combat', i, 'atk')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Initiative" matInput [value]="square.init"
-              (change)="captureInput($event, 'combat', i, 'init')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Defense" matInput [value]="square.def"
-              (change)="captureInput($event, 'combat', i, 'def')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Encumbrance" matInput [value]="square.encumb"
-              (change)="captureInput($event, 'combat', i, 'encumb')">
-          </mat-form-field>
-          <!-- This needs to be changed so you can modifiy shields as well -->
-          <mat-form-field>
-            <input placeholder="DR" matInput [value]="square.dr" (change)="captureInput($event, 'combat', i, 'dr')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Measure" matInput [value]="square.measure"
-              (change)="captureInput($event, 'combat', i, 'measure')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Damage" matInput [value]="square.damage"
-              (change)="captureInput($event, 'combat', i, 'damage')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Parry" matInput [value]="square.parry"
-              (change)="captureInput($event, 'combat', i, 'parry')">
-          </mat-form-field>
-          <button mat-raised-button (click)="removeNewSecondaryItem('combat', i)" color="accent">REMOVE WEAPON</button>
+            <mat-form-field>
+              <input placeholder="Attack" matInput [value]="square.atk"
+                (change)="captureInput($event, 'combat', i, 'atk')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Initiative" matInput [value]="square.init"
+                (change)="captureInput($event, 'combat', i, 'init')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Defense" matInput [value]="square.def"
+                (change)="captureInput($event, 'combat', i, 'def')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Encumbrance" matInput [value]="square.encumb"
+                (change)="captureInput($event, 'combat', i, 'encumb')">
+            </mat-form-field>
+            <!-- This needs to be changed so you can modifiy shields as well -->
+            <mat-form-field>
+              <input placeholder="DR" matInput [value]="square.dr" (change)="captureInput($event, 'combat', i, 'dr')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Measure" matInput [value]="square.measure"
+                (change)="captureInput($event, 'combat', i, 'measure')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Damage" matInput [value]="square.damage"
+                (change)="captureInput($event, 'combat', i, 'damage')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Parry" matInput [value]="square.parry"
+                (change)="captureInput($event, 'combat', i, 'parry')">
+            </mat-form-field>
+            <button mat-raised-button (click)="removeNewSecondaryItem('combat', i)" color="warn">REMOVE
+              WEAPON</button>
+          </div>
         </div>
-        <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">+</button>
       </div>
+      <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">+</button>
 
       <div class="vitals-shell">
         <mat-form-field>
@@ -93,94 +96,97 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Panic</mat-label>
-            <mat-select (selectionChange)="captureSelect($event, 'panic')">
-                <mat-option value="1">
-                    Fresh
-                </mat-option>
-                <mat-option value="2">
-                    Tired
-                </mat-option>
-                <mat-option value="3">
-                    Hurt
-                </mat-option>
-                <mat-option value="4">
-                    Bloodied
-                </mat-option>
-                <mat-option value="5">
-                    Wounded
-                </mat-option>
-                <mat-option value="6">
-                    Bleeding Out
-                </mat-option>
-                <mat-option value="7">
-                    Never
-                </mat-option>
-            </mat-select>
-            <p>{{beast.panic | moraleConverter}}</p>
+          <mat-label>Panic</mat-label>
+          <mat-select (selectionChange)="captureSelect($event, 'panic')">
+            <mat-option value="1">
+              Fresh
+            </mat-option>
+            <mat-option value="2">
+              Tired
+            </mat-option>
+            <mat-option value="3">
+              Hurt
+            </mat-option>
+            <mat-option value="4">
+              Bloodied
+            </mat-option>
+            <mat-option value="5">
+              Wounded
+            </mat-option>
+            <mat-option value="6">
+              Bleeding Out
+            </mat-option>
+            <mat-option value="7">
+              Never
+            </mat-option>
+          </mat-select>
+          <p>{{beast.panic | moraleConverter}}</p>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Broken</mat-label>
-            <mat-select (selectionChange)="captureSelect($event, 'broken')">
-                <mat-option value="1">
-                    Fresh
-                </mat-option>
-                <mat-option value="2">
-                    Tired
-                </mat-option>
-                <mat-option value="3">
-                    Hurt
-                </mat-option>
-                <mat-option value="4">
-                    Bloodied
-                </mat-option>
-                <mat-option value="5">
-                    Wounded
-                </mat-option>
-                <mat-option value="6">
-                    Bleeding Out
-                </mat-option>
-                <mat-option value="7">
-                    Never
-                </mat-option>
-              </mat-select>
-              <p>{{beast.broken | moraleConverter}}</p>
+          <mat-label>Broken</mat-label>
+          <mat-select (selectionChange)="captureSelect($event, 'broken')">
+            <mat-option value="1">
+              Fresh
+            </mat-option>
+            <mat-option value="2">
+              Tired
+            </mat-option>
+            <mat-option value="3">
+              Hurt
+            </mat-option>
+            <mat-option value="4">
+              Bloodied
+            </mat-option>
+            <mat-option value="5">
+              Wounded
+            </mat-option>
+            <mat-option value="6">
+              Bleeding Out
+            </mat-option>
+            <mat-option value="7">
+              Never
+            </mat-option>
+          </mat-select>
+          <p>{{beast.broken | moraleConverter}}</p>
         </mat-form-field>
       </div>
 
       <div class="vitals-shell">
         <h3 class="blue">Movement</h3>
         <div *ngFor="let movementType of beast.movement; let i = index">
-          <div class="divider white"></div>
-          <h3>
+          <div *ngIf="!movementType.deleted">
+            <div class="divider white"></div>
+            <h3>
+              <mat-form-field>
+                <input placeholder="Movement Type" matInput [value]="movementType.type"
+                  (change)="captureInput($event, 'movement', i, 'type')">
+              </mat-form-field>
+            </h3>
+            <div class="divider white"></div>
             <mat-form-field>
-              <input placeholder="Movement Type" matInput [value]="movementType.type"
-                (change)="captureInput($event, 'movement', i, 'type')">
+              <input placeholder="Stroll/Crawl" matInput [value]="movementType.stroll"
+                (change)="captureInput($event, 'movement', i, 'stroll')">
             </mat-form-field>
-          </h3>
-          <div class="divider white"></div>
-          <mat-form-field>
-            <input placeholder="Stroll/Crawl" matInput [value]="movementType.stroll"
-              (change)="captureInput($event, 'movement', i, 'stroll')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Walk" matInput [value]="movementType.walk"
-              (change)="captureInput($event, 'movement', i, 'walk')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Jog" matInput [value]="movementType.jog"
-              (change)="captureInput($event, 'movement', i, 'jog')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Run" matInput [value]="movementType.run"
-              (change)="captureInput($event, 'movement', i, 'run')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Sprint" matInput [value]="movementType.sprint"
-              (change)="captureInput($event, 'movement', i, 'sprint')">
-          </mat-form-field>
-          <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="accent">REMOVE MOVEMENT</button>
+            <mat-form-field>
+              <input placeholder="Walk" matInput [value]="movementType.walk"
+                (change)="captureInput($event, 'movement', i, 'walk')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Jog" matInput [value]="movementType.jog"
+                (change)="captureInput($event, 'movement', i, 'jog')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Run" matInput [value]="movementType.run"
+                (change)="captureInput($event, 'movement', i, 'run')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Sprint" matInput [value]="movementType.sprint"
+                (change)="captureInput($event, 'movement', i, 'sprint')">
+            </mat-form-field>
+            <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="warn">REMOVE
+              MOVEMENT</button>
+          </div>
         </div>
         <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">+</button>
       </div>
@@ -227,41 +233,44 @@
       <div class="divider"></div>
       <div class="chip-shell box-padding">
         <mat-chip-list>
-          <mat-chip *ngFor="let type of beast.types; let i = index" (click)="removeNewSecondaryItem('types', i)" color="accent" selected>{{type | typeConverter}}</mat-chip>
+          <div *ngFor="let type of beast.types; let i = index">
+            <mat-chip *ngIf="!type.deleted" (click)="removeNewSecondaryItem('types', i)" color="warn" selected>
+              {{type.typeid | typeConverter}}</mat-chip>
+          </div>
         </mat-chip-list>
         <mat-form-field>
-            <mat-label>Select New Type</mat-label>
-            <mat-select (selectionChange)="captureChip($event, 'types')">
-                <mat-option value="1">
-                    Demon
-                </mat-option>
-                <mat-option value="2">
-                    Undead, Corporeal
-                </mat-option>
-                <mat-option value="3">
-                    Undead, Spirit
-                </mat-option>
-                <mat-option value="4">
-                    Elemental
-                </mat-option>
-                <mat-option value="5">
-                    Natural Creature
-                </mat-option>
-                <mat-option value="6">
-                    Magical Creature
-                </mat-option>
-                <mat-option value="7">
-                    Humanoid
-                </mat-option>
-                <mat-option value="8">
-                    Intelligent Evil
-                </mat-option>
-                <mat-option value="9">
-                    Goblin
-                </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button mat-raised-button color="accent" (click)="addChip('types')">Add Type</button>
+          <mat-label>Select New Type</mat-label>
+          <mat-select (selectionChange)="captureChip($event, 'types')">
+            <mat-option value="1">
+              Demon
+            </mat-option>
+            <mat-option value="2">
+              Undead, Corporeal
+            </mat-option>
+            <mat-option value="3">
+              Undead, Spirit
+            </mat-option>
+            <mat-option value="4">
+              Elemental
+            </mat-option>
+            <mat-option value="5">
+              Natural Creature
+            </mat-option>
+            <mat-option value="6">
+              Magical Creature
+            </mat-option>
+            <mat-option value="7">
+              Humanoid
+            </mat-option>
+            <mat-option value="8">
+              Intelligent Evil
+            </mat-option>
+            <mat-option value="9">
+              Goblin
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="accent" (click)="addChip('types')">Add Type</button>
       </div>
       <!-- list of types that link to search with that type as a parameter -->
 
@@ -276,69 +285,72 @@
         <h3>Environment</h3>
         <div class="chip-shell">
           <mat-chip-list>
-            <mat-chip *ngFor="let environ of beast.environ; let i = index" (click)="removeNewSecondaryItem('environ', i)" color="accent" selected>{{environ | environConverter}}</mat-chip>
-            <mat-chip color="accent" selected>+</mat-chip>
+            <div *ngFor="let environ of beast.environ; let i = index">
+              <mat-chip *ngIf="!environ.deleted" (click)="removeNewSecondaryItem('environ', i)" color="warn" selected>
+                {{environ.environid | environConverter}}
+              </mat-chip>
+            </div>
           </mat-chip-list>
           <mat-form-field>
-              <mat-label>Select New Environ</mat-label>
-              <mat-select (selectionChange)="captureChip($event, 'environ')">
-                  <mat-option value="1">
-                      Dungeon/Ruins
-                  </mat-option>
-                  <mat-option value="2">
-                      Wilderness
-                  </mat-option>
-                  <mat-option value="3">
-                      Forest
-                  </mat-option>
-                  <mat-option value="4">
-                      Castle
-                  </mat-option>
-                  <mat-option value="5">
-                      Cave/Underground
-                  </mat-option>
-                  <mat-option value="6">
-                      Mountain
-                  </mat-option>
-                  <mat-option value="7">
-                      Plains
-                  </mat-option>
-                  <mat-option value="8">
-                      Swamp
-                  </mat-option>
-                  <mat-option value="9">
-                      Urban
-                  </mat-option>
-                  <mat-option value="10">
-                      Ship
-                  </mat-option>
-                  <mat-option value="11">
-                      Coastal
-                  </mat-option>
-                  <mat-option value="12">
-                      Aquatic
-                  </mat-option>
-                  <mat-option value="13">
-                      Other
-                  </mat-option>
-                  <mat-option value="14">
-                      Desert
-                  </mat-option>
-                  <mat-option value="15">
-                      Island
-                  </mat-option>
-                  <mat-option value="16">
-                      Jungle
-                  </mat-option>
-                  <mat-option value="17">
-                      Sewer
-                  </mat-option>
-                  <mat-option value="18">
-                      House
-                  </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <button mat-raised-button color="accent" (click)="addChip('environ')">Add Environment</button>  
+            <mat-label>Select New Environ</mat-label>
+            <mat-select (selectionChange)="captureChip($event, 'environ')">
+              <mat-option value="1">
+                Dungeon/Ruins
+              </mat-option>
+              <mat-option value="2">
+                Wilderness
+              </mat-option>
+              <mat-option value="3">
+                Forest
+              </mat-option>
+              <mat-option value="4">
+                Castle
+              </mat-option>
+              <mat-option value="5">
+                Cave/Underground
+              </mat-option>
+              <mat-option value="6">
+                Mountain
+              </mat-option>
+              <mat-option value="7">
+                Plains
+              </mat-option>
+              <mat-option value="8">
+                Swamp
+              </mat-option>
+              <mat-option value="9">
+                Urban
+              </mat-option>
+              <mat-option value="10">
+                Ship
+              </mat-option>
+              <mat-option value="11">
+                Coastal
+              </mat-option>
+              <mat-option value="12">
+                Aquatic
+              </mat-option>
+              <mat-option value="13">
+                Other
+              </mat-option>
+              <mat-option value="14">
+                Desert
+              </mat-option>
+              <mat-option value="15">
+                Island
+              </mat-option>
+              <mat-option value="16">
+                Jungle
+              </mat-option>
+              <mat-option value="17">
+                Sewer
+              </mat-option>
+              <mat-option value="18">
+                House
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button color="accent" (click)="addChip('environ')">Add Environment</button>
         </div>
 
         <div>
@@ -362,19 +374,19 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Subsystem Focus</mat-label>
-            <mat-select (selectionChange)="captureSelect($event, 'subsystem')">
-                <mat-option value="1">
-                    Combat
-                </mat-option>
-                <mat-option value="2">
-                    Social
-                </mat-option>
-                <mat-option value="3">
-                    Skill
-                </mat-option>
-            </mat-select>
-            <p>{{beast.subsystem | subsystemConverter}}</p>
+          <mat-label>Subsystem Focus</mat-label>
+          <mat-select (selectionChange)="captureSelect($event, 'subsystem')">
+            <mat-option value="1">
+              Combat
+            </mat-option>
+            <mat-option value="2">
+              Social
+            </mat-option>
+            <mat-option value="3">
+              Skill
+            </mat-option>
+          </mat-select>
+          <p>{{beast.subsystem | subsystemConverter}}</p>
         </mat-form-field>
       </div>
 
@@ -405,5 +417,5 @@
   </div>
 
   <button (click)="saveChanges()" mat-raised-button color="primary">Save</button>
-  <button (click)="saveChanges()" mat-raised-button color="warn">Delete</button>
+  <button (click)="deleteThisBeast()" mat-raised-button color="warn">Delete</button>
 </mat-card>

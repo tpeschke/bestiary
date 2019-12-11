@@ -4,18 +4,16 @@
     <mat-divider></mat-divider>
     <div class="beastDiv">
       <div *ngFor="let beast of category">
-        <button *ngIf="beast.patreon <= beastService.loggedIn || beastService.loggedIn === 'owner'" [routerLink]="['/main/beast', beast.id, 'gm']" class="beastButton"
-          mat-button>
-          <i *ngIf="beast.patreon !== 0" matTooltip="Advanced"
-            class="fab fa-patreon icon-blue"></i>
-          <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-plus icon-blue"></i>
+        <button *ngIf="beast.patreon <= beastService.loggedIn || beastService.loggedIn === 'owner'"
+          [routerLink]="['/main/beast', beast.id, 'gm']" class="beastButton" mat-button>
+          <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fab fa-patreon icon-blue"></i>
+          <i *ngIf="beast.patreon !== 0" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
           {{beast.name}}
         </button>
-        <button *ngIf="beast.patreon > beastService.loggedIn && beastService.loggedIn !== 'owner'" disabled class="beastButton"
-          mat-button>
-          <i *ngIf="beast.patreon !== 0" matTooltip="Advanced"
-            class="fab fa-patreon icon-blue"></i>
-          <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-plus icon-blue"></i>
+        <button *ngIf="beast.patreon > beastService.loggedIn && beastService.loggedIn !== 'owner'" disabled
+          class="beastButton" mat-button>
+          <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fab fa-patreon icon-blue"></i>
+          <i *ngIf="beast.patreon !== 0" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
           {{beast.name}}
         </button>
       </div>

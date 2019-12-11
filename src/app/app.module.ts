@@ -24,7 +24,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'catalog', pathMatch: "full"},
     { path: 'catalog', component: CatalogComponent, resolve: {catalog: CatalogResolverService}},
     { path: 'beast/:id/gm', component: BeastViewGmComponent, resolve: {beast: SingleBeastResolverService}},
-    { path: 'beast/:id/edit', component: BeastViewEditComponent},
+    { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: {beast: SingleBeastResolverService}},
     { path: 'search', component: SearchResultsComponent},
   ]},
   { path: '**', redirectTo: '' },

@@ -1,0 +1,1 @@
+delete from bbmovement where id = $1

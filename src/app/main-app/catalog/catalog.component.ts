@@ -16,7 +16,9 @@ export class CatalogComponent implements OnInit {
   public beasts = []
 
   ngOnInit() {
-    this.beasts = this.route.snapshot.data['catalog'];
+    this.route.data.subscribe(data => {
+      this.beasts = data['catalog']
+    })
   }
 
 }

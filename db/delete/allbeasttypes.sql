@@ -1,0 +1,1 @@
+delete from bbbeasttype where beastid = $1

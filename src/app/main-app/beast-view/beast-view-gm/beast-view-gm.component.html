@@ -1,8 +1,8 @@
 <mat-card>
   <mat-toolbar color="accent">
     <h1>
-      <i *ngIf="beast.patreon < 20 && beast.patreon !== 0" matTooltip="Advanced" class="fab fa-patreon icon-white"></i>
-      <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-plus icon-white"></i>
+      <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fab fa-patreon icon-white"></i>
+      <i *ngIf="beast.patreon < 20 && beast.patreon !== 0" matTooltip="Advanced" class="fas fa-plus icon-white"></i>
       {{beast.name | uppercase}}
     </h1>
     <div>
@@ -121,7 +121,7 @@
       <div class="divider"></div>
       <div class="chip-shell box-padding">
         <mat-chip-list>
-          <mat-chip *ngFor="let type of beast.types" color="accent" selected>{{type | typeConverter}}</mat-chip>
+          <mat-chip *ngFor="let type of beast.types" color="primary" selected>{{type.typeid | typeConverter}}</mat-chip>
         </mat-chip-list>
       </div>
       <!-- list of types that link to search with that type as a parameter -->
@@ -136,7 +136,7 @@
         <h3>Environment</h3>
         <div class="chip-shell">
           <mat-chip-list>
-            <mat-chip *ngFor="let environ of beast.environ" color="accent" selected>{{environ | environConverter}}</mat-chip>
+            <mat-chip *ngFor="let environ of beast.environ" color="primary" selected>{{environ.environid | environConverter}}</mat-chip>
           </mat-chip-list>
         </div>
         <div class="flex-row-opposite">

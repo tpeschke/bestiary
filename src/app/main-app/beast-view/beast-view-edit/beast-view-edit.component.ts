@@ -17,7 +17,8 @@ export class BeastViewEditComponent implements OnInit {
 
   public beast = {}
   public loggedIn = this.beastService.loggedIn || false;
-  public type = null;
+  public types = null;
+  public environ = null;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -75,7 +76,11 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureChip(event, type) {
-    this[type] = +event.value
+    if (type === 'types') {
+      this.types = {typeid: +event.value}
+    } else if (type === 'environ') {
+      this.environ = {environid: +event.value}
+    }
   }
 
   addChip(type) {
@@ -112,7 +117,8 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   removeNewSecondaryItem(type, index) {
-    this.beast[type].splice(index, 1)
+    let deleted = this.beast[type].splice(index, 1)
+    this.beast[type].push({id: deleted[0].id, deleted: true})
   }
 
   saveChanges() {
@@ -122,6 +128,11 @@ export class BeastViewEditComponent implements OnInit {
     } else {
       this.beastService.addBeast(this.beast).subscribe(result => this.router.navigate([`/main/beast/${result.id}/gm`]))
     }
+  }
+
+  deleteThisBeast() {
+    let id = this.route.snapshot.paramMap.get('id');
+    this.beastService.deleteBeast(id).subscribe(_=> this.router.navigate(['/main/catalog']))
   }
 
 }

@@ -1,0 +1,1 @@
+delete from bbmovement where beastid = $1

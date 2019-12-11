@@ -1,0 +1,1 @@
+delete from bbcombatsquare where beastid = $1

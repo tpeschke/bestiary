@@ -1,1 +1,1 @@
-select typeid from bbbeasttype where beastid = $1
+select id, typeid from bbbeasttype where beastid = $1

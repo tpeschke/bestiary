@@ -27,12 +27,11 @@ app.use((req, res, next) => {
 app.get('/api/beasts/catalog', (req, res) => res.send(ctrl.catalogCache))
 app.get('/api/beasts/:id', ctrl.getSingleBeast)
 
-app.patch('/api/beasts/edit', (req, res) => {
-    fakeBeastDB[+req.body.id - 1] = req.body;
-    res.status(200).send({done: true})
-})
+app.patch('/api/beasts/edit', ctrl.editBeast)
 
 app.post('/api/beasts/add', ctrl.addBeast)
+
+app.delete('/api/beasts/delete/:id', ctrl.deleteBeast)
 // ================================== \\
 
 massive(connection).then(dbI => {

@@ -17,6 +17,10 @@ export class SingleBeastResolverService implements Resolve<any> {
     state: RouterStateSnapshot
   ): Observable<any> {
     let id = +route.paramMap.get('id');
-    return this.beastService.getSingleBeast(id);
+    if (id) {
+      return this.beastService.getSingleBeast(id);
+    } else {
+      return null
+    }
    }
 }
