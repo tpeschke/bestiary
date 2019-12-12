@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BeastService } from '../../../services/beast.service';
-
+import variables from '../../../../local.js'
 @Component({
   selector: 'app-beast-view-edit',
   templateUrl: './beast-view-edit.component.html',
@@ -9,16 +9,20 @@ import { BeastService } from '../../../services/beast.service';
 })
 export class BeastViewEditComponent implements OnInit {
 
+  imageObj: File;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private beastService: BeastService
   ) { }
 
-  public beast = {}
+  public beast = null;
   public loggedIn = this.beastService.loggedIn || false;
   public types = null;
   public environ = null;
+  public imageBase = variables.imageBase;
+  public uploader: any;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -27,7 +31,6 @@ export class BeastViewEditComponent implements OnInit {
         this.beast = beast
       } else {
         this.beast = {
-          id: '',
           name: '',
           hr: 0,
           intro: '',
@@ -50,8 +53,7 @@ export class BeastViewEditComponent implements OnInit {
           combat: [],
           movement: [],
           types: [],
-          environ: [],
-          image: `https://picsum.photos/id/${Math.floor(Math.random() * 1000)}/200/300`
+          environ: []
         }
       }
     })
@@ -77,9 +79,9 @@ export class BeastViewEditComponent implements OnInit {
 
   captureChip(event, type) {
     if (type === 'types') {
-      this.types = {typeid: +event.value}
+      this.types = { typeid: +event.value }
     } else if (type === 'environ') {
-      this.environ = {environid: +event.value}
+      this.environ = { environid: +event.value }
     }
   }
 
@@ -118,13 +120,26 @@ export class BeastViewEditComponent implements OnInit {
 
   removeNewSecondaryItem(type, index) {
     let deleted = this.beast[type].splice(index, 1)
-    this.beast[type].push({id: deleted[0].id, deleted: true})
+    this.beast[type].push({ id: deleted[0].id, deleted: true })
+  }
+
+  onImagePicked(event: Event): void {
+    const FILE = (event.target as HTMLInputElement).files[0];
+    this.imageObj = FILE;
+  }
+
+  onImageUpload() {
+    const imageForm = new FormData();
+    imageForm.append('image', this.imageObj);
+    this.beastService.imageUpload(imageForm, this.beast.id).subscribe(res => {
+      this.beast.image = res['image']
+    });
   }
 
   saveChanges() {
     let id = this.route.snapshot.paramMap.get('id');
     if (+id) {
-      this.beastService.updateBeast(this.beast).subscribe(_=> this.router.navigate([`/main/beast/${id}/gm`]))
+      this.beastService.updateBeast(this.beast).subscribe(_ => this.router.navigate([`/main/beast/${id}/gm`]))
     } else {
       this.beastService.addBeast(this.beast).subscribe(result => this.router.navigate([`/main/beast/${result.id}/gm`]))
     }
@@ -132,7 +147,7 @@ export class BeastViewEditComponent implements OnInit {
 
   deleteThisBeast() {
     let id = this.route.snapshot.paramMap.get('id');
-    this.beastService.deleteBeast(id).subscribe(_=> this.router.navigate(['/main/catalog']))
+    this.beastService.deleteBeast(id).subscribe(_ => this.router.navigate(['/main/catalog']))
   }
 
 }

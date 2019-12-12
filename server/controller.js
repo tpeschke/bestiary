@@ -31,7 +31,7 @@ let controllerObj = {
       if (req.user && req.user.patreon) {
         patreonTestValue = req.user.patreon
       }
-      
+
       if (beast.patreon > patreonTestValue) {
         res.sendStatus(401).send('You need to update your Patreon tier to access this monster')
       } else {
@@ -39,22 +39,22 @@ let controllerObj = {
           beast.types = result
           return result
         }))
-  
+
         promiseArray.push(db.get.beastenviron(id).then(result => {
           beast.environ = result
           return result
         }))
-  
+
         promiseArray.push(db.get.beastcombat(id).then(result => {
           beast.combat = result
           return result
         }))
-  
+
         promiseArray.push(db.get.beastmovement(id).then(result => {
           beast.movement = result
           return result
         }))
-  
+
         Promise.all(promiseArray).then(finalArray => res.send(beast))
       }
     })
@@ -88,7 +88,7 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, new_image } = body
 
     // update beast
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, id).then(result => {
@@ -130,7 +130,7 @@ let controllerObj = {
         }
       })
 
-      Promise.all(promiseArray).then(_=> {
+      Promise.all(promiseArray).then(_ => {
         controllerObj.collectCache(app, 0)
         res.send({ id })
       })
@@ -140,7 +140,7 @@ let controllerObj = {
     const db = req.app.get('db')
     let id = +req.params.id
 
-    db.delete.beast(id).then(_=> {
+    db.delete.beast(id).then(_ => {
       let promiseArray = []
 
       promiseArray.push(db.delete.allbeasttypes(id).then())
@@ -148,9 +148,9 @@ let controllerObj = {
       promiseArray.push(db.delete.allbeastcombat(id).then())
       promiseArray.push(db.delete.allbeastmovement(id).then())
 
-      Promise.all(promiseArray).then( _ => {
+      Promise.all(promiseArray).then(_ => {
         controllerObj.collectCache(req.app, 0)
-        res.send({id})
+        res.send({ id })
       })
     })
   }

@@ -34,8 +34,17 @@
       </mat-form-field>
 
       <div>
-        <img *ngIf="beast.image" [src]="beast.image" [alt]="beast.name">
-        <img *ngIf="!beast.image" src="../../../../assets/imageNotFound.png" alt="Not Found">
+        <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+        <img *ngIf="!beast.id" src="../../../../assets/imageNotFound.png" alt="Not Found">
+      </div>
+
+      <div class="margin-spacing" *ngIf="beast.id">
+        <input (change)="onImagePicked($event)" placeholder="Upload Image" type="file" />
+        <button mat-button-raised color="accent" (click)="onImageUpload()">Upload Image</button>
+      </div>
+
+      <div class="margin-spacing" *ngIf="!beast.id">
+        <h3>You need to save this monster before uploading an image</h3>
       </div>
 
       <div class="combat-social-shell">
@@ -88,7 +97,7 @@
           </div>
         </div>
       </div>
-      <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">+</button>
+      <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">ADD WEAPON</button>
 
       <div class="vitals-shell">
         <mat-form-field>
@@ -188,7 +197,7 @@
               MOVEMENT</button>
           </div>
         </div>
-        <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">+</button>
+        <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">ADD MOVEMENT</button>
       </div>
 
       <h2>Special Attacks</h2>
@@ -416,6 +425,6 @@
     </div>
   </div>
 
-  <button (click)="saveChanges()" mat-raised-button color="primary">Save</button>
+  <button class="margin-spacing" (click)="saveChanges()" mat-raised-button color="primary">Save</button>
   <button (click)="deleteThisBeast()" mat-raised-button color="warn">Delete</button>
 </mat-card>

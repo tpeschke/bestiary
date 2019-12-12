@@ -34,6 +34,11 @@ export class BeastService {
     }
   }
 
+  imageUpload(imageForm: FormData, id: number) {
+    this.toastr.warning('', `image uploading`)
+    return this.http.post(local.endpointBase + '/api/v1/upload/' + id, imageForm);
+  }
+
   getCatalog(): any {
     return this.http.get(local.endpointBase + '/api/beasts/catalog')
       .pipe(

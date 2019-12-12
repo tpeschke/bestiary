@@ -171,3 +171,7 @@ mat-toolbar {
 .blue {
     color: #607d8b !important;
 }
+
+.margin-spacing{
+    margin-bottom: 15px;
+}

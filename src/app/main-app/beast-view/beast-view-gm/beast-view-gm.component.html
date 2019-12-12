@@ -14,8 +14,8 @@
 
     <div class="left">
       <div>
-        <img *ngIf="beast.image" [src]="beast.image" [alt]="beast.name">
-        <img *ngIf="!beast.image" src="../../../../assets/imageNotFound.png" alt="Not Found">
+          <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+          <img *ngIf="!beast.id" src="../../../../assets/imageNotFound.png" alt="Not Found">
       </div>
 
       <div class="combat-social-shell">
