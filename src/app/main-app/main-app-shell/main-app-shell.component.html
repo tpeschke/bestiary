@@ -1,11 +1,13 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <h1 routerLink="/main/catalog" class="title">Bonfire Bestiary</h1>
-
-    <button class="new-button" *ngIf="loggedIn === 'owner'" mat-raised-button color="accent" [routerLink]="['/main/beast', 0, 'edit']">New</button>
-  </mat-toolbar-row>
-</mat-toolbar>
-
-<app-search-bar></app-search-bar>
-
-<router-outlet></router-outlet>
+<div class="main-app-shell">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <h1 routerLink="/main/catalog" class="title">Bonfire Bestiary</h1>
+  
+      <button class="new-button" *ngIf="loggedIn === 'owner'" mat-raised-button color="accent" [routerLink]="['/main/beast', 0, 'edit']">New</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  
+  <app-search-bar></app-search-bar>
+  
+  <router-outlet></router-outlet>
+</div>

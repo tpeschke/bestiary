@@ -1,3 +1,18 @@
-<p>
-  beast-view-player works!
-</p>
+<mat-card>
+  <mat-toolbar color="accent">
+    <h1>
+      <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-white"></i>
+      <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-white"></i>
+      {{beast.name | uppercase}}
+    </h1>
+  </mat-toolbar>
+
+  <div class="content-shell">
+    <div class="player-image">
+      <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+    </div>
+    <div>
+      <!-- Note taking ability here -->
+    </div>
+  </div>
+</mat-card>

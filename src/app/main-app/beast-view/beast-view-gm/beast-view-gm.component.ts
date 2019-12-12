@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BeastService } from '../../../util/services/beast.service';
 import variables from '../../../../local.js'
 @Component({
@@ -11,7 +11,6 @@ export class BeastViewGmComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private beastService: BeastService
   ) { }
 

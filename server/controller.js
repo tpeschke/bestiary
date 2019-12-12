@@ -66,7 +66,7 @@ let controllerObj = {
     , id = +req.params.id
 
     db.get.playerVersion(id).then(result => {
-      res.send(result)
+      res.send(result[0])
     })
   },
   addBeast({ body, app }, res) {

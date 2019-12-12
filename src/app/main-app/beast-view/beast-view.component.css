@@ -181,3 +181,9 @@ mat-toolbar {
 .margin-spacing{
     margin-bottom: 15px;
 }
+
+.player-image {
+    float: left;
+    min-width: 45%;
+    margin: 15px 15px 15px 0;
+}

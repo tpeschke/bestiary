@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import variables from '../../../../local.js'
 
 @Component({
   selector: 'app-beast-view-player',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BeastViewPlayerComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute
+  ) { }
+
+  public beast = {name: null}
+  public imageBase = variables.imageBase;
 
   ngOnInit() {
+    this.beast = this.route.snapshot.data['beast'];
   }
 
 }
