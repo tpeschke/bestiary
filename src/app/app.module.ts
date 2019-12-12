@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainAppModule } from './main-app/main-app.module'
 
 import {MatButtonModule} from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,22 +14,29 @@ import { CatalogComponent } from './main-app/catalog/catalog.component';
 import { BeastViewGmComponent } from './main-app/beast-view/beast-view-gm/beast-view-gm.component';
 import { SearchResultsComponent } from './main-app/search-results/search-results.component';
 import { BeastViewEditComponent } from './main-app/beast-view/beast-view-edit/beast-view-edit.component';
+import { BeastViewPlayerComponent } from './main-app/beast-view/beast-view-player/beast-view-player.component';
 
 import { BeastService } from './services/beast.service'
 import { SingleBeastResolverService } from './services/single-beast-resolver.service'
 import { CatalogResolverService } from './services/catalog-resolver.service';
+
 import { ToastrModule } from 'ngx-toastr';
 
+import { NoLoginAuthService } from './services/no-login-auth.service'
+import { NoPlayerAuthService } from './services/no-player-auth.service'
+import { NoGmAuthService } from './services/no-gm-auth.service'
+
 const routes: Routes = [
-  { path: '', component: LandingComponent, pathMatch: "full" },
+  { path: 'login', component: LandingComponent, pathMatch: "full" },
   { path: 'main', component: MainAppShellComponent, children: [
     { path: '', redirectTo: 'catalog', pathMatch: "full"},
     { path: 'catalog', component: CatalogComponent, resolve: {catalog: CatalogResolverService}},
-    { path: 'beast/:id/gm', component: BeastViewGmComponent, resolve: {beast: SingleBeastResolverService}},
+    { path: 'beast/:id/gm', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: {beast: SingleBeastResolverService}},
+    { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: {beast: SingleBeastResolverService}},
     { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: {beast: SingleBeastResolverService}},
     { path: 'search', component: SearchResultsComponent},
-  ]},
-  { path: '**', redirectTo: '' },
+  ], canActivate: [NoLoginAuthService]},
+  { path: '**', redirectTo: 'login' },
 ];
 @NgModule({
   declarations: [
@@ -40,6 +48,7 @@ const routes: Routes = [
     BrowserAnimationsModule,
     MainAppModule,
     MatButtonModule,
+    MatCardModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot(routes)
   ],

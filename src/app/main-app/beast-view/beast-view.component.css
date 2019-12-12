@@ -2,6 +2,10 @@ img {
     width: 100%
 }
 
+h1 {
+    font-family: 'know';
+}
+
 .combat-image {
     width: 150px;
     z-index: 0;
@@ -99,9 +103,11 @@ mat-toolbar {
 .encumb {
     position: absolute;
     z-index: 1;    
-    left: 67px;
+    left: 63px;
     top: 65px;
     font-size: 15px;
+    width: 30px;
+    text-align: center;
 }
 
 .dr {

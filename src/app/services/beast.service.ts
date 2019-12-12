@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import local from '../../local';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
+class User {
+  id: number
+  patreon: number
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +22,7 @@ export class BeastService {
     private toastr: ToastrService
   ) { }
 
-  loggedIn = 'owner';
+  loggedIn = null;
 
   handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -32,6 +36,19 @@ export class BeastService {
       }
       return of(result as T)
     }
+  }
+
+  checkLogin() {
+    return this.http.get(local.endpointBase + '/api/auth/me').pipe(
+      tap((result: User) => {
+        if (result.id === 1 || result.id === 21) {
+          this.loggedIn = 'owner'
+        } else if (result.id && result.patreon) {
+          this.loggedIn = result.patreon
+        }
+      }),
+      map((result: User) => !!this.loggedIn)
+    )
   }
 
   imageUpload(imageForm: FormData, id: number) {

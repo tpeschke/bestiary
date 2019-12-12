@@ -14,19 +14,20 @@ app.use(cors())
 //TESTING TOPLEVEL MIDDLEWARE////
 ///COMMENT OUT WHEN AUTH0 READY///
 /////////////////////////////////
-// app.use((req, res, next) => {
-//     if (!req.user) {
-//         req.user = {
-//             id: 1,
-//             email: "mr.peschke@gmail.com",
-//             patreon: 21
-//         }
-//     }
-//     next();
-// })
+app.use((req, res, next) => {
+    if (!req.user) {
+        req.user = {
+            id: 1,
+            email: "mr.peschke@gmail.com",
+            patreon: 2
+        }
+    }
+    next();
+})
 
 app.get('/api/beasts/catalog', (req, res) => res.send(ctrl.catalogCache))
 app.get('/api/beasts/:id', ctrl.getSingleBeast)
+app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({id: 0}))
 
 app.use((req, res, next) => {
     if (!req.user) {
@@ -41,10 +42,7 @@ app.use((req, res, next) => {
 app.patch('/api/beasts/edit', ctrl.editBeast)
 
 app.post('/api/beasts/add', ctrl.addBeast)
-app.post('/api/v1/upload/:id', upload.array('image', 1), (req, res) => {
-    /* This will be th 8e response sent from the backend to the frontend */
-    res.send({ image: req.file });
-});
+app.post('/api/v1/upload/:id', upload.array('image', 1), (req, res) => res.send({ image: req.file }));
 
 app.delete('/api/beasts/delete/:id', ctrl.deleteBeast)
 // ================================== \\

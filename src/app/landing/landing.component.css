@@ -1,0 +1,38 @@
+h3 {
+    color: #795548;
+    font-size: 30px;
+}
+
+.loginShell {
+    width: 50%;
+    max-width: 450px;
+    margin: 25px auto 0;
+}
+
+mat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 200px;
+}
+
+.divider {
+    width: 75%;
+    background: lightgrey;
+    height: 3px;
+}
+
+.subtitle {
+    text-align: center;
+}
+
+a {
+    color: #607d8b;
+    text-decoration: none;
+}
+
+p {
+    font-family: 'know';
+    font-size: 17px;
+}

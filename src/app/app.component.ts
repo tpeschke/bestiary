@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { BeastService } from './services/beast.service'
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'bestiary';
+  constructor(
+    private beastService: BeastService
+  ) {  }
+
+  ngOnInit() {
+    this.beastService.checkLogin().subscribe().unsubscribe()
+  }
 }

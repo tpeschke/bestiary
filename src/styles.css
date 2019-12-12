@@ -2,12 +2,9 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @font-face {
   font-family: 'know';
-  src: url('./assets/know.ttf'); /* IE9 Compat Modes */
-  src: url('./assets/know.ttf') format('ttf'), /* IE6-IE8 */
-       url('./assets/know.ttf') format('ttf'), /* Modern Browsers */
-       url('./assets/know.ttf')  format('ttf'), /* Safari, Android, iOS */
-       url('./assets/know.ttf') format('ttf'); /* Legacy iOS */
+  src: url('./assets/jancient.ttf') format("truetype");
 }
+
 html,
 body,
 div,
@@ -138,6 +135,14 @@ h3 {
   color: #607d8b;
   font-weight: 600;
 }
+a {
+  font-family: 'know';
+  font-size: 20px;
+}
+.mat-button-wrapper {
+  font-family: 'know';
+  font-size: 17px;
+}
 p {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 13px;
@@ -182,12 +187,11 @@ table {
   background: white; 
 }
 
-.fa-patreon {
+.fa-dice-d20 {
   font-size: 25px;
 }
 
 .fa-plus {
-  margin-left: 2px;
   font-size: 25px;
 }
 
