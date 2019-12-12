@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { BeastService } from './beast.service'
+import { BeastService } from '../services/beast.service'
 
 @Injectable({
   providedIn: 'root'

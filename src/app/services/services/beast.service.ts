@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
-import local from '../../local';
+import local from '../../../local';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
@@ -45,6 +45,8 @@ export class BeastService {
           this.loggedIn = 'owner'
         } else if (result.id && result.patreon) {
           this.loggedIn = result.patreon
+        } else if (result.id) {
+          this.loggedIn = true;
         }
       }),
       map((result: User) => !!this.loggedIn)

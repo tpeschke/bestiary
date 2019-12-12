@@ -24,10 +24,10 @@ import { BeastViewEditComponent } from './beast-view/beast-view-edit/beast-view-
 
 import { QuillModule } from 'ngx-quill'
 import { FormsModule } from '@angular/forms';
-import { TypeConverterPipe } from '../services/type-converter.pipe';
-import { EnvironConverterPipe } from '../services/environ-converter.pipe';
-import { MoraleConverterPipe } from '../services/morale-converter.pipe'
-import { SubsystemConverterPipe } from '../services/subsystem-converter.pipe';
+import { TypeConverterPipe } from '../util/pipes/type-converter.pipe';
+import { EnvironConverterPipe } from '../util/pipes/environ-converter.pipe';
+import { MoraleConverterPipe } from '../util/pipes/morale-converter.pipe'
+import { SubsystemConverterPipe } from '../util/pipes/subsystem-converter.pipe';
 import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({

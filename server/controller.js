@@ -61,6 +61,14 @@ let controllerObj = {
       }
     })
   },
+  getPlayerBeast(req, res) {
+    const db = req.app.get('db')
+    , id = +req.params.id
+
+    db.get.playerVerion(id).then(result => {
+      res.send(result)
+    })
+  },
   addBeast({ body, app }, res) {
     const db = app.get('db')
     let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement } = body

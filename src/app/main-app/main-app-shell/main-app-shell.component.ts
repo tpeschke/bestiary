@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BeastService } from '../../services/beast.service'
+import { BeastService } from '../../util/services/beast.service'
 
 @Component({
   selector: 'app-main-app-shell',

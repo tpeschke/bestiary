@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
-import { BeastService } from '../../services/beast.service'
+import { BeastService } from '../../util/services/beast.service'
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',

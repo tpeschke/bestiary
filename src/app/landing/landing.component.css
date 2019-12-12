@@ -6,7 +6,8 @@ h3 {
 .loginShell {
     width: 50%;
     max-width: 450px;
-    margin: 25px auto 0;
+    margin: 0 auto;
+    padding: 25px 0;
 }
 
 mat-card {

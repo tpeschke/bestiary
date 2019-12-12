@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { BeastService } from './beast.service';
 import { catchError } from 'rxjs/operators';
+import { BeastService } from '../services/beast.service';
 
 @Injectable({
   providedIn: 'root'

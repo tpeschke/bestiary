@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BeastService } from '../../../services/beast.service';
+import { BeastService } from '../../../util/services/beast.service';
 import variables from '../../../../local.js'
 @Component({
   selector: 'app-beast-view-edit',

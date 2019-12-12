@@ -16,15 +16,15 @@ import { SearchResultsComponent } from './main-app/search-results/search-results
 import { BeastViewEditComponent } from './main-app/beast-view/beast-view-edit/beast-view-edit.component';
 import { BeastViewPlayerComponent } from './main-app/beast-view/beast-view-player/beast-view-player.component';
 
-import { BeastService } from './services/beast.service'
-import { SingleBeastResolverService } from './services/single-beast-resolver.service'
-import { CatalogResolverService } from './services/catalog-resolver.service';
+import { BeastService } from './util/services/beast.service'
+import { SingleBeastResolverService } from './util/guards-resolvers/single-beast-resolver.service'
+import { CatalogResolverService } from './util/guards-resolvers/catalog-resolver.service';
 
 import { ToastrModule } from 'ngx-toastr';
 
-import { NoLoginAuthService } from './services/no-login-auth.service'
-import { NoPlayerAuthService } from './services/no-player-auth.service'
-import { NoGmAuthService } from './services/no-gm-auth.service'
+import { NoLoginAuthService } from './util/guards-resolvers/no-login-auth.service'
+import { NoPlayerAuthService } from './util/guards-resolvers/no-player-auth.service'
+import { NoGmAuthService } from './util/guards-resolvers/no-gm-auth.service'
 
 const routes: Routes = [
   { path: 'login', component: LandingComponent, pathMatch: "full" },
