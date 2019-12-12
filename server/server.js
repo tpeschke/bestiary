@@ -52,16 +52,16 @@ passport.use(new Auth0Strategy({
 //TESTING TOPLEVEL MIDDLEWARE////
 ///COMMENT OUT WHEN AUTH0 READY///
 /////////////////////////////////
-app.use((req, res, next) => {
-    if (!req.user) {
-        req.user = {
-            id: 13,
-            email: "mr.peschke@gmail.com",
-            patreon: 0
-        }
-    }
-    next();
-})
+// app.use((req, res, next) => {
+//     if (!req.user) {
+//         req.user = {
+//             id: 13,
+//             email: "mr.peschke@gmail.com",
+//             patreon: 0
+//         }
+//     }
+//     next();
+// })
 
 app.get('/auth', passport.authenticate('auth0'));
 app.get('/auth/callback', passport.authenticate('auth0', {
