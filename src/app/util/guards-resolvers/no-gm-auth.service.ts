@@ -17,6 +17,7 @@ export class NoGmAuthService {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
+    console.log('no-gm')
     if (this.beastService.loggedIn === 'owner' || +this.beastService.loggedIn > 3) {
       this.router.navigate(['/main/beast/',next.paramMap.get('id'), 'gm' ])
       return false

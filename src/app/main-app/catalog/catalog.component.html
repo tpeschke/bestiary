@@ -12,13 +12,13 @@
           </button>
         </div>
         <div *ngIf="beastService.loggedIn > 2 || beastService.loggedIn === 'owner'">
-            <button *ngIf="beast.patreon < 19 || beastService.loggedIn > 19 || beastService.loggedIn === 'owner'"
-              [routerLink]="['/main/beast', beast.id, 'player']" class="beastButton" mat-button>
+            <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
+              [routerLink]="['/main/beast', beast.id, 'gm']" class="beastButton" mat-button>
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
               {{beast.name}}
             </button>
-            <button *ngIf="beastService.loggedIn !== 'owner' || beastService.loggedIn < 20 && beast.patreon > 19" disabled
+            <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled
               class="beastButton" mat-button>
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>

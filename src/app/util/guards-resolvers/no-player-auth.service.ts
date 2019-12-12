@@ -17,7 +17,8 @@ export class NoPlayerAuthService implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.beastService.loggedIn === 'owner' || +this.beastService.loggedIn > 3) {
+    console.log('no-player', this.beastService.loggedIn)
+    if (this.beastService.loggedIn === 'owner' || +this.beastService.loggedIn > 2) {
       return true
     }
     this.router.navigate(['/main/beast/',next.paramMap.get('id'), 'player' ])

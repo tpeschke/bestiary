@@ -18,6 +18,7 @@ import { BeastViewPlayerComponent } from './main-app/beast-view/beast-view-playe
 
 import { BeastService } from './util/services/beast.service'
 import { SingleBeastResolverService } from './util/guards-resolvers/single-beast-resolver.service'
+import { PlayerBeastResolverService } from './util/guards-resolvers/player-beast-resolver.service'
 import { CatalogResolverService } from './util/guards-resolvers/catalog-resolver.service';
 
 import { ToastrModule } from 'ngx-toastr';
@@ -32,7 +33,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'catalog', pathMatch: "full"},
     { path: 'catalog', component: CatalogComponent, resolve: {catalog: CatalogResolverService}},
     { path: 'beast/:id/gm', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: {beast: SingleBeastResolverService}},
-    { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: {beast: SingleBeastResolverService}},
+    { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: {beast: PlayerBeastResolverService}},
     { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: {beast: SingleBeastResolverService}},
     { path: 'search', component: SearchResultsComponent},
   ], canActivate: [NoLoginAuthService]},

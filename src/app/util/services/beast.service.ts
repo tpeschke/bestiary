@@ -72,6 +72,13 @@ export class BeastService {
       )
   }
 
+  getPlayerBeast(id): any {
+    return this.http.get(local.endpointBase + '/api/beasts/player/' + id)
+      .pipe(
+        // catchError(this.handleError('get single beast', []))
+      )
+  }
+
   updateBeast(beast): any {
     return this.http.patch(local.endpointBase + '/api/beasts/edit', beast)
       .pipe(

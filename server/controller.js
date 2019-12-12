@@ -33,7 +33,7 @@ let controllerObj = {
       } else if (req.user && req.user.patreon) {
         patreonTestValue = req.user.patreon
       }
-
+      
       if (beast.patreon > patreonTestValue) {
         res.sendStatus(401).send('You need to update your Patreon tier to access this monster')
       } else {
@@ -65,7 +65,7 @@ let controllerObj = {
     const db = req.app.get('db')
     , id = +req.params.id
 
-    db.get.playerVerion(id).then(result => {
+    db.get.playerVersion(id).then(result => {
       res.send(result)
     })
   },
