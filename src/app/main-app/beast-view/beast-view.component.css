@@ -185,5 +185,6 @@ mat-toolbar {
 .player-image {
     float: left;
     min-width: 45%;
+    max-width: 45%;
     margin: 15px 15px 15px 0;
 }
