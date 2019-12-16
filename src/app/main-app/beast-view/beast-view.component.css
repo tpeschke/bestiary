@@ -1,3 +1,7 @@
+button {
+    margin-top: 15px;
+}
+
 img {
     width: 100%
 }
@@ -32,7 +36,8 @@ mat-toolbar {
 .divider {
     width: 100%;
     height: 1px;
-    background: lightgray
+    background: lightgray;
+    margin-top: 15px
 }
 
 .box-padding {
@@ -53,13 +58,23 @@ mat-toolbar {
     width: 40%;
 }
 
-.combat-social-shell {
+.combat-shell {
     display: flex;
     flex-wrap: wrap;
 }
 
-.combat-social-shell div {
+.combat-shell div {
     margin: 10px 15px 0 0;
+}
+
+.conflict-shell {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.conflict-shell div {
+    width: 100%;
+    margin: 3px 0;
 }
 
 .square-shell {
@@ -176,10 +191,6 @@ mat-toolbar {
 
 .blue {
     color: #607d8b !important;
-}
-
-.margin-spacing{
-    margin-bottom: 15px;
 }
 
 .player-image {

@@ -52,6 +52,11 @@ let controllerObj = {
           return result
         }))
 
+        promiseArray.push(db.get.beastconflict(id).then(result => {
+          beast.conflict = result
+          return result
+        }))
+
         promiseArray.push(db.get.beastmovement(id).then(result => {
           beast.movement = result
           return result
@@ -71,7 +76,7 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict } = body
 
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken).then(result => {
       let id = result[0].id
@@ -88,6 +93,10 @@ let controllerObj = {
       combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon }) => {
         promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon).then())
       })
+      //conflict
+      conflict.forEach(({trait, value}) => {
+        promiseArray.push(db.add.beastconflict(id, trait, value).then())
+      })
       //movement
       movement.forEach(({ stroll, walk, jog, run, sprint, type }) => {
         promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type).then())
@@ -101,7 +110,7 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, new_image } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict } = body
 
     // update beast
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, id).then(result => {
@@ -132,6 +141,16 @@ let controllerObj = {
           promiseArray.push(db.update.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weaponId).then())
         }
       })
+      // update conflict
+      conflict.forEach(({trait, value, id: conflictId, deleted}) => {
+        if (!conflictId) {
+          promiseArray.push(db.add.beastconflict(id, trait, value).then())
+        } else if (deleted) {
+          promiseArray.push(db.delete.beastconflict(conflictId).then())
+        } else {
+          promiseArray.push(db.update.beastconflict(id, trait, value, conflictId).then())
+        }
+      })
       // update movement
       movement.forEach(({ stroll, walk, jog, run, sprint, type, id: movementId, deleted }) => {
         if (!movementId) {
@@ -159,6 +178,7 @@ let controllerObj = {
       promiseArray.push(db.delete.allbeasttypes(id).then())
       promiseArray.push(db.delete.allbeastenviron(id).then())
       promiseArray.push(db.delete.allbeastcombat(id).then())
+      promiseArray.push(db.delete.allbeastconflict(id).then())
       promiseArray.push(db.delete.allbeastmovement(id).then())
 
       Promise.all(promiseArray).then(_ => {

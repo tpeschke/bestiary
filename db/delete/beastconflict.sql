@@ -1,0 +1,1 @@
+delete from bbconflict where id = $1

@@ -14,13 +14,26 @@
 
     <div class="left">
       <div>
-          <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
-          <img *ngIf="!beast.id" src="../../../../assets/imageNotFound.png" alt="Not Found">
+        <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+        <img *ngIf="!beast.id" src="../../../../assets/imageNotFound.png" alt="Not Found">
       </div>
 
-      <div class="combat-social-shell">
+      <div class="conflict-shell" *ngIf="beast.conflict.length > 0">
+        <h2>Social Characteristics</h2>
+        <div class="divider"></div>
+        <div *ngFor="let trait of beast.conflict; let i = index">
+          <div class="flex-row-opposite">
+            <h3>{{trait.trait}}</h3>
+            <h3>{{trait.value}}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="combat-shell" *ngIf="beast.combat.length > 0">
+        <h2>Weapons</h2>
+        <div class="divider"></div>
         <div *ngFor="let square of beast.combat">
-          <h3>{{square.weapon | titlecase}}</h3>
+          <h3 class="weaponName">{{square.weapon | titlecase}}</h3>
           <div class="square-shell">
             <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
             <p class="spd">{{square.spd}}</p>
@@ -136,7 +149,8 @@
         <h3>Environment</h3>
         <div class="chip-shell">
           <mat-chip-list>
-            <mat-chip *ngFor="let environ of beast.environ" color="primary" selected>{{environ.environid | environConverter}}</mat-chip>
+            <mat-chip *ngFor="let environ of beast.environ" color="primary" selected>
+              {{environ.environid | environConverter}}</mat-chip>
           </mat-chip-list>
         </div>
         <div class="flex-row-opposite">

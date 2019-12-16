@@ -47,7 +47,29 @@
         <h3>You need to save this monster before uploading an image</h3>
       </div>
 
-      <div class="combat-social-shell">
+      <div class="conflict-shell">
+        <div *ngFor="let trait of beast.conflict; let i = index">
+          <div *ngIf="!trait.deleted">
+            <h3>
+              <mat-form-field>
+                <input placeholder="Trait" matInput [value]="trait.trait"
+                  (change)="captureInput($event, 'conflict', i, 'trait')">
+              </mat-form-field>
+            </h3>
+            <mat-form-field>
+              <input placeholder="Dice Value" matInput [value]="trait.value"
+                (change)="captureInput($event, 'conflict', i, 'value')">
+            </mat-form-field>
+            <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i)" color="warn">REMOVE
+              TRAIT</button>
+          </div>
+        </div>
+      </div>
+      <button mat-raised-button (click)="addNewSecondaryItem('conflict')" color="accent">ADD TRAIT</button>
+
+      <div class="divider"></div>
+
+      <div class="combat-shell">
         <div *ngFor="let square of beast.combat; let i = index">
           <div *ngIf="!square.deleted">
             <h3>
@@ -423,6 +445,6 @@
     </div>
   </div>
 
-  <button class="margin-spacing" (click)="saveChanges()" mat-raised-button color="primary">Save</button>
+  <button (click)="saveChanges()" mat-raised-button color="primary">Save</button>
   <button (click)="deleteThisBeast()" mat-raised-button color="warn">Delete</button>
 </mat-card>

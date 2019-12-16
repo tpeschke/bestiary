@@ -64,6 +64,13 @@ create table bbcombatsquare (
     encumb int
 )
 
+create table bbconflict (
+    id serial primary key,
+    trait varchar(100),
+    value varchar(50),
+    beastid int
+);
+
 create table bbmovement (
     id serial primary key,
     beastid int,

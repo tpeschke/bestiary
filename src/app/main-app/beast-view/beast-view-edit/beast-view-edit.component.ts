@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BeastService } from '../../../util/services/beast.service';
 import variables from '../../../../local.js'
+
 @Component({
   selector: 'app-beast-view-edit',
   templateUrl: './beast-view-edit.component.html',
@@ -51,6 +52,7 @@ export class BeastViewEditComponent implements OnInit {
           panic: '',
           broken: '',
           combat: [],
+          conflict: [],
           movement: [],
           types: [],
           environ: []
@@ -114,6 +116,11 @@ export class BeastViewEditComponent implements OnInit {
         run: 0,
         sprint: 0,
         type: ''
+      })
+    } else if (type === 'conflict') {
+      this.beast[type].push({
+        trait: '',
+        value: ''
       })
     }
   }
