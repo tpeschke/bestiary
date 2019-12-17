@@ -28,7 +28,7 @@ import { NoPlayerAuthService } from './util/guards-resolvers/no-player-auth.serv
 import { NoGmAuthService } from './util/guards-resolvers/no-gm-auth.service'
 
 const routes: Routes = [
-  { path: 'login', component: LandingComponent, pathMatch: "full" },
+  { path: '', component: LandingComponent, pathMatch: "full" },
   { path: 'main', component: MainAppShellComponent, children: [
     { path: '', redirectTo: 'catalog', pathMatch: "full"},
     { path: 'catalog', component: CatalogComponent, resolve: {catalog: CatalogResolverService}},
@@ -37,7 +37,7 @@ const routes: Routes = [
     { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: {beast: SingleBeastResolverService}},
     { path: 'search', component: SearchResultsComponent},
   ], canActivate: [NoLoginAuthService]},
-  { path: '**', redirectTo: 'login' },
+  { path: '**', redirectTo: '' },
 ];
 @NgModule({
   declarations: [

@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 
 class User {
   id: number
-  patreon: number
+  patreon?: number
 }
 @Injectable({
   providedIn: 'root'

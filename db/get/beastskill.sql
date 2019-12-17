@@ -1,0 +1,1 @@
+select * from bbskills where beastid = $1

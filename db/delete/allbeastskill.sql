@@ -1,0 +1,1 @@
+delete from bbskills where beastid = $1

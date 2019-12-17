@@ -71,6 +71,13 @@ create table bbconflict (
     beastid int
 );
 
+create table bbskills (
+    id serial primary key,
+    beastid int,
+    skill varchar(25),
+    rank varchar(10)
+)
+
 create table bbmovement (
     id serial primary key,
     beastid int,

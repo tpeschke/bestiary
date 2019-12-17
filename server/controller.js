@@ -33,7 +33,7 @@ let controllerObj = {
       } else if (req.user && req.user.patreon) {
         patreonTestValue = req.user.patreon
       }
-      
+
       if (beast.patreon > patreonTestValue) {
         res.sendStatus(401).send('You need to update your Patreon tier to access this monster')
       } else {
@@ -57,6 +57,11 @@ let controllerObj = {
           return result
         }))
 
+        promiseArray.push(db.get.beastskill(id).then(result => {
+          beast.skills = result
+          return result
+        }))
+
         promiseArray.push(db.get.beastmovement(id).then(result => {
           beast.movement = result
           return result
@@ -68,7 +73,7 @@ let controllerObj = {
   },
   getPlayerBeast(req, res) {
     const db = req.app.get('db')
-    , id = +req.params.id
+      , id = +req.params.id
 
     db.get.playerVersion(id).then(result => {
       res.send(result[0])
@@ -76,9 +81,9 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills } = body
 
-    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken).then(result => {
+    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size.substring(0, 1), +subsystem, +patreon, vitality, +panic, +broken).then(result => {
       let id = result[0].id
         , promiseArray = []
       //types
@@ -94,8 +99,12 @@ let controllerObj = {
         promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon).then())
       })
       //conflict
-      conflict.forEach(({trait, value}) => {
+      conflict.forEach(({ trait, value }) => {
         promiseArray.push(db.add.beastconflict(id, trait, value).then())
+      })
+      //skills
+      skills.forEach(({ skill, rank }) => {
+        promiseArray.push(db.add.beastskill(id, skill, rank).then())
       })
       //movement
       movement.forEach(({ stroll, walk, jog, run, sprint, type }) => {
@@ -110,10 +119,10 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills } = body
 
     // update beast
-    db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, id).then(result => {
+    db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size.substring(0, 1), +subsystem, +patreon, vitality, +panic, +broken, id).then(result => {
       let promiseArray = []
       // update types
       types.forEach(val => {
@@ -142,13 +151,23 @@ let controllerObj = {
         }
       })
       // update conflict
-      conflict.forEach(({trait, value, id: conflictId, deleted}) => {
+      conflict.forEach(({ trait, value, id: conflictId, deleted }) => {
         if (!conflictId) {
           promiseArray.push(db.add.beastconflict(id, trait, value).then())
         } else if (deleted) {
           promiseArray.push(db.delete.beastconflict(conflictId).then())
         } else {
           promiseArray.push(db.update.beastconflict(id, trait, value, conflictId).then())
+        }
+      })
+      // update skills
+      skills.forEach(({ skill, rank, id: skillId, deleted }) => {
+        if (!skillId) {
+          promiseArray.push(db.add.beastskill(id, skill, rank).then())
+        } else if (deleted) {
+          promiseArray.push(db.delete.beastskill(skillId).then())
+        } else {
+          promiseArray.push(db.update.beastconflict(id, skill, rank, skillId).then())
         }
       })
       // update movement
@@ -179,6 +198,7 @@ let controllerObj = {
       promiseArray.push(db.delete.allbeastenviron(id).then())
       promiseArray.push(db.delete.allbeastcombat(id).then())
       promiseArray.push(db.delete.allbeastconflict(id).then())
+      promiseArray.push(db.delete.allbeastskill(id).then())
       promiseArray.push(db.delete.allbeastmovement(id).then())
 
       Promise.all(promiseArray).then(_ => {

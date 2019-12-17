@@ -69,6 +69,28 @@
 
       <div class="divider"></div>
 
+      <div class="conflict-shell">
+        <div *ngFor="let skill of beast.skills; let i = index">
+          <div *ngIf="!skill.deleted">
+            <h3>
+              <mat-form-field>
+                <input placeholder="Skill Name" matInput [value]="skill.skill"
+                  (change)="captureInput($event, 'skills', i, 'skill')">
+              </mat-form-field>
+            </h3>
+            <mat-form-field>
+              <input placeholder="Skill Rank" matInput [value]="skill.rank"
+                (change)="captureInput($event, 'skills', i, 'rank')">
+            </mat-form-field>
+            <button mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn">REMOVE
+              SKILL</button>
+          </div>
+        </div>
+      </div>
+      <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">ADD SKILL</button>
+
+      <div class="divider"></div>
+
       <div class="combat-shell">
         <div *ngFor="let square of beast.combat; let i = index">
           <div *ngIf="!square.deleted">

@@ -53,6 +53,7 @@ export class BeastViewEditComponent implements OnInit {
           broken: '',
           combat: [],
           conflict: [],
+          skills: [],
           movement: [],
           types: [],
           environ: []
@@ -121,6 +122,11 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type].push({
         trait: '',
         value: ''
+      })
+    } else if (type === 'skills') {
+      this.beast[type].push({
+        skill: '',
+        rank: ''
       })
     }
   }

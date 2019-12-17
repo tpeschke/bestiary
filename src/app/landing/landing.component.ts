@@ -19,15 +19,11 @@ export class LandingComponent implements OnInit {
 
   ngOnInit() {
     if (!this.beastService.loggedIn) {
-      this.beastService.checkLogin().subscribe(_ => {
-        this.checkLogin()
+      this.beastService.checkLogin().subscribe(result => {
+        if (result) {
+          this.router.navigate(['/main/catalog'])
+        }
       })
-    }
-  }
-
-  checkLogin() {
-    if (this.beastService.loggedIn) {
-      this.router.navigate(['/main/catalog'])
     }
   }
 
