@@ -46,6 +46,7 @@ export class BeastViewEditComponent implements OnInit {
           sp_def: '',
           tactics: '',
           size: '',
+          int: 0,
           subsystem: 0,
           patreon: 0,
           vitality: '',

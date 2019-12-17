@@ -333,6 +333,10 @@
           <input matInput placeholder="Size" [value]="beast.size" (change)="captureInput($event, 'size')">
         </mat-form-field>
 
+        <mat-form-field>
+          <input matInput placeholder="Intelligence" [value]="beast.int" (change)="captureInput($event, 'int')">
+        </mat-form-field>
+
         <h3>Environment</h3>
         <div class="chip-shell">
           <mat-chip-list>
