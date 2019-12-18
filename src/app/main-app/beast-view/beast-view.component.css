@@ -129,10 +129,19 @@ mat-toolbar {
     position: absolute;
     z-index: 1;
     right: 13px;
-    top: 54px;
-    max-width: 36px;
-    height: 40px;
+    top: 48px;
+    width: 44px;
+    height: 45px;
     text-align: center;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-evenly;
+}
+
+.shield_dr {
+    border-top: 2px solid grey;
 }
 
 .measure {

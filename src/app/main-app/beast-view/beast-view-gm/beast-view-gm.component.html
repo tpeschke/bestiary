@@ -52,7 +52,10 @@
             <p class="init">{{square.init}}</p>
             <p class="def">{{square.def}}</p>
             <p class="encumb">{{square.encumb}}</p>
-            <p class="dr">{{square.dr}}</p>
+            <div class="dr">
+              <p>{{square.dr}}</p>
+              <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
+            </div>
             <p class="measure">{{square.measure}}</p>
             <p class="damage">{{square.damage}}</p>
             <p class="parry">{{square.parry}}</p>
