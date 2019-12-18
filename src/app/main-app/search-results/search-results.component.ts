@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { BeastService } from 'src/app/util/services/beast.service';
+import variables from '../../../local.js'
 
 @Component({
   selector: 'app-search-results',
@@ -7,9 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchResultsComponent implements OnInit {
 
-  constructor() { }
+  public imageBase = variables.imageBase;
+
+  constructor(
+    public router: Router,
+    public currentRoute: ActivatedRoute,
+    public adventureService: BeastService
+  ) { }
+
+  public beasts = 'loading'
 
   ngOnInit() {
+    this.adventureService.searchBeasts(this.currentRoute.snapshot.params).subscribe(incomingBeasts => {
+      this.beasts = incomingBeasts
+    })
+    
+    this.router.events.subscribe(p => {
+      if (p instanceof NavigationEnd) {
+        this.beasts = 'loading'
+        this.adventureService.searchBeasts(this.currentRoute.snapshot.params).subscribe(incomingBeasts => {
+          this.beasts = incomingBeasts
+        })
+      }
+    })
   }
 
 }

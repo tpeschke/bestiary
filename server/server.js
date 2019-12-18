@@ -4,6 +4,7 @@ const express = require('express')
     , massive = require('massive')
     , { server, connection, secret, domain, client_id, client_secret, callback } = require('./server-config')
     , ctrl = require('./controller')
+    , searchCtrl = require('./searchController')
     upload = require('./file-upload')
     , session = require('express-session')
     , passport = require('passport')
@@ -57,7 +58,7 @@ passport.use(new Auth0Strategy({
 //         req.user = {
 //             id: 1,
 //             email: "mr.peschke@gmail.com",
-//             patreon: 0
+//             patreon: 4
 //         }
 //     }
 //     next();
@@ -89,6 +90,7 @@ app.get('/api/beasts/catalog', (req, res) => res.send(ctrl.catalogCache))
 app.get('/api/beasts/:id', ctrl.getSingleBeast)
 app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
 app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({id: 0}))
+app.get('/api/search', searchCtrl.search)
 
 function ownerAuth (req, res, next) {
     if (!req.user) {

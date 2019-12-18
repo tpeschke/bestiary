@@ -2,3 +2,60 @@ mat-card {
     border-radius: 0;
     margin-bottom: 15px;
 }
+  
+  .example-full-width {
+      width: 96.5%;
+      margin-left: 15px;
+  }
+  
+  .mat-expansion-panel {
+      box-shadow: none;
+      background: rgba(211, 211, 211, 0.5);
+  }
+  
+  .environPanel {
+    margin-top: 15px;
+  }
+  
+  .searchBody {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  
+  .example-half-width {
+    width: 47%;
+  }
+  
+  .example-quarter-width {
+    width: 25%;
+  }
+  
+  .searchBody div {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    max-width: 47%;
+  }
+  
+  .searchCheckboxes {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left: 8px;
+    max-width: 96.5% !important;
+    width: 96.5% !important;
+  }
+  
+  .environShell {
+    margin-top: 15px
+  }
+  
+  .searchBody div p:first-child {
+    margin-right: 15px;
+  }
+  
+  .searchBody div p:nth-child(3) {
+    margin: 0 15px;
+  }

@@ -99,4 +99,11 @@ export class BeastService {
         // catchError(this.handleError('search', []))
       )
   }
+
+  searchBeasts(queries): any {
+    return this.http.get(local.endpointBase + '/api/search', {params: queries})
+      .pipe(
+        catchError(this.handleError('get search beasts', []))
+      )
+  }
 }

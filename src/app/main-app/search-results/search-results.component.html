@@ -1,3 +1,36 @@
-<p>
-  search-results works!
-</p>
+<div *ngIf="beasts === 'loading'">
+  <mat-card>
+    <h3>Loading</h3>
+  </mat-card>
+</div>
+
+<div *ngIf="beasts.length > 0 && beast !== 'loading'">
+  <mat-card *ngFor="let beast of beasts">
+  
+    <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+  
+    <div class="info-shell">
+      <div class="header-shell">
+        <div class="header-info">
+          <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
+          <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
+          <h3>{{beast.name}}</h3>
+        </div>
+    
+        <h3 *ngIf="beast.hr">HR: {{beast.hr}}</h3>
+      </div>
+      <div *ngIf="beast.intro" class="divider"></div>
+  
+      <div *ngIf="beast.intro">
+        <quill-view-html [content]="beast.intro"></quill-view-html>
+      </div>
+    </div>
+  
+  </mat-card>
+</div>
+
+<div *ngIf="beasts.length === 0 && beast !== 'loading'">
+  <mat-card>
+    <h2>No Results Found</h2>
+  </mat-card>
+</div>
