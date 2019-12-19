@@ -40,6 +40,11 @@ mat-toolbar {
     margin-top: 15px
 }
 
+.mat-expansion-panel {
+    box-shadow: none;
+    background: rgba(211, 211, 211, 0.5);
+}
+
 .box-padding {
     padding: 12px 15px;
     display: flex;

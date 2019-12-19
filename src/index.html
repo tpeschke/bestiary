@@ -29,7 +29,38 @@
 </head>
 
 <body>
-  <app-root></app-root>
+  <app-root>
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      @keyframes fade {
+        100% {
+          border-color: transparent transparent #b45f0600 transparent;
+        }
+      }
+
+      .triangle {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 50px 86.6px 50px;
+        border-color: transparent transparent whitesmoke transparent;
+        animation: fade 1.5s ease-out infinite;
+        animation-direction: alternate;
+      }
+    </style>
+
+    <div class="triangle"></div>
+  </app-root>
 </body>
 
 </html>

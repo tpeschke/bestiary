@@ -6,7 +6,7 @@
       {{beast.name | uppercase}}
     </h1>
     <div>
-      <h1>HR: {{beast.hr}}</h1>
+      <h1>HR: {{beast.hr}} <i (click)="openExplaination()" class="fas fa-question-circle icon-white icon-small"></i></h1>
     </div>
   </mat-toolbar>
 
@@ -144,12 +144,20 @@
         <quill-view-html [content]="beast.ecology"></quill-view-html>
       </div>
 
-      <h2>Type</h2>
+      <h2>Types</h2>
       <div class="divider"></div>
       <div class="chip-shell box-padding">
-        <mat-chip-list>
-          <mat-chip *ngFor="let type of beast.types" color="primary" selected>{{type.typeid | typeConverter}}</mat-chip>
-        </mat-chip-list>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let type of beast.types">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h3>{{type.typeid | typeConverter}}</h3>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <quill-view-html [content]="type.description"></quill-view-html>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
       <!-- list of types that link to search with that type as a parameter -->
 

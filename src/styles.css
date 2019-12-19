@@ -199,6 +199,10 @@ table {
   color: whitesmoke;
 }
 
+.icon-small {
+  font-size: 9px;
+}
+
 .icon-blue {
   color: #607d8b;
   font-size: 15px
