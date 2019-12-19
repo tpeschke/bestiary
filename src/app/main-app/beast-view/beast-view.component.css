@@ -46,7 +46,7 @@ mat-toolbar {
 }
 
 .box-padding {
-    padding: 12px 15px;
+    padding: 10px 5px;
     display: flex;
     flex-direction: column;
 }

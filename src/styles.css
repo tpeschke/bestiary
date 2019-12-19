@@ -207,5 +207,17 @@ table {
   color: #607d8b;
   font-size: 15px
 }
+
+.ql-editor {
+  text-indent: 25px;
+  padding: 10px 5px;
+}
+
+.ql-editor strong {
+  font-weight: 600;
+  font-family: 'know';
+  font-size: 17px;
+  color: #607d8b;
+}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
