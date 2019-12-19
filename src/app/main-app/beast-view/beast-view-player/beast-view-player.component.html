@@ -8,11 +8,15 @@
   </mat-toolbar>
 
   <div class="content-shell">
-    <div class="player-image">
-      <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+    <img class="player-image" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+    <div *ngIf="!edit" class="quill-shell">
+      <quill-view-html *ngIf="beast.notes.notes" [content]="beast.notes.notes"></quill-view-html>
+      <h2 class="player-no-notes-heading" *ngIf="!beast.notes.notes">You currently have no notes</h2>
+      <button mat-raised-button (click)="toggleEdit()" color="warn">Edit</button>
     </div>
-    <div>
-      <!-- Note taking ability here -->
+    <div *ngIf="edit" class="quill-shell">
+      <quill-editor [(ngModel)]="beast.notes.notes" (onContentChanged)="captureHTML($event)"></quill-editor>
+      <button mat-raised-button (click)="saveNotes()" color="primary">Save</button>
     </div>
   </div>
 </mat-card>

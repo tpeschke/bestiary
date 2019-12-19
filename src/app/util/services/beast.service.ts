@@ -93,6 +93,13 @@ export class BeastService {
       )
   }
 
+  addPlayerNotes(notes): any {
+    return this.http.post(local.endpointBase + '/api/beast/player', notes)
+      .pipe(
+        catchError(this.handleError('add player notes', []))
+      )
+  }
+
   deleteBeast(id): any {
     return this.http.delete(local.endpointBase + '/api/beasts/delete/' + id)
       .pipe(

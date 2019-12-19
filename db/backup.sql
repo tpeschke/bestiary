@@ -88,3 +88,10 @@ create table bbmovement (
     sprint varchar(40),
     type varchar(40)
 )
+
+create table bbbeastusernotes (
+    id serial primary key,
+    beastid int,
+    userid int,
+    notes text
+)

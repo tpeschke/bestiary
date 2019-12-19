@@ -211,5 +211,15 @@ mat-toolbar {
     float: left;
     min-width: 45%;
     max-width: 45%;
+    height: 100%;
     margin: 15px 15px 15px 0;
+}
+
+.player-no-notes-heading {
+    margin-top: 15px;
+}
+
+.quill-shell {
+    height: 100%;
+    width: 50%;
 }

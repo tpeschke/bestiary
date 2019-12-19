@@ -76,8 +76,37 @@ let controllerObj = {
       , id = +req.params.id
 
     db.get.playerVersion(id).then(result => {
-      res.send(result[0])
+      db.get.beastnotes(id, req.user.id).then(notes => {
+        result = result[0]
+        result.notes = notes[0] || {}
+        res.send(result)
+      })
     })
+  },
+  addPlayerNotes(req, res) {
+    const db = req.app.get('db')
+      , {beastId, noteId, notes} = req.body
+
+      if (req.user) {
+        if (noteId) {
+          db.update.beastnotes(noteId, notes).then(result => {
+            res.send(result[0])
+          })
+        } else {
+          db.get.usernotecount(req.user.id).then(count => {
+            count = count[0]
+            if (count >= 5 || count >= req.user.patreon * 5) {
+              res.status(401).send('You need to upgrade your Patreon to add more notes')
+            } else {
+              db.add.beastnotes(beastId, req.user.id, notes).then(result => {
+                res.send(result[0])
+              })
+            }
+          })
+        }
+      } else {
+        res.sendStatus(401)
+      }
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
