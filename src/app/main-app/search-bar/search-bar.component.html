@@ -1,8 +1,10 @@
 <mat-card>
-    <i class="fas fa-search"></i>
-    <mat-form-field class="example-full-width">
-        <input matInput placeholder="Search by Name" (change)="enterSearchName($event)">
-    </mat-form-field>
+    <div class="search-shell">
+        <i class="fas fa-search"></i>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Search by Name" (change)="enterSearchName($event)">
+        </mat-form-field>
+    </div>
 
     <mat-expansion-panel>
         <mat-expansion-panel-header>
