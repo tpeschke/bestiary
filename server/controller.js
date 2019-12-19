@@ -67,6 +67,11 @@ let controllerObj = {
           return result
         }))
 
+        promiseArray.push(db.get.beastnotes(id, req.user.id).then(result => {
+          beast.notes = result[0] || {}
+          return result
+        }))
+
         Promise.all(promiseArray).then(finalArray => res.send(beast))
       }
     })

@@ -31,6 +31,7 @@ import { SubsystemConverterPipe } from '../util/pipes/subsystem-converter.pipe';
 import { ToastrModule } from 'ngx-toastr';
 import { HewyRatingComponent } from './hewy-rating/hewy-rating.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { PlayerNotesComponent } from './player-notes/player-notes.component';
 
 @NgModule({
   declarations: [SearchBarComponent, SearchResultsComponent, CatalogComponent, BeastViewPlayerComponent, BeastViewGmComponent, MainAppShellComponent, BeastViewEditComponent,
@@ -38,7 +39,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     EnvironConverterPipe,
     MoraleConverterPipe,
     SubsystemConverterPipe,
-    HewyRatingComponent],
+    HewyRatingComponent,
+    PlayerNotesComponent],
   imports: [
     CommonModule,
     RouterModule,

@@ -6,7 +6,8 @@
       {{beast.name | uppercase}}
     </h1>
     <div>
-      <h1>HR: {{beast.hr}} <i (click)="openExplaination()" class="fas fa-question-circle icon-white icon-small"></i></h1>
+      <h1>HR: {{beast.hr}} <i (click)="openExplaination()" class="fas fa-question-circle icon-white icon-small"></i>
+      </h1>
     </div>
   </mat-toolbar>
 
@@ -213,13 +214,16 @@
         <quill-view-html [content]="beast.meta"></quill-view-html>
       </div>
 
-      <!-- <mat-expansion-panel>
-          <mat-expansion-panel-header>
-              <mat-panel-title>
-                  <h2>Personal Notes</h2>
-              </mat-panel-title>
-          </mat-expansion-panel-header>
-      </mat-expansion-panel> -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3>Personal Notes</h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <app-player-notes class="gm-notes-shell" [notes]="beast.notes" [id]="beast.id"></app-player-notes>
+
+      </mat-expansion-panel>
     </div>
   </div>
 

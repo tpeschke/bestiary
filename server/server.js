@@ -56,7 +56,7 @@ passport.use(new Auth0Strategy({
 app.use((req, res, next) => {
     if (!req.user) {
         req.user = {
-            id: 12,
+            id: 10,
             email: "mr.peschke@gmail.com",
             patreon: 4
         }

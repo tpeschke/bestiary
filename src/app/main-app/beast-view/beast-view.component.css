@@ -215,11 +215,13 @@ mat-toolbar {
     margin: 15px 15px 15px 0;
 }
 
-.player-no-notes-heading {
-    margin-top: 15px;
+.player-notes-shell {
+    width: 50%;
+    height: 100%;
 }
 
-.quill-shell {
-    height: 100%;
+.gm-notes-shell {
     width: 50%;
+    height: 100%;
+    margin: 15px 0
 }
