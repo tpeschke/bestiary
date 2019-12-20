@@ -106,6 +106,7 @@ export class BeastViewEditComponent implements OnInit {
         def: 0,
         encumb: 0,
         dr: 0,
+        shield_dr: null,
         measure: 0,
         damage: '',
         parry: 0
