@@ -19,7 +19,7 @@
     <div class="left">
       <mat-form-field>
         <mat-label>Patreon Level</mat-label>
-        <mat-select (selectionChange)="captureSelect($event, 'patreon')">
+        <mat-select  [value]="beast.patreon" (selectionChange)="captureSelect($event, 'patreon')">
           <mat-option value="0">
             Basic
           </mat-option>
@@ -153,7 +153,7 @@
 
         <mat-form-field>
           <mat-label>Panic</mat-label>
-          <mat-select (selectionChange)="captureSelect($event, 'panic')">
+          <mat-select  [value]="beast.panic" (selectionChange)="captureSelect($event, 'panic')">
             <mat-option value="1">
               Fresh
             </mat-option>
@@ -180,7 +180,7 @@
 
         <mat-form-field>
           <mat-label>Broken</mat-label>
-          <mat-select (selectionChange)="captureSelect($event, 'broken')">
+          <mat-select  [value]="beast.broken" (selectionChange)="captureSelect($event, 'broken')">
             <mat-option value="1">
               Fresh
             </mat-option>
@@ -322,6 +322,9 @@
             <mat-option value="9">
               Goblin
             </mat-option>
+            <mat-option value="10">
+              Swarm
+            </mat-option>
           </mat-select>
         </mat-form-field>
         <button mat-raised-button color="accent" (click)="addChip('types')">Add Type</button>
@@ -333,8 +336,41 @@
       <div class="box-padding">
 
         <mat-form-field>
-          <input matInput placeholder="Size" [value]="beast.size" (change)="captureInput($event, 'size')">
+          <mat-label>Size</mat-label>
+          <mat-select [value]="beast.size" (selectionChange)="captureSelect($event, 'size')">
+            <mat-option value="Fine">
+              Fine
+            </mat-option>
+            <mat-option value="Diminutive">
+              Diminutive
+            </mat-option>
+            <mat-option value="Tiny">
+              Tiny
+            </mat-option>
+            <mat-option value="Small">
+              Small
+            </mat-option>
+            <mat-option value="Medium">
+              Medium
+            </mat-option>
+            <mat-option value="Large">
+              Large
+            </mat-option>
+            <mat-option value="Huge">
+              Huge
+            </mat-option>
+            <mat-option value="Giant">
+              Giant
+            </mat-option>
+            <mat-option value="Enormous">
+              Enormous
+            </mat-option>
+            <mat-option value="Colossal">
+              Colossal
+            </mat-option>
+          </mat-select>
         </mat-form-field>
+        
 
         <mat-form-field>
           <input matInput placeholder="Intelligence" [value]="beast.int" (change)="captureInput($event, 'int')">
@@ -463,13 +499,6 @@
         <quill-editor [(ngModel)]="beast.meta" (onContentChanged)="captureHTML($event, 'meta')"></quill-editor>
       </div>
 
-      <!-- <mat-expansion-panel>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <h2>Personal Notes</h2>
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-        </mat-expansion-panel> -->
     </div>
   </div>
 
