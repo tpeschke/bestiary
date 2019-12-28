@@ -201,7 +201,7 @@ let controllerObj = {
         } else if (deleted) {
           promiseArray.push(db.delete.beastskill(skillId).then())
         } else {
-          promiseArray.push(db.update.beastconflict(id, skill, rank, skillId).then())
+          promiseArray.push(db.update.beastskill(id, skill, rank, skillId).then())
         }
       })
       // update movement
