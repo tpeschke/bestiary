@@ -5,7 +5,7 @@
 </div>
 
 <div *ngIf="beasts.length > 0 && beast !== 'loading'">
-  <mat-card *ngFor="let beast of beasts">
+  <mat-card *ngFor="let beast of beasts" [routerLink]="['/main/beast', beast.id, 'player']">
   
     <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
   

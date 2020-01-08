@@ -1,6 +1,7 @@
 mat-card {
     margin-bottom: 15px;
     display: flex;
+    cursor: pointer;
 }
 
 img {
