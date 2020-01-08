@@ -14,7 +14,7 @@ export class SubsystemConverterPipe implements PipeTransform {
       case 3:
         return 'Skill';
       default:
-        return value
+        return 'None'
     }
     return null;
   }
