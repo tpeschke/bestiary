@@ -1,5 +1,5 @@
-delete from bbvarients
+delete from bbvariants
 where 
-beastid = $1 and varientid = $2
+beastid = $1 and variantid = $2
 or 
-beastid = $2 and varientid = $1
+beastid = $2 and variantid = $1

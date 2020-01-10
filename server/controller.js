@@ -72,8 +72,8 @@ let controllerObj = {
           return result
         }))
 
-        promiseArray.push(db.get.beastvarients(id).then(result => {
-          beast.varients = result
+        promiseArray.push(db.get.beastvariants(id).then(result => {
+          beast.variants = result
           return result
         }))
 
@@ -120,7 +120,7 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, varients } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants } = body
 
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int).then(result => {
       let id = result[0].id
@@ -149,10 +149,10 @@ let controllerObj = {
       movement.forEach(({ stroll, walk, jog, run, sprint, type }) => {
         promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type).then())
       })
-      //varients
-      varients.forEach(({ varientid }) => {
-        promiseArray.push(db.add.beastvarients(id, varientid).then())
-        promiseArray.push(db.add.beastvarients(varientid, id).then())
+      //variants
+      variants.forEach(({ variantid }) => {
+        promiseArray.push(db.add.beastvariants(id, variantid).then())
+        promiseArray.push(db.add.beastvariants(variantid, id).then())
       })
 
       Promise.all(promiseArray).then(_ => {
@@ -163,7 +163,7 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, varients } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants } = body
 
     // update beast
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, id).then(result => {
@@ -224,13 +224,13 @@ let controllerObj = {
           promiseArray.push(db.update.beastmovement(id, stroll, walk, jog, run, sprint, type, movementId).then())
         }
       })
-      // update varients
-      varients.forEach(({ id: checkId, varientid, deleted }) => {
+      // update variants
+      variants.forEach(({ id: checkId, variantid, deleted }) => {
         if (!checkId) {
-          promiseArray.push(db.add.beastvarients(id, varientid).then())
-          promiseArray.push(db.add.beastvarients(varientid, id).then())
+          promiseArray.push(db.add.beastvariants(id, variantid).then())
+          promiseArray.push(db.add.beastvariants(variantid, id).then())
         } else if (deleted) {
-          promiseArray.push(db.delete.beastvarients(id, varientid).then())
+          promiseArray.push(db.delete.beastvariants(id, variantid).then())
         }
       })
 
@@ -253,7 +253,7 @@ let controllerObj = {
       promiseArray.push(db.delete.allbeastconflict(id).then())
       promiseArray.push(db.delete.allbeastskill(id).then())
       promiseArray.push(db.delete.allbeastmovement(id).then())
-      // promiseArray.push(db.delete.beastvarients(id, varientid).then())
+      // promiseArray.push(db.delete.beastvariants(id, variantid).then())
 
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCache(req.app, 0)

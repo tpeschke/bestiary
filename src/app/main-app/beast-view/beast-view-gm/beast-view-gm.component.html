@@ -200,14 +200,14 @@
 
       <h2>Variants</h2>
       <div class="divider"></div>
-      <div *ngIf="beast.varients.length > 0" class="chip-shell">
+      <div *ngIf="beast.variants.length > 0" class="chip-shell">
         <mat-chip-list>
-          <mat-chip *ngFor="let varient of beast.varients" color="accent" selected>
-            {{varient.name}}</mat-chip>
+          <mat-chip *ngFor="let variant of beast.variants" color="accent" selected>
+            {{variant.name}}</mat-chip>
         </mat-chip-list>
       </div>
       <div class="box-padding">
-        <h3 *ngIf="beast.varients.length == 0">This creature currently has no varients</h3>
+        <h3 *ngIf="beast.variants.length == 0">This creature currently has no variants</h3>
       </div>
 
       <!-- <h2>Special Harvest</h2> -->

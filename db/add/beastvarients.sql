@@ -1,1 +1,1 @@
-insert into bbvarients (beastid, varientid) values ($1, $2);
+insert into bbvariants (beastid, variantid) values ($1, $2);

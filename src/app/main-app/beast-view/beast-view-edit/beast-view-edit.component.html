@@ -487,13 +487,13 @@
       <h2>Variants</h2>
       <div class="divider"></div>
       <mat-chip-list>
-        <div *ngFor="let varient of beast.varients; let i = index">
-          <mat-chip *ngIf="!varient.deleted" (click)="removeNewSecondaryItem('varients', i)" color="warn" selected>
-            {{varient.varientid}}</mat-chip>
+        <div *ngFor="let variant of beast.variants; let i = index">
+          <mat-chip *ngIf="!variant.deleted" (click)="removeNewSecondaryItem('variants', i)" color="warn" selected>
+            {{variant.variantid}}</mat-chip>
         </div>
       </mat-chip-list>
       <mat-form-field>
-        <input matInput placeholder="Monster ID" [value]="newVarientId" (change)="captureID($event)">
+        <input matInput placeholder="Monster ID" [value]="newVariantId" (change)="captureID($event)">
       </mat-form-field>
       <button mat-raised-button color="accent" (click)="addById()">Add By ID</button>
 

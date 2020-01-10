@@ -24,7 +24,7 @@ export class BeastViewEditComponent implements OnInit {
   public environ = null;
   public imageBase = variables.imageBase;
   public uploader: any;
-  public newVarientId = null;
+  public newVariantId = null;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -59,7 +59,7 @@ export class BeastViewEditComponent implements OnInit {
           movement: [],
           types: [],
           environ: [],
-          varients: []
+          variants: []
         }
       }
     })
@@ -99,13 +99,13 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureID(event) {
-    this.newVarientId = +event.target.value
+    this.newVariantId = +event.target.value
   }
 
   addById() {
-    if (this.newVarientId) {
-      this.beast.varients.push({varientid: this.newVarientId})
-      this.newVarientId = null;
+    if (this.newVariantId) {
+      this.beast.variants.push({variantid: this.newVariantId})
+      this.newVariantId = null;
     }
   }
 
@@ -148,10 +148,10 @@ export class BeastViewEditComponent implements OnInit {
 
   removeNewSecondaryItem(type, index) {
     let deleted = this.beast[type].splice(index, 1)
-    if (type !== 'varients') {
+    if (type !== 'variants') {
       this.beast[type].push({ id: deleted[0].id, deleted: true })
     } else {
-      this.beast[type].push({ id: deleted[0].id, varientid: deleted[0].varientid, deleted: true })
+      this.beast[type].push({ id: deleted[0].id, variantid: deleted[0].variantid, deleted: true })
     }
   }
 

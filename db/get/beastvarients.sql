@@ -1,3 +1,3 @@
-select bbvarients.id as id, bbindividualbeast.id as varientid, name from bbindividualbeast
-join bbvarients on bbvarients.varientid = bbindividualbeast.id
+select bbvariants.id as id, bbindividualbeast.id as variantid, name from bbindividualbeast
+join bbvariants on bbvariants.variantid = bbindividualbeast.id
 where beastid = $1;
