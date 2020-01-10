@@ -19,7 +19,7 @@
     <div class="left">
       <mat-form-field>
         <mat-label>Patreon Level</mat-label>
-        <mat-select  [value]="beast.patreon" (selectionChange)="captureSelect($event, 'patreon')">
+        <mat-select [value]="beast.patreon" (selectionChange)="captureSelect($event, 'patreon')">
           <mat-option value="0">
             Basic
           </mat-option>
@@ -125,7 +125,8 @@
               <input placeholder="DR" matInput [value]="square.dr" (change)="captureInput($event, 'combat', i, 'dr')">
             </mat-form-field>
             <mat-form-field>
-              <input placeholder="Shield DR" matInput [value]="square.shield_dr" (change)="captureInput($event, 'combat', i, 'shield_dr')">
+              <input placeholder="Shield DR" matInput [value]="square.shield_dr"
+                (change)="captureInput($event, 'combat', i, 'shield_dr')">
             </mat-form-field>
             <mat-form-field>
               <input placeholder="Measure" matInput [value]="square.measure"
@@ -153,7 +154,7 @@
 
         <mat-form-field>
           <mat-label>Panic</mat-label>
-          <mat-select  [value]="beast.panic" (selectionChange)="captureSelect($event, 'panic')">
+          <mat-select [value]="beast.panic" (selectionChange)="captureSelect($event, 'panic')">
             <mat-option value="1">
               Fresh
             </mat-option>
@@ -180,7 +181,7 @@
 
         <mat-form-field>
           <mat-label>Broken</mat-label>
-          <mat-select  [value]="beast.broken" (selectionChange)="captureSelect($event, 'broken')">
+          <mat-select [value]="beast.broken" (selectionChange)="captureSelect($event, 'broken')">
             <mat-option value="1">
               Fresh
             </mat-option>
@@ -370,7 +371,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        
+
 
         <mat-form-field>
           <input matInput placeholder="Intelligence" [value]="beast.int" (change)="captureInput($event, 'int')">
@@ -483,13 +484,18 @@
         </mat-form-field>
       </div>
 
-      <!-- <mat-expansion-panel>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <h2>Variants (0)</h2>
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-        </mat-expansion-panel> -->
+      <h2>Variants</h2>
+      <div class="divider"></div>
+      <mat-chip-list>
+        <div *ngFor="let varient of beast.varients; let i = index">
+          <mat-chip *ngIf="!varient.deleted" (click)="removeNewSecondaryItem('varients', i)" color="warn" selected>
+            {{varient.varientid}}</mat-chip>
+        </div>
+      </mat-chip-list>
+      <mat-form-field>
+        <input matInput placeholder="Monster ID" [value]="newVarientId" (change)="captureID($event)">
+      </mat-form-field>
+      <button mat-raised-button color="accent" (click)="addById()">Add By ID</button>
 
       <!-- <h2>Special Harvest</h2> -->
 

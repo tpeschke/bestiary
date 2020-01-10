@@ -95,3 +95,9 @@ create table bbbeastusernotes (
     userid int,
     notes text
 )
+
+create table bbvarients (
+    id serial primary key,
+    beastid int,
+    varientid int
+)

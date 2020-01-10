@@ -225,3 +225,7 @@ mat-toolbar {
     height: 100%;
     margin: 15px 0
 }
+
+.varient-header {
+    margin-top: 0;
+}

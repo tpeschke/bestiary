@@ -24,6 +24,7 @@ export class BeastViewEditComponent implements OnInit {
   public environ = null;
   public imageBase = variables.imageBase;
   public uploader: any;
+  public newVarientId = null;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -57,7 +58,8 @@ export class BeastViewEditComponent implements OnInit {
           skills: [],
           movement: [],
           types: [],
-          environ: []
+          environ: [],
+          varients: []
         }
       }
     })
@@ -93,6 +95,17 @@ export class BeastViewEditComponent implements OnInit {
     if (this[type]) {
       this.beast[type].push(this[type])
       this[type] = null;
+    }
+  }
+
+  captureID(event) {
+    this.newVarientId = +event.target.value
+  }
+
+  addById() {
+    if (this.newVarientId) {
+      this.beast.varients.push({varientid: this.newVarientId})
+      this.newVarientId = null;
     }
   }
 
@@ -135,7 +148,11 @@ export class BeastViewEditComponent implements OnInit {
 
   removeNewSecondaryItem(type, index) {
     let deleted = this.beast[type].splice(index, 1)
-    this.beast[type].push({ id: deleted[0].id, deleted: true })
+    if (type !== 'varients') {
+      this.beast[type].push({ id: deleted[0].id, deleted: true })
+    } else {
+      this.beast[type].push({ id: deleted[0].id, varientid: deleted[0].varientid, deleted: true })
+    }
   }
 
   onImagePicked(event: Event): void {
