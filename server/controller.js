@@ -72,7 +72,7 @@ let controllerObj = {
           return result
         }))
 
-        promiseArray.push(db.get.beastvariants(id).then(result => {
+        promiseArray.push(db.get.beastvariants(id, req.user.patreon).then(result => {
           beast.variants = result
           return result
         }))
