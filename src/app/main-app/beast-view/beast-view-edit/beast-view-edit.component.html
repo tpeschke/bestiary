@@ -140,6 +140,42 @@
               <input placeholder="Parry" matInput [value]="square.parry"
                 (change)="captureInput($event, 'combat', i, 'parry')">
             </mat-form-field>
+            <mat-form-field>
+              <mat-label>Weapon Type</mat-label>
+              <mat-select [value]="square.weapontype" (selectionChange)="captureSelect($event, 'combat', i, 'weapontype')">
+                <mat-option value="m">
+                  m
+                </mat-option>
+                <mat-option value="r">
+                  r
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div *ngIf="square.weapontype == 'r'">
+              <h3>Ranges</h3>
+              <mat-form-field>
+                <input placeholder="0" matInput [value]="square.ranges.zero"
+                  (change)="captureInput($event, 'combat', i, 'ranges', 'zero')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="-2" matInput [value]="square.ranges.two"
+                  (change)="captureInput($event, 'combat', i, 'ranges', 'two')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="-4" matInput [value]="square.ranges.four"
+                  (change)="captureInput($event, 'combat', i, 'ranges', 'four')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="-6" matInput [value]="square.ranges.six"
+                  (change)="captureInput($event, 'combat', i, 'ranges', 'six')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="-8" matInput [value]="square.ranges.eight"
+                  (change)="captureInput($event, 'combat', i, 'ranges', 'eight')">
+              </mat-form-field>
+            </div>
+
             <button mat-raised-button (click)="removeNewSecondaryItem('combat', i)" color="warn">REMOVE
               WEAPON</button>
           </div>

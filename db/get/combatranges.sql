@@ -1,0 +1,1 @@
+select id, zero, two, four, six, eight from bbranges where weaponid = $1;

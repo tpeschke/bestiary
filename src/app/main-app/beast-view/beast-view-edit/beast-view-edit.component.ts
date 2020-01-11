@@ -69,18 +69,29 @@ export class BeastViewEditComponent implements OnInit {
     this.beast = Object.assign({}, this.beast, { [type]: event.html })
   }
 
-  captureInput(event, type, index, secondaryType) {
+  captureInput(event, type, index, secondaryType, thirdType) {
     if (!secondaryType) {
       this.beast = Object.assign({}, this.beast, { [type]: event.target.value })
-    } else {
+    } else if (secondaryType && !thirdType) {
       let newSecondaryObject = [...this.beast[type]]
       newSecondaryObject[index][secondaryType] = event.target.value
+      this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
+    } else if (thirdType) {
+      let newSecondaryObject = [...this.beast[type]]
+      newSecondaryObject[index][secondaryType][thirdType] = event.target.value
       this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     }
   }
 
-  captureSelect(event, type) {
-    this.beast[type] = event.value
+  captureSelect(event, type, index, secondaryType) {
+    if (secondaryType) {
+      if (event.value === 'r' && !this.beast[type][index].ranges) {
+        this.beast[type][index].ranges = { zero: 0, two: 0, four: 0, six: 0, eight: 0}
+      }
+      this.beast[type][index][secondaryType] = event.value;
+    } else {
+      this.beast[type] = event.value
+    }
   }
 
   captureChip(event, type) {
@@ -122,7 +133,8 @@ export class BeastViewEditComponent implements OnInit {
         shield_dr: null,
         measure: 0,
         damage: '',
-        parry: 0
+        parry: 0,
+        weapontype: 'm'
       })
     } else if (type === 'movement') {
       this.beast[type].push({

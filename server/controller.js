@@ -77,7 +77,18 @@ let controllerObj = {
           return result
         }))
 
-        Promise.all(promiseArray).then(finalArray => res.send(beast))
+        Promise.all(promiseArray).then(finalArray => {
+          finalPromise = [];
+          beast.combat.forEach(val => {
+            if (val.weapontype === 'r') {
+              finalPromise.push(db.get.combatranges(val.id).then(ranges => {
+                val.ranges = ranges[0]
+                return ranges
+              }))
+            }
+          })
+          Promise.all(finalPromise).then(actualFinal => res.send(beast))
+        })
       }
     })
   },
@@ -134,8 +145,13 @@ let controllerObj = {
         promiseArray.push(db.add.beastenviron(id, val.environid).then())
       })
       //combat
-      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon }) => {
-        promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon).then())
+      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype, ranges }) => {
+        promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype).then(result => {
+          if (weapontype === 'r') {
+            return db.add.combatranges(result[0].id, +ranges.zero, +ranges.two, +ranges.four, +ranges.six, +ranges.eight).then()
+          } 
+          return true;
+        }))
       })
       //conflict
       conflict.forEach(({ trait, value }) => {
@@ -185,13 +201,23 @@ let controllerObj = {
         }
       })
       // update combat
-      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, id: weaponId, deleted }) => {
+      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, id: weaponId, deleted, weapontype, ranges }) => {
         if (!weaponId) {
-          promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon).then())
+          promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype).then(result => {
+            if (weapontype === 'r') {
+              return db.add.combatranges(result.weaponid, +ranges.zero, +ranges.two, +ranges.four, +ranges.six, +ranges.eight).then()
+            } 
+            return true;
+          }))
         } else if (deleted) {
           promiseArray.push(db.delete.beastcombat(weaponId).then())
         } else {
-          promiseArray.push(db.update.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weaponId).then())
+          promiseArray.push(db.update.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weaponId, weapontype).then())
+          if (weapontype === 'r' && ranges.id) {
+            promiseArray.push(db.update.combatranges(weaponId, +ranges.zero, +ranges.two, +ranges.four, +ranges.six, +ranges.eight).then())
+          } else if (weapontype === 'r') {
+            promiseArray.push(db.add.combatranges(weaponId, +ranges.zero, +ranges.two, +ranges.four, +ranges.six, +ranges.eight).then())
+          }
         }
       })
       // update conflict

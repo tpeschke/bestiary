@@ -61,8 +61,19 @@ create table bbcombatsquare (
     measure int,
     damage varchar(25),
     parry int,
-    encumb int
+    encumb int,
+    weapontype varchar(1) default 'm'
 )
+
+create table bbranges (
+    id serial primary key,
+    weaponid int,
+    zero int,
+    two int,
+    four int,
+    six int,
+    eight int
+);
 
 create table bbconflict (
     id serial primary key,
