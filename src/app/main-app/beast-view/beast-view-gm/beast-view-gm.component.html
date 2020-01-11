@@ -187,6 +187,7 @@
             </mat-expansion-panel-header>
 
             <quill-view-html [content]="type.description"></quill-view-html>
+            <button color="primary" mat-raised-button (click)="navigateToSearch('types', type.typeid)">See More {{type.typeid | typeConverter}}s</button>
           </mat-expansion-panel>
         </mat-accordion>
       </div>
@@ -206,7 +207,8 @@
         <h3>Environment</h3>
         <div class="chip-shell">
           <mat-chip-list>
-            <mat-chip *ngFor="let environ of beast.environ" color="primary" selected>
+            <mat-chip (click)="navigateToSearch('environ', environ.environid)" *ngFor="let environ of beast.environ"
+              color="primary" selected>
               {{environ.environid | environConverter}}</mat-chip>
           </mat-chip-list>
         </div>
@@ -232,7 +234,7 @@
       <div class="divider"></div>
       <div *ngIf="beast.variants.length > 0" class="chip-shell">
         <mat-chip-list>
-          <mat-chip *ngFor="let variant of beast.variants" color="accent" selected>
+          <mat-chip [routerLink]="['/main/beast', variant.variantid, 'gm']" *ngFor="let variant of beast.variants" color="accent" selected>
             {{variant.name}}</mat-chip>
         </mat-chip-list>
       </div>

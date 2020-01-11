@@ -51,7 +51,7 @@ const routes: Routes = [
     MatButtonModule,
     MatCardModule,
     ToastrModule.forRoot(),
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })
   ],
   providers: [BeastService],
   bootstrap: [AppComponent]
