@@ -280,6 +280,7 @@ let controllerObj = {
       promiseArray.push(db.delete.allbeastskill(id).then())
       promiseArray.push(db.delete.allbeastmovement(id).then())
       // promiseArray.push(db.delete.beastvariants(id, variantid).then())
+      // promiseArray.push(db.delete.combatranges(id, variantid).then())
 
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCache(req.app, 0)

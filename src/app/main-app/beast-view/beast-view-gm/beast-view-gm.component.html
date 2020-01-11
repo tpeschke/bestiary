@@ -46,20 +46,50 @@
         <div class="divider"></div>
         <div *ngFor="let square of beast.combat">
           <h3 class="weaponName">{{square.weapon | titlecase}}</h3>
-          <div class="square-shell">
-            <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
-            <p class="spd">{{square.spd}}</p>
-            <p class="atk">{{square.atk}}</p>
-            <p class="init">{{square.init}}</p>
-            <p class="def">{{square.def}}</p>
-            <p class="encumb">{{square.encumb}}</p>
-            <div class="dr">
-              <p>{{square.dr}}</p>
-              <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
+
+          <div class="square-range-shell">
+            <div class="square-shell">
+              <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
+              <p class="spd">{{square.spd}}</p>
+              <p class="atk">{{square.atk}}</p>
+              <p class="init">{{square.init}}</p>
+              <p class="def">{{square.def}}</p>
+              <p class="encumb">{{square.encumb}}</p>
+              <div class="dr">
+                <p>{{square.dr}}</p>
+                <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
+              </div>
+              <p class="measure">{{square.measure}}</p>
+              <p class="damage">{{square.damage}}</p>
+              <p class="parry">{{square.parry}}</p>
             </div>
-            <p class="measure">{{square.measure}}</p>
-            <p class="damage">{{square.damage}}</p>
-            <p class="parry">{{square.parry}}</p>
+
+            <div *ngIf="square.weapontype === 'r'" class="ranged-shell">
+              <div class="ranged-title">
+                <h4>Penalty</h4>
+                <h4>Range (ft)</h4>
+              </div>
+              <div>
+                <h4>0</h4>
+                <h4>5 - {{square.ranges.zero}}</h4>
+              </div>
+              <div class="ranged-odd">
+                <h4>-2</h4>
+                <h4>{{square.ranges.zero + 1}} - {{square.ranges.two}}</h4>
+              </div>
+              <div>
+                <h4>-4</h4>
+                <h4>{{square.ranges.two + 1}} - {{square.ranges.four}}</h4>
+              </div>
+              <div class="ranged-odd">
+                <h4>-6</h4>
+                <h4>{{square.ranges.four + 1}} - {{square.ranges.six}}</h4>
+              </div>
+              <div>
+                <h4>-8</h4>
+                <h4>{{square.ranges.six + 1}} - {{square.ranges.eight}}</h4>
+              </div>
+            </div>
           </div>
         </div>
       </div>

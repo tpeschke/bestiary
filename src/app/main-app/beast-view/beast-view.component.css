@@ -66,10 +66,11 @@ mat-toolbar {
 .combat-shell {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 .combat-shell div {
-    margin: 10px 15px 0 0;
+    margin-top: 10px;
 }
 
 .conflict-shell {
@@ -228,4 +229,37 @@ mat-toolbar {
 
 .variant-header {
     margin-top: 0;
+}
+
+.square-range-shell {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.ranged-shell {
+    min-width: 150px;
+}
+
+.ranged-shell div {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0;
+    padding: 5px;
+}
+
+.ranged-title {
+    background: #607d8b;
+    color: whitesmoke;
+}
+
+.ranged-odd {
+    background: lightgray
+}
+
+@media (max-width: 963px) {
+    .combat-shell {
+        justify-content: start;
+        margin-right: 10px;
+    }
 }
