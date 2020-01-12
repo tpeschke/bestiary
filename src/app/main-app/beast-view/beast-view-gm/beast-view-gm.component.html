@@ -234,7 +234,7 @@
       <div class="divider"></div>
       <div *ngIf="beast.variants.length > 0" class="chip-shell">
         <mat-chip-list>
-          <mat-chip *ngIf="beast.patreon <= beastService.loggedIn" [routerLink]="['/main/beast', variant.variantid, 'gm']" *ngFor="let variant of beast.variants" color="accent" selected>
+          <mat-chip [routerLink]="['/main/beast', variant.variantid, 'gm']" *ngFor="let variant of beast.variants" color="accent" selected>
             {{variant.name}}</mat-chip>
         </mat-chip-list>
       </div>
