@@ -19,6 +19,14 @@ let controllerObj = {
     }
   },
   // BEAST ENDPOINTS
+  checkIfPlayerView(req, res) {
+    const db = req.app.get('db')
+      , id = +req.params.id
+
+      db.get.playercanview(id).then( result => {
+        res.send(result[0])
+      })
+  },
   getSingleBeast(req, res) {
     const db = req.app.get('db')
       , id = +req.params.id

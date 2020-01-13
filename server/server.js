@@ -56,9 +56,9 @@ passport.use(new Auth0Strategy({
 // app.use((req, res, next) => {
 //     if (!req.user) {
 //         req.user = {
-//             id: 1,
+//             id: 13,
 //             email: "mr.peschke@gmail.com",
-//             patreon: 3
+//             patreon: 1
 //         }
 //     }
 //     next();
@@ -91,6 +91,7 @@ app.get('/api/beasts/:id', ctrl.getSingleBeast)
 app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
 app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({id: 0}))
 app.get('/api/search', searchCtrl.search)
+app.get('/api/playerCanView/:id', ctrl.checkIfPlayerView)
 
 app.post('/api/beast/player', ctrl.addPlayerNotes)
 

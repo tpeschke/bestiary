@@ -78,6 +78,10 @@ mat-toolbar {
     flex-wrap: wrap;
 }
 
+.combat-shell h2 {
+    width: 100%;
+}
+
 .conflict-shell div {
     width: 100%;
     margin: 3px 0;

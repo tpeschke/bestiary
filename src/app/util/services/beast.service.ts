@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap, map, take } from 'rxjs/operators';
 import local from '../../../local';
 import { Router } from '@angular/router';
 
@@ -63,6 +63,10 @@ export class BeastService {
       .pipe(
         // catchError(this.handleError('search', []))
       )
+  }
+
+  checkPlayerCanView(id): any {
+    return this.http.get(local.endpointBase + '/api/playerCanView/' + id)
   }
 
   getSingleBeast(id): any {

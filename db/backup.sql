@@ -18,7 +18,8 @@ create table bbindividualbeast (
     patreon int,
     vitality varchar(40),
     panic int,
-    broken int
+    broken int,
+    canplayerview BOOLEAN default false
 )
 
 create table bbtypelist (
