@@ -2,10 +2,12 @@
   height: 100px;
   width: 100px;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 img {
-  width: 100px
+  width: 100px;
+  margin-top: 15px;
 }
 
 .beastDiv {
@@ -14,7 +16,11 @@ img {
     max-height: 320px;
     overflow-y: auto;    
     align-content: flex-start;
-    margin-top: 15px;
+    margin-top: 1px;
+}
+
+.mat-button {
+  vertical-align: bottom;
 }
 
 /* width */
