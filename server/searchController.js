@@ -102,7 +102,7 @@ module.exports = {
 
             Promise.all(beastArray).then(finalArray => {
                 // the final fitler removes null values for player search
-                res.send(finalArray.filter(x => x))
+                res.send(finalArray.filter(x => x).sort((a, b) => a.name < b.name ? -1 : 1))
             })
         })
     }

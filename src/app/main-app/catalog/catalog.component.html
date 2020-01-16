@@ -5,6 +5,7 @@
     <div class="beastDiv">
       <div *ngFor="let beast of category">
         <div *ngIf="beastService.loggedIn < 3 && beastService.loggedIn !== 'owner'">
+          <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
           <button *ngIf="beast.patreon < 20"
             [routerLink]="['/main/beast', beast.id, 'player']" class="beastButton" mat-button>
             <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
@@ -14,12 +15,16 @@
         <div *ngIf="beastService.loggedIn > 2 || beastService.loggedIn === 'owner'">
             <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
               [routerLink]="['/main/beast', beast.id, 'gm']" class="beastButton" mat-button>
+              <div class="img-shell">
+                <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+              </div>
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
               {{beast.name}}
             </button>
             <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled
               class="beastButton" mat-button>
+              <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
               {{beast.name}}
