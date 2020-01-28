@@ -2,7 +2,7 @@ const express = require('express')
     , bodyParser = require('body-parser')
     , cors = require('cors')
     , massive = require('massive')
-    , { server, connection, secret, domain, client_id, client_secret, callback } = require('./server-config')
+    , { server, connection, secret, domain, client_id, client_secret, callback, fakeAuth } = require('./server-config')
     , ctrl = require('./controller')
     , searchCtrl = require('./searchController')
     upload = require('./file-upload')
@@ -48,21 +48,7 @@ passport.use(new Auth0Strategy({
     })
 }))
 
-
-/////////////////////////////////
-//TESTING TOPLEVEL MIDDLEWARE////
-///COMMENT OUT WHEN AUTH0 READY///
-/////////////////////////////////
-// app.use((req, res, next) => {
-//     if (!req.user) {
-//         req.user = {
-//             id: 1,
-//             email: "mr.peschke@gmail.com",
-//             patreon: 1
-//         }
-//     }
-//     next();
-// })
+app.use(fakeAuth)
 
 app.get('/auth', passport.authenticate('auth0'));
 app.get('/auth/callback', passport.authenticate('auth0', {
@@ -92,6 +78,8 @@ app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
 app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({id: 0}))
 app.get('/api/search', searchCtrl.search)
 app.get('/api/playerCanView/:id', ctrl.checkIfPlayerView)
+
+app.get('/api/combat/:hash', ctrl.getFromBestiary)
 
 app.post('/api/beast/player', ctrl.addPlayerNotes)
 

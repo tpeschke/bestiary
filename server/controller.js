@@ -1,6 +1,15 @@
 let controllerObj = {
   catalogCache: [],
   newCache: [],
+  createHash() {
+      var text = "";
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+      for (var i = 0; i < 10; i++) {
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+      }
+      return text;
+  },
   collectCache(app, index) {
     const db = app.get('db')
     let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -100,6 +109,31 @@ let controllerObj = {
       }
     })
   },
+  getFromBestiary(req, res) {
+    const db = req.app.get('db')
+
+    if (req.query.patreon < 3) {
+      res.sendStatus(401).send("You need to update your Patreon to gain access to this feature")
+    } else {
+      db.get.beast_by_hash(req.params.hash).then(beast => {
+        beast = beast[0]
+        let finalPromise = [];
+        db.get.beastcombat(beast.id).then(result => {
+          beast.combat = result
+          beast.combat.forEach(val => {
+            if (val.weapontype === 'r') {
+              finalPromise.push(db.get.combatranges(val.id).then(ranges => {
+                val.ranges = ranges[0]
+                return ranges
+              }))
+            }
+          })
+          Promise.all(finalPromise).then(actualFinal => res.send(beast))
+        })
+      })
+    }
+
+  },
   getPlayerBeast(req, res) {
     const db = req.app.get('db')
       , id = +req.params.id
@@ -124,7 +158,7 @@ let controllerObj = {
       } else {
         db.get.usernotecount(req.user.id).then(count => {
           count = count[0]
-          if (count >= 5 || count >= req.user.patreon * 5) {
+          if (count >= 5 || count >= req.user.patreon * 10) {
             res.status(401).send('You need to upgrade your Patreon to add more notes')
           } else {
             db.add.beastnotes(beastId, req.user.id, notes).then(result => {
@@ -141,7 +175,7 @@ let controllerObj = {
     const db = app.get('db')
     let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants } = body
 
-    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int).then(result => {
+    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, this.createHash()).then(result => {
       let id = result[0].id
         , promiseArray = []
       //types
