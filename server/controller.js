@@ -13,7 +13,7 @@ let controllerObj = {
   collectCache(app, index) {
     const db = app.get('db')
     let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
+    
     if (alphabet[index]) {
       db.get.catalogbyletter(alphabet[index]).then(result => {
         if (result.length > 0) {
@@ -175,7 +175,7 @@ let controllerObj = {
     const db = app.get('db')
     let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants } = body
 
-    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, this.createHash()).then(result => {
+    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, controllerObj.createHash()).then(result => {
       let id = result[0].id
         , promiseArray = []
       //types
