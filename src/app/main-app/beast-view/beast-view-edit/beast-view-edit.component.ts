@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BeastService } from '../../../util/services/beast.service';
 import variables from '../../../../local.js'
-import { tap, map } from 'rxjs/operators';
+import { CalculatorService } from '../../../util/services/calculator.service';
 @Component({
   selector: 'app-beast-view-edit',
   templateUrl: './beast-view-edit.component.html',
@@ -15,7 +15,8 @@ export class BeastViewEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private beastService: BeastService
+    private beastService: BeastService,
+    private calculatorService: CalculatorService,
   ) { }
 
   public beast = null;
@@ -25,6 +26,7 @@ export class BeastViewEditComponent implements OnInit {
   public imageBase = variables.imageBase;
   public uploader: any;
   public newVariantId = null;
+  public averageVitality = null;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -70,6 +72,7 @@ export class BeastViewEditComponent implements OnInit {
           reagents: []
         }
       }
+      this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
       window.scrollTo({
         top: 0,
         left: 0,
@@ -85,6 +88,9 @@ export class BeastViewEditComponent implements OnInit {
   captureInput(event, type, index, secondaryType, thirdType) {
     if (!secondaryType) {
       this.beast = Object.assign({}, this.beast, { [type]: event.target.value })
+      if (type === 'vitality') {
+        this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
+      }
     } else if (secondaryType && !thirdType) {
       let newSecondaryObject = [...this.beast[type]]
       newSecondaryObject[index][secondaryType] = event.target.value

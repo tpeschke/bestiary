@@ -188,6 +188,7 @@
         <mat-form-field>
           <input matInput placeholder="Vitality" [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
         </mat-form-field>
+        <p>(Ave: {{averageVitality}})</p>
 
         <mat-form-field>
           <mat-label>Panic</mat-label>
