@@ -23,7 +23,14 @@ img {
 
 .beast-name {
   font-family: 'know';
-  font-size: 16px;
+  font-size: 16px;    
+  padding: 5px 0 0 5px
+}
+
+.beast-name-shell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* width */
