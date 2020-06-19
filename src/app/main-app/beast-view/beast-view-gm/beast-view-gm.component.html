@@ -6,7 +6,9 @@
       {{beast.name | uppercase}}
     </h1>
     <div>
-      <h1>HR: {{beast.hr}} <i (click)="openExplaination()" class="fas fa-question-circle icon-white icon-small"></i>
+      <h1>HR: {{beast.hr}} 
+        <i #tooltip="matTooltip"
+           matTooltip="Hewy Rating. Click to Learn More." (click)="openExplaination()" class="fas fa-question-circle icon-white icon-small"></i>
       </h1>
     </div>
   </mat-toolbar>
@@ -44,7 +46,7 @@
       <div class="combat-shell" *ngIf="beast.combat.length > 0">
         <h2>Weapons</h2>
         <div class="divider"></div>
-        <div *ngFor="let square of beast.combat">
+        <div class="combat-square" *ngFor="let square of beast.combat">
           <h3 class="weaponName">{{square.weapon | titlecase}}</h3>
 
           <div class="square-range-shell">
@@ -199,7 +201,8 @@
       <div class="box-padding">
         <div class="flex-row-opposite">
           <h3>Size</h3>
-          <p>{{beast.size}}</p>
+          <p>{{beast.size}}<i #tooltip="matTooltip"
+            matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This factored into their Defense already." class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></p>
         </div>
         <div class="flex-row-opposite">
           <h3>Int</h3>
@@ -229,6 +232,43 @@
           <h3>Subsystem Focus</h3>
           <p>{{beast.subsystem | subsystemConverter}}</p>
         </div>
+      </div>
+
+      <h2>Loot <i #tooltip="matTooltip"
+        matTooltip="This doesn't include weapons and armor unless they're notable." class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></h2>
+      <div class="divider"></div>
+      <div *ngIf="beast.loot.length > 0" class="loot-shell">
+        <div *ngFor="let lootitem of beast.loot; let i = index">
+          <div class="flex-row-opposite lootItem">
+            <h3>{{lootitem.loot}} </h3>
+            <p>({{lootitem.price}}){{i !== beast.loot.length-1 ? ', ' : ' '}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="box-padding">
+        <h3 *ngIf="beast.loot.length == 0">This creature carries nothing else of value.</h3>
+      </div>
+
+      <h2>Magical Reagents <i #tooltip="matTooltip"
+        matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to spell's that match the reagent's school. The difficulty to recognize the item is at the end; the difficulty to harvest it is 2 dice sizes lower." class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></h2>
+      <div class="divider"></div>
+      <div *ngIf="beast.reagents.length > 0" class="reagents-shell">
+        <div class="flex-row-opposite">
+          <h3>Name</h3>
+          <h3 class="reagent-middle">School</h3>
+          <h3 class="reagent-last">Arcana</h3>
+        </div>
+        <div class="divider reagent-divider"></div>
+        <div *ngFor="let reagent of beast.reagents">
+          <div class="flex-row-opposite reagent">
+            <h3>{{reagent.name}}</h3>
+            <h3 class="reagent-middle">{{reagent.school}}</h3>
+            <h3 class="reagent-last">{{reagent.difficulty}}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="box-padding">
+        <h3 *ngIf="beast.reagents.length == 0">This creature has no magical properties.</h3>
       </div>
 
       <h2>Variants</h2>

@@ -54,15 +54,36 @@
             <mat-form-field>
                 <mat-label>Size</mat-label>
                 <mat-select (selectionChange)="enterSearchSize($event)">
-                    <mat-option value="S">
+                    <mat-option value="Fine">
+                        Fine
+                      </mat-option>
+                      <mat-option value="Diminutive">
+                        Diminutive
+                      </mat-option>
+                      <mat-option value="Tiny">
+                        Tiny
+                      </mat-option>
+                      <mat-option value="Small">
                         Small
-                    </mat-option>
-                    <mat-option value="M">
+                      </mat-option>
+                      <mat-option value="Medium">
                         Medium
-                    </mat-option>
-                    <mat-option value="L">
+                      </mat-option>
+                      <mat-option value="Large">
                         Large
-                    </mat-option>
+                      </mat-option>
+                      <mat-option value="Huge">
+                        Huge
+                      </mat-option>
+                      <mat-option value="Giant">
+                        Giant
+                      </mat-option>
+                      <mat-option value="Enormous">
+                        Enormous
+                      </mat-option>
+                      <mat-option value="Colossal">
+                        Colossal
+                      </mat-option>          
                     <mat-option>
                         I Don't Care
                     </mat-option>
@@ -120,14 +141,15 @@
 
             <div class="searchCheckboxes environShell">
                 <mat-checkbox color='primary' (change)="enterSearchTypes(1, $event)">Demon</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchTypes(2, $event)">Undead, Corporeal</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchTypes(3, $event)">Undead, Spirit</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchTypes(4, $event)">Elemental</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchTypes(5, $event)">Natural Creature</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchTypes(6, $event)">Magical Creature</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchTypes(9, $event)">Goblinoid</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchTypes(7, $event)">Humanoid</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchTypes(8, $event)">Intelligent Evil</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchTypes(9, $event)">Goblinoid</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchTypes(6, $event)">Magical Creature</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchTypes(5, $event)">Natural Creature</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchTypes(2, $event)">Undead, Corporeal</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchTypes(3, $event)">Undead, Spirit</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchTypes(10, $event)">Swarm</mat-checkbox>
             </div>
         </mat-expansion-panel>
 
@@ -139,24 +161,24 @@
             </mat-expansion-panel-header>
 
             <div class="searchCheckboxes environShell">
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(1, $event)">Dungeon/Ruins</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(2, $event)">Wilderness</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(3, $event)">Forest</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchEnvirons(12, $event)">Aquatic</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchEnvirons(4, $event)">Castle</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchEnvirons(5, $event)">Cave/Underground</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(6, $event)">Mountain</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(7, $event)">Plains</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(8, $event)">Swamp</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(9, $event)">Urban</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(10, $event)">Ship</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchEnvirons(11, $event)">Coastal</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(12, $event)">Aquatic</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(13, $event)">Other</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchEnvirons(14, $event)">Desert</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchEnvirons(1, $event)">Dungeon/Ruins</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchEnvirons(3, $event)">Forest</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchEnvirons(18, $event)">House</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchEnvirons(15, $event)">Island</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchEnvirons(16, $event)">Jungle</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchEnvirons(6, $event)">Mountain</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchEnvirons(13, $event)">Other</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchEnvirons(7, $event)">Plains</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchEnvirons(17, $event)">Sewer</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(18, $event)">House</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchEnvirons(10, $event)">Ship</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchEnvirons(8, $event)">Swamp</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchEnvirons(9, $event)">Urban</mat-checkbox>
+                <mat-checkbox color='primary' (change)="enterSearchEnvirons(2, $event)">Wilderness</mat-checkbox>
             </div>
         </mat-expansion-panel>
 

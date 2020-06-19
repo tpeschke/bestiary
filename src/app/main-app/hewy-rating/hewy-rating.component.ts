@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-hewy-rating',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HewyRatingComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialogRef: MatDialogRef<HewyRatingComponent>
+  ) { }
 
   ngOnInit() {
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 }

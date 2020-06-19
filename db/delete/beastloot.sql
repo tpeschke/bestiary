@@ -1,0 +1,1 @@
+delete from bbloot where id = $1

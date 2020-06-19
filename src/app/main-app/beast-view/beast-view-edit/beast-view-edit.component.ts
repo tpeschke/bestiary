@@ -59,7 +59,9 @@ export class BeastViewEditComponent implements OnInit {
           movement: [],
           types: [],
           environ: [],
-          variants: []
+          variants: [],
+          loot: [],
+          reagents: []
         }
       }
       window.scrollTo({
@@ -159,6 +161,17 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type].push({
         skill: '',
         rank: ''
+      })
+    } else if (type === 'loot') {
+      this.beast[type].push({
+        loot: '',
+        price: ''
+      })
+    } else if (type === 'reagents') {
+      this.beast[type].push({
+        name: '',
+        school: '',
+        difficulty: ''
       })
     }
   }

@@ -4,6 +4,14 @@ mat-card {
     cursor: pointer;
 }
 
+.results-card {
+    margin: 15px;
+}
+
+.results-card h3 {
+    color: whitesmoke;
+}
+
 img {
     width: 100px;
     height: 100%;

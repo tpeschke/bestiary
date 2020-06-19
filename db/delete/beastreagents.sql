@@ -1,0 +1,1 @@
+delete from bbreagents where id = $1

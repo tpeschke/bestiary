@@ -113,3 +113,18 @@ create table bbvariants (
     beastid int,
     variantid int
 )
+
+create table bbloot (
+    id serial primary key,
+    beastid int,
+    loot varchar(150),
+    price varchar(15)
+)
+
+create table bbreagents (
+    id serial primary key,
+    beastid int,
+    name varchar(150),
+    school varchar(25),
+    difficulty varchar(15)
+)

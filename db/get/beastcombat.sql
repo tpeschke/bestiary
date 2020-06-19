@@ -1,1 +1,1 @@
-select * from bbcombatsquare where beastid = $1
+select * from bbcombatsquare where beastid = $1 order by weapon

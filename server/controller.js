@@ -94,6 +94,16 @@ let controllerObj = {
           return result
         }))
 
+        promiseArray.push(db.get.beastloot(id).then(result => {
+          beast.loot = result
+          return result
+        }))
+
+        promiseArray.push(db.get.beastreagents(id).then(result => {
+          beast.reagents = result
+          return result
+        }))
+
         Promise.all(promiseArray).then(finalArray => {
           finalPromise = [];
           beast.combat.forEach(val => {
@@ -173,7 +183,7 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents } = body
 
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, controllerObj.createHash()).then(result => {
       let id = result[0].id
@@ -212,6 +222,14 @@ let controllerObj = {
         promiseArray.push(db.add.beastvariants(id, variantid).then())
         promiseArray.push(db.add.beastvariants(variantid, id).then())
       })
+      //loot
+      loot.forEach(({ loot, price }) => {
+        promiseArray.push(db.add.beastloot(id, loot, price).then())
+      })
+      //reagents
+      reagents.forEach(({ name, school, difficulty }) => {
+        promiseArray.push(db.add.beastreagents(id, name, school, difficulty).then())
+      })
 
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCache(app, 0)
@@ -221,7 +239,7 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents } = body
 
     // update beast
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, id).then(result => {
@@ -301,6 +319,26 @@ let controllerObj = {
           promiseArray.push(db.delete.beastvariants(id, variantid).then())
         }
       })
+      // update loot
+      loot.forEach(({ loot, price, id: lootId, deleted }) => {
+        if (!lootId) {
+          promiseArray.push(db.add.beastloot(id, loot, price).then())
+        } else if (deleted) {
+          promiseArray.push(db.delete.beastloot(lootId).then())
+        } else {
+          promiseArray.push(db.update.beastloot(id, loot, price, lootId).then())
+        }
+      })
+      // update reagents
+      reagents.forEach(({ name, school, difficulty, id: reagentId, deleted }) => {
+        if (!reagentId) {
+          promiseArray.push(db.add.beastreagents(id, name, school, difficulty).then())
+        } else if (deleted) {
+          promiseArray.push(db.delete.beastreagents(reagentId).then())
+        } else {
+          promiseArray.push(db.update.beastreagents(id, name, school, difficulty, reagentId).then())
+        }
+      })
 
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCache(app, 0)
@@ -320,7 +358,9 @@ let controllerObj = {
       promiseArray.push(db.delete.allbeastcombat(id).then())
       promiseArray.push(db.delete.allbeastconflict(id).then())
       promiseArray.push(db.delete.allbeastskill(id).then())
+      promiseArray.push(db.delete.allbeastloot(id).then())
       promiseArray.push(db.delete.allbeastmovement(id).then())
+      promiseArray.push(db.delete.allbeastreagents(id).then())
       // promiseArray.push(db.delete.beastvariants(id, variantid).then())
       // promiseArray.push(db.delete.combatranges(id, variantid).then())
 

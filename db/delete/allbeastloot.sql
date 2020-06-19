@@ -1,0 +1,1 @@
+delete from bbloot where beastid = $1

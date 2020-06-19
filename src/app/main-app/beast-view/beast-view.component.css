@@ -66,11 +66,11 @@ mat-toolbar {
 .combat-shell {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
 }
 
-.combat-shell div {
+.combat-square {
     margin-top: 10px;
+    padding-right: 15px
 }
 
 .conflict-shell {
@@ -212,6 +212,11 @@ mat-toolbar {
     color: #607d8b !important;
 }
 
+.margin-left-small {
+    margin-left: 5px;
+    font-size: 10px
+}
+
 .player-image {
     float: left;
     min-width: 45%;
@@ -259,6 +264,32 @@ mat-toolbar {
 
 .ranged-odd {
     background: lightgray
+}
+
+.loot-shell {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.lootItem {
+    padding: 0 5px
+}
+
+.reagent-divider {
+    margin-top: 0;
+}
+
+.reagent h3 {
+    min-width: 30%;
+}
+
+.reagent-middle {
+    min-width: 30%;
+    text-align: center;
+}
+
+.reagent-last {
+    text-align: right;;
 }
 
 @media (max-width: 963px) {

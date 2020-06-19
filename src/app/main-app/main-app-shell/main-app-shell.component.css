@@ -1,11 +1,12 @@
 .main-app-shell {
-    margin: 0 15px;
+    margin: 0 15px 15px;
 }
 
 .title {
     font-family: 'know';
     font-weight: 500;
     font-size: 35px;
+    cursor: pointer;
 }
 
 .new-button {

@@ -142,7 +142,8 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>Weapon Type</mat-label>
-              <mat-select [value]="square.weapontype" (selectionChange)="captureSelect($event, 'combat', i, 'weapontype')">
+              <mat-select [value]="square.weapontype"
+                (selectionChange)="captureSelect($event, 'combat', i, 'weapontype')">
                 <mat-option value="m">
                   m
                 </mat-option>
@@ -214,6 +215,10 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <div class="flex-row-opposite">
+          <h3>Current Panic</h3>
+          <p>{{beast.panic | moraleConverter}}</p>
+        </div>
 
         <mat-form-field>
           <mat-label>Broken</mat-label>
@@ -241,6 +246,10 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <div class="flex-row-opposite">
+          <h3>Current Broken</h3>
+          <p>{{beast.broken | moraleConverter}}</p>
+        </div>
       </div>
 
       <div class="vitals-shell">
@@ -519,6 +528,88 @@
           </mat-select>
         </mat-form-field>
       </div>
+
+      <h2>Loot</h2>
+      <div class="divider"></div>
+      <div *ngFor="let lootitem of beast.loot; let i = index">
+        <div *ngIf="!lootitem.deleted">
+          <h3>
+            <mat-form-field>
+              <input placeholder="Loot" matInput [value]="lootitem.loot"
+                (change)="captureInput($event, 'loot', i, 'loot')">
+            </mat-form-field>
+          </h3>
+          <mat-form-field>
+            <input placeholder="Value" matInput [value]="lootitem.price"
+              (change)="captureInput($event, 'loot', i, 'price')">
+          </mat-form-field>
+          <button mat-raised-button (click)="removeNewSecondaryItem('loot', i)" color="warn">REMOVE
+            LOOT</button>
+        </div>
+      </div>
+
+      <button mat-raised-button (click)="addNewSecondaryItem('loot')" color="accent">ADD LOOT</button>
+
+      <h2>Magical Reagents</h2>
+      <div class="divider"></div>
+      <div *ngFor="let regeant of beast.reagents; let i = index">
+        <div *ngIf="!regeant.deleted">
+          <mat-form-field>
+            <input placeholder="Body Part" matInput [value]="regeant.name"
+              (change)="captureInput($event, 'reagents', i, 'name')">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>School</mat-label>
+            <mat-select (selectionChange)="captureSelect($event, 'reagents', i, 'school')">
+              <mat-option value="Animancy">
+                Animancy
+              </mat-option>
+              <mat-option value="Alteration">
+                Alteration
+              </mat-option>
+              <mat-option value="Conjuration">
+                Conjuration
+              </mat-option>
+              <mat-option value="Elemental (Air)">
+                Elemental (Air)
+              </mat-option>
+              <mat-option value="Elemental (Chaos)">
+                Elemental (Chaos)
+              </mat-option>
+              <mat-option value="Elemental (Earth)">
+                Elemental (Earth)
+              </mat-option>
+              <mat-option value="Elemental (Fire)">
+                Elemental (Fire)
+              </mat-option>
+              <mat-option value="Elemental (Order)">
+                Elemental (Order)
+              </mat-option>
+              <mat-option value="Elemental (Water)">
+                Elemental (Water)
+              </mat-option>
+              <mat-option value="Illusion">
+                Illusion
+              </mat-option>
+              <mat-option value="3">
+                Invocation
+              </mat-option>
+              <mat-option value="3">
+                Mysticism
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Difficulty" matInput [value]="regeant.difficulty"
+              (change)="captureInput($event, 'reagents', i, 'difficulty')">
+          </mat-form-field>
+          <button mat-raised-button (click)="removeNewSecondaryItem('reagents', i)" color="warn">REMOVE
+            REAGENT</button>
+        </div>
+      </div>
+
+      <button mat-raised-button (click)="addNewSecondaryItem('reagents')" color="accent">ADD REAGENT</button>
+
 
       <h2>Variants</h2>
       <div class="divider"></div>
