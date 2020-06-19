@@ -248,7 +248,7 @@
 
       <div *ngIf="beast.lootnotes">
         <div *ngIf="beast.lootnotes.length > 0">
-          <h3 class="loot-notes-subtitle">Loot Notes</h3>
+          <h3 *ngIf="beast.loot.length == 0" class="loot-notes-subtitle">Additional Notes</h3>
           <div>
             <quill-view-html [content]="beast.lootnotes"></quill-view-html>
           </div>

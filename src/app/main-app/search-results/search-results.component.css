@@ -41,3 +41,27 @@ img {
     background: lightgray;
     margin-top: 15px
 }
+
+@media (max-width: 435px) {
+    mat-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    img {
+        width: 250px;
+    }
+
+    .info-shell {
+        margin-top: 15px;
+    }
+
+    .header-shell {
+        justify-content: center;
+    }
+
+    h3 {
+        font-size: 25px;
+    }
+ }

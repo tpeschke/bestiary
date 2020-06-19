@@ -11,7 +11,7 @@
               <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
             </div>
             <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
-            {{beast.name}}
+            <p class="beast-name">{{beast.name}}</p>
           </button>
         </div>
         <div *ngIf="beastService.loggedIn > 2 || beastService.loggedIn === 'owner'">
@@ -22,7 +22,7 @@
             </div>
             <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
             <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
-            {{beast.name}}
+            <p class="beast-name">{{beast.name}}</p>
           </button>
           <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton"
             mat-button>
@@ -31,7 +31,7 @@
             </div>
             <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
             <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
-            {{beast.name}}
+            <p class="beast-name">{{beast.name}}</p>
           </button>
         </div>
       </div>

@@ -37,3 +37,9 @@ p {
     font-family: 'know';
     font-size: 17px;
 }
+
+@media (max-width: 435px) {
+    .loginShell {
+        width: 100%;
+    }
+}

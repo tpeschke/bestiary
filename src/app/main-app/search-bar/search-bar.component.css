@@ -66,3 +66,20 @@ mat-card {
   .searchBody div p:nth-child(3) {
     margin: 0 15px;
   }
+
+@media (max-width: 435px) {
+  .example-half-width {
+    width: 100%;
+  }
+  
+  .searchBody div {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    max-width: 100%;
+  }
+
+  .searchCheckboxes {
+    max-height: none;
+  }
+}

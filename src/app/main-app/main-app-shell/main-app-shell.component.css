@@ -13,3 +13,9 @@
     position: absolute;
     right: 25px;
 }
+
+@media (max-width: 435px) { 
+    .main-app-shell {
+        margin: 0;
+    }
+}
