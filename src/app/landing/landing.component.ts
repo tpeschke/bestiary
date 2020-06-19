@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { BeastService } from '../util/services/beast.service';
 import variables from '../../local.js'
 
 @Component({
@@ -10,21 +8,11 @@ import variables from '../../local.js'
 })
 export class LandingComponent implements OnInit {
 
-  constructor(
-    private router: Router,
-    private beastService: BeastService
-  ) { }
+  constructor() { }
 
   public loginEndpoint = variables.login
 
   ngOnInit() {
-    if (!this.beastService.loggedIn) {
-      this.beastService.checkLogin().subscribe(result => {
-        if (result) {
-          this.router.navigate(['/main/catalog'])
-        }
-      })
-    }
   }
 
 }

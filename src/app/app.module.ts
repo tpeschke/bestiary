@@ -23,20 +23,19 @@ import { CatalogResolverService } from './util/guards-resolvers/catalog-resolver
 
 import { ToastrModule } from 'ngx-toastr';
 
-import { NoLoginAuthService } from './util/guards-resolvers/no-login-auth.service'
 import { NoPlayerAuthService } from './util/guards-resolvers/no-player-auth.service'
 import { NoGmAuthService } from './util/guards-resolvers/no-gm-auth.service'
 
 const routes: Routes = [
-  { path: '', component: LandingComponent, pathMatch: "full" },
+  { path: 'login', component: LandingComponent, pathMatch: "full" },
   { path: 'main', component: MainAppShellComponent, children: [
     { path: '', redirectTo: 'catalog', pathMatch: "full"},
     { path: 'catalog', component: CatalogComponent, resolve: {catalog: CatalogResolverService}},
     { path: 'beast/:id/gm', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: {beast: SingleBeastResolverService}},
     { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: {beast: PlayerBeastResolverService}},
     { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: {beast: SingleBeastResolverService}},
-    { path: 'search', component: SearchResultsComponent},
-  ], canActivate: [NoLoginAuthService]},
+    { path: 'search', component: SearchResultsComponent}
+  ]},
   { path: '**', redirectTo: '' },
 ];
 @NgModule({
