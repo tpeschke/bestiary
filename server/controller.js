@@ -183,9 +183,9 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes } = body
 
-    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, controllerObj.createHash()).then(result => {
+    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, controllerObj.createHash(), lootnotes).then(result => {
       let id = result[0].id
         , promiseArray = []
       //types
@@ -227,8 +227,8 @@ let controllerObj = {
         promiseArray.push(db.add.beastloot(id, loot, price).then())
       })
       //reagents
-      reagents.forEach(({ name, school, difficulty }) => {
-        promiseArray.push(db.add.beastreagents(id, name, school, difficulty).then())
+      reagents.forEach(({ name, spell, difficulty }) => {
+        promiseArray.push(db.add.beastreagents(id, name, spell, difficulty).then())
       })
 
       Promise.all(promiseArray).then(_ => {
@@ -239,10 +239,10 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes } = body
 
     // update beast
-    db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, id).then(result => {
+    db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, lootnotes, id).then(result => {
       let promiseArray = []
       // update types
       types.forEach(val => {
@@ -330,13 +330,13 @@ let controllerObj = {
         }
       })
       // update reagents
-      reagents.forEach(({ name, school, difficulty, id: reagentId, deleted }) => {
+      reagents.forEach(({ name, spell, difficulty, id: reagentId, deleted }) => {
         if (!reagentId) {
-          promiseArray.push(db.add.beastreagents(id, name, school, difficulty).then())
+          promiseArray.push(db.add.beastreagents(id, name, spell, difficulty).then())
         } else if (deleted) {
           promiseArray.push(db.delete.beastreagents(reagentId).then())
         } else {
-          promiseArray.push(db.update.beastreagents(id, name, school, difficulty, reagentId).then())
+          promiseArray.push(db.update.beastreagents(id, name, spell, difficulty, reagentId).then())
         }
       })
 

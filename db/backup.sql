@@ -125,6 +125,6 @@ create table bbreagents (
     id serial primary key,
     beastid int,
     name varchar(150),
-    school varchar(25),
+    spell varchar(150),
     difficulty varchar(15)
 )

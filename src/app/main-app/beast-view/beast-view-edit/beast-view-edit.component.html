@@ -550,6 +550,11 @@
 
       <button mat-raised-button (click)="addNewSecondaryItem('loot')" color="accent">ADD LOOT</button>
 
+      <h3 class="loot-notes-subtitle">Loot Notes</h3>
+      <div>
+        <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')"></quill-editor>
+      </div>
+
       <h2>Magical Reagents</h2>
       <div class="divider"></div>
       <div *ngFor="let regeant of beast.reagents; let i = index">
@@ -559,45 +564,8 @@
               (change)="captureInput($event, 'reagents', i, 'name')">
           </mat-form-field>
           <mat-form-field>
-            <mat-label>School</mat-label>
-            <mat-select (selectionChange)="captureSelect($event, 'reagents', i, 'school')">
-              <mat-option value="Animancy">
-                Animancy
-              </mat-option>
-              <mat-option value="Alteration">
-                Alteration
-              </mat-option>
-              <mat-option value="Conjuration">
-                Conjuration
-              </mat-option>
-              <mat-option value="Elemental (Air)">
-                Elemental (Air)
-              </mat-option>
-              <mat-option value="Elemental (Chaos)">
-                Elemental (Chaos)
-              </mat-option>
-              <mat-option value="Elemental (Earth)">
-                Elemental (Earth)
-              </mat-option>
-              <mat-option value="Elemental (Fire)">
-                Elemental (Fire)
-              </mat-option>
-              <mat-option value="Elemental (Order)">
-                Elemental (Order)
-              </mat-option>
-              <mat-option value="Elemental (Water)">
-                Elemental (Water)
-              </mat-option>
-              <mat-option value="Illusion">
-                Illusion
-              </mat-option>
-              <mat-option value="3">
-                Invocation
-              </mat-option>
-              <mat-option value="3">
-                Mysticism
-              </mat-option>
-            </mat-select>
+            <input placeholder="Spell" matInput [value]="regeant.spell"
+              (change)="captureInput($event, 'reagents', i, 'spell')">
           </mat-form-field>
           <mat-form-field>
             <input placeholder="Difficulty" matInput [value]="regeant.difficulty"

@@ -61,6 +61,7 @@ export class BeastViewEditComponent implements OnInit {
           environ: [],
           variants: [],
           loot: [],
+          lootnotes: '',
           reagents: []
         }
       }
@@ -170,7 +171,7 @@ export class BeastViewEditComponent implements OnInit {
     } else if (type === 'reagents') {
       this.beast[type].push({
         name: '',
-        school: '',
+        spell: '',
         difficulty: ''
       })
     }
