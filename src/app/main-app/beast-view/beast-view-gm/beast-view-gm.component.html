@@ -256,7 +256,7 @@
       </div>
 
       <div class="box-padding">
-        <h3 *ngIf="beast.loot.length == 0">This creature carries nothing else of value.</h3>
+        <h3 *ngIf="beast.loot.length == 0 && beast.lootnotes.length > 0">This creature carries nothing else of value.</h3>
       </div>
 
       <h2>Magical Reagents <i #tooltip="matTooltip"
