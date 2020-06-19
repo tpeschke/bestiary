@@ -26,7 +26,7 @@
         <div class="divider"></div>
         <div *ngFor="let trait of beast.conflict; let i = index">
           <div class="flex-row-opposite">
-            <h3>{{trait.trait}}</h3>
+            <h3>{{trait.trait | titlecase}}</h3>
             <h3>{{trait.value}}</h3>
           </div>
         </div>
