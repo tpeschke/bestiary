@@ -72,7 +72,6 @@ export class BeastService {
   getSingleBeast(id): any {
     return this.http.get(local.endpointBase + '/api/beasts/' + id)
       .pipe(
-        tap(test => console.log(test))
         // catchError(this.handleError('get single beast', []))
       )
   }

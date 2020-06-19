@@ -20,7 +20,6 @@ export class SingleBeastResolverService implements Resolve<any> {
   ): Observable<any> {
     let id = +route.paramMap.get('id');
     let templateId = +route.paramMap.get('templateId')
-    console.log(id, templateId)
     if (templateId) {
       return this.beastService.getSingleBeast(templateId)
         .pipe(

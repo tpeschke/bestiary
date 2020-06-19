@@ -17,6 +17,7 @@ import { BeastViewEditComponent } from './main-app/beast-view/beast-view-edit/be
 import { BeastViewPlayerComponent } from './main-app/beast-view/beast-view-player/beast-view-player.component';
 
 import { BeastService } from './util/services/beast.service'
+import { CalculatorService } from './util/services/calculator.service'
 import { SingleBeastResolverService } from './util/guards-resolvers/single-beast-resolver.service'
 import { PlayerBeastResolverService } from './util/guards-resolvers/player-beast-resolver.service'
 import { CatalogResolverService } from './util/guards-resolvers/catalog-resolver.service';
@@ -52,7 +53,7 @@ const routes: Routes = [
     ToastrModule.forRoot(),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })
   ],
-  providers: [BeastService],
+  providers: [BeastService, CalculatorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
