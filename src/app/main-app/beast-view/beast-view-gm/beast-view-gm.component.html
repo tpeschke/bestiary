@@ -322,4 +322,6 @@
 
   <button *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
     [routerLink]="['/main/beast', beast.id, 'edit']">Edit</button>
+  <button *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
+    [routerLink]="['/main/beast', 0, 'edit', {'templateId': beast.id}]">Use As Template For New</button>
 </mat-card>

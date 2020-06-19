@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BeastService } from '../../../util/services/beast.service';
 import variables from '../../../../local.js'
-
+import { tap, map } from 'rxjs/operators';
 @Component({
   selector: 'app-beast-view-edit',
   templateUrl: './beast-view-edit.component.html',
@@ -29,7 +29,12 @@ export class BeastViewEditComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       let beast = data['beast']
-      if (beast) {
+      if (this.route.snapshot.params.templateId) {
+        beast.variants.push({ variantid: beast.id })
+        delete beast.id
+        beast.name = beast.name + " Template"
+        this.beast = beast
+      } else if (beast) {
         this.beast = beast
       } else {
         this.beast = {
@@ -94,7 +99,7 @@ export class BeastViewEditComponent implements OnInit {
   captureSelect(event, type, index, secondaryType) {
     if (secondaryType) {
       if (event.value === 'r' && !this.beast[type][index].ranges) {
-        this.beast[type][index].ranges = { zero: 0, two: 0, four: 0, six: 0, eight: 0}
+        this.beast[type][index].ranges = { zero: 0, two: 0, four: 0, six: 0, eight: 0 }
       }
       this.beast[type][index][secondaryType] = event.value;
     } else {
@@ -123,7 +128,7 @@ export class BeastViewEditComponent implements OnInit {
 
   addById() {
     if (this.newVariantId) {
-      this.beast.variants.push({variantid: this.newVariantId})
+      this.beast.variants.push({ variantid: this.newVariantId })
       this.newVariantId = null;
     }
   }
