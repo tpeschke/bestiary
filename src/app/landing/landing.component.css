@@ -38,7 +38,7 @@ p {
     font-size: 17px;
 }
 
-@media (max-width: 435px) {
+@media (max-width: 699px) {
     .loginShell {
         width: 100%;
     }

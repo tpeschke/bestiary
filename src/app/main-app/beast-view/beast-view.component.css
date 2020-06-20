@@ -313,7 +313,7 @@ mat-toolbar {
     }
 }
 
-@media (max-width: 435px) {
+@media (max-width: 699px) {
     .right, .left {
         width: 100%
     }

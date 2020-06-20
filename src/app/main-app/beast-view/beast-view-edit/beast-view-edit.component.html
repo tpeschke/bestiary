@@ -67,6 +67,11 @@
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'traits')" color="accent">ADD TRAIT</button>
 
+      <mat-form-field>
+        <input matInput placeholder="Max Traits Appearing" [value]="beast.traitlimit"
+          (change)="captureInput($event, 'traitlimit')">
+      </mat-form-field>
+
       <div class="divider"></div>
 
       <div class="conflict-shell">
@@ -88,6 +93,11 @@
         </div>
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">ADD DEVOTIONS</button>
+
+      <mat-form-field>
+        <input matInput placeholder="Max Devotions Appearing" [value]="beast.devotionlimit"
+          (change)="captureInput($event, 'devotionlimit')">
+      </mat-form-field>
 
       <div class="divider"></div>
 
@@ -111,6 +121,11 @@
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent">ADD FLAW</button>
 
+      <mat-form-field>
+        <input matInput placeholder="Max Flaws Appearing" [value]="beast.flawlimit"
+          (change)="captureInput($event, 'flawlimit')">
+      </mat-form-field>
+
       <div class="divider"></div>
       <div class="conflict-shell">
         <div *ngFor="let passion of beast.conflict.passions; let i = index">
@@ -132,10 +147,14 @@
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'passions')" color="accent">ADD PASSION</button>
 
+      <mat-form-field>
+        <input matInput placeholder="Max Passions Appearing" [value]="beast.passionlimit"
+          (change)="captureInput($event, 'passionlimit')">
+      </mat-form-field>
+
       <div class="divider"></div>
 
-
-      <div class="conflict-shell">
+      <div class="conflict-inner-shell">
         <div *ngFor="let skill of beast.skills; let i = index">
           <div *ngIf="!skill.deleted">
             <h3>

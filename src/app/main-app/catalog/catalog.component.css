@@ -53,7 +53,7 @@ img {
     background: grey; 
   }
 
-  @media (max-width: 435px) { 
+  @media (max-width: 699px) { 
     .img-shell {
       height: 200px;
       width: 200px;

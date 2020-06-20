@@ -42,7 +42,7 @@ img {
     margin-top: 15px
 }
 
-@media (max-width: 435px) {
+@media (max-width: 699px) {
     mat-card {
         display: flex;
         flex-direction: column;
