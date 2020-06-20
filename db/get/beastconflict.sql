@@ -1,1 +1,1 @@
-select * from bbconflict where beastid = $1
+select * from bbconflict where beastid = $1 order by trait

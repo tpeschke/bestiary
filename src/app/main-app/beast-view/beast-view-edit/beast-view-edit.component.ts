@@ -61,7 +61,7 @@ export class BeastViewEditComponent implements OnInit {
           panic: '',
           broken: '',
           combat: [],
-          conflict: [],
+          conflict: {traits: [], devotions: [], flaws: [], passions: []},
           skills: [],
           movement: [],
           types: [],
@@ -86,7 +86,12 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureInput(event, type, index, secondaryType, thirdType) {
-    if (!secondaryType) {
+    if (type === 'conflict') {
+      let newSecondaryObject = Object.assign({}, this.beast[type])
+      newSecondaryObject[secondaryType] = [...newSecondaryObject[secondaryType]]
+      newSecondaryObject[secondaryType][index][thirdType] = event.target.value
+      this.beast = Object.assign({}, this.beast, {[type]: newSecondaryObject})
+    } else if (!secondaryType) {
       this.beast = Object.assign({}, this.beast, { [type]: event.target.value })
       if (type === 'vitality') {
         this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
@@ -139,7 +144,7 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  addNewSecondaryItem(type) {
+  addNewSecondaryItem(type, secondType) {
     if (type === 'combat') {
       this.beast[type].push({
         weapon: '',
@@ -165,9 +170,10 @@ export class BeastViewEditComponent implements OnInit {
         type: ''
       })
     } else if (type === 'conflict') {
-      this.beast[type].push({
+      this.beast[type][secondType].push({
         trait: '',
-        value: ''
+        value: '',
+        type: secondType.substring(0,1)
       })
     } else if (type === 'skills') {
       this.beast[type].push({
@@ -188,12 +194,19 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  removeNewSecondaryItem(type, index) {
-    let deleted = this.beast[type].splice(index, 1)
-    if (type !== 'variants') {
-      this.beast[type].push({ id: deleted[0].id, deleted: true })
+  removeNewSecondaryItem(type, index, secondType) {
+    let deleted
+    if (!secondType) {
+      deleted = this.beast[type].splice(index, 1)
     } else {
+      deleted = this.beast[type][secondType].splice(index, 1);
+    }
+    if (type === 'variants') {
       this.beast[type].push({ id: deleted[0].id, variantid: deleted[0].variantid, deleted: true })
+    } else if (type === 'conflict') {
+      this.beast[type][secondType].push({id: deleted[0].id, deleted: true})
+    } else {
+      this.beast[type].push({ id: deleted[0].id, deleted: true })
     }
   }
 

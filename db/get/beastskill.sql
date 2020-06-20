@@ -1,1 +1,1 @@
-select * from bbskills where beastid = $1
+select * from bbskills where beastid = $1 order by skill

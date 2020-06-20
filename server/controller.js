@@ -70,7 +70,18 @@ let controllerObj = {
         }))
 
         promiseArray.push(db.get.beastconflict(id).then(result => {
-          beast.conflict = result
+          beast.conflict = {traits: [], devotions: [], flaws: [], passions: []}
+          result.forEach(val => {
+            if (val.type === 't' || !val.type) {
+              beast.conflict.traits.push(val)
+            } else if (val.type === 'd') {
+              beast.conflict.devotions.push(val)
+            } else if (val.type === 'f') {
+              beast.conflict.flaws.push(val)
+            } else if (val.type === 'p') {
+              beast.conflict.passions.push(val)
+            }
+          })
           return result
         }))
 
@@ -206,8 +217,10 @@ let controllerObj = {
         }))
       })
       //conflict
-      conflict.forEach(({ trait, value }) => {
-        promiseArray.push(db.add.beastconflict(id, trait, value).then())
+      let newConflict = []
+      Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
+      newConflict.forEach(({ trait, value, type }) => {
+        promiseArray.push(db.add.beastconflict(id, trait, value, type).then())
       })
       //skills
       skills.forEach(({ skill, rank }) => {
@@ -281,13 +294,15 @@ let controllerObj = {
         }
       })
       // update conflict
-      conflict.forEach(({ trait, value, id: conflictId, deleted }) => {
+      let newConflict = []
+      Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
+      newConflict.forEach(({ trait, value, type, id: conflictId, deleted }) => {
         if (!conflictId) {
-          promiseArray.push(db.add.beastconflict(id, trait, value).then())
+          promiseArray.push(db.add.beastconflict(id, trait, value, type).then())
         } else if (deleted) {
           promiseArray.push(db.delete.beastconflict(conflictId).then())
         } else {
-          promiseArray.push(db.update.beastconflict(id, trait, value, conflictId).then())
+          promiseArray.push(db.update.beastconflict(id, trait, value, type, conflictId).then())
         }
       })
       // update skills

@@ -48,26 +48,92 @@
       </div>
 
       <div class="conflict-shell">
-        <div *ngFor="let trait of beast.conflict; let i = index">
+        <div *ngFor="let trait of beast.conflict.traits; let i = index">
           <div *ngIf="!trait.deleted">
             <h3>
               <mat-form-field>
                 <input placeholder="Trait" matInput [value]="trait.trait"
-                  (change)="captureInput($event, 'conflict', i, 'trait')">
+                  (change)="captureInput($event, 'conflict', i, 'traits', 'trait')">
               </mat-form-field>
             </h3>
             <mat-form-field>
               <input placeholder="Dice Value" matInput [value]="trait.value"
-                (change)="captureInput($event, 'conflict', i, 'value')">
+                (change)="captureInput($event, 'conflict', i, 'traits', 'value')">
             </mat-form-field>
-            <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i)" color="warn">REMOVE
+            <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'traits')" color="warn">REMOVE
               TRAIT</button>
           </div>
         </div>
       </div>
-      <button mat-raised-button (click)="addNewSecondaryItem('conflict')" color="accent">ADD TRAIT</button>
+      <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'traits')" color="accent">ADD TRAIT</button>
 
       <div class="divider"></div>
+
+      <div class="conflict-shell">
+        <div *ngFor="let devotion of beast.conflict.devotions; let i = index">
+          <div *ngIf="!devotion.deleted">
+            <h3>
+              <mat-form-field>
+                <input placeholder="devotion" matInput [value]="devotion.trait"
+                  (change)="captureInput($event, 'conflict', i, 'devotions', 'trait')">
+              </mat-form-field>
+            </h3>
+            <mat-form-field>
+              <input placeholder="Dice Value" matInput [value]="devotion.value"
+                (change)="captureInput($event, 'conflict', i, 'devotions', 'value')">
+            </mat-form-field>
+            <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'devotions')" color="warn">REMOVE
+              DEVOTION</button>
+          </div>
+        </div>
+      </div>
+      <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">ADD DEVOTIONS</button>
+
+      <div class="divider"></div>
+
+      <div class="conflict-shell">
+        <div *ngFor="let flaw of beast.conflict.flaws; let i = index">
+          <div *ngIf="!flaw.deleted">
+            <h3>
+              <mat-form-field>
+                <input placeholder="flaw" matInput [value]="flaw.trait"
+                  (change)="captureInput($event, 'conflict', i, 'flaws', 'trait')">
+              </mat-form-field>
+            </h3>
+            <mat-form-field>
+              <input placeholder="Dice Value" matInput [value]="flaw.value"
+                (change)="captureInput($event, 'conflict', i, 'flaws', 'value')">
+            </mat-form-field>
+            <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'flaws')" color="warn">REMOVE
+              FLAW</button>
+          </div>
+        </div>
+      </div>
+      <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent">ADD FLAW</button>
+
+      <div class="divider"></div>
+      <div class="conflict-shell">
+        <div *ngFor="let passion of beast.conflict.passions; let i = index">
+          <div *ngIf="!passion.deleted">
+            <h3>
+              <mat-form-field>
+                <input placeholder="passion" matInput [value]="passion.trait"
+                  (change)="captureInput($event, 'conflict', i, 'passions', 'trait')">
+              </mat-form-field>
+            </h3>
+            <mat-form-field>
+              <input placeholder="Dice Value" matInput [value]="passion.value"
+                (change)="captureInput($event, 'conflict', i, 'passions', 'value')">
+            </mat-form-field>
+            <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'passions')" color="warn">REMOVE
+              PASSION</button>
+          </div>
+        </div>
+      </div>
+      <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'passions')" color="accent">ADD PASSION</button>
+
+      <div class="divider"></div>
+
 
       <div class="conflict-shell">
         <div *ngFor="let skill of beast.skills; let i = index">
