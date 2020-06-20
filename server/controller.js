@@ -2,18 +2,18 @@ let controllerObj = {
   catalogCache: [],
   newCache: [],
   createHash() {
-      var text = "";
-      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
-      for (var i = 0; i < 10; i++) {
-          text += possible.charAt(Math.floor(Math.random() * possible.length));
-      }
-      return text;
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 10; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
   },
   collectCache(app, index) {
     const db = app.get('db')
     let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    
+
     if (alphabet[index]) {
       db.get.catalogbyletter(alphabet[index]).then(result => {
         if (result.length > 0) {
@@ -32,9 +32,9 @@ let controllerObj = {
     const db = req.app.get('db')
       , id = +req.params.id
 
-      db.get.playercanview(id).then( result => {
-        res.send(result[0])
-      })
+    db.get.playercanview(id).then(result => {
+      res.send(result[0])
+    })
   },
   getSingleBeast(req, res) {
     const db = req.app.get('db')
@@ -70,24 +70,16 @@ let controllerObj = {
         }))
 
         promiseArray.push(db.get.beastconflict(id).then(result => {
-          beast.conflict = {traits: [], devotions: [], flaws: [], passions: []}
+          beast.conflict = { traits: [], devotions: [], flaws: [], passions: [] }
           result.forEach(val => {
             if (val.type === 't' || !val.type) {
-              if (!beast.traitlimit || beast.traitlimit > beast.conflict.traits.length) {
-                beast.conflict.traits.push(val)
-              }
+              beast.conflict.traits.push(val)
             } else if (val.type === 'd') {
-              if (!beast.devotionlimit || beast.devotionlimit > beast.conflict.devotions.length) { 
-                beast.conflict.devotions.push(val)
-              }
+              beast.conflict.devotions.push(val)
             } else if (val.type === 'f') {
-              if (!beast.flawlimit || beast.flawlimit > beast.conflict.flaws.length) {
-                beast.conflict.flaws.push(val)
-              }
+              beast.conflict.flaws.push(val)
             } else if (val.type === 'p') {
-              if (!beast.passionlimit || beast.passionlimit > beast.conflict.passions.length) {
-                beast.conflict.passions.push(val)
-              }
+              beast.conflict.passions.push(val)
             }
           })
           return result
@@ -220,7 +212,7 @@ let controllerObj = {
         promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype).then(result => {
           if (weapontype === 'r') {
             return db.add.combatranges(result[0].id, +ranges.zero, +ranges.two, +ranges.four, +ranges.six, +ranges.eight).then()
-          } 
+          }
           return true;
         }))
       })
@@ -263,7 +255,7 @@ let controllerObj = {
     let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, broken, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit } = body
 
     // update beast
-    db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, lootnotes,  +traitlimit > 0 ? +traitlimit : null,  +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, id).then(result => {
+    db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +broken, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, id).then(result => {
       let promiseArray = []
       // update types
       types.forEach(val => {
@@ -287,7 +279,7 @@ let controllerObj = {
           promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype).then(result => {
             if (weapontype === 'r') {
               return db.add.combatranges(result.weaponid, +ranges.zero, +ranges.two, +ranges.four, +ranges.six, +ranges.eight).then()
-            } 
+            }
             return true;
           }))
         } else if (deleted) {

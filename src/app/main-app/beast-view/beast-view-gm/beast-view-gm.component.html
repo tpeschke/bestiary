@@ -27,7 +27,7 @@
         <h2>Traits</h2>
         <div class="divider white"></div>
         <div *ngFor="let trait of beast.conflict.traits; let i = index">
-          <div class="flex-row-opposite">
+          <div *ngIf="!beast.traitlimit || i < beast.traitlimit" class="flex-row-opposite">
             <h3>{{trait.trait | titlecase}}</h3>
             <h3>{{trait.value}}</h3>
           </div>
@@ -38,7 +38,7 @@
         <h2>Devotions</h2>
         <div class="divider white"></div>
         <div *ngFor="let trait of beast.conflict.devotions; let i = index">
-          <div class="flex-row-opposite">
+          <div *ngIf="!beast.devotionlimit || i < beast.devotionlimit" class="flex-row-opposite">
             <h3>{{trait.trait | titlecase}}</h3>
             <h3>{{trait.value}}</h3>
           </div>
@@ -49,7 +49,7 @@
         <h2>Flaws</h2>
         <div class="divider white"></div>
         <div *ngFor="let trait of beast.conflict.flaws; let i = index">
-          <div class="flex-row-opposite">
+          <div *ngIf="!beast.flawlimit || i < beast.flawlimit" class="flex-row-opposite">
             <h3>{{trait.trait | titlecase}}</h3>
             <h3>{{trait.value}}</h3>
           </div>
@@ -60,7 +60,7 @@
         <h2>Passions</h2>
         <div class="divider white"></div>
         <div *ngFor="let trait of beast.conflict.passions; let i = index">
-          <div class="flex-row-opposite">
+          <div *ngIf="!beast.passionlimit || i < beast.passionlimit" class="flex-row-opposite">
             <h3>{{trait.trait | titlecase}}</h3>
             <h3>{{trait.value}}</h3>
           </div>
