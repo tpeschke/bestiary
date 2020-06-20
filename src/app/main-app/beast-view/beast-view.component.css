@@ -73,7 +73,7 @@ mat-toolbar {
     padding-right: 15px
 }
 
-.conflict-shell {
+.conflict-inner-shell {
     display: flex;
     flex-wrap: wrap;
 }
@@ -82,7 +82,7 @@ mat-toolbar {
     width: 100%;
 }
 
-.conflict-shell div {
+.conflict-inner-shell div {
     width: 100%;
     margin: 3px 0;
 }
@@ -177,6 +177,12 @@ mat-toolbar {
     font-size: 17px;
     bottom: 18px;
     right: 13px;
+}
+
+.conflict-shell {
+    background: lightgrey;
+    padding: 15px;
+    margin: 10px 0;
 }
 
 .vitals-shell {
