@@ -1,7 +1,9 @@
 <div *ngIf="beasts === 'loading'">
-  <mat-card>
-    <h3>Loading</h3>
-  </mat-card>
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
 </div>
 
 <div *ngIf="beasts.length > 0 && beasts !== 'loading'">
@@ -11,9 +13,9 @@
   </div>
 
   <mat-card *ngFor="let beast of beasts" [routerLink]="['/main/beast', beast.id, 'player']">
-  
+
     <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
-  
+
     <div class="info-shell">
       <div class="header-shell">
         <div class="header-info">
@@ -21,16 +23,16 @@
           <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
           <h3>{{beast.name}}</h3>
         </div>
-    
+
         <h3 *ngIf="beast.hr">HR: {{beast.hr}}</h3>
       </div>
       <div *ngIf="beast.intro" class="divider"></div>
-  
+
       <div *ngIf="beast.intro">
         <quill-view-html [content]="beast.intro"></quill-view-html>
       </div>
     </div>
-  
+
   </mat-card>
 </div>
 
