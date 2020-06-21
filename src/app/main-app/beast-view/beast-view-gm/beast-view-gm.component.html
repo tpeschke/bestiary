@@ -21,7 +21,8 @@
         <img *ngIf="!beast.id" src="../../../../assets/imageNotFound.png" alt="Not Found">
       </div>
 
-      <div class="conflict-shell" *ngIf="beast.conflict.traits.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0 || beast.conflict.passions.length > 0">
+      <div class="conflict-shell"
+        *ngIf="beast.conflict.traits.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0 || beast.conflict.passions.length > 0">
 
         <div class="conflict-inner-shell" *ngIf="beast.conflict.traits.length > 0">
           <h2>Traits</h2>
@@ -286,10 +287,7 @@
 
       <div *ngIf="beast.lootnotes">
         <div *ngIf="beast.lootnotes.length > 0">
-          <h3 *ngIf="beast.loot.length == 0" class="loot-notes-subtitle">Additional Notes</h3>
-          <div>
-            <quill-view-html [content]="beast.lootnotes"></quill-view-html>
-          </div>
+          <quill-view-html [content]="beast.lootnotes"></quill-view-html>
         </div>
       </div>
 
