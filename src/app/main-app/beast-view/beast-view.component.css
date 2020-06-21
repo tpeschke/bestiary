@@ -179,14 +179,16 @@ mat-toolbar {
 }
 
 .conflict-shell {
-    background: lightgrey;
+    background: rgba(211, 211, 211, 0.5);
     padding: 15px;
+    border-radius: 4px;
     margin: 10px 0;
 }
 
 .vitals-shell {
-    background: lightgrey;
+    background: rgba(211, 211, 211, 0.5);
     padding: 15px;
+    border-radius: 4px;
     margin: 10px 0;
 }
 

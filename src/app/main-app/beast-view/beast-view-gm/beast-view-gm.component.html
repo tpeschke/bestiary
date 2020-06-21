@@ -6,9 +6,9 @@
       {{beast.name | uppercase}}
     </h1>
     <div>
-      <h1>HR: {{beast.hr}} 
-        <i #tooltip="matTooltip"
-           matTooltip="Hewy Rating. Click to Learn More." (click)="openExplaination()" class="fas fa-question-circle icon-white icon-small"></i>
+      <h1>HR: {{beast.hr}}
+        <i #tooltip="matTooltip" matTooltip="Hewy Rating. Click to Learn More." (click)="openExplaination()"
+          class="fas fa-question-circle icon-white icon-small"></i>
       </h1>
     </div>
   </mat-toolbar>
@@ -21,53 +21,53 @@
         <img *ngIf="!beast.id" src="../../../../assets/imageNotFound.png" alt="Not Found">
       </div>
 
-      <div class="conflict-shell">
+      <div class="conflict-shell" *ngIf="beast.conflict.traits.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0 || beast.conflict.passions.length > 0">
 
-      <div class="conflict-inner-shell" *ngIf="beast.conflict.traits.length > 0">
-        <h2>Traits</h2>
-        <div class="divider white"></div>
-        <div *ngFor="let trait of beast.conflict.traits; let i = index">
-          <div *ngIf="!beast.traitlimit || i < beast.traitlimit" class="flex-row-opposite">
-            <h3>{{trait.trait | titlecase}}</h3>
-            <h3>{{trait.value}}</h3>
+        <div class="conflict-inner-shell" *ngIf="beast.conflict.traits.length > 0">
+          <h2>Traits</h2>
+          <div class="divider white"></div>
+          <div *ngFor="let trait of beast.conflict.traits; let i = index">
+            <div *ngIf="!beast.traitlimit || i < beast.traitlimit" class="flex-row-opposite">
+              <h3>{{trait.trait | titlecase}}</h3>
+              <h3>{{trait.value}}</h3>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="conflict-inner-shell" *ngIf="beast.conflict.devotions.length > 0">
-        <h2>Devotions</h2>
-        <div class="divider white"></div>
-        <div *ngFor="let trait of beast.conflict.devotions; let i = index">
-          <div *ngIf="!beast.devotionlimit || i < beast.devotionlimit" class="flex-row-opposite">
-            <h3>{{trait.trait | titlecase}}</h3>
-            <h3>{{trait.value}}</h3>
+        <div class="conflict-inner-shell" *ngIf="beast.conflict.devotions.length > 0">
+          <h2>Devotions</h2>
+          <div class="divider white"></div>
+          <div *ngFor="let trait of beast.conflict.devotions; let i = index">
+            <div *ngIf="!beast.devotionlimit || i < beast.devotionlimit" class="flex-row-opposite">
+              <h3>{{trait.trait | titlecase}}</h3>
+              <h3>{{trait.value}}</h3>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="conflict-inner-shell" *ngIf="beast.conflict.flaws.length > 0">
-        <h2>Flaws</h2>
-        <div class="divider white"></div>
-        <div *ngFor="let trait of beast.conflict.flaws; let i = index">
-          <div *ngIf="!beast.flawlimit || i < beast.flawlimit" class="flex-row-opposite">
-            <h3>{{trait.trait | titlecase}}</h3>
-            <h3>{{trait.value}}</h3>
+        <div class="conflict-inner-shell" *ngIf="beast.conflict.flaws.length > 0">
+          <h2>Flaws</h2>
+          <div class="divider white"></div>
+          <div *ngFor="let trait of beast.conflict.flaws; let i = index">
+            <div *ngIf="!beast.flawlimit || i < beast.flawlimit" class="flex-row-opposite">
+              <h3>{{trait.trait | titlecase}}</h3>
+              <h3>{{trait.value}}</h3>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="conflict-inner-shell" *ngIf="beast.conflict.passions.length > 0">
-        <h2>Passions</h2>
-        <div class="divider white"></div>
-        <div *ngFor="let trait of beast.conflict.passions; let i = index">
-          <div *ngIf="!beast.passionlimit || i < beast.passionlimit" class="flex-row-opposite">
-            <h3>{{trait.trait | titlecase}}</h3>
-            <h3>{{trait.value}}</h3>
+        <div class="conflict-inner-shell" *ngIf="beast.conflict.passions.length > 0">
+          <h2>Passions</h2>
+          <div class="divider white"></div>
+          <div *ngFor="let trait of beast.conflict.passions; let i = index">
+            <div *ngIf="!beast.passionlimit || i < beast.passionlimit" class="flex-row-opposite">
+              <h3>{{trait.trait | titlecase}}</h3>
+              <h3>{{trait.value}}</h3>
+            </div>
           </div>
         </div>
-      </div>
 
-    </div>
+      </div>
 
       <div class="conflict-inner-shell" *ngIf="beast.skills.length > 0">
         <h2>Special Skills</h2>
@@ -239,7 +239,8 @@
         <div class="flex-row-opposite">
           <h3>Size</h3>
           <p>{{beast.size}}<i #tooltip="matTooltip"
-            matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This factored into their Defense already." class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></p>
+              matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This factored into their Defense already."
+              class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></p>
         </div>
         <div class="flex-row-opposite">
           <h3>Int</h3>
@@ -271,8 +272,8 @@
         </div>
       </div>
 
-      <h2>Loot <i #tooltip="matTooltip"
-        matTooltip="This doesn't include weapons and armor unless they're notable." class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></h2>
+      <h2>Loot <i #tooltip="matTooltip" matTooltip="This doesn't include weapons and armor unless they're notable."
+          class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></h2>
       <div class="divider"></div>
       <div *ngIf="beast.loot.length > 0" class="loot-shell">
         <div *ngFor="let lootitem of beast.loot; let i = index">
@@ -297,7 +298,8 @@
       </div>
 
       <h2>Magical Reagents <i #tooltip="matTooltip"
-        matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell. Note that only spells casted as the noted school gain this bonus. The difficulty to recognize the item is at the end; the difficulty to harvest it is 2 dice sizes lower." class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></h2>
+          matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell. Note that only spells casted as the noted school gain this bonus. The difficulty to recognize the item is at the end; the difficulty to harvest it is 2 dice sizes lower."
+          class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></h2>
       <div class="divider"></div>
       <div *ngIf="beast.reagents.length > 0" class="reagents-shell">
         <div class="flex-row-opposite">
