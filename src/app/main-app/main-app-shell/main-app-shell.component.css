@@ -17,5 +17,6 @@
 @media (max-width: 699px) { 
     .main-app-shell {
         margin: 0;
+        margin-left: 7px;
     }
 }
