@@ -27,6 +27,8 @@ export class TypeConverterPipe implements PipeTransform {
         return 'Goblinoid';
       case 10:
         return 'Swarm';
+      case 11:
+        return 'Flora';
       default:
         return value;
     }
