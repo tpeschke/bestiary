@@ -4,6 +4,10 @@
   font-family: 'know';
   src: url('./assets/jancient.ttf') format("truetype");
 }
+@font-face {
+  font-family: 'umbria';
+  src: url('./assets/umbria.ttf') format("truetype");
+}
 
 html,
 body,
@@ -129,6 +133,7 @@ h2 {
   font-size: 20px;
   margin-top: 15px;
   font-weight: 600;
+  font-family: 'umbria';
 }
 h3 {
   font-size: 18px;
@@ -221,3 +226,7 @@ table {
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-expansion-panel-header {
+  font-family: 'know' !important;
+}

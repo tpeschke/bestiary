@@ -11,8 +11,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip'; 
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
@@ -30,7 +30,7 @@ import { MoraleConverterPipe } from '../util/pipes/morale-converter.pipe'
 import { SubsystemConverterPipe } from '../util/pipes/subsystem-converter.pipe';
 import { ToastrModule } from 'ngx-toastr';
 import { HewyRatingComponent } from './hewy-rating/hewy-rating.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { PlayerNotesComponent } from './player-notes/player-notes.component';
 
 @NgModule({

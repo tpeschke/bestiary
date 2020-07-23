@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { MatExpansionPanel } from '@angular/material';
 
 class QueryObject {
   name?: string
@@ -23,6 +24,8 @@ class QueryObject {
   styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent implements OnInit {
+  @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
+  
   constructor(
     public router: Router
   ) { }
@@ -32,6 +35,13 @@ export class SearchBarComponent implements OnInit {
   public types = []
 
   ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if(!event.url.includes('search')) {
+          this.viewPanels.forEach(p => p.close());
+        }
+      }
+    });
   }
 
   enterSearchName(e) {
