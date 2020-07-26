@@ -59,7 +59,7 @@ export class BeastViewEditComponent implements OnInit {
           patreon: 0,
           vitality: '',
           panic: '',
-          broken: '',
+          stress: 0,
           combat: [],
           conflict: {traits: [], devotions: [], flaws: [], passions: []},
           skills: [],

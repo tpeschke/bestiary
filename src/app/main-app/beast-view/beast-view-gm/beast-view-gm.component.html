@@ -139,14 +139,14 @@
           <p>{{beast.vitality}} (Ave: {{averageVitality}})</p>
         </div>
         <div class="flex-row-opposite">
+          <h3>Stress Threshold</h3>
+          <p *ngIf="beast.stress !== 0">{{beast.stress}}</p>
+          <p *ngIf="beast.stress === 0">N/A</p>
+        </div>
+        <div class="flex-row-opposite">
           <h3>Panic</h3>
           <p>{{beast.panic | moraleConverter}}</p>
         </div>
-        <div class="flex-row-opposite">
-          <h3>Broken</h3>
-          <p>{{beast.broken | moraleConverter}}</p>
-        </div>
-        <!-- Custom pipes for the above should work -->
       </div>
 
       <div class="vitals-shell">

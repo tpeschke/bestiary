@@ -276,6 +276,10 @@
         <p>(Ave: {{averageVitality}})</p>
 
         <mat-form-field>
+          <input matInput placeholder="Stress Threshold" [value]="beast.stress" (change)="captureInput($event, 'stress')">
+        </mat-form-field>
+
+        <mat-form-field>
           <mat-label>Panic</mat-label>
           <mat-select [value]="beast.panic" (selectionChange)="captureSelect($event, 'panic')">
             <mat-option value="1">
@@ -304,37 +308,6 @@
         <div class="flex-row-opposite">
           <h3>Current Panic</h3>
           <p>{{beast.panic | moraleConverter}}</p>
-        </div>
-
-        <mat-form-field>
-          <mat-label>Broken</mat-label>
-          <mat-select [value]="beast.broken" (selectionChange)="captureSelect($event, 'broken')">
-            <mat-option value="1">
-              Fresh
-            </mat-option>
-            <mat-option value="2">
-              Tired
-            </mat-option>
-            <mat-option value="3">
-              Hurt
-            </mat-option>
-            <mat-option value="4">
-              Bloodied
-            </mat-option>
-            <mat-option value="5">
-              Wounded
-            </mat-option>
-            <mat-option value="6">
-              Bleeding Out
-            </mat-option>
-            <mat-option value="7">
-              Never
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div class="flex-row-opposite">
-          <h3>Current Broken</h3>
-          <p>{{beast.broken | moraleConverter}}</p>
         </div>
       </div>
 
