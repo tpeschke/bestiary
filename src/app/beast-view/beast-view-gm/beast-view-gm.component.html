@@ -3,7 +3,7 @@
     <h1>
       <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-white"></i>
       <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-white"></i>
-      {{beast.name | uppercase}}
+      {{beast.name}}
     </h1>
     <div>
       <h1>HR: {{beast.hr}}
@@ -324,7 +324,7 @@
       <div class="divider"></div>
       <div *ngIf="beast.variants.length > 0" class="chip-shell">
         <mat-chip-list>
-          <mat-chip [routerLink]="['/main/beast', variant.variantid, 'gm']" *ngFor="let variant of beast.variants"
+          <mat-chip [routerLink]="['/beast', variant.variantid, 'gm']" *ngFor="let variant of beast.variants"
             color="accent" selected>
             {{variant.name}}</mat-chip>
         </mat-chip-list>
@@ -360,7 +360,7 @@
   </div>
 
   <button *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
-    [routerLink]="['/main/beast', beast.id, 'edit']">Edit</button>
+    [routerLink]="['/beast', beast.id, 'edit']">Edit</button>
   <button *ngIf="loggedIn === 'owner'" mat-raised-button color="accent"
-    [routerLink]="['/main/beast', 0, 'edit', {'templateId': beast.id}]">Use As Template For New</button>
+    [routerLink]="['/beast', 0, 'edit', {'templateId': beast.id}]">Use As Template For New</button>
 </mat-card>

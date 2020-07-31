@@ -24,7 +24,7 @@ export class NoPlayerAuthService implements CanActivate {
           if (this.beastService.loggedIn === 'owner' || +this.beastService.loggedIn > 2 || canplayerview) {
             return true
           }
-          this.router.navigate(['/main/beast/', next.paramMap.get('id'), 'player'])
+          this.router.navigate(['/beast/', next.paramMap.get('id'), 'player'])
           return false
       })
     )

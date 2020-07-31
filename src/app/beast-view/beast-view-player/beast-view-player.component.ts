@@ -17,7 +17,15 @@ export class BeastViewPlayerComponent implements OnInit {
   public imageBase = variables.imageBase;
 
   ngOnInit() {
-    this.beast = this.route.snapshot.data['beast'];
+    let beastHolder = this.route.snapshot.data['beast']
+    if (beastHolder) {
+      this.beast = beastHolder;
+    }
+    if (!this.beast.name) {
+    this.route.data.subscribe(data => { 
+        this.beast = data['beast'][0]
+      })
+    }
   }
 
 }

@@ -22,7 +22,7 @@ export class NoGmAuthService {
       .pipe(
         map(({ canplayerview }) => {
           if (this.beastService.loggedIn === 'owner' || +this.beastService.loggedIn >= 3 || canplayerview) {
-            this.router.navigate(['/main/beast/', next.paramMap.get('id'), 'gm'])
+            this.router.navigate(['/beast/', next.paramMap.get('id'), 'gm'])
             return false
           }
           return true

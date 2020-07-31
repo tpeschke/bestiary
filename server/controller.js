@@ -39,16 +39,19 @@ let controllerObj = {
   getSingleBeast(req, res) {
     const db = req.app.get('db')
       , id = +req.params.id
-
     db.get.beastmaininfo(id).then(result => {
       let beast = result[0]
         , promiseArray = []
 
       let patreonTestValue = 0;
-      if (req.user && req.user.id === 1 || req.user.id === 21) {
+      if (beast.playercanview) {
         patreonTestValue = 1000
-      } else if (req.user && req.user.patreon) {
-        patreonTestValue = req.user.patreon
+      } else if (req.user) {
+        if (req.user.id === 1 || req.user.id === 21) {
+          patreonTestValue = 1000
+        } else if (req.user && req.user.patreon) {
+          patreonTestValue = req.user.patreon
+        }
       }
 
       if (beast.patreon > patreonTestValue) {
@@ -95,12 +98,14 @@ let controllerObj = {
           return result
         }))
 
-        promiseArray.push(db.get.beastnotes(id, req.user.id).then(result => {
-          beast.notes = result[0] || {}
-          return result
-        }))
+        if (req.user) {
+          promiseArray.push(db.get.beastnotes(id, req.user.id).then(result => {
+            beast.notes = result[0] || {}
+            return result
+          }))
+        }
 
-        promiseArray.push(db.get.beastvariants(id, req.user.patreon).then(result => {
+        promiseArray.push(db.get.beastvariants(id).then(result => {
           beast.variants = result
           return result
         }))
@@ -158,13 +163,16 @@ let controllerObj = {
   getPlayerBeast(req, res) {
     const db = req.app.get('db')
       , id = +req.params.id
-
     db.get.playerVersion(id).then(result => {
-      db.get.beastnotes(id, req.user.id).then(notes => {
-        result = result[0]
-        result.notes = notes[0] || {}
+      if (req.user) {
+        db.get.beastnotes(id, req.user.id).then(notes => {
+          result = result[0]
+          result.notes = notes[0] || {}
+          res.send(result)
+        })
+      } else {
         res.send(result)
-      })
+      }
     })
   },
   addPlayerNotes(req, res) {

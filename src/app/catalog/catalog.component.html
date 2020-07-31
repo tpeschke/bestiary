@@ -1,30 +1,32 @@
 <mat-card>
   <div *ngFor="let category of beasts">
-    <h2>{{category[0].name.substring(0,1) | uppercase}}</h2>
+    <h2>{{category[0].name.substring(0,1)}}</h2>
     <mat-divider></mat-divider>
     <div class="beastDiv">
       <div *ngFor="let beast of category">
         <div *ngIf="beastService.loggedIn < 3 && beastService.loggedIn !== 'owner'">
-          <button *ngIf="beast.patreon < 20" [routerLink]="['/main/beast', beast.id, 'player']" class="beastButton"
+          <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton"
             mat-button>
             <div class="img-shell">
               <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
             </div>
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
+              <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
               <p class="beast-name">{{beast.name}}</p>
             </div>
           </button>
         </div>
         <div *ngIf="beastService.loggedIn > 2 || beastService.loggedIn === 'owner'">
           <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
-            [routerLink]="['/main/beast', beast.id, 'gm']" class="beastButton" mat-button>
+            [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button>
             <div class="img-shell">
               <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
             </div>
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
+              <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
               <p class="beast-name">{{beast.name}}</p>
             </div>
           </button>
@@ -36,6 +38,7 @@
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-blue"></i>
+              <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
               <p class="beast-name">{{beast.name}}</p>
             </div>
           </button>

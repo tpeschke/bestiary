@@ -226,15 +226,15 @@ export class BeastViewEditComponent implements OnInit {
   saveChanges() {
     let id = this.route.snapshot.paramMap.get('id');
     if (+id) {
-      this.beastService.updateBeast(this.beast).subscribe(_ => this.router.navigate([`/main/beast/${id}/gm`]))
+      this.beastService.updateBeast(this.beast).subscribe(_ => this.router.navigate([`/beast/${id}/gm`]))
     } else {
-      this.beastService.addBeast(this.beast).subscribe(result => this.router.navigate([`/main/beast/${result.id}/gm`]))
+      this.beastService.addBeast(this.beast).subscribe(result => this.router.navigate([`/beast/${result.id}/gm`]))
     }
   }
 
   deleteThisBeast() {
     let id = this.route.snapshot.paramMap.get('id');
-    this.beastService.deleteBeast(id).subscribe(_ => this.router.navigate(['/main/catalog']))
+    this.beastService.deleteBeast(id).subscribe(_ => this.router.navigate(['/catalog']))
   }
 
 }

@@ -4,10 +4,10 @@
     <mat-toolbar-row>
       <div>
         <img src="../../../assets/TWRealFire.png" alt="Bonfire RPG Logo">
-        <h1 routerLink="/main/catalog" class="title">Bonfire Bestiary</h1>
+        <h1 routerLink="/catalog" class="title">Bonfire Bestiary</h1>
       </div>
   
-      <button class="new-button" *ngIf="loggedIn === 'owner'" mat-raised-button color="accent" [routerLink]="['/main/beast', 0, 'edit']">New</button>
+      <button class="new-button" *ngIf="loggedIn === 'owner'" mat-raised-button color="accent" [routerLink]="['/beast', 0, 'edit']">New</button>
       <div *ngIf="!loggedIn">
         <a href={{loginEndpoint}}>
           <button mat-raised-button>Log In</button>

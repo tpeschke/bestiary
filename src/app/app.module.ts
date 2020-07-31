@@ -48,8 +48,7 @@ import { NoPlayerAuthService } from './util/guards-resolvers/no-player-auth.serv
 import { NoGmAuthService } from './util/guards-resolvers/no-gm-auth.service'
 
 const routes: Routes = [
-  { path: '', redirectTo: 'catalog', pathMatch: "full" },
-  { path: 'catalog', component: CatalogComponent, resolve: { catalog: CatalogResolverService } },
+  { path: '', component: CatalogComponent, resolve: { catalog: CatalogResolverService } },
   { path: 'beast/:id/gm', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: { beast: SingleBeastResolverService } },
   { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: { beast: PlayerBeastResolverService } },
   { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: { beast: SingleBeastResolverService } },

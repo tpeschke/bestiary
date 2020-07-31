@@ -6,6 +6,8 @@ import local from '../../../local';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
+import { mapChildrenIntoArray } from '@angular/router/src/url_tree';
+import { makePropDecorator } from '@angular/core/src/util/decorators';
 
 class User {
   id: number
@@ -22,7 +24,7 @@ export class BeastService {
     private toastr: ToastrService
   ) { }
 
-  loggedIn = null;
+  public loggedIn:boolean|string|number = false
 
   handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -31,7 +33,7 @@ export class BeastService {
       } else if (error.status === 403) {
         this.toastr.warning('', `${error.error}`)
       } else if (error.status === 401) {
-        this.router.navigate(["/main/catalog"]);
+        this.router.navigate(["/catalog"]);
         this.toastr.error('', `${error.error}`);
       }
       return of(result as T)
@@ -40,16 +42,15 @@ export class BeastService {
 
   checkLogin() {
     return this.http.get(local.endpointBase + '/api/auth/me').pipe(
-      tap((result: User) => {
+      map((result: User) => {
         if (result.id === 1 || result.id === 21) {
-          this.loggedIn = 'owner'
+          return 'owner'
         } else if (result.id && result.patreon) {
-          this.loggedIn = result.patreon
+          return result.patreon
         } else if (result.id) {
-          this.loggedIn = true;
+          return true;
         }
-      }),
-      map((result: User) => !!this.loggedIn)
+      })
     )
   }
 

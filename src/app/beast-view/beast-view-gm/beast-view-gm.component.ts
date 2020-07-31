@@ -37,7 +37,7 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   navigateToSearch(type, search) {
-    this.router.navigate(['/main/search', { [type]: search }]);
+    this.router.navigate(['/search', { [type]: search }]);
   }
 
 }

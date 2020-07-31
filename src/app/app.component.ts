@@ -15,8 +15,12 @@ export class AppComponent {
     private location: Location
   ) {  }
 
-  public loggedIn = this.beastService.loggedIn || false;
+  public loggedIn:boolean|string|number = false;
 
   ngOnInit() {
+    this.beastService.checkLogin().subscribe(result => {
+      this.beastService.loggedIn = result
+      this.loggedIn = result
+    })
   }
 }
