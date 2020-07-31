@@ -275,15 +275,15 @@ let controllerObj = {
       })
       // update combat
       combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, id: weaponId, deleted, weapontype, ranges }) => {
-        if (!weaponId) {
+        if (deleted) {
+          promiseArray.push(db.delete.beastcombat(weaponId).then())
+        } else if (!weaponId) {
           promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype).then(result => {
             if (weapontype === 'r') {
               return db.add.combatranges(result.weaponid, +ranges.zero, +ranges.two, +ranges.four, +ranges.six, +ranges.eight).then()
             }
             return true;
           }))
-        } else if (deleted) {
-          promiseArray.push(db.delete.beastcombat(weaponId).then())
         } else {
           promiseArray.push(db.update.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weaponId, weapontype).then())
           if (weapontype === 'r' && ranges.id) {
@@ -297,59 +297,60 @@ let controllerObj = {
       let newConflict = []
       Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
       newConflict.forEach(({ trait, value, type, id: conflictId, deleted }) => {
-        if (!conflictId) {
-          promiseArray.push(db.add.beastconflict(id, trait, value, type).then())
-        } else if (deleted) {
+        if (deleted) {
           promiseArray.push(db.delete.beastconflict(conflictId).then())
+        } else if (!conflictId) {
+          promiseArray.push(db.add.beastconflict(id, trait, value, type).then())
         } else {
           promiseArray.push(db.update.beastconflict(id, trait, value, type, conflictId).then())
         }
       })
       // update skills
       skills.forEach(({ skill, rank, id: skillId, deleted }) => {
-        if (!skillId) {
-          promiseArray.push(db.add.beastskill(id, skill, rank).then())
-        } else if (deleted) {
+        if (deleted) {
           promiseArray.push(db.delete.beastskill(skillId).then())
+        } else if (!skillId) {
+          promiseArray.push(db.add.beastskill(id, skill, rank).then())
         } else {
           promiseArray.push(db.update.beastskill(id, skill, rank, skillId).then())
         }
       })
       // update movement
       movement.forEach(({ stroll, walk, jog, run, sprint, type, id: movementId, deleted }) => {
-        if (!movementId) {
-          promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type).then())
-        } else if (deleted) {
+        if (deleted) {
           promiseArray.push(db.delete.beastmovement(movementId).then())
+        } else if (!movementId) {
+          promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type).then())
         } else {
           promiseArray.push(db.update.beastmovement(id, stroll, walk, jog, run, sprint, type, movementId).then())
         }
       })
       // update variants
       variants.forEach(({ id: checkId, variantid, deleted }) => {
-        if (!checkId) {
+        if (deleted) {
+          promiseArray.push(db.delete.beastvariants(id, variantid).then())
+          promiseArray.push(db.delete.beastvariants(variantid, id).then())
+        } else if (!checkId) {
           promiseArray.push(db.add.beastvariants(id, variantid).then())
           promiseArray.push(db.add.beastvariants(variantid, id).then())
-        } else if (deleted) {
-          promiseArray.push(db.delete.beastvariants(id, variantid).then())
         }
       })
       // update loot
       loot.forEach(({ loot, price, id: lootId, deleted }) => {
-        if (!lootId) {
-          promiseArray.push(db.add.beastloot(id, loot, price).then())
-        } else if (deleted) {
+        if (deleted) {
           promiseArray.push(db.delete.beastloot(lootId).then())
+        } else if (!lootId) {
+          promiseArray.push(db.add.beastloot(id, loot, price).then())
         } else {
           promiseArray.push(db.update.beastloot(id, loot, price, lootId).then())
         }
       })
       // update reagents
       reagents.forEach(({ name, spell, difficulty, id: reagentId, deleted }) => {
-        if (!reagentId) {
-          promiseArray.push(db.add.beastreagents(id, name, spell, difficulty).then())
-        } else if (deleted) {
+        if (deleted) {
           promiseArray.push(db.delete.beastreagents(reagentId).then())
+        } else if (!reagentId) {
+          promiseArray.push(db.add.beastreagents(id, name, spell, difficulty).then())
         } else {
           promiseArray.push(db.update.beastreagents(id, name, spell, difficulty, reagentId).then())
         }

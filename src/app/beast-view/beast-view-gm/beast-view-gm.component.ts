@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BeastService } from '../../../util/services/beast.service';
-import { CalculatorService } from '../../../util/services/calculator.service';
-import variables from '../../../../local.js'
+import { BeastService } from '../../util/services/beast.service';
+import { CalculatorService } from '../../util/services/calculator.service';
+import variables from '../../../local.js'
 import { HewyRatingComponent } from '../../hewy-rating/hewy-rating.component';
 import { MatDialog } from '@angular/material';
 @Component({

@@ -1,4 +1,22 @@
-<!--The content below is only a placeholder and can be replaced.-->
-
-<router-outlet></router-outlet>
-
+<div id="top"></div>
+<div class="main-app-shell">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <div>
+        <img src="../../../assets/TWRealFire.png" alt="Bonfire RPG Logo">
+        <h1 routerLink="/main/catalog" class="title">Bonfire Bestiary</h1>
+      </div>
+  
+      <button class="new-button" *ngIf="loggedIn === 'owner'" mat-raised-button color="accent" [routerLink]="['/main/beast', 0, 'edit']">New</button>
+      <div *ngIf="!loggedIn">
+        <a href={{loginEndpoint}}>
+          <button mat-raised-button>Log In</button>
+        </a>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  
+  <app-search-bar></app-search-bar>
+  
+  <router-outlet></router-outlet>
+</div>

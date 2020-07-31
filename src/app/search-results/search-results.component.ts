@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BeastService } from 'src/app/util/services/beast.service';
-import variables from '../../../local.js'
+import variables from '../../local.js'
 
 @Component({
   selector: 'app-search-results',

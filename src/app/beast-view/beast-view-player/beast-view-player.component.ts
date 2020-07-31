@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import variables from '../../../../local.js'
+import variables from '../../../local.js'
 
 @Component({
   selector: 'app-beast-view-player',

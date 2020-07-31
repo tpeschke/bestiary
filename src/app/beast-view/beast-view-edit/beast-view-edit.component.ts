@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BeastService } from '../../../util/services/beast.service';
-import variables from '../../../../local.js'
-import { CalculatorService } from '../../../util/services/calculator.service';
+import { BeastService } from '../../util/services/beast.service';
+import variables from '../../../local.js'
+import { CalculatorService } from '../../util/services/calculator.service';
 @Component({
   selector: 'app-beast-view-edit',
   templateUrl: './beast-view-edit.component.html',

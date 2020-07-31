@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
-import { BeastService } from '../../util/services/beast.service'
-import variables from '../../../local.js'
+import { BeastService } from '../util/services/beast.service'
+import variables from '../../local.js'
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',

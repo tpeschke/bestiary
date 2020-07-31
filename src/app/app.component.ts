@@ -15,15 +15,8 @@ export class AppComponent {
     private location: Location
   ) {  }
 
+  public loggedIn = this.beastService.loggedIn || false;
+
   ngOnInit() {
-    if (!this.beastService.loggedIn) {
-      this.beastService.checkLogin().subscribe(result => {
-        if (result) {
-          this.router.navigate([this.location.path() ? this.location.path() : '/main/catalog'])
-        } else {
-          this.router.navigate(['/login'])
-        }
-      })
-    }
   }
 }
