@@ -4,7 +4,7 @@
     <mat-divider></mat-divider>
     <div class="beastDiv">
       <div *ngFor="let beast of category">
-        <div *ngIf="beastService.loggedIn < 3 && beastService.loggedIn !== 'owner'">
+        <div *ngIf="beastService.loggedIn !== 'owner' && beast.patreon < 4">
           <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton"
             mat-button>
             <div class="img-shell">
@@ -17,7 +17,7 @@
             </div>
           </button>
         </div>
-        <div *ngIf="beastService.loggedIn > 2 || beastService.loggedIn === 'owner'">
+        <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || beastService.loggedIn === 'owner'">
           <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
             [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button>
             <div class="img-shell">

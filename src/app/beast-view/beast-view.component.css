@@ -307,6 +307,10 @@ mat-toolbar {
     text-align: right;;
 }
 
+.introduction {
+    display: none;
+}
+
 @media (max-width: 963px) {
     .combat-shell {
         justify-content: start;
@@ -316,10 +320,19 @@ mat-toolbar {
 
 @media (max-width: 699px) {
     .right, .left {
-        width: 100%
+        width: 100%;
+        padding: 0;
     }
 
     .content-shell {
         flex-direction: column;
+    }
+
+    .introduction {
+        display: inherit;
+    }
+
+    img {
+        margin-top: 15px;
     }
 }

@@ -1,5 +1,11 @@
 .main-app-shell {
-    margin: 0 15px 15px;
+    margin: 0 15px 0 15px;
+}
+
+.bottomMenu {
+    margin-top: 15px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
 }
 
 .title {
