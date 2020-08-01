@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BeastService } from './util/services/beast.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
+import variables from '../local.js'
+import { VariableAst } from '@angular/compiler';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,7 @@ export class AppComponent {
   ) {  }
 
   public loggedIn:boolean|string|number = false;
+  public loginEndpoint = variables.login
 
   ngOnInit() {
     this.beastService.checkLogin().subscribe(result => {
