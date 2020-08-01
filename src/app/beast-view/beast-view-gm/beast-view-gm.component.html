@@ -138,6 +138,12 @@
           <h3>Vitality</h3>
           <p>{{beast.vitality}} (Ave: {{averageVitality}})</p>
         </div>
+        <div class="checkboxShell">
+          <div *ngFor="let checkbox of checkboxes; let i = index">
+            <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkCheckbox($event, i)" [(ngModel)]="checkbox.checked"></mat-checkbox>
+            <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+          </div>
+        </div>
         <div class="flex-row-opposite">
           <h3>Stress Threshold</h3>
           <p *ngIf="beast.stress !== 0">{{beast.stress}}</p>

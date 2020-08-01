@@ -24,11 +24,53 @@ export class BeastViewGmComponent implements OnInit {
   public loggedIn = this.beastService.loggedIn || false;
   public imageBase = variables.imageBase;
   public averageVitality = null
+  public checkboxes = []
 
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
+
+      let tired = 1
+        , hurt = Math.floor(this.averageVitality * .25)
+        , bloodied = Math.floor(this.averageVitality * .5)
+        , wounded = Math.floor(this.averageVitality * .75)
+
+      for (let i = 0; i < this.averageVitality; i++) {
+        switch (i) {
+          case tired:
+            this.checkboxes.push({ value: 'T' })
+            break;
+          case hurt:
+            this.checkboxes.push({ value: 'H' })
+            break;
+          case bloodied:
+            this.checkboxes.push({ value: 'B' })
+            break;
+          case wounded:
+            this.checkboxes.push({ value: 'W' })
+            break;
+          default:
+            break;
+        }
+        this.checkboxes.push({ checked: false })
+      }
+    })
+  }
+
+  checkCheckbox(event, index) {
+    this.checkboxes = this.checkboxes.map((box, i) => {
+      if (box.value) {
+        return box
+      } else {
+        if (i === 0 && index === 0) {
+          return { checked: event.checked }
+        } else if (i <= index) {
+          return { checked: true }
+        } else {
+          return { checked: false }
+        }
+      }
     })
   }
 

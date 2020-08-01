@@ -311,6 +311,18 @@ mat-toolbar {
     display: none;
 }
 
+.checkboxShell {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 5px 0;
+    justify-content: space-evenly;
+}
+
+.checkboxShell p {
+    margin: 0 3px
+}
+
 @media (max-width: 963px) {
     .combat-shell {
         justify-content: start;
