@@ -316,7 +316,7 @@ mat-toolbar {
     flex-wrap: wrap;
     align-items: center;
     margin: 5px 0;
-    justify-content: space-evenly;
+    justify-content: flex-start;
 }
 
 .checkboxShell p {
