@@ -72,22 +72,40 @@ let controllerObj = {
           return result
         }))
 
-        promiseArray.push(db.get.beastconflict(id).then(result => {
-          beast.conflict = { traits: [], devotions: [], flaws: [], passions: [] }
-          result.forEach(val => {
-            if (val.type === 't' || !val.type) {
-              beast.conflict.traits.push(val)
-            } else if (val.type === 'd') {
-              beast.conflict.devotions.push(val)
-            } else if (val.type === 'f') {
-              beast.conflict.flaws.push(val)
-            } else if (val.type === 'p') {
-              beast.conflict.passions.push(val)
-            }
-          })
-          return result
-        }))
-
+        if(req.query.edit) {
+          promiseArray.push(db.get.beastconflictedit(id).then(result => {
+            beast.conflict = { traits: [], devotions: [], flaws: [], passions: [] }
+            result.forEach(val => {
+              if (val.type === 't' || !val.type) {
+                beast.conflict.traits.push(val)
+              } else if (val.type === 'd') {
+                beast.conflict.devotions.push(val)
+              } else if (val.type === 'f') {
+                beast.conflict.flaws.push(val)
+              } else if (val.type === 'p') {
+                beast.conflict.passions.push(val)
+              }
+            })
+            return result
+          }))
+        } else {
+          promiseArray.push(db.get.beastconflict(id).then(result => {
+            beast.conflict = { traits: [], devotions: [], flaws: [], passions: [] }
+            result.forEach(val => {
+              if (val.type === 't' || !val.type) {
+                beast.conflict.traits.push(val)
+              } else if (val.type === 'd') {
+                beast.conflict.devotions.push(val)
+              } else if (val.type === 'f') {
+                beast.conflict.flaws.push(val)
+              } else if (val.type === 'p') {
+                beast.conflict.passions.push(val)
+              }
+            })
+            return result
+          }))
+        }
+        
         promiseArray.push(db.get.beastskill(id).then(result => {
           beast.skills = result
           return result

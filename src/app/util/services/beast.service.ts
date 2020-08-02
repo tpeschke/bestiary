@@ -70,8 +70,8 @@ export class BeastService {
     return this.http.get(local.endpointBase + '/api/playerCanView/' + id)
   }
 
-  getSingleBeast(id): any {
-    return this.http.get(local.endpointBase + '/api/beasts/' + id)
+  getSingleBeast(id, edit): any {
+    return this.http.get(local.endpointBase + '/api/beasts/' + id, {params: edit})
       .pipe(
         // catchError(this.handleError('get single beast', []))
       )

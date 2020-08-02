@@ -18,10 +18,10 @@ export class SingleBeastResolverService implements Resolve<any> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any> {
-    let id = +route.paramMap.get('id');
-    let templateId = +route.paramMap.get('templateId')
+    let id = +route.paramMap.get('id')
+      , templateId = +route.paramMap.get('templateId')
     if (templateId) {
-      return this.beastService.getSingleBeast(templateId)
+      return this.beastService.getSingleBeast(templateId, {edit: route.routeConfig.path.includes('edit')})
         .pipe(
           tap(_ => {
             var scrollToTop = window.setInterval(function () {
@@ -36,7 +36,7 @@ export class SingleBeastResolverService implements Resolve<any> {
           catchError(this.beastService.handleError('get single monster', [])
           ));
     } else if (id) {
-      return this.beastService.getSingleBeast(id)
+      return this.beastService.getSingleBeast(id, {edit: route.routeConfig.path.includes('edit')})
         .pipe(
           tap(_ => {
             var scrollToTop = window.setInterval(function () {
