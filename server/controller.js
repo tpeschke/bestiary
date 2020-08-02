@@ -72,7 +72,7 @@ let controllerObj = {
           return result
         }))
 
-        if(req.query.edit) {
+        if(req.query.edit === 'true') {
           promiseArray.push(db.get.beastconflictedit(id).then(result => {
             beast.conflict = { traits: [], devotions: [], flaws: [], passions: [] }
             result.forEach(val => {
