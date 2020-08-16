@@ -93,6 +93,7 @@ const routes: Routes = [
     QuillModule.forRoot(),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })
   ],
+  entryComponents: [HewyRatingComponent],
   providers: [BeastService, CalculatorService],
   bootstrap: [AppComponent]
 })

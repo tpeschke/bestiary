@@ -6,8 +6,6 @@ import local from '../../../local';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
-import { mapChildrenIntoArray } from '@angular/router/src/url_tree';
-import { makePropDecorator } from '@angular/core/src/util/decorators';
 
 class User {
   id: number
