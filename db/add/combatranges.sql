@@ -1,2 +1,2 @@
-insert into bbranges (weaponid, zero, two, four, six, eight) 
-values  ($1, $2, $3, $4, $5, $6)
+insert into ranges (weaponid, maxrange) 
+values  ($1, $2)

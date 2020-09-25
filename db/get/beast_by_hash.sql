@@ -1,1 +1,1 @@
-select id, name, vitality, panic, broken from bbindividualbeast where hash = $1
+select id, name, vitality, panic from bbindividualbeast where hash = $1

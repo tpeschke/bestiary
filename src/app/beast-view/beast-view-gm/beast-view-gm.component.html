@@ -121,12 +121,16 @@
                 <h4>{{square.ranges.two + 1}} - {{square.ranges.four}}</h4>
               </div>
               <div class="ranged-odd">
-                <h4>-6</h4>
-                <h4>{{square.ranges.four + 1}} - {{square.ranges.six}}</h4>
+                <h4>-8</h4>
+                <h4>{{square.ranges.four + 1}} - {{square.ranges.eight}}</h4>
               </div>
               <div>
-                <h4>-8</h4>
-                <h4>{{square.ranges.six + 1}} - {{square.ranges.eight}}</h4>
+                <h4>-16</h4>
+                <h4>{{square.ranges.eight + 1}} - {{square.ranges.sixteen}}</h4>
+              </div>
+              <div class="ranged-odd">
+                <h4>-32</h4>
+                <h4>{{square.ranges.sixteen + 1}} - {{square.ranges.thirtytwo}}</h4>
               </div>
             </div>
           </div>
@@ -136,7 +140,7 @@
       <div class="vitals-shell">
         <div class="flex-row-opposite">
           <h3>Vitality</h3>
-          <p>{{beast.vitality}} (Ave: {{averageVitality}})</p>
+          <span><p>{{beast.vitality}} </p><p *ngIf="isNumber(averageVitality)">(Ave: {{averageVitality}})</p></span>
         </div>
         <div class="checkboxShell">
           <div *ngFor="let checkbox of checkboxes; let i = index">

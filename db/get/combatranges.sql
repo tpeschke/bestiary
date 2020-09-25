@@ -1,1 +1,1 @@
-select id, zero, two, four, six, eight from bbranges where weaponid = $1;
+select id, round(maxrange/6) as zero, round((maxrange/6) * 2) as two, round((maxrange/6) * 3) as four, round((maxrange/6) * 4) as eight, round((maxrange/6) * 5) as sixteen, maxrange as thirtytwo from ranges where weaponid = $1;

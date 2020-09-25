@@ -69,7 +69,6 @@ app.get('/auth/logout', function (req, res) {
     res.redirect(`/`)
 })
 
-
 // =====================================
 
 app.get('/api/beasts/catalog', (req, res) => res.send(ctrl.catalogCache))

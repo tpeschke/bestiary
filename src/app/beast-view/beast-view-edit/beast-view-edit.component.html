@@ -92,7 +92,8 @@
           </div>
         </div>
       </div>
-      <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">ADD DEVOTIONS</button>
+      <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">ADD
+        DEVOTIONS</button>
 
       <mat-form-field>
         <input matInput placeholder="Max Devotions Appearing" [value]="beast.devotionlimit"
@@ -145,7 +146,8 @@
           </div>
         </div>
       </div>
-      <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'passions')" color="accent">ADD PASSION</button>
+      <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'passions')" color="accent">ADD
+        PASSION</button>
 
       <mat-form-field>
         <input matInput placeholder="Max Passions Appearing" [value]="beast.passionlimit"
@@ -238,27 +240,39 @@
               </mat-select>
             </mat-form-field>
 
-            <div *ngIf="square.weapontype == 'r'">
-              <h3>Ranges</h3>
+            <div *ngIf="square.weapontype == 'r'" class="ranged-shell">
+              <h3>Range</h3>
+              <div class="ranged-title">
+                <h4>Penalty</h4>
+                <h4>Range (ft)</h4>
+              </div>
+              <div>
+                <h4>0</h4>
+                <h4>5 - {{(+square.ranges.thirtytwo / 6 | number:'1.0-0')}}</h4>
+              </div>
+              <div class="ranged-odd">
+                <h4>-2</h4>
+                <h4>{{(+square.ranges.thirtytwo / 6) + 1 | number:'1.0-0'}} - {{(+square.ranges.thirtytwo / 6) * 2 | number:'1.0-0'}}</h4>
+              </div>
+              <div>
+                <h4>-4</h4>
+                <h4>{{(+square.ranges.thirtytwo / 6) + 1 | number:'1.0-0'}} - {{(+square.ranges.thirtytwo / 6) * 3 | number:'1.0-0'}}</h4>
+              </div>
+              <div class="ranged-odd">
+                <h4>-8</h4>
+                <h4>{{((+square.ranges.thirtytwo / 6) * 2) + 1 | number:'1.0-0'}} - {{(+square.ranges.thirtytwo / 6) * 4 | number:'1.0-0'}}</h4>
+              </div>
+              <div>
+                <h4>-16</h4>
+                <h4>{{((+square.ranges.thirtytwo / 6) * 3) + 1 | number:'1.0-0'}} - {{(+square.ranges.thirtytwo / 6) * 5 | number:'1.0-0'}}</h4>
+              </div>
+              <div class="ranged-odd">
+                <h4>-32</h4>
+                <h4>{{((+square.ranges.thirtytwo / 6) * 2) + 1 | number:'1.0-0'}} - {{square.ranges.thirtytwo | number:'1.0-0'}}</h4>
+              </div>
               <mat-form-field>
-                <input placeholder="0" matInput [value]="square.ranges.zero"
-                  (change)="captureInput($event, 'combat', i, 'ranges', 'zero')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="-2" matInput [value]="square.ranges.two"
-                  (change)="captureInput($event, 'combat', i, 'ranges', 'two')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="-4" matInput [value]="square.ranges.four"
-                  (change)="captureInput($event, 'combat', i, 'ranges', 'four')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="-6" matInput [value]="square.ranges.six"
-                  (change)="captureInput($event, 'combat', i, 'ranges', 'six')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="-8" matInput [value]="square.ranges.eight"
-                  (change)="captureInput($event, 'combat', i, 'ranges', 'eight')">
+                <input placeholder="Max Range" matInput [value]="square.ranges.thirtytwo"
+                  (change)="captureInput($event, 'combat', i, 'ranges', 'thirtytwo')">
               </mat-form-field>
             </div>
 
@@ -276,7 +290,8 @@
         <p>(Ave: {{averageVitality}})</p>
 
         <mat-form-field>
-          <input matInput placeholder="Stress Threshold" [value]="beast.stress" (change)="captureInput($event, 'stress')">
+          <input matInput placeholder="Stress Threshold" [value]="beast.stress"
+            (change)="captureInput($event, 'stress')">
         </mat-form-field>
 
         <mat-form-field>
@@ -621,7 +636,8 @@
 
       <h3 class="loot-notes-subtitle">Loot Notes</h3>
       <div>
-        <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')"></quill-editor>
+        <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')">
+        </quill-editor>
       </div>
 
       <h2>Magical Reagents</h2>

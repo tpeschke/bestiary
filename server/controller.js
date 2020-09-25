@@ -155,9 +155,8 @@ let controllerObj = {
   },
   getFromBestiary(req, res) {
     const db = req.app.get('db')
-
     if (req.query.patreon < 3) {
-      res.sendStatus(401).send("You need to update your Patreon to gain access to this feature")
+      res.sendStatus(401).send({message : "You need to update your Patreon to gain access to this feature"})
     } else {
       db.get.beast_by_hash(req.params.hash).then(beast => {
         beast = beast[0]
@@ -237,7 +236,7 @@ let controllerObj = {
       combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype, ranges }) => {
         promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype).then(result => {
           if (weapontype === 'r') {
-            return db.add.combatranges(result[0].id, +ranges.zero, +ranges.two, +ranges.four, +ranges.six, +ranges.eight).then()
+            return db.add.combatranges(result[0].id, +ranges.thirtytwo).then()
           }
           return true;
         }))
@@ -306,16 +305,16 @@ let controllerObj = {
         } else if (!weaponId) {
           promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype).then(result => {
             if (weapontype === 'r') {
-              return db.add.combatranges(result.weaponid, +ranges.zero, +ranges.two, +ranges.four, +ranges.six, +ranges.eight).then()
+              return db.add.combatranges(result.weaponid, +ranges.thirtytwo).then()
             }
             return true;
           }))
         } else {
           promiseArray.push(db.update.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weaponId, weapontype).then())
           if (weapontype === 'r' && ranges.id) {
-            promiseArray.push(db.update.combatranges(weaponId, +ranges.zero, +ranges.two, +ranges.four, +ranges.six, +ranges.eight).then())
+            promiseArray.push(db.update.combatranges(weaponId, +ranges.thirtytwo).then())
           } else if (weapontype === 'r') {
-            promiseArray.push(db.add.combatranges(weaponId, +ranges.zero, +ranges.two, +ranges.four, +ranges.six, +ranges.eight).then())
+            promiseArray.push(db.add.combatranges(weaponId, +ranges.thirtytwo).then())
           }
         }
       })

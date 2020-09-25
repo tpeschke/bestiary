@@ -82,4 +82,8 @@ export class BeastViewGmComponent implements OnInit {
     this.router.navigate(['/search', { [type]: search }]);
   }
 
+  isNumber(val): boolean { 
+    return !isNaN(+val); 
+  }
+
 }

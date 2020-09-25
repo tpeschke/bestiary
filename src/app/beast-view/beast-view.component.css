@@ -57,6 +57,14 @@ mat-toolbar {
     justify-content: space-between;
 }
 
+.flex-row-opposite span {
+    display: flex
+}
+
+.flex-row-opposite span p:last-child {
+    margin-left: 5px
+}
+
 .left {
     padding: 15px;
     min-height: 500px;
@@ -261,12 +269,13 @@ mat-toolbar {
     display: flex;
     justify-content: space-evenly;
     margin: 0;
-    padding: 5px;
+    padding: 2px;
 }
 
 .ranged-title {
     background: #607d8b;
     color: whitesmoke;
+    padding: 4px
 }
 
 .ranged-odd {

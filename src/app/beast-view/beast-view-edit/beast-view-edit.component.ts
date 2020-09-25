@@ -110,7 +110,7 @@ export class BeastViewEditComponent implements OnInit {
   captureSelect(event, type, index, secondaryType) {
     if (secondaryType) {
       if (event.value === 'r' && !this.beast[type][index].ranges) {
-        this.beast[type][index].ranges = { zero: 0, two: 0, four: 0, six: 0, eight: 0 }
+        this.beast[type][index].ranges = { maxrange: 0 }
       }
       this.beast[type][index][secondaryType] = event.value;
     } else {
