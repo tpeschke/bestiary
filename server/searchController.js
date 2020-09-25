@@ -40,6 +40,9 @@ module.exports = {
                         idArray.push(db.get.search.subsystem(req.query.subsystem).then())
                     }
                     break;
+                case "anyaccess":
+                    idArray.push(db.get.search.playerview().then())
+                    break;
                 // case "personalNotes":
                 //     idArray.push(db.get.search.personalNotes(req.query.personalNotes))
                 //     break;

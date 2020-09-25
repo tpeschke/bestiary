@@ -77,10 +77,14 @@ app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
 app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({id: 0}))
 app.get('/api/search', searchCtrl.search)
 app.get('/api/playerCanView/:id', ctrl.checkIfPlayerView)
+app.get('/api/favorites', ctrl.getUsersFavorites)
 
 app.get('/api/combat/:hash', ctrl.getFromBestiary)
 
 app.post('/api/beast/player', ctrl.addPlayerNotes)
+app.post('/api/favorite', ctrl.addFavorite)
+
+app.delete('/api/favorite/:beastid', ctrl.deleteFavorite)
 
 function ownerAuth (req, res, next) {
     if (!req.user) {

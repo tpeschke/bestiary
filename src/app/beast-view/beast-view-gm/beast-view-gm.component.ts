@@ -20,7 +20,7 @@ export class BeastViewGmComponent implements OnInit {
     public router: Router
   ) { }
 
-  public beast = { name: null, vitality: null }
+  public beast = { name: null, vitality: null, favorite: false }
   public loggedIn = this.beastService.loggedIn || false;
   public imageBase = variables.imageBase;
   public averageVitality = null
@@ -84,6 +84,20 @@ export class BeastViewGmComponent implements OnInit {
 
   isNumber(val): boolean { 
     return !isNaN(+val); 
+  }
+
+  addFavorite(beastid) {
+    this.beastService.addFavorite(beastid).subscribe(result => {
+      if (result.message === 'Monster Favorited') {
+        this.beast.favorite = true
+      }
+    })
+  }
+
+  deleteFavorite(beastid) {
+    this.beastService.deleteFavorite(beastid).subscribe(_ => {
+      this.beast.favorite = false
+    })
   }
 
 }

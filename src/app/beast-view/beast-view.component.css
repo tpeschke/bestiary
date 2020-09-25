@@ -55,6 +55,7 @@ mat-toolbar {
     margin-top: 5px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .flex-row-opposite span {
@@ -331,6 +332,11 @@ mat-toolbar {
 .checkboxShell p {
     width: 16px;
     text-align: center;
+}
+
+.fa-star {
+    margin-left: 10px;
+    color: #ffd740
 }
 
 @media (max-width: 963px) {

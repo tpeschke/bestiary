@@ -56,34 +56,34 @@
                 <mat-select (selectionChange)="enterSearchSize($event)">
                     <mat-option value="Fine">
                         Fine
-                      </mat-option>
-                      <mat-option value="Diminutive">
+                    </mat-option>
+                    <mat-option value="Diminutive">
                         Diminutive
-                      </mat-option>
-                      <mat-option value="Tiny">
+                    </mat-option>
+                    <mat-option value="Tiny">
                         Tiny
-                      </mat-option>
-                      <mat-option value="Small">
+                    </mat-option>
+                    <mat-option value="Small">
                         Small
-                      </mat-option>
-                      <mat-option value="Medium">
+                    </mat-option>
+                    <mat-option value="Medium">
                         Medium
-                      </mat-option>
-                      <mat-option value="Large">
+                    </mat-option>
+                    <mat-option value="Large">
                         Large
-                      </mat-option>
-                      <mat-option value="Huge">
+                    </mat-option>
+                    <mat-option value="Huge">
                         Huge
-                      </mat-option>
-                      <mat-option value="Giant">
+                    </mat-option>
+                    <mat-option value="Giant">
                         Giant
-                      </mat-option>
-                      <mat-option value="Enormous">
+                    </mat-option>
+                    <mat-option value="Enormous">
                         Enormous
-                      </mat-option>
-                      <mat-option value="Colossal">
+                    </mat-option>
+                    <mat-option value="Colossal">
                         Colossal
-                      </mat-option>          
+                    </mat-option>
                     <mat-option>
                         I Don't Care
                     </mat-option>
@@ -125,6 +125,10 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+
+            <div class="searchCheckboxes">
+                <mat-checkbox color='primary' (change)="searchByAnyAccess($event)">Anyone Can Access?</mat-checkbox>
+            </div>
 
             <!-- <div class="searchCheckboxes">
                 <mat-checkbox color='primary' (change)="enterSearchPersonalNotes($event)">Personal Notes</mat-checkbox>

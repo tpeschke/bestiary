@@ -15,6 +15,7 @@ class QueryObject {
   access?: number
   subsystem?: number
   personalNotes?: boolean
+  anyaccess?: boolean
   environ?: any
   types?: any
 }
@@ -160,6 +161,16 @@ export class SearchBarComponent implements OnInit {
       this.router.navigate(['/search', { ...this.queryObject, personalNotes: e.checked }]);
     } else {
       delete this.queryObject.personalNotes
+      this.router.navigate(['/search', { ...this.queryObject }]);
+    }
+  }
+  
+  searchByAnyAccess(e) {
+    if (e.checked) {
+      this.queryObject = { ...this.queryObject, anyaccess: e.checked }
+      this.router.navigate(['/search', { ...this.queryObject, anyaccess: e.checked }]);
+    } else {
+      delete this.queryObject.anyaccess
       this.router.navigate(['/search', { ...this.queryObject }]);
     }
   }

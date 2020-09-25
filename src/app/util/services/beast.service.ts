@@ -103,6 +103,27 @@ export class BeastService {
       )
   }
 
+  addFavorite(beastid): any {
+    return this.http.post(local.endpointBase + '/api/favorite', {beastid})
+      .pipe(
+        catchError(this.handleError('add favorite', []))
+      )
+  }
+
+  deleteFavorite(beastid): any {
+    return this.http.delete(local.endpointBase + '/api/favorite/' + beastid)
+    .pipe(
+      catchError(this.handleError('add favorite', []))
+    )
+  }
+
+  getFavorites() {
+    return this.http.get(local.endpointBase + '/api/favorites')
+    .pipe(
+      catchError(this.handleError('get favorites', []))
+    )
+  }
+
   deleteBeast(id): any {
     return this.http.delete(local.endpointBase + '/api/beasts/delete/' + id)
       .pipe(

@@ -55,7 +55,7 @@ let controllerObj = {
       }
 
       if (beast.patreon > patreonTestValue) {
-        res.sendStatus(401).send('You need to update your Patreon tier to access this monster')
+        res.sendStatus(401).send({message: 'You need to update your Patreon tier to access this monster'})
       } else {
         promiseArray.push(db.get.beasttypes(id).then(result => {
           beast.types = result
@@ -110,6 +110,18 @@ let controllerObj = {
           beast.skills = result
           return result
         }))
+
+        if (req.user && req.user.id) {
+          promiseArray.push(db.get.favorite(req.user.id, id).then(result => {
+            if (result.length > 0) {
+              beast.favorite = true
+            } else {
+              beast.favorite = false
+            }
+          }))
+        } else {
+          beast.favorite = false
+        }
 
         promiseArray.push(db.get.beastmovement(id).then(result => {
           beast.movement = result
@@ -410,6 +422,38 @@ let controllerObj = {
         res.send({ id })
       })
     })
+  },
+  addFavorite(req, res) {
+    const db = req.app.get('db')
+    , { beastid } = req.body
+    if (req.user && req.user.id) {
+      db.get.favoriteCount(req.user.id).then(result => {
+        if (+result[0].count <= ((req.user.patreon * 3) + 3)) {
+          db.add.favorite(req.user.id, beastid).then(_ => res.send({message: 'Monster Favorited'}))
+        } else {
+          res.send({message: "You have too many favorited monsters: delete some or upgrade your Patreon tier"})
+        }
+      })
+    } else {
+      res.send({message: "You Need to Log On to Favorite Monsters"})
+    }
+  },
+  deleteFavorite(req, res) {
+    const db = req.app.get('db')
+    , { beastid } = req.params
+    if (req.user && req.user.id) {
+      db.delete.favorite(req.user.id, beastid).then(_ => res.send({message: 'Monster Unfavorited'}))
+    } else {
+      res.send({message: "You Need to Log On to Unfavorite Monsters"})
+    }
+  },
+  getUsersFavorites(req, res) {
+    const db = req.app.get('db')
+    if (req.user && req.user.id) {
+      db.get.favorites(req.user.id).then(result => res.send(result))
+    } else {
+      res.send({message: "You Need to Log On to Favorite Monsters"})
+    }
   }
 }
 

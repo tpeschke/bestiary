@@ -5,11 +5,11 @@
       <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Advanced" class="fas fa-plus icon-white"></i>
       {{beast.name}}
     </h1>
-    <div>
-      <h1>HR: {{beast.hr}}
-        <i #tooltip="matTooltip" matTooltip="Hewy Rating. Click to Learn More." (click)="openExplaination()"
-          class="fas fa-question-circle icon-white icon-small"></i>
+    <div class="flex-row-opposite">
+      <h1 matTooltip="Hewy Rating. Click to Learn More.">HR: {{beast.hr}}
       </h1>
+      <i *ngIf="!beast.favorite" (click)="addFavorite(beast.id)" matTooltip="Click to Favorite this Monster" class="far fa-star"></i>
+      <i *ngIf="beast.favorite" (click)="deleteFavorite(beast.id)" matTooltip="Click to Unfavorite this Monster" class="fas fa-star"></i>
     </div>
   </mat-toolbar>
 
@@ -21,7 +21,8 @@
         <img *ngIf="!beast.id" src="../../../../assets/imageNotFound.png" alt="Not Found">
       </div>
 
-      <div class="conflict-shell" *ngIf="beast.conflict.traits.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0 || beast.conflict.passions.length > 0">
+      <div class="conflict-shell"
+        *ngIf="beast.conflict.traits.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0 || beast.conflict.passions.length > 0">
 
         <div class="conflict-inner-shell" *ngIf="beast.conflict.traits.length > 0">
           <h2>Traits</h2>
@@ -140,11 +141,15 @@
       <div class="vitals-shell">
         <div class="flex-row-opposite">
           <h3>Vitality</h3>
-          <span><p>{{beast.vitality}} </p><p *ngIf="isNumber(averageVitality)">(Ave: {{averageVitality}})</p></span>
+          <span>
+            <p>{{beast.vitality}} </p>
+            <p *ngIf="isNumber(averageVitality)">(Ave: {{averageVitality}})</p>
+          </span>
         </div>
         <div class="checkboxShell">
           <div *ngFor="let checkbox of checkboxes; let i = index">
-            <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkCheckbox($event, i)" [(ngModel)]="checkbox.checked"></mat-checkbox>
+            <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkCheckbox($event, i)"
+              [(ngModel)]="checkbox.checked"></mat-checkbox>
             <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
           </div>
         </div>
@@ -249,10 +254,8 @@
       <div class="divider"></div>
       <div class="box-padding">
         <div class="flex-row-opposite">
-          <h3>Size</h3>
-          <p>{{beast.size}}<i #tooltip="matTooltip"
-              matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This factored into their Defense already."
-              class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></p>
+          <h3 matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This factored into their Defense already.">Size</h3>
+          <p>{{beast.size}}</p>
         </div>
         <div class="flex-row-opposite">
           <h3>Int</h3>
@@ -284,8 +287,7 @@
         </div>
       </div>
 
-      <h2>Loot <i #tooltip="matTooltip" matTooltip="This doesn't include weapons and armor unless they're notable."
-          class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></h2>
+      <h2 matTooltip="This doesn't include weapons and armor unless they're notable.">Loot </h2>
       <div class="divider"></div>
       <div *ngIf="beast.loot.length > 0" class="loot-shell">
         <div *ngFor="let lootitem of beast.loot; let i = index">
@@ -309,9 +311,7 @@
         <h3>This creature carries nothing else of value.</h3>
       </div>
 
-      <h2>Magical Reagents <i #tooltip="matTooltip"
-          matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell. Note that only spells casted as the noted school gain this bonus. The difficulty to recognize the item is at the end; the difficulty to harvest it is 2 dice sizes lower."
-          class="fas fa-question-circle icon-blue icon-small margin-left-small"></i></h2>
+      <h2 matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell. Note that only spells casted as the noted school gain this bonus. The difficulty to recognize the item is at the end; the difficulty to harvest it is 2 dice sizes lower.">Magical Reagents</h2>
       <div class="divider"></div>
       <div *ngIf="beast.reagents.length > 0" class="reagents-shell">
         <div class="flex-row-opposite">
