@@ -1,1 +1,1 @@
-select id, name, vitality, panic from bbindividualbeast where hash = $1
+select id, name, vitality, panic, stress as stressthreshold from bbindividualbeast where hash = $1
