@@ -17,7 +17,7 @@ export class CatalogComponent implements OnInit {
   public beasts = []
   public favorites: any = []
   public imageBase = variables.imageBase;
-  public message = "You Don't Have Any Favorite Monsters"
+  public message = "You Don't Have Any Favorite Monsters Yet"
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -26,7 +26,7 @@ export class CatalogComponent implements OnInit {
     this.beastService.getFavorites().subscribe((results:any) => {
       if (results.length > 0) {
         this.favorites = results
-      } else {
+      } else if (results.message) {
         this.message = results.message
       }
     })
