@@ -21,9 +21,6 @@ export class PlayerBeastResolverService implements Resolve<any> {
     let id = +route.paramMap.get('id');
     if (id) {
       return this.beastService.getPlayerBeast(id)
-        .pipe(
-          catchError(this.beastService.handleError('get single monster', [])
-        ));
     } else {
       return null
     }

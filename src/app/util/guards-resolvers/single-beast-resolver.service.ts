@@ -27,14 +27,12 @@ export class SingleBeastResolverService implements Resolve<any> {
             var scrollToTop = window.setInterval(function () {
               var pos = window.pageYOffset;
               if (pos > 0) {
-                window.scrollTo(0, pos - 20); // how far to scroll on each step
+                window.scrollTo(0, pos - 20);
               } else {
                 window.clearInterval(scrollToTop);
               }
             }, 0);
-          }),
-          catchError(this.beastService.handleError('get single monster', [])
-          ));
+          }));
     } else if (id) {
       return this.beastService.getSingleBeast(id, {edit: route.routeConfig.path.includes('edit')})
         .pipe(
@@ -42,14 +40,12 @@ export class SingleBeastResolverService implements Resolve<any> {
             var scrollToTop = window.setInterval(function () {
               var pos = window.pageYOffset;
               if (pos > 0) {
-                window.scrollTo(0, pos - 20); // how far to scroll on each step
+                window.scrollTo(0, pos - 20);
               } else {
                 window.clearInterval(scrollToTop);
               }
             }, 0);
-          }),
-          catchError(this.beastService.handleError('get single monster', [])
-          ));
+          }));
     } else {
       return null
     }

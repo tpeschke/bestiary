@@ -12,7 +12,7 @@ export class TypeConverterPipe implements PipeTransform {
       case 2:
         return 'Undead, Corporeal';
       case 3:
-        return 'Undead, Spirit';
+        return 'Undead, Incorporeal';
       case 4:
         return 'Elemental';
       case 5:

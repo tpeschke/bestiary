@@ -55,7 +55,7 @@ let controllerObj = {
       }
 
       if (beast.patreon > patreonTestValue) {
-        res.sendStatus(401).send({message: 'You need to update your Patreon tier to access this monster'})
+        res.sendStatus(401).send({color: 'red', message: 'You need to update your Patreon tier to access this monster'})
       } else {
         promiseArray.push(db.get.beasttypes(id).then(result => {
           beast.types = result
@@ -93,7 +93,11 @@ let controllerObj = {
             beast.conflict = { traits: [], devotions: [], flaws: [], passions: [] }
             result.forEach(val => {
               if (val.type === 't' || !val.type) {
-                beast.conflict.traits.push(val)
+                if (beast.traitlimit && beast.conflict.traits.length <= beast.traitlimit) {
+                  beast.conflict.traits.push(val)
+                } else if (!beast.traitlimit) {
+                  beast.conflict.traits.push(val)
+                }
               } else if (val.type === 'd') {
                 beast.conflict.devotions.push(val)
               } else if (val.type === 'f') {
@@ -160,7 +164,9 @@ let controllerObj = {
               }))
             }
           })
-          Promise.all(finalPromise).then(actualFinal => res.send(beast))
+          Promise.all(finalPromise).then(actualFinal => {
+            res.send(beast)
+          })
         })
       }
     })
@@ -429,22 +435,22 @@ let controllerObj = {
     if (req.user && req.user.id) {
       db.get.favoriteCount(req.user.id).then(result => {
         if (+result[0].count <= ((req.user.patreon * 3) + 3)) {
-          db.add.favorite(req.user.id, beastid).then(_ => res.send({message: 'Monster Favorited'}))
+          db.add.favorite(req.user.id, beastid).then(_ => res.send({ color: "green", message: `Monster Favorited` }))
         } else {
-          res.send({message: "You have too many favorited monsters: delete some or upgrade your Patreon tier"})
+          res.send({ color: "yellow", message: "You have too many favorited monsters: delete some or upgrade your Patreon tier"})
         }
       })
     } else {
-      res.send({message: "You Need to Log On to Favorite Monsters"})
+      res.send({ color: "red", message: "You Need to Log On to Favorite Monsters"})
     }
   },
   deleteFavorite(req, res) {
     const db = req.app.get('db')
     , { beastid } = req.params
     if (req.user && req.user.id) {
-      db.delete.favorite(req.user.id, beastid).then(_ => res.send({message: 'Monster Unfavorited'}))
+      db.delete.favorite(req.user.id, beastid).then(_ => res.send({ color: "green", message: 'Monster Unfavorited'}))
     } else {
-      res.send({message: "You Need to Log On to Unfavorite Monsters"})
+      res.send({ color: "red", message: "You Need to Log On to Unfavorite Monsters"})
     }
   },
   getUsersFavorites(req, res) {
@@ -452,7 +458,7 @@ let controllerObj = {
     if (req.user && req.user.id) {
       db.get.favorites(req.user.id).then(result => res.send(result))
     } else {
-      res.send({message: "You Need to Log On to Favorite Monsters"})
+      res.send({ color: "red", message: "You Need to Log On to Favorite Monsters"})
     }
   }
 }

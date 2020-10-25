@@ -24,17 +24,18 @@ export class BeastService {
 
   public loggedIn:boolean|string|number = false
 
-  handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      if (error.status === 200) {
-        this.toastr.success('', `${error.error.text}`);
-      } else if (error.status === 403) {
-        this.toastr.warning('', `${error.error}`)
-      } else if (error.status === 401) {
-        this.router.navigate(["/catalog"]);
-        this.toastr.error('', `${error.error}`);
-      }
-      return of(result as T)
+  handleMessage(message) {
+    let {message: info, color } = message;
+    if (info) {
+      if (color === 'green') {
+        this.toastr.success(info)
+      } else if (color === 'blue') {
+        this.toastr.info(info)
+      } else if (color === 'yellow') {
+        this.toastr.warning(info)
+      } else if (color === 'red') {
+        this.toastr.error(info)
+      } 
     }
   }
 
@@ -54,14 +55,14 @@ export class BeastService {
 
   imageUpload(imageForm: FormData, id: number) {
     this.toastr.warning('', `image uploading`)
-    return this.http.post(local.endpointBase + '/api/v1/upload/' + id, imageForm);
+    return this.http.post(local.endpointBase + '/api/v1/upload/' + id, imageForm)
+    .pipe(
+      tap(result => this.handleMessage({color: 'green', message: 'image finised uploading'}))
+    );
   }
 
   getCatalog(): any {
     return this.http.get(local.endpointBase + '/api/beasts/catalog')
-      .pipe(
-        // catchError(this.handleError('search', []))
-      )
   }
 
   checkPlayerCanView(id): any {
@@ -70,71 +71,50 @@ export class BeastService {
 
   getSingleBeast(id, edit): any {
     return this.http.get(local.endpointBase + '/api/beasts/' + id, {params: edit})
-      .pipe(
-        // catchError(this.handleError('get single beast', []))
-      )
+    .pipe(
+      tap(result => this.handleMessage(result))
+    );
   }
 
   getPlayerBeast(id): any {
     return this.http.get(local.endpointBase + '/api/beasts/player/' + id)
-      .pipe(
-        // catchError(this.handleError('get single beast', []))
-      )
   }
 
   updateBeast(beast): any {
     return this.http.patch(local.endpointBase + '/api/beasts/edit', beast)
-      .pipe(
-        // catchError(this.handleError('search', []))
-      )
   }
 
   addBeast(beast): any {
     return this.http.post(local.endpointBase + '/api/beasts/add', beast)
-      .pipe(
-        // catchError(this.handleError('search', []))
-      )
   }
 
   addPlayerNotes(notes): any {
     return this.http.post(local.endpointBase + '/api/beast/player', notes)
-      .pipe(
-        catchError(this.handleError('add player notes', []))
-      )
   }
 
   addFavorite(beastid): any {
     return this.http.post(local.endpointBase + '/api/favorite', {beastid})
-      .pipe(
-        catchError(this.handleError('add favorite', []))
-      )
+    .pipe(
+      tap(result => this.handleMessage(result))
+    );
   }
 
   deleteFavorite(beastid): any {
     return this.http.delete(local.endpointBase + '/api/favorite/' + beastid)
     .pipe(
-      catchError(this.handleError('add favorite', []))
-    )
+      tap(result => this.handleMessage(result))
+    );
   }
 
   getFavorites() {
     return this.http.get(local.endpointBase + '/api/favorites')
-    .pipe(
-      catchError(this.handleError('get favorites', []))
-    )
   }
 
   deleteBeast(id): any {
     return this.http.delete(local.endpointBase + '/api/beasts/delete/' + id)
-      .pipe(
-        // catchError(this.handleError('search', []))
-      )
   }
 
   searchBeasts(queries): any {
     return this.http.get(local.endpointBase + '/api/search', {params: queries})
-      .pipe(
-        catchError(this.handleError('get search beasts', []))
-      )
   }
 }

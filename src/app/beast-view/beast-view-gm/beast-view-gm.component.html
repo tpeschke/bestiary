@@ -28,7 +28,7 @@
           <h2>Traits</h2>
           <div class="divider white"></div>
           <div *ngFor="let trait of beast.conflict.traits; let i = index">
-            <div *ngIf="!beast.traitlimit || i < beast.traitlimit" class="flex-row-opposite">
+            <div class="flex-row-opposite">
               <h3>{{trait.trait | titlecase}}</h3>
               <h3>{{trait.value}}</h3>
             </div>
@@ -314,17 +314,17 @@
       <h2 matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell. Note that only spells casted as the noted school gain this bonus. The difficulty to recognize the item is at the end; the difficulty to harvest it is 2 dice sizes lower.">Magical Reagents</h2>
       <div class="divider"></div>
       <div *ngIf="beast.reagents.length > 0" class="reagents-shell">
-        <div class="flex-row-opposite">
+        <div class="flex-row-opposite reagent">
           <h3>Name</h3>
-          <h3 class="reagent-middle">Spell</h3>
-          <h3 class="reagent-last">Arcana</h3>
+          <h3>Spell</h3>
+          <h3>Arcana</h3>
         </div>
         <div class="divider reagent-divider"></div>
         <div *ngFor="let reagent of beast.reagents">
           <div class="flex-row-opposite reagent">
             <h3>{{reagent.name}}</h3>
-            <h3 class="reagent-middle">{{reagent.spell}}</h3>
-            <h3 class="reagent-last">{{reagent.difficulty}}</h3>
+            <h3>{{reagent.spell}}</h3>
+            <h3>{{reagent.difficulty}}</h3>
           </div>
         </div>
       </div>

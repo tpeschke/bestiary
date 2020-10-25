@@ -306,15 +306,7 @@ mat-toolbar {
 
 .reagent h3 {
     min-width: 30%;
-}
-
-.reagent-middle {
-    min-width: 30%;
-    text-align: center;
-}
-
-.reagent-last {
-    text-align: right;;
+    text-align: left;
 }
 
 .introduction {
@@ -342,7 +334,8 @@ mat-toolbar {
 @media (max-width: 963px) {
     .combat-shell {
         justify-content: start;
-        margin-right: 10px;
+        margin-right: 10px;  
+        margin-bottom: 25px;
     }
 }
 
@@ -362,5 +355,24 @@ mat-toolbar {
 
     img {
         margin-top: 15px;
+    }
+
+    .spd, .atk, .init {
+        top: 35px
+    }
+
+    .def, .encumb {
+        top: 80px
+    }
+
+    .dr {
+        top: 65px;
+    }
+
+    .parry, .damage, .measure {
+        bottom: 0px;
+    }
+    .damage {
+        top: 110px
     }
 }
