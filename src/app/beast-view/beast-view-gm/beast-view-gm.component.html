@@ -166,6 +166,10 @@
 
       <div class="vitals-shell">
         <h3 class="blue">Movement</h3>
+        <div *ngIf="beast.movement.length == 0">
+          <div class="divider white"></div>
+          <h3>This Monster Can't Move</h3>
+        </div>
         <div *ngFor="let movementType of beast.movement">
           <div class="divider white"></div>
           <h3>{{movementType.type | titlecase}}</h3>
@@ -311,13 +315,13 @@
         <h3>This creature carries nothing else of value.</h3>
       </div>
 
-      <h2 matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell. Note that only spells casted as the noted school gain this bonus. The difficulty to recognize the item is at the end; the difficulty to harvest it is 2 dice sizes lower.">Magical Reagents</h2>
+      <h2 matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell or a +3 to the corresponding Weirdcraft Advanced Skill Check. Note that only spells casted as the noted school gain this bonus. The difficulty to recognize the item is at the end; the difficulty to harvest it is 2 dice sizes lower.">Magical Reagents</h2>
       <div class="divider"></div>
       <div *ngIf="beast.reagents.length > 0" class="reagents-shell">
         <div class="flex-row-opposite reagent">
           <h3>Name</h3>
           <h3>Spell</h3>
-          <h3>Arcana</h3>
+          <h3>Weirdcraft</h3>
         </div>
         <div class="divider reagent-divider"></div>
         <div *ngFor="let reagent of beast.reagents">
