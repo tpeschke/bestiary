@@ -62,6 +62,6 @@
     "tslint": "~5.11.0",
     "typescript": "~3.2.2"
   },
-  "main": "server/server.js",
+  "main": "server/bestiary.js",
   "proxy": "http://localhost:4545"
 }
