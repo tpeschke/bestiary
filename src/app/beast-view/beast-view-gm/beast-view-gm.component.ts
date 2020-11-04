@@ -20,8 +20,8 @@ export class BeastViewGmComponent implements OnInit {
     public router: Router
   ) { }
 
-  public beast = { id: null, name: null, vitality: null, favorite: false }
-  public encounter = null;
+  public beast = { id: null, name: null, vitality: null, favorite: false, number_min: null, number_max: null }
+  public encounter: any = "loading";
   public loggedIn = this.beastService.loggedIn || false;
   public imageBase = variables.imageBase;
   public averageVitality = null
@@ -30,7 +30,8 @@ export class BeastViewGmComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
-      this.beastService.getRandomEncounter(this.beast.id).subscribe(result => {
+      this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
+        result.number = this.calculatorService.rollDice(`${this.beast.number_min}d${this.beast.number_max}`)
         this.encounter = result
       })
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)

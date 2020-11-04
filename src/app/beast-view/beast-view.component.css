@@ -337,6 +337,20 @@ mat-toolbar {
     align-items: center;
 }
 
+.encounterShell {
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.encounterShell .flex-row-opposite {
+    width: 45%
+}
+
+.spinner > div {
+    background-color: #607d8b;
+  }
+
 @media (max-width: 963px) {
     .combat-shell {
         justify-content: start;

@@ -417,10 +417,11 @@
             <div *ngFor="let temperament of encounter.temperament.temperament; let i = index">
               <div class="temperamentList" *ngIf="!temperament.deleted">
                 <p>{{temperament.temperament}}</p>
-                <mat-form-field>
+                <p>{{temperament.weight}}</p>
+                <!-- <mat-form-field>
                   <input placeholder="Weight" matInput [value]="temperament.weight"
-                    (change)="captureInput($event, 'movement', i, 'type')">
-                </mat-form-field>
+                    (change)="captureEncounterInput($event, 'temperament', i)">
+                </mat-form-field> -->
                 <i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fas fa-times-circle"></i>
               </div>
             </div>

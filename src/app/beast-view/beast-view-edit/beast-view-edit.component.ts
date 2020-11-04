@@ -49,6 +49,7 @@ export class BeastViewEditComponent implements OnInit {
           this.encounter = encounter
         })
       } else {
+        this.encounter = {}
         this.beast = {
           name: '',
           hr: 0,
