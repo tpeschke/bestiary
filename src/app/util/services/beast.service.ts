@@ -118,6 +118,10 @@ export class BeastService {
     return this.http.get(local.endpointBase + '/api/search', {params: queries})
   }
 
+  getEditEncounter(beastid) {
+    return this.http.get(local.endpointBase + '/api/encounter/edit/' + beastid)
+  }
+
   getRandomEncounter(beastid) {
     return this.http.get(local.endpointBase + '/api/encounter/' + beastid)
   }

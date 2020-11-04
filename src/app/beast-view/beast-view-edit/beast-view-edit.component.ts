@@ -45,7 +45,7 @@ export class BeastViewEditComponent implements OnInit {
         this.beast = beast
       } else if (beast) {
         this.beast = beast
-        this.beastService.getRandomEncounter(this.beast.id).subscribe(encounter => {
+        this.beastService.getEditEncounter(this.beast.id).subscribe(encounter => {
           this.encounter = encounter
         })
       } else {

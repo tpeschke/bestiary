@@ -278,6 +278,21 @@ let controllerObj = {
       reagents.forEach(({ name, spell, difficulty }) => {
         promiseArray.push(db.add.beastreagents(id, name, spell, difficulty).then())
       })
+      
+      let {temperament} = encounter;
+      temperament.temperament.forEach(({temperament: temp, weight, id: tempid, beastid, tooltip, deleted}) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
+        } else if (tempid && !beastid) {
+          promiseArray.push(db.add.encounter.temperament(id, tempid, weight))
+        } else if (tempid && beastid) {
+          promiseArray.push(db.encounter.temperament(weight, beastid, tempid))
+        } else if (!tempid) {
+          db.add.encounter.allTemp(temp, tooltip).then(result => {
+            promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight))
+          })
+        }
+      })
 
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCache(app, 0)
@@ -397,6 +412,8 @@ let controllerObj = {
           promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
         } else if (tempid && !beastid) {
           promiseArray.push(db.add.encounter.temperament(id, tempid, weight))
+        } else if (tempid && beastid) {
+          promiseArray.push(db.encounter.temperament(weight, beastid, tempid))
         } else if (!tempid) {
           db.add.encounter.allTemp(temp, tooltip).then(result => {
             promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight))
@@ -465,7 +482,7 @@ let controllerObj = {
       res.send({ color: "red", message: "You Need to Log On to Favorite Monsters"})
     }
   },
-  getEncounter(req, res) {
+  getEditEncounter(req, res) {
     const db = req.app.get('db')
     let promiseArray = []
     let encounterObject = {
@@ -478,6 +495,20 @@ let controllerObj = {
     }))
     promiseArray.push(db.get.encounter.allTemp(+req.params.beastid).then(result => {
       encounterObject.temperament.allTemp = result
+      return result
+    }))
+
+    Promise.all(promiseArray).then(_ => {
+      res.send(encounterObject)
+    })
+  },
+  getRandomEncounter(req, res) {
+    const db = req.app.get('db')
+    let promiseArray = []
+    let encounterObject = {}
+
+    promiseArray.push(db.get.encounter.tempWeighted(+req.params.beastid).then(result => {
+      encounterObject.temperament = result[0]
       return result
     }))
 
