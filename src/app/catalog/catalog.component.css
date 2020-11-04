@@ -39,7 +39,7 @@ img {
 
 /* width */
 ::-webkit-scrollbar {
-    width: 4px;
+    width: 1px;
   }
   
   /* Track */
@@ -49,12 +49,14 @@ img {
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: grey; 
+    background: grey;
+    border-radius: 4px;
   }
   
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: grey; 
+    border-radius: 4px;
   }
 
   @media (max-width: 699px) { 
