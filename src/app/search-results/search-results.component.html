@@ -10,6 +10,7 @@
 
   <div class="results-card">
     <h3>Results: {{beasts.length}}</h3>
+    <button color="primary" mat-raised-button (click)="getRandom()" color="warn">Get Random Monster From List</button>
   </div>
 
   <mat-card *ngFor="let beast of beasts" [routerLink]="['/beast', beast.id, 'player']">

@@ -35,4 +35,9 @@ export class SearchResultsComponent implements OnInit {
     })
   }
 
+  getRandom() {
+    let randomBeast: any = this.beasts[Math.floor(Math.random() * this.beasts.length)]
+    this.router.navigate(['/beast', randomBeast.id, 'gm']);
+  }
+
 }
