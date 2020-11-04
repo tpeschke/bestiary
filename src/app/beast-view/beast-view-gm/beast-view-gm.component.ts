@@ -105,4 +105,12 @@ export class BeastViewGmComponent implements OnInit {
     })
   }
 
+  regenerateEncounter() {
+    this.encounter = 'loading'
+    this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
+      result.number = this.calculatorService.rollDice(`${this.beast.number_min}d${this.beast.number_max}`)
+      this.encounter = result
+    })
+  }
+
 }

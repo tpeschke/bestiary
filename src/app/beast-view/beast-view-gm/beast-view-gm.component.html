@@ -248,6 +248,8 @@
           <h3>Number</h3>
           <p>{{encounter.number}}</p>
         </div>
+
+        <button color="primary" mat-raised-button (click)="regenerateEncounter()" color="warn">Regenerate Encounter</button>
       </div>
 
       <div class="box-padding encounterShell" *ngIf="encounter === 'loading'">
