@@ -79,6 +79,8 @@ app.get('/api/search', searchCtrl.search)
 app.get('/api/playerCanView/:id', ctrl.checkIfPlayerView)
 app.get('/api/favorites', ctrl.getUsersFavorites)
 
+app.get('/api/encounter/:beastid', ctrl.getEncounter)
+
 app.get('/api/combat/:hash', ctrl.getFromBestiary)
 
 app.post('/api/beast/player', ctrl.addPlayerNotes)

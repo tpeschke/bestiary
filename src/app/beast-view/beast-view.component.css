@@ -331,6 +331,12 @@ mat-toolbar {
     color: #ffd740
 }
 
+.temperamentList {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 @media (max-width: 963px) {
     .combat-shell {
         justify-content: start;

@@ -252,23 +252,28 @@
               </div>
               <div class="ranged-odd">
                 <h4>-2</h4>
-                <h4>{{(+square.ranges.thirtytwo / 6) + 1 | number:'1.0-0'}} - {{(+square.ranges.thirtytwo / 6) * 2 | number:'1.0-0'}}</h4>
+                <h4>{{(+square.ranges.thirtytwo / 6) + 1 | number:'1.0-0'}} -
+                  {{(+square.ranges.thirtytwo / 6) * 2 | number:'1.0-0'}}</h4>
               </div>
               <div>
                 <h4>-4</h4>
-                <h4>{{(+square.ranges.thirtytwo / 6) + 1 | number:'1.0-0'}} - {{(+square.ranges.thirtytwo / 6) * 3 | number:'1.0-0'}}</h4>
+                <h4>{{(+square.ranges.thirtytwo / 6) + 1 | number:'1.0-0'}} -
+                  {{(+square.ranges.thirtytwo / 6) * 3 | number:'1.0-0'}}</h4>
               </div>
               <div class="ranged-odd">
                 <h4>-8</h4>
-                <h4>{{((+square.ranges.thirtytwo / 6) * 2) + 1 | number:'1.0-0'}} - {{(+square.ranges.thirtytwo / 6) * 4 | number:'1.0-0'}}</h4>
+                <h4>{{((+square.ranges.thirtytwo / 6) * 2) + 1 | number:'1.0-0'}} -
+                  {{(+square.ranges.thirtytwo / 6) * 4 | number:'1.0-0'}}</h4>
               </div>
               <div>
                 <h4>-16</h4>
-                <h4>{{((+square.ranges.thirtytwo / 6) * 3) + 1 | number:'1.0-0'}} - {{(+square.ranges.thirtytwo / 6) * 5 | number:'1.0-0'}}</h4>
+                <h4>{{((+square.ranges.thirtytwo / 6) * 3) + 1 | number:'1.0-0'}} -
+                  {{(+square.ranges.thirtytwo / 6) * 5 | number:'1.0-0'}}</h4>
               </div>
               <div class="ranged-odd">
                 <h4>-32</h4>
-                <h4>{{((+square.ranges.thirtytwo / 6) * 2) + 1 | number:'1.0-0'}} - {{square.ranges.thirtytwo | number:'1.0-0'}}</h4>
+                <h4>{{((+square.ranges.thirtytwo / 6) * 2) + 1 | number:'1.0-0'}} -
+                  {{square.ranges.thirtytwo | number:'1.0-0'}}</h4>
               </div>
               <mat-form-field>
                 <input placeholder="Max Range" matInput [value]="square.ranges.thirtytwo"
@@ -401,6 +406,55 @@
       <div class="divider"></div>
       <div>
         <quill-editor [(ngModel)]="beast.ecology" (onContentChanged)="captureHTML($event, 'ecology')"></quill-editor>
+      </div>
+
+      <h2>Random Encounter</h2>
+      <div class="divider"></div>
+      <div *ngIf="encounter">
+        <div>
+          <h3>Temperament</h3>
+          <div>
+            <div *ngFor="let temperament of encounter.temperament.temperament; let i = index">
+              <div class="temperamentList" *ngIf="!temperament.deleted">
+                <p>{{temperament.temperament}}</p>
+                <mat-form-field>
+                  <input placeholder="Weight" matInput [value]="temperament.weight"
+                    (change)="captureInput($event, 'movement', i, 'type')">
+                </mat-form-field>
+                <i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fas fa-times-circle"></i>
+              </div>
+            </div>
+            <mat-form-field>
+              <mat-label>Select Temperament</mat-label>
+              <mat-select (selectionChange)="captureEncounter($event, 'temperament')">
+                <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament">
+                  {{temperament.temperament}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Weight" matInput (change)="captureEncounterInput($event, 'temperament', 'weight')">
+            </mat-form-field>
+          </div>
+          <h3>OR</h3>
+          <div>
+            <mat-form-field>
+              <input placeholder="Add Temperament" matInput [value]="temperament.temperament"
+                (change)="captureEncounterInput($event, 'temperament', 'temperament')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Add Temperament Tooltip" matInput [value]="temperament.tooltip"
+                (change)="captureEncounterInput($event, 'temperament', 'tooltip')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Weight" matInput [value]="temperament.weight"
+                (change)="captureEncounterInputInt($event, 'temperament', 'weight')">
+            </mat-form-field>
+          </div>
+          <button mat-raised-button (click)="addEncounterItem('temperament', 'temperament')" color="accent"
+            [disabled]="!temperament.temperament || !temperament.tooltip || !temperament.weight">Add
+            Temperament</button>
+        </div>
       </div>
 
       <h2>Type</h2>

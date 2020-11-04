@@ -1,0 +1,1 @@
+delete from bbbeasttemperament where beastid = $1 and temperamentid = $2

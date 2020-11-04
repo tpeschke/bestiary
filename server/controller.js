@@ -237,20 +237,18 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter } = body
 
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, +int, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null).then(result => {
       let id = result[0].id
         , promiseArray = []
-      //types
+    
       types.forEach(val => {
         promiseArray.push(db.add.beasttype(id, val.typeid).then())
       })
-      //environ
       environ.forEach(val => {
         promiseArray.push(db.add.beastenviron(id, val.environid).then())
       })
-      //combat
       combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype, ranges }) => {
         promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype).then(result => {
           if (weapontype === 'r') {
@@ -259,30 +257,24 @@ let controllerObj = {
           return true;
         }))
       })
-      //conflict
       let newConflict = []
       Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
       newConflict.forEach(({ trait, value, type }) => {
         promiseArray.push(db.add.beastconflict(id, trait, value, type).then())
       })
-      //skills
       skills.forEach(({ skill, rank }) => {
         promiseArray.push(db.add.beastskill(id, skill, rank).then())
       })
-      //movement
       movement.forEach(({ stroll, walk, jog, run, sprint, type }) => {
         promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type).then())
       })
-      //variants
       variants.forEach(({ variantid }) => {
         promiseArray.push(db.add.beastvariants(id, variantid).then())
         promiseArray.push(db.add.beastvariants(variantid, id).then())
       })
-      //loot
       loot.forEach(({ loot, price }) => {
         promiseArray.push(db.add.beastloot(id, loot, price).then())
       })
-      //reagents
       reagents.forEach(({ name, spell, difficulty }) => {
         promiseArray.push(db.add.beastreagents(id, name, spell, difficulty).then())
       })
@@ -295,7 +287,7 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter } = body
 
     // update beast
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, id).then(result => {
@@ -399,8 +391,20 @@ let controllerObj = {
         }
       })
 
+      let {temperament} = encounter;
+      temperament.temperament.forEach(({temperament: temp, weight, id: tempid, beastid, tooltip, deleted}) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
+        } else if (tempid && !beastid) {
+          promiseArray.push(db.add.encounter.temperament(id, tempid, weight))
+        } else if (!tempid) {
+          db.add.encounter.allTemp(temp, tooltip).then(result => {
+            promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight))
+          })
+        }
+      })
+
       Promise.all(promiseArray).then(_ => {
-        controllerObj.collectCache(app, 0)
         res.send({ id })
       })
     })
@@ -460,6 +464,26 @@ let controllerObj = {
     } else {
       res.send({ color: "red", message: "You Need to Log On to Favorite Monsters"})
     }
+  },
+  getEncounter(req, res) {
+    const db = req.app.get('db')
+    let promiseArray = []
+    let encounterObject = {
+      temperament: {}
+    }
+
+    promiseArray.push(db.get.encounter.temperament(+req.params.beastid).then(result => {
+      encounterObject.temperament.temperament = result
+      return result
+    }))
+    promiseArray.push(db.get.encounter.allTemp(+req.params.beastid).then(result => {
+      encounterObject.temperament.allTemp = result
+      return result
+    }))
+
+    Promise.all(promiseArray).then(_ => {
+      res.send(encounterObject)
+    })
   }
 }
 

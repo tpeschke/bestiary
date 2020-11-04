@@ -128,3 +128,15 @@ create table bbreagents (
     spell varchar(150),
     difficulty varchar(15)
 )
+
+create table bbtemperament (
+    id serial primary key,
+    temperament varchar(100),
+    tooltip varchar(150)
+);
+
+create table bbbeasttemperament (
+    id serial primary key,
+    beastid int,
+    temperamentid int
+);

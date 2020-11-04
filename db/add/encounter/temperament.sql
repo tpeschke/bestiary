@@ -1,0 +1,1 @@
+insert into bbbeasttemperament (beastid, temperamentid, weight) values ($1, $2, $3)

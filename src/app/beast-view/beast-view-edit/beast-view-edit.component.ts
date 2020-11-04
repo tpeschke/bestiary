@@ -20,6 +20,7 @@ export class BeastViewEditComponent implements OnInit {
   ) { }
 
   public beast = null;
+  public encounter = null;
   public loggedIn = this.beastService.loggedIn || false;
   public types = null;
   public environ = null;
@@ -27,6 +28,12 @@ export class BeastViewEditComponent implements OnInit {
   public uploader: any;
   public newVariantId = null;
   public averageVitality = null;
+
+  public temperament = {
+    temperament: null,
+    tooltip: null,
+    weight: null
+  };
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -38,6 +45,9 @@ export class BeastViewEditComponent implements OnInit {
         this.beast = beast
       } else if (beast) {
         this.beast = beast
+        this.beastService.getRandomEncounter(this.beast.id).subscribe(encounter => {
+          this.encounter = encounter
+        })
       } else {
         this.beast = {
           name: '',
@@ -61,7 +71,7 @@ export class BeastViewEditComponent implements OnInit {
           panic: '',
           stress: 0,
           combat: [],
-          conflict: {traits: [], devotions: [], flaws: [], passions: []},
+          conflict: { traits: [], devotions: [], flaws: [], passions: [] },
           skills: [],
           movement: [],
           types: [],
@@ -90,7 +100,7 @@ export class BeastViewEditComponent implements OnInit {
       let newSecondaryObject = Object.assign({}, this.beast[type])
       newSecondaryObject[secondaryType] = [...newSecondaryObject[secondaryType]]
       newSecondaryObject[secondaryType][index][thirdType] = event.target.value
-      this.beast = Object.assign({}, this.beast, {[type]: newSecondaryObject})
+      this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     } else if (!secondaryType) {
       this.beast = Object.assign({}, this.beast, { [type]: event.target.value })
       if (type === 'vitality') {
@@ -173,7 +183,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type][secondType].push({
         trait: '',
         value: '',
-        type: secondType.substring(0,1)
+        type: secondType.substring(0, 1)
       })
     } else if (type === 'skills') {
       this.beast[type].push({
@@ -204,7 +214,7 @@ export class BeastViewEditComponent implements OnInit {
     if (type === 'variants') {
       this.beast[type].push({ id: deleted[0].id, variantid: deleted[0].variantid, deleted: true })
     } else if (type === 'conflict') {
-      this.beast[type][secondType].push({id: deleted[0].id, deleted: true})
+      this.beast[type][secondType].push({ id: deleted[0].id, deleted: true })
     } else {
       this.beast[type].push({ id: deleted[0].id, deleted: true })
     }
@@ -225,6 +235,7 @@ export class BeastViewEditComponent implements OnInit {
 
   saveChanges() {
     let id = this.route.snapshot.paramMap.get('id');
+    this.beast.encounter = this.encounter
     if (+id) {
       this.beastService.updateBeast(this.beast).subscribe(_ => this.router.navigate([`/beast/${id}/gm`]))
     } else {
@@ -237,4 +248,42 @@ export class BeastViewEditComponent implements OnInit {
     this.beastService.deleteBeast(id).subscribe(_ => this.router.navigate(['/catalog']))
   }
 
+  //ENCOUNTER STUFF BECAUSE I KNOW THERE WILL BE A LOT
+
+  addEncounterItem(type, subtype) {
+    if (type === 'temperament') {
+      this.encounter.temperament[type].push(this[type])
+      this.temperament = {
+        temperament: null,
+        tooltip: null,
+        weight: null
+      }
+    }
+  }
+
+  captureEncounter({ value }, type) {
+    this[type] = value
+  }
+
+  captureEncounterInputInt(event, type, subtype) {
+    this[type][subtype] = +event.target.value
+  }
+
+  captureEncounterInput(event, type, subtype) {
+    this[type][subtype] = event.target.value
+  }
+
+  removeEncounterItem(index, type, subtype) {
+    let deleted = this.encounter[type][subtype].splice(index, 1)[0]
+    deleted.deleted = true
+    delete deleted.weight;
+    if (deleted.id) {
+      this.encounter[type][subtype].push(deleted)
+    }
+    if (type === 'temperament' && deleted.id) {
+      let cleanVersion = {... deleted}
+      cleanVersion.deleted = false
+      this.encounter[type].allTemp.push(cleanVersion)
+    }
+  }
 }
