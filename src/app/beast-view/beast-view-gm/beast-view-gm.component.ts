@@ -30,10 +30,7 @@ export class BeastViewGmComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
-      this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
-        result.number = this.calculatorService.rollDice(`${this.beast.number_min}d${this.beast.number_max}`)
-        this.encounter = result
-      })
+      this.getRandomEncounter()
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
 
       let tired = 1
@@ -105,10 +102,13 @@ export class BeastViewGmComponent implements OnInit {
     })
   }
 
-  regenerateEncounter() {
+  getRandomEncounter() {
     this.encounter = 'loading'
     this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
       result.number = this.calculatorService.rollDice(`${this.beast.number_min}d${this.beast.number_max}`)
+      result.timeOfDay = this.calculatorService.rollDice(12)
+      let partOfDay = this.calculatorService.rollDice(2)
+      result.timeOfDay += partOfDay === 1 ? " AM" : " PM";
       this.encounter = result
     })
   }

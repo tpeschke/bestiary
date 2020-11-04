@@ -237,7 +237,7 @@
         <quill-view-html [content]="beast.ecology"></quill-view-html>
       </div>
 
-      <h2>Random Encounter</h2>
+      <h2 matTooltip="This gives you guidelines on generating a random encounter using this monster. The results are tailored to the monster and so will generally be indicative of its behavior.">Random Encounter</h2>
       <div class="divider"></div>
       <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && encounter.temperament">
         <div class="flex-row-opposite">
@@ -245,11 +245,15 @@
           <p matTooltip="{{encounter.temperament.tooltip}}">{{encounter.temperament.temperament}}</p>
         </div>
         <div class="flex-row-opposite">
-          <h3>Number</h3>
+          <h3>Number Appearing</h3>
           <p>{{encounter.number}}</p>
         </div>
+        <div class="flex-row-opposite">
+          <h3>Time of Day</h3>
+          <p>{{encounter.timeOfDay}}</p>
+        </div>
 
-        <button color="primary" mat-raised-button (click)="regenerateEncounter()" color="warn">Regenerate Encounter</button>
+        <button color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn">Regenerate Encounter</button>
       </div>
 
       <div class="box-padding encounterShell" *ngIf="encounter === 'loading'">
