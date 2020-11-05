@@ -515,7 +515,7 @@
             </mat-form-field>
           </div>
           <button mat-raised-button (click)="addEncounterItem('rank', 'rank')" color="accent"
-            [disabled]="!rank.rank || !rank.weight || !rank.othertypechance || !rank.decayrate || !rank.lair">Add Rank</button>
+            [disabled]="!rank.rank || !rank.weight || !rank.othertypechance || !rank.decayrate || !rank.lair || (rank.othertypechance > 0 && rank.decayrate <= 0)">Add Rank</button>
         </div>
       </div>
 

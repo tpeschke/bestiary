@@ -347,12 +347,35 @@ mat-toolbar {
     width: 45%
 }
 
+.playerShell {
+    display: flex;
+    flex-direction: column;
+    width: 100%
+}
+
+.playerShell .flex-row-opposite {
+    width: 100%
+}
+
 .spinner > div {
     background-color: #607d8b;
   }
 
   .deleteButton {
       margin-top: 150px
+  }
+
+  ul {
+    list-style-type: disc;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 80%;
+  }
+
+  li {
+    font-size: 14px;
+    padding: 3px;
+    margin-right: 20px;
   }
 
 @media (max-width: 963px) {
@@ -398,5 +421,18 @@ mat-toolbar {
     }
     .damage {
         top: 110px
+    }
+
+    .encounterShell {
+        flex-direction: column;
+    }
+    
+    .encounterShell .flex-row-opposite {
+        width: 100%
+    }
+
+    ul {
+        justify-content: space-around;
+        flex-direction: column;
     }
 }

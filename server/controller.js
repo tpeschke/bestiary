@@ -531,11 +531,45 @@ let controllerObj = {
   getRandomEncounter(req, res) {
     const db = req.app.get('db')
     let promiseArray = []
-    let encounterObject = {}
+    ,   encounterObject = {}
+    ,   beastId = +req.params.beastid
 
-    promiseArray.push(db.get.encounter.tempWeighted(+req.params.beastid).then(result => {
+    promiseArray.push(db.get.encounter.tempWeighted(beastId).then(result => {
       encounterObject.temperament = result[0]
       return result
+    }))
+
+    promiseArray.push(db.get.encounter.rankWeighted(beastId).then(result => {
+      let beastRank = result[0]
+        , underlingNumber = 0
+        , underlings = []
+
+        if (beastRank) {
+          while (beastRank.othertypechance > 0) {
+            let percentRoll = Math.floor(Math.random() * 100) + 1
+            if (percentRoll <= beastRank.othertypechance) {++underlingNumber}
+            beastRank.othertypechance -= beastRank.decayrate;
+          }
+    
+          for (let i = 0; i < underlingNumber; i++) {
+            randomNumber = Math.floor(Math.random() * 31) + 1
+            if (randomNumber > 30) {
+              underlings.push(db.get.underlings.any().then(result=>result[0]))
+            } else if (randomNumber > 20) {
+              underlings.push(db.get.underlings.type(beastId).then(result=>result[0]))
+            } else {
+              underlings.push(db.get.underlings.exact(beastId, beastRank.rankid).then(result=>result[0]))
+            }
+          }
+          
+          return Promise.all(underlings).then(finalUnderlings => {
+            beastRank.underlings = finalUnderlings
+            encounterObject.rank = beastRank
+            return beastRank
+          })
+        } else {
+          return []
+        }
     }))
 
     Promise.all(promiseArray).then(_ => {

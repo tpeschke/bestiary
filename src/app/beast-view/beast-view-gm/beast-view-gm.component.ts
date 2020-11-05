@@ -105,10 +105,14 @@ export class BeastViewGmComponent implements OnInit {
   getRandomEncounter() {
     this.encounter = 'loading'
     this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
-      result.number = this.calculatorService.rollDice(`${this.beast.number_min}d${this.beast.number_max}`)
-      result.timeOfDay = this.calculatorService.rollDice(12)
-      let partOfDay = this.calculatorService.rollDice(2)
-      result.timeOfDay += partOfDay === 1 ? " AM" : " PM";
+      if (result.temperament) {
+        result.number = this.calculatorService.rollDice(`${this.beast.number_min}d${this.beast.number_max}`)
+        let distance = this.calculatorService.rollDice(result.rank.lair)
+        result.rank.lair = distance > 0 ? distance : 0
+        result.timeOfDay = this.calculatorService.rollDice(12)
+        let partOfDay = this.calculatorService.rollDice(2)
+        result.timeOfDay += partOfDay === 1 ? " AM" : " PM";
+      }
       this.encounter = result
     })
   }
