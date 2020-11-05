@@ -35,6 +35,14 @@ export class BeastViewEditComponent implements OnInit {
     weight: null
   };
 
+  public rank = {
+    rank: null,
+    weight: null,
+    othertypechance: null,
+    decayrate: null,
+    lair: null
+  }
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       let beast = data['beast']
@@ -252,12 +260,20 @@ export class BeastViewEditComponent implements OnInit {
   //ENCOUNTER STUFF BECAUSE I KNOW THERE WILL BE A LOT
 
   addEncounterItem(type, subtype) {
+    this.encounter[type][subtype].push(this[type])
     if (type === 'temperament') {
-      this.encounter.temperament[type].push(this[type])
       this.temperament = {
         temperament: null,
         tooltip: null,
         weight: null
+      }
+    } else if (type === 'rank') {
+      this.rank = {
+        rank: null,
+        weight: null,
+        othertypechance: null,
+        decayrate: null,
+        lair: null
       }
     }
   }

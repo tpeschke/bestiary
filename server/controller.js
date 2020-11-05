@@ -286,7 +286,7 @@ let controllerObj = {
         } else if (tempid && !beastid) {
           promiseArray.push(db.add.encounter.temperament(id, tempid, weight))
         } else if (tempid && beastid) {
-          promiseArray.push(db.encounter.temperament(weight, beastid, tempid))
+          promiseArray.push(db.encounter.update.temperament(weight, beastid, tempid))
         } else if (!tempid) {
           db.add.encounter.allTemp(temp, tooltip).then(result => {
             promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight))
@@ -413,10 +413,25 @@ let controllerObj = {
         } else if (tempid && !beastid) {
           promiseArray.push(db.add.encounter.temperament(id, tempid, weight))
         } else if (tempid && beastid) {
-          promiseArray.push(db.encounter.temperament(weight, beastid, tempid))
+          promiseArray.push(db.update.encounter.temperament(weight, beastid, tempid))
         } else if (!tempid) {
           db.add.encounter.allTemp(temp, tooltip).then(result => {
             promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight))
+          })
+        }
+      })
+
+      let {rank} = encounter;
+      rank.rank.forEach(({rank: rank, weight, id: rankid, beastid, lair, othertypechance, decayrate, deleted}) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.rank(beastid, rankid))
+        } else if (rankid && !beastid) {
+          promiseArray.push(db.add.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair))
+        } else if (rankid && beastid) {
+          promiseArray.push(db.update.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair))
+        } else if (!rankid) {
+          db.add.encounter.allRank(rank).then(result => {
+            promiseArray.push(db.add.encounter.rank(result[0].id, id, weight, othertypechance, decayrate, lair))
           })
         }
       })
@@ -485,16 +500,27 @@ let controllerObj = {
   getEditEncounter(req, res) {
     const db = req.app.get('db')
     let promiseArray = []
-    let encounterObject = {
-      temperament: {}
+    , encounterObject = {
+      temperament: {},
+      rank: {}
     }
+    , beastid = +req.params.beastid
 
-    promiseArray.push(db.get.encounter.temperament(+req.params.beastid).then(result => {
+    promiseArray.push(db.get.encounter.temperament(beastid).then(result => {
       encounterObject.temperament.temperament = result
       return result
     }))
-    promiseArray.push(db.get.encounter.allTemp(+req.params.beastid).then(result => {
+    promiseArray.push(db.get.encounter.allTemp(beastid).then(result => {
       encounterObject.temperament.allTemp = result
+      return result
+    }))
+
+    promiseArray.push(db.get.encounter.allRank(beastid).then(result => {
+      encounterObject.rank.allRank = result
+      return result
+    }))
+    promiseArray.push(db.get.encounter.rank(beastid).then(result => {
+      encounterObject.rank.rank = result
       return result
     }))
 

@@ -140,3 +140,21 @@ create table bbbeasttemperament (
     beastid int,
     temperamentid int
 );
+
+
+create table bbrank (
+    id serial primary key,
+    rank varchar(150)
+);
+
+insert into bbrank (rank) values ('War-Chief'), ('Shaman'), ('Weirdman');
+
+create table bbrankinfo (
+    id serial primary key,
+    rankid int,
+    beastid int,
+    weight int,
+    othertypechance int,
+    decayrate int,
+    lair varchar(100)
+);

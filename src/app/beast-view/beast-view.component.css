@@ -351,6 +351,10 @@ mat-toolbar {
     background-color: #607d8b;
   }
 
+  .deleteButton {
+      margin-top: 150px
+  }
+
 @media (max-width: 963px) {
     .combat-shell {
         justify-content: start;
