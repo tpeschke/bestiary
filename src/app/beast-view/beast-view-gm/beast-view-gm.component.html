@@ -244,7 +244,7 @@
           <div class="flex-row-opposite">
             <h3>Main Players</h3>
             <ul>
-              <li *ngFor="let player of encounter.rank.mainPlayers">{{player.number}} {{player.rank !== 'None' ? player.rank : ''}}{{player.number > 1 && player.rank !== 'None' ? 's' : ''}}</li>
+              <li *ngFor="let player of encounter.rank.mainPlayers">{{player.number}} {{player.rank !== 'None' ? player.rank : beast.name}}{{player.number > 1 ? 's' : ''}}</li>
             </ul>
           </div>
           <div *ngIf="encounter.rank.otherPlayers.length > 0" class="flex-row-opposite">
@@ -258,7 +258,7 @@
         </div>
         <div class="flex-row-opposite">
           <h3>Temperament</h3>
-          <p matTooltip="{{encounter.temperament.tooltip}}">{{encounter.temperament.temperament}}</p>
+          <p matTooltip="{{encounter.temperament.tooltip}}" id="temperamentPTag">{{encounter.temperament.temperament}}</p>
         </div>
         <div class="flex-row-opposite">
           <h3>Time of Day</h3>
@@ -284,8 +284,8 @@
         </div>
       </div>
 
-      <div class="regenerateButtonShell">
-        <button *ngIf="encounter !== 'loading' && encounter.temperament" color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn">Regenerate Encounter</button>
+      <div *ngIf="encounter !== 'loading' && encounter.temperament" class="regenerateButtonShell">
+        <button color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn">Regenerate Encounter</button>
       </div>
 
       <div class="box-padding encounterShell" *ngIf="encounter === 'loading'">

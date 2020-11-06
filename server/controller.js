@@ -422,16 +422,16 @@ let controllerObj = {
       })
 
       let {rank} = encounter;
-      rank.rank.forEach(({rank: rank, weight, id: rankid, beastid, lair, othertypechance, decayrate, deleted}) => {
+      rank.rank.forEach(({rank: rank, weight, id: rankid, beastid, lair, othertypechance, decayrate, deleted, number}) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.rank(beastid, rankid))
         } else if (rankid && !beastid) {
-          promiseArray.push(db.add.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair))
+          promiseArray.push(db.add.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair, number))
         } else if (rankid && beastid) {
-          promiseArray.push(db.update.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair))
+          promiseArray.push(db.update.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair, number))
         } else if (!rankid) {
           db.add.encounter.allRank(rank).then(result => {
-            promiseArray.push(db.add.encounter.rank(result[0].id, id, weight, othertypechance, decayrate, lair))
+            promiseArray.push(db.add.encounter.rank(result[0].id, id, weight, othertypechance, decayrate, lair, number))
           })
         }
       })
@@ -544,7 +544,7 @@ let controllerObj = {
         , underlingNumber = 0
         , otherPlayers = []
 
-        if (mainPlayers) {
+        if (mainPlayers[0]) {
           while (mainPlayers[0].othertypechance > 0) {
             let percentRoll = Math.floor(Math.random() * 100) + 1
             if (percentRoll <= mainPlayers[0].othertypechance) {++underlingNumber}
