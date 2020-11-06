@@ -112,6 +112,28 @@ export class BeastViewGmComponent implements OnInit {
           return player
         })
         let distance = this.calculatorService.rollDice(result.rank.lair)
+
+        if (result.complication) {
+          result.complication.forEach(complication => {
+            if (complication.type === 'Rival') {
+              if (complication.rival.number) {
+                complication.rival.number = this.calculatorService.rollDice(complication.rival.number)
+              } else {
+                complication.rival.number = this.calculatorService.rollDice(`${complication.rival.number_min}d${complication.rival.number_max}`)
+              }
+            } else if (complication.type === 'Lost') {
+              distance = this.calculatorService.rollDice(complication.distance)
+            } else if (complication.type === 'Back Up') {
+              complication.time = this.calculatorService.rollDice(complication.time) + " seconds"
+              if (complication.backup.number) {
+                complication.backup.number = this.calculatorService.rollDice(complication.backup.number)
+              } else {
+                complication.backup.number = this.calculatorService.rollDice(`${complication.backup.number_min}d${complication.rival.number_max}`)
+              }
+            }
+          })
+        }
+
         result.rank.lair = distance > 0 ? distance : 0
         result.timeOfDay = this.calculatorService.rollDice(12)
         let partOfDay = this.calculatorService.rollDice(2)

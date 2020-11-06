@@ -268,8 +268,22 @@
           <h3>Home Base</h3>
           <p>{{encounter.rank.lair}} Miles Away</p>
         </div>
-
       </div>
+
+      <div class="box-padding" *ngIf="encounter.complication">
+        <h3>Complication{{encounter.complication.length > 1 ? 's' : ''}}</h3>
+        <div class="complicationsShell">
+          <div class="complicationCard" *ngFor="let complication of encounter.complication">
+            <div><h5>Type: </h5><p>{{complication.type}}</p></div>
+            <div *ngIf="complication.backup"><h5>Back Up: </h5><p>{{complication.backup.number}} {{complication.backup.rank}}{{complication.backup.number > 1 ? 's' : ''}}</p></div>
+            <div *ngIf="complication.time"><h5>Arrival Time: </h5><p>{{complication.time}}</p></div>
+            <div *ngIf="complication.rival"><h5>Enemies: </h5><a target="_blank" href="{{getUrl(complication.rival.id)}}">{{complication.rival.number}} {{complication.rival.name}}{{complication.rival.number > 1 ? 's' : ''}}</a></div>
+            <div *ngIf="complication.amount"><h5>Damage Taken: </h5><p>{{complication.amount}}%</p></div>
+            <div *ngIf="complication.byWhom"><h5>By: </h5><p>{{complication.byWhom.name}}</p></div>
+          </div>
+        </div>
+      </div>
+
       <div class="regenerateButtonShell">
         <button *ngIf="encounter !== 'loading' && encounter.temperament" color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn">Regenerate Encounter</button>
       </div>

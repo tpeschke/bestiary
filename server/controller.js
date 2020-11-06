@@ -577,33 +577,10 @@ let controllerObj = {
         }
     }))
 
-    if (Math.floor(Math.random() * 1) !== 0) {
-      promiseArray.push(db.get.encounter.complication().then(result => {
-        let complication = result[0]
-        if (complication.id === 1) {
-          //rival
-          //should get number appearing if no associated rank
-          return true
-        } else if (complication.id === 2) {
-          //wounded
-          //percentage and by whom
-          return true
-        } else if (complication.id === 5) {
-          //lost
-          //change distance from lair to 10d10
-          return true
-        } else if (complication.id === 11) {
-          //in-fighting
-          //roll other side
-          return true
-        } else if (complication.id === 12) {
-          //roll an additional time
-          //idk
-          return true
-        } else {
-          encounterObject.complication = complication
-          return true
-        }
+    if (Math.floor(Math.random() * 10) > 5) {
+      promiseArray.push(collectComplication(db, beastId).then(result => {
+        encounterObject.complication = result
+        return result
       }))
     }
 
@@ -611,6 +588,57 @@ let controllerObj = {
       res.send(encounterObject)
     })
   }
+}
+
+async function collectComplication(db, beastId) {
+  let promiseArray = []
+  return db.get.complication.complication().then(result => {
+    let complication = result[0]
+    if (complication.id === 1) {
+      //rival
+      promiseArray.push(db.get.complication.rival().then(result=>{
+        complication = {
+          type: 'Rival',
+          rival: result[0]
+        }
+        return complication
+      }))
+    } else if (complication.id === 2) {
+      //wounded
+      promiseArray.push(db.get.complication.rival().then(result=>{
+        complication = {
+          type: 'Wounded',
+          byWhom: result[0],
+          amount: Math.floor(Math.random() * 90) + 10
+        }
+        return complication
+      }))
+    } else if (complication.id === 5) {
+      //lost
+      promiseArray.push({type: 'Lost', distance: '10d10'})
+    } else if (complication.id === 8) {
+      //Back up coming
+      promiseArray.push(db.get.complication.backup(beastId).then(result => {
+        complication = {
+          type: 'Back Up',
+          backup: result[0],
+          time: '30d2'
+        }
+        return complication
+      }))
+    } else if (complication.id === 12) {
+      //roll an additional time
+      promiseArray.push(collectComplication(db,beastId))
+      promiseArray.push(collectComplication(db,beastId))
+    } else {
+      promiseArray.push(complication)
+      return [complication]
+    }
+    
+    return Promise.all(promiseArray).then(result => {
+      return [...result]
+    })
+  })
 }
 
 module.exports = controllerObj

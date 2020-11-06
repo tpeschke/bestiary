@@ -394,6 +394,25 @@ mat-toolbar {
       margin: 0
   }
 
+  .complicationsShell {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .complicationCard {
+    width: 49%;
+    background: rgba(211, 211, 211, 0.5);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  .complicationCard div {
+    display: flex;
+    justify-content: space-between;
+  }
+
 @media (max-width: 963px) {
     .combat-shell {
         justify-content: start;
