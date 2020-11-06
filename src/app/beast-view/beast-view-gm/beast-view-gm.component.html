@@ -270,7 +270,9 @@
         </div>
 
       </div>
-      <button *ngIf="encounter !== 'loading' && encounter.temperament" color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn">Regenerate Encounter</button>
+      <div class="regenerateButtonShell">
+        <button *ngIf="encounter !== 'loading' && encounter.temperament" color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn">Regenerate Encounter</button>
+      </div>
 
       <div class="box-padding encounterShell" *ngIf="encounter === 'loading'">
         <div class="spinner">

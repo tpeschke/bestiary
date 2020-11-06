@@ -580,9 +580,29 @@ let controllerObj = {
     if (Math.floor(Math.random() * 1) !== 0) {
       promiseArray.push(db.get.encounter.complication().then(result => {
         let complication = result[0]
-        switch(complication.complication) {
-          default:
-            break;
+        if (complication.id === 1) {
+          //rival
+          //should get number appearing if no associated rank
+          return true
+        } else if (complication.id === 2) {
+          //wounded
+          //percentage and by whom
+          return true
+        } else if (complication.id === 5) {
+          //lost
+          //change distance from lair to 10d10
+          return true
+        } else if (complication.id === 11) {
+          //in-fighting
+          //roll other side
+          return true
+        } else if (complication.id === 12) {
+          //roll an additional time
+          //idk
+          return true
+        } else {
+          encounterObject.complication = complication
+          return true
         }
       }))
     }
