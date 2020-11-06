@@ -554,7 +554,7 @@ let controllerObj = {
           for (let i = 0; i < underlingNumber; i++) {
             randomNumber = Math.floor(Math.random() * 31) + 1
             if (randomNumber > 30) {
-              otherPlayers.push(db.get.otherplayers.any().then(result=>result[0]))
+              otherPlayers.push(db.get.otherplayers.any(beastId).then(result=>result[0]))
             } else if (randomNumber > 25) {
               otherPlayers.push(db.get.otherplayers.type(beastId).then(result=>result[0]))
             } else {
@@ -596,7 +596,7 @@ async function collectComplication(db, beastId) {
     let complication = result[0]
     if (complication.id === 1) {
       //rival
-      promiseArray.push(db.get.complication.rival().then(result=>{
+      promiseArray.push(db.get.complication.rival(beastId).then(result=>{
         complication = {
           type: 'Rival',
           rival: result[0]
@@ -605,7 +605,7 @@ async function collectComplication(db, beastId) {
       }))
     } else if (complication.id === 2) {
       //wounded
-      promiseArray.push(db.get.complication.rival().then(result=>{
+      promiseArray.push(db.get.complication.rival(beastId).then(result=>{
         complication = {
           type: 'Wounded',
           byWhom: result[0],
