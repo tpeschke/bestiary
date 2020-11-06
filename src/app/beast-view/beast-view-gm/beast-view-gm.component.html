@@ -242,13 +242,17 @@
       <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && encounter.temperament">
         <div class="playerShell">
           <div class="flex-row-opposite">
-            <h3>Main Player{{encounter.number > 1 ? 's' : ''}}</h3>
-            <p>{{encounter.number}} {{encounter.rank.rank !== 'None' ? encounter.rank.rank : ''}}{{encounter.number > 1 && encounter.rank.rank !== 'None' ? 's' : ''}}</p>
+            <h3>Main Players</h3>
+            <ul>
+              <li *ngFor="let player of encounter.rank.mainPlayers">{{player.number}} {{player.rank !== 'None' ? player.rank : ''}}{{player.number > 1 && player.rank !== 'None' ? 's' : ''}}</li>
+            </ul>
           </div>
-          <div *ngIf="encounter.rank.underlings.length > 0" class="flex-row-opposite">
+          <div *ngIf="encounter.rank.otherPlayers.length > 0" class="flex-row-opposite">
             <h3>Additional Player(s)</h3>
             <ul>
-              <li *ngFor="let player of encounter.rank.underlings">{{player.name}} {{player.rank}}</li>
+              <li *ngFor="let player of encounter.rank.otherPlayers">
+                <a target="_blank" href="{{getUrl(player.id)}}">{{player.name}} {{player.rank}}</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -261,12 +265,12 @@
           <p>{{encounter.timeOfDay}}</p>
         </div>
         <div class="flex-row-opposite">
-          <h3>Distance From Lair</h3>
-          <p>{{encounter.rank.lair}} miles</p>
+          <h3>Home Base</h3>
+          <p>{{encounter.rank.lair}} Miles Away</p>
         </div>
 
-        <button color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn">Regenerate Encounter</button>
       </div>
+      <button *ngIf="encounter !== 'loading' && encounter.temperament" color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn">Regenerate Encounter</button>
 
       <div class="box-padding encounterShell" *ngIf="encounter === 'loading'">
         <div class="spinner">
@@ -324,10 +328,6 @@
               color="primary" selected>
               {{environ.environid | environConverter}}</mat-chip>
           </mat-chip-list>
-        </div>
-        <div class="flex-row-opposite">
-          <h3>Number Appearing</h3>
-          <p>{{beast.number_min}} - {{beast.number_max}}</p>
         </div>
         <div class="flex-row-opposite">
           <h3>Senses</h3>

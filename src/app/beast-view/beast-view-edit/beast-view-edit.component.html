@@ -466,7 +466,8 @@
                 <p>{{rank.weight}}</p>
                 <p>{{rank.othertypechance}}%</p>
                 <p>-{{rank.decayrate}}%</p>
-                <p>{{rank.lair}}</p>
+                <p>{{rank.lair}} miles</p>
+                <p>#{{rank.number}}</p>
                 <i (click)="removeEncounterItem(i, 'rank', 'rank')" class="fas fa-times-circle"></i>
               </div>
             </div>
@@ -488,7 +489,10 @@
               <input placeholder="Decay Rate" matInput (change)="captureEncounterInput($event, 'rank', 'decayrate')">
             </mat-form-field>
             <mat-form-field>
-              <input placeholder="Lair Distance" matInput (change)="captureEncounterInput($event, 'rank', 'lair')">
+              <input placeholder="Lair Distance as dice" matInput (change)="captureEncounterInput($event, 'rank', 'lair')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Number as dice" matInput (change)="captureEncounterInput($event, 'rank', 'number')">
             </mat-form-field>
           </div>
           <h3>OR</h3>
@@ -510,12 +514,15 @@
                 (change)="captureEncounterInputInt($event, 'rank', 'decayrate')">
             </mat-form-field>
             <mat-form-field>
-              <input placeholder="Lair Distance" matInput [value]="rank.lair" 
+              <input placeholder="Lair Distance as dice" matInput [value]="rank.lair" 
                 (change)="captureEncounterInput($event, 'rank', 'lair')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Number as dice" matInput (change)="captureEncounterInput($event, 'rank', 'number')">
             </mat-form-field>
           </div>
           <button mat-raised-button (click)="addEncounterItem('rank', 'rank')" color="accent"
-            [disabled]="!rank.rank || !rank.weight || !rank.othertypechance || !rank.decayrate || !rank.lair || (rank.othertypechance > 0 && rank.decayrate <= 0)">Add Rank</button>
+            [disabled]="!rank.rank || !rank.weight || !rank.othertypechance || !rank.decayrate || !rank.lair || !rank.number || (rank.othertypechance > 0 && rank.decayrate <= 0)">Add Rank</button>
         </div>
       </div>
 

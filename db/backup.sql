@@ -158,3 +158,12 @@ create table bbrankinfo (
     decayrate int,
     lair varchar(100)
 );
+
+create table bbcomplications (
+    id serial primary key,
+    complication varchar(250)
+);
+
+insert into bbcomplications (complication) values
+('Rival'),('Wounded'),('Trapped'),('Insane'),('Lost'),('Diseased'),('Time Limit'),('Back Up Coming')
+,('Powerful Weird-Adept or Servant'),('Powerful Artifact or Relic'),('In-Fighting'),('Roll An Additional Time');

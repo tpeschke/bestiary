@@ -106,7 +106,11 @@ export class BeastViewGmComponent implements OnInit {
     this.encounter = 'loading'
     this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
       if (result.temperament) {
-        result.number = this.calculatorService.rollDice(`${this.beast.number_min}d${this.beast.number_max}`)
+        result.rank.mainPlayers = result.rank.mainPlayers.map(player => {
+          let number = this.calculatorService.rollDice(player.number)
+          player.number = number > 0 ? number : 1
+          return player
+        })
         let distance = this.calculatorService.rollDice(result.rank.lair)
         result.rank.lair = distance > 0 ? distance : 0
         result.timeOfDay = this.calculatorService.rollDice(12)
@@ -115,6 +119,10 @@ export class BeastViewGmComponent implements OnInit {
       }
       this.encounter = result
     })
+  }
+
+  getUrl(id) {
+    return `https://bestiary.dragon-slayer.net/beast/${id}/gm`
   }
 
 }

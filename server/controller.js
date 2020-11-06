@@ -540,30 +540,35 @@ let controllerObj = {
     }))
 
     promiseArray.push(db.get.encounter.rankWeighted(beastId).then(result => {
-      let beastRank = result[0]
+      let mainPlayers = result
         , underlingNumber = 0
-        , underlings = []
+        , otherPlayers = []
 
-        if (beastRank) {
-          while (beastRank.othertypechance > 0) {
+        if (mainPlayers) {
+          while (mainPlayers[0].othertypechance > 0) {
             let percentRoll = Math.floor(Math.random() * 100) + 1
-            if (percentRoll <= beastRank.othertypechance) {++underlingNumber}
-            beastRank.othertypechance -= beastRank.decayrate;
+            if (percentRoll <= mainPlayers[0].othertypechance) {++underlingNumber}
+            mainPlayers[0].othertypechance -= mainPlayers[0].decayrate;
           }
     
           for (let i = 0; i < underlingNumber; i++) {
             randomNumber = Math.floor(Math.random() * 31) + 1
             if (randomNumber > 30) {
-              underlings.push(db.get.underlings.any().then(result=>result[0]))
-            } else if (randomNumber > 20) {
-              underlings.push(db.get.underlings.type(beastId).then(result=>result[0]))
+              otherPlayers.push(db.get.otherplayers.any().then(result=>result[0]))
+            } else if (randomNumber > 25) {
+              otherPlayers.push(db.get.otherplayers.type(beastId).then(result=>result[0]))
             } else {
-              underlings.push(db.get.underlings.exact(beastId, beastRank.rankid).then(result=>result[0]))
+              otherPlayers.push(db.get.otherplayers.exact(beastId, mainPlayers[0].rankid).then(result=>{
+                mainPlayers.push(result[0])
+                return false}))
             }
           }
           
-          return Promise.all(underlings).then(finalUnderlings => {
-            beastRank.underlings = finalUnderlings
+          return Promise.all(otherPlayers).then(finalOtherPlayers => {
+            let beastRank = {}
+            beastRank.mainPlayers = mainPlayers
+            beastRank.otherPlayers = finalOtherPlayers.filter(person=>person)
+            beastRank.lair = beastRank.mainPlayers[0].lair
             encounterObject.rank = beastRank
             return beastRank
           })
@@ -571,6 +576,16 @@ let controllerObj = {
           return []
         }
     }))
+
+    if (Math.floor(Math.random() * 1) !== 0) {
+      promiseArray.push(db.get.encounter.complication().then(result => {
+        let complication = result[0]
+        switch(complication.complication) {
+          default:
+            break;
+        }
+      }))
+    }
 
     Promise.all(promiseArray).then(_ => {
       res.send(encounterObject)
