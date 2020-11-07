@@ -34,13 +34,15 @@ export class BeastViewEditComponent implements OnInit {
     tooltip: null,
     weight: null
   };
-
   public rank = {
     rank: null,
     weight: null,
     othertypechance: null,
     decayrate: null,
     lair: null
+  }
+  public verb = { 
+    verb: null
   }
 
   ngOnInit() {
@@ -274,6 +276,10 @@ export class BeastViewEditComponent implements OnInit {
         othertypechance: null,
         decayrate: null,
         lair: null
+      }
+    } else if (type === 'verb') {
+      this.verb = {
+        verb: null
       }
     }
   }

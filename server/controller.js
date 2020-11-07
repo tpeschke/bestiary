@@ -294,6 +294,21 @@ let controllerObj = {
         }
       })
 
+      let {verb} = encounter;
+      verb.verb.forEach(({verb, id: verbid, beastid, deleted}) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.verb(beastid, verbid))
+        } else if (verbid && !beastid) {
+          promiseArray.push(db.add.encounter.verb(verbid, id))
+        } else if (verbid && beastid) {
+          promiseArray.push(db.update.encounter.verb(verbid, id))
+        } else if (!verbid) {
+          db.add.encounter.allVerb(verb).then(result => {
+            promiseArray.push(db.add.encounter.verb(result[0].id, id))
+          })
+        }
+      })
+
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCache(app, 0)
         res.send({ id })
@@ -436,6 +451,19 @@ let controllerObj = {
         }
       })
 
+      let {verb} = encounter;
+      verb.verb.forEach(({verb, id: verbid, beastid, deleted}) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.verb(beastid, verbid))
+        } else if (verbid && !beastid) {
+          promiseArray.push(db.add.encounter.verb(verbid, id))
+        } else if (!verbid) {
+          db.add.encounter.allVerb(verb).then(result => {
+            promiseArray.push(db.add.encounter.verb(result[0].id, id))
+          })
+        }
+      })
+
       Promise.all(promiseArray).then(_ => {
         res.send({ id })
       })
@@ -502,7 +530,8 @@ let controllerObj = {
     let promiseArray = []
     , encounterObject = {
       temperament: {},
-      rank: {}
+      rank: {},
+      verb: {}
     }
     , beastid = +req.params.beastid
 
@@ -524,6 +553,15 @@ let controllerObj = {
       return result
     }))
 
+    promiseArray.push(db.get.encounter.verb(beastid).then(result => {
+      encounterObject.verb.verb = result
+      return result
+    }))
+    promiseArray.push(db.get.encounter.allVerb(beastid).then(result => {
+      encounterObject.verb.allVerb = result
+      return result
+    }))
+
     Promise.all(promiseArray).then(_ => {
       res.send(encounterObject)
     })
@@ -536,6 +574,13 @@ let controllerObj = {
 
     promiseArray.push(db.get.encounter.tempWeighted(beastId).then(result => {
       encounterObject.temperament = result[0]
+      return result
+    }))
+
+    promiseArray.push(db.get.encounter.verbWeighted(beastId).then(result => {
+      if (result[0]) {
+        encounterObject.verb = result[0].verb
+      }
       return result
     }))
 

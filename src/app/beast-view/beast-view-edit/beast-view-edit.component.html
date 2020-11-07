@@ -483,13 +483,15 @@
               <input placeholder="Weight" matInput (change)="captureEncounterInput($event, 'rank', 'weight')">
             </mat-form-field>
             <mat-form-field>
-              <input placeholder="Other Type Chance" matInput (change)="captureEncounterInput($event, 'rank', 'othertypechance')">
+              <input placeholder="Other Type Chance" matInput
+                (change)="captureEncounterInput($event, 'rank', 'othertypechance')">
             </mat-form-field>
             <mat-form-field>
               <input placeholder="Decay Rate" matInput (change)="captureEncounterInput($event, 'rank', 'decayrate')">
             </mat-form-field>
             <mat-form-field>
-              <input placeholder="Lair Distance as dice" matInput (change)="captureEncounterInput($event, 'rank', 'lair')">
+              <input placeholder="Lair Distance as dice" matInput
+                (change)="captureEncounterInput($event, 'rank', 'lair')">
             </mat-form-field>
             <mat-form-field>
               <input placeholder="Number as dice" matInput (change)="captureEncounterInput($event, 'rank', 'number')">
@@ -502,19 +504,17 @@
                 (change)="captureEncounterInput($event, 'rank', 'rank')">
             </mat-form-field>
             <mat-form-field>
-              <input placeholder="Weight" matInput
-                (change)="captureEncounterInputInt($event, 'rank', 'weight')">
+              <input placeholder="Weight" matInput (change)="captureEncounterInputInt($event, 'rank', 'weight')">
             </mat-form-field>
             <mat-form-field>
               <input placeholder="Other Type Chance" matInput
                 (change)="captureEncounterInputInt($event, 'rank', 'othertypechance')">
             </mat-form-field>
             <mat-form-field>
-              <input placeholder="Decay Rate" matInput
-                (change)="captureEncounterInputInt($event, 'rank', 'decayrate')">
+              <input placeholder="Decay Rate" matInput (change)="captureEncounterInputInt($event, 'rank', 'decayrate')">
             </mat-form-field>
             <mat-form-field>
-              <input placeholder="Lair Distance as dice" matInput [value]="rank.lair" 
+              <input placeholder="Lair Distance as dice" matInput [value]="rank.lair"
                 (change)="captureEncounterInput($event, 'rank', 'lair')">
             </mat-form-field>
             <mat-form-field>
@@ -522,9 +522,40 @@
             </mat-form-field>
           </div>
           <button mat-raised-button (click)="addEncounterItem('rank', 'rank')" color="accent"
-            [disabled]="!rank.rank || !rank.weight || !rank.othertypechance || !rank.decayrate || !rank.lair || !rank.number || (rank.othertypechance > 0 && rank.decayrate <= 0)">Add Rank</button>
+            [disabled]="!rank.rank || !rank.weight || !rank.othertypechance || !rank.decayrate || !rank.lair || !rank.number || (rank.othertypechance > 0 && rank.decayrate <= 0)">Add
+            Rank</button>
+        </div>
+
+        <div>
+          <h3>Verb</h3>
+          <div>
+            <div *ngFor="let verb of encounter.verb.verb; let i = index">
+              <div class="temperamentList" *ngIf="!verb.deleted">
+                <p>{{verb.verb}}</p>
+                <i (click)="removeEncounterItem(i, 'verb', 'verb')" class="fas fa-times-circle"></i>
+              </div>
+            </div>
+            <mat-form-field>
+              <mat-label>Select Verb</mat-label>
+              <mat-select (selectionChange)="captureEncounter($event, 'verb')">
+                <mat-option *ngFor="let verb of encounter.verb.allVerb" [value]="verb">
+                  {{verb.verb}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <h3>OR</h3>
+          <div>
+            <mat-form-field>
+              <input placeholder="Add Verb" matInput [value]="verb.verb"
+                (change)="captureEncounterInput($event, 'verb', 'verb')">
+            </mat-form-field>
+          </div>
+          <button mat-raised-button (click)="addEncounterItem('verb', 'verb')" color="accent"
+            [disabled]="!verb.verb">Add Verb</button>
         </div>
       </div>
+
 
       <h2>Type</h2>
       <div class="divider"></div>

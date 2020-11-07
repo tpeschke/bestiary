@@ -167,3 +167,14 @@ create table bbcomplications (
 insert into bbcomplications (complication) values
 ('Rival'),('Wounded'),('Trapped'),('Insane'),('Lost'),('Diseased'),('Time Limit'),('Back Up Coming')
 ,('Powerful Weird-Adept or Servant'),('Powerful Artifact or Relic'),('In-Fighting'),('Roll An Additional Time');
+
+create table bbverb (
+    id serial primary key,
+    verb varchar(200)
+);
+
+create table bbverbinfo (
+    id serial primary key,
+    beastid int,
+    verbid int
+)
