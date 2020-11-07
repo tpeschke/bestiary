@@ -260,6 +260,10 @@
           <h3>Verb</h3>
           <p>{{encounter.verb}}</p>
         </div>
+        <div *ngIf="encounter.noun" class="flex-row-opposite">
+          <h3>Noun</h3>
+          <p>{{encounter.noun}}</p>
+        </div>
         <div class="flex-row-opposite">
           <h3>Temperament</h3>
           <p matTooltip="{{encounter.temperament.tooltip}}" id="temperamentPTag">{{encounter.temperament.temperament}}</p>

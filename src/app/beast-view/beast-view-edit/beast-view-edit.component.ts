@@ -44,6 +44,9 @@ export class BeastViewEditComponent implements OnInit {
   public verb = { 
     verb: null
   }
+  public noun = { 
+    noun: null
+  }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -280,6 +283,10 @@ export class BeastViewEditComponent implements OnInit {
     } else if (type === 'verb') {
       this.verb = {
         verb: null
+      }
+    } else if (type === 'noun') {
+      this.noun = {
+        noun: null
       }
     }
   }

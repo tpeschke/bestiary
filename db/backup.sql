@@ -178,3 +178,14 @@ create table bbverbinfo (
     beastid int,
     verbid int
 )
+
+create table bbnoun (
+    id serial primary key,
+    noun varchar(250)
+);
+
+create table bbnouninfo (
+    id serial primary key,
+    nounid int,
+    beastid int
+)

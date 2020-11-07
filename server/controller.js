@@ -308,6 +308,19 @@ let controllerObj = {
           })
         }
       })
+      
+      let {noun} = encounter;
+      noun.noun.forEach(({noun, id: nounid, beastid, deleted}) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.noun(beastid, nounid))
+        } else if (nounid && !beastid) {
+          promiseArray.push(db.add.encounter.noun(nounid, id))
+        } else if (!nounid) {
+          db.add.encounter.allNoun(noun).then(result => {
+            promiseArray.push(db.add.encounter.noun(result[0].id, id))
+          })
+        }
+      })
 
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCache(app, 0)
@@ -464,6 +477,19 @@ let controllerObj = {
         }
       })
 
+      let {noun} = encounter;
+      noun.noun.forEach(({noun, id: nounid, beastid, deleted}) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.noun(beastid, nounid))
+        } else if (nounid && !beastid) {
+          promiseArray.push(db.add.encounter.noun(nounid, id))
+        } else if (!nounid) {
+          db.add.encounter.allNoun(noun).then(result => {
+            promiseArray.push(db.add.encounter.noun(result[0].id, id))
+          })
+        }
+      })
+
       Promise.all(promiseArray).then(_ => {
         res.send({ id })
       })
@@ -531,7 +557,8 @@ let controllerObj = {
     , encounterObject = {
       temperament: {},
       rank: {},
-      verb: {}
+      verb: {},
+      noun: {}
     }
     , beastid = +req.params.beastid
 
@@ -561,6 +588,15 @@ let controllerObj = {
       encounterObject.verb.allVerb = result
       return result
     }))
+    
+    promiseArray.push(db.get.encounter.noun(beastid).then(result => {
+      encounterObject.noun.noun = result
+      return result
+    }))
+    promiseArray.push(db.get.encounter.allNoun(beastid).then(result => {
+      encounterObject.noun.allNoun = result
+      return result
+    }))
 
     Promise.all(promiseArray).then(_ => {
       res.send(encounterObject)
@@ -580,6 +616,13 @@ let controllerObj = {
     promiseArray.push(db.get.encounter.verbWeighted(beastId).then(result => {
       if (result[0]) {
         encounterObject.verb = result[0].verb
+      }
+      return result
+    }))
+
+    promiseArray.push(db.get.encounter.nounWeighted(beastId).then(result => {
+      if (result[0]) {
+        encounterObject.noun = result[0].noun
       }
       return result
     }))
