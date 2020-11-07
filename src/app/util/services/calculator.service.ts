@@ -27,6 +27,8 @@ export class CalculatorService {
   public rollDice(diceString) {
     if (typeof (diceString) === 'number') {
       return +Math.floor(Math.random() * Math.floor(diceString)) + 1
+    } else if (!diceString) {
+      return 0
     } else {
       let diceExpressionArray = []
       let expressionValue = ""
