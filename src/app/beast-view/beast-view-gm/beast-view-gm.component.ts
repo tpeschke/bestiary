@@ -123,7 +123,7 @@ export class BeastViewGmComponent implements OnInit {
               }
             } else if (complication.type === 'Lost') {
               distance = this.calculatorService.rollDice(complication.distance)
-            } else if (complication.type === 'Back Up') {
+            } else if (complication.type === 'Back Up Coming') {
               complication.time = this.calculatorService.rollDice(complication.time) + " seconds"
               if (complication.backup.number) {
                 complication.backup.number = this.calculatorService.rollDice(complication.backup.number)
