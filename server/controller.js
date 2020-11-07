@@ -689,7 +689,7 @@ async function collectComplication(db, beastId) {
   let promiseArray = []
   return db.get.complication.complication().then(result => {
     let complication = result[0]
-    complication.id = 8
+    complication.id = 1
     if (complication.id === 1) {
       //rival
       promiseArray.push(db.get.complication.rival(beastId).then(result=>{
@@ -716,7 +716,7 @@ async function collectComplication(db, beastId) {
       //Back up coming
       promiseArray.push(db.get.complication.backup(beastId).then(result => {
         complication = {
-          type: 'Back Up',
+          type: 'Back Up Coming',
           backup: result[0],
           time: '30d2'
         }
