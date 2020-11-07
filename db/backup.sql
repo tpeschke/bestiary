@@ -189,3 +189,15 @@ create table bbnouninfo (
     nounid int,
     beastid int
 )
+
+create table bbbattlefield (
+    id serial primary key,
+    battlefield varchar(250)
+);
+
+insert into bbbattlefield (battlefield) values 
+('Divided Company'), ('Divided the Company From the Enemy')
+, ('Active hazard'), ('Differing Elevation'), ('In Fortified Position')
+, ('Cramped Quarters'), ('Beyond Ranged Weaponry'), ('Both Parties Surprised')
+, ('Ambush (for Enemies)'), ('Ambush (for Company)'), ('Bad Weather')
+, ('More Powerful Force Shows Up During')

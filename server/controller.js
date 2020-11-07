@@ -626,6 +626,13 @@ let controllerObj = {
       }
       return result
     }))
+    
+    promiseArray.push(db.get.encounter.battlefield(beastId).then(result => {
+      if (result[0]) {
+        encounterObject.battlefield = result[0].battlefield
+      }
+      return result
+    }))
 
     promiseArray.push(db.get.encounter.rankWeighted(beastId).then(result => {
       let mainPlayers = result

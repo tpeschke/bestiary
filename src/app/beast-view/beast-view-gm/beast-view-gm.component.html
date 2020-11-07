@@ -268,13 +268,17 @@
           <h3>Temperament</h3>
           <p matTooltip="{{encounter.temperament.tooltip}}" id="temperamentPTag">{{encounter.temperament.temperament}}</p>
         </div>
-        <div class="flex-row-opposite">
-          <h3>Home Base</h3>
-          <p>{{encounter.rank.lair}} Miles Away</p>
+        <div *ngIf="encounter.battlefield" class="flex-row-opposite">
+          <h3>Battlefield</h3>
+          <p id="temperamentPTag">{{encounter.battlefield}}</p>
         </div>
         <div class="flex-row-opposite">
           <h3>Time of Day</h3>
           <p>{{encounter.timeOfDay}}</p>
+        </div>
+        <div class="flex-row-opposite">
+          <h3>Home Base</h3>
+          <p>{{encounter.rank.lair}} Miles Away</p>
         </div>
       </div>
 
