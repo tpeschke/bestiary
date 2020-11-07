@@ -689,7 +689,6 @@ async function collectComplication(db, beastId) {
   let promiseArray = []
   return db.get.complication.complication().then(result => {
     let complication = result[0]
-    complication.id = 1
     if (complication.id === 1) {
       //rival
       promiseArray.push(db.get.complication.rival(beastId).then(result=>{
