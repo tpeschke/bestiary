@@ -654,7 +654,9 @@ let controllerObj = {
               otherPlayers.push(db.get.otherplayers.type(beastId).then(result=>result[0]))
             } else {
               otherPlayers.push(db.get.otherplayers.exact(beastId, mainPlayers[0].rankid).then(result=>{
-                mainPlayers.push(result[0])
+                if (result[0].rankid) {
+                  mainPlayers.push(result[0])
+                }
                 return false}))
             }
           }
