@@ -282,7 +282,7 @@
         </div>
       </div>
 
-      <div class="box-padding" *ngIf="encounter.complication">
+      <div class="box-padding" *ngIf="encounter.complication && encounter.temperament">
         <h3>Complication{{encounter.complication.length > 1 ? 's' : ''}}</h3>
         <div class="complicationsShell">
           <div class="complicationCard" *ngFor="let complication of encounter.complication">

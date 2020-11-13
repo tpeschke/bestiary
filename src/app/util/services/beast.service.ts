@@ -57,7 +57,7 @@ export class BeastService {
     this.toastr.warning('', `image uploading`)
     return this.http.post(local.endpointBase + '/api/v1/upload/' + id, imageForm)
     .pipe(
-      tap(result => this.handleMessage({color: 'green', message: 'image finised uploading'}))
+      tap(result => this.handleMessage({color: 'green', message: 'image finished uploading'}))
     );
   }
 

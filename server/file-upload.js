@@ -28,7 +28,6 @@ const upload = multer({
         s3,
         bucket: bucketName,
         key: function (req, file, cb) {
-            /*I'm using Date.now() to make sure my file has a unique name*/
             req.file = req.params.id;
             cb(null, req.params.id);
         }
