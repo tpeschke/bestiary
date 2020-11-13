@@ -654,10 +654,13 @@ let controllerObj = {
               otherPlayers.push(db.get.otherplayers.type(beastId).then(result=>result[0]))
             } else {
               otherPlayers.push(db.get.otherplayers.exact(beastId, mainPlayers[0].rankid).then(result=>{
-                if (result[0].rankid) {
+                if (result[0]) {
                   mainPlayers.push(result[0])
+                  return false
+                } else {
+                  return db.get.otherplayers.type(beastId).then(result=>result[0])
                 }
-                return false}))
+              }))
             }
           }
           
