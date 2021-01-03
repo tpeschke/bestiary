@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { BeastService } from './util/services/beast.service';
-import { Location } from '@angular/common';
 import variables from '../local.js'
-import { VariableAst } from '@angular/compiler';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +9,7 @@ import { VariableAst } from '@angular/compiler';
 })
 export class AppComponent {
   constructor(
-    private router: Router,
-    private beastService: BeastService,
-    private location: Location
+    private beastService: BeastService
   ) {  }
 
   public loggedIn:boolean|string|number = false;

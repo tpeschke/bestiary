@@ -33,16 +33,12 @@ export class BeastViewGmComponent implements OnInit {
       this.getRandomEncounter()
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
 
-      let tired = 1
-        , hurt = Math.floor(this.averageVitality * .25)
+      let hurt = Math.floor(this.averageVitality * .25)
         , bloodied = Math.floor(this.averageVitality * .5)
         , wounded = Math.floor(this.averageVitality * .75)
 
       for (let i = 0; i < this.averageVitality; i++) {
         switch (i) {
-          case tired:
-            this.checkboxes.push({ value: 'T' })
-            break;
           case hurt:
             this.checkboxes.push({ value: 'H' })
             break;
