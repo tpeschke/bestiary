@@ -6,8 +6,7 @@
       {{beast.name}}
     </h1>
     <div class="flex-row-opposite">
-      <h1 matTooltip="Hewy Rating. Click to Learn More.">HR: {{beast.hr}}
-      </h1>
+      <h1 (click)="openExplaination()" matTooltip="Hewy Rating. Click to Learn More.">HR: {{beast.hr}}</h1>
       <i *ngIf="!beast.favorite" (click)="addFavorite(beast.id)" matTooltip="Click to Favorite this Monster"
         class="far fa-star"></i>
       <i *ngIf="beast.favorite" (click)="deleteFavorite(beast.id)" matTooltip="Click to Unfavorite this Monster"
@@ -242,7 +241,7 @@
         <quill-view-html [content]="beast.ecology"></quill-view-html>
       </div>
 
-      <h2 matTooltip="This gives you guidelines on generating a random encounter using this monster. The results are tailored to the monster and so will generally be indicative of its behavior.">Random Encounter</h2>
+      <h2>Random Encounter <i class="fas fa-info-circle icon-small blue" matTooltip="This gives you guidelines on generating a random encounter using this monster. The results are tailored to the monster and so will generally be indicative of its behavior."></i></h2>
       <div class="divider"></div>
       <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && encounter.temperament">
         <div class="playerShell">
@@ -271,7 +270,7 @@
         </div>
         <div class="flex-row-opposite">
           <h3>Temperament</h3>
-          <p matTooltip="{{encounter.temperament.tooltip}}" id="temperamentPTag">{{encounter.temperament.temperament}}</p>
+          <p id="temperamentPTag">{{encounter.temperament.temperament}} <i class="fas fa-info-circle icon-small blue" matTooltip="{{encounter.temperament.tooltip}}"></i></p>
         </div>
         <div *ngIf="encounter.battlefield" class="flex-row-opposite">
           <h3>Battlefield</h3>
@@ -295,8 +294,8 @@
             <div *ngIf="complication.backup"><h5>Back Up: </h5><p>{{complication.backup.number}} {{complication.backup.rank}}{{complication.backup.number > 1 ? 's' : ''}}</p></div>
             <div *ngIf="complication.time"><h5>Arrival Time: </h5><p>{{complication.time}}</p></div>
             <div *ngIf="complication.rival"><h5>Enemies: </h5><a target="_blank" href="{{getUrl(complication.rival.id)}}">{{complication.rival.number}} {{complication.rival.name}}{{complication.rival.number > 1 ? 's' : ''}}</a></div>
-            <div *ngIf="complication.amount"><h5>Damage Taken: </h5><p>{{complication.amount}}%</p></div>
-            <div *ngIf="complication.byWhom"><h5>By: </h5><p>{{complication.byWhom.name}}</p></div>
+            <div *ngIf="complication.amount"><h5>Damage Taken: </h5><p>{{complication.amount}}</p></div>
+            <div *ngIf="complication.byWhom"><h5>By: </h5><a target="_blank" href="{{getUrl(complication.byWhom.id)}}">{{complication.byWhom.name}}</a></div>
           </div>
         </div>
       </div>
@@ -345,9 +344,8 @@
       <div class="divider"></div>
       <div class="box-padding">
         <div class="flex-row-opposite">
-          <h3
-            matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This factored into their Defense already.">
-            Size</h3>
+          <h3>
+            Size <i class="fas fa-info-circle icon-small blue" matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This factored into their Defense already."></i></h3>
           <p>{{beast.size}}</p>
         </div>
         <div class="flex-row-opposite">
@@ -376,7 +374,7 @@
         </div>
       </div>
 
-      <h2 matTooltip="This doesn't include weapons and armor unless they're notable.">Loot </h2>
+      <h2>Loot <i class="fas fa-info-circle icon-small blue" matTooltip="This doesn't include weapons and armor unless they're notable."></i></h2>
       <div class="divider"></div>
       <div *ngIf="beast.loot.length > 0" class="loot-shell">
         <div *ngFor="let lootitem of beast.loot; let i = index">
@@ -400,9 +398,8 @@
         <h3>This creature carries nothing else of value.</h3>
       </div>
 
-      <h2
-        matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell or a +3 to the corresponding Weirdcraft Advanced Skill Check. Note that only spells casted as the noted school gain this bonus. The difficulty to recognize the item is at the end; the difficulty to harvest it is 2 dice sizes lower.">
-        Magical Reagents</h2>
+      <h2>
+        Magical Reagents <i class="fas fa-info-circle icon-small blue" matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell or a +3 to the corresponding Weirdcraft Advanced Skill Check. Note that only spells casted as the noted school gain this bonus. The difficulty to recognize the item is at the end; the difficulty to harvest it is 2 dice sizes lower."></i></h2>
       <div class="divider"></div>
       <div *ngIf="beast.reagents.length > 0" class="reagents-shell">
         <div class="flex-row-opposite reagent">
@@ -443,17 +440,12 @@
       <div>
         <quill-view-html [content]="beast.meta"></quill-view-html>
       </div>
-
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <h3>Personal Notes</h3>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-
+      
+      <h2>Personal Notes</h2>
+      <div class="divider"></div>
+      <div>
         <app-player-notes class="gm-notes-shell" [notes]="beast.notes" [id]="beast.id"></app-player-notes>
-
-      </mat-expansion-panel>
+      </div>
     </div>
   </div>
 

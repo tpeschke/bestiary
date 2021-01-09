@@ -111,15 +111,15 @@ export class BeastViewGmComponent implements OnInit {
 
         if (result.complication) {
           result.complication.forEach(complication => {
-            if (complication.type === 'Rival') {
+            if (complication.id === 1) {
               if (complication.rival.number) {
                 complication.rival.number = this.calculatorService.rollDice(complication.rival.number)
               } else {
                 complication.rival.number = this.calculatorService.rollDice(`${complication.rival.number_min}d${complication.rival.number_max}`)
               }
-            } else if (complication.type === 'Lost') {
-              distance = this.calculatorService.rollDice(complication.distance)
-            } else if (complication.type === 'Back Up Coming') {
+            } else if (complication.id === 5) {
+              distance = distance + this.calculatorService.rollDice(complication.distance)
+            } else if (complication.id === 8) {
               complication.time = this.calculatorService.rollDice(complication.time) + " seconds"
               if (complication.backup.number) {
                 complication.backup.number = this.calculatorService.rollDice(complication.backup.number)

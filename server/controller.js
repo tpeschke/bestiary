@@ -679,7 +679,7 @@ let controllerObj = {
       }
     }))
 
-    if (Math.floor(Math.random() * 10) > 5) {
+    // if (Math.floor(Math.random() * 10) > 5) {
       promiseArray.push(collectComplication(db, beastId).then(result => {
         let flatArray = []
         if (result.length) {
@@ -696,7 +696,7 @@ let controllerObj = {
         encounterObject.complication = flatArray
         return result
       }))
-    }
+    // }
 
     Promise.all(promiseArray).then(_ => {
       res.send(encounterObject)
@@ -707,10 +707,12 @@ let controllerObj = {
 async function collectComplication(db, beastId) {
   return db.get.complication.complication().then(result => {
     let complication = result[0]
+    complication.id = 2
     if (complication.id === 1) {
       //rival
       return db.get.complication.rival(beastId).then(result => {
         return {
+          id: 1,
           type: 'Rival',
           rival: result[0]
         }
@@ -718,19 +720,22 @@ async function collectComplication(db, beastId) {
     } else if (complication.id === 2) {
       //wounded
       return db.get.complication.rival(beastId).then(result => {
+        let woundCategories = ['Hurt', 'Bloodied', 'Wounded', 'Bleeding Out']
         return {
+          id: 2,
           type: 'Wounded',
           byWhom: result[0],
-          amount: Math.floor(Math.random() * 90) + 10
+          amount: woundCategories[Math.floor(Math.random() * 3)]
         }
       })
     } else if (complication.id === 5) {
       //lost
-      return { type: 'Lost', distance: '10d10' }
+      return { id: 5, type: 'Lost', distance: '10d10' }
     } else if (complication.id === 8) {
       //Back up coming
       return db.get.complication.backup(beastId).then(result => {
         return {
+          id: 8,
           type: 'Back Up Coming',
           backup: result[0],
           time: '30d2'

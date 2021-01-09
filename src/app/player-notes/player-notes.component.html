@@ -2,14 +2,14 @@
 <div *ngIf="notes">
   <div *ngIf="!edit" class="quill-shell">
     <quill-view-html *ngIf="notes.notes" [content]="notes.notes"></quill-view-html>
-    <h2 class="player-no-notes-heading" *ngIf="!notes.notes">You currently have no notes</h2>
-    <button mat-raised-button (click)="toggleEdit()" color="warn">Edit</button>
+    <h3 class="player-no-notes-heading" *ngIf="!notes.notes">You currently have no notes on this beast.</h3>
+    <button mat-raised-button (click)="toggleEdit()" color="warn">Edit Notes</button>
   </div>
   <div *ngIf="edit" class="quill-shell">
     <quill-editor [(ngModel)]="notes.notes" (onContentChanged)="captureHTML($event)"></quill-editor>
-    <button mat-raised-button (click)="saveNotes()" color="primary">Save</button>
+    <button mat-raised-button (click)="saveNotes()" color="primary">Save Notes</button>
   </div>
 </div>
 <div class="noteOuterShell" *ngIf="!notes">
-  You need to be logged into to leave notes.
+  <h3>You need to be logged into to leave notes.</h3>
 </div>
