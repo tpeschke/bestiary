@@ -62,7 +62,9 @@ export class BeastViewEditComponent implements OnInit {
           this.encounter = encounter
         })
       } else {
-        this.encounter = {}
+        this.beastService.getEditEncounter(0).subscribe(encounter => {
+          this.encounter = encounter
+        })
         this.beast = {
           name: '',
           hr: 0,
