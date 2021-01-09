@@ -1,3 +1,5 @@
+const { updateReturn } = require("typescript");
+
 let controllerObj = {
   catalogCache: [],
   newCache: [],
@@ -55,7 +57,7 @@ let controllerObj = {
       }
 
       if (beast.patreon > patreonTestValue) {
-        res.sendStatus(401).send({color: 'red', message: 'You need to update your Patreon tier to access this monster'})
+        res.sendStatus(401).send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
         promiseArray.push(db.get.beasttypes(id).then(result => {
           beast.types = result
@@ -72,7 +74,7 @@ let controllerObj = {
           return result
         }))
 
-        if(req.query.edit === 'true') {
+        if (req.query.edit === 'true') {
           promiseArray.push(db.get.beastconflictedit(id).then(result => {
             beast.conflict = { traits: [], devotions: [], flaws: [], passions: [] }
             result.forEach(val => {
@@ -109,7 +111,7 @@ let controllerObj = {
             return result
           }))
         }
-        
+
         promiseArray.push(db.get.beastskill(id).then(result => {
           beast.skills = result
           return result
@@ -174,7 +176,7 @@ let controllerObj = {
   getFromBestiary(req, res) {
     const db = req.app.get('db')
     if (req.query.patreon < 3) {
-      res.sendStatus(401).send({message : "You need to update your Patreon to gain access to this feature"})
+      res.sendStatus(401).send({ message: "You need to update your Patreon to gain access to this feature" })
     } else {
       db.get.beast_by_hash(req.params.hash).then(beast => {
         beast = beast[0]
@@ -242,7 +244,7 @@ let controllerObj = {
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, +int, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null).then(result => {
       let id = result[0].id
         , promiseArray = []
-    
+
       types.forEach(val => {
         promiseArray.push(db.add.beasttype(id, val.typeid).then())
       })
@@ -278,9 +280,9 @@ let controllerObj = {
       reagents.forEach(({ name, spell, difficulty }) => {
         promiseArray.push(db.add.beastreagents(id, name, spell, difficulty).then())
       })
-      
-      let {temperament} = encounter;
-      temperament.temperament.forEach(({temperament: temp, weight, id: tempid, beastid, tooltip, deleted}) => {
+
+      let { temperament } = encounter;
+      temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
         } else if (tempid && !beastid) {
@@ -294,8 +296,8 @@ let controllerObj = {
         }
       })
 
-      let {verb} = encounter;
-      verb.verb.forEach(({verb, id: verbid, beastid, deleted}) => {
+      let { verb } = encounter;
+      verb.verb.forEach(({ verb, id: verbid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.verb(beastid, verbid))
         } else if (verbid && !beastid) {
@@ -308,9 +310,9 @@ let controllerObj = {
           })
         }
       })
-      
-      let {noun} = encounter;
-      noun.noun.forEach(({noun, id: nounid, beastid, deleted}) => {
+
+      let { noun } = encounter;
+      noun.noun.forEach(({ noun, id: nounid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.noun(beastid, nounid))
         } else if (nounid && !beastid) {
@@ -434,8 +436,8 @@ let controllerObj = {
         }
       })
 
-      let {temperament} = encounter;
-      temperament.temperament.forEach(({temperament: temp, weight, id: tempid, beastid, tooltip, deleted}) => {
+      let { temperament } = encounter;
+      temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
         } else if (tempid && !beastid) {
@@ -449,8 +451,8 @@ let controllerObj = {
         }
       })
 
-      let {rank} = encounter;
-      rank.rank.forEach(({rank: rank, weight, id: rankid, beastid, lair, othertypechance, decayrate, deleted, number}) => {
+      let { rank } = encounter;
+      rank.rank.forEach(({ rank: rank, weight, id: rankid, beastid, lair, othertypechance, decayrate, deleted, number }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.rank(beastid, rankid))
         } else if (rankid && !beastid) {
@@ -464,8 +466,8 @@ let controllerObj = {
         }
       })
 
-      let {verb} = encounter;
-      verb.verb.forEach(({verb, id: verbid, beastid, deleted}) => {
+      let { verb } = encounter;
+      verb.verb.forEach(({ verb, id: verbid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.verb(beastid, verbid))
         } else if (verbid && !beastid) {
@@ -477,8 +479,8 @@ let controllerObj = {
         }
       })
 
-      let {noun} = encounter;
-      noun.noun.forEach(({noun, id: nounid, beastid, deleted}) => {
+      let { noun } = encounter;
+      noun.noun.forEach(({ noun, id: nounid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.noun(beastid, nounid))
         } else if (nounid && !beastid) {
@@ -521,26 +523,26 @@ let controllerObj = {
   },
   addFavorite(req, res) {
     const db = req.app.get('db')
-    , { beastid } = req.body
+      , { beastid } = req.body
     if (req.user && req.user.id) {
       db.get.favoriteCount(req.user.id).then(result => {
         if (+result[0].count <= ((req.user.patreon * 3) + 3)) {
           db.add.favorite(req.user.id, beastid).then(_ => res.send({ color: "green", message: `Monster Favorited` }))
         } else {
-          res.send({ color: "yellow", message: "You have too many favorited monsters: delete some or upgrade your Patreon tier"})
+          res.send({ color: "yellow", message: "You have too many favorited monsters: delete some or upgrade your Patreon tier" })
         }
       })
     } else {
-      res.send({ color: "red", message: "You Need to Log On to Favorite Monsters"})
+      res.send({ color: "red", message: "You Need to Log On to Favorite Monsters" })
     }
   },
   deleteFavorite(req, res) {
     const db = req.app.get('db')
-    , { beastid } = req.params
+      , { beastid } = req.params
     if (req.user && req.user.id) {
-      db.delete.favorite(req.user.id, beastid).then(_ => res.send({ color: "green", message: 'Monster Unfavorited'}))
+      db.delete.favorite(req.user.id, beastid).then(_ => res.send({ color: "green", message: 'Monster Unfavorited' }))
     } else {
-      res.send({ color: "red", message: "You Need to Log On to Unfavorite Monsters"})
+      res.send({ color: "red", message: "You Need to Log On to Unfavorite Monsters" })
     }
   },
   getUsersFavorites(req, res) {
@@ -548,19 +550,19 @@ let controllerObj = {
     if (req.user && req.user.id) {
       db.get.favorites(req.user.id).then(result => res.send(result))
     } else {
-      res.send({ color: "red", message: "You Need to Log On to Favorite Monsters"})
+      res.send({ color: "red", message: "You Need to Log On to Favorite Monsters" })
     }
   },
   getEditEncounter(req, res) {
     const db = req.app.get('db')
     let promiseArray = []
-    , encounterObject = {
-      temperament: {},
-      rank: {},
-      verb: {},
-      noun: {}
-    }
-    , beastid = +req.params.beastid
+      , encounterObject = {
+        temperament: {},
+        rank: {},
+        verb: {},
+        noun: {}
+      }
+      , beastid = +req.params.beastid
 
     promiseArray.push(db.get.encounter.temperament(beastid).then(result => {
       encounterObject.temperament.temperament = result
@@ -588,7 +590,7 @@ let controllerObj = {
       encounterObject.verb.allVerb = result
       return result
     }))
-    
+
     promiseArray.push(db.get.encounter.noun(beastid).then(result => {
       encounterObject.noun.noun = result
       return result
@@ -605,8 +607,8 @@ let controllerObj = {
   getRandomEncounter(req, res) {
     const db = req.app.get('db')
     let promiseArray = []
-    ,   encounterObject = {}
-    ,   beastId = +req.params.beastid
+      , encounterObject = {}
+      , beastId = +req.params.beastid
 
     promiseArray.push(db.get.encounter.tempWeighted(beastId).then(result => {
       encounterObject.temperament = result[0]
@@ -626,7 +628,7 @@ let controllerObj = {
       }
       return result
     }))
-    
+
     promiseArray.push(db.get.encounter.battlefield(beastId).then(result => {
       if (result[0]) {
         encounterObject.battlefield = result[0].battlefield
@@ -639,47 +641,59 @@ let controllerObj = {
         , underlingNumber = 0
         , otherPlayers = []
 
-        if (mainPlayers[0]) {
-          while (mainPlayers[0].othertypechance > 0) {
-            let percentRoll = Math.floor(Math.random() * 100) + 1
-            if (percentRoll <= mainPlayers[0].othertypechance) {++underlingNumber}
-            mainPlayers[0].othertypechance -= mainPlayers[0].decayrate;
-          }
-    
-          for (let i = 0; i < underlingNumber; i++) {
-            randomNumber = Math.floor(Math.random() * 31) + 1
-            if (randomNumber > 30) {
-              otherPlayers.push(db.get.otherplayers.any(beastId).then(result=>result[0]))
-            } else if (randomNumber > 25) {
-              otherPlayers.push(db.get.otherplayers.type(beastId).then(result=>result[0]))
-            } else {
-              otherPlayers.push(db.get.otherplayers.exact(beastId, mainPlayers[0].rankid).then(result=>{
-                if (result[0]) {
-                  mainPlayers.push(result[0])
-                  return false
-                } else {
-                  return db.get.otherplayers.type(beastId).then(result=>result[0])
-                }
-              }))
-            }
-          }
-          
-          return Promise.all(otherPlayers).then(finalOtherPlayers => {
-            let beastRank = {}
-            beastRank.mainPlayers = mainPlayers
-            beastRank.otherPlayers = finalOtherPlayers.filter(person=>person)
-            beastRank.lair = beastRank.mainPlayers[0].lair
-            encounterObject.rank = beastRank
-            return beastRank
-          })
-        } else {
-          return []
+      if (mainPlayers[0]) {
+        while (mainPlayers[0].othertypechance > 0) {
+          let percentRoll = Math.floor(Math.random() * 100) + 1
+          if (percentRoll <= mainPlayers[0].othertypechance) { ++underlingNumber }
+          mainPlayers[0].othertypechance -= mainPlayers[0].decayrate;
         }
+
+        for (let i = 0; i < underlingNumber; i++) {
+          randomNumber = Math.floor(Math.random() * 31) + 1
+          if (randomNumber > 30) {
+            otherPlayers.push(db.get.otherplayers.any(beastId).then(result => result[0]))
+          } else if (randomNumber > 25) {
+            otherPlayers.push(db.get.otherplayers.type(beastId).then(result => result[0]))
+          } else {
+            otherPlayers.push(db.get.otherplayers.exact(beastId, mainPlayers[0].rankid).then(result => {
+              if (result[0]) {
+                mainPlayers.push(result[0])
+                return false
+              } else {
+                return db.get.otherplayers.type(beastId).then(result => result[0])
+              }
+            }))
+          }
+        }
+
+        return Promise.all(otherPlayers).then(finalOtherPlayers => {
+          let beastRank = {}
+          beastRank.mainPlayers = mainPlayers
+          beastRank.otherPlayers = finalOtherPlayers.filter(person => person)
+          beastRank.lair = beastRank.mainPlayers[0].lair
+          encounterObject.rank = beastRank
+          return beastRank
+        })
+      } else {
+        return []
+      }
     }))
 
     if (Math.floor(Math.random() * 10) > 5) {
       promiseArray.push(collectComplication(db, beastId).then(result => {
-        encounterObject.complication = result
+        let flatArray = []
+        if (result.length) {
+          result.forEach(element => {
+            if (element.length) {
+              element.forEach(val => flatArray.push(val))
+            } else {
+              flatArray.push(element)
+            }
+          })
+        } else {
+          flatArray.push(result)
+        }
+        encounterObject.complication = flatArray
         return result
       }))
     }
@@ -691,53 +705,63 @@ let controllerObj = {
 }
 
 async function collectComplication(db, beastId) {
-  let promiseArray = []
   return db.get.complication.complication().then(result => {
     let complication = result[0]
     if (complication.id === 1) {
       //rival
-      promiseArray.push(db.get.complication.rival(beastId).then(result=>{
-        complication = {
+      return db.get.complication.rival(beastId).then(result => {
+        return {
           type: 'Rival',
           rival: result[0]
         }
-        return complication
-      }))
+      })
     } else if (complication.id === 2) {
       //wounded
-      promiseArray.push(db.get.complication.rival(beastId).then(result=>{
-        complication = {
+      return db.get.complication.rival(beastId).then(result => {
+        return {
           type: 'Wounded',
           byWhom: result[0],
           amount: Math.floor(Math.random() * 90) + 10
         }
-        return complication
-      }))
+      })
     } else if (complication.id === 5) {
       //lost
-      promiseArray.push({type: 'Lost', distance: '10d10'})
+      return { type: 'Lost', distance: '10d10' }
     } else if (complication.id === 8) {
       //Back up coming
-      promiseArray.push(db.get.complication.backup(beastId).then(result => {
-        complication = {
+      return db.get.complication.backup(beastId).then(result => {
+        return {
           type: 'Back Up Coming',
           backup: result[0],
           time: '30d2'
         }
-        return complication
-      }))
-    } else if (complication.id === 12) {
+      })
+    } else if (complication.id >= 12) {
       //roll an additional time
-      promiseArray.push(collectComplication(db,beastId))
-      promiseArray.push(collectComplication(db,beastId))
+      let promiseArray = []
+      promiseArray.push(collectComplication(db, beastId).then(result => {
+        return result
+      }))
+      promiseArray.push(collectComplication(db, beastId).then(result => {
+        return result
+      }))
+      return Promise.all(promiseArray).then(result => {
+        let flatArray = []
+        if (result[0].length) {
+          result[0].forEach(val => flatArray.push(val))
+        } else {
+          flatArray.push(result)
+        }
+        if (result[1].length) {
+          result[1].forEach(val => flatArray.push(val))
+        } else {
+          flatArray.push(result)
+        }
+        return flatArray
+      })
     } else {
-      promiseArray.push(complication)
-      return [complication]
+      return complication
     }
-    
-    return Promise.all(promiseArray).then(result => {
-      return [...result]
-    })
   })
 }
 

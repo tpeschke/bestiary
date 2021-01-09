@@ -406,6 +406,8 @@ mat-toolbar {
     padding: 10px;
     border-radius: 4px;
     margin-bottom: 10px;
+    text-align: right;
+    height: 100%;
   }
 
   .complicationCard div {

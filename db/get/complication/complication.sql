@@ -1,3 +1,3 @@
-select complication as type from bbcomplications
+select complication as type, id from bbcomplications
 order by random()
 limit 1
