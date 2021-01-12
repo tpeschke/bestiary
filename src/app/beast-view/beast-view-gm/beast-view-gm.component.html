@@ -416,8 +416,8 @@
           </div>
         </div>
       </div>
-      <div class="box-padding">
-        <h3 *ngIf="beast.reagents.length == 0">This creature has no harvestable reagents.</h3>
+      <div *ngIf="beast.reagents.length == 0" class="box-padding">
+        <h3 >This creature has no harvestable reagents.</h3>
       </div>
 
       <h2>Variants</h2>
@@ -429,16 +429,20 @@
             {{variant.name}}</mat-chip>
         </mat-chip-list>
       </div>
-      <div class="box-padding">
-        <h3 *ngIf="beast.variants.length == 0">This creature currently has no variants</h3>
+      <div *ngIf="beast.variants.length == 0" class="box-padding">
+        <h3>This creature currently has no variants</h3>
       </div>
 
       <!-- <h2>Special Harvest</h2> -->
 
       <h2>Meta Notes</h2>
       <div class="divider"></div>
-      <div>
+      <div *ngIf="beast.meta.length > 0">
         <quill-view-html [content]="beast.meta"></quill-view-html>
+      </div>
+
+      <div *ngIf="beast.meta.length == 0" class="box-padding">
+        <h3>This creature currently has no meta notes</h3>
       </div>
       
       <h2>Personal Notes</h2>

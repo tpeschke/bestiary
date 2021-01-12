@@ -11,5 +11,7 @@ button {
 }
 
 .noteOuterShell {
-    padding: 15px
+    padding: 10px 5px;
+    display: flex;
+    flex-direction: column;
 }
