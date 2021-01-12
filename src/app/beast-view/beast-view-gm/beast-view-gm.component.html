@@ -437,11 +437,11 @@
 
       <h2>Meta Notes</h2>
       <div class="divider"></div>
-      <div *ngIf="beast.meta.length > 0">
+      <div *ngIf="beast.meta && beast.meta.length > 0">
         <quill-view-html [content]="beast.meta"></quill-view-html>
       </div>
 
-      <div *ngIf="beast.meta.length == 0" class="box-padding">
+      <div *ngIf="!beast.meta || beast.meta.length == 0" class="box-padding">
         <h3>This creature currently has no meta notes</h3>
       </div>
       
