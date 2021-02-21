@@ -492,6 +492,7 @@ let controllerObj = {
       })
 
       Promise.all(promiseArray).then(_ => {
+        controllerObj.collectCache(app, 0)
         res.send({ id })
       })
     })
