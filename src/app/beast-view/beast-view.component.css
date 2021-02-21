@@ -439,6 +439,7 @@ mat-toolbar {
 
     img {
         margin-top: 15px;
+        border-radius: 5px;
     }
 
     .spd, .atk, .init {
