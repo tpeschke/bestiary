@@ -10,7 +10,7 @@ export class SubsystemConverterPipe implements PipeTransform {
       case 1:
         return 'Combat';
       case 2:
-        return 'Conflict';
+        return 'Confrontation';
       case 3:
         return 'Skill';
       default:
