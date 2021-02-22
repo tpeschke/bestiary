@@ -679,7 +679,7 @@ let controllerObj = {
       }
     }))
 
-    // if (Math.floor(Math.random() * 10) > 5) {
+    if (Math.floor(Math.random() * 10) > 5) {
       promiseArray.push(collectComplication(db, beastId).then(result => {
         let flatArray = []
         if (result.length) {
@@ -696,7 +696,7 @@ let controllerObj = {
         encounterObject.complication = flatArray
         return result
       }))
-    // }
+    }
 
     Promise.all(promiseArray).then(_ => {
       res.send(encounterObject)
@@ -707,7 +707,6 @@ let controllerObj = {
 async function collectComplication(db, beastId) {
   return db.get.complication.complication().then(result => {
     let complication = result[0]
-    complication.id = 2
     if (complication.id === 1) {
       //rival
       return db.get.complication.rival(beastId).then(result => {
