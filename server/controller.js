@@ -1,5 +1,3 @@
-const { updateReturn } = require("typescript");
-
 let controllerObj = {
   catalogCache: [],
   newCache: [],

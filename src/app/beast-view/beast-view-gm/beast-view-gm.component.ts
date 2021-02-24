@@ -139,6 +139,24 @@ export class BeastViewGmComponent implements OnInit {
     })
   }
 
+  handleReagentPrice(harvest, difficulty) {
+    let harvestAndDifficulty = this.calculatorService.calculateAverageOfDice(harvest + "+" + difficulty)
+      , justDifficulty =this.calculatorService.calculateAverageOfDice(difficulty + "+" + difficulty)
+    if (isNaN(harvestAndDifficulty) && !difficulty.includes("!") || !difficulty.includes("d")) {
+      if (difficulty === '0') {
+        return '10sc'
+      } else {
+        return difficulty;
+      }
+    } else if (isNaN(harvestAndDifficulty) && harvest !== 'n/a') {
+      return justDifficulty + "0sc"
+    } else if (isNaN(harvestAndDifficulty) && harvest === 'n/a') {
+      return this.calculatorService.calculateAverageOfDice(difficulty) +'0sc'
+    } else {
+      return harvestAndDifficulty + '0sc'
+    }
+  }
+
   getUrl(id) {
     return `https://bestiary.dragon-slayer.net/beast/${id}/gm`
   }
