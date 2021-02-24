@@ -28,7 +28,7 @@ create table bbtypelist (
 );
 
 insert into bbtypelist (type) values 
-('Demon'),('Undead, Corporeal'),('Undead, Incorporeal'),('Elemental'),('Natural Creature'),('Magical Creature'),('Humanoid'),('Intelligent Evil'),('Goblinoid')
+('Demon'),('Undead, Corporeal'),('Undead, Incorporeal'),('Elemental'),('Natural Creature'),('Weird Creature'),('Humanoid'),('Intelligent Evil'),('Goblinoid')
 
 create table bbenvironlist (
     id serial primary key,

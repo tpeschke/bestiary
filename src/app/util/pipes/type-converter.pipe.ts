@@ -18,7 +18,7 @@ export class TypeConverterPipe implements PipeTransform {
       case 5:
         return 'Natural Creature';
       case 6:
-        return 'Magical Creature';
+        return 'Weird Creature';
       case 7:
         return 'Humanoid';
       case 8:

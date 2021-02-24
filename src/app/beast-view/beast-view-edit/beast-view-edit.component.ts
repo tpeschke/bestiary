@@ -215,7 +215,8 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type].push({
         name: '',
         spell: '',
-        difficulty: ''
+        difficulty: '',
+        harvest: ''
       })
     }
   }

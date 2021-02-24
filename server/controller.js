@@ -277,8 +277,8 @@ let controllerObj = {
       loot.forEach(({ loot, price }) => {
         promiseArray.push(db.add.beastloot(id, loot, price).then())
       })
-      reagents.forEach(({ name, spell, difficulty }) => {
-        promiseArray.push(db.add.beastreagents(id, name, spell, difficulty).then())
+      reagents.forEach(({ name, spell, difficulty, harvest }) => {
+        promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then())
       })
 
       let { temperament } = encounter;
@@ -425,13 +425,13 @@ let controllerObj = {
         }
       })
       // update reagents
-      reagents.forEach(({ name, spell, difficulty, id: reagentId, deleted }) => {
+      reagents.forEach(({ name, spell, difficulty, harvest, id: reagentId, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.beastreagents(reagentId).then())
         } else if (!reagentId) {
-          promiseArray.push(db.add.beastreagents(id, name, spell, difficulty).then())
+          promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then())
         } else {
-          promiseArray.push(db.update.beastreagents(id, name, spell, difficulty, reagentId).then())
+          promiseArray.push(db.update.beastreagents(id, name, spell, difficulty, harvest, reagentId).then())
         }
       })
 

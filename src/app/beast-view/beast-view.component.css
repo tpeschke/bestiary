@@ -311,6 +311,40 @@ mat-toolbar {
     text-align: left;
 }
 
+.reagents-shell .mat-accordion {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.reagents-shell .mat-expansion-panel {
+    width: calc(700px - 100%);
+    min-width: 48%;
+    margin-bottom: 5px;
+    height: max-content;
+    border-radius: 5px;
+}
+
+.reagents-shell .mat-expansion-panel-spacing {
+    margin: 0 0 5px 0
+}
+
+.reagents-shell .mat-expansion-panel-header-title {
+    min-width: 30%;
+    align-items: center;
+}
+
+.reagents-shell .mat-expansion-panel-header-description {
+    text-align: center;
+}
+
+.inner-reagents-shell h3 {
+    font-size: 14px;
+    color: black;
+    font-weight: 600;
+}
+
 .introduction {
     display: none;
 }

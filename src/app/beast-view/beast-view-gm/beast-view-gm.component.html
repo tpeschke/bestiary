@@ -225,26 +225,29 @@
         <quill-view-html [content]="beast.intro"></quill-view-html>
       </div>
 
+      <h2>Appearance</h2>
+      <div class="divider"></div>
+      <div>
+        <quill-view-html [content]="beast.ecology"></quill-view-html>
+      </div>
+
       <h2>Habitat/Society</h2>
       <div class="divider"></div>
       <div>
         <quill-view-html [content]="beast.habitat"></quill-view-html>
       </div>
 
-      <h2>Ecology</h2>
-      <div class="divider"></div>
-      <div>
-        <quill-view-html [content]="beast.ecology"></quill-view-html>
-      </div>
-
-      <h2>Random Encounter <i class="fas fa-info-circle icon-small blue" matTooltip="This gives you guidelines on generating a random encounter using this monster. The results are tailored to the monster and so will generally be indicative of its behavior."></i></h2>
+      <h2>Random Encounter <i class="fas fa-info-circle icon-small blue"
+          matTooltip="This gives you guidelines on generating a random encounter using this monster. The results are tailored to the monster and so will generally be indicative of its behavior."></i>
+      </h2>
       <div class="divider"></div>
       <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && encounter.temperament">
         <div class="playerShell">
           <div class="flex-row-opposite">
             <h3>Main Players</h3>
             <ul>
-              <li *ngFor="let player of encounter.rank.mainPlayers">{{player.number}} {{player.rank !== 'None' ? player.rank : beast.name}}{{player.number > 1 ? 's' : ''}}</li>
+              <li *ngFor="let player of encounter.rank.mainPlayers">{{player.number}} {{player.rank !== 'None' ?
+                player.rank : beast.name}}{{player.number > 1 ? 's' : ''}}</li>
             </ul>
           </div>
           <div *ngIf="encounter.rank.otherPlayers.length > 0" class="flex-row-opposite">
@@ -266,7 +269,8 @@
         </div>
         <div class="flex-row-opposite">
           <h3>Temperament</h3>
-          <p id="temperamentPTag">{{encounter.temperament.temperament}} <i class="fas fa-info-circle icon-small blue" matTooltip="{{encounter.temperament.tooltip}}"></i></p>
+          <p id="temperamentPTag">{{encounter.temperament.temperament}} <i class="fas fa-info-circle icon-small blue"
+              matTooltip="{{encounter.temperament.tooltip}}"></i></p>
         </div>
         <div *ngIf="encounter.battlefield" class="flex-row-opposite">
           <h3>Battlefield</h3>
@@ -286,18 +290,38 @@
         <h3>Complication{{encounter.complication.length > 1 ? 's' : ''}}</h3>
         <div class="complicationsShell">
           <div class="complicationCard" *ngFor="let complication of encounter.complication">
-            <div><h5>Type: </h5><p>{{complication.type}}</p></div>
-            <div *ngIf="complication.backup"><h5>Back Up: </h5><p>{{complication.backup.number}} {{complication.backup.rank}}{{complication.backup.number > 1 ? 's' : ''}}</p></div>
-            <div *ngIf="complication.time"><h5>Arrival Time: </h5><p>{{complication.time}}</p></div>
-            <div *ngIf="complication.rival"><h5>Enemies: </h5><a target="_blank" href="{{getUrl(complication.rival.id)}}">{{complication.rival.number}} {{complication.rival.name}}{{complication.rival.number > 1 ? 's' : ''}}</a></div>
-            <div *ngIf="complication.amount"><h5>Damage Taken: </h5><p>{{complication.amount}}</p></div>
-            <div *ngIf="complication.byWhom"><h5>By: </h5><a target="_blank" href="{{getUrl(complication.byWhom.id)}}">{{complication.byWhom.name}}</a></div>
+            <div>
+              <h5>Type: </h5>
+              <p>{{complication.type}}</p>
+            </div>
+            <div *ngIf="complication.backup">
+              <h5>Back Up: </h5>
+              <p>{{complication.backup.number}} {{complication.backup.rank}}{{complication.backup.number > 1 ? 's' :
+                ''}}</p>
+            </div>
+            <div *ngIf="complication.time">
+              <h5>Arrival Time: </h5>
+              <p>{{complication.time}}</p>
+            </div>
+            <div *ngIf="complication.rival">
+              <h5>Enemies: </h5><a target="_blank"
+                href="{{getUrl(complication.rival.id)}}">{{complication.rival.number}}
+                {{complication.rival.name}}{{complication.rival.number > 1 ? 's' : ''}}</a>
+            </div>
+            <div *ngIf="complication.amount">
+              <h5>Damage Taken: </h5>
+              <p>{{complication.amount}}</p>
+            </div>
+            <div *ngIf="complication.byWhom">
+              <h5>By: </h5><a target="_blank" href="{{getUrl(complication.byWhom.id)}}">{{complication.byWhom.name}}</a>
+            </div>
           </div>
         </div>
       </div>
 
       <div *ngIf="encounter !== 'loading' && encounter.temperament" class="regenerateButtonShell">
-        <button color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn">Regenerate Encounter</button>
+        <button color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn">Regenerate
+          Encounter</button>
       </div>
 
       <div class="box-padding encounterShell" *ngIf="encounter === 'loading'">
@@ -311,7 +335,7 @@
       <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && !encounter.temperament">
         <h3>This Monster Currently Has No Random Encounter Information.</h3>
       </div>
-      
+
       <div class="divider"></div>
       <div class="flex-row-opposite">
         <h3>Combat Hash</h3>
@@ -348,12 +372,15 @@
           <p>Advanced <i class="fas fa-plus icon-blue"></i></p>
         </div>
         <div class="flex-row-opposite">
-          <h3>HR <i class="fas fa-info-circle icon-small blue" (click)="openExplaination()" matTooltip="Hewy Rating. Click to Learn More."></i></h3>
+          <h3>HR <i class="fas fa-info-circle icon-small blue" (click)="openExplaination()"
+              matTooltip="Hewy Rating. Click to Learn More."></i></h3>
           <p>{{beast.hr}}</p>
         </div>
         <div class="flex-row-opposite">
           <h3>
-            Size <i class="fas fa-info-circle icon-small blue" matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This factored into their Defense already."></i></h3>
+            Size <i class="fas fa-info-circle icon-small blue"
+              matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This factored into their Defense already."></i>
+          </h3>
           <p>{{beast.size}}</p>
         </div>
         <div class="flex-row-opposite">
@@ -382,7 +409,8 @@
         </div>
       </div>
 
-      <h2>Loot <i class="fas fa-info-circle icon-small blue" matTooltip="This doesn't include weapons and armor unless they're notable."></i></h2>
+      <h2>Loot <i class="fas fa-info-circle icon-small blue"
+          matTooltip="This doesn't include weapons and armor unless they're notable."></i></h2>
       <div class="divider"></div>
       <div *ngIf="beast.loot.length > 0" class="loot-shell">
         <div *ngFor="let lootitem of beast.loot; let i = index">
@@ -407,25 +435,46 @@
       </div>
 
       <h2>
-        Magical Reagents <i class="fas fa-info-circle icon-small blue" matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell or a +3 to the corresponding Weirdcraft Advanced Skill Check. Note that only spells casted as the noted school gain this bonus. The difficulty to recognize the item is at the end; the difficulty to harvest it is 2 dice sizes lower."></i></h2>
+        Weird Reagents <i class="fas fa-info-circle icon-small blue"
+          matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell or a +3 to the corresponding Weirdcraft Advanced Skill Check."></i>
+      </h2>
       <div class="divider"></div>
-      <div *ngIf="beast.reagents.length > 0" class="reagents-shell">
-        <div class="flex-row-opposite reagent">
-          <h3>Name</h3>
-          <h3>Spell</h3>
-          <h3>Weirdcraft</h3>
-        </div>
-        <div class="divider reagent-divider"></div>
-        <div *ngFor="let reagent of beast.reagents">
-          <div class="flex-row-opposite reagent">
-            <h3>{{reagent.name}}</h3>
-            <h3>{{reagent.spell}}</h3>
-            <h3>{{reagent.difficulty}}</h3>
-          </div>
-        </div>
+      <div *ngIf="beast.reagents.length > 0" class="reagents-shell box-padding">
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let reagent of beast.reagents">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h3>{{reagent.name}}</h3>
+              </mat-panel-title>
+              <mat-panel-description>
+                Identification Difficulty: +{{reagent.difficulty}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            
+            <div class="inner-reagents-shell">
+              <div class="flex-row-opposite">
+                <h3>Spell</h3>
+                <p>{{reagent.spell}}</p>
+              </div>
+              <div class="flex-row-opposite">
+                <h3>Harvest Diff.</h3>
+                <p>{{reagent.harvest ? reagent.harvest : reagent.difficulty}} <i *ngIf="reagent.harvest === 'n/a'" class="fas fa-info-circle icon-small blue"
+                  matTooltip="No Check is needed"></i></p>
+              </div>
+              <div class="flex-row-opposite">
+                <h3>Price</h3>
+                <p>{{
+                  reagent.harvest && reagent.harvest !== 'n/a' ? calculatorService.calculateAverageOfDice(reagent.harvest + "+" + reagent.difficulty) + '0sc'
+                  : calculatorService.calculateAverageOfDice(reagent.difficulty) === 0 ? '10sc' : calculatorService.calculateAverageOfDice(reagent.difficulty + "+" + reagent.difficulty) + '0sc'
+                }}</p>
+              </div>
+            </div>
+            <h3></h3>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
       <div *ngIf="beast.reagents.length == 0" class="box-padding">
-        <h3 >This creature has no harvestable reagents.</h3>
+        <h3>This creature has no harvestable reagents.</h3>
       </div>
 
       <h2>Variants</h2>
@@ -452,7 +501,7 @@
       <div *ngIf="!beast.meta || beast.meta.length == 0" class="box-padding">
         <h3>This creature currently has no meta notes</h3>
       </div>
-      
+
       <h2>Personal Notes</h2>
       <div class="divider"></div>
       <div>
