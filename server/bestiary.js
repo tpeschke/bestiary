@@ -9,7 +9,8 @@ const express = require('express')
     , session = require('express-session')
     , passport = require('passport')
     , Auth0Strategy = require('passport-auth0')
-    , path = require("path");
+    , path = require("path")
+    , { updateHewyRating } = require('./HewyRater');
 
 const app = new express()
 app.use(bodyParser.json({ limit: '10mb' }))
@@ -115,6 +116,11 @@ massive(connection).then(dbI => {
     app.set('db', dbI)
     app.listen(server, _ => {
         ctrl.collectCache(app, 0)
+        // app.get('db').get.beasts_for_hr().then(results => {
+        //     if (results.length > 0) {
+        //         updateHewyRating(app.get('db'), results)
+        //     }
+        // })
         console.log(`Sing to me a sweet song of forgetfulness and Ill die on your shore ${server}`)
     })
 })

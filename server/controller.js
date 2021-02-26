@@ -1,3 +1,5 @@
+let {updateHewyRating} = require('./HewyRater')
+
 let controllerObj = {
   catalogCache: [],
   newCache: [],
@@ -37,13 +39,14 @@ let controllerObj = {
     })
   },
   getSingleBeast(req, res) {
-    const db = req.app.get('db')
-      , id = +req.params.id
+    const id = +req.params.id
+    let db
+    req.db ? db = req.db : db = req.app.get('db')
     db.get.beastmaininfo(id).then(result => {
       let beast = result[0]
         , promiseArray = []
-
       let patreonTestValue = 0;
+
       if (beast.playercanview) {
         patreonTestValue = 1000
       } else if (req.user) {
@@ -323,6 +326,7 @@ let controllerObj = {
       })
 
       Promise.all(promiseArray).then(_ => {
+        updateHewyRating(db, id)
         controllerObj.collectCache(app, 0)
         res.send({ id })
       })
