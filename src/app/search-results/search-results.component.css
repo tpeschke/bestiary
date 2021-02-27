@@ -66,6 +66,8 @@ img {
 
     .header-shell {
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
     }
 
     h3 {
