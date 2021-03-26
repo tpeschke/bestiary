@@ -154,7 +154,9 @@ function prepForSingleBeast(id) {
             rateMonster(monster)
         }
     }
-    controllerObj.getSingleBeast(req, res)
+    if (controllerObj.getSingleBeast) {
+        controllerObj.getSingleBeast(req, res)
+    }
 }
 
 function updateHewyRating(database, newId) {
