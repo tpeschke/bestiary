@@ -2,7 +2,7 @@ const express = require('express')
     , bodyParser = require('body-parser')
     , cors = require('cors')
     , massive = require('massive')
-    , { server, connection, secret, domain, client_id, client_secret, callback, fakeAuth } = require('./server-config')
+    , { server, databaseCredentials, secret, domain, client_id, client_secret, callback, fakeAuth } = require('./server-config')
     , ctrl = require('./controller')
     , searchCtrl = require('./searchController')
     upload = require('./file-upload')
@@ -112,7 +112,7 @@ app.get('/*', (req, res) => {
 })
 // ================================== \\
 
-massive(connection).then(dbI => {
+massive(databaseCredentials).then(dbI => {
     app.set('db', dbI)
     app.listen(server, _ => {
         ctrl.collectCache(app, 0)
