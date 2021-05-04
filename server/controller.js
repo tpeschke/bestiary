@@ -281,18 +281,35 @@ let controllerObj = {
       reagents.forEach(({ name, spell, difficulty, harvest }) => {
         promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then())
       })
-
+      
       let { temperament } = encounter;
-      temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
+      temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted, temperamentid }) => {
+        console.log(temperament, (tempid && !beastid) || (tempid && beastid !== id), beastid, id)
         if (deleted) {
           promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
-        } else if (tempid && !beastid) {
-          promiseArray.push(db.add.encounter.temperament(id, tempid, weight))
-        } else if (tempid && beastid) {
-          promiseArray.push(db.encounter.update.temperament(weight, beastid, tempid))
-        } else if (!tempid) {
+        } else if ((temperamentid && !beastid) || (temperamentid && beastid !== id)) {
+          promiseArray.push(db.add.encounter.temperament(id, temperamentid, weight))
+        } else if (temperamentid && beastid) {
+          promiseArray.push(db.update.encounter.temperament(weight, beastid, temperamentid))
+        } else if (!temperamentid) {
           db.add.encounter.allTemp(temp, tooltip).then(result => {
             promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight))
+          })
+        }
+      })
+
+      
+      let { rank } = encounter;
+      rank.rank.forEach(({ rank: rank, weight, id: rankid, beastid, lair, othertypechance, decayrate, deleted, number }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.rank(beastid, rankid))
+        } else if ((rankid && !beastid) || (rankid && beastid !== id)) {
+          promiseArray.push(db.add.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair, number))
+        } else if (rankid && beastid) {
+          promiseArray.push(db.update.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair, number))
+        } else if (!rankid) {
+          db.add.encounter.allRank(rank).then(result => {
+            promiseArray.push(db.add.encounter.rank(result[0].id, id, weight, othertypechance, decayrate, lair, number))
           })
         }
       })
@@ -301,10 +318,8 @@ let controllerObj = {
       verb.verb.forEach(({ verb, id: verbid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.verb(beastid, verbid))
-        } else if (verbid && !beastid) {
+        } else if ((verbid && !beastid) || (verbid && beastid !== id)) {
           promiseArray.push(db.add.encounter.verb(verbid, id))
-        } else if (verbid && beastid) {
-          promiseArray.push(db.update.encounter.verb(verbid, id))
         } else if (!verbid) {
           db.add.encounter.allVerb(verb).then(result => {
             promiseArray.push(db.add.encounter.verb(result[0].id, id))
@@ -316,7 +331,7 @@ let controllerObj = {
       noun.noun.forEach(({ noun, id: nounid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.noun(beastid, nounid))
-        } else if (nounid && !beastid) {
+        } else if ((nounid && !beastid) || (nounid && beastid !== id)) {
           promiseArray.push(db.add.encounter.noun(nounid, id))
         } else if (!nounid) {
           db.add.encounter.allNoun(noun).then(result => {
@@ -441,7 +456,7 @@ let controllerObj = {
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
-        } else if (tempid && !beastid) {
+        } else if ((tempid && !beastid) || (tempid && beastid !== id)) {
           promiseArray.push(db.add.encounter.temperament(id, tempid, weight))
         } else if (tempid && beastid) {
           promiseArray.push(db.update.encounter.temperament(weight, beastid, tempid))
@@ -456,7 +471,7 @@ let controllerObj = {
       rank.rank.forEach(({ rank: rank, weight, id: rankid, beastid, lair, othertypechance, decayrate, deleted, number }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.rank(beastid, rankid))
-        } else if (rankid && !beastid) {
+        } else if ((rankid && !beastid) || (rankid && beastid !== id)) {
           promiseArray.push(db.add.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair, number))
         } else if (rankid && beastid) {
           promiseArray.push(db.update.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair, number))
@@ -471,7 +486,7 @@ let controllerObj = {
       verb.verb.forEach(({ verb, id: verbid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.verb(beastid, verbid))
-        } else if (verbid && !beastid) {
+        } else if ((verbid && !beastid) || (verbid && beastid !== id)) {
           promiseArray.push(db.add.encounter.verb(verbid, id))
         } else if (!verbid) {
           db.add.encounter.allVerb(verb).then(result => {
@@ -484,7 +499,7 @@ let controllerObj = {
       noun.noun.forEach(({ noun, id: nounid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.noun(beastid, nounid))
-        } else if (nounid && !beastid) {
+        } else if ((nounid && !beastid) || (nounid && beastid !== id)) {
           promiseArray.push(db.add.encounter.noun(nounid, id))
         } else if (!nounid) {
           db.add.encounter.allNoun(noun).then(result => {
@@ -514,6 +529,10 @@ let controllerObj = {
       promiseArray.push(db.delete.allbeastloot(id).then())
       promiseArray.push(db.delete.allbeastmovement(id).then())
       promiseArray.push(db.delete.allbeastreagents(id).then())
+      promiseArray.push(db.delete.encounter.allNoun(id).then())
+      promiseArray.push(db.delete.encounter.allTemperament(id).then())
+      promiseArray.push(db.delete.encounter.allVerb(id).then())
+      promiseArray.push(db.delete.encounter.allRank(id).then())
       // promiseArray.push(db.delete.beastvariants(id, variantid).then())
       // promiseArray.push(db.delete.combatranges(id, variantid).then())
 

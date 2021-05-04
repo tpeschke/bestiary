@@ -1,0 +1,1 @@
+delete from bbverbinfo where beastid = $1

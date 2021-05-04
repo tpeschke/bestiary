@@ -1,0 +1,1 @@
+delete from bbrankinfo where beastid = $1

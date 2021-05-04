@@ -56,6 +56,9 @@ export class BeastViewEditComponent implements OnInit {
         delete beast.id
         beast.name = beast.name + " Template"
         this.beast = beast
+        this.beastService.getEditEncounter(this.route.snapshot.params.templateId).subscribe(encounter => {
+          this.encounter = encounter
+        })
       } else if (beast) {
         this.beast = beast
         this.beastService.getEditEncounter(this.beast.id).subscribe(encounter => {
