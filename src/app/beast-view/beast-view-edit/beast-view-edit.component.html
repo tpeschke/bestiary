@@ -2,7 +2,10 @@
   <mat-toolbar color="warn">
     <h1>
       <mat-form-field>
-        <input matInput [value]="beast.name" (change)="captureInput($event, 'name')">
+        <input matInput [value]="beast.name" (change)="captureInput($event, 'name')" placeholder="Name">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [value]="beast.plural" (change)="captureInput($event, 'plural')" placeholder="Pluralized Name">
       </mat-form-field>
     </h1>
     <div>
