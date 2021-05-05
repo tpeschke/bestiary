@@ -9,7 +9,7 @@
       <div *ngIf="beastService.loggedIn !== 'owner' && beast.patreon < 4">
         <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton" mat-button>
           <div class="img-shell">
-            <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+            <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
           </div>
           <div class="beast-name-shell">
             <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
@@ -22,7 +22,7 @@
         <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
           [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button>
           <div class="img-shell">
-            <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+            <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
           </div>
           <div class="beast-name-shell">
             <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
@@ -33,7 +33,7 @@
         </button>
         <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton" mat-button>
           <div class="img-shell">
-            <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+            <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
           </div>
           <div class="beast-name-shell">
             <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
@@ -55,7 +55,7 @@
           <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton"
             mat-button>
             <div class="img-shell">
-              <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+              <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
             </div>
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe"
@@ -69,7 +69,7 @@
           <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
             [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button>
             <div class="img-shell">
-              <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+              <img [ngStyle]="beast.thumbnail ? {'object-position': beast.thumbnail} : {}" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
             </div>
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
@@ -82,7 +82,7 @@
           <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton"
             mat-button>
             <div class="img-shell">
-              <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+              <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail :  'top'}" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
             </div>
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>

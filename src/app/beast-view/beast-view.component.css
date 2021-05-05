@@ -451,6 +451,16 @@ mat-toolbar {
     justify-content: space-between;
   }
 
+.preview {
+    border-radius: 5px;
+      height: 90px;
+      width: 100px;
+      margin: 15px auto 0;
+      object-fit: cover;
+      object-position: top;
+      border: 1px solid grey;
+    }
+
 @media (max-width: 963px) {
     .combat-shell {
         justify-content: start;

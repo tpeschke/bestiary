@@ -49,13 +49,12 @@ export class SearchResultsComponent implements OnInit {
   }
 
   getShortCutURL() {
-    // goDirectlyTo=true
     let textArea = document.createElement("textarea");
 
     textArea.style.position = 'fixed';
     textArea.style.top = '0';
     textArea.style.left = '0';
-    
+
     textArea.value = `${window.location.href};goDirectlyTo=true`;
 
     document.body.appendChild(textArea);

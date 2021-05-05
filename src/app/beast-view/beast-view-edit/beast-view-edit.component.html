@@ -46,6 +46,48 @@
         <button mat-button-raised color="accent" (click)="onImageUpload()">Upload Image</button>
       </div>
 
+      <div class="thumbnailShell">
+        <mat-form-field>
+          <mat-label>Thumbnail Position</mat-label>
+          <mat-select [value]="beast.thumbnail" (selectionChange)="captureSelect($event, 'thumbnail')">
+            <mat-option value="top left">
+              top left
+            </mat-option>
+            <mat-option value="top center">
+              top center
+            </mat-option>
+            <mat-option value="top right">
+              top right
+            </mat-option>
+            <mat-option value="center left">
+              center left
+            </mat-option>
+            <mat-option value="center center">
+              center center
+            </mat-option>
+            <mat-option value="center right">
+              center right
+            </mat-option>
+            <mat-option value="bottom left">
+              bottom left
+            </mat-option>
+            <mat-option value="bottom center">
+              bottom center
+            </mat-option>
+            <mat-option value="bottom right">
+              bottom right
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="flex-row-opposite">
+          <h3>Current Thumbnail Position</h3>
+          <p>{{beast.thumbnail}}</p>
+        </div>
+
+        <img class="preview" [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
+          [src]="imageBase + beast.id" [alt]="beast.name">
+      </div>
+
       <div class="margin-spacing" *ngIf="!beast.id">
         <h3>You need to save this monster before uploading an image</h3>
       </div>
