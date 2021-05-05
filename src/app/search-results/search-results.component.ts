@@ -24,7 +24,6 @@ export class SearchResultsComponent implements OnInit {
   public beasts = 'loading'
 
   ngOnInit() {
-    this.titleService.setTitle('Bestiary')
     let { params } = this.currentRoute.snapshot
     this.adventureService.searchBeasts(params).subscribe(incomingBeasts => {
       this.beasts = incomingBeasts
@@ -42,6 +41,7 @@ export class SearchResultsComponent implements OnInit {
         })
       }
     })
+    this.titleService.setTitle('Bestiary')
   }
 
   getRandom() {
