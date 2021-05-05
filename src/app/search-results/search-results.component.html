@@ -10,7 +10,10 @@
 
   <div class="results-card">
     <h3>Results: {{beasts.length}}</h3>
-    <button color="primary" mat-raised-button (click)="getRandom()" color="warn">Get Random Monster From List</button>
+    <div>
+      <button mat-raised-button (click)="getRandom()" color="warn" matTooltip="Get Random Monster from List"><i class="fas fa-dice"></i></button>
+      <button color="primary" mat-raised-button (click)="getShortCutURL()" matTooltip="This creates a URL that will go directly to a random monster from this list" class="copyURLButton"><i class="fas fa-link"></i></button>
+    </div>
   </div>
 
   <mat-card *ngFor="let beast of beasts" [routerLink]="['/beast', beast.id, 'player']">

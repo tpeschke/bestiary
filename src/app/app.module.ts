@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { MatToolbarModule } from '@angular/material';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';

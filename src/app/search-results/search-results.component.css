@@ -11,6 +11,10 @@ mat-card {
     align-items: center;
 }
 
+.copyURLButton {
+    margin-left: 15px;
+}
+
 .results-card h3 {
     color: whitesmoke;
 }

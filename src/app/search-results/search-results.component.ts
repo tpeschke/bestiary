@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BeastService } from 'src/app/util/services/beast.service';
 import variables from '../../local.js'
-import {Title} from "@angular/platform-browser";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-search-results',
@@ -17,21 +17,26 @@ export class SearchResultsComponent implements OnInit {
     public router: Router,
     public currentRoute: ActivatedRoute,
     public adventureService: BeastService,
-    public titleService: Title
+    public titleService: Title,
+    public beastService: BeastService
   ) { }
 
   public beasts = 'loading'
 
   ngOnInit() {
-    this.adventureService.searchBeasts(this.currentRoute.snapshot.params).subscribe(incomingBeasts => {
-      this.beasts = incomingBeasts
-    })
+    let { params } = this.currentRoute.snapshot
     this.titleService.setTitle('Bestiary')
-    
+    this.adventureService.searchBeasts(params).subscribe(incomingBeasts => {
+      this.beasts = incomingBeasts
+      if (params.goDirectlyTo) {
+        this.getRandom()
+      }
+    })
+
     this.router.events.subscribe(p => {
       if (p instanceof NavigationEnd) {
         this.beasts = 'loading'
-        this.adventureService.searchBeasts(this.currentRoute.snapshot.params).subscribe(incomingBeasts => {
+        this.adventureService.searchBeasts(params).subscribe(incomingBeasts => {
           this.beasts = incomingBeasts
         })
       }
@@ -43,4 +48,28 @@ export class SearchResultsComponent implements OnInit {
     this.router.navigate(['/beast', randomBeast.id, 'gm']);
   }
 
+  getShortCutURL() {
+    // goDirectlyTo=true
+    let textArea = document.createElement("textarea");
+
+    textArea.style.position = 'fixed';
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+    
+    textArea.value = `${window.location.href};goDirectlyTo=true`;
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      var successful = document.execCommand('copy');
+      var msg = successful ? 'successful' : 'unsuccessful';
+      this.beastService.handleMessage({color: 'green', message: `${window.location.href};goDirectlyTo=true successfully copied`})
+    } catch (err) {
+      this.beastService.handleMessage({color: 'red', message: `Unable to copy ${window.location.href};goDirectlyTo=true`})
+    }
+
+    document.body.removeChild(textArea);
+  }
 }
