@@ -38,7 +38,9 @@ module.exports = {
                     idArray.push(db.get.search.playerview().then())
                     break;
                 case "personalNotes":
-                    idArray.push(db.get.search.personalNotes(req.user.id))
+                    if (req.user) {
+                        idArray.push(db.get.search.personalNotes(req.user.id))
+                    }
                     break;
                 case "environ":
                     if (req.query.environ !== '') {
@@ -88,10 +90,12 @@ module.exports = {
             // (queryLength - 1) and so on until you get something back
 
             finalIdArray.forEach(id => {
-                if (req.user.id === 1 || req.user.id === 21) {
-                    beastArray.push(db.get.search.beastPreviewOwner(id).then(result => result[0]))
-                } else if (req.user.patreon >= 3) {
-                    beastArray.push(db.get.search.beastPreviewGM(id).then(result => result[0]))
+                if (req.user) {
+                    if (req.user.id === 1 || req.user.id === 21) {
+                        beastArray.push(db.get.search.beastPreviewOwner(id).then(result => result[0]))
+                    } else if (req.user.patreon >= 3) {
+                        beastArray.push(db.get.search.beastPreviewGM(id).then(result => result[0]))
+                    }
                 } else {
                     beastArray.push(db.get.search.beastPreviewPlayer(id).then(result => result[0]))
                 }
