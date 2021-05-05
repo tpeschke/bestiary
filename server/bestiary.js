@@ -5,12 +5,12 @@ const express = require('express')
     , { server, databaseCredentials, secret, domain, client_id, client_secret, callback, fakeAuth } = require('./server-config')
     , ctrl = require('./controller')
     , searchCtrl = require('./searchController')
+    , getCtrl = require('./getController')
     , upload = require('./file-upload')
     , session = require('express-session')
     , passport = require('passport')
     , Auth0Strategy = require('passport-auth0')
     , path = require("path")
-    , { updateHewyRating } = require('./HewyRater');
 
 const app = new express()
 app.use(bodyParser.json({ limit: '10mb' }))
@@ -73,7 +73,7 @@ app.get('/auth/logout', function (req, res) {
 // =====================================
 
 app.get('/api/beasts/catalog', (req, res) => res.send(ctrl.catalogCache))
-app.get('/api/beasts/:id', ctrl.getSingleBeast)
+app.get('/api/beasts/:id', getCtrl.getSingleBeast)
 app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
 app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({id: 0}))
 app.get('/api/search', searchCtrl.search)
@@ -117,11 +117,6 @@ massive(databaseCredentials).then(dbI => {
     app.set('db', dbI)
     app.listen(server, _ => {
         ctrl.collectCache(app, 0)
-        // app.get('db').get.beasts_for_hr().then(results => {
-        //     if (results.length > 0) {
-        //         updateHewyRating(app.get('db'), results)
-        //     }
-        // })
         console.log(`Sing to me a sweet song of forgetfulness and Ill die on your shore ${server}`)
     })
 })

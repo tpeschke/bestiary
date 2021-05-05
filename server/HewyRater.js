@@ -1,15 +1,15 @@
-let controllerObj = require('./controller')
+let {getSingleBeast} = require('./getController')
 let hewy;
 let db;
 let id;
 
 function rateMonster(monster) {
     let hr = 0
-    hr = hr + figureOutHealth(calculateAverageOfDice(monster.vitality))
-    hr = hr + figureOutPanic(monster.panic)
-    hr = hr + figureOutStress(monster.stress)
-    hr = hr + figureOutCombat(monster.combat)
-    hr = hr + figureOutMovement(monster.movement)
+    hr += monster.vitality ? figureOutHealth(calculateAverageOfDice(monster.vitality)) : 0
+    hr += monster.panic ? figureOutPanic(monster.panic) : 0
+    hr += monster.stress ? figureOutStress(monster.stress) : 0
+    hr += monster.combat ? figureOutCombat(monster.combat) : 0
+    hr += monster.movement ? figureOutMovement(monster.movement) : 0
     db.update.beastHR(hr, monster.id)
 }
 
@@ -154,14 +154,12 @@ function prepForSingleBeast(id) {
             rateMonster(monster)
         }
     }
-    if (controllerObj.getSingleBeast) {
-        controllerObj.getSingleBeast(req, res)
-    }
+    getSingleBeast(req, res)
 }
 
-function updateHewyRating(database, newId) {
+function updateHewyRating(database, beastid) {
     db = database
-    id = newId
+    id = beastid
     prepForSingleBeast("205")
 }
 
