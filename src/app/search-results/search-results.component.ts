@@ -24,17 +24,18 @@ export class SearchResultsComponent implements OnInit {
   public beasts = 'loading'
 
   ngOnInit() {
-    let { params } = this.currentRoute.snapshot
     this.titleService.setTitle('Bestiary')
+    let { params } = this.currentRoute.snapshot
     this.adventureService.searchBeasts(params).subscribe(incomingBeasts => {
       this.beasts = incomingBeasts
       if (params.goDirectlyTo) {
         this.getRandom()
       }
     })
-
+    
     this.router.events.subscribe(p => {
       if (p instanceof NavigationEnd) {
+        params = this.currentRoute.snapshot.params
         this.beasts = 'loading'
         this.adventureService.searchBeasts(params).subscribe(incomingBeasts => {
           this.beasts = incomingBeasts
