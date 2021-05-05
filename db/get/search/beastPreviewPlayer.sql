@@ -1,2 +1,2 @@
-select id, name, patreon from bbindividualbeast
+select id, name, patreon, rarity from bbindividualbeast
 where id = $1 and patreon < 3

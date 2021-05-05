@@ -44,8 +44,31 @@ export class SearchResultsComponent implements OnInit {
   }
 
   getRandom() {
-    let randomBeast: any = this.beasts[Math.floor(Math.random() * this.beasts.length)]
+    let randomBeast: any = this.weight_random(this.beasts, 'rarity')
     this.router.navigate(['/beast', randomBeast.id, 'gm']);
+  }
+
+  weight_random(arr, weight_field) {
+
+    if (arr == null || arr === undefined) {
+      return null;
+    }
+    const totals = [];
+    let total = 0;
+    for (let i = 0; i < arr.length; i++) {
+      total += arr[i][weight_field];
+      totals.push(total);
+    }
+    const rnd = Math.floor(Math.random() * total);
+    let selected = arr[0];
+    for (let i = 0; i < totals.length; i++) {
+      if (totals[i] > rnd) {
+        selected = arr[i];
+        break;
+      }
+    }
+    return selected;
+
   }
 
   getShortCutURL() {
@@ -64,9 +87,9 @@ export class SearchResultsComponent implements OnInit {
     try {
       var successful = document.execCommand('copy');
       var msg = successful ? 'successful' : 'unsuccessful';
-      this.beastService.handleMessage({color: 'green', message: `${window.location.href};goDirectlyTo=true successfully copied`})
+      this.beastService.handleMessage({ color: 'green', message: `${window.location.href};goDirectlyTo=true successfully copied` })
     } catch (err) {
-      this.beastService.handleMessage({color: 'red', message: `Unable to copy ${window.location.href};goDirectlyTo=true`})
+      this.beastService.handleMessage({ color: 'red', message: `Unable to copy ${window.location.href};goDirectlyTo=true` })
     }
 
     document.body.removeChild(textArea);

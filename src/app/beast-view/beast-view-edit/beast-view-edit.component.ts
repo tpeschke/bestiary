@@ -49,6 +49,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("hello")
     this.route.data.subscribe(data => {
       let beast = data['beast']
       if (this.route.snapshot.params.templateId) {

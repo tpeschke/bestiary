@@ -795,16 +795,26 @@
           <button mat-raised-button color="accent" (click)="addChip('environ')">Add Environment</button>
         </div>
 
-        <div>
-          <mat-form-field>
-            <input matInput placeholder="Minimum Appearing" [value]="beast.number_min"
-              (change)="captureInput($event, 'number_min')">
-          </mat-form-field>
-          -
-          <mat-form-field>
-            <input matInput placeholder="Max Appearing" [value]="beast.number_max"
-              (change)="captureInput($event, 'number_max')">
-          </mat-form-field>
+        <mat-form-field>
+          <mat-label>Rarity</mat-label>
+          <mat-select (selectionChange)="captureSelect($event, 'rarity')">
+            <mat-option value="10">
+              Common
+            </mat-option>
+            <mat-option value="5">
+              Uncommon
+            </mat-option>
+            <mat-option value="3">
+              Rare
+            </mat-option>
+            <mat-option value="1">
+              Legendary 
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="flex-row-opposite">
+          <h3>Current Rarity</h3>
+          <p>{{beast.rarity | rarityConverter}}</p>
         </div>
 
         <mat-form-field>

@@ -23,7 +23,7 @@ export class BeastViewGmComponent implements OnInit {
     public titleService: Title
   ) { }
 
-  public beast = { id: null, name: null, vitality: null, favorite: false, number_min: null, number_max: null }
+  public beast = { id: null, name: null, vitality: null, favorite: false, number_min: null, number_max: null, rarity: null }
   public encounter: any = "loading";
   public loggedIn = this.beastService.loggedIn || false;
   public imageBase = variables.imageBase;
@@ -146,19 +146,22 @@ export class BeastViewGmComponent implements OnInit {
   handleReagentPrice(harvest, difficulty) {
     let harvestAndDifficulty = this.calculatorService.calculateAverageOfDice(harvest + "+" + difficulty)
       , justDifficulty =this.calculatorService.calculateAverageOfDice(difficulty + "+" + difficulty)
+      , price;
     if (isNaN(harvestAndDifficulty) && !difficulty.includes("!") || !difficulty.includes("d")) {
       if (difficulty === '0') {
-        return '10sc'
+        price = 10
       } else {
-        return difficulty;
+        price = difficulty;
       }
     } else if (isNaN(harvestAndDifficulty) && harvest !== 'n/a') {
-      return justDifficulty + "0sc"
+      price = justDifficulty * 10
     } else if (isNaN(harvestAndDifficulty) && harvest === 'n/a') {
-      return this.calculatorService.calculateAverageOfDice(difficulty) +'0sc'
+      price = this.calculatorService.calculateAverageOfDice(difficulty) * 10
     } else {
-      return harvestAndDifficulty + '0sc'
+      price = harvestAndDifficulty * 10
     }
+
+    return (price / (this.beast.rarity / 2)) +  'sc'
   }
 
   getUrl(id) {
