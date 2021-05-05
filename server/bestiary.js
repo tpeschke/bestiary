@@ -77,6 +77,7 @@ app.get('/api/beasts/:id', ctrl.getSingleBeast)
 app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
 app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({id: 0}))
 app.get('/api/search', searchCtrl.search)
+app.get('/api/randomMonster', searchCtrl.getRandomMonster)
 app.get('/api/playerCanView/:id', ctrl.checkIfPlayerView)
 app.get('/api/favorites', ctrl.getUsersFavorites)
 

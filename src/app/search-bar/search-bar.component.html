@@ -30,17 +30,6 @@
             </div>
 
             <div>
-                <p>Number Appearing</p>
-                <mat-form-field class="example-quarter-width">
-                    <input matInput placeholder="Min Appearing #" (change)="enterSearchMinAppearing($event)">
-                </mat-form-field>
-                <p>-</p>
-                <mat-form-field class="example-quarter-width">
-                    <input matInput placeholder="Max Appearing #" (change)="enterSearchMaxAppearing($event)">
-                </mat-form-field>
-            </div>
-
-            <div>
                 <p>Intelligence</p>
                 <mat-form-field class="example-quarter-width">
                     <input matInput placeholder="Min Int" (change)="enterSearchMinInt($event)">
@@ -130,10 +119,9 @@
                 <mat-checkbox color='primary' (change)="searchByAnyAccess($event)">Anyone Can Access?</mat-checkbox>
             </div>
 
-            <!-- <div class="searchCheckboxes">
+            <div class="searchCheckboxes">
                 <mat-checkbox color='primary' (change)="enterSearchPersonalNotes($event)">Personal Notes</mat-checkbox>
-            </div> -->
-
+            </div>
         </div>
 
         <mat-expansion-panel class="environPanel">
@@ -187,5 +175,6 @@
             </div>
         </mat-expansion-panel>
 
+        <button color="primary" mat-raised-button (click)="getRandom()" color="warn">I'm Feeling Really Lucky</button>
     </mat-expansion-panel>
 </mat-card>

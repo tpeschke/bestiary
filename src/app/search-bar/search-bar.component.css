@@ -4,6 +4,10 @@ mat-card {
     margin-bottom: 15px;
 }
 
+button {
+  margin-top: 15px;
+}
+
 .search-shell {
   display: flex;
   justify-content: space-evenly;

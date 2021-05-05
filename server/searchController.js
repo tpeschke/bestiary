@@ -17,12 +17,6 @@ module.exports = {
                 case "maxHr":
                     idArray.push(db.get.search.maxHr(req.query.maxHr).then())
                     break;
-                case "minAppearing":
-                    idArray.push(db.get.search.minAppearing(req.query.minAppearing).then())
-                    break;
-                case "maxAppearing":
-                    idArray.push(db.get.search.maxAppearing(req.query.maxAppearing).then())
-                    break;
                 case "minInt":
                     idArray.push(db.get.search.minInt(req.query.minInt).then())
                     break;
@@ -43,9 +37,9 @@ module.exports = {
                 case "anyaccess":
                     idArray.push(db.get.search.playerview().then())
                     break;
-                // case "personalNotes":
-                //     idArray.push(db.get.search.personalNotes(req.query.personalNotes))
-                //     break;
+                case "personalNotes":
+                    idArray.push(db.get.search.personalNotes(req.user.id))
+                    break;
                 case "environ":
                     if (req.query.environ !== '') {
                         req.query.environ.split(',').forEach(val => {
@@ -107,6 +101,12 @@ module.exports = {
                 // the final fitler removes null values for player search
                 res.send(finalArray.filter(x => x).sort((a, b) => a.name < b.name ? -1 : 1))
             })
+        })
+    },
+    getRandomMonster: (req, res) => {
+        const db = req.app.get('db')
+        db.get.search.randomMonster().then(data => {
+            res.send(data[0])
         })
     }
 }

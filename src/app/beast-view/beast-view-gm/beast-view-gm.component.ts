@@ -5,6 +5,8 @@ import { CalculatorService } from '../../util/services/calculator.service';
 import variables from '../../../local.js'
 import { HewyRatingComponent } from '../../hewy-rating/hewy-rating.component';
 import { MatDialog } from '@angular/material';
+import {Title} from "@angular/platform-browser";
+
 @Component({
   selector: 'app-beast-view-gm',
   templateUrl: './beast-view-gm.component.html',
@@ -17,7 +19,8 @@ export class BeastViewGmComponent implements OnInit {
     private beastService: BeastService,
     private calculatorService: CalculatorService,
     private dialog: MatDialog,
-    public router: Router
+    public router: Router,
+    public titleService: Title
   ) { }
 
   public beast = { id: null, name: null, vitality: null, favorite: false, number_min: null, number_max: null }
@@ -30,6 +33,7 @@ export class BeastViewGmComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
+      this.titleService.setTitle(`${this.beast.name} - Bestiary`)
       this.getRandomEncounter()
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
 

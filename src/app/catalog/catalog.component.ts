@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { BeastService } from '../util/services/beast.service'
 import variables from '../../local.js'
+import {Title} from "@angular/platform-browser";
+
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
@@ -11,7 +13,8 @@ export class CatalogComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private beastService: BeastService
+    private beastService: BeastService,
+    private titleService: Title
   ) { }
 
   public beasts = []
@@ -20,6 +23,7 @@ export class CatalogComponent implements OnInit {
   public message = "You Don't Have Any Favorite Monsters Yet"
 
   ngOnInit() {
+    this.titleService.setTitle("Bestiary")
     this.route.data.subscribe(data => {
       this.beasts = data['catalog']
     })

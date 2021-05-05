@@ -370,13 +370,13 @@
         <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">ADD MOVEMENT</button>
       </div>
 
-      <h2>Special Attacks</h2>
+      <h2>Add. Attack Info</h2>
       <div class="divider"></div>
       <div>
         <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')"></quill-editor>
       </div>
 
-      <h2>Special Defenses</h2>
+      <h2>Add. Defense Info</h2>
       <div class="divider"></div>
       <div>
         <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')"></quill-editor>
@@ -396,16 +396,16 @@
         <quill-editor [(ngModel)]="beast.intro" (onContentChanged)="captureHTML($event, 'intro')"></quill-editor>
       </div>
 
+      <h2>Appearance</h2>
+      <div class="divider"></div>
+      <div>
+        <quill-editor [(ngModel)]="beast.ecology" (onContentChanged)="captureHTML($event, 'ecology')"></quill-editor>
+      </div>
+
       <h2>Habitat/Society</h2>
       <div class="divider"></div>
       <div>
         <quill-editor [(ngModel)]="beast.habitat" (onContentChanged)="captureHTML($event, 'habitat')"></quill-editor>
-      </div>
-
-      <h2>Ecology</h2>
-      <div class="divider"></div>
-      <div>
-        <quill-editor [(ngModel)]="beast.ecology" (onContentChanged)="captureHTML($event, 'ecology')"></quill-editor>
       </div>
 
       <h2>Random Encounter</h2>

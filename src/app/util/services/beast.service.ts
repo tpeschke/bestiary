@@ -125,4 +125,8 @@ export class BeastService {
   getRandomEncounter(beastid) {
     return this.http.get(local.endpointBase + '/api/encounter/' + beastid)
   }
+
+  getRandomMonster(): any {
+    return this.http.get(local.endpointBase + '/api/randomMonster')
+  }
 }

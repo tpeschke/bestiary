@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { MatExpansionPanel } from '@angular/material';
+import { BeastService } from '../util/services/beast.service';
 
 class QueryObject {
   name?: string
   body?: string
   minHr?: string
   maxHr?: string
-  minAppearing?: string
-  maxAppearing?: string
   minInt?: string
   maxInt?: string
   size?: string
@@ -28,7 +27,8 @@ export class SearchBarComponent implements OnInit {
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   
   constructor(
-    public router: Router
+    public router: Router,
+    public beastService: BeastService
   ) { }
 
   public queryObject: QueryObject = {}
@@ -81,26 +81,6 @@ export class SearchBarComponent implements OnInit {
       this.router.navigate(['/search', { ...this.queryObject, maxHr: e.target.value }]);
     } else if (e.target.value===undefined || e.target.value === '') {
       delete this.queryObject.maxHr
-      this.router.navigate(['/search', { ...this.queryObject }]);
-    }
-  }
-
-  enterSearchMinAppearing(e) {
-    if (e.target.value && e.target.value !== '') {
-      this.queryObject = { ...this.queryObject, minAppearing: e.target.value }
-      this.router.navigate(['/search', { ...this.queryObject, minAppearing: e.target.value }]);
-    } else if (e.target.value===undefined || e.target.value === '') {
-      delete this.queryObject.minAppearing
-      this.router.navigate(['/search', { ...this.queryObject }]);
-    }
-  }
-
-  enterSearchMaxAppearing(e) {
-    if (e.target.value && e.target.value !== '') {
-      this.queryObject = { ...this.queryObject, maxAppearing: e.target.value }
-      this.router.navigate(['/search', { ...this.queryObject, maxAppearing: e.target.value }]);
-    } else if (e.target.value===undefined || e.target.value === '') {
-      delete this.queryObject.maxAppearing
       this.router.navigate(['/search', { ...this.queryObject }]);
     }
   }
@@ -207,5 +187,9 @@ export class SearchBarComponent implements OnInit {
     }
   }
 
-
+  getRandom() {
+    this.beastService.getRandomMonster().subscribe(beastid => {
+      this.router.navigate(['/beast', beastid.id, 'gm']);
+    })
+  }
 }
