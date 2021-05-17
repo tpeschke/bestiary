@@ -111,7 +111,7 @@
         </div>
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'traits')" color="accent">ADD TRAIT</button>
-
+      <br/>
       <mat-form-field>
         <input matInput placeholder="Max Traits Appearing" [value]="beast.traitlimit"
           (change)="captureInput($event, 'traitlimit')">
@@ -139,7 +139,7 @@
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">ADD
         DEVOTIONS</button>
-
+        <br/>
       <mat-form-field>
         <input matInput placeholder="Max Devotions Appearing" [value]="beast.devotionlimit"
           (change)="captureInput($event, 'devotionlimit')">
@@ -166,7 +166,7 @@
         </div>
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent">ADD FLAW</button>
-
+      <br/>
       <mat-form-field>
         <input matInput placeholder="Max Flaws Appearing" [value]="beast.flawlimit"
           (change)="captureInput($event, 'flawlimit')">
@@ -193,7 +193,7 @@
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'passions')" color="accent">ADD
         PASSION</button>
-
+        <br/>
       <mat-form-field>
         <input matInput placeholder="Max Passions Appearing" [value]="beast.passionlimit"
           (change)="captureInput($event, 'passionlimit')">
@@ -340,6 +340,7 @@
         <p>(Ave: {{averageVitality}})</p>
 
         <div *ngFor="let location of beast.locationalvitality; let i = index">
+          <br/>
           <div *ngIf="!location.deleted">
             <mat-form-field>
               <input placeholder="Location" matInput [value]="location.location"
@@ -356,7 +357,8 @@
         </div>
   
         <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION VITALITY</button>  
-
+<br/>
+<br/>
         <mat-form-field>
           <input matInput placeholder="Stress Threshold" [value]="beast.stress"
             (change)="captureInput($event, 'stress')">

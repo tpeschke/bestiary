@@ -461,6 +461,21 @@ mat-toolbar {
       border: 1px solid grey;
     }
 
+    .locationVitality div:first-child .flex-row-opposite {
+        border-top: 1px solid white;
+        padding-top: 10px;
+        margin-top: 10px;
+    }
+    .locationVitality div:last-child .checkboxShell {
+        border-bottom: 1px solid white;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+    .locationVitality h3 {
+        color: #607d8b;
+        font-size: 17px;
+    }
+
 @media (max-width: 963px) {
     .combat-shell {
         justify-content: start;

@@ -150,22 +150,25 @@
             <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
           </div>
         </div>
-        <div *ngFor="let location of beast.locationalvitality; let i = index">
-          <div class="flex-row-opposite">
-            <h3>{{location.location}}</h3>
-            <span>
-              <p>{{location.vitality}} </p>
-              <p *ngIf="isNumber(locationCheckboxes[location.location].average)">(Ave: {{locationCheckboxes[location.location].average}})</p>
-            </span>
-          </div>
-          <div class="checkboxShell">
-            <div *ngFor="let checkbox of locationCheckboxes[location.location].checkboxes; let i = index">
-              <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkCheckbox($event, i, location.location)"
-                [(ngModel)]="checkbox.checked"></mat-checkbox>
-              <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+        <div class="locationVitality">
+          <div *ngFor="let location of beast.locationalvitality; let i = index">
+            <div class="flex-row-opposite">
+              <h3>{{location.location}}</h3>
+              <span>
+                <p>{{location.vitality}} </p>
+                <p *ngIf="isNumber(locationCheckboxes[location.location].average)">(Ave: {{locationCheckboxes[location.location].average}})</p>
+              </span>
+            </div>
+            <div class="checkboxShell">
+              <div *ngFor="let checkbox of locationCheckboxes[location.location].checkboxes; let i = index">
+                <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkCheckbox($event, i, location.location)"
+                  [(ngModel)]="checkbox.checked"></mat-checkbox>
+                <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+              </div>
             </div>
           </div>
         </div>
+        
         <div class="flex-row-opposite">
           <h3>Trauma Threshold</h3>
           <p *ngIf="isNumber(averageVitality)">{{(averageVitality/2).toFixed(0)}}</p>
