@@ -6,6 +6,11 @@ let id;
 function rateMonster(monster) {
     let hr = 0
     hr += monster.vitality ? figureOutHealth(calculateAverageOfDice(monster.vitality)) : 0
+    if (monster.locationalvitality.length > 0) {
+        for (i = 0; i < monster.locationalvitality.length; i++) {
+            hr += monster.locationalvitality[i].vitality ? figureOutHealth(calculateAverageOfDice(monster.locationalvitality[i].vitality)) : 0
+        }
+    }
     hr += monster.panic ? figureOutPanic(monster.panic) : 0
     hr += monster.stress ? figureOutStress(monster.stress) : 0
     hr += monster.combat ? figureOutCombat(monster.combat) : 0
