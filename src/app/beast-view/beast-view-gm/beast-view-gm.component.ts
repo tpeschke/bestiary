@@ -5,7 +5,7 @@ import { CalculatorService } from '../../util/services/calculator.service';
 import variables from '../../../local.js'
 import { HewyRatingComponent } from '../../hewy-rating/hewy-rating.component';
 import { MatDialog } from '@angular/material';
-import {Title} from "@angular/platform-browser";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-beast-view-gm',
@@ -23,45 +23,65 @@ export class BeastViewGmComponent implements OnInit {
     public titleService: Title
   ) { }
 
-  public beast = { id: null, name: null, vitality: null, favorite: false, number_min: null, number_max: null, rarity: null }
+  public beast = { id: null, name: null, vitality: null, favorite: false, number_min: null, number_max: null, rarity: null, locationalvitality: [] }
   public encounter: any = "loading";
   public loggedIn = this.beastService.loggedIn || false;
   public imageBase = variables.imageBase;
   public averageVitality = null
   public checkboxes = []
+  public locationCheckboxes: any = {}
 
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
       this.getRandomEncounter()
-      this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
 
-      let hurt = Math.floor(this.averageVitality * .25)
-        , bloodied = Math.floor(this.averageVitality * .5)
-        , wounded = Math.floor(this.averageVitality * .75)
+      this.locationCheckboxes.mainVitality = {
+        average: this.calculatorService.calculateAverageOfDice(this.beast.vitality)
+      }
+      this.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(this.locationCheckboxes.mainVitality.average)
 
-      for (let i = 0; i < this.averageVitality; i++) {
-        switch (i) {
-          case hurt:
-            this.checkboxes.push({ value: 'H' })
-            break;
-          case bloodied:
-            this.checkboxes.push({ value: 'B' })
-            break;
-          case wounded:
-            this.checkboxes.push({ value: 'W' })
-            break;
-          default:
-            break;
-        }
-        this.checkboxes.push({ checked: false })
+      let {locationalvitality} = this.beast
+      if (locationalvitality.length > 0) {
+        locationalvitality.forEach(({location, vitality})=> {
+          this.locationCheckboxes[location] = {
+            average: this.calculatorService.calculateAverageOfDice(vitality)
+          }
+          this.locationCheckboxes[location].checkboxes = this.createCheckboxArray(this.locationCheckboxes[location].average)
+        })
       }
     })
   }
 
-  checkCheckbox(event, index) {
-    this.checkboxes = this.checkboxes.map((box, i) => {
+  createCheckboxArray(vitality) {
+    let checkboxArray = []
+
+    let hurt = Math.floor(vitality * .25)
+      , bloodied = Math.floor(vitality * .5)
+      , wounded = Math.floor(vitality * .75)
+
+    for (let i = 0; i < vitality; i++) {
+      switch (i) {
+        case hurt:
+          checkboxArray.push({ value: 'H' })
+          break;
+        case bloodied:
+          checkboxArray.push({ value: 'B' })
+          break;
+        case wounded:
+          checkboxArray.push({ value: 'W' })
+          break;
+        default:
+          break;
+      }
+      checkboxArray.push({ checked: false })
+    }
+    return checkboxArray
+  }
+
+  checkCheckbox(event, index, location) {
+    this.locationCheckboxes[location].checkboxes = this.locationCheckboxes[location].checkboxes.map((box, i) => {
       if (box.value) {
         return box
       } else {
@@ -84,8 +104,8 @@ export class BeastViewGmComponent implements OnInit {
     this.router.navigate(['/search', { [type]: search }]);
   }
 
-  isNumber(val): boolean { 
-    return !isNaN(+val); 
+  isNumber(val): boolean {
+    return !isNaN(+val);
   }
 
   addFavorite(beastid) {
@@ -145,7 +165,7 @@ export class BeastViewGmComponent implements OnInit {
 
   handleReagentPrice(harvest, difficulty) {
     let harvestAndDifficulty = this.calculatorService.calculateAverageOfDice(harvest + "+" + difficulty)
-      , justDifficulty =this.calculatorService.calculateAverageOfDice(difficulty + "+" + difficulty)
+      , justDifficulty = this.calculatorService.calculateAverageOfDice(difficulty + "+" + difficulty)
       , price;
     if (isNaN(harvestAndDifficulty) && !difficulty.includes("!") || !difficulty.includes("d")) {
       if (difficulty === '0') {
@@ -161,7 +181,7 @@ export class BeastViewGmComponent implements OnInit {
       price = harvestAndDifficulty * 10
     }
 
-    return (price / (this.beast.rarity / 2)) +  'sc'
+    return (price / (this.beast.rarity / 2)) + 'sc'
   }
 
   getUrl(id) {

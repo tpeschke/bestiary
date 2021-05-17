@@ -140,14 +140,30 @@
           <h3>Vitality</h3>
           <span>
             <p>{{beast.vitality}} </p>
-            <p *ngIf="isNumber(averageVitality)">(Ave: {{averageVitality}})</p>
+            <p *ngIf="isNumber(locationCheckboxes.mainVitality.average)">(Ave: {{locationCheckboxes.mainVitality.average}})</p>
           </span>
         </div>
         <div class="checkboxShell">
-          <div *ngFor="let checkbox of checkboxes; let i = index">
-            <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkCheckbox($event, i)"
+          <div *ngFor="let checkbox of locationCheckboxes.mainVitality.checkboxes; let i = index">
+            <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkCheckbox($event, i, 'mainVitality')"
               [(ngModel)]="checkbox.checked"></mat-checkbox>
             <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+          </div>
+        </div>
+        <div *ngFor="let location of beast.locationalvitality; let i = index">
+          <div class="flex-row-opposite">
+            <h3>{{location.location}}</h3>
+            <span>
+              <p>{{location.vitality}} </p>
+              <p *ngIf="isNumber(locationCheckboxes[location.location].average)">(Ave: {{locationCheckboxes[location.location].average}})</p>
+            </span>
+          </div>
+          <div class="checkboxShell">
+            <div *ngFor="let checkbox of locationCheckboxes[location.location].checkboxes; let i = index">
+              <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkCheckbox($event, i, location.location)"
+                [(ngModel)]="checkbox.checked"></mat-checkbox>
+              <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+            </div>
           </div>
         </div>
         <div class="flex-row-opposite">
@@ -454,7 +470,7 @@
                 Identification Difficulty: {{reagent.difficulty}}
               </mat-panel-description>
             </mat-expansion-panel-header>
-            
+
             <div class="inner-reagents-shell">
               <div class="flex-row-opposite">
                 <h3>Spell</h3>
@@ -462,8 +478,8 @@
               </div>
               <div class="flex-row-opposite">
                 <h3>Harvest Diff.</h3>
-                <p>{{reagent.harvest ? reagent.harvest : reagent.difficulty}} <i *ngIf="reagent.harvest === 'n/a'" class="fas fa-info-circle icon-small blue"
-                  matTooltip="No Check is needed"></i></p>
+                <p>{{reagent.harvest ? reagent.harvest : reagent.difficulty}} <i *ngIf="reagent.harvest === 'n/a'"
+                    class="fas fa-info-circle icon-small blue" matTooltip="No Check is needed"></i></p>
               </div>
               <div class="flex-row-opposite">
                 <h3>Price</h3>

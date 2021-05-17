@@ -1,4 +1,4 @@
-let {updateHewyRating} = require('./HewyRater')
+let { updateHewyRating } = require('./HewyRater')
 
 let controllerObj = {
   catalogCache: [],
@@ -104,7 +104,7 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality } = body
 
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, +int, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity).then(result => {
       let id = result[0].id
@@ -145,7 +145,7 @@ let controllerObj = {
       reagents.forEach(({ name, spell, difficulty, harvest }) => {
         promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then())
       })
-      
+
       let { temperament } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted, temperamentid }) => {
         if (deleted) {
@@ -161,7 +161,6 @@ let controllerObj = {
         }
       })
 
-      
       let { rank } = encounter;
       rank.rank.forEach(({ rank: rank, weight, id: rankid, beastid, lair, othertypechance, decayrate, deleted, number }) => {
         if (deleted) {
@@ -190,6 +189,16 @@ let controllerObj = {
         }
       })
 
+      locationalvitality.forEach(({ id: locationid, location, vitality, beastid }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.locationalvitality(beastid, locationid))
+        } else if (locationid && beastid) {
+          promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid))
+        } else {
+          promiseArray.push(db.add.locationalvitality(beastid, locationid, vitality))
+        }
+      })
+
       let { noun } = encounter;
       noun.noun.forEach(({ noun, id: nounid, beastid, deleted }) => {
         if (deleted) {
@@ -212,7 +221,7 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality } = body
     // update beast
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, id).then(result => {
       let promiseArray = []
@@ -314,6 +323,18 @@ let controllerObj = {
           promiseArray.push(db.update.beastreagents(id, name, spell, difficulty, harvest, reagentId).then())
         }
       })
+      
+      if (locationalvitality.length > 0) {
+        locationalvitality.forEach(({ id: locationid, location, vitality, beastid, deleted }) => {
+          if (deleted) {
+            promiseArray.push(db.delete.locationalvitality(locationid))
+          } else if (locationid && beastid) {
+            promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid))
+          } else {
+            promiseArray.push(db.add.locationalvitality(id, location, vitality))
+          }
+        })
+      }
 
       let { temperament } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
@@ -397,6 +418,7 @@ let controllerObj = {
       promiseArray.push(db.delete.encounter.allTemperament(id).then())
       promiseArray.push(db.delete.encounter.allVerb(id).then())
       promiseArray.push(db.delete.encounter.allRank(id).then())
+      promiseArray.push(db.delete.alllocationalvitality(id).then())
       // promiseArray.push(db.delete.beastvariants(id, variantid).then())
       // promiseArray.push(db.delete.combatranges(id, variantid).then())
 

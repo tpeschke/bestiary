@@ -98,7 +98,8 @@ export class BeastViewEditComponent implements OnInit {
           variants: [],
           loot: [],
           lootnotes: '',
-          reagents: []
+          reagents: [],
+          locationalvitality: []
         }
       }
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
@@ -220,6 +221,11 @@ export class BeastViewEditComponent implements OnInit {
         spell: '',
         difficulty: '',
         harvest: ''
+      })
+    } else if (type === 'locationalvitality') {
+      this.beast[type].push({
+        location: '',
+        vitality: ''
       })
     }
   }
