@@ -181,7 +181,7 @@ export class BeastViewGmComponent implements OnInit {
       price = harvestAndDifficulty * 10
     }
 
-    return (price / (this.beast.rarity / 2)) + 'sc'
+    return (price / (this.beast.rarity / 2)).toFixed(1) + 'sc'
   }
 
   getUrl(id) {
