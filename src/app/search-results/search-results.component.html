@@ -20,8 +20,9 @@
   </div>
 
   <mat-card *ngFor="let beast of beasts" [routerLink]="['/beast', beast.id, 'player']">
-
-    <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
+    <div class="img-shell">
+      <img *ngIf="beast.id" [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" [src]="imageBase + beast.id" [alt]="beast.name">
+    </div>
 
     <div class="info-shell">
       <div>

@@ -75,8 +75,18 @@ img {
         align-items: center;
     }
 
+    .img-shell {
+        height: 250px;
+        width: 250px;
+        overflow: hidden;
+        border-radius: 5px;
+    }
+
     img {
-        width: 33%;
+        width: 100%;
+        margin: 0;
+        object-fit: cover;
+        object-position: top;
     }
 
     .info-shell {
