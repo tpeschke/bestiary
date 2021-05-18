@@ -20,13 +20,29 @@ mat-card {
 }
 
 img {
-    width: 100px;
+    width: 150px;
     height: 100%;
     margin-right: 10px;
 }
 
 .info-shell {
     width: 100%;
+}
+
+.extra-info {
+    min-width: 200px;
+    margin-left: 15px;
+    padding: 10px 5px;
+}
+
+.extra-info div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.extra-info-shell {
+    display: flex;
+    justify-content: space-between;
 }
 
 .header-shell {
@@ -38,7 +54,7 @@ img {
     display: flex;
 }
 
-.header-info .fas {
+.header-info .fas, .header-info .fa {
     margin-right: 10px;
 }
 
@@ -46,7 +62,7 @@ img {
     width: 100%;
     height: 1px;
     background: lightgray;
-    margin-top: 15px
+    margin-top: 10px
 }
 
 .spinner > div {
@@ -55,17 +71,26 @@ img {
 
 @media (max-width: 699px) {
     mat-card {
-        display: flex;
         flex-direction: column;
         align-items: center;
     }
 
     img {
-        width: 250px;
+        width: 33%;
     }
 
     .info-shell {
         margin-top: 15px;
+    }
+
+    .extra-info-shell {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .extra-info {
+        min-width: 100%;
+        margin-left: 0;
     }
 
     .header-shell {

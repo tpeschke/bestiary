@@ -11,8 +11,11 @@
   <div class="results-card">
     <h3>Results: {{beasts.length}}</h3>
     <div>
-      <button mat-raised-button (click)="getRandom()" color="warn" matTooltip="Get Random Monster from List"><i class="fas fa-dice"></i></button>
-      <button color="primary" mat-raised-button (click)="getShortCutURL()" matTooltip="This creates a URL that will go directly to a random monster from this list" class="copyURLButton"><i class="fas fa-link"></i></button>
+      <button mat-raised-button (click)="getRandom()" color="warn" matTooltip="Get Random Monster from List"><i
+          class="fas fa-dice"></i></button>
+      <button color="primary" mat-raised-button (click)="getShortCutURL()"
+        matTooltip="This creates a URL that will go directly to a random monster from this list"
+        class="copyURLButton"><i class="fas fa-link"></i></button>
     </div>
   </div>
 
@@ -21,20 +24,48 @@
     <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
 
     <div class="info-shell">
-      <div class="header-shell">
-        <div class="header-info">
-          <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
-          <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
-          <h3>{{beast.name}}</h3>
+      <div>
+        <div class="header-shell">
+          <div class="header-info">
+            <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
+            <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
+            <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
+            <h3>{{beast.name}}</h3>
+          </div>
+
         </div>
+        <div *ngIf="beast.intro" class="divider"></div>
 
-        <h3>HR: {{beast.hr}}</h3>
-      </div>
-      <div *ngIf="beast.intro" class="divider"></div>
+        <div class="extra-info-shell">
+          <div *ngIf="beast.intro">
+            <quill-view-html [content]="beast.intro"></quill-view-html>
+          </div>
 
-      <div *ngIf="beast.intro">
-        <quill-view-html [content]="beast.intro"></quill-view-html>
+          <div class="extra-info">
+            <div>
+              <h3>HR:</h3>
+              <p>{{beast.hr}}</p>
+            </div>
+            <div>
+              <h3>Rarity:</h3>
+              <p>{{beast.rarity | rarityConverter}}</p>
+            </div>
+            <div>
+              <h3>Subsystem:</h3>
+              <p>{{beast.subsystem | subsystemConverter}}</p>
+            </div>
+            <div>
+              <h3>Size:</h3>
+              <p>{{beast.size}}</p>
+            </div>
+            <div>
+              <h3>Int:</h3>
+              <p>{{beast.int}}</p>
+            </div>
+          </div>
+        </div>
       </div>
+
     </div>
 
   </mat-card>

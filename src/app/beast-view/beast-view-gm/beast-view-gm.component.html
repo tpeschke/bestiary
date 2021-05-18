@@ -14,8 +14,7 @@
 
     <div class="left">
       <div>
-        <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
-        <img *ngIf="!beast.id" src="../../../../assets/imageNotFound.png" alt="Not Found">
+        <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
       </div>
 
       <div class="conflict-shell"
