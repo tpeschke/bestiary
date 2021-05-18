@@ -30,6 +30,7 @@ export class BeastViewGmComponent implements OnInit {
   public averageVitality = null
   public checkboxes = []
   public locationCheckboxes: any = {}
+  public trauma = 0;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -42,15 +43,19 @@ export class BeastViewGmComponent implements OnInit {
       }
       this.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(this.locationCheckboxes.mainVitality.average)
 
+      this.trauma = this.locationCheckboxes.mainVitality.average / 2
       let {locationalvitality} = this.beast
       if (locationalvitality.length > 0) {
         locationalvitality.forEach(({location, vitality})=> {
           this.locationCheckboxes[location] = {
             average: this.calculatorService.calculateAverageOfDice(vitality)
           }
+          this.trauma = (this.trauma + (this.locationCheckboxes[location].average / 2)) / 2
           this.locationCheckboxes[location].checkboxes = this.createCheckboxArray(this.locationCheckboxes[location].average)
         })
       }
+
+      this.trauma = +this.trauma.toFixed(0);
     })
   }
 

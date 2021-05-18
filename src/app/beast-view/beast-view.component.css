@@ -463,7 +463,6 @@ mat-toolbar {
 
     .locationVitality div:first-child .flex-row-opposite {
         border-top: 1px solid white;
-        padding-top: 10px;
         margin-top: 10px;
     }
     .locationVitality div:last-child .checkboxShell {
@@ -474,6 +473,7 @@ mat-toolbar {
     .locationVitality h3 {
         color: #607d8b;
         font-size: 17px;
+        padding-top: 10px;
     }
 
 @media (max-width: 963px) {

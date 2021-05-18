@@ -171,8 +171,8 @@
         
         <div class="flex-row-opposite">
           <h3>Trauma Threshold</h3>
-          <p *ngIf="isNumber(averageVitality)">{{(averageVitality/2).toFixed(0)}}</p>
-          <p *ngIf="!isNumber(averageVitality)">n/a</p>
+          <p *ngIf="isNumber(trauma)">{{trauma}}</p>
+          <p *ngIf="!isNumber(trauma)">n/a</p>
         </div>
         <div class="flex-row-opposite">
           <h3>Stress Threshold</h3>
