@@ -6,6 +6,7 @@ import variables from '../../../local.js'
 import { HewyRatingComponent } from '../../hewy-rating/hewy-rating.component';
 import { MatDialog } from '@angular/material';
 import { Title } from "@angular/platform-browser";
+import lootTables from "./loot-tables.js"
 
 @Component({
   selector: 'app-beast-view-gm',
@@ -31,6 +32,7 @@ export class BeastViewGmComponent implements OnInit {
   public checkboxes = []
   public locationCheckboxes: any = {}
   public trauma = 0;
+  public lairLoot = []
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -44,9 +46,9 @@ export class BeastViewGmComponent implements OnInit {
       this.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(this.locationCheckboxes.mainVitality.average)
 
       this.trauma = this.locationCheckboxes.mainVitality.average
-      let {locationalvitality} = this.beast
+      let { locationalvitality } = this.beast
       if (locationalvitality.length > 0) {
-        locationalvitality.forEach(({location, vitality})=> {
+        locationalvitality.forEach(({ location, vitality }) => {
           this.locationCheckboxes[location] = {
             average: this.calculatorService.calculateAverageOfDice(vitality)
           }
@@ -56,7 +58,105 @@ export class BeastViewGmComponent implements OnInit {
       }
 
       this.trauma = +(this.trauma / 2).toFixed(0);
+
+      this.getLairLoot()
     })
+  }
+
+  getLairLoot() {
+    //fake loot values deconstructed
+    let copper = 'c'
+      , silver = 'b'
+      , gold = null
+      , equipment = [
+        { number: 'b', value: 'f' },
+        { number: 'f', value: 'b' }
+      ]
+      , traited = [
+        { chanceTable: 'h', value: 'a' }
+      ]
+      , scrolls = [
+        { power: 'a', number: 'a' },
+        { power: 'd', number: 'e' }
+      ]
+      , alms = [
+        { favor: 'a', number: 'a' },
+        { favor: 'd', number: 'e' }
+      ]
+      , relic = "e"
+      , enchanted = "g"
+      , potion = 'f'
+    //ends here
+
+    let { staticValues, numberAppearing, relicTable, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
+      , { rollDice } = this.calculatorService
+
+    if (relic) {
+      let relicChance = Math.floor(Math.random() * 101);
+      if (relicTable[relic].middling >= relicChance) {
+        this.lairLoot.push("Middling Relic")
+      } else if (relicTable[relic].minor >= relicChance) {
+        this.lairLoot.push("Minor Relic")
+      }
+    }
+
+    if (alms.length > 0) {
+      for (let i = 0; i < alms.length; i++) {
+        let favor = rollDice(almsFavor[alms[i].favor])
+          , number = rollDice(numberAppearing[alms[i].number])
+        this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} worth ${favor} Favor`)
+      }
+    }
+
+    if (enchanted) {
+      let enchantedChance = Math.floor(Math.random() * 101);
+      if (enchantedTable[enchanted].middling >= enchantedChance) {
+        this.lairLoot.push("Middling Enchanted Item")
+      } else if (enchantedTable[enchanted].minor >= enchantedChance) {
+        this.lairLoot.push("Minor Enchanted Item")
+      }
+    }
+
+    if (potion) {
+      let potionNumber = rollDice(numberAppearing[potion])
+      this.lairLoot.push(`${potionNumber} potion${potionNumber > 1 ? 's' : ''}`)
+    }
+
+    if (scrolls.length > 0) {
+      for (let i = 0; i < scrolls.length; i++) {
+        let power = rollDice(scrollPower[scrolls[i].power])
+          , number = rollDice(numberAppearing[scrolls[i].number])
+        this.lairLoot.push(`${number} scroll${number > 1 ? 's' : ''} with ${power} SP invested`)
+      }
+    }
+
+    if (traited.length > 0) {
+      for (let i = 0; i < traited.length; i++) {
+        let traitChance = Math.floor(Math.random() * 101)
+          , table = traitedChance[traited[i].chanceTable]
+          , valueOfItem = staticValues[traited[i].value]
+        for (let x = 0; x < table.length; x++) {
+          if (traitChance <= table[x]) {
+            this.lairLoot.push(`piece of equipment worth ~${rollDice(valueOfItem)} sc with a ${traitDice[x]} Trait`)
+            x = table.length
+          }
+        }
+      }
+    }
+
+    if (equipment.length > 0) {
+      for (let i = 0; i < equipment.length; i++) {
+        let number = rollDice(numberAppearing[equipment[i].number])
+        for (let x = 0; x < number; x++) {
+          this.lairLoot.push(`piece of equipment worth ~${rollDice(staticValues[equipment[i].value])} sc`)
+        }
+      }
+    }
+
+    copper ? this.lairLoot.push(rollDice(staticValues[copper]) + " cc in coin") : null
+    silver ? this.lairLoot.push(rollDice(staticValues[silver]) + " sc in coin") : null
+    gold ? this.lairLoot.push(rollDice(staticValues[gold]) + " gc in coin") : null
+
   }
 
   createCheckboxArray(vitality) {

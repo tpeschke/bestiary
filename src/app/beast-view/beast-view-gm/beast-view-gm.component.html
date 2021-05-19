@@ -456,6 +456,11 @@
         <h3>This creature carries nothing else of value.</h3>
       </div>
 
+      <h3>Lair Loot</h3>
+      <ul class="box-padding lairLoot">
+        <li *ngFor="let loot of lairLoot">{{loot}}</li>
+      </ul>
+
       <h2>
         Weird Reagents <i class="fas fa-info-circle icon-small blue"
           matTooltip="This represents body parts that can be harvested that you can then sacrifice for +3 SP to the listed spell or a +3 to the corresponding Weirdcraft Advanced Skill Check."></i>

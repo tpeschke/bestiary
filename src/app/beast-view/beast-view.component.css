@@ -476,12 +476,35 @@ mat-toolbar {
         padding-top: 10px;
     }
 
+    .lairLoot {
+        flex-wrap: wrap;
+        flex-direction: unset;
+    }
+
+    .lairLoot  li {
+        width: 30%;
+    }
+
+    @media (max-width: 1295px) {
+        .lairLoot  li {
+            width: 49%;
+        }
+    }
+
 @media (max-width: 963px) {
     .combat-shell {
         justify-content: start;
         margin-right: 10px;  
         margin-bottom: 25px;
     }
+    
+    .lairLoot  li {
+        width: 100%;
+    }
+        
+    .reagents-shell .mat-expansion-panel {
+        min-width: 100%;
+    }  
 }
 
 @media (max-width: 699px) {
@@ -532,5 +555,15 @@ mat-toolbar {
     ul {
         justify-content: space-around;
         flex-direction: column;
+    }
+
+    .lairLoot  li {
+        width: 49%;
+    }
+}
+
+@media (max-width: 699px) {
+    .lairLoot  li {
+        width: 100%;
     }
 }
