@@ -434,14 +434,11 @@
       <h2>Loot <i class="fas fa-info-circle icon-small blue"
           matTooltip="This doesn't include weapons and armor unless they're notable."></i></h2>
       <div class="divider"></div>
-      <div *ngIf="beast.loot.length > 0" class="loot-shell">
-        <div *ngFor="let lootitem of beast.loot; let i = index">
-          <div class="flex-row-opposite loot-item">
-            <h3>{{lootitem.loot}} </h3>
-            <p>({{lootitem.price}}){{i !== beast.loot.length-1 ? ', ' : ' '}}</p>
-          </div>
-        </div>
-      </div>
+      <ul *ngIf="beast.loot.length > 0" class="box-padding lairLoot">
+        <li *ngFor="let lootitem of beast.loot; let i = index">
+          {{lootitem.loot}} ({{lootitem.price}})
+        </li>
+      </ul>
 
       <div *ngIf="beast.lootnotes">
         <div *ngIf="beast.lootnotes.length > 0">

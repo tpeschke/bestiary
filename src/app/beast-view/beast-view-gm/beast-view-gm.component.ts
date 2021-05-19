@@ -39,7 +39,7 @@ export class BeastViewGmComponent implements OnInit {
       this.beast = data['beast']
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
       this.getRandomEncounter()
-
+      
       this.locationCheckboxes.mainVitality = {
         average: this.calculatorService.calculateAverageOfDice(this.beast.vitality)
       }
@@ -104,7 +104,7 @@ export class BeastViewGmComponent implements OnInit {
       for (let i = 0; i < alms.length; i++) {
         let favor = rollDice(almsFavor[alms[i].favor])
           , number = rollDice(numberAppearing[alms[i].number])
-        this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} worth ${favor} Favor`)
+        this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
       }
     }
 
@@ -126,7 +126,7 @@ export class BeastViewGmComponent implements OnInit {
       for (let i = 0; i < scrolls.length; i++) {
         let power = rollDice(scrollPower[scrolls[i].power])
           , number = rollDice(numberAppearing[scrolls[i].number])
-        this.lairLoot.push(`${number} scroll${number > 1 ? 's' : ''} with ${power} SP invested`)
+        this.lairLoot.push(`${number} scroll${number > 1 ? 's' : ''} (${power} SP)`)
       }
     }
 
@@ -137,7 +137,7 @@ export class BeastViewGmComponent implements OnInit {
           , valueOfItem = staticValues[traited[i].value]
         for (let x = 0; x < table.length; x++) {
           if (traitChance <= table[x]) {
-            this.lairLoot.push(`piece of equipment worth ~${rollDice(valueOfItem)} sc with a ${traitDice[x]} Trait`)
+            this.lairLoot.push(`Equipment (~${rollDice(valueOfItem)} sc) w/ ${traitDice[x]} Trait`)
             x = table.length
           }
         }
@@ -148,7 +148,7 @@ export class BeastViewGmComponent implements OnInit {
       for (let i = 0; i < equipment.length; i++) {
         let number = rollDice(numberAppearing[equipment[i].number])
         for (let x = 0; x < number; x++) {
-          this.lairLoot.push(`piece of equipment worth ~${rollDice(staticValues[equipment[i].value])} sc`)
+          this.lairLoot.push(`Equipment (~${rollDice(staticValues[equipment[i].value])} sc)`)
         }
       }
     }
