@@ -14,7 +14,8 @@
 
     <div class="left">
       <div>
-        <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
+        <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name"
+          onerror="this.onerror=null;this.src='/assets/404.png';">
       </div>
 
       <div class="conflict-shell"
@@ -139,13 +140,14 @@
           <h3>Vitality</h3>
           <span>
             <p>{{beast.vitality}} </p>
-            <p *ngIf="isNumber(locationCheckboxes.mainVitality.average)">(Ave: {{locationCheckboxes.mainVitality.average}})</p>
+            <p *ngIf="isNumber(locationCheckboxes.mainVitality.average)">(Ave:
+              {{locationCheckboxes.mainVitality.average}})</p>
           </span>
         </div>
         <div class="checkboxShell">
           <div *ngFor="let checkbox of locationCheckboxes.mainVitality.checkboxes; let i = index">
-            <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkCheckbox($event, i, 'mainVitality')"
-              [(ngModel)]="checkbox.checked"></mat-checkbox>
+            <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
+              (change)="checkCheckbox($event, i, 'mainVitality')" [(ngModel)]="checkbox.checked"></mat-checkbox>
             <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
           </div>
         </div>
@@ -155,19 +157,20 @@
               <h3>{{location.location}}</h3>
               <span>
                 <p>{{location.vitality}} </p>
-                <p *ngIf="isNumber(locationCheckboxes[location.location].average)">(Ave: {{locationCheckboxes[location.location].average}})</p>
+                <p *ngIf="isNumber(locationCheckboxes[location.location].average)">(Ave:
+                  {{locationCheckboxes[location.location].average}})</p>
               </span>
             </div>
             <div class="checkboxShell">
               <div *ngFor="let checkbox of locationCheckboxes[location.location].checkboxes; let i = index">
-                <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkCheckbox($event, i, location.location)"
-                  [(ngModel)]="checkbox.checked"></mat-checkbox>
+                <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
+                  (change)="checkCheckbox($event, i, location.location)" [(ngModel)]="checkbox.checked"></mat-checkbox>
                 <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
               </div>
             </div>
           </div>
         </div>
-        
+
         <div class="flex-row-opposite">
           <h3>Trauma Threshold</h3>
           <p *ngIf="isNumber(trauma)">{{trauma}}</p>
@@ -338,8 +341,8 @@
       </div>
 
       <div *ngIf="encounter !== 'loading' && encounter.temperament" class="regenerateButtonShell">
-        <button color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn">Regenerate
-          Encounter</button>
+        <button color="primary" mat-raised-button (click)="getRandomEncounter()" color="warn"><i
+            class="fas fa-redo"></i></button>
       </div>
 
       <div class="box-padding encounterShell" *ngIf="encounter === 'loading'">
@@ -453,10 +456,24 @@
         <h3>This creature carries nothing else of value.</h3>
       </div>
 
-      <h3>Lair Loot</h3>
-      <ul class="box-padding lairLoot">
-        <li *ngFor="let loot of lairLoot">{{loot}}</li>
+      <h3>Lair Loot <i class="fas fa-info-circle icon-small blue"
+          matTooltip="Loot that can only be found at the beast's lair and that they don't carry on them."></i></h3>
+      <ul *ngIf="lairLoot.length > 0" class="box-padding lairLoot">
+        <li *ngFor="let loot of lairLoot">{{loot}}
+          <i *ngIf="loot.includes('alm script')" class="fas fa-info-circle icon-small blue"
+            matTooltip="Destroying this script awards the noted Favor that must immediately be spent. It can take you above your Max Favor."></i>
+          <i *ngIf="loot.includes('scroll')" class="fas fa-info-circle icon-small blue" matTooltip="Contains a spell with random Rudiments with Drain value about equal to SP noted. Cast as Runegalder although it requires a Weirdcarft Skill Check vs d20! to successfully cast.
+                        Scroll is destroyed on casting."></i>
+        </li>
       </ul>
+      <div *ngIf="lairLoot.length > 0" class="regenerateButtonShell">
+        <button color="primary" mat-raised-button (click)="getLairLoot()" color="warn"><i
+            class="fas fa-redo"></i></button>
+      </div>
+
+      <div *ngIf="lairLoot.length == 0" class="box-padding">
+        <h3>This creature has no loot at their lair.</h3>
+      </div>
 
       <h2>
         Weird Reagents <i class="fas fa-info-circle icon-small blue"

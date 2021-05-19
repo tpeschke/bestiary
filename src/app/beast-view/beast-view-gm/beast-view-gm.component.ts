@@ -39,7 +39,7 @@ export class BeastViewGmComponent implements OnInit {
       this.beast = data['beast']
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
       this.getRandomEncounter()
-      
+
       this.locationCheckboxes.mainVitality = {
         average: this.calculatorService.calculateAverageOfDice(this.beast.vitality)
       }
@@ -64,6 +64,7 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   getLairLoot() {
+    this.lairLoot = []
     //fake loot values deconstructed
     let copper = 'c'
       , silver = 'b'
