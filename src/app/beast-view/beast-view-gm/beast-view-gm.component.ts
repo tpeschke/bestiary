@@ -6,7 +6,7 @@ import variables from '../../../local.js'
 import { HewyRatingComponent } from '../../hewy-rating/hewy-rating.component';
 import { MatDialog } from '@angular/material';
 import { Title } from "@angular/platform-browser";
-import lootTables from "./loot-tables.js"
+import lootTables from "../loot-tables.js"
 
 @Component({
   selector: 'app-beast-view-gm',

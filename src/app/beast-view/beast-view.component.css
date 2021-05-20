@@ -488,6 +488,12 @@ mat-toolbar {
         padding: 5px 0px;
     }
 
+    .lair-loot-shell {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
     @media (max-width: 1295px) {
         .lairLoot  li {
             width: 45%;

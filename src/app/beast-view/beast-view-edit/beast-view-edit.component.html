@@ -37,7 +37,8 @@
       </mat-form-field>
 
       <div>
-        <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
+        <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name"
+          onerror="this.onerror=null;this.src='/assets/404.png';">
       </div>
 
       <div class="margin-spacing" *ngIf="beast.id">
@@ -110,7 +111,7 @@
         </div>
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'traits')" color="accent">ADD TRAIT</button>
-      <br/>
+      <br />
       <mat-form-field>
         <input matInput placeholder="Max Traits Appearing" [value]="beast.traitlimit"
           (change)="captureInput($event, 'traitlimit')">
@@ -138,7 +139,7 @@
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">ADD
         DEVOTIONS</button>
-        <br/>
+      <br />
       <mat-form-field>
         <input matInput placeholder="Max Devotions Appearing" [value]="beast.devotionlimit"
           (change)="captureInput($event, 'devotionlimit')">
@@ -165,7 +166,7 @@
         </div>
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent">ADD FLAW</button>
-      <br/>
+      <br />
       <mat-form-field>
         <input matInput placeholder="Max Flaws Appearing" [value]="beast.flawlimit"
           (change)="captureInput($event, 'flawlimit')">
@@ -192,7 +193,7 @@
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'passions')" color="accent">ADD
         PASSION</button>
-        <br/>
+      <br />
       <mat-form-field>
         <input matInput placeholder="Max Passions Appearing" [value]="beast.passionlimit"
           (change)="captureInput($event, 'passionlimit')">
@@ -339,7 +340,7 @@
         <p>(Ave: {{averageVitality}})</p>
 
         <div *ngFor="let location of beast.locationalvitality; let i = index">
-          <br/>
+          <br />
           <div *ngIf="!location.deleted">
             <mat-form-field>
               <input placeholder="Location" matInput [value]="location.location"
@@ -354,10 +355,11 @@
               LOCATION</button>
           </div>
         </div>
-  
-        <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION VITALITY</button>  
-<br/>
-<br/>
+
+        <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION
+          VITALITY</button>
+        <br />
+        <br />
         <mat-form-field>
           <input matInput placeholder="Stress Threshold" [value]="beast.stress"
             (change)="captureInput($event, 'stress')">
@@ -836,7 +838,7 @@
               Rare
             </mat-option>
             <mat-option value="1">
-              Legendary 
+              Legendary
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -901,6 +903,177 @@
       <div>
         <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')">
         </quill-editor>
+      </div>
+<br/>
+      <h3>Lair Loot</h3>
+      <div class="lair-loot-shell">
+        <mat-form-field>
+          <mat-label>Copper</mat-label>
+          <mat-select [value]="beast.lairloot.copper" (selectionChange)="captureSelectForObject($event, 'copper', 'lairloot')">
+            <mat-option>
+              Nothing
+            </mat-option>
+            <mat-option value="a">
+              {{lootTables.staticValues.a}}
+            </mat-option>
+            <mat-option value="b">
+              {{lootTables.staticValues.b}}
+            </mat-option>
+            <mat-option value="c">
+              {{lootTables.staticValues.c}}
+            </mat-option>
+            <mat-option value="d">
+              {{lootTables.staticValues.d}}
+            </mat-option>
+            <mat-option value="e">
+              {{lootTables.staticValues.e}}
+            </mat-option>
+            <mat-option value="f">
+              {{lootTables.staticValues.f}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Silver</mat-label>
+          <mat-select [value]="beast.lairloot.silver" (selectionChange)="captureSelectForObject($event, 'silver', 'lairloot')">
+            <mat-option>
+              Nothing
+            </mat-option>
+            <mat-option value="a">
+              {{lootTables.staticValues.a}}
+            </mat-option>
+            <mat-option value="b">
+              {{lootTables.staticValues.b}}
+            </mat-option>
+            <mat-option value="c">
+              {{lootTables.staticValues.c}}
+            </mat-option>
+            <mat-option value="d">
+              {{lootTables.staticValues.d}}
+            </mat-option>
+            <mat-option value="e">
+              {{lootTables.staticValues.e}}
+            </mat-option>
+            <mat-option value="f">
+              {{lootTables.staticValues.f}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Gold</mat-label>
+          <mat-select [value]="beast.lairloot.gold" (selectionChange)="captureSelectForObject($event, 'gold', 'lairloot')">
+            <mat-option>
+              Nothing
+            </mat-option>
+            <mat-option value="a">
+              {{lootTables.staticValues.a}}
+            </mat-option>
+            <mat-option value="b">
+              {{lootTables.staticValues.b}}
+            </mat-option>
+            <mat-option value="c">
+              {{lootTables.staticValues.c}}
+            </mat-option>
+            <mat-option value="d">
+              {{lootTables.staticValues.d}}
+            </mat-option>
+            <mat-option value="e">
+              {{lootTables.staticValues.e}}
+            </mat-option>
+            <mat-option value="f">
+              {{lootTables.staticValues.f}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field>
+          <mat-label>Potions</mat-label>
+          <mat-select [value]="beast.lairloot.potion" (selectionChange)="captureSelectForObject($event, 'potion', 'lairloot')">
+            <mat-option>
+              None
+            </mat-option>
+            <mat-option value="a">
+              {{lootTables.numberAppearing.a}}
+            </mat-option>
+            <mat-option value="b">
+              {{lootTables.numberAppearing.b}}
+            </mat-option>
+            <mat-option value="c">
+              {{lootTables.numberAppearing.c}}
+            </mat-option>
+            <mat-option value="d">
+              {{lootTables.numberAppearing.d}}
+            </mat-option>
+            <mat-option value="e">
+              {{lootTables.numberAppearing.e}}
+            </mat-option>
+            <mat-option value="f">
+              {{lootTables.numberAppearing.f}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field>
+          <mat-label>Relic Chance</mat-label>
+          <mat-select [value]="beast.lairloot.relic" (selectionChange)="captureSelectForObject($event, 'relic', 'lairloot')">
+            <mat-option>
+              No Chance of Either
+            </mat-option>
+            <mat-option value="a">
+              {{formatRelicAndEnchantedChange(lootTables.relicTable.a)}}
+            </mat-option>
+            <mat-option value="b">
+              {{formatRelicAndEnchantedChange(lootTables.relicTable.b)}}
+            </mat-option>
+            <mat-option value="c">
+              {{formatRelicAndEnchantedChange(lootTables.relicTable.c)}}
+            </mat-option>
+            <mat-option value="d">
+              {{formatRelicAndEnchantedChange(lootTables.relicTable.d)}}
+            </mat-option>
+            <mat-option value="e">
+              {{formatRelicAndEnchantedChange(lootTables.relicTable.e)}}
+            </mat-option>
+            <mat-option value="f">
+              {{formatRelicAndEnchantedChange(lootTables.relicTable.f)}}
+            </mat-option>
+            <mat-option value="g">
+              {{formatRelicAndEnchantedChange(lootTables.relicTable.g)}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field>
+          <mat-label>Enchanted Item Chance</mat-label>
+          <mat-select [value]="beast.lairloot.enchanted" (selectionChange)="captureSelectForObject($event, 'enchanted', 'lairloot')">
+            <mat-option>
+              No Chance of Either
+            </mat-option>
+            <mat-option value="a">
+              {{formatRelicAndEnchantedChange(lootTables.enchantedTable.a)}}
+            </mat-option>
+            <mat-option value="b">
+              {{formatRelicAndEnchantedChange(lootTables.enchantedTable.b)}}
+            </mat-option>
+            <mat-option value="c">
+              {{formatRelicAndEnchantedChange(lootTables.enchantedTable.c)}}
+            </mat-option>
+            <mat-option value="d">
+              {{formatRelicAndEnchantedChange(lootTables.enchantedTable.d)}}
+            </mat-option>
+            <mat-option value="e">
+              {{formatRelicAndEnchantedChange(lootTables.enchantedTable.e)}}
+            </mat-option>
+            <mat-option value="f">
+              {{formatRelicAndEnchantedChange(lootTables.enchantedTable.f)}}
+            </mat-option>
+            <mat-option value="g">
+              {{formatRelicAndEnchantedChange(lootTables.enchantedTable.g)}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
 
       <h2>Weird Reagents</h2>

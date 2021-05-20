@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BeastService } from '../../util/services/beast.service';
 import variables from '../../../local.js'
 import { CalculatorService } from '../../util/services/calculator.service';
+import lootTables from "../loot-tables.js"
+
 @Component({
   selector: 'app-beast-view-edit',
   templateUrl: './beast-view-edit.component.html',
@@ -28,6 +30,7 @@ export class BeastViewEditComponent implements OnInit {
   public uploader: any;
   public newVariantId = null;
   public averageVitality = null;
+  public lootTables = lootTables;
 
   public temperament = {
     temperament: null,
@@ -99,7 +102,8 @@ export class BeastViewEditComponent implements OnInit {
           loot: [],
           lootnotes: '',
           reagents: [],
-          locationalvitality: []
+          locationalvitality: [],
+          lairloot: []
         }
       }
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
@@ -146,6 +150,10 @@ export class BeastViewEditComponent implements OnInit {
     } else {
       this.beast[type] = event.value
     }
+  }
+
+  captureSelectForObject(event, type, secondaryType) {
+    this.beast[secondaryType][type] = event.value
   }
 
   captureChip(event, type) {
@@ -327,5 +335,9 @@ export class BeastViewEditComponent implements OnInit {
       cleanVersion.deleted = false
       this.encounter[type].allTemp.push(cleanVersion)
     }
+  }
+
+  formatRelicAndEnchantedChange(chances) {
+    return `${chances.minor}% of Minor, ${chances.middling}% of Middling`
   }
 }

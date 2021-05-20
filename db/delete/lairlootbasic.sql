@@ -1,0 +1,1 @@
+delete from bblairlootbasic where beastid = $1

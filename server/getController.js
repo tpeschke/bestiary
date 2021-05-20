@@ -131,7 +131,7 @@ module.exports = {
         }))
         
         promiseArray.push(db.get.loot.alms(id).then(result => {
-          beast.lairloot = {...result, ...beast.lairloot}
+          beast.lairloot = {alms: result, ...beast.lairloot}
           return result
         }))
 
