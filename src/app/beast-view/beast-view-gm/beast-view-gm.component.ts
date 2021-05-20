@@ -24,7 +24,7 @@ export class BeastViewGmComponent implements OnInit {
     public titleService: Title
   ) { }
 
-  public beast = { id: null, name: null, vitality: null, favorite: false, number_min: null, number_max: null, rarity: null, locationalvitality: [] }
+  public beast: any = {}
   public encounter: any = "loading";
   public loggedIn = this.beastService.loggedIn || false;
   public imageBase = variables.imageBase;
@@ -65,29 +65,7 @@ export class BeastViewGmComponent implements OnInit {
 
   getLairLoot() {
     this.lairLoot = []
-    //fake loot values deconstructed
-    let copper = 'c'
-      , silver = 'b'
-      , gold = null
-      , equipment = [
-        { number: 'b', value: 'f' },
-        { number: 'f', value: 'b' }
-      ]
-      , traited = [
-        { chanceTable: 'h', value: 'a' }
-      ]
-      , scrolls = [
-        { power: 'a', number: 'a' },
-        { power: 'd', number: 'e' }
-      ]
-      , alms = [
-        { favor: 'a', number: 'a' },
-        { favor: 'd', number: 'e' }
-      ]
-      , relic = "e"
-      , enchanted = "g"
-      , potion = 'f'
-    //ends here
+    let {copper, silver, gold, equipment, traited, scrolls, alms, relic, enchanted, potion} = this.beast.lairloot
 
     let { staticValues, numberAppearing, relicTable, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
       , { rollDice } = this.calculatorService

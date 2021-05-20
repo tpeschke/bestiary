@@ -21,6 +21,8 @@ module.exports = {
       if (beast.patreon > patreonTestValue) {
         res.sendStatus(401).send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
+        beast.lairloot = {};
+
         promiseArray.push(db.get.beasttypes(id).then(result => {
           beast.types = result
           return result
@@ -122,7 +124,32 @@ module.exports = {
           beast.locationalvitality = result
           return result
         }))
+
+        promiseArray.push(db.get.loot.basic(id).then(result => {
+          beast.lairloot = {...result[0], ...beast.lairloot}
+          return result
+        }))
         
+        promiseArray.push(db.get.loot.alms(id).then(result => {
+          beast.lairloot = {...result, ...beast.lairloot}
+          return result
+        }))
+
+        promiseArray.push(db.get.loot.equipment(id).then(result => {
+          beast.lairloot = {equipment: result, ...beast.lairloot}
+          return result
+        }))
+
+        promiseArray.push(db.get.loot.scrolls(id).then(result => {
+          beast.lairloot = {scrolls: result, ...beast.lairloot}
+          return result
+        }))
+
+        promiseArray.push(db.get.loot.traited(id).then(result => {
+          beast.lairloot = {traited: result, ...beast.lairloot}
+          return result
+        }))
+
         Promise.all(promiseArray).then(finalArray => {
           finalPromise = [];
           beast.combat.forEach(val => {

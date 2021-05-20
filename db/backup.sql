@@ -201,3 +201,42 @@ insert into bbbattlefield (battlefield) values
 , ('Cramped Quarters'), ('Beyond Ranged Weaponry'), ('Both Parties Surprised')
 , ('Ambush (for Enemies)'), ('Ambush (for Company)'), ('Bad Weather')
 , ('More Powerful Force Shows Up During')
+
+create table bblairlootbasic (
+	id serial primary key,
+	beastid int,
+	copper varchar(2),
+	silver varchar(2),
+	gold varchar(2),
+	relic varchar(2),
+	enchanted varchar(2),
+	potion varchar(2)
+)
+
+create table bblairlootequipment (
+	id serial primary key,
+	beastid int,
+	number varchar(2),
+	value varchar(2)
+)
+
+create table bblairloottraited (
+	id serial primary key,
+	beastid int,
+	chanceTable varchar(2),
+	value varchar(2)
+)
+
+create table bblairlootscrolls (
+	id serial primary key,
+	beastid int,
+	number varchar(2),
+	power varchar(2)
+)
+create table bblairlootalms (
+	id serial primary key,
+	beastid int,
+	number varchar(2),
+	favor varchar(2)
+)
+
