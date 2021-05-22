@@ -173,7 +173,12 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureSelectForObject(event, type, secondaryType) {
+    console.log(event.value, type, secondaryType)
+    if (!event.value) {
+      event.value = null
+    }
     this.beast[secondaryType][type] = event.value
+    console.log(this.beast[secondaryType][type])
   }
 
   captureEquipment(event, type) {
