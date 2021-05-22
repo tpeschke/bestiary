@@ -51,6 +51,11 @@ export class BeastViewEditComponent implements OnInit {
     noun: null
   }
 
+  public equipment = {
+    number: null,
+    value: null
+  }
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       let beast = data['beast']
@@ -103,7 +108,7 @@ export class BeastViewEditComponent implements OnInit {
           lootnotes: '',
           reagents: [],
           locationalvitality: [],
-          lairloot: []
+          lairloot: {}
         }
       }
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
@@ -154,6 +159,27 @@ export class BeastViewEditComponent implements OnInit {
 
   captureSelectForObject(event, type, secondaryType) {
     this.beast[secondaryType][type] = event.value
+  }
+
+  captureEquipment(event, type) {
+    this.equipment[type] = event.value
+  }
+
+  captureAddEquipment() {
+    this.beast.lairloot.equipment.push(this.equipment)
+    this.equipment = {
+      number: null,
+      value: null
+    }
+  }
+
+  removeEqupment(index) {
+    let {equipment} = this.beast.lairloot
+    if (equipment[index].beastid) {
+      equipment[index].deleted = true
+    } else {
+      equipment.splice(index, 1)
+    }
   }
 
   captureChip(event, type) {

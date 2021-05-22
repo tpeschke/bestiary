@@ -212,12 +212,22 @@ let controllerObj = {
         }
       })
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment } = lairloot
       if (!beastid) {
-        promiseArray.push(db.add.lairlootbasic(id, copper, silver, gold, potion, relic, enchanted))
+        promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted))
       } else {
-        promiseArray.push(db.update.lairlootbasic(beastid, copper, silver, gold, potion, relic, enchanted))
+        promiseArray.push(db.update.loot.basic(beastid, copper, silver, gold, potion, relic, enchanted))
       }
+
+      equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.loot.equipment(beastid, equipid))
+        } else if (equipid && beastid) {
+          promiseArray.push(db.update.loot.equipment(equipid, value, number))
+        } else {
+          promiseArray.push(db.add.loot.equipment(id, value, number))
+        }
+      })
 
       Promise.all(promiseArray).then(_ => {
         updateHewyRating(db, id)
@@ -330,7 +340,7 @@ let controllerObj = {
           promiseArray.push(db.update.beastreagents(id, name, spell, difficulty, harvest, reagentId).then())
         }
       })
-      
+
       if (locationalvitality.length > 0) {
         locationalvitality.forEach(({ id: locationid, location, vitality, beastid, deleted }) => {
           if (deleted) {
@@ -399,13 +409,22 @@ let controllerObj = {
         }
       })
 
-
-      let { beastid, copper, silver, gold, potion, relic, enchanted } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment } = lairloot
       if (!beastid) {
-        promiseArray.push(db.add.lairlootbasic(id, copper, silver, gold, potion, relic, enchanted))
+        promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted))
       } else {
-        promiseArray.push(db.update.lairlootbasic(beastid, copper, silver, gold, potion, relic, enchanted))
-      } 
+        promiseArray.push(db.update.loot.basic(beastid, copper, silver, gold, potion, relic, enchanted))
+      }
+      
+      equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.loot.equipment(beastid, equipid))
+        } else if (equipid && beastid) {
+          promiseArray.push(db.update.loot.equipment(equipid, value, number))
+        } else {
+          promiseArray.push(db.add.loot.equipment(id, value, number))
+        }
+      })
 
       Promise.all(promiseArray).then(_ => {
         updateHewyRating(db, id)
@@ -434,7 +453,8 @@ let controllerObj = {
       promiseArray.push(db.delete.encounter.allVerb(id).then())
       promiseArray.push(db.delete.encounter.allRank(id).then())
       promiseArray.push(db.delete.alllocationalvitality(id).then())
-      promiseArray.push(db.delete.lairlootbasic(id).then())
+      promiseArray.push(db.delete.loot.basic(id).then())
+      promiseArray.push(db.delete.loot.allequipment(id).then())
       // promiseArray.push(db.delete.beastvariants(id, variantid).then())
       // promiseArray.push(db.delete.combatranges(id, variantid).then())
 

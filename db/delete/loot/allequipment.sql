@@ -1,0 +1,1 @@
+delete from bblairlootequipment where beastid = $1

@@ -65,7 +65,7 @@ export class BeastViewGmComponent implements OnInit {
 
   getLairLoot() {
     this.lairLoot = []
-    let {copper, silver, gold, equipment, traited, scrolls, alms, relic, enchanted, potion} = this.beast.lairloot
+    let {copper, silver, gold, relic, enchanted, potion, equipment, traited, scrolls, alms} = this.beast.lairloot
 
     let { staticValues, numberAppearing, relicTable, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
       , { rollDice } = this.calculatorService
