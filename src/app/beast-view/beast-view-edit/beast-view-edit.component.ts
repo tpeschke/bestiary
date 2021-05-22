@@ -61,6 +61,11 @@ export class BeastViewEditComponent implements OnInit {
     value: null
   }
 
+  public scroll = {
+    number: null,
+    power: null
+  }
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       let beast = data['beast']
@@ -205,6 +210,27 @@ export class BeastViewEditComponent implements OnInit {
       traited[index].deleted = true
     } else {
       traited.splice(index, 1)
+    }
+  }
+
+  captureScroll(event, type) {
+    this.scroll[type] = event.value
+  }
+
+  captureAddScroll() {
+    this.beast.lairloot.scrolls.push(this.scroll)
+    this.scroll = {
+      number: null,
+      power: null
+    }
+  }
+
+  removeScroll(index) {
+    let { scrolls } = this.beast.lairloot
+    if (scrolls[index].beastid) {
+      scrolls[index].deleted = true
+    } else {
+      scrolls.splice(index, 1)
     }
   }
 

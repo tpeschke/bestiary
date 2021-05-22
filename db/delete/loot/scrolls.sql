@@ -1,0 +1,1 @@
+delete from bblairlootscrolls where beastid = $1 and id = $2

@@ -212,7 +212,7 @@ let controllerObj = {
         }
       })
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls } = lairloot
       if (!beastid) {
         promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted))
       } else {
@@ -239,6 +239,16 @@ let controllerObj = {
         }
       })
 
+      scrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.loot.scrolls(beastid, scrollid))
+        } else if (scrollid && beastid) {
+          promiseArray.push(db.update.loot.scrolls(scrollid, number, power))
+        } else {
+          promiseArray.push(db.add.loot.scrolls(id, number, power))
+        }
+      })
+      
       Promise.all(promiseArray).then(_ => {
         updateHewyRating(db, id)
         controllerObj.collectCache(app, 0)
@@ -419,7 +429,7 @@ let controllerObj = {
         }
       })
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls } = lairloot
       if (!beastid) {
         promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted))
       } else {
@@ -443,6 +453,16 @@ let controllerObj = {
           promiseArray.push(db.update.loot.traited(traitedid, value, chancetable))
         } else {
           promiseArray.push(db.add.loot.traited(id, value, chancetable))
+        }
+      })
+
+      scrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.loot.scrolls(beastid, scrollid))
+        } else if (scrollid && beastid) {
+          promiseArray.push(db.update.loot.scrolls(scrollid, number, power))
+        } else {
+          promiseArray.push(db.add.loot.scrolls(id, number, power))
         }
       })
 
