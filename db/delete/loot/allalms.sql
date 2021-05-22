@@ -1,0 +1,1 @@
+delete from bblairlootalms where beastid = $1

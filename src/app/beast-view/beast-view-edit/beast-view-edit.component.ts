@@ -66,6 +66,11 @@ export class BeastViewEditComponent implements OnInit {
     power: null
   }
 
+  public alm = {
+    number: null,
+    favor: null
+  }
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       let beast = data['beast']
@@ -231,6 +236,27 @@ export class BeastViewEditComponent implements OnInit {
       scrolls[index].deleted = true
     } else {
       scrolls.splice(index, 1)
+    }
+  }
+
+  captureAlm(event, type) {
+    this.alm[type] = event.value
+  }
+
+  captureAddAlm() {
+    this.beast.lairloot.alms.push(this.alm)
+    this.alm = {
+      number: null,
+      favor: null
+    }
+  }
+
+  removeAlm(index) {
+    let { alms } = this.beast.lairloot
+    if (alms[index].beastid) {
+      alms[index].deleted = true
+    } else {
+      alms.splice(index, 1)
     }
   }
 

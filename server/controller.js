@@ -212,7 +212,7 @@ let controllerObj = {
         }
       })
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms } = lairloot
       if (!beastid) {
         promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted))
       } else {
@@ -248,7 +248,17 @@ let controllerObj = {
           promiseArray.push(db.add.loot.scrolls(id, number, power))
         }
       })
-      
+
+      alms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.loot.alms(beastid, almid))
+        } else if (almid && beastid) {
+          promiseArray.push(db.update.loot.alms(almid, number, favor))
+        } else {
+          promiseArray.push(db.add.loot.alms(id, number, favor))
+        }
+      })
+
       Promise.all(promiseArray).then(_ => {
         updateHewyRating(db, id)
         controllerObj.collectCache(app, 0)
@@ -429,7 +439,7 @@ let controllerObj = {
         }
       })
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms } = lairloot
       if (!beastid) {
         promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted))
       } else {
@@ -466,6 +476,16 @@ let controllerObj = {
         }
       })
 
+      alms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.loot.alms(beastid, almid))
+        } else if (almid && beastid) {
+          promiseArray.push(db.update.loot.alms(almid, number, favor))
+        } else {
+          promiseArray.push(db.add.loot.alms(id, number, favor))
+        }
+      })
+
       Promise.all(promiseArray).then(_ => {
         updateHewyRating(db, id)
         controllerObj.collectCache(app, 0)
@@ -495,6 +515,9 @@ let controllerObj = {
       promiseArray.push(db.delete.alllocationalvitality(id).then())
       promiseArray.push(db.delete.loot.basic(id).then())
       promiseArray.push(db.delete.loot.allequipment(id).then())
+      promiseArray.push(db.delete.loot.alltraited(id).then())
+      promiseArray.push(db.delete.loot.allscrolls(id).then())
+      promiseArray.push(db.delete.loot.allalms(id).then())
       // promiseArray.push(db.delete.beastvariants(id, variantid).then())
       // promiseArray.push(db.delete.combatranges(id, variantid).then())
 
