@@ -212,7 +212,7 @@ let controllerObj = {
         }
       })
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited } = lairloot
       if (!beastid) {
         promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted))
       } else {
@@ -226,6 +226,16 @@ let controllerObj = {
           promiseArray.push(db.update.loot.equipment(equipid, value, number))
         } else {
           promiseArray.push(db.add.loot.equipment(id, value, number))
+        }
+      })
+
+      traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.loot.traited(beastid, traitedid))
+        } else if (traitedid && beastid) {
+          promiseArray.push(db.update.loot.traited(traitedid, value, chancetable))
+        } else {
+          promiseArray.push(db.add.loot.traited(id, value, chancetable))
         }
       })
 
@@ -409,13 +419,13 @@ let controllerObj = {
         }
       })
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited } = lairloot
       if (!beastid) {
         promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted))
       } else {
         promiseArray.push(db.update.loot.basic(beastid, copper, silver, gold, potion, relic, enchanted))
       }
-      
+
       equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.loot.equipment(beastid, equipid))
@@ -423,6 +433,16 @@ let controllerObj = {
           promiseArray.push(db.update.loot.equipment(equipid, value, number))
         } else {
           promiseArray.push(db.add.loot.equipment(id, value, number))
+        }
+      })
+
+      traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.loot.traited(beastid, traitedid))
+        } else if (traitedid && beastid) {
+          promiseArray.push(db.update.loot.traited(traitedid, value, chancetable))
+        } else {
+          promiseArray.push(db.add.loot.traited(id, value, chancetable))
         }
       })
 

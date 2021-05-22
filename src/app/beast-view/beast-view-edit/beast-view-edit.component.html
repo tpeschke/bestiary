@@ -1081,7 +1081,7 @@
       <div *ngFor="let equipment of beast.lairloot.equipment; let i = index">
         <div class="temperamentList" *ngIf="!equipment.deleted">
           <p>Value: {{lootTables.staticValues[equipment.value]}}</p>
-          <p>Number: {{lootTables.numberAppearing[equipment.number]}}</p>
+          <p>Number: {{lootTables.numberAppearing[equipment.number]}} sc</p>
           <i (click)="removeEqupment(i)" class="fas fa-times-circle"></i>
         </div>
       </div>
@@ -1143,6 +1143,79 @@
       <button mat-raised-button (click)="captureAddEquipment()" color="accent"
         [disabled]="!equipment.value || !equipment.number">Add
         Equipment</button>
+        <br/>
+        <br/>
+        <div *ngFor="let traited of beast.lairloot.traited; let i = index">
+          <div class="temperamentList" *ngIf="!traited.deleted">
+            <p>Chance Table: {{lootTables.traitedChance[traited.chancetable]}}</p>
+            <p>Value: {{lootTables.staticValues[traited.value]}} sc</p>
+            <i (click)="removeTraited(i)" class="fas fa-times-circle"></i>
+          </div>
+        </div>
+  <br/>
+        <div>
+          <mat-form-field>
+            <mat-label>Superior Equipment Value</mat-label>
+            <mat-select (selectionChange)="captureTraited($event, 'value')">
+              <mat-option>
+                No Value
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.staticValues.a}} sc
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.staticValues.b}} sc
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.staticValues.c}} sc
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.staticValues.d}} sc
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.staticValues.e}} sc
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.staticValues.f}} sc
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Superior Equipment Chance Table</mat-label>
+            <mat-select (selectionChange)="captureTraited($event, 'chancetable')">
+              <mat-option>
+                None
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.traitedChance.a}}
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.traitedChance.b}}
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.traitedChance.c}}
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.traitedChance.d}}
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.traitedChance.e}}
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.traitedChance.f}}
+              </mat-option>
+              <mat-option value="g">
+                {{lootTables.traitedChance.g}}
+              </mat-option>
+              <mat-option value="h">
+                {{lootTables.traitedChance.h}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button mat-raised-button (click)="captureAddTraited()" color="accent"
+          [disabled]="!traited.value || !traited.chancetable">Add Superior
+          Equipment</button>
 
       <h2>Weird Reagents</h2>
       <div class="divider"></div>

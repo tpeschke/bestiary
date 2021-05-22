@@ -1,0 +1,1 @@
+delete from bblairloottraited where beastid = $1 and id = $2

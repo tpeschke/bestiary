@@ -112,7 +112,7 @@ export class BeastViewGmComponent implements OnInit {
     if (traited.length > 0) {
       for (let i = 0; i < traited.length; i++) {
         let traitChance = Math.floor(Math.random() * 101)
-          , table = traitedChance[traited[i].chanceTable]
+          , table = traitedChance[traited[i].chancetable]
           , valueOfItem = staticValues[traited[i].value]
         for (let x = 0; x < table.length; x++) {
           if (traitChance <= table[x]) {
@@ -131,7 +131,7 @@ export class BeastViewGmComponent implements OnInit {
         }
       }
     }
-
+    
     copper ? this.lairLoot.push(rollDice(staticValues[copper]) + " cc in coin") : null
     silver ? this.lairLoot.push(rollDice(staticValues[silver]) + " sc in coin") : null
     gold ? this.lairLoot.push(rollDice(staticValues[gold]) + " gc in coin") : null

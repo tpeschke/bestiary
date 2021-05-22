@@ -44,15 +44,20 @@ export class BeastViewEditComponent implements OnInit {
     decayrate: null,
     lair: null
   }
-  public verb = { 
+  public verb = {
     verb: null
   }
-  public noun = { 
+  public noun = {
     noun: null
   }
 
   public equipment = {
     number: null,
+    value: null
+  }
+
+  public traited = {
+    chancetable: null,
     value: null
   }
 
@@ -174,11 +179,32 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   removeEqupment(index) {
-    let {equipment} = this.beast.lairloot
+    let { equipment } = this.beast.lairloot
     if (equipment[index].beastid) {
       equipment[index].deleted = true
     } else {
       equipment.splice(index, 1)
+    }
+  }
+
+  captureTraited(event, type) {
+    this.traited[type] = event.value
+  }
+
+  captureAddTraited() {
+    this.beast.lairloot.traited.push(this.traited)
+    this.traited = {
+      chancetable: null,
+      value: null
+    }
+  }
+
+  removeTraited(index) {
+    let { traited } = this.beast.lairloot
+    if (traited[index].beastid) {
+      traited[index].deleted = true
+    } else {
+      traited.splice(index, 1)
     }
   }
 
@@ -357,7 +383,7 @@ export class BeastViewEditComponent implements OnInit {
       this.encounter[type][subtype].push(deleted)
     }
     if (type === 'temperament' && deleted.id) {
-      let cleanVersion = {... deleted}
+      let cleanVersion = { ...deleted }
       cleanVersion.deleted = false
       this.encounter[type].allTemp.push(cleanVersion)
     }
