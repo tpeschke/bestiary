@@ -33,6 +33,7 @@ export class BeastViewGmComponent implements OnInit {
   public locationCheckboxes: any = {}
   public trauma = 0;
   public lairLoot = []
+  public lairlootpresent = false
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -67,6 +68,7 @@ export class BeastViewGmComponent implements OnInit {
     this.lairLoot = []
     let { copper, silver, gold, relic, enchanted, potion, equipment, traited, scrolls, alms } = this.beast.lairloot
 
+    this.lairlootpresent = copper || silver || gold || relic || enchanted || potion || equipment.length > 0 || traited > 0 || scrolls > 0 || alms > 0
     let { staticValues, numberAppearing, relicTable, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
       , { rollDice } = this.calculatorService
 

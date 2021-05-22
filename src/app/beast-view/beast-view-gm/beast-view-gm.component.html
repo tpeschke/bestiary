@@ -467,13 +467,13 @@
           <i *ngIf="loot.includes('Trait')" class="fas fa-info-circle icon-small blue" matTooltip="Use the sc price as the base price and then add the Trait on top."></i>
         </li>
       </ul>
-      <div *ngIf="lairLoot.length > 0" class="regenerateButtonShell">
-        <button color="primary" mat-raised-button (click)="getLairLoot()" color="warn"><i
-            class="fas fa-redo"></i></button>
-      </div>
-
       <div *ngIf="lairLoot.length == 0" class="box-padding">
         <h3>This creature has no loot at their lair.</h3>
+      </div>
+
+      <div *ngIf="lairlootpresent" class="regenerateButtonShell">
+        <button color="primary" mat-raised-button (click)="getLairLoot()" color="warn"><i
+            class="fas fa-redo"></i></button>
       </div>
 
       <h2>
