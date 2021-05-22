@@ -9,11 +9,11 @@ export default {
     },
     numberAppearing: {
         a: "d2-1",
-        b: "d2-1",
-        c: "d3-1",
-        d: "d4-1",
-        e: "d6-1",
-        f: "d8-1"
+        b: "d3-1",
+        c: "d4-1",
+        d: "d6-1",
+        e: "d8-1",
+        f: "d10-1"
     },
     traitedChance: {
         a: [5],
