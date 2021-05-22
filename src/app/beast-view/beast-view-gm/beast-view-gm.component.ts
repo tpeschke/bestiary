@@ -65,7 +65,7 @@ export class BeastViewGmComponent implements OnInit {
 
   getLairLoot() {
     this.lairLoot = []
-    let {copper, silver, gold, relic, enchanted, potion, equipment, traited, scrolls, alms} = this.beast.lairloot
+    let { copper, silver, gold, relic, enchanted, potion, equipment, traited, scrolls, alms } = this.beast.lairloot
 
     let { staticValues, numberAppearing, relicTable, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
       , { rollDice } = this.calculatorService
@@ -83,7 +83,9 @@ export class BeastViewGmComponent implements OnInit {
       for (let i = 0; i < alms.length; i++) {
         let favor = rollDice(almsFavor[alms[i].favor])
           , number = rollDice(numberAppearing[alms[i].number])
-        this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
+        if (number > 0) {
+          this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
+        }
       }
     }
 
@@ -98,14 +100,18 @@ export class BeastViewGmComponent implements OnInit {
 
     if (potion) {
       let potionNumber = rollDice(numberAppearing[potion])
-      this.lairLoot.push(`${potionNumber} potion${potionNumber > 1 ? 's' : ''}`)
+      if (potionNumber > 0) {
+        this.lairLoot.push(`${potionNumber} potion${potionNumber > 1 ? 's' : ''}`)
+      }
     }
 
     if (scrolls.length > 0) {
       for (let i = 0; i < scrolls.length; i++) {
         let power = rollDice(scrollPower[scrolls[i].power])
           , number = rollDice(numberAppearing[scrolls[i].number])
-        this.lairLoot.push(`${number} scroll${number > 1 ? 's' : ''} (${power} SP)`)
+        if (number > 0) {
+          this.lairLoot.push(`${number} scroll${number > 1 ? 's' : ''} (${power} SP)`)
+        }
       }
     }
 
@@ -116,7 +122,10 @@ export class BeastViewGmComponent implements OnInit {
           , valueOfItem = staticValues[traited[i].value]
         for (let x = 0; x < table.length; x++) {
           if (traitChance <= table[x]) {
-            this.lairLoot.push(`Equipment (~${rollDice(valueOfItem)} sc) w/ ${traitDice[x]} Trait`)
+            let value = rollDice(valueOfItem)
+            if (value > 0) {
+              this.lairLoot.push(`Equipment (~${value} sc) w/ ${traitDice[x]} Trait`)
+            }
             x = table.length
           }
         }
@@ -127,15 +136,32 @@ export class BeastViewGmComponent implements OnInit {
       for (let i = 0; i < equipment.length; i++) {
         let number = rollDice(numberAppearing[equipment[i].number])
         for (let x = 0; x < number; x++) {
-          this.lairLoot.push(`Equipment (~${rollDice(staticValues[equipment[i].value])} sc)`)
+          let value = rollDice(staticValues[equipment[i].value])
+          if (value > 0) {
+            this.lairLoot.push(`Equipment (~${value} sc)`)
+          }
         }
       }
     }
-    
-    copper ? this.lairLoot.push(rollDice(staticValues[copper]) + " cc in coin") : null
-    silver ? this.lairLoot.push(rollDice(staticValues[silver]) + " sc in coin") : null
-    gold ? this.lairLoot.push(rollDice(staticValues[gold]) + " gc in coin") : null
 
+    if (copper) {
+      let copperNumber = rollDice(staticValues[copper]);
+      if (copperNumber > 0) {
+        this.lairLoot.push(copperNumber + " cc in coin")
+      }
+    }
+    if (silver) {
+      let silverNumber = rollDice(staticValues[silver]);
+      if (silverNumber > 0) {
+        this.lairLoot.push(silverNumber + " sc in coin")
+      }
+    }
+    if (gold) {
+      let goldNumber = rollDice(staticValues[gold]);
+      if (goldNumber > 0) {
+        this.lairLoot.push(goldNumber + " gc in coin")
+      }
+    }
   }
 
   createCheckboxArray(vitality) {

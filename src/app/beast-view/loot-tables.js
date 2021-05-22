@@ -8,12 +8,12 @@ export default {
         f: "6d100 + 400"
     },
     numberAppearing: {
-        a: "1",
-        b: "d2",
-        c: "d3",
-        d: "d4",
-        e: "d6",
-        f: "d8"
+        a: "d2-1",
+        b: "d2-1",
+        c: "d3-1",
+        d: "d4-1",
+        e: "d6-1",
+        f: "d8-1"
     },
     traitedChance: {
         a: [5],
