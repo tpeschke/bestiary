@@ -40,6 +40,7 @@ export class CalculatorService {
           expressionValue = ""
         }
         if (!isNaN(+val) || val === 'd' || val === "!") {
+          val = val.replace(/!/i, "")
           expressionValue = expressionValue + val;
         }
 
@@ -47,7 +48,7 @@ export class CalculatorService {
           diceExpressionArray.push(expressionValue);
         }
       })
-
+      
       for (let index = 0; index < diceExpressionArray.length; index++) {
         let val = diceExpressionArray[index];
 
@@ -61,6 +62,7 @@ export class CalculatorService {
           diceExpressionArray[index] = subtotal
         }
       }
+      
       return eval(diceExpressionArray.join(""))
     }
   }

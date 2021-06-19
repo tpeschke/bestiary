@@ -42,7 +42,7 @@ export class BeastViewGmComponent implements OnInit {
       this.getRandomEncounter()
 
       this.locationCheckboxes.mainVitality = {
-        average: this.calculatorService.calculateAverageOfDice(this.beast.vitality)
+        average: this.calculatorService.rollDice(this.beast.vitality)
       }
       this.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(this.locationCheckboxes.mainVitality.average)
 
@@ -51,7 +51,7 @@ export class BeastViewGmComponent implements OnInit {
       if (locationalvitality.length > 0) {
         locationalvitality.forEach(({ location, vitality }) => {
           this.locationCheckboxes[location] = {
-            average: this.calculatorService.calculateAverageOfDice(vitality)
+            average: this.calculatorService.rollDice(vitality)
           }
           this.trauma = Math.max(this.trauma, this.locationCheckboxes[location].average)
           this.locationCheckboxes[location].checkboxes = this.createCheckboxArray(this.locationCheckboxes[location].average)

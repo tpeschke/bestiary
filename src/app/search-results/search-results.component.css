@@ -23,6 +23,7 @@ img {
     width: 150px;
     height: 100%;
     margin-right: 10px;
+    border-radius: 5px;
 }
 
 .info-shell {
