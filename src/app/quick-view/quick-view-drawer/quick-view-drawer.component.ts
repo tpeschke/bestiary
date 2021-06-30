@@ -12,7 +12,7 @@ export class QuickViewDrawerComponent implements OnInit {
     private quickViewService: QuickViewService
   ) { }
 
-  private quickViewListIsOpen = true
+  private quickViewListIsOpen = false
 
   ngOnInit() {}
 
