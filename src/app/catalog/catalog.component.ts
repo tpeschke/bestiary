@@ -25,9 +25,9 @@ export class CatalogComponent implements OnInit {
   public message = "You Don't Have Any Favorite Monsters Yet"
 
   isDisplayContextMenu: boolean;
-  rightClickMenuItems: any = [];
   rightClickMenuPositionX: number;
   rightClickMenuPositionY: number;
+  targetBeast: number
 
   ngOnInit() {
     this.titleService.setTitle("Bestiary")
@@ -43,32 +43,19 @@ export class CatalogComponent implements OnInit {
     })
   }
 
-  openNewTab(beastid) {
-    window.open(window.location.href + 'beast/' + beastid + '/gm', '_blank');
+  openNewTab() {
+    window.open(window.location.href + 'beast/' + this.targetBeast + '/gm', '_blank');
   }
 
-  addBeastToQuickView(beastid) {
-    this.quickViewService.addToQuickViewArray(beastid)
+  addBeastToQuickView() {
+    this.quickViewService.addToQuickViewArray(this.targetBeast)
   }
 
-  displayContextMenu(event) {
-
+  displayContextMenu(event, beastid) {
     this.isDisplayContextMenu = true;
-
-    this.rightClickMenuItems = [
-      {
-        menuText: 'Refactor',
-        menuEvent: 'Handle refactor',
-      },
-      {
-        menuText: 'Format',
-        menuEvent: 'Handle format',
-      },
-    ];
-
     this.rightClickMenuPositionX = event.clientX;
     this.rightClickMenuPositionY = event.clientY;
-
+    this.targetBeast = beastid
   }
 
   getRightClickMenuStyle() {
@@ -77,10 +64,6 @@ export class CatalogComponent implements OnInit {
       left: `${this.rightClickMenuPositionX}px`,
       top: `${this.rightClickMenuPositionY}px`
     }
-  }
-
-  handleMenuItemClick(event) {
-    console.log(event)
   }
 
   @HostListener('document:click')

@@ -74,6 +74,7 @@ app.get('/auth/logout', function (req, res) {
 
 app.get('/api/beasts/catalog', (req, res) => res.send(ctrl.catalogCache))
 app.get('/api/beasts/:id', getCtrl.getSingleBeast)
+app.get('/api/quickview/:id', getCtrl.getQuickView)
 app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
 app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({id: 0}))
 app.get('/api/search', searchCtrl.search)
