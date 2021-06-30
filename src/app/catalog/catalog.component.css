@@ -89,6 +89,23 @@ img {
     background: lightgray;
   }
 
+  .context-menu {
+    padding: 5px 0px;
+    background: white;
+    border: 2px lightgrey solid;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+
+  .context-menu p {
+    width: 100%;
+    padding: 5px 25px;
+  }
+  .context-menu p:hover {
+    background-color: lightgray
+  }
+
   @media (max-width: 699px) { 
     .img-shell {
       height: 200px;

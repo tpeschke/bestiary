@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { BeastService } from '../util/services/beast.service'
 import variables from '../../local.js'
@@ -24,6 +24,11 @@ export class CatalogComponent implements OnInit {
   public imageBase = variables.imageBase;
   public message = "You Don't Have Any Favorite Monsters Yet"
 
+  isDisplayContextMenu: boolean;
+  rightClickMenuItems: any = [];
+  rightClickMenuPositionX: number;
+  rightClickMenuPositionY: number;
+
   ngOnInit() {
     this.titleService.setTitle("Bestiary")
     this.route.data.subscribe(data => {
@@ -36,6 +41,47 @@ export class CatalogComponent implements OnInit {
         this.message = results.message
       }
     })
+  }
+
+  openNewTab(beastid) {
+    window.open(window.location.href + 'beast/' + beastid + '/gm', '_blank');
+  }
+
+  displayContextMenu(event) {
+
+    this.isDisplayContextMenu = true;
+
+    this.rightClickMenuItems = [
+      {
+        menuText: 'Refactor',
+        menuEvent: 'Handle refactor',
+      },
+      {
+        menuText: 'Format',
+        menuEvent: 'Handle format',
+      },
+    ];
+
+    this.rightClickMenuPositionX = event.clientX;
+    this.rightClickMenuPositionY = event.clientY;
+
+  }
+
+  getRightClickMenuStyle() {
+    return {
+      position: 'fixed',
+      left: `${this.rightClickMenuPositionX}px`,
+      top: `${this.rightClickMenuPositionY}px`
+    }
+  }
+
+  handleMenuItemClick(event) {
+    console.log(event)
+  }
+
+  @HostListener('document:click')
+  documentClick(): void {
+    this.isDisplayContextMenu = false;
   }
 
 }

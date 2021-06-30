@@ -8,7 +8,7 @@
   <div *ngIf="favorites.length > 0" class="beastDiv">
     <div *ngFor="let beast of favorites">
       <div *ngIf="beastService.loggedIn !== 'owner' && beast.patreon < 4">
-        <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton" mat-button>
+        <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton" mat-button (contextmenu)="displayContextMenu($event); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
               [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -22,7 +22,7 @@
       </div>
       <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || beastService.loggedIn === 'owner'">
         <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
-          [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button>
+          [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button  (contextmenu)="displayContextMenu($event); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
               [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -34,7 +34,7 @@
             <p class="beast-name">{{beast.name}}</p>
           </div>
         </button>
-        <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton" mat-button>
+        <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton" mat-button  (contextmenu)="displayContextMenu($event); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
               [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -46,6 +46,12 @@
             <p class="beast-name">{{beast.name}}</p>
           </div>
         </button>
+      </div>
+
+      <div class="context-menu" *ngIf="rightClickMenuItems.length > 0 && isDisplayContextMenu"
+        [ngStyle]="getRightClickMenuStyle()">
+        <p (click)="openNewTab(beast.id)">Open in New Tab</p>
+        <p>Add to Quick Reference</p>
       </div>
     </div>
   </div>
@@ -63,7 +69,7 @@
           </div>
 
           <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton"
-            mat-button>
+            mat-button (contextmenu)="displayContextMenu($event); false">
             <div class="img-shell">
               <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
                 [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -84,7 +90,7 @@
           </div>
 
           <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
-            [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button>
+            [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button (contextmenu)="displayContextMenu($event); false">
             <div class="img-shell">
               <img [ngStyle]="beast.thumbnail ? {'object-position': beast.thumbnail} : {}" *ngIf="beast.id"
                 [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -97,7 +103,7 @@
             </div>
           </button>
           <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton"
-            mat-button>
+            mat-button (contextmenu)="displayContextMenu($event); false">
             <div class="img-shell">
               <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail :  'top'}" *ngIf="beast.id"
                 [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
