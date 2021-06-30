@@ -46,7 +46,8 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { NoPlayerAuthService } from './util/guards-resolvers/no-player-auth.service'
 import { NoGmAuthService } from './util/guards-resolvers/no-gm-auth.service';
-import { RarityConverterPipe } from './util/pipes/rarity-converter.pipe'
+import { RarityConverterPipe } from './util/pipes/rarity-converter.pipe';
+import { QuickViewDrawerComponent } from './quick-view/quick-view-drawer/quick-view-drawer.component'
 
 const routes: Routes = [
   { path: '', component: CatalogComponent, resolve: { catalog: CatalogResolverService } },
@@ -71,7 +72,8 @@ const routes: Routes = [
     SubsystemConverterPipe,
     HewyRatingComponent,
     PlayerNotesComponent,
-    RarityConverterPipe
+    RarityConverterPipe,
+    QuickViewDrawerComponent
   ],
   imports: [
     BrowserModule,

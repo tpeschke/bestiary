@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { BeastService } from '../util/services/beast.service'
 import variables from '../../local.js'
 import {Title} from "@angular/platform-browser";
+import { QuickViewService } from '../util/services/quick-view.service';
 
 @Component({
   selector: 'app-catalog',
@@ -14,7 +15,8 @@ export class CatalogComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private beastService: BeastService,
-    private titleService: Title
+    private titleService: Title,
+    private quickViewService: QuickViewService
   ) { }
 
   public beasts = []

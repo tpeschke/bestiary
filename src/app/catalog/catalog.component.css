@@ -62,6 +62,33 @@ img {
     border-radius: 4px;
   }
 
+  .beast-outer-shell {
+    position: relative;
+  }
+
+  .add-to-quick-view-shell {
+    position: absolute;
+    padding: 5px;
+    z-index: 1;
+    right: 0;
+    border-radius: 25px;
+    transition: .6s;
+  }
+
+  .add-to-quick-view-shell i {
+    font-size: 14px;
+    color: lightgray;
+  }
+
+  .add-to-quick-view-shell:hover i {
+    color: black;
+    border-radius: 25px;
+  }
+
+  .add-to-quick-view-shell:hover{
+    background: lightgray;
+  }
+
   @media (max-width: 699px) { 
     .img-shell {
       height: 200px;

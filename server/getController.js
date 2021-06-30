@@ -150,6 +150,11 @@ module.exports = {
           return result
         }))
 
+        promiseArray.push(db.get.ranks(id).then(result => {
+          beast.ranks = result
+          return result
+        }))
+
         Promise.all(promiseArray).then(finalArray => {
           finalPromise = [];
           beast.combat.forEach(val => {
