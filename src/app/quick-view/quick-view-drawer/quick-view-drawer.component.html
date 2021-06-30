@@ -1,0 +1,23 @@
+<div (click)="toggleQuickViewList()" class="open-quick-view-button">
+  <i class="fas fa-address-card"></i>
+</div>
+
+<div (click)="toggleQuickViewList()" [ngClass]="quickViewListIsOpen ? 'overlay' : 'overlay-closed overlay'"></div>
+
+<div [ngClass]="quickViewListIsOpen ? 'quick-view-drawer' : 'drawer-closed quick-view-drawer'">
+  <h2>Quick View</h2>
+
+  <div *ngIf="quickViewService.quickViewArray.length === 0" class="quick-view-no-monsters-shell">
+    <p>You current have no monsters in your quick view.</p>
+    <p>Right click on a monster's icon in the catelog and select "add to quick view"</p>
+    <p>or hit the <i class="fas fa-plus"></i><i class="fas fa-address-card"></i> at the top of a monster's entry</p>
+    <p>to add them.</p>
+  </div>
+
+  <div *ngIf="quickViewService.quickViewArray.length > 0">
+    <div *ngFor="let beast of quickViewService.quickViewArray">
+      <p>{{beast}}</p>
+    </div>
+  </div>
+
+</div>
