@@ -8,7 +8,8 @@
   <div *ngIf="favorites.length > 0" class="beastDiv">
     <div *ngFor="let beast of favorites">
       <div *ngIf="beastService.loggedIn !== 'owner' && beast.patreon < 4">
-        <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton" mat-button (contextmenu)="displayContextMenu($event); false">
+        <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton" mat-button
+          (contextmenu)="displayContextMenu($event); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
               [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -22,7 +23,8 @@
       </div>
       <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || beastService.loggedIn === 'owner'">
         <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
-          [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button  (contextmenu)="displayContextMenu($event); false">
+          [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
+          (contextmenu)="displayContextMenu($event); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
               [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -34,7 +36,8 @@
             <p class="beast-name">{{beast.name}}</p>
           </div>
         </button>
-        <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton" mat-button  (contextmenu)="displayContextMenu($event); false">
+        <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton" mat-button
+          (contextmenu)="displayContextMenu($event); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
               [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -51,7 +54,7 @@
       <div class="context-menu" *ngIf="rightClickMenuItems.length > 0 && isDisplayContextMenu"
         [ngStyle]="getRightClickMenuStyle()">
         <p (click)="openNewTab(beast.id)">Open in New Tab</p>
-        <p>Add to Quick Reference</p>
+        <p (click)="addBeastToQuickView(beast.id)">Add to Quick Reference</p>
       </div>
     </div>
   </div>
@@ -63,7 +66,8 @@
       <div *ngFor="let beast of category">
         <div *ngIf="beastService.loggedIn !== 'owner' && beast.patreon < 4" class="beast-outer-shell">
 
-          <div class="add-to-quick-view-shell" matTooltip="Add to Quick View" (click)="quickViewService.addToQuickViewArray(beast.id)">
+          <div class="add-to-quick-view-shell" matTooltip="Add to Quick View"
+            (click)="quickViewService.addToQuickViewArray(beast.id)">
             <i class="fas fa-plus"></i>
             <i class="fas fa-address-card"></i>
           </div>
@@ -82,15 +86,18 @@
           </button>
         </div>
 
-        <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || beastService.loggedIn === 'owner'" class="beast-outer-shell">
+        <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || beastService.loggedIn === 'owner'"
+          class="beast-outer-shell">
 
-          <div class="add-to-quick-view-shell" matTooltip="Add to Quick View" (click)="quickViewService.addToQuickViewArray(beast.id)">
+          <div class="add-to-quick-view-shell" matTooltip="Add to Quick View"
+            (click)="quickViewService.addToQuickViewArray(beast.id)">
             <i class="fas fa-plus"></i>
             <i class="fas fa-address-card"></i>
           </div>
 
           <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
-            [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button (contextmenu)="displayContextMenu($event); false">
+            [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
+            (contextmenu)="displayContextMenu($event); false">
             <div class="img-shell">
               <img [ngStyle]="beast.thumbnail ? {'object-position': beast.thumbnail} : {}" *ngIf="beast.id"
                 [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -115,6 +122,12 @@
               <p class="beast-name">{{beast.name}}</p>
             </div>
           </button>
+        </div>
+
+        <div class="context-menu" *ngIf="rightClickMenuItems.length > 0 && isDisplayContextMenu"
+          [ngStyle]="getRightClickMenuStyle()">
+          <p (click)="openNewTab(beast.id)">Open in New Tab</p>
+          <p (click)="addBeastToQuickView(beast.id)">Add to Quick Reference</p>
         </div>
       </div>
     </div>

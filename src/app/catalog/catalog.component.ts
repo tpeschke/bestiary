@@ -47,6 +47,10 @@ export class CatalogComponent implements OnInit {
     window.open(window.location.href + 'beast/' + beastid + '/gm', '_blank');
   }
 
+  addBeastToQuickView(beastid) {
+    this.quickViewService.addToQuickViewArray(beastid)
+  }
+
   displayContextMenu(event) {
 
     this.isDisplayContextMenu = true;
