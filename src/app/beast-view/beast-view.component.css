@@ -11,6 +11,15 @@ h1 {
     font-family: 'umbria';
 }
 
+.add-to-quick-view i {
+    font-size: 20px;
+    transition: .6s;
+}
+.add-to-quick-view:hover i {
+    cursor: pointer;
+    color: #ffd740;
+}
+
 .combat-image {
     width: 150px;
     z-index: 0;

@@ -55,9 +55,16 @@
     right: -66vw;
 }
 
-.quick-view-no-monsters-shell {
+.quick-view-no-monsters-shell, .quick-view-with-monsters-shell {
     padding: 10px 0px
 }
 .quick-view-no-monsters-shell i {
     font-size: 15px;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background: lightgray;
+    margin-top: 15px
 }

@@ -7,6 +7,7 @@ import { HewyRatingComponent } from '../../hewy-rating/hewy-rating.component';
 import { MatDialog } from '@angular/material';
 import { Title } from "@angular/platform-browser";
 import lootTables from "../loot-tables.js"
+import { QuickViewService } from 'src/app/util/services/quick-view.service';
 
 @Component({
   selector: 'app-beast-view-gm',
@@ -21,7 +22,8 @@ export class BeastViewGmComponent implements OnInit {
     private calculatorService: CalculatorService,
     private dialog: MatDialog,
     public router: Router,
-    public titleService: Title
+    public titleService: Title,
+    public quickViewService: QuickViewService
   ) { }
 
   public beast: any = {}
