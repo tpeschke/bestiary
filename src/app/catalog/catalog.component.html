@@ -65,13 +65,6 @@
     <div class="beastDiv">
       <div *ngFor="let beast of category">
         <div *ngIf="beastService.loggedIn !== 'owner' && beast.patreon < 4" class="beast-outer-shell">
-
-          <div class="add-to-quick-view-shell" matTooltip="Add to Quick View"
-            (click)="quickViewService.addToQuickViewArray(beast.id)">
-            <i class="fas fa-plus"></i>
-            <i class="fas fa-address-card"></i>
-          </div>
-
           <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton"
             mat-button (contextmenu)="displayContextMenu($event); false">
             <div class="img-shell">
@@ -88,13 +81,6 @@
 
         <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || beastService.loggedIn === 'owner'"
           class="beast-outer-shell">
-
-          <div class="add-to-quick-view-shell" matTooltip="Add to Quick View"
-            (click)="quickViewService.addToQuickViewArray(beast.id)">
-            <i class="fas fa-plus"></i>
-            <i class="fas fa-address-card"></i>
-          </div>
-
           <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
             [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
             (contextmenu)="displayContextMenu($event); false">
