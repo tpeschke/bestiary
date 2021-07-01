@@ -81,4 +81,21 @@ export class QuickViewService {
   removeVitalityFromBeast(beastIndex, vitalityIndex) {
     this.quickViewArray[beastIndex].vitalityArray.splice(vitalityIndex, 1)
   }
+
+  checkCheckbox(event, index, location, beastIndex, vitalityIndex) {
+    console.log(event, index, location, beastIndex, vitalityIndex)
+    this.quickViewArray[beastIndex].vitalityArray[vitalityIndex].locationCheckboxes[location].checkboxes = this.quickViewArray[beastIndex].vitalityArray[vitalityIndex].locationCheckboxes[location].checkboxes.map((box, i) => {
+      if (box.value) {
+        return box
+      } else {
+        if (i === 0 && index === 0) {
+          return { checked: event.checked }
+        } else if (i <= index) {
+          return { checked: true }
+        } else {
+          return { checked: false }
+        }
+      }
+    })
+  }
 }

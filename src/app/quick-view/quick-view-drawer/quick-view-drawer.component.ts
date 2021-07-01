@@ -32,4 +32,8 @@ export class QuickViewDrawerComponent implements OnInit {
     this.quickViewService.removeVitalityFromBeast(beastIndex, vitalityIndex)
   }
 
+  checkCheckbox(event, index, location, beastIndex, vitalityIndex) {
+    this.quickViewService.checkCheckbox(event, index, location, beastIndex, vitalityIndex)
+   }
+
 }

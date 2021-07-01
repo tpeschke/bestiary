@@ -40,7 +40,7 @@
               <div class="checkboxShell">
                 <div *ngFor="let checkbox of vitalities.locationCheckboxes.mainVitality.checkboxes; let i = index">
                   <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
-                    (change)="checkCheckbox($event, i, 'mainVitality')" [(ngModel)]="checkbox.checked"></mat-checkbox>
+                    (change)="checkCheckbox($event, i, 'mainVitality', beastIndex, mainIndex)" [(ngModel)]="checkbox.checked"></mat-checkbox>
                   <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
                 </div>
               </div>
@@ -54,7 +54,7 @@
                     <div
                       *ngFor="let checkbox of vitalities.locationCheckboxes[location.location].checkboxes; let i = index">
                       <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
-                        (change)="checkCheckbox($event, i, location.location)" [(ngModel)]="checkbox.checked">
+                        (change)="checkCheckbox($event, i, location.location, beastIndex, mainIndex)" [(ngModel)]="checkbox.checked">
                       </mat-checkbox>
                       <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
                     </div>
