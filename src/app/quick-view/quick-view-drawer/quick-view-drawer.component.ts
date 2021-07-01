@@ -12,12 +12,24 @@ export class QuickViewDrawerComponent implements OnInit {
     private quickViewService: QuickViewService
   ) { }
 
-  private quickViewListIsOpen = true
+  private quickViewListIsOpen = false
 
   ngOnInit() {}
 
   toggleQuickViewList () {
     this.quickViewListIsOpen = !this.quickViewListIsOpen
+  }
+
+  isNumber(val): boolean {
+    return !isNaN(+val);
+  }
+
+  addAnotherVitality(beastIndex) {
+    this.quickViewService.addAnotherVitalityToBeast(beastIndex)
+  }
+
+  removeVitality(beastIndex, vitalityIndex) {
+    this.quickViewService.removeVitalityFromBeast(beastIndex, vitalityIndex)
   }
 
 }

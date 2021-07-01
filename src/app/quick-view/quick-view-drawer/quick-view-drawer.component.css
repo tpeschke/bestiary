@@ -1,4 +1,3 @@
-
 .open-quick-view-button {
     position: fixed;
     right: 0;
@@ -45,7 +44,7 @@
     top: 0;
     height: 100vh;
     width: 66vw;
-    background-color: whitesmoke;
+    background: rgba(211, 211, 211);
     z-index: 97;
     transition: .6s;
     padding: 15px 30px;
@@ -68,3 +67,234 @@
     background: lightgray;
     margin-top: 15px
 }
+
+.combat-image {
+    width: 150px;
+    z-index: 0;
+    border-radius: 0;
+}
+
+.combat-shell {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.combat-square {
+    margin-top: 10px;
+    padding-right: 15px
+}
+
+.conflict-inner-shell {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.combat-shell h2 {
+    width: 100%;
+}
+
+.conflict-inner-shell div {
+    width: 100%;
+}
+
+.square-shell {
+    height: 143px;
+    width: 150px;
+    position: relative;
+}
+
+.spd {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    left: 13px;
+    font-size: 17px;
+}
+
+.atk {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    left: 70px;
+    font-size: 17px;
+}
+
+.init {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    right: 13px;
+    font-size: 17px;
+}
+
+.def {
+    position: absolute;
+    z-index: 1;
+    left: 30px;
+    top: 65px;
+    font-size: 17px;
+}
+
+.encumb {
+    position: absolute;
+    z-index: 1;    
+    left: 63px;
+    top: 65px;
+    font-size: 15px;
+    width: 30px;
+    text-align: center;
+}
+
+.dr {
+    position: absolute;
+    z-index: 1;
+    right: 13px;
+    top: 48px;
+    width: 44px;
+    height: 45px;
+    text-align: center;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-evenly;
+}
+
+.shield_dr {
+    border-top: 2px solid grey;
+}
+
+.measure {
+    position: absolute;
+    z-index: 1;
+    font-size: 17px;
+    bottom: 18px;
+    left: 13px;
+}
+
+.damage {
+    position: absolute;
+    z-index: 1;font-size: 12px;
+    text-align: center;
+    width: 60px;
+    left: 45px;
+    top: 97px;
+}
+
+.parry {
+    position: absolute;
+    z-index: 1;
+    font-size: 17px;
+    bottom: 18px;
+    right: 13px;
+}
+
+.vitals-shell {
+    background: rgba(211, 211, 211, 0.5);
+    padding: 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.vitals-shell h3 {
+    color: #795548;
+}
+
+.flex-row-opposite {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.white {
+    background: white;
+    margin: 7px 0;
+}
+
+.blue {
+    color: #607d8b !important;
+}
+
+h2 {
+    font-family: 'know';
+}
+
+.quick-view-title {
+    color: #607d8b !important;
+    font-family: 'umbria';
+}
+
+.accordian-shell {
+    overflow: auto;
+    height: 90vh;
+}
+
+.locationVitality div:first-child .flex-row-opposite {
+    border-top: 1px solid white;
+    margin-top: 10px;
+}
+.locationVitality div:last-child .checkboxShell {
+    border-bottom: 1px solid white;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+.locationVitality h3 {
+    color: #607d8b;
+    font-size: 17px;
+    padding-top: 10px;
+}
+
+.checkboxShell {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 5px 0;
+    justify-content: flex-start;
+}
+
+.checkboxShell p {
+    width: 16px;
+    text-align: center;
+}
+
+.add-button-shell {
+    width: 100%;
+    position: relative;
+    height: 40px;
+  }
+
+  .add-button-shell div {
+      position: absolute;
+      right: 0;
+      margin: 0;
+      background: #607d8b;
+      color: white;
+      border-radius: 25px;
+      height: 27px;
+      width: 27px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      cursor: pointer;
+  }
+
+  .remove-button-shell {
+      background: #ff5722;
+      color: white;
+      border-radius: 25px;
+      height: 27px;
+      width: 27px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      cursor: pointer;
+  }
+
+  mat-form-field {
+      width: 90%;
+  }
+
+  mat-form-field h2 {
+      margin: 0
+  }

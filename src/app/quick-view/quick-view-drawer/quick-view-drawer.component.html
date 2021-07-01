@@ -5,8 +5,8 @@
 <div (click)="toggleQuickViewList()" [ngClass]="quickViewListIsOpen ? 'overlay' : 'overlay-closed overlay'"></div>
 
 <div [ngClass]="quickViewListIsOpen ? 'quick-view-drawer' : 'drawer-closed quick-view-drawer'">
-  <h2>Quick View</h2>
-  <div class="divider"></div>
+  <h1 class="quick-view-title">Quick View</h1>
+  <div class="divider white"></div>
 
   <div *ngIf="quickViewService.quickViewArray.length === 0" class="quick-view-no-monsters-shell">
     <p>You current have no monsters in your quick view.</p>
@@ -15,68 +15,186 @@
     <p>to add them.</p>
   </div>
 
+  <div *ngIf="quickViewService.quickViewArray.length > 0" class="quick-view-with-monsters-shell">
+    <div class="accordian-shell">
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let beast of quickViewService.quickViewArray; let beastIndex = index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h2>{{beast.name}}</h2>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-  <!-- {
-    "id": 244,
-    "name": "Animated Corpse, Large",
-    "sp_atk": "<p>None.</p>",
-    "sp_def": "<p>Animated corpses are unable to go faster than a Jog.</p>",
-    "vitality": "d8! + 30",
-    "panic": 7,
-    "hash": "1Ka6urEMgT",
-    "stress": 0,
-    "patreon": 0,
-    "movement": [
-        {
-            "id": 279,
-            "beastid": 244,
-            "stroll": "5 ft / sec",
-            "walk": "7.5 ft / sec",
-            "jog": "15 ft / sec",
-            "run": "0",
-            "sprint": "0",
-            "type": "Land"
-        }
-    ],
-    "combat": [
-        {
-            "id": 320,
-            "beastid": 244,
-            "spd": 16,
-            "atk": 0,
-            "init": 10,
-            "def": "-7",
-            "shield_dr": null,
-            "measure": 5.5,
-            "damage": "2d12!+6",
-            "parry": 0,
-            "encumb": 0,
-            "dr": "4",
-            "weapon": "Maul",
-            "weapontype": "m"
-        },
-        {
-            "id": 321,
-            "beastid": 244,
-            "spd": 10,
-            "atk": 0,
-            "init": 10,
-            "def": "-1",
-            "shield_dr": null,
-            "measure": 0,
-            "damage": "d6!+6",
-            "parry": 0,
-            "encumb": 0,
-            "dr": "4",
-            "weapon": "Unarmed",
-            "weapontype": "m"
-        }
-    ]
-} -->
+          <div class="vitals-shell">
+            <div *ngFor="let vitalities of beast.vitalityArray; let mainIndex = index">
+              <div class="flex-row-opposite ">
+                <mat-form-field floatLabel=never>
+                  <h2>
+                    <input placeholder="Creature Label" matInput [value]="vitalities.label">
+                  </h2>
+                </mat-form-field>
 
-  <div *ngIf="quickViewService.quickViewArray.length > 0" class="quick-view-with-monsters-shelll">
-    <div *ngFor="let beast of quickViewService.quickViewArray">
-      <p>{{beast}}</p>
+                <div class="remove-button-shell" (click)="removeVitality(beastIndex, mainIndex)"><i class="fas fa-minus"></i></div>
+              </div>
+
+              <div class="checkboxShell">
+                <div *ngFor="let checkbox of vitalities.locationCheckboxes.mainVitality.checkboxes; let i = index">
+                  <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
+                    (change)="checkCheckbox($event, i, 'mainVitality')" [(ngModel)]="checkbox.checked"></mat-checkbox>
+                  <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+                </div>
+              </div>
+
+              <div class="locationVitality">
+                <div *ngFor="let location of beast.locationalvitality; let i = index">
+                  <div class="flex-row-opposite">
+                    <h3>{{location.location}}</h3>
+                  </div>
+                  <div class="checkboxShell">
+                    <div
+                      *ngFor="let checkbox of vitalities.locationCheckboxes[location.location].checkboxes; let i = index">
+                      <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
+                        (change)="checkCheckbox($event, i, location.location)" [(ngModel)]="checkbox.checked">
+                      </mat-checkbox>
+                      <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="add-button-shell">
+              <div (click)="addAnotherVitality(beastIndex)"><i class="fas fa-plus"></i></div>
+            </div>
+
+            <div class="flex-row-opposite">
+              <h3>Trauma Threshold</h3>
+              <p *ngIf="isNumber(beast.trauma)">{{beast.trauma}}</p>
+              <p *ngIf="!isNumber(beast.trauma)">n/a</p>
+            </div>
+            <div class="flex-row-opposite">
+              <h3>Stress Threshold</h3>
+              <p *ngIf="beast.stress !== 0">{{beast.stress}}</p>
+              <p *ngIf="beast.stress === 0">n/a</p>
+            </div>
+            <div class="flex-row-opposite">
+              <h3>Panic</h3>
+              <p>{{beast.panic | moraleConverter}}</p>
+            </div>
+          </div>
+
+          <div class="combat-shell">
+            <div class="combat-square" *ngFor="let square of beast.combat">
+              <h3 class="weaponName">{{square.weapon | titlecase}}</h3>
+
+              <div class="square-range-shell">
+                <div class="square-shell">
+                  <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
+                  <p class="spd">{{square.spd}}</p>
+                  <p class="atk">{{square.atk}}</p>
+                  <p class="init">{{square.init}}</p>
+                  <p class="def">{{square.def}}</p>
+                  <p class="encumb">{{square.encumb}}</p>
+                  <div class="dr">
+                    <p>{{square.dr}}</p>
+                    <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
+                  </div>
+                  <p class="measure">{{square.measure}}</p>
+                  <p class="damage">{{square.damage}}</p>
+                  <p class="parry">{{square.parry}}</p>
+                </div>
+
+                <div *ngIf="square.weapontype === 'r'" class="ranged-shell">
+                  <div class="ranged-title">
+                    <h4>Penalty</h4>
+                    <h4>Range (ft)</h4>
+                  </div>
+                  <div>
+                    <h4>0</h4>
+                    <h4>5 - {{square.ranges.zero}}</h4>
+                  </div>
+                  <div class="ranged-odd">
+                    <h4>-2</h4>
+                    <h4>{{square.ranges.zero + 1}} - {{square.ranges.two}}</h4>
+                  </div>
+                  <div>
+                    <h4>-4</h4>
+                    <h4>{{square.ranges.two + 1}} - {{square.ranges.four}}</h4>
+                  </div>
+                  <div class="ranged-odd">
+                    <h4>-8</h4>
+                    <h4>{{square.ranges.four + 1}} - {{square.ranges.eight}}</h4>
+                  </div>
+                  <div>
+                    <h4>-16</h4>
+                    <h4>{{square.ranges.eight + 1}} - {{square.ranges.sixteen}}</h4>
+                  </div>
+                  <div class="ranged-odd">
+                    <h4>-32</h4>
+                    <h4>{{square.ranges.sixteen + 1}} - {{square.ranges.thirtytwo}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!beast.sp_atk.includes('None.')">
+            <h2>Add. Attack Info</h2>
+            <div class="divider"></div>
+            <div>
+              <quill-view-html [content]="beast.sp_atk"></quill-view-html>
+            </div>
+          </div>
+
+          <div *ngIf="!beast.sp_def.includes('None.')">
+            <h2>Add. Defense Info</h2>
+            <div class="divider"></div>
+            <div>
+              <quill-view-html [content]="beast.sp_def"></quill-view-html>
+            </div>
+          </div>
+
+          <div class="vitals-shell">
+            <h3 class="blue">Movement</h3>
+            <div *ngIf="beast.movement.length == 0">
+              <div class="divider white"></div>
+              <h3>This Monster Can't Move</h3>
+            </div>
+            <div *ngFor="let movementType of beast.movement">
+              <div class="divider white"></div>
+              <h3>{{movementType.type | titlecase}}</h3>
+              <div class="divider white"></div>
+              <div class="flex-row-opposite">
+                <h3>Stroll/Crawl</h3>
+                <p>{{movementType.stroll}}</p>
+              </div>
+              <div class="flex-row-opposite">
+                <h3>Walk</h3>
+                <p>{{movementType.walk}}</p>
+              </div>
+              <div class="flex-row-opposite">
+                <h3>Jog</h3>
+                <p>{{movementType.jog}}</p>
+              </div>
+              <div class="flex-row-opposite">
+                <h3>Run</h3>
+                <p>{{movementType.run}}</p>
+              </div>
+              <div class="flex-row-opposite">
+                <h3>Sprint</h3>
+                <p>{{movementType.sprint}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-row-opposite ">
+            <h3>Combat Hash</h3>
+
+            <p>{{beast.hash}}</p>
+          </div>
+
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
   </div>
 
