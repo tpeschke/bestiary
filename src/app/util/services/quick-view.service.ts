@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BeastService } from './beast.service';
+import { CalculatorService } from './calculator.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,71 +8,77 @@ import { BeastService } from './beast.service';
 export class QuickViewService {
 
   constructor(
-    private beastService: BeastService
+    private beastService: BeastService,
+    private calculatorService: CalculatorService
   ) { }
 
-  public quickViewArray: any = [{
-    "id": 244,
-    "name": "Animated Corpse, Large",
-    "sp_atk": "<p>None.</p>",
-    "sp_def": "<p>Animated corpses are unable to go faster than a Jog.</p>",
-    "vitality": "d8! + 30",
-    "panic": 7,
-    "hash": "1Ka6urEMgT",
-    "stress": 0,
-    "patreon": 0,
-    "movement": [
-        {
-            "id": 279,
-            "beastid": 244,
-            "stroll": "5 ft / sec",
-            "walk": "7.5 ft / sec",
-            "jog": "15 ft / sec",
-            "run": "0",
-            "sprint": "0",
-            "type": "Land"
-        }
-    ],
-    "combat": [
-        {
-            "id": 320,
-            "beastid": 244,
-            "spd": 16,
-            "atk": 0,
-            "init": 10,
-            "def": "-7",
-            "shield_dr": null,
-            "measure": 5.5,
-            "damage": "2d12!+6",
-            "parry": 0,
-            "encumb": 0,
-            "dr": "4",
-            "weapon": "Maul",
-            "weapontype": "m"
-        },
-        {
-            "id": 321,
-            "beastid": 244,
-            "spd": 10,
-            "atk": 0,
-            "init": 10,
-            "def": "-1",
-            "shield_dr": null,
-            "measure": 0,
-            "damage": "d6!+6",
-            "parry": 0,
-            "encumb": 0,
-            "dr": "4",
-            "weapon": "Unarmed",
-            "weapontype": "m"
-        }
-    ]
-}];
+  public quickViewArray: any = [];
 
   addToQuickViewArray (beastid) {
     this.beastService.getQuickView(beastid).subscribe(results => {
+      results = this.modifyVitality(results)
+      results.vitalityArray = []
+      results.vitalityArray.push({locationCheckboxes: results.locationCheckboxes, label: ""})
       this.quickViewArray.push(results)
       this.beastService.handleMessage({message: `${results.name} have been added to your quick view`, color: "green"})
     })
+  }
+
+  modifyVitality (monster) {
+    monster.locationCheckboxes = {mainVitality: {}}
+    monster.locationCheckboxes.mainVitality = {
+      average: this.calculatorService.rollDice(monster.vitality)
+    }
+    monster.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(monster.locationCheckboxes.mainVitality.average)
+
+    monster.trauma = monster.locationCheckboxes.mainVitality.average
+    let { locationalvitality } = monster
+    if (locationalvitality.length > 0) {
+      locationalvitality.forEach(({ location, vitality }) => {
+        monster.locationCheckboxes[location] = {
+          average: this.calculatorService.rollDice(vitality)
+        }
+        monster.trauma = Math.max(monster.trauma, monster.locationCheckboxes[location].average)
+        monster.locationCheckboxes[location].checkboxes = this.createCheckboxArray(monster.locationCheckboxes[location].average)
+      })
+    }
+
+    monster.trauma = +(monster.trauma / 2).toFixed(0);
+    return monster
+  }
+
+  createCheckboxArray(vitality) {
+    let checkboxArray = []
+
+    let hurt = Math.floor(vitality * .25)
+      , bloodied = Math.floor(vitality * .5)
+      , wounded = Math.floor(vitality * .75)
+
+    for (let i = 0; i < vitality; i++) {
+      switch (i) {
+        case hurt:
+          checkboxArray.push({ value: 'B' })
+          break;
+        case bloodied:
+          checkboxArray.push({ value: 'W' })
+          break;
+        case wounded:
+          checkboxArray.push({ value: 'C' })
+          break;
+        default:
+          break;
+      }
+      checkboxArray.push({ checked: false })
+    }
+    return checkboxArray
+  }
+
+  addAnotherVitalityToBeast(beastIndex) {
+    let newMonsterVitality = this.modifyVitality(this.quickViewArray[beastIndex])
+    this.quickViewArray[beastIndex].vitalityArray.push({locationCheckboxes: newMonsterVitality.locationCheckboxes, label: ""})
+  }
+
+  removeVitalityFromBeast(beastIndex, vitalityIndex) {
+    this.quickViewArray[beastIndex].vitalityArray.splice(vitalityIndex, 1)
   }
 }

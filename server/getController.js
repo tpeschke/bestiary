@@ -31,6 +31,11 @@ module.exports = {
           return result
         }))
 
+        promiseArray.push(db.get.locationalvitality(id).then(result => {
+          beast.locationalvitality = result
+          return result
+        }))
+
         Promise.all(promiseArray).then(finalArray => {
           finalPromise = [];
           beast.combat.forEach(val => {
