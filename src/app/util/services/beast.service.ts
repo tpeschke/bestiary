@@ -22,10 +22,10 @@ export class BeastService {
     private toastr: ToastrService
   ) { }
 
-  public loggedIn:boolean|string|number = false
+  public loggedIn: boolean | string | number = false
 
   handleMessage(message) {
-    let {message: info, color } = message;
+    let { message: info, color } = message;
     if (info) {
       if (color === 'green') {
         this.toastr.success(info)
@@ -35,7 +35,7 @@ export class BeastService {
         this.toastr.warning(info)
       } else if (color === 'red') {
         this.toastr.error(info)
-      } 
+      }
     }
   }
 
@@ -56,9 +56,9 @@ export class BeastService {
   imageUpload(imageForm: FormData, id: number) {
     this.toastr.warning('', `image uploading`)
     return this.http.post(local.endpointBase + '/api/v1/upload/' + id, imageForm)
-    .pipe(
-      tap(result => this.handleMessage({color: 'green', message: 'image finished uploading'}))
-    );
+      .pipe(
+        tap(result => this.handleMessage({ color: 'green', message: 'image finished uploading' }))
+      );
   }
 
   getCatalog(): any {
@@ -70,10 +70,10 @@ export class BeastService {
   }
 
   getSingleBeast(id, edit): any {
-    return this.http.get(local.endpointBase + '/api/beasts/' + id, {params: edit})
-    .pipe(
-      tap(result => this.handleMessage(result))
-    );
+    return this.http.get(local.endpointBase + '/api/beasts/' + id, { params: edit })
+      .pipe(
+        tap(result => this.handleMessage(result))
+      );
   }
 
   getPlayerBeast(id): any {
@@ -93,17 +93,17 @@ export class BeastService {
   }
 
   addFavorite(beastid): any {
-    return this.http.post(local.endpointBase + '/api/favorite', {beastid})
-    .pipe(
-      tap(result => this.handleMessage(result))
-    );
+    return this.http.post(local.endpointBase + '/api/favorite', { beastid })
+      .pipe(
+        tap(result => this.handleMessage(result))
+      );
   }
 
   deleteFavorite(beastid): any {
     return this.http.delete(local.endpointBase + '/api/favorite/' + beastid)
-    .pipe(
-      tap(result => this.handleMessage(result))
-    );
+      .pipe(
+        tap(result => this.handleMessage(result))
+      );
   }
 
   getFavorites() {
@@ -115,7 +115,7 @@ export class BeastService {
   }
 
   searchBeasts(queries): any {
-    return this.http.get(local.endpointBase + '/api/search', {params: queries})
+    return this.http.get(local.endpointBase + '/api/search', { params: queries })
   }
 
   getEditEncounter(beastid) {
@@ -132,5 +132,8 @@ export class BeastService {
 
   getQuickView(id): any {
     return this.http.get(local.endpointBase + '/api/quickview/' + id)
+      .pipe(
+        tap(result => this.handleMessage(result))
+      );
   }
 }

@@ -8,18 +8,18 @@ module.exports = {
         , promiseArray = []
       let patreonTestValue = 0;
 
-      if (beast.playercanview) {
+      if (beast.canplayerview) {
         patreonTestValue = 1000
       } else if (req.user) {
         if (req.user.id === 1 || req.user.id === 21) {
           patreonTestValue = 1000
         } else if (req.user && req.user.patreon) {
-          patreonTestValue = req.user.patreon
+          patreonTestValue = req.user.patreon - 3
         }
       }
 
       if (beast.patreon > patreonTestValue) {
-        res.sendStatus(401).send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
+        res.send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
         promiseArray.push(db.get.beastmovement(id).then(result => {
           beast.movement = result
@@ -62,18 +62,18 @@ module.exports = {
         , promiseArray = []
       let patreonTestValue = 0;
 
-      if (beast.playercanview) {
+      if (beast.canplayerview) {
         patreonTestValue = 1000
       } else if (req.user) {
         if (req.user.id === 1 || req.user.id === 21) {
           patreonTestValue = 1000
         } else if (req.user && req.user.patreon) {
-          patreonTestValue = req.user.patreon
+          patreonTestValue = req.user.patreon - 3
         }
       }
 
       if (beast.patreon > patreonTestValue) {
-        res.sendStatus(401).send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
+        res.send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
         beast.lairloot = {};
 
