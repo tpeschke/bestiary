@@ -271,8 +271,7 @@ h2 {
       background: #607d8b;
       color: white;
       border-radius: 25px;
-      height: 27px;
-      width: 27px;
+      padding: 2px;
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -283,12 +282,15 @@ h2 {
       background: #ff5722;
       color: white;
       border-radius: 25px;
-      height: 27px;
-      width: 27px;
+      padding: 2px;
       display: flex;
       justify-content: space-around;
       align-items: center;
       cursor: pointer;
+  }
+
+  .remove-button-shell .fa-minus, .add-button-shell .fa-plus {
+      font-size: 15px;
   }
 
   mat-form-field {
@@ -297,4 +299,17 @@ h2 {
 
   mat-form-field h2 {
       margin: 0
+  }
+
+  .panicked {
+      color: #ff5722
+  }
+
+  .panicked ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    opacity: 0.03 !important;
+    background-color: #ff5722!important;
+  }
+
+.panicked ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #ff5722;
   }

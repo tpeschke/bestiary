@@ -171,19 +171,19 @@ export class BeastViewGmComponent implements OnInit {
   createCheckboxArray(vitality) {
     let checkboxArray = []
 
-    let hurt = Math.floor(vitality * .25)
-      , bloodied = Math.floor(vitality * .5)
-      , wounded = Math.floor(vitality * .75)
+    let bloodied = Math.floor(vitality * .25)
+      , wounded = Math.floor(vitality * .5)
+      , critical = Math.floor(vitality * .75)
 
     for (let i = 0; i < vitality; i++) {
       switch (i) {
-        case hurt:
+        case bloodied:
           checkboxArray.push({ value: 'B' })
           break;
-        case bloodied:
+        case wounded:
           checkboxArray.push({ value: 'W' })
           break;
-        case wounded:
+        case critical:
           checkboxArray.push({ value: 'C' })
           break;
         default:

@@ -14,22 +14,22 @@ export class QuickViewService {
 
   public quickViewArray: any = [];
 
-  addToQuickViewArray (beastid) {
+  addToQuickViewArray(beastid) {
     this.beastService.getQuickView(beastid).subscribe(results => {
       results = this.modifyVitality(results)
       results.vitalityArray = []
-      results.vitalityArray.push({locationCheckboxes: results.locationCheckboxes, label: ""})
+      results.vitalityArray.push({ locationCheckboxes: results.locationCheckboxes, label: "" })
       this.quickViewArray.push(results)
-      this.beastService.handleMessage({message: `${results.name} have been added to your quick view`, color: "green"})
+      this.beastService.handleMessage({ message: `${results.name} have been added to your quick view`, color: "green" })
     })
   }
 
-  modifyVitality (monster) {
-    monster.locationCheckboxes = {mainVitality: {}}
+  modifyVitality(monster) {
+    monster.locationCheckboxes = { mainVitality: {} }
     monster.locationCheckboxes.mainVitality = {
       average: this.calculatorService.rollDice(monster.vitality)
     }
-    monster.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(monster.locationCheckboxes.mainVitality.average)
+    monster.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(monster.locationCheckboxes.mainVitality.average, monster.panic)
 
     monster.trauma = monster.locationCheckboxes.mainVitality.average
     let { locationalvitality } = monster
@@ -47,35 +47,39 @@ export class QuickViewService {
     return monster
   }
 
-  createCheckboxArray(vitality) {
+  createCheckboxArray(vitality, panic = 7) {
     let checkboxArray = []
+    let isPanicked = panic <= 2
 
-    let hurt = Math.floor(vitality * .25)
-      , bloodied = Math.floor(vitality * .5)
-      , wounded = Math.floor(vitality * .75)
+    let bloodied = Math.floor(vitality * .25)
+      , wounded = Math.floor(vitality * .5)
+      , critical = Math.floor(vitality * .75)
 
     for (let i = 0; i < vitality; i++) {
       switch (i) {
-        case hurt:
-          checkboxArray.push({ value: 'B' })
-          break;
         case bloodied:
-          checkboxArray.push({ value: 'W' })
+          isPanicked = panic <= 3
+          checkboxArray.push({ value: 'B', isPanicked })
           break;
         case wounded:
-          checkboxArray.push({ value: 'C' })
+          isPanicked = panic <= 4
+          checkboxArray.push({ value: 'W', isPanicked })
+          break;
+        case critical:
+          isPanicked = panic <= 5
+          checkboxArray.push({ value: 'C', isPanicked })
           break;
         default:
           break;
       }
-      checkboxArray.push({ checked: false })
+      checkboxArray.push({ checked: false, isPanicked })
     }
     return checkboxArray
   }
 
   addAnotherVitalityToBeast(beastIndex) {
     let newMonsterVitality = this.modifyVitality(this.quickViewArray[beastIndex])
-    this.quickViewArray[beastIndex].vitalityArray.push({locationCheckboxes: newMonsterVitality.locationCheckboxes, label: ""})
+    this.quickViewArray[beastIndex].vitalityArray.push({ locationCheckboxes: newMonsterVitality.locationCheckboxes, label: "" })
   }
 
   removeVitalityFromBeast(beastIndex, vitalityIndex) {
@@ -83,17 +87,16 @@ export class QuickViewService {
   }
 
   checkCheckbox(event, index, location, beastIndex, vitalityIndex) {
-    console.log(event, index, location, beastIndex, vitalityIndex)
     this.quickViewArray[beastIndex].vitalityArray[vitalityIndex].locationCheckboxes[location].checkboxes = this.quickViewArray[beastIndex].vitalityArray[vitalityIndex].locationCheckboxes[location].checkboxes.map((box, i) => {
       if (box.value) {
         return box
       } else {
         if (i === 0 && index === 0) {
-          return { checked: event.checked }
+          return { ...box, checked: event.checked }
         } else if (i <= index) {
-          return { checked: true }
+          return { ...box, checked: true }
         } else {
-          return { checked: false }
+          return { ...box, checked: false }
         }
       }
     })
