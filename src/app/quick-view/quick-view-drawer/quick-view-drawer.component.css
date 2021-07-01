@@ -341,3 +341,12 @@ h2 {
     flex-wrap: wrap;
     width: 100%;
 }
+@media (max-width: 750px) {
+    .quick-view-drawer {
+        min-width: unset;
+        width: 100vw;
+    }
+    .drawer-closed {
+        right: -100vw;
+    }
+}

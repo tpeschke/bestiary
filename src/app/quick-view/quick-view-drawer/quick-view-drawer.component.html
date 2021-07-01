@@ -1,5 +1,6 @@
 <div (click)="toggleQuickViewList()" class="open-quick-view-button">
-  <i class="fas fa-address-card"></i>
+  <i *ngIf="!quickViewListIsOpen" class="fas fa-address-card"></i>
+  <i *ngIf="quickViewListIsOpen" class="fas fa-times-circle"></i>
 </div>
 
 <div (click)="toggleQuickViewList()" [ngClass]="quickViewListIsOpen ? 'overlay' : 'overlay-closed overlay'"></div>
