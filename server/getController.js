@@ -6,7 +6,7 @@ module.exports = {
     db.get.quickview(id).then(result => {
       let beast = result[0]
         , promiseArray = []
-      let patreonTestValue = 0;
+      let patreonTestValue = -1;
 
       if (beast.canplayerview) {
         patreonTestValue = 1000
@@ -14,7 +14,7 @@ module.exports = {
         if (req.user.id === 1 || req.user.id === 21) {
           patreonTestValue = 1000
         } else if (req.user && req.user.patreon) {
-          patreonTestValue = req.user.patreon - 3
+          patreonTestValue = req.user.patreon
         }
       }
 
@@ -60,7 +60,7 @@ module.exports = {
     db.get.beastmaininfo(id).then(result => {
       let beast = result[0]
         , promiseArray = []
-      let patreonTestValue = 0;
+      let patreonTestValue = -1;
 
       if (beast.canplayerview) {
         patreonTestValue = 1000
@@ -68,7 +68,7 @@ module.exports = {
         if (req.user.id === 1 || req.user.id === 21) {
           patreonTestValue = 1000
         } else if (req.user && req.user.patreon) {
-          patreonTestValue = req.user.patreon - 3
+          patreonTestValue = req.user.patreon
         }
       }
 
