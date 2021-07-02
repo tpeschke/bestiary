@@ -341,6 +341,16 @@ h2 {
     flex-wrap: wrap;
     width: 100%;
 }
+
+.tracked-in-combat-shell {
+    display: flex;
+}
+
+.tracked-in-combat-shell h3 {
+    margin-right: 15px;
+    padding-top: 3px;
+}
+
 @media (max-width: 750px) {
     .quick-view-drawer {
         min-width: unset;

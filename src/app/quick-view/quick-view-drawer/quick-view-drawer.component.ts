@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { QuickViewService } from 'src/app/util/services/quick-view.service';
 
 @Component({
@@ -9,10 +10,12 @@ import { QuickViewService } from 'src/app/util/services/quick-view.service';
 export class QuickViewDrawerComponent implements OnInit {
 
   constructor(
+    private router: Router,
     private quickViewService: QuickViewService
   ) { }
 
   private quickViewListIsOpen = false
+  private isTrackedInCombatCounter = false
 
   ngOnInit() {}
 
@@ -34,6 +37,15 @@ export class QuickViewDrawerComponent implements OnInit {
 
   checkCheckbox(event, index, location, beastIndex, vitalityIndex) {
     this.quickViewService.checkCheckbox(event, index, location, beastIndex, vitalityIndex)
+   }
+
+   trackedInCombatCounter (event) {
+    this.isTrackedInCombatCounter = event.checked
+   }
+
+   goToEntry(beastId) {
+    this.router.navigate([`/beast/${beastId}/gm`])
+    this.quickViewListIsOpen = false;
    }
 
 }
