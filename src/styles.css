@@ -222,17 +222,17 @@ table {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent 
+  background: white 
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: white; 
+  background: grey; 
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: white; 
+  background: grey; 
 }
 
 .fa-dice-d20 {
