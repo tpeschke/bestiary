@@ -51,7 +51,7 @@ function figureOutCombat(combat) {
         if (!base) { base = combat[0] }
 
         total = total
-            + (hewy.base.encumb - base.encumb)
+            + calculateFatigue(hewy.base.fatigue - base.fatigue)
             + (base.parry - hewy.base.parry)
             + (calculateAverageOfDice(base.damage) - calculateAverageOfDice(hewy.base.damage))
             + (base.measure - hewy.base.measure)
@@ -126,6 +126,27 @@ function convertMovement(category, hCategory) {
         return 0
     }
     return +(((+category.split(' ft / sec')[0] / hewyCat) * 10) - 10).toFixed(0)
+}
+
+function calculateFatigue(fatigue, hFatigue) {
+    return convertFatigue(fatigue) + convertFatigue(hFatigue);
+}
+
+function convertFatigue(fatigue) {
+    switch(fatigue) {
+        case "N":
+            return 10;
+        case "C":
+            return 0;
+        case "W":
+            return -1;
+        case "B":
+            return -2;
+        case "H":
+            return -4;
+        default:
+            return -8;
+    }
 }
 
 function storeHewy(hewyNew) {

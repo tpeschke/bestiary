@@ -144,7 +144,7 @@ mat-toolbar {
     font-size: 17px;
 }
 
-.encumb {
+.fatigue {
     position: absolute;
     z-index: 1;    
     left: 63px;
@@ -547,7 +547,7 @@ mat-toolbar {
         top: 35px
     }
 
-    .def, .encumb {
+    .def, .fatigue {
         top: 80px
     }
 

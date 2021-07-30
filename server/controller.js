@@ -116,8 +116,8 @@ let controllerObj = {
       environ.forEach(val => {
         promiseArray.push(db.add.beastenviron(id, val.environid).then())
       })
-      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype, ranges }) => {
-        promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype).then(result => {
+      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, ranges }) => {
+        promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype).then(result => {
           if (weapontype === 'r') {
             return db.add.combatranges(result[0].id, +ranges.thirtytwo).then()
           }
@@ -289,18 +289,18 @@ let controllerObj = {
         }
       })
       // update combat
-      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, id: weaponId, deleted, weapontype, ranges }) => {
+      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, id: weaponId, deleted, weapontype, ranges }) => {
         if (deleted) {
           promiseArray.push(db.delete.beastcombat(weaponId).then())
         } else if (!weaponId) {
-          promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weapontype).then(result => {
+          promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype).then(result => {
             if (weapontype === 'r') {
               return db.add.combatranges(result.weaponid, +ranges.thirtytwo).then()
             }
             return true;
           }))
         } else {
-          promiseArray.push(db.update.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, encumb, weapon, weaponId, weapontype).then())
+          promiseArray.push(db.update.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weaponId, weapontype).then())
           if (weapontype === 'r' && ranges.id) {
             promiseArray.push(db.update.combatranges(weaponId, +ranges.thirtytwo).then())
           } else if (weapontype === 'r') {

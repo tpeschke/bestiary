@@ -299,7 +299,7 @@ export class BeastViewEditComponent implements OnInit {
         atk: 0,
         init: 0,
         def: 0,
-        encumb: 0,
+        Fatigue: "C",
         dr: 0,
         shield_dr: null,
         measure: 0,
