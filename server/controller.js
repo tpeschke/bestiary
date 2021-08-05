@@ -101,6 +101,7 @@ let controllerObj = {
         if (beast.weapons[0]) {
           beast.recovery = beast.weapons[0].recovery
           beast.selectedId = beast.weapons[0].weaponid
+          beast.selectedName = beast.weapons[0].name
         }
       }))
       Promise.all(finalPromise).then(actualFinal => {
