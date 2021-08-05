@@ -1,4 +1,46 @@
 let { updateHewyRating } = require('./HewyRater')
+let rollDice = function (diceString) {
+  if (typeof (diceString) === 'number') {
+    return +Math.floor(Math.random() * Math.floor(diceString)) + 1
+  } else {
+    let diceExpressionArray = []
+    let expressionValue = ""
+
+    diceString.replace(/\s/g, '').split('').forEach((val, i, array) => {
+      if (val === '-' || val === '+' || val === '*') {
+        diceExpressionArray.push(expressionValue)
+        if (i !== array.length - 1) {
+          diceExpressionArray.push(val)
+        }
+        expressionValue = ""
+      }
+      if (!isNaN(+val) || val === 'd' || val === "!") {
+        val = val.replace(/!/i, "")
+        expressionValue = expressionValue + val;
+      }
+
+      if (i === array.length - 1 && expressionValue !== '') {
+        diceExpressionArray.push(expressionValue);
+      }
+    })
+    
+    for (let index = 0; index < diceExpressionArray.length; index++) {
+      let val = diceExpressionArray[index];
+
+      if (val.includes('d')) {
+        val = val.split('d')
+        let subtotal = 0
+        if (val[0] === "") {val[0] = 1}
+        for (let i = 0; i < +val[0]; i++) {
+          subtotal += rollDice(+val[1])
+        }
+        diceExpressionArray[index] = subtotal
+      }
+    }
+    
+    return eval(diceExpressionArray.join(""))
+  }
+}
 
 let controllerObj = {
   catalogCache: [],
@@ -40,27 +82,35 @@ let controllerObj = {
   },
   getFromBestiary(req, res) {
     const db = req.app.get('db')
-    if (req.query.patreon < 3) {
-      res.sendStatus(401).send({ message: "You need to update your Patreon to gain access to this feature" })
-    } else {
-      db.get.beast_by_hash(req.params.hash).then(beast => {
-        beast = beast[0]
-        let finalPromise = [];
-        db.get.beastcombat(beast.id).then(result => {
-          beast.combat = result
-          beast.combat.forEach(val => {
-            if (val.weapontype === 'r') {
-              finalPromise.push(db.get.combatranges(val.id).then(ranges => {
-                val.ranges = ranges[0]
-                return ranges
-              }))
-            }
+    db.get.beast_by_hash(req.params.hash).then(roughBeast => {
+      roughBeast = roughBeast[0]
+      let beast = {
+        name: roughBeast.name,
+        trauma: Math.floor(rollDice(roughBeast.vitality) / 2),
+        weapons: []
+      }
+      let finalPromise = [];
+      finalPromise.push(db.get.beastcombat(roughBeast.id).then(result => {
+        result.forEach(val => {
+          beast.weapons.push({
+            weaponid: val.id,
+            name: val.weapon,
+            recovery: val.spd
           })
-          Promise.all(finalPromise).then(actualFinal => res.send(beast))
         })
+        if (beast.weapons[0]) {
+          beast.recovery = beast.weapons[0].recovery
+          beast.selectedId = beast.weapons[0].weaponid
+        }
+      }))
+      Promise.all(finalPromise).then(actualFinal => {
+        if (beast.name && beast.recovery) {
+          res.send(beast)
+        } else {
+          res.send({ message: "This hash doesn't belong to a valid monster", color: 'red' })
+        }
       })
-    }
-
+    })
   },
   getPlayerBeast(req, res) {
     const db = req.app.get('db')
