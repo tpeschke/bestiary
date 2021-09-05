@@ -418,7 +418,8 @@
         </div>
         <div class="flex-row-opposite">
           <h3>Rarity</h3>
-          <p>{{beast.rarity | rarityConverter}}</p>
+          <p>{{beast.rarity | rarityConverter}} <i class="fas fa-info-circle icon-small blue"
+            matTooltip="+{{getRarityModifier(beast.rarity)}} to Monster Craft Checks"></i></p>
         </div>
         <div class="flex-row-opposite">
           <h3>Senses</h3>

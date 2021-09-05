@@ -128,7 +128,7 @@ export class BeastViewGmComponent implements OnInit {
           if (traitChance <= table[x]) {
             let value = rollDice(valueOfItem)
             if (value > 0) {
-              this.lairLoot.push(`Equipment (~${value} sc) w/ ${traitDice[x]} Trait`)
+              this.lairLoot.push(`Item (~${value} sc) w/ ${traitDice[x]} Trait`)
             }
             x = table.length
           }
@@ -142,7 +142,7 @@ export class BeastViewGmComponent implements OnInit {
         for (let x = 0; x < number; x++) {
           let value = rollDice(staticValues[equipment[i].value])
           if (value > 0) {
-            this.lairLoot.push(`Equipment (~${value} sc)`)
+            this.lairLoot.push(`Item (~${value} sc)`)
           }
         }
       }
@@ -300,6 +300,21 @@ export class BeastViewGmComponent implements OnInit {
 
   getUrl(id) {
     return `https://bestiary.dragon-slayer.net/beast/${id}/gm`
+  }
+
+  getRarityModifier(rarity) {
+    switch (+rarity) {
+      case 1:
+        return 'd20!';
+      case 3:
+        return 'd12!';
+      case 5:
+        return 'd6!';
+      case 10:
+        return '0';
+      default:
+        return ' nothing'
+    }
   }
 
 }

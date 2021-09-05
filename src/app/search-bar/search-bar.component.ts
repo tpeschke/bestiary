@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { MatExpansionPanel } from '@angular/material';
+import { MatCheckbox, MatExpansionPanel } from '@angular/material';
 import { BeastService } from '../util/services/beast.service';
 
 class QueryObject {
@@ -25,6 +25,7 @@ class QueryObject {
 })
 export class SearchBarComponent implements OnInit {
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
+  @ViewChildren(MatCheckbox) checkBoxes: QueryList<MatCheckbox>;
   
   constructor(
     public router: Router,
@@ -38,8 +39,10 @@ export class SearchBarComponent implements OnInit {
   ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
+        this.queryObject = {}
         if(!event.url.includes('search')) {
           this.viewPanels.forEach(p => p.close());
+          this.checkBoxes.forEach(p => p.checked = false)
         }
       }
     });
