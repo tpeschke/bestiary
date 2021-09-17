@@ -293,7 +293,7 @@
             <h3>Main Players</h3>
             <ul>
               <li *ngFor="let player of encounter.rank.mainPlayers">{{player.number}} {{player.rank !== 'None' ?
-                player.rank : player.number === 1 ? beast.name : beast.plural ? beast.plural : beast.name + "s"}}</li>
+                (player.number === 1 ? player.rank : player.rank + "s") : player.number === 1 ? beast.name : beast.plural ? beast.plural : beast.name + "s"}}</li>
             </ul>
           </div>
           <div *ngIf="encounter.rank.otherPlayers.length > 0" class="flex-row-opposite">
