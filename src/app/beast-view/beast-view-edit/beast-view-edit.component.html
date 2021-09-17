@@ -223,9 +223,29 @@
 
       <div class="divider"></div>
 
+      <div class="conflict-shell">
+        <mat-form-field>
+          <mat-label>Role</mat-label>
+          <mat-select (selectionChange)="setRole($event)">
+            <mat-option>
+              Base
+            </mat-option>
+            <mat-option *ngFor="let role of beast.roles" [value]="role.id">
+              {{role.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input placeholder="Role Name" matInput
+            (change)="captureNewRole($event)">
+        </mat-form-field>
+        <button mat-raised-button (click)="addNewRole()" color="accent">ADD ROLE</button>
+      </div>
+
       <div class="combat-shell">
         <div *ngFor="let square of beast.combat; let i = index">
-          <div *ngIf="!square.deleted">
+          <div *ngIf="!square.deleted && selectedRoleId === square.roleid">
             <h3>
               <mat-form-field>
                 <input placeholder="Weapon Name" matInput [value]="square.weapon"
@@ -397,7 +417,7 @@
       <div class="vitals-shell">
         <h3 class="blue">Movement</h3>
         <div *ngFor="let movementType of beast.movement; let i = index">
-          <div *ngIf="!movementType.deleted">
+          <div *ngIf="!movementType.deleted && selectedRoleId === movementType.roleid">
             <div class="divider white"></div>
             <h3>
               <mat-form-field>

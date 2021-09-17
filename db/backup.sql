@@ -240,3 +240,10 @@ create table bblairlootalms (
 	favor varchar(2)
 )
 
+create table bbroles (
+    id varchar(15) primary key,
+    beastid int,
+    vitality varchar(50),
+    hash varchar(50),
+    name varchar(50)
+);

@@ -31,6 +31,8 @@ export class BeastViewEditComponent implements OnInit {
   public newVariantId = null;
   public averageVitality = null;
   public lootTables = lootTables;
+  public selectedRoleId = null;
+  public newRole = null;
 
   public temperament = {
     temperament: null,
@@ -123,7 +125,8 @@ export class BeastViewEditComponent implements OnInit {
           lootnotes: '',
           reagents: [],
           locationalvitality: [],
-          lairloot: {}
+          lairloot: {},
+          roles: []
         }
       }
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
@@ -173,12 +176,10 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureSelectForObject(event, type, secondaryType) {
-    console.log(event.value, type, secondaryType)
     if (!event.value) {
       event.value = null
     }
     this.beast[secondaryType][type] = event.value
-    console.log(this.beast[secondaryType][type])
   }
 
   captureEquipment(event, type) {
@@ -305,7 +306,8 @@ export class BeastViewEditComponent implements OnInit {
         measure: 0,
         damage: '',
         parry: 0,
-        weapontype: 'm'
+        weapontype: 'm',
+        roleid: this.selectedRoleId
       })
     } else if (type === 'movement') {
       this.beast[type].push({
@@ -314,7 +316,8 @@ export class BeastViewEditComponent implements OnInit {
         jog: 0,
         run: 0,
         sprint: 0,
-        type: ''
+        type: '',
+        roleid: this.selectedRoleId
       })
     } else if (type === 'conflict') {
       this.beast[type][secondType].push({
@@ -448,5 +451,34 @@ export class BeastViewEditComponent implements OnInit {
 
   formatRelicAndEnchantedChange(chances) {
     return `${chances.minor}% of Minor, ${chances.middling}% of Middling`
+  }
+
+  setRole(event) {
+    if (event.value) {
+      this.selectedRoleId = event.value
+    } else {
+      this.selectedRoleId = null
+    }
+  }
+
+  captureNewRole (event) {
+    this.newRole = event.target.value
+  }
+
+  addNewRole () {
+    if (this.newRole) {
+      this.beast.roles.push({role: this.newRole, id: this.makeId()})
+      this.newRole = null
+    }
+  }
+
+  makeId() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 10; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
   }
 }

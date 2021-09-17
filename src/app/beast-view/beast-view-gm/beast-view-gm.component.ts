@@ -36,6 +36,7 @@ export class BeastViewGmComponent implements OnInit {
   public trauma = 0;
   public lairLoot = []
   public lairlootpresent = false
+  public selectedRoleId = null;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -314,6 +315,15 @@ export class BeastViewGmComponent implements OnInit {
         return '0';
       default:
         return ' nothing'
+    }
+  }
+
+  
+  setRole(event) {
+    if (event.value) {
+      this.selectedRoleId = event.value
+    } else {
+      this.selectedRoleId = null
     }
   }
 

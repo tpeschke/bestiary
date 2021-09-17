@@ -213,6 +213,21 @@ module.exports = {
           return result
         }))
 
+        promiseArray.push(db.get.beastroles(id).then(result => {
+          beast.roles = result
+          beast.roleInfo = {}
+          for (i = 0; i < result.length; i++) {
+            beast.roleInfo[result[i].id] = {
+              vitality: result[i].vitality,
+              hash: result[i].hash,
+              name: result[i].name,
+              uniqueCombat: result[i].combatcount > 0,
+              uniqueMovement: result[i].movementcount > 0
+            }
+          }
+          return result
+        }))
+
         Promise.all(promiseArray).then(finalArray => {
           finalPromise = [];
           beast.combat.forEach(val => {

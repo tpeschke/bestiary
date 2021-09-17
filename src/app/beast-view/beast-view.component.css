@@ -503,6 +503,17 @@ mat-toolbar {
         justify-content: space-between;
     }
 
+    .role-select {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 15px;
+    }
+
+    .role-select h2 {
+        margin: 0
+    }
+
     @media (max-width: 1295px) {
         .lairLoot  li {
             width: 45%;
