@@ -23,21 +23,21 @@ let rollDice = function (diceString) {
         diceExpressionArray.push(expressionValue);
       }
     })
-    
+
     for (let index = 0; index < diceExpressionArray.length; index++) {
       let val = diceExpressionArray[index];
 
       if (val.includes('d')) {
         val = val.split('d')
         let subtotal = 0
-        if (val[0] === "") {val[0] = 1}
+        if (val[0] === "") { val[0] = 1 }
         for (let i = 0; i < +val[0]; i++) {
           subtotal += rollDice(+val[1])
         }
         diceExpressionArray[index] = subtotal
       }
     }
-    
+
     return eval(diceExpressionArray.join(""))
   }
 }
@@ -82,30 +82,47 @@ let controllerObj = {
   },
   getFromBestiary(req, res) {
     const db = req.app.get('db')
-    db.get.beast_by_hash(req.params.hash).then(roughBeast => {
-      roughBeast = roughBeast[0]
+    db.get.beast_by_hash(req.params.hash).then(result => {
+      roughBeast = result[0]
       let beast = {
         name: roughBeast.name,
         trauma: Math.floor(rollDice(roughBeast.vitality) / 2),
+        vitality: roughBeast.vitality,
+        stressthreshold: roughBeast.stressthreshold,
+        panic: roughBeast.panic,
+        roleid: null,
         weapons: []
       }
+
+      if (result[0].roleid && result.length <= 1) {
+        beast.roleid = roughBeast.roleid
+        if (roughBeast.role && roughBeast.role.toUpperCase() !== "NONE")
+          beast.name = roughBeast.name + " " + roughBeast.role
+        if (roughBeast.rolevitality) {
+          beast.trauma = Math.floor(rollDice(roughBeast.rolevitality) / 2)
+          beast.vitality = roughBeast.rolevitality
+        }
+      }
+
       let finalPromise = [];
-      finalPromise.push(db.get.beastcombat(roughBeast.id).then(result => {
+      finalPromise.push(db.get.beastcombat(roughBeast.id, roughBeast.roleid).then(result => {
         result.forEach(val => {
-          beast.weapons.push({
-            weaponid: val.id,
-            name: val.weapon,
-            recovery: val.spd
-          })
+          if (!beast.roleid && !val.roleid) {
+            beast.weapons.push(val)
+          } else if (beast.roleid === val.roleid) {
+            beast.weapons.push(val)
+          }
         })
-        if (beast.weapons[0]) {
-          beast.recovery = beast.weapons[0].recovery
-          beast.selectedId = beast.weapons[0].weaponid
-          beast.selectedName = beast.weapons[0].name
+        if (beast.weapons.length === 0) {
+          result.forEach(val => {
+            if (!val.roleid) {
+              beast.weapons.push(val)
+            } 
+          })
         }
       }))
       Promise.all(finalPromise).then(actualFinal => {
-        if (beast.name && beast.recovery) {
+        if (beast.name) {
           res.send(beast)
         } else {
           res.send({ message: "This hash doesn't belong to a valid monster", color: 'red' })
@@ -161,7 +178,7 @@ let controllerObj = {
       let id = result[0].id
         , promiseArray = []
 
-      roles.forEach(({id: roleid, vitality, hash, name}) => {
+      roles.forEach(({ id: roleid, vitality, hash, name }) => {
         if (!hash) {
           hash = controllerObj.createHash()
         }
@@ -330,12 +347,12 @@ let controllerObj = {
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, id).then(result => {
       let promiseArray = []
 
-      roles.forEach(({id: roleid, vitality, hash, name}) => {
+      roles.forEach(({ id: roleid, vitality, hash, name }) => {
         if (!hash) {
           hash = controllerObj.createHash()
         }
         console.log(roleid, id, vitality, hash, name)
-        promiseArray.push(db.add.beastroles(roleid, id, vitality, hash, name).catch(e=>console.log(e)))
+        promiseArray.push(db.add.beastroles(roleid, id, vitality, hash, name).catch(e => console.log(e)))
       })
       // update types
       types.forEach(val => {
