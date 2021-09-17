@@ -467,7 +467,7 @@ export class BeastViewEditComponent implements OnInit {
 
   addNewRole () {
     if (this.newRole) {
-      this.beast.roles.push({role: this.newRole, id: this.makeId()})
+      this.beast.roles.push({name: this.newRole, id: this.makeId(), vitality: null})
       this.newRole = null
     }
   }

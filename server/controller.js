@@ -334,6 +334,7 @@ let controllerObj = {
         if (!hash) {
           hash = controllerObj.createHash()
         }
+        console.log(roleid, id, vitality, hash, name)
         promiseArray.push(db.add.beastroles(roleid, id, vitality, hash, name).catch(e=>console.log(e)))
       })
       // update types
