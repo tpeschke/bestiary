@@ -345,8 +345,8 @@
         <p *ngIf="!selectedRoleId">(Ave: {{averageVitality}})</p>
 
         <div *ngFor="let location of beast.locationalvitality; let i = index">
-          <br />
-          <div *ngIf="!location.deleted">
+          <div *ngIf="!location.deleted && selectedRoleId === location.roleid">
+            <br />
             <mat-form-field>
               <input placeholder="Location" matInput [value]="location.location"
                 (change)="captureInput($event, 'locationalvitality', i, 'location')">

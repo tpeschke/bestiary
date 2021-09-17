@@ -350,7 +350,8 @@ export class BeastViewEditComponent implements OnInit {
     } else if (type === 'locationalvitality') {
       this.beast[type].push({
         location: '',
-        vitality: ''
+        vitality: '',
+        roleid: this.selectedRoleId
       })
     }
   }

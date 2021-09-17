@@ -89,7 +89,8 @@
         <h2>Weapons</h2>
         <div class="divider"></div>
         <div *ngFor="let square of beast.combat">
-          <div *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueCombat ? null === square.roleid : selectedRoleId === square.roleid">
+          <div
+            *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueCombat ? null === square.roleid : selectedRoleId === square.roleid">
             <div class="combat-square">
               <h3 class="weaponName">{{square.weapon | titlecase}}</h3>
 
@@ -150,18 +151,23 @@
         <div class="flex-row-opposite">
           <h3>Vitality</h3>
           <span>
-            <p *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">{{beast.roleInfo[selectedRoleId].vitality}}</p>
+            <p *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
+              {{beast.roleInfo[selectedRoleId].vitality}}</p>
             <p *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">{{beast.vitality}}</p>
-            <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">(Ave: {{beast.roleInfo[selectedRoleId].average}})</p>
-            <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">(Ave: {{locationCheckboxes.mainVitality.average}})</p>
+            <p
+              *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
+              (Ave: {{beast.roleInfo[selectedRoleId].average}})</p>
+            <p
+              *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
+              (Ave: {{locationCheckboxes.mainVitality.average}})</p>
           </span>
         </div>
-        
+
         <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
           <div class="checkboxShell">
             <div *ngFor="let checkbox of beast.roleInfo[selectedRoleId].checkboxes; let i = index">
-              <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
-                (change)="checkRoleCheckbox($event, i)" [(ngModel)]="checkbox.checked"></mat-checkbox>
+              <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkRoleCheckbox($event, i)"
+                [(ngModel)]="checkbox.checked"></mat-checkbox>
               <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
             </div>
           </div>
@@ -178,19 +184,23 @@
 
         <div class="locationVitality">
           <div *ngFor="let location of beast.locationalvitality; let i = index">
-            <div class="flex-row-opposite">
-              <h3>{{location.location}}</h3>
-              <span>
-                <p>{{location.vitality}} </p>
-                <p *ngIf="isNumber(locationCheckboxes[location.location].average)">(Ave:
-                  {{locationCheckboxes[location.location].average}})</p>
-              </span>
-            </div>
-            <div class="checkboxShell">
-              <div *ngFor="let checkbox of locationCheckboxes[location.location].checkboxes; let i = index">
-                <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
-                  (change)="checkCheckbox($event, i, location.location)" [(ngModel)]="checkbox.checked"></mat-checkbox>
-                <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+            <div
+              *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueLocationalVitality ? null === location.roleid : selectedRoleId === location.roleid">
+              <div class="flex-row-opposite">
+                <h3>{{location.location}}</h3>
+                <span>
+                  <p>{{location.vitality}} </p>
+                  <p *ngIf="isNumber(locationCheckboxes[location.id].average)">(Ave:
+                    {{locationCheckboxes[location.id].average}})</p>
+                </span>
+              </div>
+              <div class="checkboxShell">
+                <div *ngFor="let checkbox of locationCheckboxes[location.id].checkboxes; let i = index">
+                  <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
+                    (change)="checkCheckbox($event, i, location.id)" [(ngModel)]="checkbox.checked">
+                  </mat-checkbox>
+                  <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+                </div>
               </div>
             </div>
           </div>
@@ -198,7 +208,8 @@
 
         <div class="flex-row-opposite">
           <h3>Trauma Threshold</h3>
-          <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">{{beast.roleInfo[selectedRoleId].trauma}}</p>
+          <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">
+            {{beast.roleInfo[selectedRoleId].trauma}}</p>
           <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">{{trauma}}</p>
           <p *ngIf="!isNumber(trauma)">n/a</p>
         </div>
@@ -220,7 +231,8 @@
           <h3>This Monster Can't Move</h3>
         </div>
         <div *ngFor="let movementType of beast.movement">
-          <div *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueMovement ? null === movementType.roleid : selectedRoleId === movementType.roleid">
+          <div
+            *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueMovement ? null === movementType.roleid : selectedRoleId === movementType.roleid">
             <div class="divider white"></div>
             <h3>{{movementType.type | titlecase}}</h3>
             <div class="divider white"></div>
@@ -296,7 +308,8 @@
             <h3>Main Players</h3>
             <ul>
               <li *ngFor="let player of encounter.rank.mainPlayers">{{player.number}} {{player.rank !== 'None' ?
-                (player.number === 1 ? player.rank : player.rank + "s") : player.number === 1 ? beast.name : beast.plural ? beast.plural : beast.name + "s"}}</li>
+                (player.number === 1 ? player.rank : player.rank + "s") : player.number === 1 ? beast.name :
+                beast.plural ? beast.plural : beast.name + "s"}}</li>
             </ul>
           </div>
           <div *ngIf="encounter.rank.otherPlayers.length > 0" class="flex-row-opposite">

@@ -45,6 +45,7 @@ export class BeastViewGmComponent implements OnInit {
       this.getRandomEncounter()
 
       this.locationCheckboxes.mainVitality = {
+        id: "mainVitality",
         average: this.calculatorService.rollDice(this.beast.vitality)
       }
       this.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(this.locationCheckboxes.mainVitality.average)
@@ -60,12 +61,13 @@ export class BeastViewGmComponent implements OnInit {
       this.trauma = this.locationCheckboxes.mainVitality.average
       let { locationalvitality } = this.beast
       if (locationalvitality.length > 0) {
-        locationalvitality.forEach(({ location, vitality }) => {
-          this.locationCheckboxes[location] = {
+        locationalvitality.forEach(({ location, vitality, id }) => {
+          this.locationCheckboxes[id] = {
+            location,
             average: this.calculatorService.rollDice(vitality)
           }
-          this.trauma = Math.max(this.trauma, this.locationCheckboxes[location].average)
-          this.locationCheckboxes[location].checkboxes = this.createCheckboxArray(this.locationCheckboxes[location].average)
+          this.trauma = Math.max(this.trauma, this.locationCheckboxes[id].average)
+          this.locationCheckboxes[id].checkboxes = this.createCheckboxArray(this.locationCheckboxes[id].average)
         })
       }
 
@@ -203,8 +205,8 @@ export class BeastViewGmComponent implements OnInit {
     return checkboxArray
   }
 
-  checkCheckbox(event, index, location) {
-    this.locationCheckboxes[location].checkboxes = this.locationCheckboxes[location].checkboxes.map((box, i) => {
+  checkCheckbox(event, index, id) {
+    this.locationCheckboxes[id].checkboxes = this.locationCheckboxes[id].checkboxes.map((box, i) => {
       if (box.value) {
         return box
       } else {

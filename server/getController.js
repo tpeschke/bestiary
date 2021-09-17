@@ -222,7 +222,8 @@ module.exports = {
               hash: result[i].hash,
               name: result[i].name,
               uniqueCombat: result[i].combatcount > 0,
-              uniqueMovement: result[i].movementcount > 0
+              uniqueMovement: result[i].movementcount > 0,
+              uniqueLocationalVitality: result[i].locationvitalitycount > 0
             }
           }
           return result

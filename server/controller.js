@@ -246,13 +246,13 @@ let controllerObj = {
         }
       })
 
-      locationalvitality.forEach(({ id: locationid, location, vitality, beastid }) => {
+      locationalvitality.forEach(({ id: locationid, location, vitality, beastid, roleid }) => {
         if (deleted) {
           promiseArray.push(db.delete.locationalvitality(beastid, locationid))
         } else if (locationid && beastid) {
-          promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid))
+          promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid))
         } else {
-          promiseArray.push(db.add.locationalvitality(beastid, locationid, vitality))
+          promiseArray.push(db.add.locationalvitality(beastid, locationid, vitality, roleid))
         }
       })
 
@@ -437,13 +437,13 @@ let controllerObj = {
       })
 
       if (locationalvitality.length > 0) {
-        locationalvitality.forEach(({ id: locationid, location, vitality, beastid, deleted }) => {
+        locationalvitality.forEach(({ id: locationid, location, vitality, beastid, deleted, roleid }) => {
           if (deleted) {
             promiseArray.push(db.delete.locationalvitality(locationid))
           } else if (locationid && beastid) {
-            promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid))
+            promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid))
           } else {
-            promiseArray.push(db.add.locationalvitality(id, location, vitality))
+            promiseArray.push(db.add.locationalvitality(id, location, vitality, roleid))
           }
         })
       }
