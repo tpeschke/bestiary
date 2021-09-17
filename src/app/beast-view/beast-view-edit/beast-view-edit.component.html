@@ -173,33 +173,6 @@
       </mat-form-field>
 
       <div class="divider"></div>
-      <div class="conflict-shell">
-        <div *ngFor="let passion of beast.conflict.passions; let i = index">
-          <div *ngIf="!passion.deleted">
-            <h3>
-              <mat-form-field>
-                <input placeholder="passion" matInput [value]="passion.trait"
-                  (change)="captureInput($event, 'conflict', i, 'passions', 'trait')">
-              </mat-form-field>
-            </h3>
-            <mat-form-field>
-              <input placeholder="Dice Value" matInput [value]="passion.value"
-                (change)="captureInput($event, 'conflict', i, 'passions', 'value')">
-            </mat-form-field>
-            <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'passions')" color="warn">REMOVE
-              PASSION</button>
-          </div>
-        </div>
-      </div>
-      <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'passions')" color="accent">ADD
-        PASSION</button>
-      <br />
-      <mat-form-field>
-        <input matInput placeholder="Max Passions Appearing" [value]="beast.passionlimit"
-          (change)="captureInput($event, 'passionlimit')">
-      </mat-form-field>
-
-      <div class="divider"></div>
 
       <div class="conflict-inner-shell">
         <div *ngFor="let skill of beast.skills; let i = index">
@@ -237,8 +210,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input placeholder="Role Name" matInput
-            (change)="captureNewRole($event)">
+          <input placeholder="Role Name" matInput (change)="captureNewRole($event)">
         </mat-form-field>
         <button mat-raised-button (click)="addNewRole()" color="accent">ADD ROLE</button>
       </div>
@@ -355,9 +327,22 @@
 
       <div class="vitals-shell">
         <mat-form-field>
-          <input matInput placeholder="Vitality" [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
+          <div *ngIf="selectedRoleId">
+            <div *ngFor="let role of beast.roles">
+              <input *ngIf="role.id === selectedRoleId" matInput placeholder="Vitality" [value]="role.vitality"
+                (change)="captureRoleVitality($event)">
+            </div>
+          </div>
+          <div *ngIf="!selectedRoleId">
+            <input matInput placeholder="Vitality" [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
+          </div>
         </mat-form-field>
-        <p>(Ave: {{averageVitality}})</p>
+        <div *ngIf="selectedRoleId">
+          <div *ngFor="let role of beast.roles">
+            <p *ngIf="role.id === selectedRoleId">(Ave: {{role.average}})</p>
+          </div>
+        </div>
+        <p *ngIf="!selectedRoleId">(Ave: {{averageVitality}})</p>
 
         <div *ngFor="let location of beast.locationalvitality; let i = index">
           <br />
@@ -1298,76 +1283,76 @@
       <button mat-raised-button (click)="captureAddScroll()" color="accent"
         [disabled]="!scroll.number || !scroll.power">Add Scroll</button>
 
-        <br />
-        <br />
-        <div *ngFor="let alm of beast.lairloot.alms; let i = index">
-          <div class="temperamentList" *ngIf="!alm.deleted">
-            <p>Number: {{lootTables.numberAppearing[alm.number]}}</p>
-            <p>Favor: {{lootTables.almsFavor[alm.favor]}}</p>
-            <i (click)="removeAlm(i)" class="fas fa-times-circle"></i>
-          </div>
+      <br />
+      <br />
+      <div *ngFor="let alm of beast.lairloot.alms; let i = index">
+        <div class="temperamentList" *ngIf="!alm.deleted">
+          <p>Number: {{lootTables.numberAppearing[alm.number]}}</p>
+          <p>Favor: {{lootTables.almsFavor[alm.favor]}}</p>
+          <i (click)="removeAlm(i)" class="fas fa-times-circle"></i>
         </div>
-        <br />
-        <div>
-          <mat-form-field>
-            <mat-label>Number of Alm Scripts</mat-label>
-            <mat-select (selectionChange)="captureAlm($event, 'number')">
-              <mat-option>
-                None
-              </mat-option>
-              <mat-option value="a">
-                {{lootTables.numberAppearing.a}}
-              </mat-option>
-              <mat-option value="b">
-                {{lootTables.numberAppearing.b}}
-              </mat-option>
-              <mat-option value="c">
-                {{lootTables.numberAppearing.c}}
-              </mat-option>
-              <mat-option value="d">
-                {{lootTables.numberAppearing.d}}
-              </mat-option>
-              <mat-option value="e">
-                {{lootTables.numberAppearing.e}}
-              </mat-option>
-              <mat-option value="f">
-                {{lootTables.numberAppearing.f}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Alm Script Favor Range</mat-label>
-            <mat-select (selectionChange)="captureAlm($event, 'favor')">
-              <mat-option>
-                None
-              </mat-option>
-              <mat-option value="a">
-                {{lootTables.almsFavor.a}}
-              </mat-option>
-              <mat-option value="b">
-                {{lootTables.almsFavor.b}}
-              </mat-option>
-              <mat-option value="c">
-                {{lootTables.almsFavor.c}}
-              </mat-option>
-              <mat-option value="d">
-                {{lootTables.almsFavor.d}}
-              </mat-option>
-              <mat-option value="e">
-                {{lootTables.almsFavor.e}}
-              </mat-option>
-              <mat-option value="f">
-                {{lootTables.almsFavor.f}}
-              </mat-option>
-              <mat-option value="g">
-                {{lootTables.almsFavor.g}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <button mat-raised-button (click)="captureAddAlm()" color="accent"
-          [disabled]="!alm.number || !alm.favor">Add Alm Script</button>
-  
+      </div>
+      <br />
+      <div>
+        <mat-form-field>
+          <mat-label>Number of Alm Scripts</mat-label>
+          <mat-select (selectionChange)="captureAlm($event, 'number')">
+            <mat-option>
+              None
+            </mat-option>
+            <mat-option value="a">
+              {{lootTables.numberAppearing.a}}
+            </mat-option>
+            <mat-option value="b">
+              {{lootTables.numberAppearing.b}}
+            </mat-option>
+            <mat-option value="c">
+              {{lootTables.numberAppearing.c}}
+            </mat-option>
+            <mat-option value="d">
+              {{lootTables.numberAppearing.d}}
+            </mat-option>
+            <mat-option value="e">
+              {{lootTables.numberAppearing.e}}
+            </mat-option>
+            <mat-option value="f">
+              {{lootTables.numberAppearing.f}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Alm Script Favor Range</mat-label>
+          <mat-select (selectionChange)="captureAlm($event, 'favor')">
+            <mat-option>
+              None
+            </mat-option>
+            <mat-option value="a">
+              {{lootTables.almsFavor.a}}
+            </mat-option>
+            <mat-option value="b">
+              {{lootTables.almsFavor.b}}
+            </mat-option>
+            <mat-option value="c">
+              {{lootTables.almsFavor.c}}
+            </mat-option>
+            <mat-option value="d">
+              {{lootTables.almsFavor.d}}
+            </mat-option>
+            <mat-option value="e">
+              {{lootTables.almsFavor.e}}
+            </mat-option>
+            <mat-option value="f">
+              {{lootTables.almsFavor.f}}
+            </mat-option>
+            <mat-option value="g">
+              {{lootTables.almsFavor.g}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button (click)="captureAddAlm()" color="accent" [disabled]="!alm.number || !alm.favor">Add Alm
+        Script</button>
+
       <h2>Weird Reagents</h2>
       <div class="divider"></div>
       <div *ngFor="let regeant of beast.reagents; let i = index">

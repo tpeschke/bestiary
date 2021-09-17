@@ -21,7 +21,7 @@
       </div>
 
       <div class="conflict-shell"
-        *ngIf="beast.conflict.traits.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0 || beast.conflict.passions.length > 0">
+        *ngIf="beast.conflict.traits.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0 ">
 
         <div class="conflict-inner-shell" *ngIf="beast.conflict.traits.length > 0">
           <h2>Traits</h2>
@@ -52,17 +52,6 @@
             <div *ngIf="!beast.flawlimit || i < beast.flawlimit" class="flex-row-opposite">
               <h3>{{trait.trait | titlecase}}</h3>
               <h3>d4!+Stress</h3>
-            </div>
-          </div>
-        </div>
-
-        <div class="conflict-inner-shell" *ngIf="beast.conflict.passions.length > 0">
-          <h2>Passions</h2>
-          <div class="divider white"></div>
-          <div *ngFor="let trait of beast.conflict.passions; let i = index">
-            <div *ngIf="!beast.passionlimit || i < beast.passionlimit" class="flex-row-opposite">
-              <h3>{{trait.trait | titlecase}}</h3>
-              <h3>{{trait.value}}</h3>
             </div>
           </div>
         </div>
@@ -163,17 +152,30 @@
           <span>
             <p *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">{{beast.roleInfo[selectedRoleId].vitality}}</p>
             <p *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">{{beast.vitality}}</p>
-            <p *ngIf="isNumber(locationCheckboxes.mainVitality.average)">(Ave:
-              {{locationCheckboxes.mainVitality.average}})</p>
+            <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">(Ave: {{beast.roleInfo[selectedRoleId].average}})</p>
+            <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">(Ave: {{locationCheckboxes.mainVitality.average}})</p>
           </span>
         </div>
-        <div class="checkboxShell">
-          <div *ngFor="let checkbox of locationCheckboxes.mainVitality.checkboxes; let i = index">
-            <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
-              (change)="checkCheckbox($event, i, 'mainVitality')" [(ngModel)]="checkbox.checked"></mat-checkbox>
-            <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+        
+        <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
+          <div class="checkboxShell">
+            <div *ngFor="let checkbox of beast.roleInfo[selectedRoleId].checkboxes; let i = index">
+              <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
+                (change)="checkRoleCheckbox($event, i)" [(ngModel)]="checkbox.checked"></mat-checkbox>
+              <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+            </div>
           </div>
         </div>
+        <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
+          <div class="checkboxShell">
+            <div *ngFor="let checkbox of locationCheckboxes.mainVitality.checkboxes; let i = index">
+              <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
+                (change)="checkCheckbox($event, i, 'mainVitality')" [(ngModel)]="checkbox.checked"></mat-checkbox>
+              <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+            </div>
+          </div>
+        </div>
+
         <div class="locationVitality">
           <div *ngFor="let location of beast.locationalvitality; let i = index">
             <div class="flex-row-opposite">
@@ -196,7 +198,8 @@
 
         <div class="flex-row-opposite">
           <h3>Trauma Threshold</h3>
-          <p *ngIf="isNumber(trauma)">{{trauma}}</p>
+          <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">{{beast.roleInfo[selectedRoleId].trauma}}</p>
+          <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">{{trauma}}</p>
           <p *ngIf="!isNumber(trauma)">n/a</p>
         </div>
         <div class="flex-row-opposite">

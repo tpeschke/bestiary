@@ -49,6 +49,14 @@ export class BeastViewGmComponent implements OnInit {
       }
       this.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(this.locationCheckboxes.mainVitality.average)
 
+      for (const role in this.beast.roleInfo) {
+        if (this.beast.roleInfo[role].vitality) {
+          this.beast.roleInfo[role].average = this.calculatorService.rollDice(this.beast.roleInfo[role].vitality)
+          this.beast.roleInfo[role].checkboxes = this.createCheckboxArray(this.beast.roleInfo[role].average)
+          this.beast.roleInfo[role].trauma = +(this.beast.roleInfo[role].average / 2).toFixed(0);
+        }
+      }
+
       this.trauma = this.locationCheckboxes.mainVitality.average
       let { locationalvitality } = this.beast
       if (locationalvitality.length > 0) {
@@ -197,6 +205,22 @@ export class BeastViewGmComponent implements OnInit {
 
   checkCheckbox(event, index, location) {
     this.locationCheckboxes[location].checkboxes = this.locationCheckboxes[location].checkboxes.map((box, i) => {
+      if (box.value) {
+        return box
+      } else {
+        if (i === 0 && index === 0) {
+          return { checked: event.checked }
+        } else if (i <= index) {
+          return { checked: true }
+        } else {
+          return { checked: false }
+        }
+      }
+    })
+  }
+
+  checkRoleCheckbox(event, index) {
+    this.beast.roleInfo[this.selectedRoleId].checkboxes = this.beast.roleInfo[this.selectedRoleId].checkboxes.map((box, i) => {
       if (box.value) {
         return box
       } else {

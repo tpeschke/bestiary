@@ -130,6 +130,11 @@ export class BeastViewEditComponent implements OnInit {
         }
       }
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
+      this.beast.roles.forEach(role => {
+          if (role.vitality) {
+            role.average = this.calculatorService.rollDice(role.vitality)
+          }
+      })
       window.scrollTo({
         top: 0,
         left: 0,
@@ -469,6 +474,16 @@ export class BeastViewEditComponent implements OnInit {
     if (this.newRole) {
       this.beast.roles.push({name: this.newRole, id: this.makeId(), vitality: null})
       this.newRole = null
+    }
+  }
+
+  captureRoleVitality(event) {
+    for(let i = 0; i < this.beast.roles.length; i++) {
+      if (this.beast.roles[i].id === this.selectedRoleId) {
+        this.beast.roles[i].vitality = event.target.value
+        this.beast.roles[i].average = this.calculatorService.calculateAverageOfDice(event.target.value)
+        i = this.beast.roles.length
+      }
     }
   }
 
