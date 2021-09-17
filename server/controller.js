@@ -91,7 +91,7 @@ let controllerObj = {
         stressthreshold: roughBeast.stressthreshold,
         panic: roughBeast.panic,
         roleid: null,
-        weapons: []
+        combat: []
       }
 
       if (result[0].roleid && result.length <= 1) {
@@ -109,15 +109,15 @@ let controllerObj = {
       finalPromise.push(db.get.beastcombat(roughBeast.id, roughBeast.roleid).then(result => {
         result.forEach(val => {
           if (!beast.roleid && !val.roleid) {
-            beast.weapons.push(val)
+            beast.combat.push(val)
           } else if (beast.roleid === val.roleid) {
-            beast.weapons.push(val)
+            beast.combat.push(val)
           }
         })
-        if (beast.weapons.length === 0) {
+        if (beast.combat.length === 0) {
           result.forEach(val => {
             if (!val.roleid) {
-              beast.weapons.push(val)
+              beast.combat.push(val)
             } 
           })
         }
