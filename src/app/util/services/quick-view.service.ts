@@ -14,8 +14,8 @@ export class QuickViewService {
 
   public quickViewArray: any = [];
 
-  addToQuickViewArray(beastid) {
-    this.beastService.getQuickView(beastid).subscribe(results => {
+  addToQuickViewArray(hash) {
+    this.beastService.getQuickView(hash).subscribe(results => {
       results = this.modifyVitality(results)
       results.vitalityArray = []
       results.vitalityArray.push({ locationCheckboxes: results.locationCheckboxes, label: "" })

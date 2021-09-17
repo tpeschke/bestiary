@@ -1,12 +1,26 @@
 module.exports = {
   getQuickView(req, res) {
-    const id = +req.params.id
+    let {hash} = req.params
     let db
     req.db ? db = req.db : db = req.app.get('db')
-    db.get.quickview(id).then(result => {
-      let beast = result[0]
-        , promiseArray = []
-      let patreonTestValue = -1;
+    db.get.quickview(hash).then(result => {
+      let { name, sp_atk, sp_def, vitality, panic, stress, role, rolevitality, id: beastid, roleid } = result[0]
+      let beast = {
+        name, sp_atk, sp_def, vitality, panic, stress, hash
+      }
+      let isARole = result[0].roleid && result.length <= 1
+
+      if (isARole) { 
+        if (role && role.toUpperCase() !== "NONE") {
+          beast.name = name + " " + role
+        }
+        if (rolevitality) {
+          beast.vitality = rolevitality
+        }
+      }
+
+      let promiseArray = []
+        , patreonTestValue = -1;
 
       let patreon = beast.patreon === 0 ? beast.patreon + 3 : beast.patreon
 
@@ -24,18 +38,39 @@ module.exports = {
       if (patreon > patreonTestValue) {
         res.send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
-        promiseArray.push(db.get.beastmovement(id).then(result => {
-          beast.movement = result
+        promiseArray.push(db.get.beastmovement(beastid).then(result => {
+          if (isARole) {
+            beast.movement = result.filter(movementType => movementType.roleid === roleid)
+            if (beast.movement.length === 0) {
+              beast.movement = result.filter(movementType => !movementType.roleid)
+            }
+          } else {
+            beast.movement = result
+          }
           return result
         }))
 
-        promiseArray.push(db.get.beastcombat(id).then(result => {
-          beast.combat = result
+        promiseArray.push(db.get.beastcombat(beastid).then(result => {
+          if (isARole) {
+            beast.combat = result.filter(weapon => weapon.roleid === roleid)
+            if (beast.combat.length === 0) {
+              beast.combat = result.filter(weapon => !weapon.roleid)
+            }
+          } else {
+            beast.combat = result.filter(weapon => !weapon.roleid)
+          }
           return result
         }))
 
-        promiseArray.push(db.get.locationalvitality(id).then(result => {
-          beast.locationalvitality = result
+        promiseArray.push(db.get.locationalvitality(beastid).then(result => {
+          if (isARole) {
+            beast.locationalvitality = result.filter(location => location.roleid === roleid)
+            if (beast.locationalvitality.length === 0) {
+              beast.locationalvitality = result.filter(location => !location.roleid)
+            }
+          } else {
+            beast.locationalvitality = result
+          }
           return result
         }))
 

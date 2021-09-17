@@ -27,11 +27,13 @@ export class CatalogComponent implements OnInit {
   isDisplayContextMenu: boolean;
   rightClickMenuPositionX: number;
   rightClickMenuPositionY: number;
-  targetBeast: number
+  targetBeast: number;
+  targetHash: string
 
   ngOnInit() {
     this.titleService.setTitle("Bestiary")
     this.route.data.subscribe(data => {
+      console.log(data)
       this.beasts = data['catalog']
     })
     this.beastService.getFavorites().subscribe((results:any) => {
@@ -48,14 +50,16 @@ export class CatalogComponent implements OnInit {
   }
 
   addBeastToQuickView() {
-    this.quickViewService.addToQuickViewArray(this.targetBeast)
+    console.log(this.targetHash)
+    this.quickViewService.addToQuickViewArray(this.targetHash)
   }
 
-  displayContextMenu(event, beastid) {
+  displayContextMenu(event, beastid, hash) {
     this.isDisplayContextMenu = true;
     this.rightClickMenuPositionX = event.clientX;
     this.rightClickMenuPositionY = event.clientY;
     this.targetBeast = beastid
+    this.targetHash = hash
   }
 
   getRightClickMenuStyle() {

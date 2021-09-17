@@ -7,9 +7,6 @@
         class="fas fa-star"></i>
       {{beast.name}}
     </h1>
-    <div class="add-to-quick-view" matTooltip="Click to Add to Quick View"
-      (click)="quickViewService.addToQuickViewArray(beast.id)"><i class="fas fa-plus"></i><i
-        class="fas fa-address-card"></i></div>
   </mat-toolbar>
 
   <div class="content-shell">
@@ -82,7 +79,11 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <div class="add-to-quick-view" matTooltip="Click to Add to Quick View"
+            (click)="addToQuickView()"><i class="fas fa-plus"></i><i
+              class="fas fa-address-card"></i></div>
         </div>
+
       </div>
 
       <div class="combat-shell" *ngIf="beast.combat.length > 0">

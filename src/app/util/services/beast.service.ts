@@ -130,8 +130,8 @@ export class BeastService {
     return this.http.get(local.endpointBase + '/api/randomMonster')
   }
 
-  getQuickView(id): any {
-    return this.http.get(local.endpointBase + '/api/quickview/' + id)
+  getQuickView(hash): any {
+    return this.http.get(`${local.endpointBase}/api/quickview/${hash}`)
       .pipe(
         tap(result => this.handleMessage(result))
       );

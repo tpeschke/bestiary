@@ -344,13 +344,21 @@ export class BeastViewGmComponent implements OnInit {
     }
   }
 
-  
   setRole(event) {
+    console.log(event.value)
     if (event.value) {
       this.selectedRoleId = event.value
     } else {
       this.selectedRoleId = null
     }
+  }
+
+  addToQuickView () {
+    let hash = this.beast.hash
+    if (this.selectedRoleId) {
+      hash = this.beast.roleInfo[this.selectedRoleId].hash
+    }
+    this.quickViewService.addToQuickViewArray(hash)
   }
 
 }
