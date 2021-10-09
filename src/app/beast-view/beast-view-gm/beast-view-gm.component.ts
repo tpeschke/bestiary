@@ -282,6 +282,12 @@ export class BeastViewGmComponent implements OnInit {
               } else {
                 complication.rival.number = this.calculatorService.rollDice(`${complication.rival.number_min}d${complication.rival.number_max}`)
               }
+              if (complication.rival.number < complication.rival.number_min) {
+                complication.rival.number = complication.rival.number_min
+              }
+              if (complication.rival.number === 0) {
+                complication.rival.number = 1
+              }
             } else if (complication.id === 5) {
               distance = distance + this.calculatorService.rollDice(complication.distance)
             } else if (complication.id === 8) {
@@ -345,7 +351,6 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   setRole(event) {
-    console.log(event.value)
     if (event.value) {
       this.selectedRoleId = event.value
     } else {

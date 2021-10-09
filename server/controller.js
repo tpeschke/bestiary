@@ -60,10 +60,22 @@ let controllerObj = {
 
     if (alphabet[index]) {
       db.get.catalogbyletter(alphabet[index]).then(result => {
+        let finalArray = []
         if (result.length > 0) {
           this.newCache.push(result)
         }
-        this.collectCache(app, ++index)
+
+        result = result.map(beast => {
+          finalArray.push(db.get.rolesforcatelog(beast.id).then(result => {
+            beast.roles = result
+            return result
+          }))
+  
+        })
+
+        Promise.all(finalArray).then(_=> {
+          this.collectCache(app, ++index)
+        })
       })
     } else {
       this.catalogCache = this.newCache
@@ -118,7 +130,7 @@ let controllerObj = {
           result.forEach(val => {
             if (!val.roleid) {
               beast.combat.push(val)
-            } 
+            }
           })
         }
       }))
@@ -158,7 +170,7 @@ let controllerObj = {
       } else {
         db.get.usernotecount(req.user.id).then(count => {
           count = count[0]
-          if (count >= 5 || count >= req.user.patreon * 10) {
+          if (count >= 50 || count >= (req.user.patreon * 10) + 50) {
             res.status(401).send('You need to upgrade your Patreon to add more notes')
           } else {
             db.add.beastnotes(beastId, req.user.id, notes).then(result => {
@@ -768,7 +780,8 @@ let controllerObj = {
       }
     }))
 
-    if (Math.floor(Math.random() * 10) > 5) {
+    let randomEncounter = Math.floor(Math.random() * 10) > 5
+    if (randomEncounter) {
       promiseArray.push(collectComplication(db, beastId).then(result => {
         let flatArray = []
         if (result.length) {
@@ -799,10 +812,19 @@ async function collectComplication(db, beastId) {
     if (complication.id === 1) {
       //rival
       return db.get.complication.rival(beastId).then(result => {
+        let rival = result[0]
+        if (rival.name.includes(',')) {
+          let splitname = rival.name.split(', ')
+          rival.name = `${splitname[1]} ${splitname[0]}`
+        }
+        if (!rival.plural) {
+          rival.plural = rival.name += 's'
+        }
+
         return {
           id: 1,
           type: 'Rival',
-          rival: result[0]
+          rival: rival
         }
       })
     } else if (complication.id === 2) {
@@ -822,10 +844,21 @@ async function collectComplication(db, beastId) {
     } else if (complication.id === 8) {
       //Back up coming
       return db.get.complication.backup(beastId).then(result => {
+        let backup = result[0]
+        if (backup.plural && backup.rank.toUpperCase() === 'NONE') {
+          backup.rank = backup.name
+          backup.rankplural = backup.plural
+        } else if (!backup.plural && backup.rank.toUpperCase() === 'NONE') {
+          backup.rank = backup.name
+          backup.rankplural = backup.rank += 's'
+        } else if (!backup.plural && backup.rank.toUpperCase() !== 'NONE') {
+          backup.rankplural = backup.rank += 's'
+        }
+
         return {
           id: 8,
           type: 'Back Up Coming',
-          backup: result[0],
+          backup,
           time: '30d2'
         }
       })

@@ -1,2 +1,2 @@
 select * from bbrank
-where id in (select rankid from bbrankinfo where beastid = 122)
+where id in (select rankid from bbrankinfo where beastid = $1)

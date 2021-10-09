@@ -1,3 +1,7 @@
+::ng-deep .mat-tooltip  {
+    white-space: pre-line    !important;
+}
+
 button {
     margin-top: 15px;
 }
@@ -550,27 +554,8 @@ mat-toolbar {
         display: inherit;
     }
 
-    img {
+    .beastImg {
         margin-top: 15px;
-    }
-
-    .spd, .atk, .init {
-        top: 35px
-    }
-
-    .def, .fatigue {
-        top: 80px
-    }
-
-    .dr {
-        top: 65px;
-    }
-
-    .parry, .damage, .measure {
-        bottom: 0px;
-    }
-    .damage {
-        top: 110px
     }
 
     .encounterShell {
