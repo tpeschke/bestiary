@@ -770,7 +770,13 @@ let controllerObj = {
         return Promise.all(otherPlayers).then(finalOtherPlayers => {
           let beastRank = {}
           beastRank.mainPlayers = mainPlayers
-          beastRank.otherPlayers = finalOtherPlayers.filter(person => person)
+          beastRank.otherPlayers = finalOtherPlayers.filter(person => person).map(person => {
+            if (person.name.includes(',')) {
+              let splitname = person.name.split(', ')
+              person.name = `${splitname[1]} ${splitname[0]}`
+            }
+            return person
+          })
           beastRank.lair = beastRank.mainPlayers[0].lair
           encounterObject.rank = beastRank
           return beastRank
