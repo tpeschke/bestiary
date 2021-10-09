@@ -809,6 +809,7 @@ let controllerObj = {
 async function collectComplication(db, beastId) {
   return db.get.complication.complication().then(result => {
     let complication = result[0]
+
     if (complication.id === 1) {
       //rival
       return db.get.complication.rival(beastId).then(result => {
@@ -883,7 +884,17 @@ async function collectComplication(db, beastId) {
         } else {
           flatArray.push(result)
         }
-        return flatArray
+
+        let dedupedArray = []
+        , alreadyAddedCompIds = []
+
+        flatArray.forEach(compl => {
+          if (alreadyAddedCompIds.indexOf(compl.id) === -1) {
+            dedupedArray.push(compl)
+            alreadyAddedCompIds.push(compl.id)
+          }
+        })
+        return dedupedArray
       })
     } else {
       return complication

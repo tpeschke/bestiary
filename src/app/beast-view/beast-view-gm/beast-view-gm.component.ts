@@ -267,11 +267,25 @@ export class BeastViewGmComponent implements OnInit {
     this.encounter = 'loading'
     this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
       if (result.temperament) {
-        result.rank.mainPlayers = result.rank.mainPlayers.map(player => {
+        let dedupedArray = []
+        , alreadyAddedRanks = []
+        
+        result.rank.mainPlayers.forEach(player => {
           let number = this.calculatorService.rollDice(player.number)
-          player.number = number > 0 ? number : 1
-          return player
+          number = number > 0 ? number : 1
+          if (alreadyAddedRanks.indexOf(player.rank) === -1) {
+            player.number = number
+            dedupedArray.push(player)
+            alreadyAddedRanks.push(player.rank)
+          } else {
+            for(let i = 0; i < dedupedArray.length; i++) {
+              if (dedupedArray[i].rank === player.rank) {
+                dedupedArray[i].number += number
+              }
+            }
+          }
         })
+        result.rank.mainPlayers = dedupedArray
         let distance = this.calculatorService.rollDice(result.rank.lair)
 
         if (result.complication) {
