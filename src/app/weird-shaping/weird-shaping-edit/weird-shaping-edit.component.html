@@ -82,10 +82,10 @@
           This tool tip will update as you selected different Shapes"></i>
         </div>
         <mat-form-field>
-          <input matInput placeholder="Range" [value]="spell.range" (change)="captureSpellInput($event, i, 'name')">
+          <input matInput placeholder="Range" [value]="spell.range" (change)="captureSpellInput($event, i, 'range')">
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Interval" [value]="spell.interval" (change)="captureSpellInput($event, i, 'name')">
+          <input matInput placeholder="Interval" [value]="spell.interval" (change)="captureSpellInput($event, i, 'interval')">
         </mat-form-field>
 
         <quill-editor [(ngModel)]="spell.effect" (onContentChanged)="captureSpellHTML($event, i)"></quill-editor>
