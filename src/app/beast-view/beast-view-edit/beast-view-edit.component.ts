@@ -409,7 +409,9 @@ export class BeastViewEditComponent implements OnInit {
   saveChanges() {
     let id = this.route.snapshot.paramMap.get('id');
     this.beast.encounter = this.encounter
-    this.beast.deletedSpellList
+    if (this.deletedSpellList) {
+      this.beast.deletedSpellList = this.deletedSpellList
+    }
     if (+id) {
       this.beastService.updateBeast(this.beast).subscribe(_ => this.router.navigate([`/beast/${id}/gm`]))
     } else {

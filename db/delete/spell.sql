@@ -1,0 +1,1 @@
+delete from bbspells where id = $1 and beastid = $2

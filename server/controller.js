@@ -354,11 +354,9 @@ let controllerObj = {
         })
       }
 
-      if(casting.beastid) {
+      if(casting) {
         let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
         promiseArray.push(db.update.casting( augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id ))
-      } else {
-        promiseArray.push(db.update.casting( null, null, null, 'd4', null, null, null, id ))
       }
 
       if (spells) {
@@ -370,9 +368,11 @@ let controllerObj = {
           }
         })
       }
+
+      console.log(deletedSpellList)
       if (deletedSpellList) {
         deletedSpellList.forEach(val => {
-          promiseArray.push(db.delete.spell(val, beastid))
+          promiseArray.push(db.delete.spell(val, id))
         })
       }
 
