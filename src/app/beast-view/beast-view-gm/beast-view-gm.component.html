@@ -58,10 +58,12 @@
       <div class="conflict-inner-shell" *ngIf="beast.skills.length > 0">
         <h2>Special Skills</h2>
         <div class="divider"></div>
-        <div *ngFor="let skill of beast.skills; let i = index">
-          <div class="flex-row-opposite">
-            <h3>{{skill.skill}}</h3>
-            <h3>{{skill.rank}}</h3>
+        <div class="box-padding">
+          <div *ngFor="let skill of beast.skills; let i = index">
+            <div class="flex-row-opposite">
+              <h3>{{skill.skill}}</h3>
+              <h3>{{skill.rank}}</h3>
+            </div>
           </div>
         </div>
       </div>
