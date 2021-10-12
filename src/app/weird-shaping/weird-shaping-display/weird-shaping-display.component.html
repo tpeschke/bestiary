@@ -1,21 +1,105 @@
 <div *ngIf="castingSelect.length > 0 && spells.length > 0">
   <h2>Weirdshaping</h2>
   <div class='divider'></div>
-  
+
   <div class="box-padding">
-    <div class="dropdown-shell">
-      <mat-select [value]="selectedCast" (selectionChange)="captureSelect($event)">
-        <mat-option *ngFor="let type of castingSelect" value="{{type}}">{{type}}</mat-option>
-      </mat-select>
+    <div class="flex-row-opposite full-width">
+      <div *ngIf="castingSelect.length > 1" class="dropdown-shell">
+        <mat-select [value]="selectedCast" (selectionChange)="captureSelect($event)">
+          <mat-option *ngFor="let type of castingSelect" value="{{type}}">{{type}}</mat-option>
+        </mat-select>
+      </div>
+      <p class="single-type-heading" *ngIf="castingSelect.length === 1">{{selectedCast}}</p>
+      <button color="primary" mat-raised-button (click)="displayHowTo()">Display How to Use</button>
     </div>
-  
-    <div *ngIf="casting.vancian" class="box-padding">
-      <!-- <mat-form-field>
-        <input matInput placeholder="Spell Number Die (XdY)" [value]="casting.spellnumberdie" (change)="captureSpellDie($event)">
-      </mat-form-field> -->
+
+    <div class='divider'></div>
+
+    <div *ngIf="selectedCast === 'Augur'" class="casting-type-explaination">
+      <p><strong>Shaping Time</strong> 3 seconds</p>
+      <p></p>
+      <p>When you cast a spell, roll a d20 whenever you cast.</p>
+      <p></p>
+      <p>5 is range.</p>
+      <p>4 is effect & range.</p>
+      <p>3 is interval.</p>
+      <p>2 is effect & interval.</p>
+      <p>1 is effect.</p>
+      <p></p>
+      <p>Rolling a thing doubles the value of the thing(s) rolled.</p>
+      <p>Everything else has no bonus.</p>
     </div>
-  
-    <div  class="spell-shell">
+
+    <div *ngIf="selectedCast === 'Wild Magic'" class="casting-type-explaination">
+      <p><strong>Shaping Time</strong> 7 seconds</p>
+      <p></p>
+      <p>Range, Duration, and Effect have random modifiers.</p>
+      <p></p>
+      <p>Range is modified by d10! - 5: this is added or subtracted from the second to right’s digit place</p>
+      <p>Interval is modified by d6! - 3</p>
+      <p>Effect is modified by d20! - 10</p>
+      <p></p>
+      <p>If 2 dice explode, a Wild Surge occurs: double everything.</p>
+    </div>
+
+    <div *ngIf="selectedCast === 'Vancian'" class="casting-type-explaination">
+      <p><Strong>Spell Number Die</Strong> {{casting.spellnumberdie}}</p>
+      <p></p>
+      <p>When you cast a spell, roll the Spell Number Die: on a 1, that dice shrinks one dice size.</p>
+      <p></p>
+      <p>You can get additional points to buff the spell but that increases the chance of shrinking the Spell Number
+        Die.</p>
+      <p>So, if you start with a d8 and want 3 additional points to spend to buff the spell, if you roll 1 - 4, that
+        dice shrinks to a d6.</p>
+      <p></p>
+      <p>You can’t get a bonus higher than the dice size - 1 (so, for a d8, the highest bonus is +7)</p>
+      <p></p>
+      <p>When your dice shrinks to below a d4, you’ve run out of spells.</p>
+      <p></p>
+      <p>Victims recieve a save: d20! + d10! + 10 vs d20! + their level.</p>
+    </div>
+
+    <div *ngIf="selectedCast === 'Manifesting'" class="casting-type-explaination">
+      <p>The longer you wait, the more points you get to spend.</p>
+      <p></p>
+      <p>You get 1 point per 10 seconds, compounding (1 after 10 secs, 2 after 20 secs, 4 after 30 secs, 8 after 40
+        secs, etc)</p>
+    </div>
+
+    <div *ngIf="selectedCast === 'Adamic Commanding'" class="casting-type-explaination">
+      <p>Shaping time is random and based around d4!s; the result is the shaping time in seconds AND the points you can
+        use to modify the spell.</p>
+      <p>This is applied to effect, interval, or range but is applied per dice, although they can be doubled up.</p>
+      <p></p>
+      <p>So, if you roll 4 d4!s and get a 1, a 3, a 3, and a 2. You can apply the first die to the effect (giving it 1
+        point), the second and third to the interval (giving it 6 points), and the fourth to the range (giving it 3
+        points)
+        and a total casting time of 9 seconds.</p>
+    </div>
+
+    <div *ngIf="selectedCast === 'Blood Pact'" class="casting-type-explaination">
+      <p>Deal 1 point of damage per second for each person with 10 ft: gain 1 point for each damage done.</p>
+      <p>Whenever someone takes damage within 25ft, gain 1 point.</p>
+      <p></p>
+      <p>Each spell takes a minimum of 10 points to cast: additional points beyond that can be used to buff the spell.</p>
+    </div>
+
+    <div class='divider'></div>
+
+    <div *ngIf="isHowToDisplayed" class="how-to-explaination">
+      <h3>How To</h3>
+      <p>These rules are to add variation and mimic different types of casting - giving an approximation of their
+        strengths and weaknesses that players can use and plan around.</p>
+      <p>Some casting types will give points. If you get points, you can add it to Range, Interval, or Effect - anywhere
+        there’s a static number.</p>
+      <p>For the most part, this is just a simple addition (1 Hour becomes 2 Hours, a +1 becomes a +2) but for Range,
+        you’re going to add it to the second to right’s digit place, unless there is none.</p>
+      <p></p>
+      <p>So, +1 to a Range of 100 ft makes it 110 ft. To 10 ft, it becomes 11 ft, and to 1 ft it becomes 2 ft.</p>
+      <div class='divider'></div>
+    </div>
+
+    <div class="spell-shell">
       <div class="spell-card" *ngFor="let spell of spells">
         <mat-card>
           <h3>{{spell.name}}</h3>

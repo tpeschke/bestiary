@@ -346,7 +346,7 @@ let controllerObj = {
         }
       })
 
-      if(casting.augur) {
+      if(casting.beastid) {
         let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
         promiseArray.push(db.update.casting( augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id ))
       } else {
@@ -601,7 +601,7 @@ let controllerObj = {
         }
       })
 
-      if(casting.augur) {
+      if(casting.beastid) {
         let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
         promiseArray.push(db.update.casting( augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id ))
       } else {

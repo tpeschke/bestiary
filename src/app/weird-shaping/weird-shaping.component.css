@@ -62,10 +62,35 @@ mat-card {
     width: 50%;
 }
 
+.full-width {
+    width: 100%;
+}
+
 .margin-top {
     margin-top: 5px;
 }
 
 .dropdown-shell {
     width: 30%;
+}
+
+.how-to-explaination h3 {
+    margin-top: 10px;
+}
+
+.how-to-explaination p, .casting-type-explaination p {
+    text-indent: 40px;
+    padding: 3px
+}
+
+.casting-type-explaination p:first-child {
+    margin-top: 10px;
+}
+
+.casting-type-explaination strong {
+    font-weight: bold;
+}
+
+.single-type-heading {
+    font-size: 20px;
 }

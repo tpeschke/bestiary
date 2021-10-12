@@ -13,31 +13,36 @@ export class WeirdShapingDisplayComponent implements OnInit {
 
   public castingSelect = []
   public selectedCast = ''
+  public isHowToDisplayed = false
 
   ngOnInit() {
+    if (this.casting.commanding) {
+      this.castingSelect.push('Adamic Commanding')
+    }
     if (this.casting.augur) {
       this.castingSelect.push('Augur')
     }
-    if (this.casting.wild) {
-      this.castingSelect.push('Wild Magic')
-    }
-    if (this.casting.vancian) {
-      this.castingSelect.push('Vancian')
+    if (this.casting.bloodpact) {
+      this.castingSelect.push('Blood Pact')
     }
     if (this.casting.manifesting) {
       this.castingSelect.push('Manifesting')
     }
-    if (this.casting.commanding) {
-      this.castingSelect.push('Adamic Commanding')
+    if (this.casting.vancian) {
+      this.castingSelect.push('Vancian')
     }
-    if (this.casting.bloodpact) {
-      this.castingSelect.push('Blood Pact')
+    if (this.casting.wild) {
+      this.castingSelect.push('Wild Magic')
     }
     this.selectedCast = this.castingSelect[0]
   }
 
   captureSelect(e) {
     this.selectedCast = e.value
+  }
+
+  displayHowTo() {
+    this.isHowToDisplayed = !this.isHowToDisplayed
   }
 
 }
