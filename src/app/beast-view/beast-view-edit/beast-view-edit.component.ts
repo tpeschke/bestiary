@@ -87,6 +87,17 @@ export class BeastViewEditComponent implements OnInit {
         })
       } else if (beast) {
         this.beast = beast
+        if (!this.beast.casting) {
+          this.beast.casting = {
+            augur: null, 
+            wild: null, 
+            vancian: null, 
+            spellnumberdie: 'd4', 
+            manifesting: null, 
+            commanding: null, 
+            bloodpact: null
+          }
+        }
         this.beastService.getEditEncounter(this.beast.id).subscribe(encounter => {
           this.encounter = encounter
         })
@@ -127,7 +138,16 @@ export class BeastViewEditComponent implements OnInit {
           reagents: [],
           locationalvitality: [],
           lairloot: {},
-          roles: []
+          roles: [],
+          casting: {
+            augur: null, 
+            wild: null, 
+            vancian: null, 
+            spellnumberdie: 'd4', 
+            manifesting: null, 
+            commanding: null, 
+            bloodpact: null
+          }
         }
       }
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)

@@ -206,7 +206,7 @@ let controllerObj = {
       combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, ranges, roleid }) => {
         promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid).then(result => {
           if (weapontype === 'r') {
-            return db.add.combatranges(result[0].id, +ranges.thirtytwo).then()
+            return db.add.combatranges(result[0].id, +ranges.increment * 6).then()
           }
           return true;
         }))
@@ -346,8 +346,12 @@ let controllerObj = {
         }
       })
 
-      let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
-      promiseArray.push(db.update.casting( augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id ))
+      if(casting.augur) {
+        let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
+        promiseArray.push(db.update.casting( augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id ))
+      } else {
+        promiseArray.push(db.update.casting( null, null, null, 'd4', null, null, null, id ))
+      }
       spells.forEach(({id: spellid, name, origin, shape, range, interval, effect, beastid}) => {
         if (beastid) {
           promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid))
@@ -406,16 +410,16 @@ let controllerObj = {
         } else if (!weaponId) {
           promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid).then(result => {
             if (weapontype === 'r') {
-              return db.add.combatranges(result.weaponid, +ranges.thirtytwo).then()
+              return db.add.combatranges(result.weaponid, +ranges.increment * 6).then()
             }
             return true;
           }))
         } else {
           promiseArray.push(db.update.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weaponId, weapontype, roleid).then())
           if (weapontype === 'r' && ranges.id) {
-            promiseArray.push(db.update.combatranges(weaponId, +ranges.thirtytwo).then())
+            promiseArray.push(db.update.combatranges(weaponId, +ranges.increment * 6).then())
           } else if (weapontype === 'r') {
-            promiseArray.push(db.add.combatranges(weaponId, +ranges.thirtytwo).then())
+            promiseArray.push(db.add.combatranges(weaponId, +ranges.increment * 6).then())
           }
         }
       })
@@ -597,8 +601,12 @@ let controllerObj = {
         }
       })
 
-      let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
-      promiseArray.push(db.update.casting( augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id ))
+      if(casting.augur) {
+        let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
+        promiseArray.push(db.update.casting( augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id ))
+      } else {
+        promiseArray.push(db.update.casting( null, null, null, 'd4', null, null, null, id ))
+      }
       spells.forEach(({id: spellid, name, origin, shape, range, interval, effect, beastid}) => {
         if (beastid) {
           promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid))
