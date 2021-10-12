@@ -247,3 +247,26 @@ create table bbroles (
     hash varchar(50),
     name varchar(50)
 );
+
+create table bbspells (
+    id varchar(15) primary key,
+    beastid int,
+    name varchar(50),
+    origin varchar(50),
+    range varchar(50),
+    shape varchar(50),
+    interval varchar(50),
+    effect varchar(500)
+);
+
+create table bbcasting (
+    id serial primary key,
+    beastid int,
+    augur boolean,
+    wild boolean,
+    vancian boolean,
+    manifesting boolean,
+    commanding boolean,
+    bloodpact boolean,
+    spellnumberdie varchar(50)
+);

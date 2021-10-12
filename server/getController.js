@@ -1,3 +1,5 @@
+const { promise } = require("selenium-webdriver")
+
 module.exports = {
   getQuickView(req, res) {
     let {hash} = req.params
@@ -262,6 +264,14 @@ module.exports = {
             }
           }
           return result
+        }))
+
+        promiseArray.push(db.get.casting(id).then(result => {
+          beast.casting = result[0]
+        }))
+
+        promiseArray.push(db.get.spells(id).then( result => {
+          beast.spells = result
         }))
 
         Promise.all(promiseArray).then(finalArray => {

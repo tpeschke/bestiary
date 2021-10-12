@@ -48,3 +48,24 @@ mat-card {
 .fa-plus-circle:hover {
     color: #607d8b;
 }
+
+.white {
+    background: white;
+    margin: 7px 0;
+}
+
+.flex-row-opposite {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+}
+
+.margin-top {
+    margin-top: 5px;
+}
+
+.dropdown-shell {
+    width: 30%;
+}

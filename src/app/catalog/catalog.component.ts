@@ -34,7 +34,6 @@ export class CatalogComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle("Bestiary")
     this.route.data.subscribe(data => {
-      console.log(data)
       this.beasts = data['catalog']
     })
     this.beastService.getFavorites().subscribe((results:any) => {

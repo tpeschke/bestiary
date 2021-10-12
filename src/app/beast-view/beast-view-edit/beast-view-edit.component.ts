@@ -33,6 +33,7 @@ export class BeastViewEditComponent implements OnInit {
   public lootTables = lootTables;
   public selectedRoleId = null;
   public newRole = null;
+  public deletedSpellList = null;
 
   public temperament = {
     temperament: null,
@@ -388,6 +389,7 @@ export class BeastViewEditComponent implements OnInit {
   saveChanges() {
     let id = this.route.snapshot.paramMap.get('id');
     this.beast.encounter = this.encounter
+    this.beast.deletedSpellList
     if (+id) {
       this.beastService.updateBeast(this.beast).subscribe(_ => this.router.navigate([`/beast/${id}/gm`]))
     } else {
@@ -496,5 +498,50 @@ export class BeastViewEditComponent implements OnInit {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return text;
+  }
+
+
+  // SPELL STUFF
+  checkWeirdshapeType = (type, e) => {
+    this.beast.casting[type] = e.checked
+  }
+
+  captureSpellDie = (e) => {
+    this.beast.casting.spellnumberdie = e.target.value
+  }
+
+  captureSpellSelect = (e, type, index) => {
+    this.beast.spells[index][type] = e.value
+  }
+
+  captureSpellInput = (e, index, type) => {
+    this.beast.spells[index][type] = e.target.value
+  }
+
+  captureSpellHTML = (e, index) => {
+    this.beast.spells[index].effect = e.html
+  }
+
+  addNewSpell = () => {
+    this.beast.spells.push({
+      id: this.makeId(),
+      beastid: null,
+      name: null,
+      origin: null,
+      shape: null,
+      range: null,
+      interval: null,
+      effect: null
+    })
+  }
+
+  deleteSpell = (index) => {
+    let deletedSpell = this.beast.spells.splice(index, 1)
+    if (!this.deletedSpellList) {
+      this.deletedSpellList = []
+    }
+    if (deletedSpell[0].beastid) {
+      this.deletedSpellList.push(deletedSpell[0].id)
+    }
   }
 }

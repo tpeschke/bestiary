@@ -1,0 +1,47 @@
+<div *ngIf="castingSelect.length > 0 && spells.length > 0">
+  <h2>Weirdshaping</h2>
+  <div class='divider'></div>
+  
+  <div class="box-padding">
+    <div class="dropdown-shell">
+      <mat-select [value]="selectedCast" (selectionChange)="captureSelect($event)">
+        <mat-option *ngFor="let type of castingSelect" value="{{type}}">{{type}}</mat-option>
+      </mat-select>
+    </div>
+  
+    <div *ngIf="casting.vancian" class="box-padding">
+      <!-- <mat-form-field>
+        <input matInput placeholder="Spell Number Die (XdY)" [value]="casting.spellnumberdie" (change)="captureSpellDie($event)">
+      </mat-form-field> -->
+    </div>
+  
+    <div  class="spell-shell">
+      <div class="spell-card" *ngFor="let spell of spells">
+        <mat-card>
+          <h3>{{spell.name}}</h3>
+          <div class="divider white"></div>
+          <div class="flex-row-opposite">
+            <h3>Origin</h3>
+            <p>{{spell.origin}}</p>
+          </div>
+          <div class="flex-row-opposite">
+            <h3>Shape</h3>
+            <p>{{spell.shape}}</p>
+          </div>
+          <div class="flex-row-opposite">
+            <h3>Range</h3>
+            <p>{{spell.range}}</p>
+          </div>
+          <div class="flex-row-opposite">
+            <h3>Interval</h3>
+            <p>{{spell.interval}}</p>
+          </div>
+          <h3 class="margin-top">Effect</h3>
+          <quill-view-html [content]="spell.effect"></quill-view-html>
+          <!-- 
+          <quill-editor [(ngModel)]="spell.effect" (onContentChanged)="captureSpellHTML($event, i)"></quill-editor>-->
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -78,9 +78,8 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <div class="add-to-quick-view" matTooltip="Click to Add to Quick View"
-            (click)="addToQuickView()"><i class="fas fa-plus"></i><i
-              class="fas fa-address-card"></i></div>
+          <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
+              class="fas fa-plus"></i><i class="fas fa-address-card"></i></div>
         </div>
 
       </div>
@@ -94,29 +93,28 @@
             <div class="combat-square">
               <h3 class="weaponName">{{square.weapon | titlecase}}</h3>
 
-                <div class="square-shell">
-                  <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
-                  <p class="spd">{{square.spd}}</p>
-                  <p class="atk">{{square.atk}}</p>
-                  <p class="init">{{square.init}}</p>
-                  <p class="def">{{square.def}}</p>
-                  <p class="fatigue">{{square.fatigue}}</p>
-                  <div class="dr">
-                    <p>{{square.dr}}</p>
-                    <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
-                  </div>
-                  <div class="measure">
-                    <p *ngIf="square.weapontype !== 'r'">{{square.measure}}</p>
-                    <p *ngIf="square.weapontype === 'r'">{{square.ranges.increment}}ri <i class="fas fa-info-circle icon-small blue"
-                      matTooltip="Stands for Range Increment. Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
+              <div class="square-shell">
+                <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
+                <p class="spd">{{square.spd}}</p>
+                <p class="atk">{{square.atk}}</p>
+                <p class="init">{{square.init}}</p>
+                <p class="def">{{square.def}}</p>
+                <p class="fatigue">{{square.fatigue}}</p>
+                <div class="dr">
+                  <p>{{square.dr}}</p>
+                  <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
+                </div>
+                <div class="measure">
+                  <p *ngIf="square.weapontype !== 'r'">{{square.measure}}</p>
+                  <p *ngIf="square.weapontype === 'r'">{{square.ranges.increment}}ri <i
+                      class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
                       Between {{square.ranges.increment + 1}} ft and {{square.ranges.increment * 2}} ft, -2 atk penalty.
                       Between {{(square.ranges.increment * 2) + 1}} ft and {{square.ranges.increment * 3}} ft, -4 atk penalty.
-                      and so on."
-                      matTooltipClass="my-tooltip"></i></p>
-                  </div>
-                  <p class="damage">{{square.damage}}</p>
-                  <p class="parry">{{square.parry}}</p>
+                      and so on." matTooltipClass="my-tooltip"></i></p>
                 </div>
+                <p class="damage">{{square.damage}}</p>
+                <p class="parry">{{square.parry}}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -333,7 +331,8 @@
             </div>
             <div *ngIf="complication.backup">
               <h5>Back Up: </h5>
-              <p>{{complication.backup.number}} {{complication.backup.number > 1 ? complication.backup.rankplural : complication.backup.rank}}</p>
+              <p>{{complication.backup.number}} {{complication.backup.number > 1 ? complication.backup.rankplural :
+                complication.backup.rank}}</p>
             </div>
             <div *ngIf="complication.time">
               <h5>Arrival Time: </h5>
@@ -566,6 +565,8 @@
       </div>
     </div>
   </div>
+
+  <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells"></app-weird-shaping-display>
 
   <button *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
     [routerLink]="['/beast', beast.id, 'edit']">Edit</button>

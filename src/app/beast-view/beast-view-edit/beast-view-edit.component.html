@@ -1405,6 +1405,19 @@
     </div>
   </div>
 
+  <app-weird-shaping-edit
+    [casting]="beast.casting"
+    [spells]="beast.spells"
+    [checkWeirdshapeType]="checkWeirdshapeType"
+    [deleteSpell]="deleteSpell"
+    [addNewSpell]="addNewSpell"
+    [captureSpellHTML]="captureSpellHTML"
+    [captureSpellInput]="captureSpellInput"
+    [captureSpellSelect]="captureSpellSelect"
+    [captureSpellDie]="captureSpellDie"
+    [checkWeirdshapeType]="checkWeirdshapeType"
+    ></app-weird-shaping-edit>
+
   <button (click)="saveChanges()" mat-raised-button color="primary">Save</button>
   <button (click)="deleteThisBeast()" mat-raised-button color="warn" class="deleteButton">Delete</button>
 </mat-card>
