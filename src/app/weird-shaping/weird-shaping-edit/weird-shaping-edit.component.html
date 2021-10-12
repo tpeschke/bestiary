@@ -1,0 +1,85 @@
+<h2>Weirdshaping</h2>
+<div class='divider'></div>
+
+<div class="box-padding">
+  <div class="checkbox-shell">
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('augur', $event)" [(ngModel)]="casting.augur">Augur</mat-checkbox>
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('bloodpact', $event)" [(ngModel)]="casting.bloodpact">Blood Pact</mat-checkbox>
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('commanding', $event)" [(ngModel)]="casting.commanding">Commanding</mat-checkbox>
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('manifesting', $event)" [(ngModel)]="casting.manifesting">Manifesting</mat-checkbox>
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('vancian', $event)" [(ngModel)]="casting.vancian">Vancian</mat-checkbox>
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('wild', $event)" [(ngModel)]="casting.wild">Wild Magic</mat-checkbox>
+  </div>
+
+  <div *ngIf="casting.vancian" class="box-padding">
+    <mat-form-field>
+      <input matInput placeholder="Spell Number Die (XdY)" [value]="casting.spellnumberdie" (change)="captureSpellDie($event)">
+    </mat-form-field>
+  </div>
+
+  <div  class="spell-shell">
+    <div class="spell-card" *ngFor="let spell of spells; let i = index">
+      <mat-card>
+        <mat-form-field>
+          <input matInput placeholder="Name" [value]="spell.name" (change)="captureSpellInput($event, i, 'name')">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Origin</mat-label>
+          <mat-select [value]="spell.origin" (selectionChange)="captureSpellSelect($event, 'origin', i)">
+            <mat-option value="Aura">
+              Aura
+            </mat-option>
+            <mat-option value="Touch">
+              Touch
+            </mat-option>
+            <mat-option value="Near">
+              Near
+            </mat-option>
+            <mat-option value="Far">
+              Far
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Shape</mat-label>
+          <mat-select [value]="spell.shape" (selectionChange)="captureSpellSelect($event, 'shape', i)">
+            <mat-option value="Circle">
+              Circle
+            </mat-option>
+            <mat-option value="Chain">
+              Chain
+            </mat-option>
+            <mat-option value="Cone">
+              Cone
+            </mat-option>
+            <mat-option value="Salvo">
+              Salvo
+            </mat-option>
+            <mat-option value="Sphere">
+              Sphere
+            </mat-option>
+            <mat-option value="Ray">
+              Ray
+            </mat-option>
+            <mat-option value="Wall">
+              Wall
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Range" [value]="spell.range" (change)="captureSpellInput($event, i, 'name')">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Interval" [value]="spell.interval" (change)="captureSpellInput($event, i, 'name')">
+        </mat-form-field>
+
+        <quill-editor [(ngModel)]="spell.effect" (onContentChanged)="captureSpellHTML($event, i)"></quill-editor>
+
+        <i (click)="deleteSpell(i)" class="fas fa-minus-circle"></i>
+      </mat-card>
+    </div>
+    <div class="spell-card add-spell-shell">
+      <i (click)="addNewSpell()" class="fas fa-plus-circle"></i>
+    </div>
+  </div>
+</div>
