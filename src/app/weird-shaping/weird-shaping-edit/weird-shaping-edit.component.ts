@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import tooltips from '../rudiment-tooltips.js'
 
 @Component({
   selector: 'app-weird-shaping-edit',
@@ -19,8 +20,10 @@ export class WeirdShapingEditComponent implements OnInit {
   constructor() { }
 
   castingSelect = []
+  tooltips = null
 
   ngOnInit() {
+    this.tooltips = tooltips
   }
 
 }

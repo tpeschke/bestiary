@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import tooltips from '../rudiment-tooltips.js'
 
 @Component({
   selector: 'app-weird-shaping-display',
@@ -14,8 +15,11 @@ export class WeirdShapingDisplayComponent implements OnInit {
   public castingSelect = []
   public selectedCast = ''
   public isHowToDisplayed = false
+  public tooltips = null
 
   ngOnInit() {
+    this.tooltips = tooltips
+    
     if (this.casting.commanding) {
       this.castingSelect.push('Adamic Commanding')
     }

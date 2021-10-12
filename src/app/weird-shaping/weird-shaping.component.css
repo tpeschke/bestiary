@@ -95,6 +95,14 @@ mat-card {
     font-size: 20px;
 }
 
+.fa-info-circle {
+    margin-left: 5px
+}
+
+.blue {
+    color: #607d8b !important;
+}
+
 @media (max-width: 1200px) {
     .spell-card {
         width: 30%;

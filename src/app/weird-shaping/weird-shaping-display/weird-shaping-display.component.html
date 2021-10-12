@@ -98,7 +98,8 @@
     </div>
 
     <div *ngIf="selectedCast === 'Blood Pact'" class="casting-type-explaination">
-      <p>Deal 1 point of damage per second for each person with 10 ft (including the weird-adept): gain 1 point for each damage done.</p>
+      <p>Deal 1 point of damage per second for each person with 10 ft (including the weird-adept): gain 1 point for each
+        damage done.</p>
       <p>Whenever someone takes damage within 25ft, gain 1 point.</p>
       <p></p>
       <p>Each spell takes a minimum of 10 points to cast: additional points beyond that can be used to buff the spell.
@@ -114,11 +115,11 @@
           <div class="divider white"></div>
           <div class="flex-row-opposite">
             <h3>Origin</h3>
-            <p>{{spell.origin}}</p>
+            <p>{{spell.origin}} <i class="fas fa-info-circle icon-small blue" matTooltip="{{tooltips.origin[spell.origin]}}"></i></p>
           </div>
           <div class="flex-row-opposite">
             <h3>Shape</h3>
-            <p>{{spell.shape}}</p>
+            <p>{{spell.shape}} <i class="fas fa-info-circle icon-small blue" matTooltip="{{tooltips.shape[spell.shape]}}"></i></p>
           </div>
           <div class="flex-row-opposite">
             <h3>Range</h3>
@@ -130,8 +131,6 @@
           </div>
           <h3 class="margin-top">Effect</h3>
           <quill-view-html [content]="spell.effect"></quill-view-html>
-          <!-- 
-          <quill-editor [(ngModel)]="spell.effect" (onContentChanged)="captureSpellHTML($event, i)"></quill-editor>-->
         </mat-card>
       </div>
     </div>

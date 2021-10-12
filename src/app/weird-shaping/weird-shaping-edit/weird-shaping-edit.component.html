@@ -23,49 +23,64 @@
         <mat-form-field>
           <input matInput placeholder="Name" [value]="spell.name" (change)="captureSpellInput($event, i, 'name')">
         </mat-form-field>
-        <mat-form-field>
-          <mat-label>Origin</mat-label>
-          <mat-select [value]="spell.origin" (selectionChange)="captureSpellSelect($event, 'origin', i)">
-            <mat-option value="Aura">
-              Aura
-            </mat-option>
-            <mat-option value="Touch">
-              Touch
-            </mat-option>
-            <mat-option value="Near">
-              Near
-            </mat-option>
-            <mat-option value="Far">
-              Far
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Shape</mat-label>
-          <mat-select [value]="spell.shape" (selectionChange)="captureSpellSelect($event, 'shape', i)">
-            <mat-option value="Circle">
-              Circle
-            </mat-option>
-            <mat-option value="Chain">
-              Chain
-            </mat-option>
-            <mat-option value="Cone">
-              Cone
-            </mat-option>
-            <mat-option value="Salvo">
-              Salvo
-            </mat-option>
-            <mat-option value="Sphere">
-              Sphere
-            </mat-option>
-            <mat-option value="Ray">
-              Ray
-            </mat-option>
-            <mat-option value="Wall">
-              Wall
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div>
+          <mat-form-field>
+            <mat-label>Origin</mat-label>
+            <mat-select [value]="spell.origin" (selectionChange)="captureSpellSelect($event, 'origin', i)">
+              <mat-option value="Aura">
+                Aura
+              </mat-option>
+              <mat-option value="Touch">
+                Touch
+              </mat-option>
+              <mat-option value="Near">
+                Near
+              </mat-option>
+              <mat-option value="Far">
+                Far
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <i class="fas fa-info-circle icon-small blue"
+          matTooltip="{{tooltips.origin[spell.origin]}}
+
+          This tool tip will update as you selected different Origins"></i>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Shape</mat-label>
+            <mat-select [value]="spell.shape" (selectionChange)="captureSpellSelect($event, 'shape', i)">
+              <mat-option value="Circle">
+                Circle
+              </mat-option>
+              <mat-option value="Chain">
+                Chain
+              </mat-option>
+              <mat-option value="Cone">
+                Cone
+              </mat-option>
+              <mat-option value="Salvo">
+                Salvo
+              </mat-option>
+              <mat-option value="Sphere">
+                Sphere
+              </mat-option>
+              <mat-option value="Ray">
+                Ray
+              </mat-option>
+              <mat-option value="Wall">
+                Wall
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+                    
+          <i class="fas fa-info-circle icon-small blue"
+          matTooltip="{{tooltips.shape[spell.shape]}}
+          
+          This tool tip will update as you selected different Shapes"></i>
+        </div>
         <mat-form-field>
           <input matInput placeholder="Range" [value]="spell.range" (change)="captureSpellInput($event, i, 'name')">
         </mat-form-field>
