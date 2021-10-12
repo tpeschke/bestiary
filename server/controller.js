@@ -306,45 +306,53 @@ let controllerObj = {
         promiseArray.push(db.update.loot.basic(beastid, copper, silver, gold, potion, relic, enchanted))
       }
 
-      equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
-        if (deleted) {
-          promiseArray.push(db.delete.loot.equipment(beastid, equipid))
-        } else if (equipid && beastid) {
-          promiseArray.push(db.update.loot.equipment(equipid, value, number))
-        } else {
-          promiseArray.push(db.add.loot.equipment(id, value, number))
-        }
-      })
+      if (equipment) {
+        equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
+          if (deleted) {
+            promiseArray.push(db.delete.loot.equipment(beastid, equipid))
+          } else if (equipid && beastid) {
+            promiseArray.push(db.update.loot.equipment(equipid, value, number))
+          } else {
+            promiseArray.push(db.add.loot.equipment(id, value, number))
+          }
+        })
+      }
 
-      traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
-        if (deleted) {
-          promiseArray.push(db.delete.loot.traited(beastid, traitedid))
-        } else if (traitedid && beastid) {
-          promiseArray.push(db.update.loot.traited(traitedid, value, chancetable))
-        } else {
-          promiseArray.push(db.add.loot.traited(id, value, chancetable))
-        }
-      })
+      if (traited) {        
+        traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
+          if (deleted) {
+            promiseArray.push(db.delete.loot.traited(beastid, traitedid))
+          } else if (traitedid && beastid) {
+            promiseArray.push(db.update.loot.traited(traitedid, value, chancetable))
+          } else {
+            promiseArray.push(db.add.loot.traited(id, value, chancetable))
+          }
+        })
+      }
 
-      scrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
-        if (deleted) {
-          promiseArray.push(db.delete.loot.scrolls(beastid, scrollid))
-        } else if (scrollid && beastid) {
-          promiseArray.push(db.update.loot.scrolls(scrollid, number, power))
-        } else {
-          promiseArray.push(db.add.loot.scrolls(id, number, power))
-        }
-      })
+      if (scrolls) {
+        scrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
+          if (deleted) {
+            promiseArray.push(db.delete.loot.scrolls(beastid, scrollid))
+          } else if (scrollid && beastid) {
+            promiseArray.push(db.update.loot.scrolls(scrollid, number, power))
+          } else {
+            promiseArray.push(db.add.loot.scrolls(id, number, power))
+          }
+        })
+      }
 
-      alms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
-        if (deleted) {
-          promiseArray.push(db.delete.loot.alms(beastid, almid))
-        } else if (almid && beastid) {
-          promiseArray.push(db.update.loot.alms(almid, number, favor))
-        } else {
-          promiseArray.push(db.add.loot.alms(id, number, favor))
-        }
-      })
+      if (alms) {
+        alms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
+          if (deleted) {
+            promiseArray.push(db.delete.loot.alms(beastid, almid))
+          } else if (almid && beastid) {
+            promiseArray.push(db.update.loot.alms(almid, number, favor))
+          } else {
+            promiseArray.push(db.add.loot.alms(id, number, favor))
+          }
+        })
+      }
 
       if(casting.beastid) {
         let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
@@ -352,13 +360,16 @@ let controllerObj = {
       } else {
         promiseArray.push(db.update.casting( null, null, null, 'd4', null, null, null, id ))
       }
-      spells.forEach(({id: spellid, name, origin, shape, range, interval, effect, beastid}) => {
-        if (beastid) {
-          promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid))
-        } else {
-          promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id))
-        }
-      })
+
+      if (spells) {
+        spells.forEach(({id: spellid, name, origin, shape, range, interval, effect, beastid}) => {
+          if (beastid) {
+            promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid))
+          } else {
+            promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id))
+          }
+        })
+      }
       if (deletedSpellList) {
         deletedSpellList.forEach(val => {
           promiseArray.push(db.delete.spell(val, beastid))
