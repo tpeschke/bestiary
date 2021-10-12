@@ -59,7 +59,7 @@ mat-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 50%;
+    width: 100%
 }
 
 .full-width {
@@ -93,4 +93,17 @@ mat-card {
 
 .single-type-heading {
     font-size: 20px;
+}
+
+@media (max-width: 1200px) {
+    .spell-card {
+        width: 30%;
+        min-width: 250px;
+    }
+}
+
+@media (max-width: 560px) {
+    .spell-card {
+        width: 100%;
+    }
 }

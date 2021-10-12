@@ -13,10 +13,24 @@
       <button color="primary" mat-raised-button (click)="displayHowTo()">Display How to Use</button>
     </div>
 
+    <div *ngIf="isHowToDisplayed" class="how-to-explaination">
+      <div class='divider'></div>
+      <h3>How To Use</h3>
+      <p>These rules are to add variation and mimic different types of casting - giving an approximation of their
+        strengths and weaknesses that players can use and plan around.</p>
+      <p>Some casting types will give points. If you get points, you can add it to Range, Interval, or Effect - anywhere
+        there’s a static number.</p>
+      <p>For the most part, this is just a simple addition (1 Hour becomes 2 Hours, a +1 becomes a +2) but for Range,
+        you’re going to add it to the second to right’s digit place, unless there is none.</p>
+      <p></p>
+      <p>So, +1 to a Range of 100 ft makes it 110 ft. To 10 ft, it becomes 11 ft, and to 1 ft it becomes 2 ft.</p>
+    </div>
+
     <div class='divider'></div>
 
     <div *ngIf="selectedCast === 'Augur'" class="casting-type-explaination">
       <p><strong>Shaping Time</strong> 3 seconds</p>
+      <p><strong>Fallout</strong> 10 Stress</p>
       <p></p>
       <p>When you cast a spell, roll a d20 whenever you cast.</p>
       <p></p>
@@ -32,6 +46,7 @@
 
     <div *ngIf="selectedCast === 'Wild Magic'" class="casting-type-explaination">
       <p><strong>Shaping Time</strong> 7 seconds</p>
+      <p><strong>Fallout</strong> 10 Stress</p>
       <p></p>
       <p>Range, Duration, and Effect have random modifiers.</p>
       <p></p>
@@ -44,6 +59,7 @@
 
     <div *ngIf="selectedCast === 'Vancian'" class="casting-type-explaination">
       <p><Strong>Spell Number Die</Strong> {{casting.spellnumberdie}}</p>
+      <p><strong>Fallout</strong> None</p>
       <p></p>
       <p>When you cast a spell, roll the Spell Number Die: on a 1, that dice shrinks one dice size.</p>
       <p></p>
@@ -64,9 +80,13 @@
       <p></p>
       <p>You get 1 point per 10 seconds, compounding (1 after 10 secs, 2 after 20 secs, 4 after 30 secs, 8 after 40
         secs, etc)</p>
+      <p></p>
+      <p><strong>Fallout</strong> 1 damage for each point added to the pool</p>
     </div>
 
     <div *ngIf="selectedCast === 'Adamic Commanding'" class="casting-type-explaination">
+      <p><strong>Fallout</strong> 6 Stress + 1 for each spell spoken in the last 24 hours</p>
+      <p></p>
       <p>Shaping time is random and based around d4!s; the result is the shaping time in seconds AND the points you can
         use to modify the spell.</p>
       <p>This is applied to effect, interval, or range but is applied per dice, although they can be doubled up.</p>
@@ -78,26 +98,14 @@
     </div>
 
     <div *ngIf="selectedCast === 'Blood Pact'" class="casting-type-explaination">
-      <p>Deal 1 point of damage per second for each person with 10 ft: gain 1 point for each damage done.</p>
+      <p>Deal 1 point of damage per second for each person with 10 ft (including the weird-adept): gain 1 point for each damage done.</p>
       <p>Whenever someone takes damage within 25ft, gain 1 point.</p>
       <p></p>
-      <p>Each spell takes a minimum of 10 points to cast: additional points beyond that can be used to buff the spell.</p>
+      <p>Each spell takes a minimum of 10 points to cast: additional points beyond that can be used to buff the spell.
+      </p>
     </div>
 
     <div class='divider'></div>
-
-    <div *ngIf="isHowToDisplayed" class="how-to-explaination">
-      <h3>How To</h3>
-      <p>These rules are to add variation and mimic different types of casting - giving an approximation of their
-        strengths and weaknesses that players can use and plan around.</p>
-      <p>Some casting types will give points. If you get points, you can add it to Range, Interval, or Effect - anywhere
-        there’s a static number.</p>
-      <p>For the most part, this is just a simple addition (1 Hour becomes 2 Hours, a +1 becomes a +2) but for Range,
-        you’re going to add it to the second to right’s digit place, unless there is none.</p>
-      <p></p>
-      <p>So, +1 to a Range of 100 ft makes it 110 ft. To 10 ft, it becomes 11 ft, and to 1 ft it becomes 2 ft.</p>
-      <div class='divider'></div>
-    </div>
 
     <div class="spell-shell">
       <div class="spell-card" *ngFor="let spell of spells">
