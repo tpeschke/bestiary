@@ -242,7 +242,6 @@ mat-toolbar {
 .blue {
     color: #607d8b !important;
 }
-
 .margin-left-small {
     margin-left: 5px;
     font-size: 10px
@@ -517,6 +516,11 @@ mat-toolbar {
     .role-select h2 {
         margin: 0
     }
+
+.extra-padding {
+    padding: 15px;
+ }
+
 
     @media (max-width: 1295px) {
         .lairLoot  li {

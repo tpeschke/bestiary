@@ -115,40 +115,17 @@
                     <p>{{square.dr}}</p>
                     <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
                   </div>
-                  <p class="measure">{{square.measure}}</p>
+                  <div class="measure">
+                    <p *ngIf="square.weapontype !== 'r'">{{square.measure}}</p>
+                    <p *ngIf="square.weapontype === 'r'">{{square.ranges.increment}}ri <i
+                      class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
+                      Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
+                      Between {{square.ranges.increment + 1}} ft and {{square.ranges.increment * 2}} ft, -2 atk penalty.
+                      Between {{(square.ranges.increment * 2) + 1}} ft and {{square.ranges.increment * 3}} ft, -4 atk penalty.
+                      and so on." matTooltipClass="my-tooltip"></i></p>
+                  </div>
                   <p class="damage">{{square.damage}}</p>
                   <p class="parry">{{square.parry}}</p>
-                </div>
-
-                <div *ngIf="square.weapontype === 'r'" class="ranged-shell">
-                  <div class="ranged-title">
-                    <h4>Penalty</h4>
-                    <h4>Range (ft)</h4>
-                  </div>
-                  <div>
-                    <h4>0</h4>
-                    <h4>5 - {{square.ranges.zero}}</h4>
-                  </div>
-                  <div class="ranged-odd">
-                    <h4>-2</h4>
-                    <h4>{{square.ranges.zero + 1}} - {{square.ranges.two}}</h4>
-                  </div>
-                  <div>
-                    <h4>-4</h4>
-                    <h4>{{square.ranges.two + 1}} - {{square.ranges.four}}</h4>
-                  </div>
-                  <div class="ranged-odd">
-                    <h4>-8</h4>
-                    <h4>{{square.ranges.four + 1}} - {{square.ranges.eight}}</h4>
-                  </div>
-                  <div>
-                    <h4>-16</h4>
-                    <h4>{{square.ranges.eight + 1}} - {{square.ranges.sixteen}}</h4>
-                  </div>
-                  <div class="ranged-odd">
-                    <h4>-32</h4>
-                    <h4>{{square.ranges.sixteen + 1}} - {{square.ranges.thirtytwo}}</h4>
-                  </div>
                 </div>
               </div>
             </div>
