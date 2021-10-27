@@ -29,8 +29,7 @@
           <div class="tracked-in-combat-shell">
             <h3>Tracked in Combat Counter? </h3>
 
-            <mat-checkbox
-              (change)="trackedInCombatCounter($event)">
+            <mat-checkbox (change)="trackedInCombatCounter($event)">
             </mat-checkbox>
           </div>
 
@@ -79,6 +78,16 @@
               </div>
             </div>
 
+            <div *ngIf="beast.stress > 0">
+              <p>Stress Threshold: </p>
+              <div class="stress-threshold-shell">
+                <mat-form-field>
+                  <input matInput>
+                </mat-form-field>
+                <p>/ {{beast.stress}}</p>
+              </div>
+            </div>
+
             <div class="add-button-shell">
               <div (click)="addAnotherVitality(beastIndex)"><i class="fas fa-plus"></i></div>
             </div>
@@ -118,7 +127,7 @@
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{square.measure}}</p>
                     <p *ngIf="square.weapontype === 'r'">{{square.ranges.increment}}ri <i
-                      class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
+                        class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
                       Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
                       Between {{square.ranges.increment + 1}} ft and {{square.ranges.increment * 2}} ft, -2 atk penalty.
                       Between {{(square.ranges.increment * 2) + 1}} ft and {{square.ranges.increment * 3}} ft, -4 atk penalty.
