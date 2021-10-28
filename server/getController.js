@@ -6,9 +6,9 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, role, rolevitality, id: beastid, roleid } = result[0]
+      let { name, sp_atk, sp_def, vitality, panic, stress, role, rolevitality, id: beastid, roleid, patreon, canplayerview } = result[0]
       let beast = {
-        name, sp_atk, sp_def, vitality, panic, stress, hash
+        name, sp_atk, sp_def, vitality, panic, stress, hash, patreon
       }
       let isARole = result[0].roleid && result.length <= 1
 
@@ -24,10 +24,9 @@ module.exports = {
       let promiseArray = []
         , patreonTestValue = -1;
 
-      let patreon = beast.patreon === 0 ? beast.patreon + 3 : beast.patreon
+      let beastPatreon = beast.patreon === 0 ? beast.patreon + 3 : beast.patreon
 
-      if (beast.patreon = 0) {beast.patreon + 3}
-      if (beast.canplayerview) {
+      if (canplayerview) {
         patreonTestValue = 1000
       } else if (req.user) {
         if (req.user.id === 1 || req.user.id === 21) {
@@ -35,9 +34,9 @@ module.exports = {
         } else if (req.user && req.user.patreon) {
           patreonTestValue = req.user.patreon
         }
-      }
+      } 
 
-      if (patreon > patreonTestValue) {
+      if (beastPatreon >= patreonTestValue) {
         res.send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
         promiseArray.push(db.get.beastmovement(beastid).then(result => {

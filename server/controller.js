@@ -369,7 +369,6 @@ let controllerObj = {
         })
       }
 
-      console.log(deletedSpellList)
       if (deletedSpellList) {
         deletedSpellList.forEach(val => {
           promiseArray.push(db.delete.spell(val, id))
