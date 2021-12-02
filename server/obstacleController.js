@@ -1,20 +1,3 @@
-// complicationsingle: "Test Single Comp"
-// difficulty: "Test Difficulty\nfewkop"
-// failure: "Test Failure"
-// information: "<ul><li>Test Info bullet</li><li class=\"ql-indent-1\">Test info bullet second level</li></ul>"
-// name: "Test Name"
-// notes: "<p>Test Notes</p>"
-// pairone: [
-//      {order: 0, name: 'Pair 1 1 name', body: 'Part 1 1 body'}
-//      {name: 'Pair 1 2 name', body: 'Part 1 2 body', order: 1}
-//    ]
-// pairtwo: [
-//      {order: 0, name: 'Pair 2 1 name', body: 'Part 2 1 body'}
-//    ]
-// success: "Test Success"
-// threshold: "Test Threshold"
-// time: "Test Time"
-// type: "obstacle"
 String.prototype.toProperCase = function () {
     return this.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
 };
@@ -80,6 +63,28 @@ let obstacleController = {
             Promise.all(promiseArray).then(_ => {
                 obstacleController.collectCache(req.app, 0)
                 res.send({ color: 'green', message: `${type.toProperCase()} added successfully` })
+            })
+        })
+    },
+    getObstacle: (req, res) => {
+        const db = req.app.get('db')
+        , id = req.params.id
+
+        db.get.obstacle.base(id).then(obstacle => {
+            obstacle = obstacle[0]
+            let promiseArray = []
+
+            promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairone').then( pairs => {
+                obstacle.pairone = pairs
+                return true
+            }))
+            promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairtwo').then( pairs => {
+                obstacle.pairtwo = pairs
+                return true
+            }))
+
+            Promise.all(promiseArray).then(_ => {
+                res.send(obstacle)
             })
         })
     }

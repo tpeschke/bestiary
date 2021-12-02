@@ -84,6 +84,7 @@ app.get('/api/playerCanView/:id', ctrl.checkIfPlayerView)
 app.get('/api/favorites', ctrl.getUsersFavorites)
 
 app.get('/api/obstacles/catalog', (req, res) => res.send(obstCtrl.catalogCache))
+app.get('/api/obstacles/single/:id', obstCtrl.getObstacle)
 
 app.get('/api/encounter/edit/:beastid', ctrl.getEditEncounter)
 app.get('/api/encounter/:beastid', ctrl.getRandomEncounter)

@@ -55,6 +55,7 @@ import { ObstacleCatalogComponent } from './obstacle-index/obstacle-catalog/obst
 import { ObstacleHomeComponent } from './obstacle-index/obstacle-home/obstacle-home.component';
 import { ObstacleEditComponent } from './obstacle-index/obstacle-edit/obstacle-edit.component'
 import { GetObstacleService } from './util/guards-resolvers/get-obstacle.service';
+import { ObstaclePopUpComponent } from './obstacle-index/obstacle-pop-up/obstacle-pop-up.component';
 
 const routes: Routes = [
   { path: 'obstacle', 
@@ -98,7 +99,8 @@ const routes: Routes = [
     BestiaryHomeComponent,
     ObstacleCatalogComponent,
     ObstacleHomeComponent,
-    ObstacleEditComponent
+    ObstacleEditComponent,
+    ObstaclePopUpComponent
   ],
   imports: [
     BrowserModule,
@@ -122,7 +124,7 @@ const routes: Routes = [
     QuillModule.forRoot(),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })
   ],
-  entryComponents: [HewyRatingComponent],
+  entryComponents: [HewyRatingComponent, ObstaclePopUpComponent],
   providers: [BeastService, CalculatorService],
   bootstrap: [AppComponent]
 })
