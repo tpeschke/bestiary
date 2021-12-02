@@ -3,6 +3,13 @@
     <div *ngIf="category[0].name">
       <h2>{{category[0].name.substring(0,1) | uppercase}}</h2>
       <mat-divider></mat-divider>
+      <div class="obstacle-shells">
+        <div *ngFor="let obstacle of category">
+          <button class="obstacle-button" mat-raised-button color="accent">
+            <i class="fas fa-exclamation-triangle"></i> {{obstacle.name}}
+          </button>
+        </div>
+      </div>
     </div>
     <div *ngIf="!category[0].name">
       <h2>{{category | uppercase}}</h2>

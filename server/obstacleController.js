@@ -78,14 +78,10 @@ let obstacleController = {
             }).catch(e => console.log("pair two ~ ", e)))
 
             Promise.all(promiseArray).then(_ => {
+                obstacleController.collectCache(req.app, 0)
                 res.send({ color: 'green', message: `${type.toProperCase()} added successfully` })
             })
         })
-        //add
-        //  complicationsingle, difficulty, failure, information, name, notes, success, threshold, time, type
-        //then add
-        //  pairone, pairtwo
-
     }
 }
 

@@ -10,6 +10,16 @@ h1 {
     vertical-align: bottom;
 }
 
+.obstacle-shells {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.obstacle-button {
+    margin-top: 10px
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 1px;
