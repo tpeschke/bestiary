@@ -59,9 +59,10 @@ import { GetObstacleService } from './util/guards-resolvers/get-obstacle.service
 const routes: Routes = [
   { path: 'obstacle', 
     component: ObstacleHomeComponent,
-    children: [ { path: '', component: ObstacleCatalogComponent },
-                { path: 'edit/:id', component: ObstacleEditComponent, resolve: { obstacle: GetObstacleService } },
-              ]
+    children: [ 
+      { path: 'edit/:id', component: ObstacleEditComponent, resolve: { obstacle: GetObstacleService } },
+      { path: '', component: ObstacleCatalogComponent },
+    ]
   },
   { path: '', 
     component: BestiaryHomeComponent,

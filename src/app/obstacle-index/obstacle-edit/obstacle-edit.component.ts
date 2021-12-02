@@ -9,7 +9,21 @@ export class ObstacleEditComponent implements OnInit {
 
   constructor() { }
 
+  public obstacle = {
+    type: 'obstacle',
+    name: null,
+    difficulty: null,
+    threshold: null,
+    time: null,
+    complicationsingle: null,
+    failure: null,
+    success: null
+  }
   ngOnInit() {
+  }
+
+  captureInput(event, name) {
+
   }
 
 }

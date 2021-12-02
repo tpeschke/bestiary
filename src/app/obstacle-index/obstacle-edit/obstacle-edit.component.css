@@ -1,0 +1,15 @@
+mat-card {
+    margin-top: 15px;
+}
+
+mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin: -16px -16px 0 !important;
+    width: unset;
+}
+
+.input-shell {
+    display: flex;
+    flex-direction: column;
+}

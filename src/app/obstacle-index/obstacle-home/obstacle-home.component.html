@@ -17,7 +17,7 @@
         <button mat-flat-button color="accent" [routerLink]="['/']">Bestiary <i
             class="fas fa-arrow-right"></i></button>
         <button class="new-button right-most-buttom" *ngIf="loggedIn === 'owner'" mat-raised-button color="accent"
-          [routerLink]="['/beast', 0, 'edit']">New</button>
+          [routerLink]="['/obstacle', 'edit', 0]">New</button>
         <div *ngIf="!loggedIn" class="right-most-buttom">
           <a href={{loginEndpoint}}>
             <button mat-raised-button>Log In</button>

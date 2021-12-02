@@ -1,3 +1,70 @@
-<p>
-  obstacle-edit works!
-</p>
+<mat-card>
+  <mat-toolbar color="warn">
+    <h1>Add Obstacle</h1>
+  </mat-toolbar>
+
+  <div class="input-shell">
+    <mat-form-field>
+      <input matInput [value]="obstacle.name" (change)="captureInput($event, 'name')" placeholder="Name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [value]="obstacle.difficulty" (change)="captureInput($event, 'difficulty')" placeholder="Difficulty">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [value]="obstacle.threshold" (change)="captureInput($event, 'threshold')" placeholder="Threshold">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [value]="obstacle.time" (change)="captureInput($event, 'time')" placeholder="Time">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [value]="obstacle.complicationsingle" (change)="captureInput($event, 'complicationsingle')" placeholder="Single Complication">
+    </mat-form-field>
+
+    <!-- Complication Tables
+            Possibly linked to Skills -->
+
+    <mat-form-field>
+      <input matInput [value]="obstacle.failure" (change)="captureInput($event, 'failure')" placeholder="On Failure">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [value]="obstacle.success" (change)="captureInput($event, 'success')" placeholder="On Success">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <h2>Additional Pairs 1</h2>
+    <!-- Additional Pairs 1
+    Each Boon
+    Per 2 Boons
+    1st/1 Boon
+    2nd/2 Boons
+    4 Boons -->
+  </div>
+
+  <div>
+    <h2>Information Bullet Points</h2>
+    <!-- Information Bullet Points -->
+  </div>
+
+  <div>
+    <h2>Additional Pairs 2</h2>
+    <!-- Additional Pairs 2
+    At 24 Hours
+    At 12 Hours
+    At 6 Hours -->
+  </div>
+
+  <div>
+    <h2>Notes</h2>
+    <!-- Note(s) -->
+  </div>
+  
+  <!-- 2nd Support tables -->
+
+  <!-- Preview? -->
+</mat-card>
