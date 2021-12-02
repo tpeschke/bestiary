@@ -42,7 +42,7 @@
     <p>{{pair.body}}</p>
   </span>
 
-  <div class="striped-background quill-obstacle-view">
+  <div  *ngIf="obstacle.information" class="striped-background quill-obstacle-view">
     <quill-view-html *ngIf="obstacle.information" [content]="obstacle.information"></quill-view-html>
   </div>
 
