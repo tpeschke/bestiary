@@ -1,3 +1,27 @@
 .bounce1, .bounce2, .bounce3 {
     background: #607d8b
 }
+
+.header-shell {
+    margin: -24px -24px 0 !important;
+    width: unset;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    background: #607d8b;
+    color: white;
+    min-height: 61px;
+    align-items: center;
+}
+
+h1 {
+    font-family: 'umbria';
+    text-align: center;
+    max-width: 315px;
+}
+
+.icon {
+    position: absolute;
+    left: -37px;
+    font-size: 85px;
+}

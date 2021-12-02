@@ -27,7 +27,7 @@ export class ObstacleCatalogComponent implements OnInit {
   }
 
   openObstacle(id) {
-    this.dialog.open(ObstaclePopUpComponent, { height: '400px', width: '600px', data: { id }});
+    this.dialog.open(ObstaclePopUpComponent, { width: '400px', data: { id }});
   }
 
 }
