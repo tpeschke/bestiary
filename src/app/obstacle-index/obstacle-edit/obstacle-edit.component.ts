@@ -69,7 +69,9 @@ export class ObstacleEditComponent implements OnInit {
 
   saveChanges() {
     if (this.obstacle.name) {
-      this.obstacleService.updateObstacle(this.obstacle).subscribe(_ => this.router.navigate([`/obstacle`]))
+      this.obstacleService.updateObstacle(this.obstacle)
+      .subscribe()
+      // .subscribe(_ => this.router.navigate([`/obstacle`]))
     }
   }
 

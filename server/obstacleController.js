@@ -15,21 +15,52 @@
 // threshold: "Test Threshold"
 // time: "Test Time"
 // type: "obstacle"
+String.prototype.toProperCase = function () {
+    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+};
+
+function createStringId () {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 50; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+  }
 
 let obstacleController = {
     addObstacle: (req, res) => {
         const db = req.app.get('db')
-        , { id, complicationsingle, difficulty, failure, information, name, notes, pairone, pairtwo, success, threshold, time, type } = req.body
-        
-        if (!id) {
-            //create & assign id
+        let { stringid, complicationsingle, difficulty, failure, information, name, notes, pairone, pairtwo, success, threshold, time, type } = req.body
+
+        if (!stringid) {
+            stringid = createStringId()
         }
+
+        db.add.obstacle.base(stringid, complicationsingle, difficulty, failure, information, name, notes, success, threshold, time, type).then(_ => {
+            let promiseArray = []
+
+            promiseArray.push(db.delete.obstacle.pairs([stringid, [0, ...pairone.map(pairone => pairone.id)], 'pairone']).then(_ => {
+                return pairone.map(({ id: paironeid, name, body,index }) => {
+                    return db.add.obstacle.pairs(paironeid, stringid, name, body, 'pairone', index)
+                })
+            }).catch(e => console.log("pair one ~ ", e)))
+            promiseArray.push(db.delete.obstacle.pairs([stringid, [0, ...pairtwo.map(pairtwo => pairtwo.id)], 'pairtwo']).then(_ => {
+                return pairtwo.map(({ id: pairtwoid, name, body,index }) => {
+                    return db.add.obstacle.pairs(pairtwoid, stringid, name, body, 'pairtwo', index)
+                })
+            }).catch(e => console.log("pair two ~ ", e)))
+
+            Promise.all(promiseArray).then( _ => {
+                res.send({color: 'green', message: `${type.toProperCase()} added successfully`})
+            })
+        })
             //add
             //  complicationsingle, difficulty, failure, information, name, notes, success, threshold, time, type
             //then add
             //  pairone, pairtwo
 
-        res.send({color: 'green', message: 'Obstacle added successfully'})
     }
 }
 

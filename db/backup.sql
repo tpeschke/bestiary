@@ -282,7 +282,8 @@ create table obbase (
     success varchar(500),
     threshold varchar(500),
     time varchar(500),
-    type varchar(25)
+    type varchar(25),
+    stringid varchar(50) unique
 );
 
 create table obpairs (

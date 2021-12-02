@@ -1,0 +1,1 @@
+delete from obpairs where stringid = $1 and id != ANY($2) and type = $3
