@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ObstacleService } from 'src/app/util/services/obstacle.service';
 
 @Component({
@@ -10,8 +10,9 @@ import { ObstacleService } from 'src/app/util/services/obstacle.service';
 export class ObstacleEditComponent implements OnInit {
 
   constructor(
+    public obstacleService: ObstacleService,
     private router: Router,
-    public obstacleService: ObstacleService
+    private route: ActivatedRoute,
   ) { }
 
   public obstacle = {
@@ -42,6 +43,12 @@ export class ObstacleEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.data.subscribe(data => {
+      let obstacle = data['obstacle']
+      if (obstacle) {
+        this.obstacle = obstacle
+      }
+    })
   }
 
   captureInput(event, type) {

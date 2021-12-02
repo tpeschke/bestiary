@@ -55,4 +55,7 @@
     <strong class="notes-strong">Note(s)</strong>
     <quill-view-html [content]="obstacle.notes"></quill-view-html>
   </div>
+
+  <button class="new-button right-most-buttom" *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
+  (click)="goToEdit()">Edit</button>
 </div>
