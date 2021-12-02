@@ -34,7 +34,24 @@ img {
     align-items: center;
 }
 
+.obstacle-index-button {
+    margin-right: 15px;
+}
+
+.subtitle-mobile {
+    display: none;
+}
+
 @media (max-width: 699px) { 
+    .subtitle-desktop {
+        display: none;
+    }
+
+    .subtitle-mobile {
+        display: inherit;
+        margin-top: -15px;
+    }
+
     .main-app-shell {
         margin: 0;
     }
