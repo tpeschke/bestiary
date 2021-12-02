@@ -99,6 +99,7 @@ let obstacleController = {
             promiseArray.push(db.delete.obstacle.obstacle(id).then())
 
             Promise.all(promiseArray).then(_ => {
+                obstacleController.collectCache(req.app, 0)
                 res.send({ color: 'green', message: `Obstacle deleted successfully` })
             })
         })

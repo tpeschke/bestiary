@@ -42,10 +42,13 @@ export class ObstacleEditComponent implements OnInit {
     body: null
   }
 
+  public editOrAdd = "Add"
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       let obstacle = data['obstacle']
       if (obstacle) {
+        this.editOrAdd = "Edit"
         this.obstacle = obstacle
       }
     })
