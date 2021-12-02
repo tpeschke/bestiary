@@ -272,6 +272,14 @@ table {
   text-indent: 0;
 }
 
+.quill-obstacle-view .ql-editor {
+  padding: 5px 3px !important
+}
+
+.quill-obstacle-view .ql-editor ul {
+  padding: 0 !important
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 

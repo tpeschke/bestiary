@@ -23,5 +23,29 @@ h1 {
 .icon {
     position: absolute;
     left: -37px;
-    font-size: 85px;
+    font-size: 82px;
+}
+
+.pair-shell {
+    padding: 5px 3px;
+    display: flex;
+    align-content: center;
+}
+
+.notes-strong {
+    padding: 5px 3px;
+}
+
+.pop-up .striped-background:nth-child(2) {
+    margin-top: 15px;
+}
+
+.pop-up .striped-background:nth-child(odd) {
+    background: lightgray
+}
+
+strong {
+    font-family: 'know';
+    font-weight: bold;
+    min-width: 125px;
 }
