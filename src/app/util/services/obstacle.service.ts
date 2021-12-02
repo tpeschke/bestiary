@@ -46,4 +46,11 @@ export class ObstacleService {
         tap(result => this.handleMessage(result))
       );
   }
+
+  deleteObstacle(id): any {
+    return this.http.delete(local.endpointBase + '/api/obstacles/' + id)
+      .pipe(
+        tap(result => this.handleMessage(result))
+      );
+  }
 }

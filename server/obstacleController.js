@@ -87,6 +87,21 @@ let obstacleController = {
                 res.send(obstacle)
             })
         })
+    },
+    deleteObstacle: (req, res) => {
+        const db = req.app.get('db')
+        let promiseArray = []
+        ,   id = req.params.id
+
+        db.get.obstacle.stringid(id).then(stringid => {
+            stringid = stringid[0]
+            promiseArray.push(db.delete.obstacle.allpairs(stringid.stringid).then())
+            promiseArray.push(db.delete.obstacle.obstacle(id).then())
+
+            Promise.all(promiseArray).then(_ => {
+                res.send({ color: 'green', message: `Obstacle deleted successfully` })
+            })
+        })
     }
 }
 

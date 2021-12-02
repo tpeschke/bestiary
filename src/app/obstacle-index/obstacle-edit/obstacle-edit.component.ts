@@ -59,6 +59,10 @@ export class ObstacleEditComponent implements OnInit {
     this[pair][type] = event.target.value
   }
 
+  removePair(index, type) {
+    this.obstacle[type].splice(index, 1)
+  }
+
   savePair(pair) {
     if (this[pair].name && this[pair].body) {
       this[pair].index = this.obstacle[pair].length
@@ -81,6 +85,6 @@ export class ObstacleEditComponent implements OnInit {
   }
 
   deleteThis() {
-
+    this.obstacleService.deleteObstacle(this.obstacle.id).subscribe(_ => this.router.navigate([`/obstacle`]))
   }
 }

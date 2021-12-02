@@ -41,9 +41,10 @@
   <div>
     <h2>Additional Pairs 1</h2>
     <p>(Each Boon, Per 2 Boons, 1st/1 Boon, 2nd/2 Boons, 4 Boons)</p>
-    <div *ngFor="let pair of obstacle.pairone" class="pair-list">
-      <strong>{{pair.name}}</strong>
-      <p>{{pair.body}}</p>
+    <div *ngFor="let pair of obstacle.pairone; let i = index" class="pair-list">
+      <strong class="margin-right">{{pair.name}}</strong>
+      <p class="margin-right">{{pair.body}}</p>
+      <i class="fas fa-minus-circle" (click)="removePair(i,'pairone')"></i>
     </div>
     <div class="pair-list">
       <mat-form-field class="margin-right">
@@ -64,9 +65,10 @@
   <div>
     <h2>Additional Pairs 2</h2>
     <p>(At 24 hours, At 12 Hours, At 6 Hours)</p>
-    <div *ngFor="let pair of obstacle.pairtwo" class="pair-list">
-      <strong>{{pair.name}}</strong>
-      <p>{{pair.body}}</p>
+    <div *ngFor="let pair of obstacle.pairtwo; let i = index" class="pair-list">
+      <strong class="margin-right">{{pair.name}}</strong>
+      <p class="margin-right">{{pair.body}}</p>
+      <i class="fas fa-minus-circle" (click)="removePair(i, 'pairtwo')"></i>
     </div>
     <div class="pair-list">
       <mat-form-field class="margin-right">

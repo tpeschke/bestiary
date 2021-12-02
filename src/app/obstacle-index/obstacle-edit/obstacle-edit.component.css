@@ -38,3 +38,7 @@ strong {
     font-weight: bold;
     min-width: 150px;
 }
+
+.fa-minus-circle:hover, .fa-plus-circle:hover{
+    color: goldenrod;
+}

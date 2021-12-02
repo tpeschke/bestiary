@@ -113,6 +113,7 @@ app.post('/api/obstacles/add', ownerAuth, obstCtrl.addObstacle)
 app.post('/api/v1/upload/:id', ownerAuth, upload.array('image', 1), (req, res) => res.send({ image: req.file }));
 
 app.delete('/api/beasts/delete/:id', ownerAuth, ctrl.deleteBeast)
+app.delete('/api/obstacles/:id', ownerAuth, obstCtrl.deleteObstacle)
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname + '/../dist/bestiary/index.html'))
