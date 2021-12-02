@@ -20,6 +20,11 @@ h1 {
     max-width: 315px;
 }
 
+p {
+    white-space: pre-wrap;
+    line-height: 1.4;
+}
+
 .icon {
     position: absolute;
     left: -34px;
@@ -29,7 +34,7 @@ h1 {
 .pair-shell {
     padding: 5px 3px;
     display: flex;
-    align-content: center;
+    align-items: center;
 }
 
 .notes-strong {

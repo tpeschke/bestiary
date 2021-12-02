@@ -20,6 +20,12 @@
     <strong>Time</strong>
     <p>{{obstacle.time}}</p>
   </div>
+  
+  <div *ngFor="let pair of obstacle.pairtwo" class="striped-background pair-shell">
+    <strong>{{pair.name}}</strong>
+    <p>{{pair.body}}</p>
+  </div>
+  
   <div *ngIf="obstacle.threshold" class="striped-background pair-shell">
     <strong>Failure Threshold</strong>
     <p>{{obstacle.threshold}}</p>
@@ -44,11 +50,6 @@
 
   <div  *ngIf="obstacle.information" class="striped-background quill-obstacle-view">
     <quill-view-html *ngIf="obstacle.information" [content]="obstacle.information"></quill-view-html>
-  </div>
-
-  <div *ngFor="let pair of obstacle.pairtwo" class="striped-background pair-shell">
-    <strong>{{pair.name}}</strong>
-    <p>{{pair.body}}</p>
   </div>
 
   <div *ngIf="obstacle.notes" class="striped-background quill-obstacle-view">
