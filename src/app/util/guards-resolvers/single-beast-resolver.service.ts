@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BeastService } from '../services/beast.service';
+import { tap } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'

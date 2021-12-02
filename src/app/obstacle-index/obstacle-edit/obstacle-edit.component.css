@@ -13,3 +13,28 @@ mat-toolbar {
     display: flex;
     flex-direction: column;
 }
+
+.deleteButton {
+    margin-top: 150px
+}
+
+.save-and-delete-shell {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+.pair-list {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.margin-right {
+    margin-right: 15px;
+}
+
+strong {
+    font-weight: bold;
+    min-width: 150px;
+}

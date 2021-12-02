@@ -267,6 +267,11 @@ table {
   font-size: 17px;
   color: #607d8b;
 }
+
+.ql-editor ul, .ql-editor ol {
+  text-indent: 0;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 

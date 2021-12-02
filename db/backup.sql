@@ -270,3 +270,25 @@ create table bbcasting (
     bloodpact boolean,
     spellnumberdie varchar(50)
 );
+
+create table obbase (
+    id varchar(50) primary key,
+    complicationsingle varchar(500),
+    difficulty varchar(500),
+    failure  varchar(500),
+    information  varchar(500),
+    name varchar(500),
+    notes varchar(500),
+    success varchar(500),
+    threshold varchar(500),
+    time varchar(500),
+    type varchar(25)
+);
+
+create table obpairs (
+    id varchar(50) primary key,
+    name varchar(500),
+    body varchar(500),
+    type varchar(25),
+    index int
+);

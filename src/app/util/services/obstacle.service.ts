@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import local from '../../../local';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class ObstacleService {
     private toastr: ToastrService
   ) { }
 
-  handleMessage(message) {
-    let { message: info, color } = message;
+  handleMessage(result) {
+    let { message: info, color } = result;
     if (info) {
       if (color === 'green') {
         this.toastr.success(info)
@@ -34,5 +35,12 @@ export class ObstacleService {
     //   .pipe(
     //     tap(result => this.handleMessage(result))
     //   );
+  }
+
+  updateObstacle(obstacle): any {
+    return this.http.post(local.endpointBase + '/api/obstacles/add', obstacle)
+      .pipe(
+        tap(result => this.handleMessage(result))
+      );
   }
 }

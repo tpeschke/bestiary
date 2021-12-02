@@ -6,6 +6,7 @@ const express = require('express')
     , ctrl = require('./controller')
     , searchCtrl = require('./searchController')
     , getCtrl = require('./getController')
+    , obstCtrl = require('./obstacleController')
     , upload = require('./file-upload')
     , session = require('express-session')
     , passport = require('passport')
@@ -105,6 +106,7 @@ function ownerAuth (req, res, next) {
 app.patch('/api/beasts/edit', ownerAuth, ctrl.editBeast)
 
 app.post('/api/beasts/add', ownerAuth, ctrl.addBeast)
+app.post('/api/obstacles/add', ownerAuth, obstCtrl.addObstacle)
 app.post('/api/v1/upload/:id', ownerAuth, upload.array('image', 1), (req, res) => res.send({ image: req.file }));
 
 app.delete('/api/beasts/delete/:id', ownerAuth, ctrl.deleteBeast)

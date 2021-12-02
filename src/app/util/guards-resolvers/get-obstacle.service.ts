@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ObstacleService } from '../services/obstacle.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
