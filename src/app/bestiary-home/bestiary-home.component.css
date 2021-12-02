@@ -15,9 +15,8 @@
     cursor: pointer;
 }
 
-.new-button {
-    position: absolute;
-    right: 25px;
+.right-most-buttom {
+    margin-left: 15px;
 }
 
 img {
@@ -32,10 +31,6 @@ img {
 .mat-toolbar-row div {
     display: flex;
     align-items: center;
-}
-
-.obstacle-index-button {
-    margin-right: 15px;
 }
 
 .subtitle-mobile {

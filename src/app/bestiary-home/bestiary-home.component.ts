@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BeastService } from '../util/services/beast.service';
+import variables from '../../local.js'
 
 @Component({
   selector: 'app-bestiary-home',
@@ -6,10 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./bestiary-home.component.css']
 })
 export class BestiaryHomeComponent implements OnInit {
+  constructor(
+    private beastService: BeastService
+  ) {  }
 
-  constructor() { }
+  public loggedIn:boolean|string|number = false;
+  public loginEndpoint = variables.login
 
   ngOnInit() {
+    this.beastService.checkLogin().subscribe(result => {
+      this.beastService.loggedIn = result
+      this.loggedIn = result
+    })
   }
 
 }

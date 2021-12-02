@@ -14,11 +14,11 @@
         <p class="subtitle-mobile">(& Obstacle Index)</p>
 
       <div>
-        <button mat-flat-button color="accent" class="obstacle-index-button" [routerLink]="['/obstacle']">Obstacle Index <i
+        <button mat-flat-button color="accent" [routerLink]="['/obstacle']">Obstacle Index <i
             class="fas fa-arrow-right"></i></button>
-        <button class="new-button obstacle-index-button" *ngIf="loggedIn === 'owner'" mat-raised-button color="accent"
-          [routerLink]="['/beast', 0, 'edit']">New</button>
-        <div *ngIf="!loggedIn">
+        <button class="new-button right-most-buttom" *ngIf="loggedIn === 'owner'" mat-raised-button color="accent"
+          [routerLink]="['/edit', 0]">New</button>
+        <div *ngIf="!loggedIn" class="right-most-buttom">
           <a href={{loginEndpoint}}>
             <button mat-raised-button>Log In</button>
           </a>

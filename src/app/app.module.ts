@@ -52,12 +52,15 @@ import { WeirdShapingEditComponent } from './weird-shaping/weird-shaping-edit/we
 import { WeirdShapingDisplayComponent } from './weird-shaping/weird-shaping-display/weird-shaping-display.component';
 import { BestiaryHomeComponent } from './bestiary-home/bestiary-home.component';
 import { ObstacleCatalogComponent } from './obstacle-index/obstacle-catalog/obstacle-catalog.component';
-import { ObstacleHomeComponent } from './obstacle-index/obstacle-home/obstacle-home.component'
+import { ObstacleHomeComponent } from './obstacle-index/obstacle-home/obstacle-home.component';
+import { ObstacleEditComponent } from './obstacle-index/obstacle-edit/obstacle-edit.component'
+import { GetObstacleService } from './util/guards-resolvers/get-obstacle.service';
 
 const routes: Routes = [
   { path: 'obstacle', 
     component: ObstacleHomeComponent,
-    children: [ { path: '', component: ObstacleCatalogComponent }
+    children: [ { path: '', component: ObstacleCatalogComponent },
+                { path: 'edit/:id', component: ObstacleEditComponent, resolve: { obstacle: GetObstacleService } },
               ]
   },
   { path: '', 
@@ -93,7 +96,8 @@ const routes: Routes = [
     WeirdShapingDisplayComponent,
     BestiaryHomeComponent,
     ObstacleCatalogComponent,
-    ObstacleHomeComponent
+    ObstacleHomeComponent,
+    ObstacleEditComponent
   ],
   imports: [
     BrowserModule,
