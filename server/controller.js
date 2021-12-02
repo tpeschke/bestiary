@@ -80,7 +80,7 @@ let controllerObj = {
     } else {
       this.catalogCache = this.newCache
       this.newCache = []
-      console.log('catalog collected')
+      console.log('bestiary catalog collected')
     }
   },
   // BEAST ENDPOINTS

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Title} from "@angular/platform-browser";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-obstacle-catalog',
@@ -7,10 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ObstacleCatalogComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private titleService: Title,
+    private route: ActivatedRoute,
+  ) { }
 
   public obstacles = [[{name: "atest"}], [{name: "btest"}], 'c']
+
   ngOnInit() {
+    this.titleService.setTitle("Obstacle Index")
+    this.route.data.subscribe(data => {
+      this.obstacles = data['catalog']
+    })
   }
 
 }

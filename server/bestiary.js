@@ -83,6 +83,8 @@ app.get('/api/randomMonster', searchCtrl.getRandomMonster)
 app.get('/api/playerCanView/:id', ctrl.checkIfPlayerView)
 app.get('/api/favorites', ctrl.getUsersFavorites)
 
+app.get('/api/obstacles/catalog', (req, res) => res.send(obstCtrl.catalogCache))
+
 app.get('/api/encounter/edit/:beastid', ctrl.getEditEncounter)
 app.get('/api/encounter/:beastid', ctrl.getRandomEncounter)
 
@@ -120,6 +122,7 @@ massive(databaseCredentials).then(dbI => {
     app.set('db', dbI)
     app.listen(server, _ => {
         ctrl.collectCache(app, 0)
+        obstCtrl.collectCache(app, 0)
         console.log(`Sing to me a sweet song of forgetfulness and Ill die on your shore ${server}`)
     })
 })

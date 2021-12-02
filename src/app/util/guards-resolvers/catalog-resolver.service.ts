@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BeastService } from '../services/beast.service';
+import { ObstacleService } from '../services/obstacle.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +10,17 @@ import { BeastService } from '../services/beast.service';
 export class CatalogResolverService implements Resolve<any> {
 
   constructor(
-    private beastService: BeastService
+    private beastService: BeastService,
+    private obstacleService: ObstacleService
   ) { }
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any> {
+    if (state.url.includes('obstacle')) {
+      return this.obstacleService.getCatalog();
+    }
     return this.beastService.getCatalog();
    }
 }

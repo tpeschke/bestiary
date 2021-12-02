@@ -61,7 +61,7 @@ const routes: Routes = [
     component: ObstacleHomeComponent,
     children: [ 
       { path: 'edit/:id', component: ObstacleEditComponent, resolve: { obstacle: GetObstacleService } },
-      { path: '', component: ObstacleCatalogComponent },
+      { path: '', component: ObstacleCatalogComponent, resolve: { catalog: CatalogResolverService } },
     ]
   },
   { path: '', 

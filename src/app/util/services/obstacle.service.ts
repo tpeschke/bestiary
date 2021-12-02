@@ -29,6 +29,10 @@ export class ObstacleService {
     }
   }
 
+  getCatalog(): any {
+    return this.http.get(local.endpointBase + '/api/obstacles/catalog')
+  }
+
   getObstacle(id, edit): any {
     return {}
     // return this.http.get(local.endpointBase + '/api/beasts/' + id, { params: edit })
