@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
@@ -49,14 +49,27 @@ import { NoGmAuthService } from './util/guards-resolvers/no-gm-auth.service';
 import { RarityConverterPipe } from './util/pipes/rarity-converter.pipe';
 import { QuickViewDrawerComponent } from './quick-view/quick-view-drawer/quick-view-drawer.component';
 import { WeirdShapingEditComponent } from './weird-shaping/weird-shaping-edit/weird-shaping-edit.component';
-import { WeirdShapingDisplayComponent } from './weird-shaping/weird-shaping-display/weird-shaping-display.component'
+import { WeirdShapingDisplayComponent } from './weird-shaping/weird-shaping-display/weird-shaping-display.component';
+import { BestiaryHomeComponent } from './bestiary-home/bestiary-home.component';
+import { ObstacleCatalogComponent } from './obstacle-index/obstacle-catalog/obstacle-catalog.component';
+import { ObstacleHomeComponent } from './obstacle-index/obstacle-home/obstacle-home.component'
 
 const routes: Routes = [
-  { path: '', component: CatalogComponent, resolve: { catalog: CatalogResolverService } },
-  { path: 'beast/:id/gm', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: { beast: SingleBeastResolverService } },
-  { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: { beast: PlayerBeastResolverService } },
-  { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: { beast: SingleBeastResolverService } },
-  { path: 'search', component: SearchResultsComponent },
+  { path: 'obstacle', 
+    component: ObstacleHomeComponent,
+    children: [ { path: '', component: ObstacleCatalogComponent }
+              ]
+  },
+  { path: '', 
+    component: BestiaryHomeComponent,
+    children: [ { path: '', component: CatalogComponent, resolve: { catalog: CatalogResolverService } },
+                { path: 'beast/:id/gm', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: { beast: SingleBeastResolverService } },
+                { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: { beast: PlayerBeastResolverService } },
+                { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: { beast: SingleBeastResolverService } },
+                { path: 'search', component: SearchResultsComponent },
+                { path: '**', redirectTo: '' }
+              ]
+  },
   { path: '**', redirectTo: '' },
 ];
 @NgModule({
@@ -77,7 +90,10 @@ const routes: Routes = [
     RarityConverterPipe,
     QuickViewDrawerComponent,
     WeirdShapingEditComponent,
-    WeirdShapingDisplayComponent
+    WeirdShapingDisplayComponent,
+    BestiaryHomeComponent,
+    ObstacleCatalogComponent,
+    ObstacleHomeComponent
   ],
   imports: [
     BrowserModule,
