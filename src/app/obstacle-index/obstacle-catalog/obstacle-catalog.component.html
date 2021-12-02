@@ -5,7 +5,7 @@
       <mat-divider></mat-divider>
       <div class="obstacle-shells">
         <div *ngFor="let obstacle of category">
-          <button class="obstacle-button" mat-raised-button color="accent">
+          <button class="obstacle-button" mat-raised-button color="accent" (click)="openObstacle(obstacle.id)">
             <i class="fas fa-exclamation-triangle"></i> {{obstacle.name}}
           </button>
         </div>
