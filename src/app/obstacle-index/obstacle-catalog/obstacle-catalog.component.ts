@@ -9,6 +9,7 @@ export class ObstacleCatalogComponent implements OnInit {
 
   constructor() { }
 
+  public obstacles = [[{name: "atest"}], [{name: "btest"}], 'c']
   ngOnInit() {
   }
 

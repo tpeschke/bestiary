@@ -1,0 +1,33 @@
+mat-card {
+    margin-top: 15px;
+}
+
+h1 {
+    color: #607d8b
+}
+
+.mat-button {
+    vertical-align: bottom;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 1px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: grey;
+    border-radius: 4px;
+}

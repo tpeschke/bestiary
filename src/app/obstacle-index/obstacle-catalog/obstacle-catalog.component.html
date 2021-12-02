@@ -1,3 +1,13 @@
-<p>
-  obstacle-catalog works!
-</p>
+<mat-card>
+  <div *ngFor="let category of obstacles">
+    <div *ngIf="category[0].name">
+      <h2>{{category[0].name.substring(0,1) | uppercase}}</h2>
+      <mat-divider></mat-divider>
+    </div>
+    <div *ngIf="!category[0].name">
+      <h2>{{category | uppercase}}</h2>
+      <mat-divider></mat-divider>
+      <h1>There are currently no Obstacles that start with the letter {{category | uppercase}}</h1>
+    </div>
+  </div>
+</mat-card>
