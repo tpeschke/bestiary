@@ -1,5 +1,29 @@
 mat-card {
     margin-top: 15px;
+    position: relative;
+}
+
+.dice-matrix {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    right: 0;
+    top: 0;
+    background: #607d8b;
+    padding: 8px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 15px;
+    transition: .6s;
+    color: white
+}
+
+.dice-matrix i {
+    font-size: 35px;
+}
+
+.dice-matrix:hover {
+    background: lightgray;
+    color: #607d8b
 }
 
 h1 {

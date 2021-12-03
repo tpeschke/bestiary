@@ -1,0 +1,106 @@
+.mat-dialog-container {
+    padding: 24px 12px !important
+}
+
+.cdk-overlay-pane {
+    max-width: unset;
+}
+
+.header-shell {
+    margin: -24px -24px 0 !important;
+    width: unset;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    background: #607d8b;
+    color: white;
+    min-height: 61px;
+    align-items: center;
+}
+
+h1 {
+    font-family: 'umbria';
+    text-align: center;
+    max-width: 315px;
+}
+
+.icon {
+    position: absolute;
+    left: -16px;
+    font-size: 75px;
+    top: -7px;
+}
+
+.table-shell {
+    overflow: scroll;
+}
+
+table {
+    margin-top: 15px;
+    font-size: 11px;
+    text-align: center;
+}
+
+th, td {
+    padding: 2px 2px
+}
+
+.rank-header {
+    background: #795548;
+    color: white;
+    padding: 5px
+}
+
+.difficulty-header {
+    background: #795548;
+    color: white;
+    padding: 80px 5px;
+    vertical-align: bottom;
+    text-align: center;
+}
+
+.difficulty-header span {
+    -ms-writing-mode: tb-rl;
+    -webkit-writing-mode: vertical-rl;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+}
+
+.odd {
+    background: lightgray;
+}
+
+.d {
+    background: #e6b8af;
+}
+
+.a {
+    background: #f9cb9c;
+}
+
+.e {
+    background: #b6d7a8;
+}
+
+.t {
+    background: #93c47d;
+}
+
+.au {
+    background: #6aa84f;
+}
+
+.h {
+    background: #dd7e6b;
+}
+
+.c {
+    background: #cc4125;
+    color: white
+}
+
+.i {
+    background: #a61c00;
+    color: white
+}

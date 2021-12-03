@@ -3,6 +3,7 @@ import {Title} from "@angular/platform-browser";
 import { ActivatedRoute } from '@angular/router';
 import { ObstaclePopUpComponent } from '../obstacle-pop-up/obstacle-pop-up.component';
 import { MatDialog } from '@angular/material';
+import { DifficultyMatrixComponent } from '../difficulty-matrix/difficulty-matrix.component';
 
 @Component({
   selector: 'app-obstacle-catalog',
@@ -28,6 +29,10 @@ export class ObstacleCatalogComponent implements OnInit {
 
   openObstacle(id) {
     this.dialog.open(ObstaclePopUpComponent, { width: '400px', data: { id }});
+  }
+
+  openMatrix() {
+    this.dialog.open(DifficultyMatrixComponent)
   }
 
 }

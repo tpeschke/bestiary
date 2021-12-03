@@ -1,4 +1,7 @@
 <mat-card>
+  <div (click)="openMatrix()" class="dice-matrix">
+    <i class="fas fa-dice-d20"></i>
+  </div>
   <div *ngFor="let category of obstacles">
     <div *ngIf="category[0].name">
       <h2>{{category[0].name.substring(0,1) | uppercase}}</h2>
