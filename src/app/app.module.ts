@@ -56,12 +56,15 @@ import { ObstacleHomeComponent } from './obstacle-index/obstacle-home/obstacle-h
 import { ObstacleEditComponent } from './obstacle-index/obstacle-edit/obstacle-edit.component'
 import { GetObstacleService } from './util/guards-resolvers/get-obstacle.service';
 import { ObstaclePopUpComponent } from './obstacle-index/obstacle-pop-up/obstacle-pop-up.component';
+import { ObstacleSearchComponent } from './obstacle-index/obstacle-search/obstacle-search.component';
+import { ObstacleSearchResultsComponent } from './obstacle-index/obstacle-search-results/obstacle-search-results.component';
 
 const routes: Routes = [
   { path: 'obstacle', 
     component: ObstacleHomeComponent,
     children: [ 
       { path: 'edit/:id', component: ObstacleEditComponent, resolve: { obstacle: GetObstacleService } },
+      { path: 'search', component: ObstacleSearchResultsComponent },
       { path: '', component: ObstacleCatalogComponent, resolve: { catalog: CatalogResolverService } },
     ]
   },
@@ -100,7 +103,9 @@ const routes: Routes = [
     ObstacleCatalogComponent,
     ObstacleHomeComponent,
     ObstacleEditComponent,
-    ObstaclePopUpComponent
+    ObstaclePopUpComponent,
+    ObstacleSearchComponent,
+    ObstacleSearchResultsComponent
   ],
   imports: [
     BrowserModule,

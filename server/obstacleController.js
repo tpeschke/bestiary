@@ -68,17 +68,17 @@ let obstacleController = {
     },
     getObstacle: (req, res) => {
         const db = req.app.get('db')
-        , id = req.params.id
+            , id = req.params.id
 
         db.get.obstacle.base(id).then(obstacle => {
             obstacle = obstacle[0]
             let promiseArray = []
 
-            promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairone').then( pairs => {
+            promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairone').then(pairs => {
                 obstacle.pairone = pairs
                 return true
             }))
-            promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairtwo').then( pairs => {
+            promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairtwo').then(pairs => {
                 obstacle.pairtwo = pairs
                 return true
             }))
@@ -91,7 +91,7 @@ let obstacleController = {
     deleteObstacle: (req, res) => {
         const db = req.app.get('db')
         let promiseArray = []
-        ,   id = req.params.id
+            , id = req.params.id
 
         db.get.obstacle.stringid(id).then(stringid => {
             stringid = stringid[0]
@@ -103,7 +103,29 @@ let obstacleController = {
                 res.send({ color: 'green', message: `Obstacle deleted successfully` })
             })
         })
-    }
+    },
+    search: (req, res) => {
+        const db = req.app.get('db')
+        let promiseArray = []
+        , obstacleArray =[]
+
+        db.get.obstacle.search(req.query.search).then(obstacles => {
+            obstacleArray = obstacles
+            obstacles.forEach((obstacle, i) => {
+                promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairone').then(pairs => {
+                    obstacleArray[i].pairone = pairs
+                    return true
+                }))
+                promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairtwo').then(pairs => {
+                    obstacleArray[i].pairtwo = pairs
+                    return true
+                }))
+            })
+            Promise.all(promiseArray).then(_ => {
+                res.send(obstacleArray)
+            })
+        })
+    },
 }
 
 module.exports = obstacleController

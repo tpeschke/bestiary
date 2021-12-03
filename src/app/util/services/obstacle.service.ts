@@ -53,4 +53,8 @@ export class ObstacleService {
         tap(result => this.handleMessage(result))
       );
   }
+
+  searchObstacles(params): any {
+      return this.http.get(local.endpointBase + '/api/obstacles/search', { params })
+  }
 }
