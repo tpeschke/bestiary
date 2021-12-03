@@ -4,7 +4,9 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { BeastService } from 'src/app/util/services/beast.service';
 import { ObstacleService } from 'src/app/util/services/obstacle.service';
 import variables from '../../../local.js'
+import { DifficultyMatrixComponent } from '../difficulty-matrix/difficulty-matrix.component';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-obstacle-pop-up',
@@ -19,6 +21,7 @@ export class ObstaclePopUpComponent implements OnInit {
     public obstacleService: ObstacleService,
     public beastService: BeastService,
     private router: Router,
+    private dialog: MatDialog,
   ) { }
 
   public obstacle: any = {}
@@ -42,5 +45,9 @@ export class ObstaclePopUpComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  openMatrix() {
+    this.dialog.open(DifficultyMatrixComponent)
   }
 }

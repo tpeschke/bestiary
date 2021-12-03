@@ -25,6 +25,14 @@ p {
     line-height: 1.4;
 }
 
+.fa-dice-d20 {
+    font-size: 15px;
+}
+
+.fa-dice-d20:hover {
+    color: #ff5722
+}
+
 .icon {
     position: absolute;
     left: -36px;

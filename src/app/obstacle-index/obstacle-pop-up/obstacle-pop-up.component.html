@@ -14,7 +14,7 @@
 
   <div *ngIf="obstacle.difficulty" class="striped-background pair-shell">
     <strong>Difficulty</strong>
-    <p>{{obstacle.difficulty}}</p>
+    <p>{{obstacle.difficulty}} <i (click)="openMatrix()" *ngIf="obstacle.difficulty.toUpperCase().includes('by'.toUpperCase())" class="fas fa-dice-d20"></i></p>
   </div>
   <div *ngIf="obstacle.time" class="striped-background pair-shell">
     <strong>Time</strong>
