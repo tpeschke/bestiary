@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-toolbar color="warn">
+    <h1>{{editOrAdd}} 
+      <mat-form-field appearance="fill">
+        <mat-label>Type</mat-label>
+        <mat-select [value]="type" (selectionChange)="selectType($event)">
+          <mat-option value="obstacle">Obstacle</mat-option>
+          <mat-option value="challenge">Skill Challenge</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </h1>
+  </mat-toolbar>
+
+  <app-obstacle-edit *ngIf="type === 'obstacle'" [obstacle]="obstacle"></app-obstacle-edit>
+
+  <app-challenge-edit *ngIf="type === 'challenge'" [challenge]="challenge"></app-challenge-edit>
+</mat-card>

@@ -1,0 +1,52 @@
+.deleteButton {
+    margin-top: 150px
+}
+
+.save-and-delete-shell {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+.input-shell {
+    display: flex;
+    flex-direction: column;
+}
+.pair-list {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.margin-right {
+    margin-right: 15px;
+}
+
+strong {
+    font-weight: bold;
+    min-width: 150px;
+}
+
+.fa-minus-circle:hover, .fa-plus-circle:hover{
+    color: goldenrod;
+}
+
+table tr:nth-child(odd) {
+    background: lightgray;
+}
+
+th {
+    background: #795548;
+    color: white;
+    padding: 3px;
+}
+
+tr td:first-child {
+    text-align: center;
+    padding: 3px;
+}
+
+tr td:nth-child(2), tr th:nth-child(2) {
+    text-align: left;
+    padding: 3px;
+}
