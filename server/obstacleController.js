@@ -40,13 +40,13 @@ let obstacleController = {
     },
     addObstacle: (req, res) => {
         const db = req.app.get('db')
-        let { stringid, complicationsingle, difficulty, failure, information, name, notes, pairone, pairtwo, success, threshold, time, type } = req.body
+        let { stringid, complicationsingle, difficulty, failure, information, name, notes, pairone, pairtwo, success, threshold, time, type, complicationtable } = req.body
 
         if (!stringid) {
             stringid = createStringId()
         }
 
-        db.add.obstacle.base(stringid, complicationsingle, difficulty, failure, information, name, notes, success, threshold, time, type).then(_ => {
+        db.add.obstacle.base(stringid, complicationsingle, difficulty, failure, information, name, notes, success, threshold, time, type, complicationtable).then(_ => {
             let promiseArray = []
 
             promiseArray.push(db.delete.obstacle.pairs([stringid, [0, ...pairone.map(pairone => pairone.id)], 'pairone']).then(_ => {
@@ -59,6 +59,12 @@ let obstacleController = {
                     return db.add.obstacle.pairs(pairtwoid, stringid, name, body, 'pairtwo', index)
                 })
             }).catch(e => console.log("pair two ~ ", e)))
+
+            promiseArray.push(db.delete.obstacle.comps([stringid, [0, ...complicationtable.map(complicationtable => complicationtable.id)], 'complicationtable']).then(_ => {
+                return complicationtable.map(({ id: complicationtableid, name, body, index }) => {
+                    return db.add.obstacle.comps(complicationtableid, stringid, name, body, index)
+                })
+            }).catch(e => console.log("complication table ~ ", e)))
 
             Promise.all(promiseArray).then(_ => {
                 obstacleController.collectCache(req.app, 0)
@@ -83,6 +89,11 @@ let obstacleController = {
                 return true
             }))
 
+            promiseArray.push(db.get.obstacle.comps(obstacle.stringid).then(complicationtable => {
+                obstacle.complicationtable = complicationtable
+                return true
+            }))
+
             Promise.all(promiseArray).then(_ => {
                 res.send(obstacle)
             })
@@ -96,6 +107,7 @@ let obstacleController = {
         db.get.obstacle.stringid(id).then(stringid => {
             stringid = stringid[0]
             promiseArray.push(db.delete.obstacle.allpairs(stringid.stringid).then())
+            promiseArray.push(db.delete.obstacle.allcomps(stringid.stringid).then())
             promiseArray.push(db.delete.obstacle.obstacle(id).then())
 
             Promise.all(promiseArray).then(_ => {
@@ -107,7 +119,7 @@ let obstacleController = {
     search: (req, res) => {
         const db = req.app.get('db')
         let promiseArray = []
-        , obstacleArray =[]
+            , obstacleArray = []
 
         db.get.obstacle.search(req.query.search).then(obstacles => {
             obstacleArray = obstacles
@@ -118,6 +130,11 @@ let obstacleController = {
                 }))
                 promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairtwo').then(pairs => {
                     obstacleArray[i].pairtwo = pairs
+                    return true
+                }))
+
+                promiseArray.push(db.get.obstacle.comps(obstacle.stringid).then(complicationtable => {
+                    obstacle.complicationtable = complicationtable
                     return true
                 }))
             })

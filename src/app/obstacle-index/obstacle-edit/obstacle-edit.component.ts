@@ -23,6 +23,7 @@ export class ObstacleEditComponent implements OnInit {
     threshold: null,
     time: null,
     complicationsingle: null,
+    complicationtable: [],
     failure: null,
     success: null,
     pairone: [],
@@ -37,6 +38,11 @@ export class ObstacleEditComponent implements OnInit {
     body: null
   }
   public pairtwo = {
+    index: null,
+    name: null,
+    body: null
+  }
+  public row = {
     index: null,
     name: null,
     body: null
@@ -71,6 +77,27 @@ export class ObstacleEditComponent implements OnInit {
       this[pair].index = this.obstacle[pair].length
       this.obstacle[pair].push(this[pair])
       this[pair] = {
+        index: null,
+        name: null,
+        body: null
+      }
+    }
+  }
+
+  captureRow(event, type) {
+    this.row[type] = event.target.value
+  }
+
+  removeRow(index) {
+    this.obstacle.complicationtable.splice(index, 1)
+  }
+
+  saveRow() {
+    if (this.row.name && this.row.body) {
+      this.row.index = this.obstacle.complicationtable.length
+      this.obstacle.complicationtable.push(this.row)
+      this.row = {
+        index: null,
         name: null,
         body: null
       }

@@ -62,3 +62,29 @@ strong {
     font-weight: bold;
     min-width: 125px;
 }
+
+table {
+    width: 95%;
+    margin: 3px auto;
+    font-size: 13px;
+}
+
+table tr:nth-child(odd) {
+    background: lightgray;
+}
+
+th {
+    background: #795548;
+    color: white;
+    padding: 3px;
+}
+
+tr td:first-child {
+    text-align: center;
+    padding: 3px;
+}
+
+tr td:nth-child(2), tr th:nth-child(2) {
+    text-align: left;
+    padding: 3px;
+}

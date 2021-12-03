@@ -14,7 +14,8 @@
     </mat-form-field>
 
     <mat-form-field>
-      <textarea matInput [value]="obstacle.threshold" (change)="captureInput($event, 'threshold')" placeholder="Threshold"></textarea>
+      <textarea matInput [value]="obstacle.threshold" (change)="captureInput($event, 'threshold')"
+        placeholder="Threshold"></textarea>
     </mat-form-field>
 
     <mat-form-field>
@@ -26,15 +27,38 @@
         placeholder="Single Complication"></textarea>
     </mat-form-field>
 
-    <!-- Complication Tables
-            Possibly linked to Skills -->
+    <table>
+      <tr>
+        <th>Roll</th>
+        <th colspan="2">Complication</th>
+      </tr>
+      <tr *ngFor="let row of obstacle.complicationtable; let i = index">
+        <td>{{row.name}}</td>
+        <td>{{row.body}}</td>
+        <td (click)="removeRow(i)"><i class="fas fa-minus-circle"></i></td>
+      </tr>
+    </table>
+
+    <div class="pair-list">
+      <mat-form-field class="margin-right">
+        <input matInput (change)="captureRow($event, 'name')" placeholder="Name">
+      </mat-form-field>
+      <mat-form-field class="margin-right">
+        <textarea matInput (change)="captureRow($event, 'body')" placeholder="Body"></textarea>
+      </mat-form-field>
+      <i (click)="saveRow()" class="fas fa-plus-circle"></i>
+    </div>
+
+    <!-- Possibly linked to Skills -->
 
     <mat-form-field>
-      <textarea matInput [value]="obstacle.failure" (change)="captureInput($event, 'failure')" placeholder="On Failure"></textarea>
+      <textarea matInput [value]="obstacle.failure" (change)="captureInput($event, 'failure')"
+        placeholder="On Failure"></textarea>
     </mat-form-field>
 
     <mat-form-field>
-      <textarea matInput [value]="obstacle.success" (change)="captureInput($event, 'success')" placeholder="On Success"></textarea>
+      <textarea matInput [value]="obstacle.success" (change)="captureInput($event, 'success')"
+        placeholder="On Success"></textarea>
     </mat-form-field>
   </div>
 
@@ -59,7 +83,8 @@
 
   <div>
     <h2>Information Bullet Points</h2>
-    <quill-editor [(ngModel)]="obstacle.information" (onContentChanged)="captureHTML($event, 'information')"></quill-editor>
+    <quill-editor [(ngModel)]="obstacle.information" (onContentChanged)="captureHTML($event, 'information')">
+    </quill-editor>
   </div>
 
   <div>

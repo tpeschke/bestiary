@@ -287,9 +287,18 @@ create table obbase (
 );
 
 create table obpairs (
-    id varchar(50) primary key,
+    id serial primary key,
     name varchar(500),
     body varchar(500),
     type varchar(25),
-    index int
+    index int,
+    stringid varchar(50)
+);
+
+create table obcomplications (
+    id serial primary key,
+    name varchar(500),
+    body varchar(500),
+    index int,
+    stringid varchar(50)
 );
