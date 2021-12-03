@@ -58,6 +58,7 @@ import { GetObstacleService } from './util/guards-resolvers/get-obstacle.service
 import { ObstaclePopUpComponent } from './obstacle-index/obstacle-pop-up/obstacle-pop-up.component';
 import { ObstacleSearchComponent } from './obstacle-index/obstacle-search/obstacle-search.component';
 import { ObstacleSearchResultsComponent } from './obstacle-index/obstacle-search-results/obstacle-search-results.component';
+import { DifficultyMatrixComponent } from './obstacle-index/difficulty-matrix/difficulty-matrix.component';
 
 const routes: Routes = [
   { path: 'obstacle', 
@@ -105,7 +106,8 @@ const routes: Routes = [
     ObstacleEditComponent,
     ObstaclePopUpComponent,
     ObstacleSearchComponent,
-    ObstacleSearchResultsComponent
+    ObstacleSearchResultsComponent,
+    DifficultyMatrixComponent
   ],
   imports: [
     BrowserModule,
@@ -129,7 +131,7 @@ const routes: Routes = [
     QuillModule.forRoot(),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })
   ],
-  entryComponents: [HewyRatingComponent, ObstaclePopUpComponent],
+  entryComponents: [HewyRatingComponent, ObstaclePopUpComponent, DifficultyMatrixComponent],
   providers: [BeastService, CalculatorService],
   bootstrap: [AppComponent]
 })
