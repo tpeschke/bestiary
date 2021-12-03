@@ -1,0 +1,64 @@
+<div *ngIf="obstacles === 'loading'">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
+
+<div class="results-shell" *ngIf="obstacles.length > 0 && obstacles !== 'loading'">
+  <div routerLink="/obstacle" class="back-to-catalog"><i class="fas fa-arrow-left"></i></div>
+  <mat-card *ngFor="let obstacle of obstacles">
+    <div *ngIf="obstacle.name" class="pop-up">
+      <div class="header-shell" color="accent">
+        <i class="fas fa-exclamation-triangle icon"></i>
+        <h1>{{obstacle.name}}</h1>
+      </div>
+
+      <div *ngIf="obstacle.difficulty" class="striped-background pair-shell">
+        <strong>Difficulty</strong>
+        <p>{{obstacle.difficulty}}</p>
+      </div>
+      <div *ngIf="obstacle.time" class="striped-background pair-shell">
+        <strong>Time</strong>
+        <p>{{obstacle.time}}</p>
+      </div>
+
+      <div *ngFor="let pair of obstacle.pairtwo" class="striped-background pair-shell">
+        <strong>{{pair.name}}</strong>
+        <p>{{pair.body}}</p>
+      </div>
+
+      <div *ngIf="obstacle.threshold" class="striped-background pair-shell">
+        <strong>Failure Threshold</strong>
+        <p>{{obstacle.threshold}}</p>
+      </div>
+      <div *ngIf="obstacle.complicationsingle" class="striped-background pair-shell">
+        <strong>Complication</strong>
+        <p>{{obstacle.complicationsingle}}</p>
+      </div>
+      <div *ngIf="obstacle.failure" class="pair-shell striped-background">
+        <strong>On Failure</strong>
+        <p>{{obstacle.failure}}</p>
+      </div>
+      <div *ngIf="obstacle.success" class="striped-background pair-shell">
+        <strong>On Success</strong>
+        <p>{{obstacle.success}}</p>
+      </div>
+
+      <span *ngFor="let pair of obstacle.pairone" class="striped-background pair-shell">
+        <strong>{{pair.name}}</strong>
+        <p>{{pair.body}}</p>
+      </span>
+
+      <div *ngIf="obstacle.information" class="striped-background quill-obstacle-view">
+        <quill-view-html *ngIf="obstacle.information" [content]="obstacle.information"></quill-view-html>
+      </div>
+
+      <div *ngIf="obstacle.notes" class="striped-background quill-obstacle-view">
+        <strong class="notes-strong">Note(s)</strong>
+        <quill-view-html [content]="obstacle.notes"></quill-view-html>
+      </div>
+    </div>
+  </mat-card>
+</div>

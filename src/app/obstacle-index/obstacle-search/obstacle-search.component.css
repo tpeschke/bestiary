@@ -1,0 +1,146 @@
+mat-card {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-bottom: 15px;
+}
+
+button {
+  margin-top: 15px;
+}
+
+.search-shell {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+  
+  .example-full-width {
+      width: 96.5%;
+      margin-left: 15px;
+  }
+  
+  .mat-expansion-panel {
+      box-shadow: none;
+      background: rgba(211, 211, 211, 0.5);
+  }
+  
+  .environPanel {
+    margin-top: 15px;
+  }
+  
+  .searchBody {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  
+  .example-half-width {
+    width: 47%;
+  }
+  
+  .example-quarter-width {
+    width: 25%;
+  }
+  
+  .searchBody div {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    max-width: 47%;
+  }
+  
+  .searchCheckboxes {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 100px;
+    margin-left: 8px;
+    max-width: 96.5% !important;
+    width: 96.5% !important;
+  }
+  
+  .environShell {
+    margin-top: 15px
+  }
+  
+  .searchBody div p:first-child {
+    margin-right: 15px;
+  }
+  
+  .searchBody div p:nth-child(3) {
+    margin: 0 15px;
+  }
+
+  .bounce1, .bounce2, .bounce3 {
+    background: #607d8b
+}
+
+.header-shell {
+    margin: -24px -24px 0 !important;
+    width: unset;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    background: #607d8b;
+    color: white;
+    min-height: 61px;
+    align-items: center;
+}
+
+h1 {
+    font-family: 'umbria';
+    text-align: center;
+    max-width: 315px;
+}
+
+p {
+    white-space: pre-wrap;
+    line-height: 1.4;
+}
+
+.icon {
+    position: absolute;
+    left: -36px;
+    font-size: 82px;
+}
+
+.pair-shell {
+    padding: 5px 3px;
+    display: flex;
+    align-items: center;
+}
+
+.notes-strong {
+    padding: 5px 3px;
+}
+
+.pop-up .striped-background:nth-child(2) {
+    margin-top: 15px;
+}
+
+.pop-up .striped-background:nth-child(odd) {
+    background: lightgray
+}
+
+strong {
+    font-family: 'know';
+    font-weight: bold;
+    min-width: 125px;
+}
+
+@media (max-width: 699px) {
+  .example-half-width {
+    width: 100%;
+  }
+  
+  .searchBody div {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    max-width: 100%;
+  }
+
+  .searchCheckboxes {
+    max-height: none;
+  }
+}
