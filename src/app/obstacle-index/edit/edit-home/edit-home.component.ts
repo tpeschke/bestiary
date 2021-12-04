@@ -17,7 +17,7 @@ export class EditHomeComponent implements OnInit {
   public obstacle = {}
   public challenge = {}
 
-  public type = "challenge"
+  public type = "obstacle"
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -29,6 +29,7 @@ export class EditHomeComponent implements OnInit {
         } else if (obstacle.type === "challenge") {
           this.challenge = obstacle
         }
+        this.type = obstacle.type
       }
     })
   }

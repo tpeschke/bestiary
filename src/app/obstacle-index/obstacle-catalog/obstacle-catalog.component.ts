@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Title} from "@angular/platform-browser";
 import { ActivatedRoute } from '@angular/router';
-import { ObstaclePopUpComponent } from '../pop-ups/obstacle-pop-up/obstacle-pop-up.component';
+import { ObstaclePopUpComponent } from '../obstacle-pop-up/obstacle-pop-up.component';
 import { MatDialog } from '@angular/material';
 import { DifficultyMatrixComponent } from '../difficulty-matrix/difficulty-matrix.component';
-import { ChallengePopUpComponent } from '../pop-ups/challenge-pop-up/challenge-pop-up.component';
+import { ChallengePopUpComponent } from '../view/challenge-pop-up/challenge-pop-up.component';
 
 @Component({
   selector: 'app-obstacle-catalog',

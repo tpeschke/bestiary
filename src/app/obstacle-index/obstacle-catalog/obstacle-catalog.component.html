@@ -8,9 +8,14 @@
       <mat-divider></mat-divider>
       <div class="obstacle-shells">
         <div *ngFor="let obstacle of category">
-          <button class="obstacle-button" mat-raised-button color="accent" (click)="openObstacle(obstacle.id, obstacle.type)">
-            <i *ngIf="obstacle.type === 'obstacle'" class="fas fa-exclamation-triangle"></i> 
-            <i *ngIf="obstacle.type === 'challenge'" class="fas fa-project-diagram"></i>
+          <button *ngIf="obstacle.type === 'obstacle'" class="obstacle-button" mat-raised-button color="accent"
+            (click)="openObstacle(obstacle.id, obstacle.type)">
+            <i class="fas fa-exclamation-triangle"></i>
+            {{obstacle.name}}
+          </button>
+          <button *ngIf="obstacle.type === 'challenge'" class="obstacle-button" mat-raised-button color="accent"
+          [routerLink]="['/obstacle', 'view', obstacle.id]">
+            <i class="fas fa-project-diagram"></i>
             {{obstacle.name}}
           </button>
         </div>

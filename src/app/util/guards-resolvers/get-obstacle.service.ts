@@ -18,9 +18,9 @@ export class GetObstacleService {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any> {
-    let id = +route.paramMap.get('id')
+    let id = +route.paramMap.get('id').split(',')
     if (id) {
-      return this.obstacleService.getObstacle(id, null)
+      return this.obstacleService.getObstacle(id, 'obstacle')
         .pipe(
           tap(_ => {
             var scrollToTop = window.setInterval(function () {

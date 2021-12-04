@@ -1,14 +1,10 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { BeastService } from 'src/app/util/services/beast.service';
 import { ObstacleService } from 'src/app/util/services/obstacle.service';
 import variables from '../../../../local.js'
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
 import mermaid from "mermaid";
 import { ToastrService } from 'ngx-toastr';
-import { ObstaclePopUpComponent } from '../obstacle-pop-up/obstacle-pop-up.component.js';
 
 @Component({
   selector: 'app-challenge-pop-up',
@@ -19,22 +15,24 @@ export class ChallengePopUpComponent implements OnInit {
   @ViewChild("mermaid")
   public mermaidDiv;
 
+  @Input() id: Number;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { id: string },
-    public dialogRef: MatDialogRef<ChallengePopUpComponent>,
     public obstacleService: ObstacleService,
     public beastService: BeastService,
     private router: Router,
-    private dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private changeDetector: ChangeDetectorRef
   ) { }
 
   public challenge: any = {}
   public loggedIn: boolean | string | number = false;
   public loginEndpoint = variables.login
 
+  public viewObstacleId = 0;
+
   ngOnInit() {
-    this.obstacleService.getObstacle(this.data.id, 'challenge').subscribe(challenge => {
+    this.obstacleService.getObstacle(this.id, 'challenge').subscribe(challenge => {
       this.challenge = challenge
       setTimeout(() => this.initMermaid(this.challenge.flowchart), 500)
     })
@@ -55,20 +53,12 @@ export class ChallengePopUpComponent implements OnInit {
     });
   }
 
-  goToEdit() {
-    this.dialogRef.close();
-    this.router.navigate([`/obstacle/edit/${this.challenge.id}`])
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
   setUpEventListeners() {
     let nodes = Array.from(document.getElementsByClassName('node'));
     nodes.forEach(node => {
       let label = node.children.item(1).children.item(0).children.item(0).children.item(0).innerHTML
       this.obstacleService.checkIfObstacleIsValid(label).subscribe(result => {
+        console.log(result.id)
         if (result.id) {
           node.addEventListener('click', this.showPopup(result.id));
         } else {
@@ -80,19 +70,29 @@ export class ChallengePopUpComponent implements OnInit {
 
   showPopup = (id) => {
     return () => {
-      this.dialog.open(ObstaclePopUpComponent, { width: '400px', data: { id }});
+      this.viewObstacleId = id
     }
   }
 
-  handleMessage (message) {
+  handleMessage(message) {
     this.toastr.error(message)
   }
 
-  showError(label) {
+  showError = (label) => {
     let handleMessage = this.handleMessage.bind(this);
-    return function() {
+    return () => {
+      this.viewObstacleId = 0
       handleMessage(`"${label}" doesn't currently have a valid Obstacle associated with it`)
     }
   }
 
+  goToEditBinded = this.goToEdit.bind(this)
+  
+  goToEdit() {
+    this.router.navigate([`/obstacle/edit/${this.id}`])
+  }
+  
+  goToEditChallenge() {
+    this.router.navigate([`/obstacle/edit/${this.challenge.id}`])
+  }
 }

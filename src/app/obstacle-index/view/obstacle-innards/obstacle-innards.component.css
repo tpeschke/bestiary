@@ -12,6 +12,7 @@
     color: white;
     min-height: 61px;
     align-items: center;
+    overflow: hidden;
 }
 
 h1 {
@@ -35,8 +36,8 @@ p {
 
 .icon {
     position: absolute;
-    left: -8px;
-    font-size: 64px;
+    left: -36px;
+    font-size: 82px;
 }
 
 .pair-shell {
@@ -87,11 +88,4 @@ tr td:first-child {
 tr td:nth-child(2), tr th:nth-child(2) {
     text-align: left;
     padding: 3px;
-}
-
-.mermaid-shell {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    align-items: center;
 }

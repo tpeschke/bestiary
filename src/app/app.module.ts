@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
@@ -55,21 +55,25 @@ import { ObstacleCatalogComponent } from './obstacle-index/obstacle-catalog/obst
 import { ObstacleHomeComponent } from './obstacle-index/obstacle-home/obstacle-home.component';
 import { ObstacleEditComponent } from './obstacle-index/edit/obstacle-edit/obstacle-edit.component'
 import { GetObstacleService } from './util/guards-resolvers/get-obstacle.service';
-import { ObstaclePopUpComponent } from './obstacle-index/pop-ups/obstacle-pop-up/obstacle-pop-up.component';
+import { ObstaclePopUpComponent } from './obstacle-index/obstacle-pop-up/obstacle-pop-up.component';
 import { ObstacleSearchComponent } from './obstacle-index/obstacle-search/obstacle-search.component';
 import { ObstacleSearchResultsComponent } from './obstacle-index/obstacle-search-results/obstacle-search-results.component';
 import { DifficultyMatrixComponent } from './obstacle-index/difficulty-matrix/difficulty-matrix.component';
 import { ChallengeEditComponent } from './obstacle-index/edit/challenge-edit/challenge-edit.component';
 import { EditHomeComponent } from './obstacle-index/edit/edit-home/edit-home.component';
-import { ChallengePopUpComponent } from './obstacle-index/pop-ups/challenge-pop-up/challenge-pop-up.component';
+import { ChallengePopUpComponent } from './obstacle-index/view/challenge-pop-up/challenge-pop-up.component';
+import { ChallengeShellComponent } from './obstacle-index/view/challenge-shell/challenge-shell.component';
+import { ObstacleInnardsComponent } from './obstacle-index/view/obstacle-innards/obstacle-innards.component';
 
 const routes: Routes = [
   { path: 'obstacle', 
     component: ObstacleHomeComponent,
     children: [ 
+      { path: 'view/:id', component: ChallengeShellComponent},
       { path: 'edit/:id', component: EditHomeComponent, resolve: { obstacle: GetObstacleService } },
       { path: 'search', component: ObstacleSearchResultsComponent },
       { path: '', component: ObstacleCatalogComponent, resolve: { catalog: CatalogResolverService } },
+      { path: '**', redirectTo: '' },
     ]
   },
   { path: '', 
@@ -113,7 +117,9 @@ const routes: Routes = [
     DifficultyMatrixComponent,
     ChallengeEditComponent,
     EditHomeComponent,
-    ChallengePopUpComponent
+    ChallengePopUpComponent,
+    ChallengeShellComponent,
+    ObstacleInnardsComponent
   ],
   imports: [
     BrowserModule,

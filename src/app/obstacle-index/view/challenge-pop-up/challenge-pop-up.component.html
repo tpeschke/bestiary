@@ -11,13 +11,22 @@
     <i class="fas fa-project-diagram icon"></i>
     <h1>{{challenge.name}}</h1>
   </div>
+  
+  <div *ngIf="challenge.notes">
+    <quill-view-html [content]="challenge.notes"></quill-view-html>
+    <div class="divider"></div>
+  </div>
 
-  <h2>Skill Flow</h2>
   <div class="mermaid-shell">
     <p>Click on any node to get the assocated Obstacle</p>
-    <div #mermaid></div>
+    <div class="mermaid-inner-shell">
+      <div #mermaid></div>
+      <div *ngIf="viewObstacleId > 0" class="view-obstacles">
+        <app-obstacle-innards [id]="viewObstacleId" [goToEdit]="goToEditBinded"></app-obstacle-innards>
+      </div>
+    </div>
   </div>
 
   <button class="new-button right-most-buttom" *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
-  (click)="goToEdit()">Edit</button>
+  (click)="goToEditChallenge()">Edit</button>
 </div>
