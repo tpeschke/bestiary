@@ -17,7 +17,7 @@ export class EditHomeComponent implements OnInit {
   public obstacle = {}
   public challenge = {}
 
-  public type = "obstacle"
+  public type = "challenge"
 
   ngOnInit() {
     this.route.data.subscribe(data => {

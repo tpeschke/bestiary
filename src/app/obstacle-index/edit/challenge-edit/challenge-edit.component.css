@@ -1,0 +1,13 @@
+.input-shell {
+    display: flex;
+    flex-direction: column;
+}
+
+textarea {
+    height: 250px;
+}
+
+li {
+    list-style-type: disc;
+    list-style: inside;
+}
