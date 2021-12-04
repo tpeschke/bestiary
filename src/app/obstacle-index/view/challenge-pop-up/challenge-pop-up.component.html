@@ -18,12 +18,24 @@
   </div>
 
   <div class="mermaid-shell">
-    <p>Click on any node to get the assocated Obstacle</p>
+    <p class="subtitle">Click on any node to get the assocated Obstacle</p>
     <div class="mermaid-inner-shell">
       <div #mermaid></div>
       <div *ngIf="viewObstacleId > 0" class="view-obstacles">
         <app-obstacle-innards [id]="viewObstacleId" [goToEdit]="goToEditBinded"></app-obstacle-innards>
       </div>
+    </div>
+  </div>
+
+  <div *ngIf="challenge.beasts.length > 0">
+    <h2>Related Beasts</h2>
+    <div class="divider"></div>
+    <div class="chip-shell">
+      <mat-chip-list>
+        <div *ngFor="let beast of challenge.beasts; let i = index">
+          <mat-chip color="accent" selected [routerLink]="['/beast', beast.beastid, 'player']">{{beast.name}}</mat-chip>
+        </div>
+      </mat-chip-list>
     </div>
   </div>
 

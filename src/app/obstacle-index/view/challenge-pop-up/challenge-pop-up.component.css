@@ -124,3 +124,12 @@ tr td:nth-child(2), tr th:nth-child(2) {
 .beast-header {
     margin-top: 15px;
 }
+
+.chip-shell {
+    margin: 15px;
+}
+
+.subtitle {
+    margin-top: 15px;
+    font-style: italic;
+}

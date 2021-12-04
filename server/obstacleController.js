@@ -138,7 +138,14 @@ let obstacleController = {
 
         db.get.obstacle.challenges(id).then(challenge => {
             challenge = challenge[0]
-            res.send(challenge)
+            let promiseArray = []
+
+            promiseArray.push(db.get.obstacle.relatedbeasts(challenge.id).then(result => {
+                challenge.beasts = result
+            }))
+            Promise.all(promiseArray).then(_ => {
+                res.send(challenge)
+            })
         })
     },
     deleteObstacle: (req, res) => {
