@@ -38,6 +38,13 @@ let obstacleController = {
             console.log('obstacle catalog collected')
         }
     },
+    add: (req, res) => {
+        if (req.body.type === 'obstacle') {
+            obstacleController.addObstacle(req, res)
+        } else if (req.body.type === 'challenge') {
+            obstacleController.addChallenge(req, res)
+        }
+    },
     addObstacle: (req, res) => {
         const db = req.app.get('db')
         let { stringid, complicationsingle, difficulty, failure, information, name, notes, pairone, pairtwo, success, threshold, time, type, complicationtable } = req.body
@@ -70,6 +77,15 @@ let obstacleController = {
                 obstacleController.collectCache(req.app, 0)
                 res.send({ color: 'green', message: `${type.toProperCase()} added successfully` })
             })
+        })
+    },
+    addChallenge: (req, res) => {
+        const db = req.app.get('db')
+        let { id, type, name, flowchart, notes } = req.body
+
+        db.add.obstacle.challenge(id, type, name, flowchart, notes).then(result => {
+            obstacleController.collectCache(req.app, 0)
+            res.send({ color: 'green', message: `${type.toProperCase()} added successfully` })
         })
     },
     getObstacle: (req, res) => {
@@ -143,6 +159,19 @@ let obstacleController = {
             })
         })
     },
+    isValid: (req, res) => {
+        const db = req.app.get('db')
+        let name = req.params.name
+        
+        db.get.obstacle.byName(name).then(id => {
+            id = id[0]
+            if (!id) {
+                res.send({valid: false})
+            } else {
+                res.send({valid: true})
+            }
+        })
+    }
 }
 
 module.exports = obstacleController

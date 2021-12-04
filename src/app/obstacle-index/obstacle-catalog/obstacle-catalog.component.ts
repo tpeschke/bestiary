@@ -27,8 +27,12 @@ export class ObstacleCatalogComponent implements OnInit {
     })
   }
 
-  openObstacle(id) {
-    this.dialog.open(ObstaclePopUpComponent, { width: '400px', data: { id }});
+  openObstacle(id, type) {
+    if (type === 'obstacle') {
+      this.dialog.open(ObstaclePopUpComponent, { width: '400px', data: { id }});
+    } else if (type === 'challenge') {
+      
+    }
   }
 
   openMatrix() {

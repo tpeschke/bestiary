@@ -55,6 +55,10 @@ export class ObstacleService {
   }
 
   searchObstacles(params): any {
-      return this.http.get(local.endpointBase + '/api/obstacles/search', { params })
+    return this.http.get(local.endpointBase + '/api/obstacles/search', { params })
+  }
+
+  checkIfObstacleIsValid(name): any {
+    return this.http.get(local.endpointBase + '/api/obstacles/isValid/' + name)
   }
 }

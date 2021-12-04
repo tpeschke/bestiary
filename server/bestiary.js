@@ -109,10 +109,12 @@ function ownerAuth (req, res, next) {
     }
 }
 
+app.get('/api/obstacles/isValid/:name', obstCtrl.isValid)
+
 app.patch('/api/beasts/edit', ownerAuth, ctrl.editBeast)
 
 app.post('/api/beasts/add', ownerAuth, ctrl.addBeast)
-app.post('/api/obstacles/add', ownerAuth, obstCtrl.addObstacle)
+app.post('/api/obstacles/add', ownerAuth, obstCtrl.add)
 app.post('/api/v1/upload/:id', ownerAuth, upload.array('image', 1), (req, res) => res.send({ image: req.file }));
 
 app.delete('/api/beasts/delete/:id', ownerAuth, ctrl.deleteBeast)

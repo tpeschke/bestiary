@@ -53,18 +53,20 @@ import { WeirdShapingDisplayComponent } from './weird-shaping/weird-shaping-disp
 import { BestiaryHomeComponent } from './bestiary-home/bestiary-home.component';
 import { ObstacleCatalogComponent } from './obstacle-index/obstacle-catalog/obstacle-catalog.component';
 import { ObstacleHomeComponent } from './obstacle-index/obstacle-home/obstacle-home.component';
-import { ObstacleEditComponent } from './obstacle-index/obstacle-edit/obstacle-edit.component'
+import { ObstacleEditComponent } from './obstacle-index/edit/obstacle-edit/obstacle-edit.component'
 import { GetObstacleService } from './util/guards-resolvers/get-obstacle.service';
 import { ObstaclePopUpComponent } from './obstacle-index/obstacle-pop-up/obstacle-pop-up.component';
 import { ObstacleSearchComponent } from './obstacle-index/obstacle-search/obstacle-search.component';
 import { ObstacleSearchResultsComponent } from './obstacle-index/obstacle-search-results/obstacle-search-results.component';
 import { DifficultyMatrixComponent } from './obstacle-index/difficulty-matrix/difficulty-matrix.component';
+import { ChallengeEditComponent } from './obstacle-index/edit/challenge-edit/challenge-edit.component';
+import { EditHomeComponent } from './obstacle-index/edit/edit-home/edit-home.component';
 
 const routes: Routes = [
   { path: 'obstacle', 
     component: ObstacleHomeComponent,
     children: [ 
-      { path: 'edit/:id', component: ObstacleEditComponent, resolve: { obstacle: GetObstacleService } },
+      { path: 'edit/:id', component: EditHomeComponent, resolve: { obstacle: GetObstacleService } },
       { path: 'search', component: ObstacleSearchResultsComponent },
       { path: '', component: ObstacleCatalogComponent, resolve: { catalog: CatalogResolverService } },
     ]
@@ -107,7 +109,9 @@ const routes: Routes = [
     ObstaclePopUpComponent,
     ObstacleSearchComponent,
     ObstacleSearchResultsComponent,
-    DifficultyMatrixComponent
+    DifficultyMatrixComponent,
+    ChallengeEditComponent,
+    EditHomeComponent
   ],
   imports: [
     BrowserModule,

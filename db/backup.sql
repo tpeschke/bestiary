@@ -302,3 +302,11 @@ create table obcomplications (
     index int,
     stringid varchar(50)
 );
+
+create table obchallenges (
+    id serial primary key unique,
+    name varchar(500),
+    flowchart text,
+    type varchar(25),
+    notes varchar(1000)
+);
