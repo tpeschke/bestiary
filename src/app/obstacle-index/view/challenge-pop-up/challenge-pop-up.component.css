@@ -37,6 +37,7 @@ p {
     position: absolute;
     left: -8px;
     font-size: 64px;
+    top: 7px;
 }
 
 .pair-shell {

@@ -58,7 +58,6 @@ export class ChallengePopUpComponent implements OnInit {
     nodes.forEach(node => {
       let label = node.children.item(1).children.item(0).children.item(0).children.item(0).innerHTML
       this.obstacleService.checkIfObstacleIsValid(label).subscribe(result => {
-        console.log(result.id)
         if (result.id) {
           node.addEventListener('click', this.showPopup(result.id));
         } else {
@@ -89,10 +88,10 @@ export class ChallengePopUpComponent implements OnInit {
   goToEditBinded = this.goToEdit.bind(this)
   
   goToEdit() {
-    this.router.navigate([`/obstacle/edit/${this.id}`])
+    this.router.navigate([`/obstacle/edit/${this.viewObstacleId}`])
   }
   
   goToEditChallenge() {
-    this.router.navigate([`/obstacle/edit/${this.challenge.id}`])
+    this.router.navigate([`/obstacle/edit/${this.challenge.id},challenge`])
   }
 }

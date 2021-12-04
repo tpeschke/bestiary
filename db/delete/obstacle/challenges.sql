@@ -1,0 +1,1 @@
+delete from obchallenges where id = $1

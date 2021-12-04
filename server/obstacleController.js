@@ -82,11 +82,17 @@ let obstacleController = {
     addChallenge: (req, res) => {
         const db = req.app.get('db')
         let { id, type, name, flowchart, notes } = req.body
-
-        db.add.obstacle.challenge(id, type, name, flowchart, notes).then(result => {
-            obstacleController.collectCache(req.app, 0)
-            res.send({ color: 'green', message: `${type.toProperCase()} added successfully` })
-        })
+        if (id) {
+            db.update.obstacle.challenge(type, name, flowchart, notes, id).then(result => {
+                obstacleController.collectCache(req.app, 0)
+                res.send({ color: 'green', message: `${type.toProperCase()} added successfully` })
+            }).catch(e => console.log('Add challenge', e))
+        } else {
+            db.add.obstacle.challenge(type, name, flowchart, notes).then(result => {
+                obstacleController.collectCache(req.app, 0)
+                res.send({ color: 'green', message: `${type.toProperCase()} added successfully` })
+            }).catch(e => console.log('Add challenge', e))
+        }
     },
     get: (req, res) => {
         if (req.query.type === 'obstacle' || !req.query.type) {
@@ -99,28 +105,32 @@ let obstacleController = {
         const db = req.app.get('db')
             , id = req.params.id
 
-        db.get.obstacle.base(id).then(obstacle => {
-            obstacle = obstacle[0]
-            let promiseArray = []
-
-            promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairone').then(pairs => {
-                obstacle.pairone = pairs
-                return true
-            }))
-            promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairtwo').then(pairs => {
-                obstacle.pairtwo = pairs
-                return true
-            }))
-
-            promiseArray.push(db.get.obstacle.comps(obstacle.stringid).then(complicationtable => {
-                obstacle.complicationtable = complicationtable
-                return true
-            }))
-
-            Promise.all(promiseArray).then(_ => {
-                res.send(obstacle)
+        if (id > 0) {
+            db.get.obstacle.base(id).then(obstacle => {
+                obstacle = obstacle[0]
+                let promiseArray = []
+    
+                promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairone').then(pairs => {
+                    obstacle.pairone = pairs
+                    return true
+                }))
+                promiseArray.push(db.get.obstacle.pairs(obstacle.stringid, 'pairtwo').then(pairs => {
+                    obstacle.pairtwo = pairs
+                    return true
+                }))
+    
+                promiseArray.push(db.get.obstacle.comps(obstacle.stringid).then(complicationtable => {
+                    obstacle.complicationtable = complicationtable
+                    return true
+                }))
+    
+                Promise.all(promiseArray).then(_ => {
+                    res.send(obstacle)
+                })
             })
-        })
+        } else {
+            res.send({})
+        }
     },
     getChallenge: (req, res) => {
         const db = req.app.get('db')
@@ -130,23 +140,31 @@ let obstacleController = {
             challenge = challenge[0]
             res.send(challenge)
         })
-    }, 
+    },
     deleteObstacle: (req, res) => {
         const db = req.app.get('db')
         let promiseArray = []
-            , id = req.params.id
+            , id = req.params.id.split(',')
 
-        db.get.obstacle.stringid(id).then(stringid => {
-            stringid = stringid[0]
-            promiseArray.push(db.delete.obstacle.allpairs(stringid.stringid).then())
-            promiseArray.push(db.delete.obstacle.allcomps(stringid.stringid).then())
-            promiseArray.push(db.delete.obstacle.obstacle(id).then())
-
-            Promise.all(promiseArray).then(_ => {
-                obstacleController.collectCache(req.app, 0)
-                res.send({ color: 'green', message: `Obstacle deleted successfully` })
+        
+        if (typeof id === 'string') {
+            db.get.obstacle.stringid(id).then(stringid => {
+                stringid = stringid[0]
+                promiseArray.push(db.delete.obstacle.allpairs(stringid.stringid).then())
+                promiseArray.push(db.delete.obstacle.allcomps(stringid.stringid).then())
+                promiseArray.push(db.delete.obstacle.obstacle(id).then())
+    
+                Promise.all(promiseArray).then(_ => {
+                    obstacleController.collectCache(req.app, 0)
+                    res.send({ color: 'green', message: `Obstacle deleted successfully` })
+                })
             })
-        })
+        } else {
+            db.delete.obstacle.challenges(id).then(result => {
+                obstacleController.collectCache(req.app, 0)
+                res.send({ color: 'green', message: `Challenge deleted successfully` })
+            })
+        }
     },
     search: (req, res) => {
         const db = req.app.get('db')
@@ -178,13 +196,13 @@ let obstacleController = {
     isValid: (req, res) => {
         const db = req.app.get('db')
         let name = req.params.name
-        
+
         db.get.obstacle.byName(name).then(id => {
             id = id[0]
             if (!id) {
-                res.send({id: false})
+                res.send({ id: false })
             } else {
-                res.send({id: id.id})
+                res.send({ id: id.id })
             }
         })
     }

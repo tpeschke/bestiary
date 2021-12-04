@@ -24,7 +24,7 @@ export class ChallengeEditComponent implements OnInit {
         id: null,
         type: 'challenge',
         name: null,
-        flowchart: 'graph LR\nA[Christmas] -->|Get money| B(Go shopping)\nB --> C{Let me think}\nC -->|One| D[Laptop]\nC -->|Two| E[iPhone]\nC -->|Three| F[Test]',
+        flowchart: 'graph TD\nA[Christmas] -->|Get money| B(Go shopping)\nB --> C{Let me think}\nC -->|One| D[Laptop]\nC -->|Two| E[iPhone]\nC -->|Three| F[Test]',
         obstacleList: [],
         notes: ''
       }
@@ -97,6 +97,6 @@ export class ChallengeEditComponent implements OnInit {
   }
 
   deleteThis() {
-    // this.obstacleService.deleteObstacle(this.obstacle.id).subscribe(_ => this.router.navigate([`/obstacle`]))
+    this.obstacleService.deleteObstacle(this.challenge.id).subscribe(_ => this.router.navigate([`/obstacle`]))
   }
 }
