@@ -33,8 +33,8 @@ export class ObstacleService {
     return this.http.get(local.endpointBase + '/api/obstacles/catalog')
   }
 
-  getObstacle(id): any {
-    return this.http.get(local.endpointBase + '/api/obstacles/single/' + id)
+  getObstacle(id, type): any {
+    return this.http.get(local.endpointBase + '/api/obstacles/single/' + id, { params: {type}})
       .pipe(
         tap(result => this.handleMessage(result))
       );

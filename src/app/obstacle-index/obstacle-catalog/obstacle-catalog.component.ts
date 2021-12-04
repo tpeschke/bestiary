@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Title} from "@angular/platform-browser";
 import { ActivatedRoute } from '@angular/router';
-import { ObstaclePopUpComponent } from '../obstacle-pop-up/obstacle-pop-up.component';
+import { ObstaclePopUpComponent } from '../pop-ups/obstacle-pop-up/obstacle-pop-up.component';
 import { MatDialog } from '@angular/material';
 import { DifficultyMatrixComponent } from '../difficulty-matrix/difficulty-matrix.component';
+import { ChallengePopUpComponent } from '../pop-ups/challenge-pop-up/challenge-pop-up.component';
 
 @Component({
   selector: 'app-obstacle-catalog',
@@ -31,7 +32,7 @@ export class ObstacleCatalogComponent implements OnInit {
     if (type === 'obstacle') {
       this.dialog.open(ObstaclePopUpComponent, { width: '400px', data: { id }});
     } else if (type === 'challenge') {
-      
+      this.dialog.open(ChallengePopUpComponent, { width: '600px', data: { id }})
     }
   }
 

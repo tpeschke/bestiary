@@ -1,0 +1,17 @@
+<div *ngIf="!challenge.name">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
+
+<div *ngIf="challenge.name" class="pop-up">
+  <div class="header-shell" color="accent">
+    <i class="fas fa-project-diagram icon"></i>
+    <h1>{{challenge.name}}</h1>
+  </div>
+
+  <button class="new-button right-most-buttom" *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
+  (click)="goToEdit()">Edit</button>
+</div>

@@ -88,6 +88,13 @@ let obstacleController = {
             res.send({ color: 'green', message: `${type.toProperCase()} added successfully` })
         })
     },
+    get: (req, res) => {
+        if (req.query.type === 'obstacle' || !req.query.type) {
+            obstacleController.getObstacle(req, res)
+        } else if (req.query.type === 'challenge') {
+            obstacleController.getChallenge(req, res)
+        }
+    },
     getObstacle: (req, res) => {
         const db = req.app.get('db')
             , id = req.params.id
@@ -115,6 +122,15 @@ let obstacleController = {
             })
         })
     },
+    getChallenge: (req, res) => {
+        const db = req.app.get('db')
+            , id = req.params.id
+
+        db.get.obstacle.challenges(id).then(challenge => {
+            challenge = challenge[0]
+            res.send(challenge)
+        })
+    }, 
     deleteObstacle: (req, res) => {
         const db = req.app.get('db')
         let promiseArray = []

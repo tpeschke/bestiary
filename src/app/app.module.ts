@@ -55,12 +55,13 @@ import { ObstacleCatalogComponent } from './obstacle-index/obstacle-catalog/obst
 import { ObstacleHomeComponent } from './obstacle-index/obstacle-home/obstacle-home.component';
 import { ObstacleEditComponent } from './obstacle-index/edit/obstacle-edit/obstacle-edit.component'
 import { GetObstacleService } from './util/guards-resolvers/get-obstacle.service';
-import { ObstaclePopUpComponent } from './obstacle-index/obstacle-pop-up/obstacle-pop-up.component';
+import { ObstaclePopUpComponent } from './obstacle-index/pop-ups/obstacle-pop-up/obstacle-pop-up.component';
 import { ObstacleSearchComponent } from './obstacle-index/obstacle-search/obstacle-search.component';
 import { ObstacleSearchResultsComponent } from './obstacle-index/obstacle-search-results/obstacle-search-results.component';
 import { DifficultyMatrixComponent } from './obstacle-index/difficulty-matrix/difficulty-matrix.component';
 import { ChallengeEditComponent } from './obstacle-index/edit/challenge-edit/challenge-edit.component';
 import { EditHomeComponent } from './obstacle-index/edit/edit-home/edit-home.component';
+import { ChallengePopUpComponent } from './obstacle-index/pop-ups/challenge-pop-up/challenge-pop-up.component';
 
 const routes: Routes = [
   { path: 'obstacle', 
@@ -111,7 +112,8 @@ const routes: Routes = [
     ObstacleSearchResultsComponent,
     DifficultyMatrixComponent,
     ChallengeEditComponent,
-    EditHomeComponent
+    EditHomeComponent,
+    ChallengePopUpComponent
   ],
   imports: [
     BrowserModule,
@@ -135,7 +137,7 @@ const routes: Routes = [
     QuillModule.forRoot(),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })
   ],
-  entryComponents: [HewyRatingComponent, ObstaclePopUpComponent, DifficultyMatrixComponent],
+  entryComponents: [HewyRatingComponent, ObstaclePopUpComponent, DifficultyMatrixComponent, ChallengePopUpComponent],
   providers: [BeastService, CalculatorService],
   bootstrap: [AppComponent]
 })
