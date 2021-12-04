@@ -18,19 +18,23 @@ export class ObstacleSearchResultsComponent implements OnInit {
   ) { }
 
   public obstacles: any = 'loading'
+  public challenges: any = 'loading'
 
   ngOnInit() {
     let { params } = this.currentRoute.snapshot
     this.obstacleService.searchObstacles(params).subscribe(incomingObstacles => {
-      this.obstacles = incomingObstacles
+      this.obstacles = incomingObstacles.obstacles
+      this.challenges = incomingObstacles.challenges
     })
     
     this.router.events.subscribe(p => {
       if (p instanceof NavigationEnd) {
         params = this.currentRoute.snapshot.params
         this.obstacles = 'loading'
+        this.challenges = 'loading'
         this.obstacleService.searchObstacles(params).subscribe(incomingObstacles => {
-          this.obstacles = incomingObstacles
+          this.obstacles = incomingObstacles.obstacles
+          this.challenges = incomingObstacles.challenges
         })
       }
     })

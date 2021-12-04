@@ -171,6 +171,7 @@ let obstacleController = {
         let promiseArray = []
             , obstacleArray = []
 
+        
         db.get.obstacle.search(req.query.search).then(obstacles => {
             obstacleArray = obstacles
             obstacles.forEach((obstacle, i) => {
@@ -189,7 +190,9 @@ let obstacleController = {
                 }))
             })
             Promise.all(promiseArray).then(_ => {
-                res.send(obstacleArray)
+                db.get.obstacle.challengesearch(req.query.search).then(challenges => {
+                    res.send({obstacles: obstacleArray, challenges})
+                })
             })
         })
     },

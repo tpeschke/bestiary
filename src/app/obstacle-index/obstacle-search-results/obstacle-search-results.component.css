@@ -11,11 +11,15 @@ mat-card {
     position: relative;
 }
 
+.result-shell {
+    position: relative;
+    min-height: 5px;
+}
+
 .back-to-catalog {
     background: #ff5722;
     color: white;
     position: absolute;
-    left: 0;
     top: -41px;
     height: 50px;
     width: 50px;
@@ -23,6 +27,7 @@ mat-card {
     padding: 5px 0 0 7px;
     border-radius: 100%;
     transition: .6s;
+    z-index: 1;
 }
 
 .back-to-catalog:hover {
@@ -82,4 +87,11 @@ strong {
     font-family: 'know';
     font-weight: bold;
     min-width: 125px;
+}
+
+.challenges-shell {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
