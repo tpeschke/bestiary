@@ -11,3 +11,21 @@ li {
     list-style-type: disc;
     list-style: inside;
 }
+
+.spinner {
+    margin: 0
+}
+
+.bounce1, .bounce2, .bounce3 {
+    background: #607d8b
+}
+
+.deleteButton {
+    margin-top: 150px
+}
+
+.save-and-delete-shell {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}

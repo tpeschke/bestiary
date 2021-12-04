@@ -2,10 +2,10 @@
   <mat-form-field>
     <input matInput [value]="challenge.name" (change)="captureInput($event, 'name')" placeholder="Name">
   </mat-form-field>
-  
+
   <h2>Skill Flow</h2>
   <textarea [value]="challenge.flowchart" (blur)="captureChange($event)"></textarea>
-  
+
   <div class="mermaid-shell">
     <p>Click on any node to get the assocated Obstacle</p>
     <div #mermaid></div>
@@ -14,11 +14,30 @@
   <div class="obstacle-list">
     <h2>Obstacle List</h2>
     <ul>
-      <li *ngFor="let obstacle of challenge.obstacleList">{{obstacle.name}}</li>
+      <li *ngFor="let obstacle of challenge.obstacleList">{{obstacle.name}}
+        <div *ngIf="obstacle.isLoading">
+          <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+          </div>
+        </div>
+        <i *ngIf="!obstacle.isLoading && !obstacle.valid" class="fas fa-times-circle"></i>
+        <i *ngIf="!obstacle.isLoading && obstacle.valid" class="fas fa-check-square"></i>
+      </li>
     </ul>
   </div>
 
-  <!-- Additional Obstacles/Assets
-    Notes -->
+  <!-- Additional Obstacles/Assets-->
 
+  <div>
+    <h2>Notes</h2>
+    <quill-editor [(ngModel)]="challenge.notes" (onContentChanged)="captureHTML($event, 'notes')"></quill-editor>
+  </div>
+
+
+  <div class="save-and-delete-shell">
+    <button (click)="saveChanges()" mat-raised-button color="primary">Save</button>
+    <button (click)="deleteThis()" mat-raised-button color="warn" class="deleteButton">Delete</button>
+  </div>
 </div>

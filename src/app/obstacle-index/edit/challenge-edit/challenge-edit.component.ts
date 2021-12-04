@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import mermaid from "mermaid";
-import { element } from 'protractor';
+import { ObstacleService } from 'src/app/util/services/obstacle.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-challenge-edit',
@@ -12,7 +13,10 @@ export class ChallengeEditComponent implements OnInit {
   @ViewChild("mermaid")
   public mermaidDiv;
 
-  constructor() { }
+  constructor(
+    public obstacleService: ObstacleService,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     if (!this.challenge.name) {
@@ -53,7 +57,7 @@ export class ChallengeEditComponent implements OnInit {
     });
   }
 
-  // this isn't needed here
+  // this isn't needed here but will be needed on the display
   setUpEventListeners() {
     let nodes = Array.from(document.getElementsByClassName('node'));
     nodes.forEach(node => {
@@ -72,9 +76,7 @@ export class ChallengeEditComponent implements OnInit {
     stringArray.forEach(letter => {
       if (letter === ')' || letter === ']' || letter === '}') {
         isTracking = false
-        this.challenge.obstacleList.push({ name: string })
-        // check if obstacle exists and mark with checkmark or x
-        // return with id and attach it to obstacle list
+        this.challenge.obstacleList.push({ name: string, isLoading: true, valid: false })
         string = ""
       } else if (isTracking) {
         string += letter
@@ -83,9 +85,29 @@ export class ChallengeEditComponent implements OnInit {
         isTracking = true
       }
     })
+
+    this.challenge.obstacleList.forEach((obstacle, i) => {
+      this.obstacleService.checkIfObstacleIsValid(obstacle.name).subscribe(result => {
+        this.challenge.obstacleList[i] = {...obstacle, isLoading: false, ...result }
+      })
+    })
   }
 
   showInformation(obstacle) {
     return function() {alert(`${obstacle}`)}
+  }
+  
+  captureHTML(event, type) {
+    this.challenge = Object.assign({}, this.challenge, { [type]: event.html })
+  }
+
+  saveChanges() {
+    if (this.challenge.name) {
+      this.obstacleService.updateObstacle(this.challenge).subscribe(_ => this.router.navigate([`/obstacle`]))
+    }
+  }
+
+  deleteThis() {
+    // this.obstacleService.deleteObstacle(this.obstacle.id).subscribe(_ => this.router.navigate([`/obstacle`]))
   }
 }
