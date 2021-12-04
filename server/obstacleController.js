@@ -182,9 +182,9 @@ let obstacleController = {
         db.get.obstacle.byName(name).then(id => {
             id = id[0]
             if (!id) {
-                res.send({valid: false})
+                res.send({id: false})
             } else {
-                res.send({valid: true})
+                res.send({id: id.id})
             }
         })
     }

@@ -52,19 +52,8 @@ export class ChallengeEditComponent implements OnInit {
     const element: any = this.mermaidDiv.nativeElement;
     mermaid.render("graphDiv", graphDefinition, (svgCode, bindFunctions) => {
       element.innerHTML = svgCode;
-      // this.setUpEventListeners()
       this.updateObstacleList()
     });
-  }
-
-  // this isn't needed here but will be needed on the display
-  setUpEventListeners() {
-    let nodes = Array.from(document.getElementsByClassName('node'));
-    nodes.forEach(node => {
-      let label = node.children.item(1).children.item(0).children.item(0).children.item(0).innerHTML
-      // use label to attach id for pop up
-      node.addEventListener('click', this.showInformation(label));
-    })
   }
 
   updateObstacleList() {
@@ -88,7 +77,7 @@ export class ChallengeEditComponent implements OnInit {
 
     this.challenge.obstacleList.forEach((obstacle, i) => {
       this.obstacleService.checkIfObstacleIsValid(obstacle.name).subscribe(result => {
-        this.challenge.obstacleList[i] = {...obstacle, isLoading: false, ...result }
+        this.challenge.obstacleList[i] = {...obstacle, isLoading: false, valid: result.id }
       })
     })
   }

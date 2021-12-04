@@ -88,3 +88,10 @@ tr td:nth-child(2), tr th:nth-child(2) {
     text-align: left;
     padding: 3px;
 }
+
+.mermaid-shell {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+}

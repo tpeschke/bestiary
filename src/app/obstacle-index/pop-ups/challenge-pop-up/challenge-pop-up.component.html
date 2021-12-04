@@ -12,6 +12,12 @@
     <h1>{{challenge.name}}</h1>
   </div>
 
+  <h2>Skill Flow</h2>
+  <div class="mermaid-shell">
+    <p>Click on any node to get the assocated Obstacle</p>
+    <div #mermaid></div>
+  </div>
+
   <button class="new-button right-most-buttom" *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
   (click)="goToEdit()">Edit</button>
 </div>
