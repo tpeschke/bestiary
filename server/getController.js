@@ -273,6 +273,10 @@ module.exports = {
           beast.spells = result
         }))
 
+        promiseArray.push(db.get.challenges(id).then( result => {
+          beast.challenges = result
+        }))
+
         Promise.all(promiseArray).then(finalArray => {
           finalPromise = [];
           beast.combat.forEach(val => {

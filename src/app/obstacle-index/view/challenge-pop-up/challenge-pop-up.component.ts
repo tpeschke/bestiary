@@ -16,6 +16,7 @@ export class ChallengePopUpComponent implements OnInit {
   public mermaidDiv;
 
   @Input() id: Number;
+  @Input() beastEntry: boolean;
 
   constructor(
     public obstacleService: ObstacleService,

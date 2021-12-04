@@ -116,6 +116,10 @@ mat-toolbar {
     position: relative;
 }
 
+.challenge-header {
+    margin-top: 15px;
+}
+
 .spd {
     position: absolute;
     z-index: 1;

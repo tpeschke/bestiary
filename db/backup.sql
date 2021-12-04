@@ -310,3 +310,9 @@ create table obchallenges (
     type varchar(25),
     notes varchar(1000)
 );
+
+create table bbskillbeast (
+	id serial primary key unique,
+	beastid int,
+	challengeid int
+)

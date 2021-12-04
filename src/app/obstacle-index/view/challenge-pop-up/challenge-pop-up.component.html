@@ -7,11 +7,11 @@
 </div>
 
 <div *ngIf="challenge.name" class="pop-up">
-  <div class="header-shell" color="accent">
+  <div *ngIf="!beastEntry" class="header-shell" color="accent">
     <i class="fas fa-project-diagram icon"></i>
     <h1>{{challenge.name}}</h1>
   </div>
-  
+
   <div *ngIf="challenge.notes">
     <quill-view-html [content]="challenge.notes"></quill-view-html>
     <div class="divider"></div>
@@ -28,5 +28,5 @@
   </div>
 
   <button class="new-button right-most-buttom" *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
-  (click)="goToEditChallenge()">Edit</button>
+    (click)="goToEditChallenge()">Edit</button>
 </div>

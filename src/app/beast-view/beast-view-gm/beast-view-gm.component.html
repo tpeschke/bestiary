@@ -578,6 +578,13 @@
 
   <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells"></app-weird-shaping-display>
 
+  <h2>Skill Challenge{{beast.challenges.length > 1 ? 's' : ''}}</h2>
+  <div class="divider"></div>
+  <div *ngFor="let challenge of beast.challenges; let i = index">
+    <h3 *ngIf="i > 0" class="challenge-header">{{challenge.name}}</h3>
+    <app-challenge-pop-up  [id]="challenge.challengeid" [beastEntry]="true"></app-challenge-pop-up>
+  </div>
+
   <button *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
     [routerLink]="['/beast', beast.id, 'edit']">Edit</button>
   <button *ngIf="loggedIn === 'owner'" mat-raised-button color="accent"

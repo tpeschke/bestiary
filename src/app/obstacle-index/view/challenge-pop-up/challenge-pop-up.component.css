@@ -120,3 +120,7 @@ tr td:nth-child(2), tr th:nth-child(2) {
     background: lightgray;
     margin-top: 15px
 }
+
+.beast-header {
+    margin-top: 15px;
+}

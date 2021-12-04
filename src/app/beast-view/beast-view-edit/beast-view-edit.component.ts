@@ -29,6 +29,7 @@ export class BeastViewEditComponent implements OnInit {
   public imageBase = variables.imageBase;
   public uploader: any;
   public newVariantId = null;
+  public newChallengeId = null;
   public averageVitality = null;
   public lootTables = lootTables;
   public selectedRoleId = null;
@@ -147,7 +148,8 @@ export class BeastViewEditComponent implements OnInit {
             manifesting: null, 
             commanding: null, 
             bloodpact: null
-          }
+          },
+          challenges: []
         }
       }
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
@@ -311,10 +313,21 @@ export class BeastViewEditComponent implements OnInit {
     this.newVariantId = +event.target.value
   }
 
+  captureChallenge(event) {
+    this.newChallengeId = +event.target.value
+  }
+
   addById() {
     if (this.newVariantId) {
       this.beast.variants.push({ variantid: this.newVariantId })
       this.newVariantId = null;
+    }
+  }
+
+  addChallengeById() {
+    if (this.newChallengeId) {
+      this.beast.challenges.push({ challengeid: this.newChallengeId })
+      this.newChallengeId = null;
     }
   }
 
@@ -391,6 +404,10 @@ export class BeastViewEditComponent implements OnInit {
     } else {
       this.beast[type].push({ id: deleted[0].id, deleted: true })
     }
+  }
+
+  removeChip(type, index) {
+    this.beast[type].splice(index, 1)
   }
 
   onImagePicked(event: Event): void {

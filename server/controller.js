@@ -70,10 +70,10 @@ let controllerObj = {
             beast.roles = result
             return result
           }))
-  
+
         })
 
-        Promise.all(finalArray).then(_=> {
+        Promise.all(finalArray).then(_ => {
           this.collectCache(app, ++index)
         })
       })
@@ -185,7 +185,7 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges } = body
 
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, +int, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity).then(result => {
       let id = result[0].id
@@ -318,7 +318,7 @@ let controllerObj = {
         })
       }
 
-      if (traited) {        
+      if (traited) {
         traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
           if (deleted) {
             promiseArray.push(db.delete.loot.traited(beastid, traitedid))
@@ -354,13 +354,13 @@ let controllerObj = {
         })
       }
 
-      if(casting) {
+      if (casting) {
         let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
-        promiseArray.push(db.update.casting( augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id ))
+        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id))
       }
 
       if (spells) {
-        spells.forEach(({id: spellid, name, origin, shape, range, interval, effect, beastid}) => {
+        spells.forEach(({ id: spellid, name, origin, shape, range, interval, effect, beastid }) => {
           if (beastid) {
             promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid))
           } else {
@@ -375,6 +375,16 @@ let controllerObj = {
         })
       }
 
+      promiseArray.push(db.delete.challenges([id, [0, ...challenges.map(challenges => challenges.id)]]).then(_ => {
+        return challenges.map(({ challengesid }) => {
+          if (!uniqueid) {
+            return db.add.challenges(challengesid, id)
+          } else {
+            return true
+          }
+        })
+      }).catch(e => console.log("beast challenges ~ ", e)))
+
       Promise.all(promiseArray).then(_ => {
         updateHewyRating(db, id)
         controllerObj.collectCache(app, 0)
@@ -384,9 +394,9 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges } = body
     // update beast
-    
+
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, id).then(result => {
       let promiseArray = []
 
@@ -611,13 +621,13 @@ let controllerObj = {
         }
       })
 
-      if(casting.beastid) {
+      if (casting.beastid) {
         let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
-        promiseArray.push(db.update.casting( augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id ))
+        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id))
       } else {
-        promiseArray.push(db.update.casting( null, null, null, 'd4', null, null, null, id ))
+        promiseArray.push(db.update.casting(null, null, null, 'd4', null, null, null, id))
       }
-      spells.forEach(({id: spellid, name, origin, shape, range, interval, effect, beastid}) => {
+      spells.forEach(({ id: spellid, name, origin, shape, range, interval, effect, beastid }) => {
         if (beastid) {
           promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid))
         } else {
@@ -629,6 +639,17 @@ let controllerObj = {
           promiseArray.push(db.delete.spell(val, beastid))
         })
       }
+
+      promiseArray.push(db.delete.challenges([id, [0, ...challenges.map(challenges => challenges.id)]]).then(_ => {
+        return challenges.map(({ id: uniqueid, challengeid}) => {
+          if (!uniqueid) {
+            return db.add.challenges(id, challengeid)
+          } else {
+            return true
+          }
+        })
+      }).catch(e => console.log("beast challenges ~ ", e)))
+
 
       Promise.all(promiseArray).then(_ => {
         updateHewyRating(db, id)
@@ -941,7 +962,7 @@ async function collectComplication(db, beastId) {
         }
 
         let dedupedArray = []
-        , alreadyAddedCompIds = []
+          , alreadyAddedCompIds = []
 
         flatArray.forEach(compl => {
           if (alreadyAddedCompIds.indexOf(compl.id) === -1) {
