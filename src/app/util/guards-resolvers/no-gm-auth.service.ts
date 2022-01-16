@@ -20,8 +20,9 @@ export class NoGmAuthService {
   ): Observable<boolean> | Promise<boolean> | boolean {
     return this.beastService.checkPlayerCanView(next.paramMap.get('id'))
       .pipe(
-        map(({ canplayerview }) => {
-          if (this.beastService.loggedIn === 'owner' || +this.beastService.loggedIn >= 3 || canplayerview) {
+        map(({ canView }) => {
+          console.log(canView)
+          if (canView) {
             this.router.navigate(['/beast/', next.paramMap.get('id'), 'gm'])
             return false
           }

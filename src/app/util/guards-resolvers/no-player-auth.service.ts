@@ -20,8 +20,9 @@ export class NoPlayerAuthService implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     return this.beastService.checkPlayerCanView(next.paramMap.get('id'))
     .pipe(
-      map(({canplayerview}) => {
-          if (this.beastService.loggedIn === 'owner' || +this.beastService.loggedIn > 2 || canplayerview) {
+      map(({canView}) => {
+        console.log(canView)
+          if (canView) {
             return true
           }
           this.router.navigate(['/beast/', next.paramMap.get('id'), 'player'])

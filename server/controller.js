@@ -89,8 +89,12 @@ let controllerObj = {
       , id = +req.params.id
 
     db.get.playercanview(id).then(result => {
-      res.send(result[0])
-    })
+      if (req.user && req.user.id) {
+        res.send({ canView: req.user.id === 1 || req.user.patreon >= 3 || result[0].canplayerview })
+      } else {
+        res.send({ canView: false })
+      }
+    }).catch(e => console.log(e))
   },
   getFromBestiary(req, res) {
     const db = req.app.get('db')
@@ -639,7 +643,7 @@ let controllerObj = {
       }
 
       promiseArray.push(db.delete.challenges([id, [0, ...challenges.map(challenges => challenges.id)]]).then(_ => {
-        return challenges.map(({ id: uniqueid, challengeid}) => {
+        return challenges.map(({ id: uniqueid, challengeid }) => {
           if (!uniqueid) {
             return db.add.challenges(id, challengeid)
           } else {
