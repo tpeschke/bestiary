@@ -98,7 +98,6 @@ let controllerObj = {
       roughBeast = result[0]
       let beast = {
         name: roughBeast.name,
-        trauma: Math.floor(rollDice(roughBeast.vitality) / 2),
         vitality: roughBeast.vitality,
         stressthreshold: roughBeast.stressthreshold,
         panic: roughBeast.panic,
@@ -112,7 +111,6 @@ let controllerObj = {
           beast.name = roughBeast.name + " " + roughBeast.role
         }
         if (roughBeast.rolevitality) {
-          beast.trauma = Math.floor(rollDice(roughBeast.rolevitality) / 2)
           beast.vitality = roughBeast.rolevitality
         }
       }
