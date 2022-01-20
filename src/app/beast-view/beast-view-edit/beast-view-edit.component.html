@@ -1421,7 +1421,7 @@
   <mat-form-field>
     <input matInput placeholder="Challenge ID" [value]="newChallengeId" (change)="captureChallenge($event)">
   </mat-form-field>
-  <button mat-raised-button color="accent" (click)="addChallengeById()">Add By ID</button>
+  <button  class="add-by-id" mat-raised-button color="accent" (click)="addChallengeById()">Add By ID</button>
 
   <button (click)="saveChanges()" mat-raised-button color="primary">Save</button>
   <button (click)="deleteThisBeast()" mat-raised-button color="warn" class="deleteButton">Delete</button>

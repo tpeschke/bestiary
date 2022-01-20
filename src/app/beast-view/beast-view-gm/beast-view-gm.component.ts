@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material';
 import { Title } from "@angular/platform-browser";
 import lootTables from "../loot-tables.js"
 import { QuickViewService } from 'src/app/util/services/quick-view.service';
+import { primaryTables, secondaryTables } from './firbolg-tables'
 
 @Component({
   selector: 'app-beast-view-gm',
@@ -37,6 +38,8 @@ export class BeastViewGmComponent implements OnInit {
   public lairLoot = []
   public lairlootpresent = false
   public selectedRoleId = null;
+  public primaryTables = primaryTables;
+  public secondaryTables = secondaryTables
 
   ngOnInit() {
     this.route.data.subscribe(data => {

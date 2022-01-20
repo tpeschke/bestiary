@@ -21,7 +21,6 @@ export class NoPlayerAuthService implements CanActivate {
     return this.beastService.checkPlayerCanView(next.paramMap.get('id'))
     .pipe(
       map(({canView}) => {
-        console.log(canView)
           if (canView) {
             return true
           }

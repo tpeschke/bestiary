@@ -275,6 +275,45 @@
         <quill-view-html [content]="beast.ecology"></quill-view-html>
       </div>
 
+      <div *ngIf="beast.id === 442">
+        <div class="mutation-shell">
+          <table *ngFor="let table of primaryTables">
+            <thead>
+              <tr>
+                <th colspan="3">{{table.name}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of table.rows; let i = index">
+                <td>{{i === 0 ? 1 : (((table.max / table.rows.length) * (i)) + 1 ).toFixed(0)}} - {{((table.max / table.rows.length) * (i + 1)).toFixed(0)}}</td>
+                <td colspan="2">{{row}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mutation-shell box-padding">
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let table of secondaryTables">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <h3>{{table.name}}</h3>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <table>
+                <tbody>
+                  <tr *ngFor="let row of table.rows; let i = index">
+                    <td>{{i === 0 ? 1 : (((table.max / table.rows.length) * (i)) + 1 ).toFixed(0)}} - {{((table.max / table.rows.length) * (i + 1)).toFixed(0)}}</td>
+                    <td colspan="2">{{row}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+
       <h2>Habitat/Society</h2>
       <div class="divider"></div>
       <div>
@@ -365,8 +404,7 @@
       </div>
 
       <div *ngIf="encounter !== 'loading' && encounter.temperament" class="regenerateButtonShell">
-        <button mat-raised-button (click)="getRandomEncounter()" color="warn"><i
-            class="fas fa-redo"></i></button>
+        <button mat-raised-button (click)="getRandomEncounter()" color="warn"><i class="fas fa-redo"></i></button>
       </div>
 
       <div class="box-padding encounterShell" *ngIf="encounter === 'loading'">
@@ -583,7 +621,7 @@
     <div class="divider"></div>
     <div *ngFor="let challenge of beast.challenges; let i = index">
       <h3 *ngIf="i > 0" class="challenge-header">{{challenge.name}}</h3>
-      <app-challenge-pop-up  [id]="challenge.challengeid" [beastEntry]="true"></app-challenge-pop-up>
+      <app-challenge-pop-up [id]="challenge.challengeid" [beastEntry]="true"></app-challenge-pop-up>
     </div>
   </div>
 

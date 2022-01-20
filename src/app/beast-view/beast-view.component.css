@@ -1,5 +1,5 @@
-::ng-deep .mat-tooltip  {
-    white-space: pre-line    !important;
+::ng-deep .mat-tooltip {
+    white-space: pre-line !important;
 }
 
 button {
@@ -19,6 +19,7 @@ h1 {
     font-size: 20px;
     transition: .6s;
 }
+
 .add-to-quick-view:hover i {
     cursor: pointer;
     color: #ffd740;
@@ -154,7 +155,7 @@ mat-toolbar {
 
 .fatigue {
     position: absolute;
-    z-index: 1;    
+    z-index: 1;
     left: 63px;
     top: 65px;
     font-size: 15px;
@@ -191,7 +192,8 @@ mat-toolbar {
 
 .damage {
     position: absolute;
-    z-index: 1;font-size: 12px;
+    z-index: 1;
+    font-size: 12px;
     text-align: center;
     width: 60px;
     left: 45px;
@@ -246,6 +248,7 @@ mat-toolbar {
 .blue {
     color: #607d8b !important;
 }
+
 .margin-left-small {
     margin-left: 5px;
     font-size: 10px
@@ -409,50 +412,50 @@ mat-toolbar {
     width: 100%
 }
 
-.spinner > div {
+.spinner>div {
     background-color: #607d8b;
-  }
+}
 
-  .deleteButton {
-      margin-top: 150px
-  }
+.deleteButton {
+    margin-top: 150px
+}
 
-  ul {
+ul {
     list-style-type: disc;
     display: flex;
     flex-wrap: wrap;
     max-width: 75%;
-  }
+}
 
-  li {
+li {
     font-size: 14px;
     padding: 3px 0;
     margin-left: 30px;
-  }
+}
 
-  a {
-      font-size: 16px
-  }
+a {
+    font-size: 16px
+}
 
-  .regenerateButtonShell {
+.regenerateButtonShell {
     width: 100%;
     position: relative;
     height: 40px;
-  }
+}
 
-  .regenerateButtonShell button {
-      position: absolute;
-      right: 0;
-      margin: 0
-  }
+.regenerateButtonShell button {
+    position: absolute;
+    right: 0;
+    margin: 0
+}
 
-  .complicationsShell {
+.complicationsShell {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-  }
+}
 
-  .complicationCard {
+.complicationCard {
     width: 49%;
     background: rgba(211, 211, 211, 0.5);
     padding: 10px;
@@ -460,92 +463,140 @@ mat-toolbar {
     margin-bottom: 10px;
     text-align: right;
     height: 100%;
-  }
+}
 
-  .complicationCard div {
+.complicationCard div {
     display: flex;
     justify-content: space-between;
-  }
+}
 
 .preview {
     border-radius: 5px;
-      height: 90px;
-      width: 100px;
-      margin: 15px auto 0;
-      object-fit: cover;
-      object-position: top;
-      border: 1px solid grey;
-    }
+    height: 90px;
+    width: 100px;
+    margin: 15px auto 0;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid grey;
+}
 
-    .locationVitality div:first-child .flex-row-opposite {
-        border-top: 1px solid white;
-        margin-top: 10px;
-    }
-    .locationVitality div:last-child .checkboxShell {
-        border-bottom: 1px solid white;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
-    }
-    .locationVitality h3 {
-        color: #607d8b;
-        font-size: 17px;
-        padding-top: 10px;
-    }
+.locationVitality div:first-child .flex-row-opposite {
+    border-top: 1px solid white;
+    margin-top: 10px;
+}
 
-    .lairLoot {
-        flex-wrap: wrap;
-        flex-direction: unset;
-        max-width: 100%;
+.locationVitality div:last-child .checkboxShell {
+    border-bottom: 1px solid white;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.locationVitality h3 {
+    color: #607d8b;
+    font-size: 17px;
+    padding-top: 10px;
+}
+
+.lairLoot {
+    flex-wrap: wrap;
+    flex-direction: unset;
+    max-width: 100%;
     justify-content: space-between;
-    }
+}
 
-    .lairLoot  li {
-        width: 30%;
-        padding: 5px 0px;
-    }
+.lairLoot li {
+    width: 30%;
+    padding: 5px 0px;
+}
 
-    .lair-loot-shell {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
+.lair-loot-shell {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
-    .role-select {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 15px;
-    }
+.role-select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+}
 
-    .role-select h2 {
-        margin: 0
-    }
+.role-select h2 {
+    margin: 0
+}
 
 .extra-padding {
     padding: 15px;
- }
+}
 
+.mutation-shell {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
 
-    @media (max-width: 1295px) {
-        .lairLoot  li {
-            width: 45%;
-        }
+.mutation-shell table {
+    margin-bottom: 15px;
+}
+
+table {
+    text-align: left;
+    font-size: 13px;
+}
+
+table tbody tr td:first-child {
+    text-align: center;
+}
+
+tbody tr:nth-child(even) {
+    background-color: lightgrey;
+}
+
+th, td {
+    padding: 4px 7px;
+}
+
+th {
+    background: #607d8b;
+    color: white;
+    position: sticky;
+    font-family: "ancient";
+    letter-spacing: 2px;
+}
+
+.first-left tr td:first-child, .first-left tr th:first-child {
+    text-align: left;
+}
+
+.fourth-left tr td:nth-child(4) {
+    text-align: left;
+}
+
+.add-by-id {
+    margin-bottom:  100px;
+}
+
+@media (max-width: 1295px) {
+    .lairLoot li {
+        width: 45%;
     }
+}
 
 @media (max-width: 963px) {
     .combat-shell {
         justify-content: start;
-        margin-right: 10px;  
+        margin-right: 10px;
         margin-bottom: 25px;
     }
-    
-    .lairLoot  li {
+
+    .lairLoot li {
         width: 100%;
     }
-        
+
     .reagents-shell .mat-expansion-panel {
         min-width: 100%;
-    }  
+    }
 }
 
 @media (max-width: 699px) {
@@ -569,7 +620,7 @@ mat-toolbar {
     .encounterShell {
         flex-direction: column;
     }
-    
+
     .encounterShell .flex-row-opposite {
         width: 100%
     }
@@ -579,13 +630,13 @@ mat-toolbar {
         flex-direction: column;
     }
 
-    .lairLoot  li {
+    .lairLoot li {
         width: 45%;
     }
 }
 
 @media (max-width: 699px) {
-    .lairLoot  li {
+    .lairLoot li {
         width: 100%;
     }
 }
