@@ -15,8 +15,8 @@ module.exports = {
             rows: [
                 "Head",
                 "Limbs",
-                "External Body",
-                "Internal Body"
+                "External",
+                "Internal"
             ]
         }
     ],
@@ -35,7 +35,7 @@ module.exports = {
         },
         {
             name: "External Mutations",
-            max: 1000,
+            max: 100,
             rows: ["Amorphous", "Bioluminescent", "Body Quills", "Chameleon Skin", "Chitinous", "Cilia", "Cocoon", "Defensive Barbs", "Enhanced Musculature", "Feathers", "Fins", "Hemihypertrophy", "Hermaphromorph", "High Body Temperature", "High Pain Threshold", "Inflation", "Larger Size", "Light Generation", "Malleable Body", "Patterned Skin", "Permeable Skin", "Pheromones", "Photosynthetic", "Pouch", "Reflective Skin", "Rotating Body Part", "Scales", "Shedding Skin", "Smaller Size", "Spore Cloud", "Sympathetic Biomorphism", "Thin Skin", "Toothed Skin", "Trail of Slime", "Water Dependency", "Water Soluble Skin"]
         },
         {
