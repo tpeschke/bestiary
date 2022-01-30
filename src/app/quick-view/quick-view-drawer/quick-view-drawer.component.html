@@ -76,17 +76,18 @@
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div *ngIf="beast.stress > 0">
-              <p>Stress Threshold: </p>
-              <div class="stress-threshold-shell">
-                <mat-form-field>
-                  <input matInput>
-                </mat-form-field>
-                <p>/ {{beast.stress}}</p>
+              <div *ngIf="beast.stress > 0">
+                <div class="stress-threshold-shell">
+                  <p>Stress Threshold: </p>
+                  <mat-form-field>
+                    <input matInput>
+                  </mat-form-field>
+                  <p>/ {{beast.stress}}</p>
+                </div>
               </div>
             </div>
+
+
 
             <div class="add-button-shell">
               <div (click)="addAnotherVitality(beastIndex)"><i class="fas fa-plus"></i></div>

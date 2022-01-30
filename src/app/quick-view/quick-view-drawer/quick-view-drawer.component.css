@@ -137,9 +137,12 @@
 
 .stress-threshold-shell {
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
     margin: -15px 0 -10px;
+}
+
+.stress-threshold-shell mat-form-field {
+    width: 25%;
 }
 
 .fatigue {
