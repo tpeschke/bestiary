@@ -49,13 +49,15 @@ export class BeastViewGmComponent implements OnInit {
 
       this.locationCheckboxes.mainVitality = {
         id: "mainVitality",
-        average: this.calculatorService.rollDice(this.beast.vitality)
+        average: this.calculatorService.calculateAverageOfDice(this.beast.vitality),
+        rolled: this.calculatorService.rollDice(this.beast.vitality)
       }
       this.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(this.locationCheckboxes.mainVitality.average)
 
       for (const role in this.beast.roleInfo) {
         if (this.beast.roleInfo[role].vitality) {
-          this.beast.roleInfo[role].average = this.calculatorService.rollDice(this.beast.roleInfo[role].vitality)
+          this.beast.roleInfo[role].average = this.calculatorService.calculateAverageOfDice(this.beast.roleInfo[role].vitality)
+          this.beast.roleInfo[role].rolled = this.calculatorService.rollDice(this.beast.roleInfo[role].vitality)
           this.beast.roleInfo[role].checkboxes = this.createCheckboxArray(this.beast.roleInfo[role].average)
           this.beast.roleInfo[role].trauma = +(this.beast.roleInfo[role].average / 2).toFixed(0);
         }
@@ -67,7 +69,8 @@ export class BeastViewGmComponent implements OnInit {
         locationalvitality.forEach(({ location, vitality, id }) => {
           this.locationCheckboxes[id] = {
             location,
-            average: this.calculatorService.rollDice(vitality)
+            average: this.calculatorService.calculateAverageOfDice(vitality),
+            rolled: this.calculatorService.rollDice(vitality)
           }
           this.trauma = Math.max(this.trauma, this.locationCheckboxes[id].average)
           this.locationCheckboxes[id].checkboxes = this.createCheckboxArray(this.locationCheckboxes[id].average)
@@ -271,8 +274,8 @@ export class BeastViewGmComponent implements OnInit {
     this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
       if (result.temperament) {
         let dedupedArray = []
-        , alreadyAddedRanks = []
-        
+          , alreadyAddedRanks = []
+
         result.rank.mainPlayers.forEach(player => {
           let number = this.calculatorService.rollDice(player.number)
           number = number > 0 ? number : 1
@@ -281,7 +284,7 @@ export class BeastViewGmComponent implements OnInit {
             dedupedArray.push(player)
             alreadyAddedRanks.push(player.rank)
           } else {
-            for(let i = 0; i < dedupedArray.length; i++) {
+            for (let i = 0; i < dedupedArray.length; i++) {
               if (dedupedArray[i].rank === player.rank) {
                 dedupedArray[i].number += number
               }
@@ -375,7 +378,7 @@ export class BeastViewGmComponent implements OnInit {
     }
   }
 
-  addToQuickView () {
+  addToQuickView() {
     let hash = this.beast.hash
     if (this.selectedRoleId) {
       hash = this.beast.roleInfo[this.selectedRoleId].hash
@@ -383,4 +386,55 @@ export class BeastViewGmComponent implements OnInit {
     this.quickViewService.addToQuickViewArray(hash)
   }
 
+  convertPanic(stress, panic) {
+    let percentage = .00;
+    switch (panic) {
+      case 1:
+        return 'Always';
+      case 2:
+        return 1
+      case 3:
+        percentage = .25
+        break;
+      case 4:
+        percentage = .5
+        break;
+      case 5:
+        percentage = .75
+        break;
+      case 7:
+        return 'Never'
+      default: panic
+    }
+
+    return (stress * percentage).toFixed(0)
+  }
+
+  convertFatigue(fatigue) {
+    let vitality
+
+    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].average) {
+      vitality = this.beast.roleInfo[this.selectedRoleId].average
+    } else {
+      vitality = this.locationCheckboxes.mainVitality.average
+    }
+    let percentage = .00;
+    switch (fatigue) {
+      case 'H':
+        return 1
+      case 'B':
+        percentage = .25
+        break;
+      case 'W':
+        percentage = .5
+        break;
+      case 'C':
+        percentage = .75
+        break;
+      default: 
+        return fatigue
+    }
+
+    return (vitality * percentage).toFixed(0)
+  }
 }

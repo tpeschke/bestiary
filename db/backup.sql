@@ -19,6 +19,7 @@ create table bbindividualbeast (
     vitality varchar(40),
     panic int,
     broken int,
+    caution int default 0,
     canplayerview BOOLEAN default false
 )
 

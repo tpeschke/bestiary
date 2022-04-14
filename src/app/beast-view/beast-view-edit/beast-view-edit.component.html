@@ -369,7 +369,7 @@
           <input matInput placeholder="Stress Threshold" [value]="beast.stress"
             (change)="captureInput($event, 'stress')">
         </mat-form-field>
-
+        <br />
         <mat-form-field>
           <mat-label>Panic</mat-label>
           <mat-select [value]="beast.panic" (selectionChange)="captureSelect($event, 'panic')">
@@ -377,16 +377,16 @@
               Always
             </mat-option>
             <mat-option value="2">
-              Hurt
+              Unsure
             </mat-option>
             <mat-option value="3">
-              Bloodied
+              Nervous
             </mat-option>
             <mat-option value="4">
-              Wounded
+              Shaken
             </mat-option>
             <mat-option value="5">
-              Bleeding Out
+              Breaking
             </mat-option>
             <mat-option value="7">
               Never
@@ -397,6 +397,11 @@
           <h3>Current Panic</h3>
           <p>{{beast.panic | moraleConverter}}</p>
         </div>
+        <br />
+        <mat-form-field>
+          <input matInput placeholder="Caution Threshold" [value]="beast.caution"
+            (change)="captureInput($event, 'caution')">
+        </mat-form-field>
       </div>
 
       <div class="vitals-shell">

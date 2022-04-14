@@ -14,9 +14,16 @@ export class CalculatorService {
       .split('+')
       .forEach(val => {
         if (val.includes('d')) {
-          val = val.split('d')
-          val[0] = val[0] ? +val[0] : 1
-          totalValue += Math.round((val[0] + (+val[1] * val[0])) / 2)
+          if (val.includes('*')) {
+            val = val.replace(/\(|\)/gi, '').split('*')
+            let dice = val[0].split('d')
+            dice[0] = val[1]
+            totalValue += Math.round((+dice[0] + (+dice[1] * dice[0])) / 2)
+          } else {
+            val = val.split('d')
+            val[0] = val[0] ? +val[0] : 1
+            totalValue += Math.round((val[0] + (+val[1] * val[0])) / 2)
+          }
         } else {
           totalValue += +val
         }
@@ -48,21 +55,21 @@ export class CalculatorService {
           diceExpressionArray.push(expressionValue);
         }
       })
-      
+
       for (let index = 0; index < diceExpressionArray.length; index++) {
         let val = diceExpressionArray[index];
 
         if (val.includes('d')) {
           val = val.split('d')
           let subtotal = 0
-          if (val[0] === "") {val[0] = 1}
+          if (val[0] === "") { val[0] = 1 }
           for (let i = 0; i < +val[0]; i++) {
             subtotal += this.rollDice(+val[1])
           }
           diceExpressionArray[index] = subtotal
         }
       }
-      
+
       return eval(diceExpressionArray.join(""))
     }
   }

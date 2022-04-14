@@ -27,7 +27,8 @@ export class QuickViewService {
   modifyVitality(monster) {
     monster.locationCheckboxes = { mainVitality: {} }
     monster.locationCheckboxes.mainVitality = {
-      average: this.calculatorService.rollDice(monster.vitality)
+      rolled: this.calculatorService.rollDice(monster.vitality),
+      average: this.calculatorService.calculateAverageOfDice(monster.vitality)
     }
     monster.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(monster.locationCheckboxes.mainVitality.average, monster.panic)
 
@@ -36,7 +37,7 @@ export class QuickViewService {
     if (locationalvitality.length > 0) {
       locationalvitality.forEach(({ location, vitality }) => {
         monster.locationCheckboxes[location] = {
-          average: this.calculatorService.rollDice(vitality)
+          rolled: this.calculatorService.rollDice(vitality)
         }
         monster.trauma = Math.max(monster.trauma, monster.locationCheckboxes[location].average)
         monster.locationCheckboxes[location].checkboxes = this.createCheckboxArray(monster.locationCheckboxes[location].average)

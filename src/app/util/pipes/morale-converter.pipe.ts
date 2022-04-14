@@ -10,13 +10,13 @@ export class MoraleConverterPipe implements PipeTransform {
       case 1:
         return 'Always';
       case 2:
-        return 'Hurt';
+        return 'Unsure';
       case 3: 
-        return 'Bloodied';
+        return 'Nervous';
       case 4:
-        return 'Wounded';
+        return 'Shaken';
       case 5:
-        return 'Critical'
+        return 'Breaking'
       case 7:
         return 'Never'
       default: value

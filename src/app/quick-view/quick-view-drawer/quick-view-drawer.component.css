@@ -201,13 +201,19 @@
 
 .vitals-shell {
     background: rgba(211, 211, 211, 0.5);
-    padding: 15px;
+    padding: 0px 15px 15px 15px;
     border-radius: 4px;
     margin: 10px 0;
 }
 
 .vitals-shell h3 {
     color: #795548;
+}
+
+.input-shell {
+    display: flex;
+    align-items: center;
+    margin: -15px 0;
 }
 
 .flex-row-opposite {
@@ -240,11 +246,17 @@ h2 {
     height: 90vh;
 }
 
+strong {
+    font-weight: bold;
+    font-family: 'know';
+}
+
 .locationVitality div:first-child .flex-row-opposite {
     border-top: 1px solid white;
     margin-top: 10px;
+    padding-top: 10px;
 }
-.locationVitality div:last-child .checkboxShell {
+.locationVitality div:last-child .flex-row-opposite {
     border-bottom: 1px solid white;
     padding-bottom: 10px;
     margin-bottom: 10px;
@@ -303,11 +315,11 @@ h2 {
       font-size: 15px;
   }
 
-  mat-form-field {
+  .label-shell mat-form-field {
       width: 90%;
   }
 
-  mat-form-field h2 {
+  .label-shell mat-form-field h2 {
       margin: 0
   }
 

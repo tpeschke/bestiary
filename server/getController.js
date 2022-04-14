@@ -6,9 +6,9 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, role, rolevitality, id: beastid, roleid, patreon, canplayerview } = result[0]
+      let { name, sp_atk, sp_def, vitality, panic, stress, role, rolevitality, id: beastid, roleid, patreon, canplayerview, caution } = result[0]
       let beast = {
-        name, sp_atk, sp_def, vitality, panic, stress, hash, patreon
+        name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution
       }
       let isARole = result[0].roleid && result.length <= 1
 

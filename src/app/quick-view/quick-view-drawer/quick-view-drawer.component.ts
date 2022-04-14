@@ -17,9 +17,9 @@ export class QuickViewDrawerComponent implements OnInit {
   private quickViewListIsOpen = false
   private isTrackedInCombatCounter = false
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  toggleQuickViewList () {
+  toggleQuickViewList() {
     this.quickViewListIsOpen = !this.quickViewListIsOpen
   }
 
@@ -37,15 +37,60 @@ export class QuickViewDrawerComponent implements OnInit {
 
   checkCheckbox(event, index, location, beastIndex, vitalityIndex) {
     this.quickViewService.checkCheckbox(event, index, location, beastIndex, vitalityIndex)
-   }
+  }
 
-   trackedInCombatCounter (event) {
+  trackedInCombatCounter(event) {
     this.isTrackedInCombatCounter = event.checked
-   }
+  }
 
-   goToEntry(beastId) {
+  goToEntry(beastId) {
     this.router.navigate([`/beast/${beastId}/gm`])
     this.quickViewListIsOpen = false;
-   }
+  }
+
+  convertPanic(stress, panic) {
+    let percentage = .00;
+    switch (panic) {
+      case 1:
+        return 'Always';
+      case 2:
+        return 1
+      case 3:
+        percentage = .25
+        break;
+      case 4:
+        percentage = .5
+        break;
+      case 5:
+        percentage = .75
+        break;
+      case 7:
+        return 'Never'
+      default: panic
+    }
+
+    return (stress * percentage).toFixed(0)
+  }
+
+  convertFatigue(vitality, fatigue) {
+    let percentage = .00;
+    switch (fatigue) {
+      case 'H':
+        return 1
+      case 'B':
+        percentage = .25
+        break;
+      case 'W':
+        percentage = .5
+        break;
+      case 'C':
+        percentage = .75
+        break;
+      default: 
+        return fatigue
+    }
+
+    return (vitality * percentage).toFixed(0)
+  }
 
 }

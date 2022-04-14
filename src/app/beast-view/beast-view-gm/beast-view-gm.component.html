@@ -55,7 +55,7 @@
 
       </div>
 
-      <div class="conflict-inner-shell" *ngIf="beast.skills.length > 0">
+      <div class="conflict-inner-shell box-padding" *ngIf="beast.skills.length > 0">
         <h2>Special Skills</h2>
         <div class="divider"></div>
         <div class="box-padding">
@@ -98,7 +98,7 @@
         <div class="divider"></div>
         <div *ngFor="let square of beast.combat">
           <div
-            *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueCombat ? null === square.roleid : selectedRoleId === square.roleid">
+            *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueCombat ? square.roleid === null : selectedRoleId === square.roleid">
             <div class="combat-square">
               <h3 class="weaponName">{{square.weapon | titlecase}}</h3>
 
@@ -108,7 +108,7 @@
                 <p class="atk">{{square.atk}}</p>
                 <p class="init">{{square.init}}</p>
                 <p class="def">{{square.def}}</p>
-                <p class="fatigue">{{square.fatigue}}</p>
+                <p class="fatigue">{{ convertFatigue(square.fatigue) }}</p>
                 <div class="dr">
                   <p>{{square.dr}}</p>
                   <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
@@ -137,31 +137,42 @@
             <p *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
               {{beast.roleInfo[selectedRoleId].vitality}}</p>
             <p *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">{{beast.vitality}}</p>
-            <p
-              *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
+            <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
               (Ave: {{beast.roleInfo[selectedRoleId].average}})</p>
-            <p
-              *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
+            <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
               (Ave: {{locationCheckboxes.mainVitality.average}})</p>
           </span>
         </div>
 
         <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
-          <div class="checkboxShell">
+          <!-- <div class="checkboxShell">
             <div *ngFor="let checkbox of beast.roleInfo[selectedRoleId].checkboxes; let i = index">
               <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkRoleCheckbox($event, i)"
                 [(ngModel)]="checkbox.checked"></mat-checkbox>
               <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
             </div>
+          </div> -->
+          <div class="rolled-stats-shell">
+            <mat-form-field>
+              <input matInput>
+            </mat-form-field>
+            <p>/</p>
+            <p>{{beast.roleInfo[selectedRoleId].rolled}}</p>
           </div>
         </div>
         <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
-          <div class="checkboxShell">
+          <!-- <div class="checkboxShell">
             <div *ngFor="let checkbox of locationCheckboxes.mainVitality.checkboxes; let i = index">
               <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
                 (change)="checkCheckbox($event, i, 'mainVitality')" [(ngModel)]="checkbox.checked"></mat-checkbox>
               <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
             </div>
+          </div> -->
+          <div *ngIf="locationCheckboxes.mainVitality.rolled" class="rolled-stats-shell">
+            <mat-form-field>
+              <input matInput>
+            </mat-form-field>
+            <p> / {{locationCheckboxes.mainVitality.rolled}}</p>
           </div>
         </div>
 
@@ -177,33 +188,49 @@
                     {{locationCheckboxes[location.id].average}})</p>
                 </span>
               </div>
-              <div class="checkboxShell">
-                <div *ngFor="let checkbox of locationCheckboxes[location.id].checkboxes; let i = index">
+              <!-- <div class="checkboxShell"> -->
+                <!-- <div *ngFor="let checkbox of locationCheckboxes[location.id].checkboxes; let i = index">
                   <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
                     (change)="checkCheckbox($event, i, location.id)" [(ngModel)]="checkbox.checked">
                   </mat-checkbox>
                   <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+                </div> -->
+                <div class="rolled-stats-shell">
+                  <mat-form-field>
+                    <input matInput>
+                  </mat-form-field>
+                  <p> / {{locationCheckboxes[location.id].rolled}}</p>
                 </div>
-              </div>
+              <!-- </div> -->
             </div>
           </div>
         </div>
 
-        <div class="flex-row-opposite">
+        <div *ngIf="isNumber(trauma)" class="flex-row-opposite">
           <h3>Trauma Threshold</h3>
           <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">
             {{beast.roleInfo[selectedRoleId].trauma}}</p>
           <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">{{trauma}}</p>
-          <p *ngIf="!isNumber(trauma)">n/a</p>
         </div>
         <div class="flex-row-opposite">
           <h3>Stress Threshold</h3>
           <p *ngIf="beast.stress !== 0">{{beast.stress}}</p>
-          <p *ngIf="beast.stress === 0">n/a</p>
+          <p *ngIf="beast.stress === 0">N/A</p>
         </div>
-        <div class="flex-row-opposite">
+        <div *ngIf="beast.stress !== 0" class="rolled-stats-shell">
+          <mat-form-field>
+            <input matInput>
+          </mat-form-field>
+          <p> / ({{convertPanic(beast.stress, beast.panic)}}) / {{beast.stress}}</p>
+        </div>
+        <div *ngIf="beast.stress !== 0" class="flex-row-opposite">
           <h3>Panic</h3>
           <p>{{beast.panic | moraleConverter}}</p>
+        </div>
+        <div class="flex-row-opposite">
+          <h3>Caution Threshold</h3>
+          <p>{{beast.caution < 0 ? 'Always' : beast.caution === 0 ? 'Never' : beast.caution}} <i class="fas fa-info-circle icon-small blue"
+            matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable."></i></p>
         </div>
       </div>
 
@@ -285,7 +312,8 @@
             </thead>
             <tbody>
               <tr *ngFor="let row of table.rows; let i = index">
-                <td>{{i === 0 ? 1 : (((table.max / table.rows.length) * (i)) + 1 ).toFixed(0)}} - {{((table.max / table.rows.length) * (i + 1)).toFixed(0)}}</td>
+                <td>{{i === 0 ? 1 : (((table.max / table.rows.length) * (i)) + 1 ).toFixed(0)}} - {{((table.max /
+                  table.rows.length) * (i + 1)).toFixed(0)}}</td>
                 <td colspan="2">{{row}}</td>
               </tr>
             </tbody>
@@ -304,7 +332,8 @@
               <table>
                 <tbody>
                   <tr *ngFor="let row of table.rows; let i = index">
-                    <td>{{i === 0 ? 1 : (((table.max / table.rows.length) * (i)) + 1 ).toFixed(0)}} - {{((table.max / table.rows.length) * (i + 1)).toFixed(0)}}</td>
+                    <td>{{i === 0 ? 1 : (((table.max / table.rows.length) * (i)) + 1 ).toFixed(0)}} - {{((table.max /
+                      table.rows.length) * (i + 1)).toFixed(0)}}</td>
                     <td colspan="2">{{row}}</td>
                   </tr>
                 </tbody>

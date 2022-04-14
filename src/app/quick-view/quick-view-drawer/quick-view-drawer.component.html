@@ -33,9 +33,9 @@
             </mat-checkbox>
           </div>
 
-          <div *ngIf="!isTrackedInCombatCounter" class="vitals-shell">
-            <div *ngFor="let vitalities of beast.vitalityArray; let mainIndex = index">
-              <div class="flex-row-opposite ">
+          <div *ngIf="!isTrackedInCombatCounter">
+            <div class="vitals-shell" *ngFor="let vitalities of beast.vitalityArray; let mainIndex = index">
+              <div class="flex-row-opposite label-shell">
                 <mat-form-field floatLabel=never>
                   <h2>
                     <input placeholder="Creature Label" matInput [value]="vitalities.label">
@@ -46,7 +46,14 @@
                     class="fas fa-minus"></i></div>
               </div>
 
-              <div class="checkboxShell">
+              <div *ngIf="beast.caution !== 0" class="flex-row-opposite">
+                <h3>Caution Threshold</h3>
+                <p>{{beast.caution < 0 ? 'A' : beast.caution}} <i class="fas fa-info-circle icon-small blue"
+                    matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable.">
+                    </i></p>
+              </div>
+
+              <!-- <div class="checkboxShell">
                 <div *ngFor="let checkbox of vitalities.locationCheckboxes.mainVitality.checkboxes; let i = index">
                   <div [ngClass]="checkbox.isPanicked ? 'panicked' : ''">
                     <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
@@ -57,11 +64,30 @@
                     <p [ngClass]="checkbox.isPanicked ? 'panicked' : ''"> {{checkbox.value}} </p>
                   </div>
                 </div>
+              </div> -->
+
+              <div class="flex-row-opposite">
+                <h3>Vitality</h3>
+                <div class="input-shell">
+                  <mat-form-field>
+                    <input matInput>
+                  </mat-form-field>
+                  <p>/ {{vitalities.locationCheckboxes.mainVitality.rolled}}</p>
+                </div>
               </div>
 
               <div class="locationVitality">
                 <div *ngFor="let location of beast.locationalvitality; let i = index">
                   <div class="flex-row-opposite">
+                    <strong>{{location.location}}</strong>
+                    <div class="input-shell">
+                      <mat-form-field>
+                        <input matInput>
+                      </mat-form-field>
+                      <p>/ {{vitalities.locationCheckboxes[location.location].rolled}}</p>
+                    </div>
+                  </div>
+                  <!-- <div class="flex-row-opposite">
                     <h3>{{location.location}}</h3>
                   </div>
                   <div class="checkboxShell">
@@ -73,39 +99,41 @@
                       </mat-checkbox>
                       <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
                     </div>
+                  </div> -->
+                </div>
+              </div>
+
+              <div *ngIf="isNumber(beast.trauma)" class="flex-row-opposite">
+                <strong>Trauma Threshold</strong>
+                <p *ngIf="isNumber(beast.trauma)">{{beast.trauma}}</p>
+                <p *ngIf="!isNumber(beast.trauma)">n/a</p>
+              </div>
+
+              <div *ngIf="beast.stress > 0">
+                <div class="flex-row-opposite">
+                  <h3>Stress Threshold</h3>
+                  <div class="input-shell">
+                    <mat-form-field>
+                      <input matInput>
+                    </mat-form-field>
+                    <p>/ ( {{convertPanic(beast.stress, beast.panic)}} ) / {{beast.stress}}</p>
                   </div>
                 </div>
               </div>
-              <div *ngIf="beast.stress > 0">
-                <div class="stress-threshold-shell">
-                  <p>Stress Threshold: </p>
-                  <mat-form-field>
-                    <input matInput>
-                  </mat-form-field>
-                  <p>/ {{beast.stress}}</p>
-                </div>
-              </div>
             </div>
 
-
-
-            <div class="add-button-shell">
-              <div (click)="addAnotherVitality(beastIndex)"><i class="fas fa-plus"></i></div>
-            </div>
-
-            <div class="flex-row-opposite">
-              <h3>Trauma Threshold</h3>
-              <p *ngIf="isNumber(beast.trauma)">{{beast.trauma}}</p>
-              <p *ngIf="!isNumber(beast.trauma)">n/a</p>
-            </div>
-            <div class="flex-row-opposite">
+            <!-- <div class="flex-row-opposite">
               <h3>Stress Threshold</h3>
               <p *ngIf="beast.stress !== 0">{{beast.stress}}</p>
               <p *ngIf="beast.stress === 0">n/a</p>
-            </div>
+            </div> -->
             <div *ngIf="beast.panic === 1" class="flex-row-opposite">
               <h3>Panic</h3>
               <p>{{beast.panic | moraleConverter}}</p>
+            </div>
+
+            <div class="add-button-shell">
+              <div (click)="addAnotherVitality(beastIndex)"><i class="fas fa-plus"></i></div>
             </div>
           </div>
 
@@ -120,7 +148,8 @@
                   <p class="atk">{{square.atk}}</p>
                   <p class="init">{{square.init}}</p>
                   <p class="def">{{square.def}}</p>
-                  <p class="fatigue">{{square.fatigue}}</p>
+                  <p class="fatigue">{{ convertFatigue(beast.vitalityArray[0].locationCheckboxes.mainVitality.average,
+                    square.fatigue) }}</p>
                   <div class="dr">
                     <p>{{square.dr}}</p>
                     <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>

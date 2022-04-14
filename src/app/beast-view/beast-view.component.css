@@ -577,6 +577,17 @@ th {
     margin-bottom:  100px;
 }
 
+.rolled-stats-shell {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: -15px 0px;
+}
+
+.conflict-inner-shell h2 {
+    margin: 0;
+}
+
 @media (max-width: 1295px) {
     .lairLoot li {
         width: 45%;
