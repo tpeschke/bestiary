@@ -42,7 +42,7 @@ table {
 }
 
 th, td {
-    padding: 2px 2px
+    padding: 5px 2px
 }
 
 .rank-header {
@@ -71,36 +71,36 @@ th, td {
     background: lightgray;
 }
 
-.d {
+.Diffic {
     background: #e6b8af;
 }
 
-.a {
+.Ave {
     background: #f9cb9c;
 }
 
-.e {
+.Easy {
     background: #b6d7a8;
 }
 
-.t {
+.Trivial {
     background: #93c47d;
 }
 
-.au {
+.Auto {
     background: #6aa84f;
 }
 
-.h {
+.Hard {
     background: #dd7e6b;
 }
 
-.c {
+.Challen {
     background: #cc4125;
     color: white
 }
 
-.i {
+.Impos {
     background: #a61c00;
     color: white
 }
