@@ -194,11 +194,9 @@
       </div>
       <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">ADD SKILL</button>
 
-      <div class="divider"></div>
-
       <div class="conflict-shell">
         <mat-form-field>
-          <mat-label>Role</mat-label>
+          <mat-label>Combat Role</mat-label>
           <mat-select (selectionChange)="setRole($event)">
             <mat-option>
               Base
@@ -210,13 +208,39 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input placeholder="Role Name" matInput (change)="captureNewRole($event)">
+          <mat-label>Role Type</mat-label>
+          <mat-select (selectionChange)="setRoleType($event)">
+            <mat-option *ngFor="let role of combatRoles" [value]="role.name">
+              {{role.name}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
-        <button mat-raised-button (click)="addNewRole()" color="accent">ADD ROLE</button>
+
+        <div class="divider white"></div>
+
+        <mat-form-field>
+          <input placeholder="Role Name" matInput (change)="captureNewRole('name', $event)">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Role Type</mat-label>
+          <mat-select (selectionChange)="captureNewRole('role', $event)">
+            <mat-option *ngFor="let role of combatRoles" [value]="role.name">
+              {{role.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button (click)="addNewRole()" color="accent">ADD COMBAT ROLE</button>
       </div>
+
+      <h3>Combat Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].role :
+        selectedRoleId ? 'None' : beast.role ? beast.role : 'None'}}</h3>
 
       <div class="combat-shell">
         <div *ngFor="let square of beast.combat; let i = index">
+          <div class="divider"></div>
+          <br />
           <div *ngIf="!square.deleted && selectedRoleId === square.roleid">
             <h3>
               <mat-form-field>
@@ -224,58 +248,60 @@
                   (change)="captureInput($event, 'combat', i, 'weapon')">
               </mat-form-field>
             </h3>
-            <mat-form-field>
-              <input placeholder="Recovery" matInput [value]="square.spd"
-                (change)="captureInput($event, 'combat', i, 'spd')">
-            </mat-form-field>
-            <mat-form-field>
-              <input placeholder="Attack" matInput [value]="square.atk"
-                (change)="captureInput($event, 'combat', i, 'atk')">
-            </mat-form-field>
-            <mat-form-field>
-              <input placeholder="Initiative" matInput [value]="square.init"
-                (change)="captureInput($event, 'combat', i, 'init')">
-            </mat-form-field>
-            <mat-form-field>
-              <input placeholder="Defense" matInput [value]="square.def"
-                (change)="captureInput($event, 'combat', i, 'def')">
-            </mat-form-field>
-            <mat-form-field>
-              <input placeholder="Fatigue" matInput [value]="square.fatigue"
-                (change)="captureInput($event, 'combat', i, 'fatigue')">
-            </mat-form-field>
-            <!-- This needs to be changed so you can modifiy shields as well -->
-            <mat-form-field>
-              <input placeholder="DR" matInput [value]="square.dr" (change)="captureInput($event, 'combat', i, 'dr')">
-            </mat-form-field>
-            <mat-form-field>
-              <input placeholder="Shield DR" matInput [value]="square.shield_dr"
-                (change)="captureInput($event, 'combat', i, 'shield_dr')">
-            </mat-form-field>
-            <mat-form-field>
-              <input placeholder="Measure" matInput [value]="square.measure"
-                (change)="captureInput($event, 'combat', i, 'measure')">
-            </mat-form-field>
-            <mat-form-field>
-              <input placeholder="Damage" matInput [value]="square.damage"
-                (change)="captureInput($event, 'combat', i, 'damage')">
-            </mat-form-field>
-            <mat-form-field>
-              <input placeholder="Parry" matInput [value]="square.parry"
-                (change)="captureInput($event, 'combat', i, 'parry')">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Weapon Type</mat-label>
-              <mat-select [value]="square.weapontype"
-                (selectionChange)="captureSelect($event, 'combat', i, 'weapontype')">
-                <mat-option value="m">
-                  m
-                </mat-option>
-                <mat-option value="r">
-                  r
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="square-combat-shell">
+              <mat-form-field>
+                <input placeholder="Recovery" matInput [value]="square.spd"
+                  (change)="captureInput($event, 'combat', i, 'spd')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Attack" matInput [value]="square.atk"
+                  (change)="captureInput($event, 'combat', i, 'atk')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Initiative" matInput [value]="square.init"
+                  (change)="captureInput($event, 'combat', i, 'init')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Defense" matInput [value]="square.def"
+                  (change)="captureInput($event, 'combat', i, 'def')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Fatigue" matInput [value]="square.fatigue"
+                  (change)="captureInput($event, 'combat', i, 'fatigue')">
+              </mat-form-field>
+              <!-- This needs to be changed so you can modifiy shields as well -->
+              <mat-form-field>
+                <input placeholder="DR" matInput [value]="square.dr" (change)="captureInput($event, 'combat', i, 'dr')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Shield DR" matInput [value]="square.shield_dr"
+                  (change)="captureInput($event, 'combat', i, 'shield_dr')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Measure" matInput [value]="square.measure"
+                  (change)="captureInput($event, 'combat', i, 'measure')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Damage" matInput [value]="square.damage"
+                  (change)="captureInput($event, 'combat', i, 'damage')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Parry" matInput [value]="square.parry"
+                  (change)="captureInput($event, 'combat', i, 'parry')">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Weapon Type</mat-label>
+                <mat-select [value]="square.weapontype"
+                  (selectionChange)="captureSelect($event, 'combat', i, 'weapontype')">
+                  <mat-option value="m">
+                    m
+                  </mat-option>
+                  <mat-option value="r">
+                    r
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
 
             <div *ngIf="square.weapontype == 'r'" class="ranged-shell">
               <h3>Range</h3>
@@ -1426,7 +1452,7 @@
   <mat-form-field>
     <input matInput placeholder="Challenge ID" [value]="newChallengeId" (change)="captureChallenge($event)">
   </mat-form-field>
-  <button  class="add-by-id" mat-raised-button color="accent" (click)="addChallengeById()">Add By ID</button>
+  <button class="add-by-id" mat-raised-button color="accent" (click)="addChallengeById()">Add By ID</button>
 
   <button (click)="saveChanges()" mat-raised-button color="primary">Save</button>
   <button (click)="deleteThisBeast()" mat-raised-button color="warn" class="deleteButton">Delete</button>

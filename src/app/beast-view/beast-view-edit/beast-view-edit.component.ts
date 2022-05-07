@@ -33,7 +33,11 @@ export class BeastViewEditComponent implements OnInit {
   public averageVitality = null;
   public lootTables = lootTables;
   public selectedRoleId = null;
-  public newRole = null;
+  public newRole = {
+    name: null,
+    role: null,
+    secondaryrole: null
+  };
   public deletedSpellList = null;
 
   public temperament = {
@@ -74,6 +78,57 @@ export class BeastViewEditComponent implements OnInit {
     number: null,
     favor: null
   }
+
+  public combatRoles = [
+    {
+      name: 'Artillery',
+      strengths: '',
+      weaknesses: ''
+    },
+    {
+      name: 'Brute',
+      strengths: '',
+      weaknesses: ''
+    },
+    {
+      name: 'Defender',
+      strengths: '',
+      weaknesses: ''
+    },
+    {
+      name: 'Fencer',
+      strengths: '',
+      weaknesses: ''
+    },
+    {
+      name: 'Flanker',
+      strengths: '',
+      weaknesses: ''
+    },
+    {
+      name: 'Fodder',
+      strengths: '',
+      weaknesses: ''
+    }
+  ]
+
+  public combatRolesSecondary = [
+    {
+      name: 'Captain',
+      strengths: '',
+      weaknesses: ''
+    },
+    {
+      name: 'Controller',
+      strengths: '',
+      weaknesses: ''
+    },
+    {
+      name: 'Solo',
+      strengths: '',
+      weaknesses: ''
+    }
+  ]
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -508,14 +563,31 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  captureNewRole (event) {
-    this.newRole = event.target.value
+  setRoleType(event) {
+    if (this.selectedRoleId) {
+      for (let i = 0; i < this.beast.roles.length; i++) {
+        if (this.selectedRoleId === this.beast.roles[i].id) {
+          this.beast.roles[i].role = event.value
+          i = this.beast.roles.length
+        }
+      }
+    } else {
+      this.beast.role = event.value
+    }
+  }
+
+  captureNewRole (type, event) {
+    this.newRole[type] = event.target.value
   }
 
   addNewRole () {
-    if (this.newRole) {
-      this.beast.roles.push({name: this.newRole, id: this.makeId(), vitality: null})
-      this.newRole = null
+    if (this.newRole.role && this.newRole.name) {
+      this.beast.roles.push({name: this.newRole.name, role: this.newRole.role, id: this.makeId(), vitality: null})
+      this.newRole = {
+        name: null,
+        role: null,
+        secondaryrole: null
+      }
     }
   }
 

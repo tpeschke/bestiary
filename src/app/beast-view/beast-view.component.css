@@ -588,6 +588,16 @@ th {
     margin: 0;
 }
 
+h3 mat-form-field {
+    width: 100%;
+}
+
+.square-combat-shell {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 @media (max-width: 1295px) {
     .lairLoot li {
         width: 45%;

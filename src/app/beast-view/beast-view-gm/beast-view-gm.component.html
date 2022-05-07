@@ -80,6 +80,8 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+
+          <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].role) || (!selectedRoleId && beast.role)">{{selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role}}</p>
           <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
               class="fas fa-plus"></i><i class="fas fa-address-card"></i></div>
         </div>

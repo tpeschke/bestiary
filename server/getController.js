@@ -259,7 +259,11 @@ module.exports = {
               name: result[i].name,
               uniqueCombat: result[i].combatcount > 0,
               uniqueMovement: result[i].movementcount > 0,
-              uniqueLocationalVitality: result[i].locationvitalitycount > 0
+              uniqueLocationalVitality: result[i].locationvitalitycount > 0,
+              role: result[i].role,
+              secondaryrole: result[i].secondaryrole,
+              attack: result[i].attack,
+              defense: result[i].defense
             }
           }
           return result
