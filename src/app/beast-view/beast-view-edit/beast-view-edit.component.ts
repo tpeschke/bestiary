@@ -33,6 +33,7 @@ export class BeastViewEditComponent implements OnInit {
   public averageVitality = null;
   public lootTables = lootTables;
   public selectedRoleId = null;
+  public selectedRole = {}
   public newRole = {
     name: null,
     role: null,
@@ -79,38 +80,220 @@ export class BeastViewEditComponent implements OnInit {
     favor: null
   }
 
-  public combatRoles = [
-    {
-      name: 'Artillery',
-      strengths: '',
-      weaknesses: ''
+  public combatRoles = ['Artillery', 'Brute', 'Defender', 'Fencer', 'Flanker', 'Fodder', 'Shock', 'Skirmisher']
+
+  combatRolesInfo = {
+    'Artillery': {
+      strengths: ['Vitality', 'Ranged Damage', 'Ranged Attack', 'Ranged Penalties'],
+      weaknesses: ['/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Melee Attack', 'Recovery', 'Movement', 'Caution Threshold'],
+      spd: 0,
+      atk: 0,
+      init: 0,
+      def: 0,
+      fatigue: 'C',
+      dr: {
+        flat: 0,
+        slash: 0
+      },
+      shield_dr: {
+        flat: 0,
+        slash: 0
+      },
+      measure: 0,
+      ranges: {
+        increment: 0
+      },
+      damage: {
+        dice: [],
+        flat: 0
+      },
+      parry: ''
     },
-    {
-      name: 'Brute',
-      strengths: '',
-      weaknesses: ''
+    'Brute': {
+      strengths: ['Vitality', 'Melee Damage', 'Melee Attack', 'Caution Threshold'],
+      weaknesses: ['Defense', 'Parry', 'Parry DR', 'Parry /DR', 'Ranged Damage', 'Ranged Attack', 'Recovery', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
+      spd: 15,
+      atk: 0,
+      init: 0,
+      def: -4,
+      fatigue: 'W',
+      dr: {
+        flat: 3,
+        slash: 1
+      },
+      shield_dr: {
+        flat: 0,
+        slash: 0
+      },
+      measure: 0,
+      ranges: {
+        increment: 0
+      },
+      damage: {
+        dice: ['3d8!'],
+        flat: 0
+      },
+      parry: 0
     },
-    {
-      name: 'Defender',
-      strengths: '',
-      weaknesses: ''
+    'Defender': {
+      strengths: ['Defense', 'DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Stress Threshold', 'Caution Threshold'],
+      weaknesses: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
+      spd: 0,
+      atk: 0,
+      init: 0,
+      def: 0,
+      fatigue: 'C',
+      dr: {
+        flat: 0,
+        slash: 0
+      },
+      shield_dr: {
+        flat: 0,
+        slash: 0
+      },
+      measure: 0,
+      ranges: {
+        increment: 0
+      },
+      damage: {
+        dice: [],
+        flat: 0
+      },
+      parry: ''
     },
-    {
-      name: 'Fencer',
-      strengths: '',
-      weaknesses: ''
+    'Fencer': {
+      strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Stress Threshold'],
+      weaknesses: ['/DR', 'Melee Damage', 'Ranged Damage', 'Range Penalties'],
+      spd: 0,
+      atk: 0,
+      init: 0,
+      def: 0,
+      fatigue: 'C',
+      dr: {
+        flat: 0,
+        slash: 0
+      },
+      shield_dr: {
+        flat: 0,
+        slash: 0
+      },
+      measure: 0,
+      ranges: {
+        increment: 0
+      },
+      damage: {
+        dice: [],
+        flat: 0
+      },
+      parry: ''
     },
-    {
-      name: 'Flanker',
-      strengths: '',
-      weaknesses: ''
+    'Flanker': {
+      strengths: ['Melee Damage', 'Recovery', 'Movement', 'Mobility Skills'],
+      weaknesses: ['Defense', 'DR', '/DR', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Range Penalties', 'Caution Threshold'],
+      spd: 0,
+      atk: 0,
+      init: 0,
+      def: 0,
+      fatigue: 'C',
+      dr: {
+        flat: 0,
+        slash: 0
+      },
+      shield_dr: {
+        flat: 0,
+        slash: 0
+      },
+      measure: 0,
+      ranges: {
+        increment: 0
+      },
+      damage: {
+        dice: [],
+        flat: 0,
+        isSpecial: false,
+        extra: ''
+      },
+      parry: ''
     },
-    {
-      name: 'Fodder',
-      strengths: '',
-      weaknesses: ''
+    'Fodder': {
+      strengths: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Mobility Skills'],
+      weaknesses: ['Vitality', 'Fatigue', '/DR', 'DR', 'Parry', 'Parry DR', 'Parry /DR', 'Movement', 'Stress Threshold', 'Panic Threshold', 'Caution Threshold'],
+      spd: 0,
+      atk: 0,
+      init: 0,
+      def: 0,
+      fatigue: 'C',
+      dr: {
+        flat: 0,
+        slash: 0
+      },
+      shield_dr: {
+        flat: 0,
+        slash: 0
+      },
+      damage: {
+        dice: [],
+        flat: 0
+      },
+      ranges: {
+        increment: 0
+      },
+      measure: 0,
+      parry: ''
+    },
+    'Shock': {
+      strengths: ['Fatigue', 'Melee Damage', 'Measure', 'Movement', 'Mobility Skills', 'Panic Threshold', 'Caution Threshold'],
+      weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Ranged Damage', 'Ranged Attack', 'Recovery', 'Range Penalties'],
+      spd: 0,
+      atk: 0,
+      init: 0,
+      def: 0,
+      fatigue: 'C',
+      dr: {
+        flat: 0,
+        slash: 0
+      },
+      shield_dr: {
+        flat: 0,
+        slash: 0
+      },
+      measure: 0,
+      ranges: {
+        increment: 0
+      },
+      damage: {
+        dice: [],
+        flat: 0
+      },
+      parry: ''
+    },
+    'Skirmisher': {
+      strengths: ['Ranged Attack', 'Movement', 'Mobility Skills', 'Stress Threshold', 'Panic'],
+      weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Ranged Damage', 'Melee Attack', 'Caution Threshold'],
+      spd: 0,
+      atk: 0,
+      init: 0,
+      def: 0,
+      fatigue: 'C',
+      dr: {
+        flat: 0,
+        slash: 0
+      },
+      shield_dr: {
+        flat: 0,
+        slash: 0
+      },
+      measure: 0,
+      ranges: {
+        increment: 0
+      },
+      damage: {
+        dice: [],
+        flat: 0
+      },
+      parry: ''
     }
-  ]
+  }
 
   public combatRolesSecondary = [
     {
@@ -138,19 +321,25 @@ export class BeastViewEditComponent implements OnInit {
         delete beast.id
         beast.name = beast.name + " Template"
         this.beast = beast
+        if (this.beast.role) {
+          this.selectedRole = this.combatRolesInfo[this.beast.role]
+        }
         this.beastService.getEditEncounter(this.route.snapshot.params.templateId).subscribe(encounter => {
           this.encounter = encounter
         })
       } else if (beast) {
         this.beast = beast
+        if (this.beast.role) {
+          this.selectedRole = this.combatRolesInfo[this.beast.role]
+        }
         if (!this.beast.casting) {
           this.beast.casting = {
-            augur: null, 
-            wild: null, 
-            vancian: null, 
-            spellnumberdie: 'd4', 
-            manifesting: null, 
-            commanding: null, 
+            augur: null,
+            wild: null,
+            vancian: null,
+            spellnumberdie: 'd4',
+            manifesting: null,
+            commanding: null,
             bloodpact: null
           }
         }
@@ -196,12 +385,12 @@ export class BeastViewEditComponent implements OnInit {
           lairloot: {},
           roles: [],
           casting: {
-            augur: null, 
-            wild: null, 
-            vancian: null, 
-            spellnumberdie: 'd4', 
-            manifesting: null, 
-            commanding: null, 
+            augur: null,
+            wild: null,
+            vancian: null,
+            spellnumberdie: 'd4',
+            manifesting: null,
+            commanding: null,
             bloodpact: null
           },
           challenges: []
@@ -209,9 +398,9 @@ export class BeastViewEditComponent implements OnInit {
       }
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
       this.beast.roles.forEach(role => {
-          if (role.vitality) {
-            role.average = this.calculatorService.rollDice(role.vitality)
-          }
+        if (role.vitality) {
+          role.average = this.calculatorService.rollDice(role.vitality)
+        }
       })
       window.scrollTo({
         top: 0,
@@ -558,8 +747,22 @@ export class BeastViewEditComponent implements OnInit {
   setRole(event) {
     if (event.value) {
       this.selectedRoleId = event.value
+      if (this.beast.roleInfo[this.selectedRoleId].role) {
+        this.selectedRole = this.combatRolesInfo[this.beast.roleInfo[this.selectedRoleId].role]
+      } else {
+        if (this.beast.role) {
+          this.selectedRole = this.combatRolesInfo[this.beast.role]
+        } else {
+          this.selectedRole = {}
+        }
+      }
     } else {
       this.selectedRoleId = null
+      if (this.beast.role) {
+        this.selectedRole = this.combatRolesInfo[this.beast.role]
+      } else {
+        this.selectedRole = {}
+      }
     }
   }
 
@@ -576,13 +779,13 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  captureNewRole (type, event) {
+  captureNewRole(type, event) {
     this.newRole[type] = event.target.value
   }
 
-  addNewRole () {
+  addNewRole() {
     if (this.newRole.role && this.newRole.name) {
-      this.beast.roles.push({name: this.newRole.name, role: this.newRole.role, id: this.makeId(), vitality: null})
+      this.beast.roles.push({ name: this.newRole.name, role: this.newRole.role, id: this.makeId(), vitality: null })
       this.newRole = {
         name: null,
         role: null,
@@ -592,7 +795,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureRoleVitality(event) {
-    for(let i = 0; i < this.beast.roles.length; i++) {
+    for (let i = 0; i < this.beast.roles.length; i++) {
       if (this.beast.roles[i].id === this.selectedRoleId) {
         this.beast.roles[i].vitality = event.target.value
         this.beast.roles[i].average = this.calculatorService.calculateAverageOfDice(event.target.value)
@@ -654,5 +857,9 @@ export class BeastViewEditComponent implements OnInit {
     if (deletedSpell[0].beastid) {
       this.deletedSpellList.push(deletedSpell[0].id)
     }
+  }
+
+  eval = (string) => {
+    return eval(string)
   }
 }

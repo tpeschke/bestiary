@@ -49,6 +49,15 @@ mat-toolbar {
     justify-content: space-evenly;
 }
 
+.edit-content {
+    flex-direction: column;
+}
+
+.edit-combat-squares-shell {
+    display: flex;
+    justify-content: space-between;
+}
+
 .divider {
     width: 100%;
     height: 1px;
@@ -592,10 +601,20 @@ h3 mat-form-field {
     width: 100%;
 }
 
-.square-combat-shell {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+mat-form-field {
+    margin-right: 15px;
+}
+
+.edit-combat-squares-shell-right {
+    margin-left: 15px;
+}
+
+#green {
+    background: lightgreen
+}
+
+#red {
+    background: rgb(248, 134, 134)
 }
 
 @media (max-width: 1295px) {

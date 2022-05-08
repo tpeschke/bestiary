@@ -2,7 +2,7 @@ const { promise } = require("selenium-webdriver")
 
 module.exports = {
   getQuickView(req, res) {
-    let {hash} = req.params
+    let { hash } = req.params
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
@@ -12,7 +12,7 @@ module.exports = {
       }
       let isARole = result[0].roleid && result.length <= 1
 
-      if (isARole) { 
+      if (isARole) {
         if (role && role.toUpperCase() !== "NONE") {
           beast.name = name + " " + role
         }
@@ -34,7 +34,7 @@ module.exports = {
         } else if (req.user && req.user.patreon) {
           patreonTestValue = req.user.patreon
         }
-      } 
+      }
 
       if (beastPatreon >= patreonTestValue) {
         res.send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
@@ -101,7 +101,7 @@ module.exports = {
         , promiseArray = []
       let patreonTestValue = -1;
       let patreon = beast.patreon === 0 ? beast.patreon + 3 : beast.patreon
-      
+
       if (beast.canplayerview) {
         patreonTestValue = 1000
       } else if (req.user) {
@@ -128,7 +128,15 @@ module.exports = {
         }))
 
         promiseArray.push(db.get.beastcombat(id).then(result => {
-          beast.combat = result
+          beast.combat = result.map(weapon => {
+            let newWeaponInfo = {
+              newDR: {}, newShieldDr: {}, newDR: {}
+            }
+            newWeaponInfo.newDR = processDR(weapon.dr, weapon.flat, weapon.slash)
+            newWeaponInfo.newShieldDr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash)
+            newWeaponInfo.newDamage = processDamage(weapon.damage)
+            return {...weapon, ...newWeaponInfo}
+          })
           return result
         }))
 
@@ -273,11 +281,11 @@ module.exports = {
           beast.casting = result[0]
         }))
 
-        promiseArray.push(db.get.spells(id).then( result => {
+        promiseArray.push(db.get.spells(id).then(result => {
           beast.spells = result
         }))
 
-        promiseArray.push(db.get.challenges(id).then( result => {
+        promiseArray.push(db.get.challenges(id).then(result => {
           beast.challenges = result
         }))
 
@@ -298,4 +306,58 @@ module.exports = {
       }
     })
   },
+}
+
+function processDR(drString, flat, slash) {
+  let newDR = {
+    flat,
+    slash
+  }
+  if (newDR.flat !== null || newDR.flat !== null) {
+    return newDR
+  }
+
+  if (drString) {
+    drString.split('+').forEach(element => {
+      if (element.includes('/d')) {
+        newDR.slash = +element.split('/d')[0]
+      } else {
+        newDR.flat = +element
+      }
+    })
+  }
+
+  return newDR
+}
+
+function processDamage(damageString) {
+  let newDamage = {
+    dice: [],
+    flat: 0,
+    isSpecial: false,
+    extra: ''
+  }
+  if (damageString.includes('see')) {
+    newDamage.isSpecial = true
+    return newDamage
+  }
+  let expressionValue = ""
+  damageString.replace(/\s/g, '').split('').forEach((val, i, array) => {
+
+    if (i === array.length - 1) {
+      expressionValue = expressionValue + val
+    }
+    if (val === '-' || val === '+' || val === '*' || i === array.length - 1) {
+      if (expressionValue.includes('d')) {      
+        newDamage.dice.push(expressionValue)
+      } else {
+        newDamage.flat += +expressionValue
+      }
+      expressionValue = ""
+    } else {
+      expressionValue = expressionValue + val;
+    }
+  })
+
+  return newDamage
 }
