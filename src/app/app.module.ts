@@ -64,6 +64,7 @@ import { EditHomeComponent } from './obstacle-index/edit/edit-home/edit-home.com
 import { ChallengePopUpComponent } from './obstacle-index/view/challenge-pop-up/challenge-pop-up.component';
 import { ChallengeShellComponent } from './obstacle-index/view/challenge-shell/challenge-shell.component';
 import { ObstacleInnardsComponent } from './obstacle-index/view/obstacle-innards/obstacle-innards.component';
+import { WeaponSquareComponent } from './beast-view/beast-view-edit/weapon-square/weapon-square.component';
 
 const routes: Routes = [
   { path: 'obstacle', 
@@ -119,7 +120,8 @@ const routes: Routes = [
     EditHomeComponent,
     ChallengePopUpComponent,
     ChallengeShellComponent,
-    ObstacleInnardsComponent
+    ObstacleInnardsComponent,
+    WeaponSquareComponent
   ],
   imports: [
     BrowserModule,

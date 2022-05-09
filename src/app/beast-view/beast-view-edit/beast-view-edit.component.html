@@ -114,6 +114,7 @@
     </div>
   </div>
   <div>
+    <h2>Confrontations</h2>
     <div class="conflict-shell">
       <div *ngFor="let trait of beast.conflict.traits; let i = index">
         <div *ngIf="!trait.deleted">
@@ -194,8 +195,7 @@
         (change)="captureInput($event, 'flawlimit')">
     </mat-form-field>
 
-    <div class="divider"></div>
-
+    <h2>Skills</h2>
     <div class="conflict-inner-shell">
       <div *ngFor="let skill of beast.skills; let i = index">
         <div *ngIf="!skill.deleted">
@@ -217,6 +217,7 @@
     <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">ADD SKILL</button>
   </div>
   <div>
+    <h2>Combat</h2>
     <div>
       <div class="conflict-shell">
         <mat-form-field>
@@ -227,15 +228,6 @@
             </mat-option>
             <mat-option *ngFor="let role of beast.roles" [value]="role.id">
               {{role.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Change Type for Role</mat-label>
-          <mat-select (selectionChange)="setRoleType($event)">
-            <mat-option *ngFor="let role of combatRoles" [value]="role">
-              {{role}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -261,6 +253,18 @@
     <h3>Combat Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].role :
       selectedRoleId ? 'None' : beast.role ? beast.role : 'None'}}</h3>
 
+    <div>
+      <mat-form-field>
+        <mat-label>Change Type for Role</mat-label>
+        <mat-select (selectionChange)="setRoleType($event)">
+          <mat-option *ngFor="let role of combatRoles" [value]="role">
+            {{role}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
     <p><strong>Strengths: </strong> {{selectedRole.strengths}}</p>
     <p><strong>Weaknesses: </strong> {{selectedRole.weaknesses}}</p>
 
@@ -269,168 +273,7 @@
         <div class="divider"></div>
         <br />
         <div *ngIf="!square.deleted && selectedRoleId === square.roleid">
-          <h3>
-            <mat-form-field>
-              <input placeholder="Weapon Name" matInput [value]="square.weapon"
-                (change)="captureInput($event, 'combat', i, 'weapon')">
-            </mat-form-field>
-          </h3>
-          <div class="edit-combat-squares-shell">
-            <div>
-              Modified Square
-              <div class="square-shell">
-                <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
-                <p class="spd">{{selectedRole.spd + square.spd}}</p>
-                <p class="atk">{{selectedRole.atk + square.atk}}</p>
-                <p class="init">{{selectedRole.init + square.init}}</p>
-                <p class="def">{{eval(selectedRole.def + square.def)}}</p>
-                <p class="fatigue">{{ square.fatigue }}</p>
-                <div class="dr">
-                  <p>{{square.dr}}</p>
-                  <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
-                </div>
-                <div class="measure">
-                  <p *ngIf="square.weapontype !== 'r'">{{selectedRole.measure + square.measure}}</p>
-                  <p *ngIf="square.weapontype === 'r'">{{selectedRole.ranges.increment + square.ranges.increment}}ri <i
-                      class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
-                      Between 5 ft and {{selectedRole.ranges.increment + square.ranges.increment}} ft, -0 atk penalty. 
-                      Between {{selectedRole.ranges.increment + square.ranges.increment + 1}} ft and {{(selectedRole.ranges.increment + square.ranges.increment) * 2}} ft, -2 atk penalty.
-                      Between {{((selectedRole.ranges.increment + square.ranges.increment) * 2) + 1}} ft and {{(selectedRole.ranges.increment + square.ranges.increment) * 3}} ft, -4 atk penalty.
-                      and so on." matTooltipClass="my-tooltip"></i></p>
-                </div>
-                <p class="damage">{{square.damage}}</p>
-                <p class="parry">{{selectedRole.parry + square.parry}}</p>
-              </div>
-
-              <mat-form-field>
-                <mat-label>Weapon Type</mat-label>
-                <mat-select [value]="square.weapontype"
-                  (selectionChange)="captureSelect($event, 'combat', i, 'weapontype')">
-                  <mat-option value="m">
-                    m
-                  </mat-option>
-                  <mat-option value="r">
-                    r
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="edit-combat-squares-shell-right">
-              <div class="square-combat-shell">
-                <mat-form-field>
-                  <input id="{{selectedRole.strengths.includes('Recovery') ? 'green' : selectedRole.weaknesses.includes('Recovery') ? 'red' : ''}}" placeholder="Recovery" matInput [value]="square.spd"
-                    (change)="captureInput($event, 'combat', i, 'spd')">
-                </mat-form-field>
-                <mat-form-field>
-                  <input id="{{selectedRole.strengths.includes('Melee Attack') ? 'green' : selectedRole.weaknesses.includes('Melee Attack') ? 'red' : ''}}" placeholder="Attack" matInput [value]="square.atk"
-                    (change)="captureInput($event, 'combat', i, 'atk')">
-                </mat-form-field>
-                <mat-form-field>
-                  <input placeholder="Initiative" matInput [value]="square.init"
-                    (change)="captureInput($event, 'combat', i, 'init')">
-                </mat-form-field>
-                <mat-form-field>
-                  <input id="{{selectedRole.strengths.includes('Defense') ? 'green' : selectedRole.weaknesses.includes('Defense') ? 'red' : ''}}" placeholder="Defense" matInput [value]="square.def"
-                    (change)="captureInput($event, 'combat', i, 'def')">
-                </mat-form-field>
-                <mat-form-field>
-                  <input id="{{selectedRole.strengths.includes('Fatigue') ? 'green' : selectedRole.weaknesses.includes('Fatigue') ? 'red' : ''}}" placeholder="Fatigue" matInput [value]="square.fatigue"
-                    (change)="captureInput($event, 'combat', i, 'fatigue')">
-                </mat-form-field>
-                <mat-form-field>
-                  <input id="{{selectedRole.strengths.includes('Measure') ? 'green' : selectedRole.weaknesses.includes('Measure') ? 'red' : ''}}" placeholder="Measure" matInput [value]="square.measure"
-                    (change)="captureInput($event, 'combat', i, 'measure')">
-                </mat-form-field>
-              </div>
-              <div>
-                Armor
-                <div>
-                  <mat-form-field>
-                    <input id="{{selectedRole.strengths.includes('DR') ? 'green' : selectedRole.weaknesses.includes('DR') ? 'red' : ''}}" placeholder="DR" matInput [value]="square.dr"
-                      (change)="captureInput($event, 'combat', i, 'dr')">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input id="{{selectedRole.strengths.includes('/DR') ? 'green' : selectedRole.weaknesses.includes('/DR') ? 'red' : ''}}" placeholder="/DR" matInput [value]="square.dr"
-                      (change)="captureInput($event, 'combat', i, 'dr')">
-                  </mat-form-field>
-                </div>
-              </div>
-              <div>
-                Parry/Shield
-                <div>
-                  <mat-form-field>
-                    <input id="{{selectedRole.strengths.includes('Parry') ? 'green' : selectedRole.weaknesses.includes('Parry') ? 'red' : ''}}" placeholder="Parry" matInput [value]="square.parry"
-                      (change)="captureInput($event, 'combat', i, 'parry')">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input id="{{selectedRole.strengths.includes('Parry /DR') ? 'green' : selectedRole.weaknesses.includes('Parry /DR') ? 'red' : ''}}" placeholder="Shield DR" matInput [value]="square.shield_dr"
-                      (change)="captureInput($event, 'combat', i, 'shield_dr')">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input id="{{selectedRole.strengths.includes('Parry DR') ? 'green' : selectedRole.weaknesses.includes('Parry DR') ? 'red' : ''}}" placeholder="Shield DR" matInput [value]="square.shield_dr"
-                      (change)="captureInput($event, 'combat', i, 'shield_dr')">
-                  </mat-form-field>
-                </div>
-              </div>
-              <div>
-                Damage
-                <div>
-                  <mat-form-field>
-                    <input id="{{selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}" placeholder="Damage" matInput [value]="square.damage"
-                      (change)="captureInput($event, 'combat', i, 'damage')">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input id="{{selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}"  placeholder="Damage" matInput [value]="square.damage"
-                      (change)="captureInput($event, 'combat', i, 'damage')">
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-
-            <div *ngIf="square.weapontype == 'r'" class="ranged-shell">
-              <h3>Range</h3>
-              <div class="ranged-title">
-                <h4>Penalty</h4>
-                <h4>Range (ft)</h4>
-              </div>
-              <div>
-                <h4>0</h4>
-                <h4>5 - {{(+square.ranges.increment)}}</h4>
-              </div>
-              <div class="ranged-odd">
-                <h4>-2</h4>
-                <h4>{{(+square.ranges.increment) + 1}} -
-                  {{+square.ranges.increment * 2}}</h4>
-              </div>
-              <div>
-                <h4>-4</h4>
-                <h4>{{(+square.ranges.increment * 2) + 1}} -
-                  {{+square.ranges.increment * 3}}</h4>
-              </div>
-              <div class="ranged-odd">
-                <h4>-8</h4>
-                <h4>{{(+square.ranges.increment * 3) + 1}} -
-                  {{+square.ranges.increment * 4}}</h4>
-              </div>
-              <div>
-                <h4>-16</h4>
-                <h4>{{(+square.ranges.increment * 4) + 1}} -
-                  {{+square.ranges.increment * 5}}</h4>
-              </div>
-              <div class="ranged-odd">
-                <h4>-32</h4>
-                <h4>{{(+square.ranges.increment * 5) + 1}} -
-                  {{square.ranges.increment * 6}}</h4>
-              </div>
-              <mat-form-field>
-                <input placeholder="Range Increment" matInput [value]="square.ranges.increment"
-                  (change)="captureInput($event, 'combat', i, 'ranges', 'increment')">
-              </mat-form-field>
-            </div>
-          </div>
-
-          <button mat-raised-button (click)="removeNewSecondaryItem('combat', i)" color="warn">REMOVE
-            WEAPON</button>
+            <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"></app-weapon-square>
         </div>
       </div>
     </div>
