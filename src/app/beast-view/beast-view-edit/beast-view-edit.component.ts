@@ -365,23 +365,7 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  public combatRolesSecondary = [
-    {
-      name: 'Captain',
-      strengths: '',
-      weaknesses: ''
-    },
-    {
-      name: 'Controller',
-      strengths: '',
-      weaknesses: ''
-    },
-    {
-      name: 'Solo',
-      strengths: '',
-      weaknesses: ''
-    }
-  ]
+  public combatRolesSecondary = ['Captain', 'Controller', 'Solo']
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -472,6 +456,7 @@ export class BeastViewEditComponent implements OnInit {
           role.average = this.calculatorService.rollDice(role.vitality)
         }
       })
+      this.calculateCombatPoints()
       window.scrollTo({
         top: 0,
         left: 0,
@@ -851,13 +836,30 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  setSecondaryRoleType(event) {
+    if (this.selectedRoleId) {
+      for (let i = 0; i < this.beast.roles.length; i++) {
+        if (this.selectedRoleId === this.beast.roles[i].id) {
+          this.beast.roles[i].secondaryrole = event.value
+          i = this.beast.roles.length
+        }
+      }
+    } else {
+      this.beast.secondaryrole = event.value
+    }
+  }
+
   captureNewRole(type, event) {
+    this.newRole[type] = event.target.value
+  }
+
+  captureSecondaryRole(type, event) {
     this.newRole[type] = event.target.value
   }
 
   addNewRole() {
     if (this.newRole.role && this.newRole.name) {
-      this.beast.roles.push({ name: this.newRole.name, role: this.newRole.role, id: this.makeId(), vitality: null })
+      this.beast.roles.push({ name: this.newRole.name, role: this.newRole.role, id: this.makeId(), secondaryrole: null })
       this.newRole = {
         name: null,
         role: null,
@@ -929,5 +931,195 @@ export class BeastViewEditComponent implements OnInit {
     if (deletedSpell[0].beastid) {
       this.deletedSpellList.push(deletedSpell[0].id)
     }
+  }
+
+  calculateCombatPoints = () => {
+    //Base
+    let combatpoints = 0
+    combatpoints += Math.ceil(this.averageVitality / 10)
+    combatpoints += Math.ceil(this.beast.stress / 5)
+
+    this.beast.combat.forEach(weapon => {
+      if (weapon.roleid === null) {
+        let { def, newDR, parry, newShieldDr, newDamage, atk, rangedDamage, spd, measure, ranges, weapontype, fatigue } = weapon
+        if (fatigue === 'N') {
+          combatpoints += 2
+        } else if (fatigue === 'W') {
+          combatpoints -= 2
+        } else if (fatigue === 'B') {
+          combatpoints -= 2
+        } else if (fatigue === 'H') {
+          combatpoints -= 2
+        } else if (fatigue === 'A') {
+          combatpoints -= 2
+        }
+        combatpoints += eval(def)
+        combatpoints += newDR.flat
+        combatpoints += (newDR.slash * 4)
+        combatpoints += ((parry + newShieldDr.flat) / 2)
+        combatpoints += (newShieldDr.slash * 2)
+        combatpoints += (spd * 2)
+        combatpoints += (measure * 2)
+        combatpoints += atk
+        combatpoints += newDamage.flat
+        newDamage.dice.forEach(damage => {
+          let pointValue
+          let damageArray = damage.split('d')
+          let dice = damageArray[1]
+          if (dice.includes('!')) {
+            dice = dice.slice(0, -1)
+          }
+          let number = damageArray[0]
+          if (number === '') {
+            number = 1
+          }
+          if (dice == '3' || dice == '4') {
+            pointValue = +number
+          } else if (dice == '6' || dice == '8') {
+            pointValue = (+number * 2)
+          } else if (dice == '10') {
+            pointValue = (+number * 3)
+          } else if (dice == '12') {
+            pointValue = (+number * 4)
+          } else if (dice == '20') {
+            pointValue = (+number * 6)
+          }
+          combatpoints += pointValue
+        })
+        if (weapontype === 'r') {
+          combatpoints += Math.ceil(ranges.increment / 10)
+        }
+      }
+    })
+
+    this.beast.combatpoints = combatpoints
+
+    //Roles
+    this.beast.roles.forEach(role => {
+      let combatpoints = 0
+      if (role.averageVitality) {
+        combatpoints += Math.ceil(role.averageVitality / 10)
+      } else {
+        combatpoints += Math.ceil(this.averageVitality / 10)
+      }
+      if (role.stress) {
+        combatpoints += Math.ceil(role.stress / 5)
+      } else {
+        combatpoints += Math.ceil(this.beast.stress / 5)
+      }
+
+      let weapons = this.beast.combat.filter(weapon => weapon.roleid === role.id)
+
+      if (weapons.length > 0) {
+        weapons.forEach(weapon => {
+          if (weapon.roleid === null) {
+            let { def, newDR, parry, newShieldDr, newDamage, atk, spd, measure, ranges, weapontype, fatigue } = weapon
+            if (fatigue === 'N') {
+              combatpoints += 2
+            } else if (fatigue === 'W') {
+              combatpoints -= 2
+            } else if (fatigue === 'B') {
+              combatpoints -= 2
+            } else if (fatigue === 'H') {
+              combatpoints -= 2
+            } else if (fatigue === 'A') {
+              combatpoints -= 2
+            }
+            combatpoints += eval(def)
+            combatpoints += newDR.flat
+            combatpoints += (newDR.slash * 4)
+            combatpoints += ((parry + newShieldDr.flat) / 2)
+            combatpoints += (newShieldDr.slash * 2)
+            combatpoints += (spd * 2)
+            combatpoints += (measure * 2)
+            combatpoints += atk
+            combatpoints += newDamage.flat
+            newDamage.dice.forEach(damage => {
+              let pointValue
+              let damageArray = damage.split('d')
+              let dice = damageArray[1]
+              if (dice.includes('!')) {
+                dice = dice.slice(0, -1)
+              }
+              let number = damageArray[0]
+              if (number === '') {
+                number = 1
+              }
+              if (dice == '3' || dice == '4') {
+                pointValue = +number
+              } else if (dice == '6' || dice == '8') {
+                pointValue = (+number * 2)
+              } else if (dice == '10') {
+                pointValue = (+number * 3)
+              } else if (dice == '12') {
+                pointValue = (+number * 4)
+              } else if (dice == '20') {
+                pointValue = (+number * 6)
+              }
+              combatpoints += pointValue
+            })
+            if (weapontype === 'r') {
+              combatpoints += Math.ceil(ranges.increment / 10)
+            }
+          }
+        })
+      } else {
+        this.beast.combat.forEach(weapon => {
+          if (weapon.roleid === null) {
+            let { def, newDR, parry, newShieldDr, newDamage, atk, spd, measure, ranges, weapontype, fatigue } = weapon
+            if (fatigue === 'N') {
+              combatpoints += 2
+            } else if (fatigue === 'W') {
+              combatpoints -= 2
+            } else if (fatigue === 'B') {
+              combatpoints -= 2
+            } else if (fatigue === 'H') {
+              combatpoints -= 2
+            } else if (fatigue === 'A') {
+              combatpoints -= 2
+            }
+            combatpoints += eval(def)
+            combatpoints += newDR.flat
+            combatpoints += (newDR.slash * 4)
+            combatpoints += ((parry + newShieldDr.flat) / 2)
+            combatpoints += (newShieldDr.slash * 2)
+            combatpoints += (spd * 2)
+            combatpoints += (measure * 2)
+            combatpoints += atk
+            combatpoints += newDamage.flat
+            newDamage.dice.forEach(damage => {
+              let pointValue
+              let damageArray = damage.split('d')
+              let dice = damageArray[1]
+              if (dice.includes('!')) {
+                dice = dice.slice(0, -1)
+              }
+              let number = damageArray[0]
+              if (number === '') {
+                number = 1
+              }
+              if (dice == '3' || dice == '4') {
+                pointValue = +number
+              } else if (dice == '6' || dice == '8') {
+                pointValue = (+number * 2)
+              } else if (dice == '10') {
+                pointValue = (+number * 3)
+              } else if (dice == '12') {
+                pointValue = (+number * 4)
+              } else if (dice == '20') {
+                pointValue = (+number * 6)
+              }
+              combatpoints += pointValue
+            })
+            if (weapontype === 'r') {
+              combatpoints += Math.ceil(ranges.increment / 10)
+            }
+          }
+        })
+      }
+
+      role.combatpoints = combatpoints
+      this.beast.roleInfo[role.id].combatpoints = combatpoints
+    })
   }
 }

@@ -1,4 +1,10 @@
 <mat-card>
+  <div class="point-shell">
+    <h5>Combat</h5>
+    <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].combatpoints :
+      beast.combatpoints}}</p>
+  </div>
+
   <mat-toolbar color="warn">
     <h1>
       <mat-form-field>
@@ -9,16 +15,10 @@
       </mat-form-field>
     </h1>
     <div>
-      <h1>HR:
-        <mat-form-field>
-          <input class="hr-input" matInput [value]="beast.hr" (change)="captureInput($event, 'hr')">
-        </mat-form-field>
-      </h1>
     </div>
   </mat-toolbar>
 
   <div class="content-shell">
-
     <div class="left">
       <mat-form-field>
         <mat-label>Patreon Level</mat-label>
@@ -113,6 +113,60 @@
       </div>
     </div>
   </div>
+
+  <div class="combat-role-shell">
+    <div class="conflict-shell">
+      <mat-form-field>
+        <mat-label>Role</mat-label>
+        <mat-select (selectionChange)="setRole($event)">
+          <mat-option>
+            Base
+          </mat-option>
+          <mat-option *ngFor="let role of beast.roles" [value]="role.id">
+            {{role.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3>Add a New Role</h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="new-roll-shell">
+          <mat-form-field>
+            <input placeholder="Role Name" matInput (change)="captureNewRole('name', $event)">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Combat Role Type</mat-label>
+            <mat-select (selectionChange)="captureNewRole('role', $event)">
+              <mat-option *ngFor="let role of combatRoles" [value]="role">
+                {{role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <mat-form-field>
+            <mat-label>Combat Secondary Role Type</mat-label>
+            <mat-select (selectionChange)="captureSecondaryRole('secondaryrole', $event)">
+              <mat-option *ngFor="let role of combatRolesSecondary" [value]="role">
+                {{role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <button mat-raised-button (click)="addNewRole()" color="accent">ADD ROLE</button>
+        </div>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
   <div>
     <h2>Confrontations</h2>
     <div class="conflict-shell">
@@ -218,44 +272,15 @@
   </div>
   <div>
     <h2>Combat</h2>
-    <div>
-      <div class="conflict-shell">
-        <mat-form-field>
-          <mat-label>Combat Role</mat-label>
-          <mat-select (selectionChange)="setRole($event)">
-            <mat-option>
-              Base
-            </mat-option>
-            <mat-option *ngFor="let role of beast.roles" [value]="role.id">
-              {{role.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="conflict-shell">
-        <mat-form-field>
-          <input placeholder="Role Name" matInput (change)="captureNewRole('name', $event)">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Role Type</mat-label>
-          <mat-select (selectionChange)="captureNewRole('role', $event)">
-            <mat-option *ngFor="let role of combatRoles" [value]="role">
-              {{role}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <button mat-raised-button (click)="addNewRole()" color="accent">ADD COMBAT ROLE</button>
-      </div>
-    </div>
-
     <h3>Combat Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].role :
-      selectedRoleId ? 'None' : beast.role ? beast.role : 'None'}}</h3>
+      selectedRoleId ? 'None' : beast.role ? beast.role : 'None'}}
+      {{selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? '[' +
+      beast.roleInfo[selectedRoleId].secondaryrole + ']' :
+      selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}}</h3>
 
     <div>
       <mat-form-field>
-        <mat-label>Change Type for Role</mat-label>
+        <mat-label>Change Role Type</mat-label>
         <mat-select (selectionChange)="setRoleType($event)">
           <mat-option *ngFor="let role of combatRoles" [value]="role">
             {{role}}
@@ -263,6 +288,14 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field>
+        <mat-label>Change Secondary Role Type</mat-label>
+        <mat-select (selectionChange)="setSecondaryRoleType($event)">
+          <mat-option *ngFor="let role of combatRolesSecondary" [value]="role">
+            {{role}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <p><strong>Strengths: </strong> {{selectedRole.strengths}}</p>
@@ -270,14 +303,13 @@
 
     <div class="combat-shell">
       <div *ngFor="let square of beast.combat; let i = index">
-        <div class="divider"></div>
-        <br />
-        <div *ngIf="!square.deleted && selectedRoleId === square.roleid">
-            <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"></app-weapon-square>
+        <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
+          <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole">
+          </app-weapon-square>
         </div>
       </div>
+      <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">ADD WEAPON</button>
     </div>
-    <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">ADD WEAPON</button>
 
     <div class="vitals-shell">
       <mat-form-field>

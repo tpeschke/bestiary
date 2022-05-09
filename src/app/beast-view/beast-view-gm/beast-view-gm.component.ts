@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BeastService } from '../../util/services/beast.service';
 import { CalculatorService } from '../../util/services/calculator.service';
 import variables from '../../../local.js'
-import { HewyRatingComponent } from '../../hewy-rating/hewy-rating.component';
 import { MatDialog } from '@angular/material';
 import { Title } from "@angular/platform-browser";
 import lootTables from "../loot-tables.js"
@@ -243,10 +242,6 @@ export class BeastViewGmComponent implements OnInit {
     })
   }
 
-  openExplaination() {
-    this.dialog.open(HewyRatingComponent);
-  }
-
   navigateToSearch(type, search) {
     this.router.navigate(['/search', { [type]: search }]);
   }
@@ -431,7 +426,7 @@ export class BeastViewGmComponent implements OnInit {
       case 'C':
         percentage = .75
         break;
-      default: 
+      default:
         return fatigue
     }
 

@@ -19,8 +19,7 @@ export class WeaponSquareComponent implements OnInit {
   public squareDamageArray = []
 
   ngOnInit() {
-    console.log(this.square)
-    this.displayDamage(this.selectedRole.damage, this.square.newDamage)
+    this.displayDamage()
     this.displayedDR = this.displayDR(this.square.newDR, 'armor')
     this.displayedShieldDR = this.displayDR(this.square.newShieldDr, 'shield')
   }
@@ -37,7 +36,7 @@ export class WeaponSquareComponent implements OnInit {
     if (secondary) {
       this.square[primary][secondary] = +event.target.value
       if (primary === 'newDamage' && secondary === 'flat') {
-        this.displayDamage(this.selectedRole.damage, this.square.newDamage)
+        this.displayDamage()
       } else if (primary === 'newDR') {
         this.displayedDR = this.displayDR(this.square.newDR, 'armor')
       } else if (primary === 'newShieldDr') {
@@ -56,8 +55,8 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   displayDR = (drObject, type) => {
-    let {flat, slash} = drObject
-    , drString = ''
+    let { flat, slash } = drObject
+      , drString = ''
     if (flat && slash) {
       drString = `${slash}/d+${flat}`
     } else if (flat && !slash) {
@@ -75,7 +74,10 @@ export class WeaponSquareComponent implements OnInit {
     return drString
   }
 
-  displayDamage = (roleDamage, squareDamage) => {
+  displayDamage = () => {
+    let roleDamage = this.square.weapontype === 'm' ? this.selectedRole.damage : this.selectedRole.rangedDamage 
+    let squareDamage = this.square.newDamage
+     
     let diceObject = {
       d3s: 0,
       d4s: 0,
@@ -231,7 +233,7 @@ export class WeaponSquareComponent implements OnInit {
     }
 
     let { d3s: squared3s, d4s: squared4s, d6s: squared6s, d8s: squared8s, d10s: squared10s, d12s: squared12s, d20s: squared20s } = justSquareDamageObject
-    , squareDamageString = ''
+      , squareDamageString = ''
     this.squareDamageArray = []
 
     if (squared3s > 0) {
@@ -312,7 +314,7 @@ export class WeaponSquareComponent implements OnInit {
       dice.push(`d${type}!`)
     }
 
-    this.displayDamage(this.selectedRole.damage, this.square.newDamage)
+    this.displayDamage()
   }
 
   removeChip = (type) => {
@@ -331,6 +333,16 @@ export class WeaponSquareComponent implements OnInit {
       }
     }
 
-    this.displayDamage(this.selectedRole.damage, this.square.newDamage)
+    this.displayDamage()
+  }
+
+  captureSelect(event, type) {
+    if (type === 'weapontype' && !this.square.ranges) {
+      this.square.ranges = {increment: 0}
+    }
+    this.square[type] = event.value
+    if (type === 'weapontype') {
+      this.displayDamage()
+    }
   }
 }

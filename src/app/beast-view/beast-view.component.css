@@ -49,6 +49,39 @@ mat-toolbar {
     justify-content: space-evenly;
 }
 
+.new-roll-shell {
+    display: flex;
+    flex-direction: column;
+}
+
+.point-shell {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 56px;
+    width: 50px;
+    background-color: #607d8b;
+    z-index: 99;
+    border-top-right-radius: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.point-shell h5:first-child {
+    margin-top: 19px;
+}
+
+.point-shell h5 {
+    text-align: center;
+    color: whitesmoke;
+    border-bottom: 1px solid whitesmoke;
+}
+
+.point-shell p {
+    text-align: center;
+    color: whitesmoke;
+}
+
 .edit-content {
     flex-direction: column;
 }

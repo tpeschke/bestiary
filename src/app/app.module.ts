@@ -29,7 +29,6 @@ import { TypeConverterPipe } from './util/pipes/type-converter.pipe';
 import { EnvironConverterPipe } from './util/pipes/environ-converter.pipe';
 import { MoraleConverterPipe } from './util/pipes/morale-converter.pipe'
 import { SubsystemConverterPipe } from './util/pipes/subsystem-converter.pipe';
-import { HewyRatingComponent } from './hewy-rating/hewy-rating.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PlayerNotesComponent } from './player-notes/player-notes.component';
 
@@ -102,7 +101,6 @@ const routes: Routes = [
     EnvironConverterPipe,
     MoraleConverterPipe,
     SubsystemConverterPipe,
-    HewyRatingComponent,
     PlayerNotesComponent,
     RarityConverterPipe,
     QuickViewDrawerComponent,
@@ -145,7 +143,7 @@ const routes: Routes = [
     QuillModule.forRoot(),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })
   ],
-  entryComponents: [HewyRatingComponent, ObstaclePopUpComponent, DifficultyMatrixComponent, ChallengePopUpComponent],
+  entryComponents: [ObstaclePopUpComponent, DifficultyMatrixComponent, ChallengePopUpComponent],
   providers: [BeastService, CalculatorService],
   bootstrap: [AppComponent]
 })
