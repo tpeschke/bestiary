@@ -134,8 +134,8 @@ module.exports = {
             }
             newWeaponInfo.newDR = processDR(weapon.dr, weapon.flat, weapon.slash)
             newWeaponInfo.newShieldDr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash)
-            newWeaponInfo.newDamage = processDamage(weapon.damage)
-            return {...weapon, ...newWeaponInfo}
+            newWeaponInfo.newDamage = processDamage(weapon.damage, weapon.isspecial, weapon.hasspecialanddamage)
+            return { ...weapon, ...newWeaponInfo }
           })
           return result
         }))
@@ -331,17 +331,22 @@ function processDR(drString, flat, slash) {
   return newDR
 }
 
-function processDamage(damageString) {
+function processDamage(damageString, isSpecial, hasSpecialAndDamage) {
   let newDamage = {
     dice: [],
     flat: 0,
-    isSpecial: false,
-    extra: ''
+    isSpecial,
+    hasSpecialAndDamage
   }
-  if (damageString.includes('see')) {
+
+  if (damageString.includes('see') && !isSpecial) {
     newDamage.isSpecial = true
     return newDamage
   }
+  if (damageString.includes('*') && !hasSpecialAndDamage) {
+    newDamage.hasSpecialAndDamage = true
+  }
+
   let expressionValue = ""
   damageString.replace(/\s/g, '').split('').forEach((val, i, array) => {
 
@@ -349,7 +354,7 @@ function processDamage(damageString) {
       expressionValue = expressionValue + val
     }
     if (val === '-' || val === '+' || val === '*' || i === array.length - 1) {
-      if (expressionValue.includes('d')) {      
+      if (expressionValue.includes('d')) {
         newDamage.dice.push(expressionValue)
       } else {
         newDamage.flat += +expressionValue
@@ -359,6 +364,7 @@ function processDamage(damageString) {
       expressionValue = expressionValue + val;
     }
   })
+
 
   return newDamage
 }

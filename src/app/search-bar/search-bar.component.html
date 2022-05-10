@@ -18,28 +18,6 @@
                 <input matInput placeholder="Search by Body" (change)="enterSearchBody($event)">
             </mat-form-field>
 
-            <div>
-                <p>HR</p>
-                <mat-form-field class="example-quarter-width">
-                    <input matInput placeholder="Min HR" (change)="enterSearchMinHr($event)">
-                </mat-form-field>
-                <p>-</p>
-                <mat-form-field class="example-quarter-width">
-                    <input matInput placeholder="Max HR" (change)="enterSearchMaxHr($event)">
-                </mat-form-field>
-            </div>
-
-            <div>
-                <p>Intelligence</p>
-                <mat-form-field class="example-quarter-width">
-                    <input matInput placeholder="Min Int" (change)="enterSearchMinInt($event)">
-                </mat-form-field>
-                <p>-</p>
-                <mat-form-field class="example-quarter-width">
-                    <input matInput placeholder="Max Int" (change)="enterSearchMaxInt($event)">
-                </mat-form-field>
-            </div>
-
             <mat-form-field>
                 <mat-label>Size</mat-label>
                 <mat-select (selectionChange)="enterSearchSize($event)">

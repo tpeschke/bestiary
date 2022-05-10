@@ -72,14 +72,45 @@ mat-toolbar {
 }
 
 .point-shell h5 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
     text-align: center;
     color: whitesmoke;
     border-bottom: 1px solid whitesmoke;
 }
 
+.specialDamage { 
+    top: 90px !important;
+}
+
+.point-shell h4 {
+    color: whitesmoke;
+    margin: 2px;
+}
+
 .point-shell p {
     text-align: center;
     color: whitesmoke;
+}
+
+.explaination-shell {
+    position: fixed;
+    bottom: 0;
+    left: 49px;
+    height: 39px;
+    background-color: rgba(211, 211, 211, 1);
+    border-right: 1px solid whitesmoke;
+    border-top: 1px solid whitesmoke;
+    z-index: 98;
+    border-top-right-radius: 25px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .edit-content {

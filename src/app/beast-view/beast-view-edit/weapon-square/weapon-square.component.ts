@@ -236,6 +236,10 @@ export class WeaponSquareComponent implements OnInit {
     }
   }
 
+  checkCheckbox = (type, value) => {
+    this.square.newDamage[type] = value
+  }
+
   evaluate = (one, two) => {
     if (two >= 0 && !two.includes('+')) {
       two = `+${two}`
@@ -286,53 +290,55 @@ export class WeaponSquareComponent implements OnInit {
       d20s: 0
     }
 
-    roleDamage.dice.forEach(dice => {
-      let index = dice.indexOf("d")
-        , substring = dice.substring(index)
-      if (substring.includes('20')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d20s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d20s
+    if (roleDamage) {
+      roleDamage.dice.forEach(dice => {
+        let index = dice.indexOf("d")
+          , substring = dice.substring(index)
+        if (substring.includes('20')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d20s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d20s
+          }
+        } else if (substring.includes('12')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d12s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d12s
+          }
+        } else if (substring.includes('10')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d10s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d10s
+          }
+        } else if (substring.includes('8')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d8s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d8s
+          }
+        } else if (substring.includes('6')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d6s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d6s
+          }
+        } else if (substring.includes('4')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d4s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d4s
+          }
+        } else if (substring.includes('3')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d3s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d3s
+          }
         }
-      } else if (substring.includes('12')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d12s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d12s
-        }
-      } else if (substring.includes('10')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d10s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d10s
-        }
-      } else if (substring.includes('8')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d8s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d8s
-        }
-      } else if (substring.includes('6')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d6s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d6s
-        }
-      } else if (substring.includes('4')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d4s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d4s
-        }
-      } else if (substring.includes('3')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d3s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d3s
-        }
-      }
-    })
+      })
+    }
 
     squareDamage.dice.forEach(dice => {
       let index = dice.indexOf("d")
@@ -454,7 +460,10 @@ export class WeaponSquareComponent implements OnInit {
       squareDamageString += `${squared20s}d20!`
     }
 
-    let modifier = roleDamage.flat + squareDamage.flat
+    let modifier = squareDamage.flat
+    if (roleDamage) {
+      modifier = roleDamage.flat + squareDamage.flat
+    }
 
     if (squareDamage.flat > 0) {
       squareDamageString += ` +${squareDamage.flat}`
