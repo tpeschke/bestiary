@@ -5,3 +5,7 @@ button {
 .marginBottom {
     margin-bottom: 15px;
 }
+
+.square-shell {
+    background: whitesmoke;
+}

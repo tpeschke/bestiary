@@ -10,6 +10,7 @@ export class WeaponSquareComponent implements OnInit {
   @Input() square: any;
   @Input() selectedRole: any;
   @Input() selectedRoleId: string;
+  @Input() updateCombatPoints: Function;
 
   constructor() { }
 
@@ -25,6 +26,7 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   captureInput = (event, primary, secondary) => {
+    this.updateNonIntCombatValues(primary, secondary, event.target.value)
     if (secondary) {
       this.square[primary][secondary] = event.target.value
     } else {
@@ -33,6 +35,7 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   captureInputNumber = (event, primary, secondary) => {
+    this.updateCombatValue(primary, secondary, +event.target.value)
     if (secondary) {
       this.square[primary][secondary] = +event.target.value
       if (primary === 'newDamage' && secondary === 'flat') {
@@ -44,6 +47,192 @@ export class WeaponSquareComponent implements OnInit {
       }
     } else {
       this.square[primary] = +event.target.value
+    }
+  }
+
+  captureSelect(event, type) {
+    this.updateNonIntCombatValues(type, null, event.target.value)
+    if (type === 'weapontype' && !this.square.ranges) {
+      this.square.ranges = { increment: 0 }
+    }
+    this.square[type] = event.value
+    if (type === 'weapontype') {
+      this.displayDamage()
+    }
+  }
+
+  addChip = (type) => {
+    let diceAdd = false
+      , { dice } = this.square.newDamage
+
+    this.updateNonIntCombatValues('damage dice', 'add', type)
+    if (dice.length == 0) {
+      dice.push(`d${type}!`)
+      diceAdd = true
+    } else {
+      for (let i = 0; i < dice.length; i++) {
+        let positionType = dice[i].split('d')[1]
+        if (+positionType > +type) {
+          dice.splice(i - 1, 0, `d${type}!`);
+          diceAdd = true
+          i = dice.length
+        } else if (positionType === type) {
+          let number = dice[i].split('d')[0]
+          if (number !== '') {
+            dice[i] = `${+number + 1}d${type}!`
+          } else {
+            dice[i] = `2d${type}!`
+          }
+          diceAdd = true
+          i = dice.length
+        }
+      }
+    }
+
+    if (!diceAdd) {
+      dice.push(`d${type}!`)
+    }
+
+    this.displayDamage()
+  }
+
+  removeChip = (type) => {
+    let { dice } = this.square.newDamage
+
+    this.updateNonIntCombatValues('damage dice', 'remove', type)
+    for (let i = 0; i < dice.length; i++) {
+      let positionType = dice[i].split('d')[1]
+      if (positionType === type + '!') {
+        let number = dice[i].split('d')[0]
+        if (number !== '' && number !== '1') {
+          dice[i] = `${+number - 1}d${type}!`
+        } else {
+          dice.splice(i, 1)
+        }
+        i = dice.length
+      }
+    }
+
+    this.displayDamage()
+  }
+
+  updateCombatValue = (primary, secondary, value) => {
+    let metricToCompare
+      , valueToCompare
+      , valueChange
+    if (secondary) {
+      metricToCompare = primary + ', ' + secondary
+      valueToCompare = value - this.square[primary][secondary]
+    } else {
+      metricToCompare = primary
+      valueToCompare = value - this.square[primary]
+    }
+
+    switch (metricToCompare) {
+      case 'atk':
+      case 'newDamage, flat':
+      case 'newDR, flat':
+      case 'def':
+        valueChange = valueToCompare
+        break;
+      case 'spd':
+      case 'measure':
+      case 'newShieldDr, slash':
+      case 'newShieldDr, flat':
+      case 'parry':
+        valueChange = valueToCompare * 2
+        break;
+      case 'newDR, slash':
+        valueChange = valueToCompare * 4
+        break;
+      case 'ranges, increment':
+        valueChange = Math.ceil(valueToCompare / 10)
+        break;
+      default:
+        valueChange = 0
+        console.log('couldn\'t find ' + metricToCompare)
+    }
+
+    this.updateCombatPoints(valueChange)
+  }
+
+  updateNonIntCombatValues = (primary, secondary, value) => {
+    if (primary !== 'weapontype') {
+      if (primary === 'fatigue') {
+        this.updateCombatPoints(this.getFatigueValue(value) - this.getFatigueValue(this.square.fatigue));
+      } else if (primary === 'damage dice' && secondary === 'add') {
+        let valueToAdd = 0
+
+        switch (+value) {
+          case 3:
+          case 4:
+            valueToAdd = 1
+            break;
+          case 6:
+          case 8:
+            valueToAdd = 2
+            break;
+          case 10:
+            valueToAdd = 3
+            break;
+          case 12:
+            valueToAdd = 4
+            break;
+          case 20:
+            valueToAdd = 6
+            break;
+          default:
+            console.log('could\'t find ' + value + ' while adding damage dice')
+        }
+
+        this.updateCombatPoints(valueToAdd)
+      } else if (primary === 'damage dice' && secondary === 'remove') {
+        let valueToSubtract = 0
+
+        switch (+value) {
+          case 3:
+          case 4:
+            valueToSubtract = -1
+            break;
+          case 6:
+          case 8:
+            valueToSubtract = -2
+            break;
+          case 10:
+            valueToSubtract = -3
+            break;
+          case 12:
+            valueToSubtract = -4
+            break;
+          case 20:
+            valueToSubtract = -6
+            break;
+          default:
+            console.log('could\'t find ' + value + ' while removing damage dice')
+        }
+
+        this.updateCombatPoints(valueToSubtract)
+      } else {
+        console.log('couldn\'t find ' + primary + ', ' + secondary)
+      }
+    }
+
+  }
+
+  getFatigueValue = (fatigue) => {
+    switch (fatigue) {
+      case 'A':
+        return -4;
+      case 'H':
+        return -4;
+      case 'B':
+        return -4;
+      case 'W':
+        return -4;
+      case 'C':
+        return 0;
+      case 'N':
+        return 4;
     }
   }
 
@@ -75,9 +264,9 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   displayDamage = () => {
-    let roleDamage = this.square.weapontype === 'm' ? this.selectedRole.damage : this.selectedRole.rangedDamage 
+    let roleDamage = this.square.weapontype === 'm' ? this.selectedRole.damage : this.selectedRole.rangedDamage
     let squareDamage = this.square.newDamage
-     
+
     let diceObject = {
       d3s: 0,
       d4s: 0,
@@ -281,68 +470,5 @@ export class WeaponSquareComponent implements OnInit {
 
     this.square.damage = squareDamageString
     this.displayedDamage = diceString
-  }
-
-  addChip = (type) => {
-    let diceAdd = false
-      , { dice } = this.square.newDamage
-
-    if (dice.length == 0) {
-      dice.push(`d${type}!`)
-      diceAdd = true
-    } else {
-      for (let i = 0; i < dice.length; i++) {
-        let positionType = dice[i].split('d')[1]
-        if (+positionType > +type) {
-          dice.splice(i - 1, 0, `d${type}!`);
-          diceAdd = true
-          i = dice.length
-        } else if (positionType === type) {
-          let number = dice[i].split('d')[0]
-          if (number !== '') {
-            dice[i] = `${+number + 1}d${type}!`
-          } else {
-            dice[i] = `2d${type}!`
-          }
-          diceAdd = true
-          i = dice.length
-        }
-      }
-    }
-
-    if (!diceAdd) {
-      dice.push(`d${type}!`)
-    }
-
-    this.displayDamage()
-  }
-
-  removeChip = (type) => {
-    let { dice } = this.square.newDamage
-
-    for (let i = 0; i < dice.length; i++) {
-      let positionType = dice[i].split('d')[1]
-      if (positionType === type + '!') {
-        let number = dice[i].split('d')[0]
-        if (number !== '' && number !== '1') {
-          dice[i] = `${+number - 1}d${type}!`
-        } else {
-          dice.splice(i, 1)
-        }
-        i = dice.length
-      }
-    }
-
-    this.displayDamage()
-  }
-
-  captureSelect(event, type) {
-    if (type === 'weapontype' && !this.square.ranges) {
-      this.square.ranges = {increment: 0}
-    }
-    this.square[type] = event.value
-    if (type === 'weapontype') {
-      this.displayDamage()
-    }
   }
 }

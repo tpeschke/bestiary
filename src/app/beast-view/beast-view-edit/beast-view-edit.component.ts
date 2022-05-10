@@ -943,15 +943,15 @@ export class BeastViewEditComponent implements OnInit {
       if (weapon.roleid === null) {
         let { def, newDR, parry, newShieldDr, newDamage, atk, rangedDamage, spd, measure, ranges, weapontype, fatigue } = weapon
         if (fatigue === 'N') {
-          combatpoints += 2
+          combatpoints += 4
         } else if (fatigue === 'W') {
-          combatpoints -= 2
+          combatpoints -= 4
         } else if (fatigue === 'B') {
-          combatpoints -= 2
+          combatpoints -= 4
         } else if (fatigue === 'H') {
-          combatpoints -= 2
+          combatpoints -= 4
         } else if (fatigue === 'A') {
-          combatpoints -= 2
+          combatpoints -= 4
         }
         combatpoints += eval(def)
         combatpoints += newDR.flat
@@ -1015,15 +1015,15 @@ export class BeastViewEditComponent implements OnInit {
           if (weapon.roleid === null) {
             let { def, newDR, parry, newShieldDr, newDamage, atk, spd, measure, ranges, weapontype, fatigue } = weapon
             if (fatigue === 'N') {
-              combatpoints += 2
+              combatpoints += 4
             } else if (fatigue === 'W') {
-              combatpoints -= 2
+              combatpoints -= 4
             } else if (fatigue === 'B') {
-              combatpoints -= 2
+              combatpoints -= 4
             } else if (fatigue === 'H') {
-              combatpoints -= 2
+              combatpoints -= 4
             } else if (fatigue === 'A') {
-              combatpoints -= 2
+              combatpoints -= 4
             }
             combatpoints += eval(def)
             combatpoints += newDR.flat
@@ -1068,15 +1068,15 @@ export class BeastViewEditComponent implements OnInit {
           if (weapon.roleid === null) {
             let { def, newDR, parry, newShieldDr, newDamage, atk, spd, measure, ranges, weapontype, fatigue } = weapon
             if (fatigue === 'N') {
-              combatpoints += 2
+              combatpoints += 4
             } else if (fatigue === 'W') {
-              combatpoints -= 2
+              combatpoints -= 4
             } else if (fatigue === 'B') {
-              combatpoints -= 2
+              combatpoints -= 4
             } else if (fatigue === 'H') {
-              combatpoints -= 2
+              combatpoints -= 4
             } else if (fatigue === 'A') {
-              combatpoints -= 2
+              combatpoints -= 4
             }
             combatpoints += eval(def)
             combatpoints += newDR.flat
@@ -1121,5 +1121,13 @@ export class BeastViewEditComponent implements OnInit {
       role.combatpoints = combatpoints
       this.beast.roleInfo[role.id].combatpoints = combatpoints
     })
+  }
+
+  updateCombatPoints = (value) => {
+    if (this.selectedRoleId) {
+      this.combatRolesInfo[this.selectedRoleId].combatpoints += value
+    } else {
+      this.beast.combatpoints += value
+    }
   }
 }

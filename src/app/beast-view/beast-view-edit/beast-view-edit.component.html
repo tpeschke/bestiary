@@ -15,11 +15,6 @@
       </mat-form-field>
     </h1>
     <div>
-    </div>
-  </mat-toolbar>
-
-  <div class="content-shell">
-    <div class="left">
       <mat-form-field>
         <mat-label>Patreon Level</mat-label>
         <mat-select [value]="beast.patreon" (selectionChange)="captureSelect($event, 'patreon')">
@@ -35,7 +30,11 @@
         </mat-select>
         <p>{{beast.patreon}}</p>
       </mat-form-field>
+    </div>
+  </mat-toolbar>
 
+  <div class="content-shell">
+    <div class="left">
       <div>
         <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name"
           onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -150,7 +149,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-  
+
           <mat-form-field>
             <mat-label>Combat Secondary Role Type</mat-label>
             <mat-select (selectionChange)="captureSecondaryRole('secondaryrole', $event)">
@@ -159,7 +158,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-  
+
           <button mat-raised-button (click)="addNewRole()" color="accent">ADD ROLE</button>
         </div>
 
@@ -304,7 +303,7 @@
     <div class="combat-shell">
       <div *ngFor="let square of beast.combat; let i = index">
         <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
-          <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole">
+          <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole" [updateCombatPoints]="updateCombatPoints">
           </app-weapon-square>
         </div>
       </div>

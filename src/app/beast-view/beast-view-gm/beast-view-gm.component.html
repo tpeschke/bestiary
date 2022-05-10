@@ -81,7 +81,11 @@
             </mat-select>
           </mat-form-field>
 
-          <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].role) || (!selectedRoleId && beast.role)">{{selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role}}</p>
+          <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].role) || (!selectedRoleId && beast.role)">
+            {{selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role}}
+            {{selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? '[' +
+            beast.roleInfo[selectedRoleId].secondaryrole + ']' :
+            selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}}</p>
           <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
               class="fas fa-plus"></i><i class="fas fa-address-card"></i></div>
         </div>
@@ -139,9 +143,11 @@
             <p *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
               {{beast.roleInfo[selectedRoleId].vitality}}</p>
             <p *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">{{beast.vitality}}</p>
-            <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
+            <p
+              *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
               (Ave: {{beast.roleInfo[selectedRoleId].average}})</p>
-            <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
+            <p
+              *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
               (Ave: {{locationCheckboxes.mainVitality.average}})</p>
           </span>
         </div>
@@ -191,18 +197,18 @@
                 </span>
               </div>
               <!-- <div class="checkboxShell"> -->
-                <!-- <div *ngFor="let checkbox of locationCheckboxes[location.id].checkboxes; let i = index">
+              <!-- <div *ngFor="let checkbox of locationCheckboxes[location.id].checkboxes; let i = index">
                   <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
                     (change)="checkCheckbox($event, i, location.id)" [(ngModel)]="checkbox.checked">
                   </mat-checkbox>
                   <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
                 </div> -->
-                <div class="rolled-stats-shell">
-                  <mat-form-field>
-                    <input matInput>
-                  </mat-form-field>
-                  <p> / {{locationCheckboxes[location.id].rolled}}</p>
-                </div>
+              <div class="rolled-stats-shell">
+                <mat-form-field>
+                  <input matInput>
+                </mat-form-field>
+                <p> / {{locationCheckboxes[location.id].rolled}}</p>
+              </div>
               <!-- </div> -->
             </div>
           </div>
@@ -231,8 +237,10 @@
         </div>
         <div class="flex-row-opposite">
           <h3>Caution Threshold</h3>
-          <p>{{beast.caution < 0 ? 'Always' : beast.caution === 0 ? 'Never' : beast.caution}} <i class="fas fa-info-circle icon-small blue"
-            matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable."></i></p>
+          <p>{{beast.caution < 0 ? 'Always' : beast.caution===0 ? 'Never' : beast.caution}} <i
+              class="fas fa-info-circle icon-small blue"
+              matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable.">
+              </i></p>
         </div>
       </div>
 
@@ -478,6 +486,10 @@
       <h2>Misc Information</h2>
       <div class="divider"></div>
       <div class="box-padding">
+        <div class="flex-row-opposite">
+          <h3>Combat Value</h3>
+          <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints}}</p>
+        </div>
         <div class="flex-row-opposite" *ngIf="beast.patreon >= 20">
           <h3>Access</h3>
           <p>Early <i class="fas fa-dice-d20 icon-blue"></i></p>

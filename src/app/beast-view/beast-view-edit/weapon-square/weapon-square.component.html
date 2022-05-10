@@ -71,19 +71,13 @@
       </mat-form-field>
       <mat-form-field>
         <input
-          id="{{selectedRole.strengths.includes('Fatigue') ? 'green' : selectedRole.weaknesses.includes('Fatigue') ? 'red' : ''}}"
-          placeholder="Fatigue" matInput [value]="square.fatigue"
-          (change)="captureInput($event, 'fatigue')">
-      </mat-form-field>
-      <mat-form-field>
-        <input
           id="{{selectedRole.strengths.includes('Measure') ? 'green' : selectedRole.weaknesses.includes('Measure') ? 'red' : ''}}"
           placeholder="Measure" matInput [value]="square.measure"
           (change)="captureInputNumber($event, 'measure')">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field >
         <mat-label>Fatigue Threshold</mat-label>
-        <mat-select [value]="square.fatigue" (selectionChange)="captureSelect($event, 'fatigue')">
+        <mat-select [value]="square.fatigue" (selectionChange)="captureSelect($event, 'fatigue')" id="{{selectedRole.strengths.includes('Fatigue') ? 'green' : selectedRole.weaknesses.includes('Fatigue') ? 'red' : ''}}">
           <mat-option value="A">
             Always
           </mat-option>
