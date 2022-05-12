@@ -272,7 +272,10 @@ module.exports = {
               secondaryrole: result[i].secondaryrole,
               attack: result[i].attack,
               defense: result[i].defense,
-              combatpoints: result[i].combatpoints
+              combatpoints: result[i].combatpoints,
+              panic: result[i].panic,
+              stress: result[i].stress,
+              caution: result[i].caution
             }
           }
           return result

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { int } from 'aws-sdk/clients/datapipeline';
 
 @Component({
   selector: 'app-weapon-square',
@@ -11,6 +12,8 @@ export class WeaponSquareComponent implements OnInit {
   @Input() selectedRole: any;
   @Input() selectedRoleId: string;
   @Input() updateCombatPoints: Function;
+  @Input() index: int;
+  @Input() removeNewSecondaryItem: Function;
 
   constructor() { }
 
@@ -51,7 +54,7 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   captureSelect(event, type) {
-    this.updateNonIntCombatValues(type, null, event.target.value)
+    this.updateNonIntCombatValues(type, null, event.value)
     if (type === 'weapontype' && !this.square.ranges) {
       this.square.ranges = { increment: 0 }
     }

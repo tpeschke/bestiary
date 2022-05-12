@@ -40,8 +40,12 @@ mat-card {
 mat-toolbar {
     display: flex;
     justify-content: space-between;
-    margin: -16px -16px 0 !important;
     width: unset;
+    margin: 15px 0px
+}
+
+.top-toolbar {
+    margin: -16px -16px 0 !important;
 }
 
 .content-shell {

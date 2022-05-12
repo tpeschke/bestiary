@@ -172,7 +172,7 @@ export class BeastViewEditComponent implements OnInit {
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
       this.beast.roles.forEach(role => {
         if (role.vitality) {
-          role.average = this.calculatorService.rollDice(role.vitality)
+          this.beast.roleInfo[role.id].average = this.calculatorService.rollDice(role.vitality)
         }
       })
       this.calculateCombatPoints()
@@ -185,7 +185,18 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureHTML(event, type) {
-    this.beast = Object.assign({}, this.beast, { [type]: event.html })
+    if (type.includes('role')) {
+      let newSelectedRoleObject
+      if (type === 'role attack') {
+        newSelectedRoleObject = { ...this.beast.roleInfo[this.selectedRoleId], attack: event.html }
+      } else if (type === 'role defense') {
+        newSelectedRoleObject = { ...this.beast.roleInfo[this.selectedRoleId], defense: event.html }
+      }
+      let newSelectedRoles = { ...this.beast.roleInfo, [this.selectedRoleId]: newSelectedRoleObject}
+      this.beast = Object.assign({}, this.beast, { roleInfo: newSelectedRoles })
+    } else {
+      this.beast = Object.assign({}, this.beast, { [type]: event.html })
+    }
   }
 
   captureInput(event, type, index, secondaryType, thirdType) {
@@ -195,7 +206,12 @@ export class BeastViewEditComponent implements OnInit {
       newSecondaryObject[secondaryType][index][thirdType] = event.target.value
       this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     } else if (!secondaryType) {
-      this.beast = Object.assign({}, this.beast, { [type]: event.target.value })
+      this.getValueForPointChange(type, this.beast[type], event.target.value)
+      let objectToModify = this.beast
+      if (this.selectedRole && (type === 'stress' || type === 'caution')) {
+        objectToModify = this.beast.roleInfo[this.selectedRoleId]
+      }
+      objectToModify = Object.assign({}, objectToModify, { [type]: event.target.value })
       if (type === 'vitality') {
         this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
       }
@@ -217,7 +233,12 @@ export class BeastViewEditComponent implements OnInit {
       }
       this.beast[type][index][secondaryType] = event.value;
     } else {
-      this.beast[type] = event.value
+      this.getValueForPointChange(type, this.beast[type], event.value)
+      if (this.selectedRoleId && type === 'panic') {
+        this.beast.roleInfo[this.selectedRoleId][type] = event.value
+      } else {
+        this.beast[type] = event.value
+      }
     }
   }
 
@@ -226,6 +247,51 @@ export class BeastViewEditComponent implements OnInit {
       event.value = null
     }
     this.beast[secondaryType][type] = event.value
+  }
+
+  getValueForPointChange = (type, oldValue, newValue) => {
+    let valueToCompare = 0
+    let valueChange;
+    if (type === 'panic') {
+      valueChange = this.getPanicValue(oldValue) - this.getPanicValue(newValue)
+    } else if (type === 'vitality' && !this.selectedRoleId) {
+      valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - this.averageVitality
+      valueChange = Math.ceil(valueToCompare / 10)
+    } else if (type === 'vitality' && this.selectedRoleId) {
+      valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - this.beast.roleInfo[this.selectedRoleId].average
+      valueChange = Math.ceil(valueToCompare / 10)
+    } else {
+      valueToCompare = newValue - oldValue
+
+      switch (type) {
+        case 'stress':
+        case 'caution':
+          valueChange = Math.ceil(valueToCompare / 5)
+          break
+        default:
+          valueChange = 0
+          console.log('could\'t find ' + type)
+      }
+    }
+
+    this.updateCombatPoints(valueChange);
+  }
+
+  getPanicValue = (panicValue) => {
+    switch (panicValue) {
+      case 1:
+        return -2;
+      case 2:
+        return -2;
+      case 3:
+        return -2;
+      case 4:
+        return -2;
+      case 5:
+        return 0;
+      case 7:
+        return 2;
+    }
   }
 
   captureEquipment(event, type) {
@@ -408,7 +474,7 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  removeNewSecondaryItem(type, index, secondType) {
+  removeNewSecondaryItem = (type, index, secondType) => {
     let deleted
     if (!secondType) {
       deleted = this.beast[type].splice(index, 1)
@@ -421,6 +487,10 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type][secondType].push({ id: deleted[0].id, deleted: true })
     } else {
       this.beast[type].push({ id: deleted[0].id, deleted: true })
+    }
+
+    if (type === 'combat') {
+      this.calculateCombatPoints();
     }
   }
 
@@ -443,6 +513,17 @@ export class BeastViewEditComponent implements OnInit {
 
   saveChanges() {
     let id = this.route.snapshot.paramMap.get('id');
+    this.beast.combat = this.beast.combat.map(weapon => {
+      weapon.damage = weapon.newDamage.dice.join(' +')
+      let modifier = weapon.newDamage.flat
+      if (modifier > 0) {
+        modifier = ` +${modifier}`
+      } else if (modifier === 0) {
+        modifier = ''
+      }
+      weapon.damage += modifier
+      return weapon
+    })
     this.beast.encounter = this.encounter
     if (this.deletedSpellList) {
       this.beast.deletedSpellList = this.deletedSpellList
@@ -590,6 +671,7 @@ export class BeastViewEditComponent implements OnInit {
   captureRoleVitality(event) {
     for (let i = 0; i < this.beast.roles.length; i++) {
       if (this.beast.roles[i].id === this.selectedRoleId) {
+        this.getValueForPointChange('vitality', this.beast.roles[i].vitality, event.target.value)
         this.beast.roles[i].vitality = event.target.value
         this.beast.roles[i].average = this.calculatorService.calculateAverageOfDice(event.target.value)
         i = this.beast.roles.length
