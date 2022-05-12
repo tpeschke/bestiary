@@ -186,14 +186,16 @@ export class BeastViewEditComponent implements OnInit {
 
   captureHTML(event, type) {
     if (type.includes('role')) {
-      let newSelectedRoleObject
-      if (type === 'role attack') {
-        newSelectedRoleObject = { ...this.beast.roleInfo[this.selectedRoleId], attack: event.html }
-      } else if (type === 'role defense') {
-        newSelectedRoleObject = { ...this.beast.roleInfo[this.selectedRoleId], defense: event.html }
+      for (let i = 0; i < this.beast.roles.length; i++) {
+        if (this.beast.roles[i].id === this.selectedRoleId) {
+          if (type === 'role attack') {
+            this.beast.roles[i].attack = event.html
+          } else if (type === 'role defense') {
+            this.beast.roles[i].defense = event.html
+          }
+          i = this.beast.roles.length
+        }
       }
-      let newSelectedRoles = { ...this.beast.roleInfo, [this.selectedRoleId]: newSelectedRoleObject}
-      this.beast = Object.assign({}, this.beast, { roleInfo: newSelectedRoles })
     } else {
       this.beast = Object.assign({}, this.beast, { [type]: event.html })
     }

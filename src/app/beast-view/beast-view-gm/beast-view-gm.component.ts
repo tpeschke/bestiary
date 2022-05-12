@@ -8,6 +8,7 @@ import { Title } from "@angular/platform-browser";
 import lootTables from "../loot-tables.js"
 import { QuickViewService } from 'src/app/util/services/quick-view.service';
 import { primaryTables, secondaryTables } from './firbolg-tables'
+import roles from '../roles.js'
 
 @Component({
   selector: 'app-beast-view-gm',
@@ -39,6 +40,8 @@ export class BeastViewGmComponent implements OnInit {
   public selectedRoleId = null;
   public primaryTables = primaryTables;
   public secondaryTables = secondaryTables
+  public selectedRole = null
+  public combatRolesInfo = roles.combatRoles.primary
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -79,6 +82,10 @@ export class BeastViewGmComponent implements OnInit {
       this.trauma = +(this.trauma / 2).toFixed(0);
 
       this.getLairLoot()
+
+      if (this.beast.role) {
+        this.selectedRole = this.combatRolesInfo[this.beast.role]
+      }
     })
   }
 
@@ -368,8 +375,18 @@ export class BeastViewGmComponent implements OnInit {
   setRole(event) {
     if (event.value) {
       this.selectedRoleId = event.value
+      if (this.beast.roleInfo[this.selectedRoleId].role) {
+        this.selectedRole = this.beast.roleInfo[this.selectedRoleId.role]
+      } else {
+        this.selectedRole = null
+      }
     } else {
       this.selectedRoleId = null
+      if (this.beast.role) {
+        this.selectedRole = this.combatRolesInfo[this.beast.role]
+      } else {
+        this.selectedRole = null
+      }
     }
   }
 
@@ -431,5 +448,183 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     return (vitality * percentage).toFixed(0)
+  }
+
+  evaluate = (one, two) => {
+    if (two >= 0 && !two.includes('+')) {
+      two = `+${two}`
+    }
+    return eval(one + two)
+  }
+
+  
+  displayDR = (drObject, type) => {
+    let { flat, slash } = drObject
+      , drString = ''
+    if (flat && slash) {
+      drString = `${slash}/d+${flat}`
+    } else if (flat && !slash) {
+      drString = `${flat}`
+    } else if (!flat && slash) {
+      drString = `${slash}/d`
+    }
+
+    return drString
+  }
+
+  
+  displayDamage = (squareDamage, weapontype) => {
+    let roleDamage = weapontype === 'm' ? this.selectedRole.damage : this.selectedRole.rangedDamage
+
+    let diceObject = {
+      d3s: 0,
+      d4s: 0,
+      d6s: 0,
+      d8s: 0,
+      d10s: 0,
+      d12s: 0,
+      d20s: 0
+    }
+
+    if (roleDamage) {
+      roleDamage.dice.forEach(dice => {
+        let index = dice.indexOf("d")
+          , substring = dice.substring(index)
+        if (substring.includes('20')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d20s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d20s
+          }
+        } else if (substring.includes('12')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d12s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d12s
+          }
+        } else if (substring.includes('10')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d10s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d10s
+          }
+        } else if (substring.includes('8')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d8s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d8s
+          }
+        } else if (substring.includes('6')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d6s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d6s
+          }
+        } else if (substring.includes('4')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d4s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d4s
+          }
+        } else if (substring.includes('3')) {
+          if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+            diceObject.d3s += +dice.substring(0, index)
+          } else {
+            ++diceObject.d3s
+          }
+        }
+      })
+    }
+
+    squareDamage.dice.forEach(dice => {
+      let index = dice.indexOf("d")
+        , substring = dice.substring(index)
+      if (substring.includes('20')) {
+        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+          diceObject.d20s += +dice.substring(0, index)
+        } else {
+          ++diceObject.d20s
+        }
+      } else if (substring.includes('12')) {
+        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+          diceObject.d12s += +dice.substring(0, index)
+        } else {
+          ++diceObject.d12s
+        }
+      } else if (substring.includes('10')) {
+        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+          diceObject.d10s += +dice.substring(0, index)
+        } else {
+          ++diceObject.d10s
+        }
+      } else if (substring.includes('8')) {
+        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+          diceObject.d8s += +dice.substring(0, index)
+        } else {
+          ++diceObject.d8s
+        }
+      } else if (substring.includes('6')) {
+        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+          diceObject.d6s += +dice.substring(0, index)
+        } else {
+          ++diceObject.d6s
+        }
+      } else if (substring.includes('4')) {
+        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+          diceObject.d4s += +dice.substring(0, index)
+        } else {
+          ++diceObject.d4s
+        }
+      } else if (substring.includes('3')) {
+        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+          diceObject.d3s += +dice.substring(0, index)
+        } else {
+          ++diceObject.d3s
+        }
+      }
+    })
+
+    let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
+
+    let diceString = ''
+    if (d3s > 0) {
+      diceString += `${d3s}d3!`
+    }
+    if (d4s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d4s}d4!`
+    }
+    if (d6s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d6s}d6!`
+    }
+    if (d8s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d8s}d8!`
+    }
+    if (d10s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d10s}d10!`
+    }
+    if (d12s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d12s}d12!`
+    }
+    if (d20s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
+    }
+
+    let modifier = squareDamage.flat
+    if (roleDamage) {
+      modifier = roleDamage.flat + squareDamage.flat
+    }
+
+    if (modifier > 0) {
+      diceString += ` +${modifier}`
+    } else if (modifier < 0) {
+      diceString += ` ${modifier}`
+    }
+
+    return diceString
+  }
+
+  testInput = (input1, input2) => {
+    console.log(this.selectedRole)
+    console.log(input1, input2, input1 + input2)
   }
 }
