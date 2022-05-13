@@ -29,7 +29,8 @@ export class CatalogComponent implements OnInit {
   rightClickMenuPositionY: number;
   targetBeast: number;
   targetHash: string;
-  targetRoles: any[]
+  targetRoles: any[];
+  targetRole: string;
 
   ngOnInit() {
     this.titleService.setTitle("Bestiary")
@@ -57,13 +58,14 @@ export class CatalogComponent implements OnInit {
     this.quickViewService.addToQuickViewArray(this.targetRoles[index].hash)
   }
 
-  displayContextMenu(event, beastid, hash, roles) {
+  displayContextMenu(event, beastid, hash, roles, role) {
     this.isDisplayContextMenu = true;
     this.rightClickMenuPositionX = event.clientX;
     this.rightClickMenuPositionY = event.clientY;
     this.targetBeast = beastid
     this.targetHash = hash
     this.targetRoles = roles
+    this.targetRole = role
   }
 
   getRightClickMenuStyle() {

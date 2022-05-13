@@ -85,7 +85,11 @@
             {{selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role}}
             {{selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? '[' +
             beast.roleInfo[selectedRoleId].secondaryrole + ']' :
-            selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}}</p>
+            selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}} <i
+              class="fas fa-info-circle icon-small blue" matTooltip="Strengths:
+              {{combatRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role].strengths.join(', ')}}
+              Weaknesses:
+              {{combatRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role].weaknesses.join(', ')}}" matTooltipClass="my-tooltip"></i></p>
           <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
               class="fas fa-plus"></i><i class="fas fa-address-card"></i></div>
         </div>
@@ -258,18 +262,26 @@
         </div>
         <div class="flex-row-opposite">
           <h3>Stress Threshold</h3>
-          <p *ngIf="beast.stress !== 0">{{beast.stress}}</p>
-          <p *ngIf="beast.stress === 0">N/A</p>
+          <p
+            *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0">
+            {{beast.roleInfo[selectedRoleId].stress}}</p>
+          <p *ngIf="!selectedRoleId && beast.stress !== 0">{{beast.stress}}</p>
+          <p *ngIf="beast.stress === 0 || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress)">N/A</p>
         </div>
-        <div *ngIf="beast.stress !== 0" class="rolled-stats-shell">
+        <div
+          *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || !selectedRoleId && beast.stress !== 0"
+          class="rolled-stats-shell">
           <mat-form-field>
             <input matInput>
           </mat-form-field>
-          <p> / ({{convertPanic(beast.stress, beast.panic)}}) / {{beast.stress}}</p>
+          <p> / ({{convertPanic()}}) / {{selectedRoleId ? beast.roleInfo[selectedRoleId].stress : beast.stress}}</p>
         </div>
-        <div *ngIf="beast.stress !== 0" class="flex-row-opposite">
+        <div
+          *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || !selectedRoleId && beast.stress !== 0"
+          class="flex-row-opposite">
           <h3>Panic</h3>
-          <p>{{beast.panic | moraleConverter}}</p>
+          <p>{{(selectedRoleId && beast.roleInfo[selectedRoleId].panic) ? beast.roleInfo[selectedRoleId].panic :
+            beast.panic | moraleConverter}}</p>
         </div>
         <div class="flex-row-opposite">
           <h3>Caution Threshold</h3>
@@ -567,10 +579,6 @@
         <div class="flex-row-opposite">
           <h3>Diet</h3>
           <p>{{beast.diet}}</p>
-        </div>
-        <div class="flex-row-opposite">
-          <h3>Subsystem Focus</h3>
-          <p>{{beast.subsystem | subsystemConverter}}</p>
         </div>
       </div>
 

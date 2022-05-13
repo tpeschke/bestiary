@@ -320,8 +320,8 @@
       </mat-form-field>
     </div>
 
-    <p><strong>Strengths: </strong> {{selectedRole.strengths}}</p>
-    <p><strong>Weaknesses: </strong> {{selectedRole.weaknesses}}</p>
+    <p><strong>Strengths: </strong> {{selectedRole.strengths.join(', ')}}</p>
+    <p><strong>Weaknesses: </strong> {{selectedRole.weaknesses.join(', ')}}</p>
 
     <div class="combat-shell">
       <div *ngFor="let square of beast.combat; let i = index">

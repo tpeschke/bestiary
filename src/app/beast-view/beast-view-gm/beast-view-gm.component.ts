@@ -398,7 +398,19 @@ export class BeastViewGmComponent implements OnInit {
     this.quickViewService.addToQuickViewArray(hash)
   }
 
-  convertPanic(stress, panic) {
+  convertPanic() {
+    let stress
+    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].stress) {
+      stress = this.beast.roleInfo[this.selectedRoleId].stress
+    } else if ((this.selectedRoleId && !this.beast.roleInfo[this.selectedRoleId].stress) || !this.selectedRoleId) {
+      stress = this.beast.stress
+    }
+    let panic
+    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].panic) {
+      panic = this.beast.roleInfo[this.selectedRoleId].panic
+    } else if ((this.selectedRoleId && !this.beast.roleInfo[this.selectedRoleId].panic) || !this.selectedRoleId) {
+      panic = this.beast.panic
+    }
     let percentage = .00;
     switch (panic) {
       case 1:
