@@ -53,19 +53,6 @@
                     </i></p>
               </div>
 
-              <!-- <div class="checkboxShell">
-                <div *ngFor="let checkbox of vitalities.locationCheckboxes.mainVitality.checkboxes; let i = index">
-                  <div [ngClass]="checkbox.isPanicked ? 'panicked' : ''">
-                    <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
-                      (change)="checkCheckbox($event, i, 'mainVitality', beastIndex, mainIndex)"
-                      [(ngModel)]="checkbox.checked"></mat-checkbox>
-                  </div>
-                  <div *ngIf="checkbox.value">
-                    <p [ngClass]="checkbox.isPanicked ? 'panicked' : ''"> {{checkbox.value}} </p>
-                  </div>
-                </div>
-              </div> -->
-
               <div class="flex-row-opposite">
                 <h3>Vitality</h3>
                 <div class="input-shell">
@@ -141,53 +128,86 @@
             <div class="combat-square" *ngFor="let square of beast.combat">
               <h3 class="weaponName">{{square.weapon | titlecase}}</h3>
 
-              <div class="square-range-shell">
-                <div class="square-shell">
-                  <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
-                  <p class="spd">{{square.spd}}</p>
-                  <p class="atk">{{square.atk}}</p>
-                  <p class="init">{{square.init}}</p>
-                  <p class="def">{{square.def}}</p>
-                  <p class="fatigue">{{ convertFatigue(beast.vitalityArray[0].locationCheckboxes.mainVitality.average,
-                    square.fatigue) }}</p>
-                  <div class="dr">
-                    <p>{{square.dr}}</p>
-                    <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
-                  </div>
-                  <div class="measure">
-                    <p *ngIf="square.weapontype !== 'r'">{{square.measure}}</p>
-                    <p *ngIf="square.weapontype === 'r'">{{square.ranges.increment}}ri <i
-                        class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
+              <div *ngIf="!beast.roleinfo" class="square-shell">
+                <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
+                <p class="spd">{{square.spd}}</p>
+                <p class="atk">{{square.atk}}</p>
+                <p class="init">{{square.init}}</p>
+                <p class="def">{{square.def}}</p>
+                <p class="fatigue">{{ convertFatigue(beast.vitalityArray[0].locationCheckboxes.mainVitality.average,
+                  square.fatigue) }}</p>
+                <div class="dr">
+                  <p>{{square.dr}}</p>
+                  <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
+                </div>
+                <div class="measure">
+                  <p *ngIf="square.weapontype !== 'r'">{{square.measure}}</p>
+                  <p *ngIf="square.weapontype === 'r'">{{square.ranges.increment}}ri <i
+                      class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
                       Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
                       Between {{square.ranges.increment + 1}} ft and {{square.ranges.increment * 2}} ft, -2 atk penalty.
                       Between {{(square.ranges.increment * 2) + 1}} ft and {{square.ranges.increment * 3}} ft, -4 atk penalty.
                       and so on." matTooltipClass="my-tooltip"></i></p>
-                  </div>
-                  <p class="damage">{{square.damage}}</p>
-                  <p class="parry">{{square.parry}}</p>
                 </div>
+                <p class="damage">{{square.damage}}</p>
+                <p class="parry">{{square.parry}}</p>
+              </div>
+              <div *ngIf="beast.roleinfo" class="square-shell">
+                <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
+                <p class="spd">{{beast.roleinfo.spd + square.spd}}</p>
+                <p class="atk">{{beast.roleinfo.atk + square.atk}}</p>
+                <p class="init">{{beast.roleinfo.init + square.init}}</p>
+                <p class="def">{{evaluate(beast.roleinfo.def, square.def)}}</p>
+                <p class="fatigue">{{ convertFatigue(square.fatigue) }}</p>
+                <div class="dr">
+                  <p>{{displayDR(square.newDR, 'armor')}}</p>
+                  <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>
+                    {{displayDR(square.newShieldDr, 'shield')}}</p>
+                </div>
+                <div class="measure">
+                  <p *ngIf="square.weapontype !== 'r'">{{beast.roleinfo.measure + square.measure}}</p>
+                  <p *ngIf="square.weapontype === 'r'">{{beast.roleinfo.ranges.increment + square.ranges.increment}}ri
+                    <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
+                      Between 5 ft and {{beast.roleinfo.ranges.increment + square.ranges.increment}} ft, -0 atk penalty. 
+                      Between {{beast.roleinfo.ranges.increment + square.ranges.increment + 1}} ft and {{(beast.roleinfo.ranges.increment + square.ranges.increment) * 2}} ft, -2 atk penalty.
+                      Between {{((beast.roleinfo.ranges.increment + square.ranges.increment) * 2) + 1}} ft and {{(beast.roleinfo.ranges.increment + square.ranges.increment) * 3}} ft, -4 atk penalty.
+                      and so on." matTooltipClass="my-tooltip"></i>
+                  </p>
+                </div>
+                <p *ngIf="!square.newDamage.isSpecial" class="damage">
+                  {{displayDamage(square.newDamage, square.weapontype,
+                  beast.roleinfo)}}{{square.newDamage.hasSpecialAndDamage ?
+                  '*' : ''}}</p>
+                <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
+                <p class="parry">{{beast.roleinfo.parry + square.parry}}</p>
               </div>
             </div>
           </div>
 
-          <div *ngIf="!beast.sp_atk.includes('None')">
+          <div *ngIf="!beast.sp_atk.includes('None') || beast.roleattack">
             <h2>Add. Attack Info</h2>
             <div class="divider"></div>
-            <div>
+            <div *ngIf="!beast.sp_atk.includes('None')">
               <quill-view-html [content]="beast.sp_atk"></quill-view-html>
+            </div>
+            <div *ngIf="beast.roleattack">
+              <quill-view-html [content]="beast.roleattack"></quill-view-html>
             </div>
           </div>
 
-          <div *ngIf="!beast.sp_def.includes('None')">
+          <div *ngIf="!beast.sp_def.includes('None') || beast.roledefense">
             <h2>Add. Defense Info</h2>
             <div class="divider"></div>
-            <div>
+            <div *ngIf="!beast.sp_def.includes('None')">
               <quill-view-html [content]="beast.sp_def"></quill-view-html>
+            </div>
+            <div *ngIf="beast.roledefense">
+              <quill-view-html [content]="beast.roledefense"></quill-view-html>
             </div>
           </div>
 
           <div class="vitals-shell">
-            <h3 class="blue">Movement</h3>
+            <h3 class="blue movement-margin">Movement</h3>
             <div *ngIf="beast.movement.length == 0">
               <div class="divider white"></div>
               <h3>This Monster Can't Move</h3>

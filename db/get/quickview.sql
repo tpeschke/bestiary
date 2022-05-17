@@ -1,3 +1,3 @@
-select main.id, main.name as name, r.id as roleid, r.name as role, sp_atk, sp_def, main.vitality, r.vitality as rolevitality, panic, main.hash, stress, patreon, canplayerview, stress, patreon, caution from bbindividualbeast main
+select main.id, main.name as name, r.id as roleid, r.name as rolename, r.role as roletype, main.role as baseroletype, sp_atk, sp_def, r.attack as roleattack, r.defense as roledefense, main.vitality, r.vitality as rolevitality, main.panic, r.panic as rolepanic, main.hash, main.stress, r.stress as rolestress, patreon, canplayerview, patreon, main.caution, r.caution as rolecaution from bbindividualbeast main
 left join bbroles r on main.id = r.beastid
 where main.hash = $1 or r.hash = $1

@@ -46,7 +46,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NoPlayerAuthService } from './util/guards-resolvers/no-player-auth.service'
 import { NoGmAuthService } from './util/guards-resolvers/no-gm-auth.service';
 import { RarityConverterPipe } from './util/pipes/rarity-converter.pipe';
-import { QuickViewDrawerComponent } from './quick-view/quick-view-drawer/quick-view-drawer.component';
+import { QuickViewDrawerComponent } from './quick-view/quick-view-drawer.component';
 import { WeirdShapingEditComponent } from './weird-shaping/weird-shaping-edit/weird-shaping-edit.component';
 import { WeirdShapingDisplayComponent } from './weird-shaping/weird-shaping-display/weird-shaping-display.component';
 import { BestiaryHomeComponent } from './bestiary-home/bestiary-home.component';

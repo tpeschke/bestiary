@@ -6,18 +6,36 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, role, rolevitality, id: beastid, roleid, patreon, canplayerview, caution } = result[0]
-      let beast = {
-        name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution
-      }
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution } = result[0]
+      let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense }
       let isARole = result[0].roleid && result.length <= 1
 
+      if (baseroletype) {
+        beast.name = name + ` [${baseroletype}]`
+        beast.role = baseroletype
+      }
+
       if (isARole) {
-        if (role && role.toUpperCase() !== "NONE") {
-          beast.name = name + " " + role
+        if (rolename && rolename.toUpperCase() !== "NONE") {
+          beast.name = name + " " + rolename
+        }
+        if (roletype) {
+          beast.name = beast.name + ` [${roletype}]`
         }
         if (rolevitality) {
           beast.vitality = rolevitality
+        }
+        if (rolepanic) {
+          beast.panic = rolepanic
+        }
+        if (rolestress) {
+          beast.stress = rolestress
+        }
+        if (rolecaution) {
+          beast.caution = rolecaution
+        }
+        if (roletype) {
+          beast.role = roletype
         }
       }
 
@@ -60,6 +78,15 @@ module.exports = {
           } else {
             beast.combat = result.filter(weapon => !weapon.roleid)
           }
+          beast.combat = beast.combat.map(weapon => {
+            let newWeaponInfo = {
+              newDR: {}, newShieldDr: {}, newDR: {}
+            }
+            newWeaponInfo.newDR = processDR(weapon.dr, weapon.flat, weapon.slash)
+            newWeaponInfo.newShieldDr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash)
+            newWeaponInfo.newDamage = processDamage(weapon.damage, weapon.isspecial, weapon.hasspecialanddamage)
+            return { ...weapon, ...newWeaponInfo }
+          })
           return result
         }))
 

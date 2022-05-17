@@ -469,7 +469,6 @@ export class BeastViewGmComponent implements OnInit {
     return eval(one + two)
   }
 
-  
   displayDR = (drObject, type) => {
     let { flat, slash } = drObject
       , drString = ''
@@ -483,7 +482,6 @@ export class BeastViewGmComponent implements OnInit {
 
     return drString
   }
-
   
   displayDamage = (squareDamage, weapontype) => {
     let roleDamage = weapontype === 'm' ? this.selectedRole.damage : this.selectedRole.rangedDamage
@@ -633,10 +631,5 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     return diceString
-  }
-
-  testInput = (input1, input2) => {
-    console.log(this.selectedRole)
-    console.log(input1, input2, input1 + input2)
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BeastService } from './beast.service';
 import { CalculatorService } from './calculator.service';
+import roles from '../../beast-view/roles.js'
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,16 @@ export class QuickViewService {
   ) { }
 
   public quickViewArray: any = [];
+  public combatRolesInfo = roles.combatRoles.primary
 
   addToQuickViewArray(hash) {
     this.beastService.getQuickView(hash).subscribe(results => {
       results = this.modifyVitality(results)
       results.vitalityArray = []
       results.vitalityArray.push({ locationCheckboxes: results.locationCheckboxes, label: "" })
+      if (results.role) {
+        results.roleinfo = this.combatRolesInfo[results.role]
+      }
       this.quickViewArray.push(results)
       this.beastService.handleMessage({ message: `${results.name} have been added to your quick view`, color: "green" })
     })
@@ -30,9 +35,9 @@ export class QuickViewService {
       rolled: this.calculatorService.rollDice(monster.vitality),
       average: this.calculatorService.calculateAverageOfDice(monster.vitality)
     }
-    monster.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(monster.locationCheckboxes.mainVitality.average, monster.panic)
-
     monster.trauma = monster.locationCheckboxes.mainVitality.average
+    monster.trauma = +(monster.trauma / 2).toFixed(0);
+
     let { locationalvitality } = monster
     if (locationalvitality.length > 0) {
       locationalvitality.forEach(({ location, vitality }) => {
@@ -40,42 +45,10 @@ export class QuickViewService {
           rolled: this.calculatorService.rollDice(vitality)
         }
         monster.trauma = Math.max(monster.trauma, monster.locationCheckboxes[location].average)
-        monster.locationCheckboxes[location].checkboxes = this.createCheckboxArray(monster.locationCheckboxes[location].average)
       })
     }
 
-    monster.trauma = +(monster.trauma / 2).toFixed(0);
     return monster
-  }
-
-  createCheckboxArray(vitality, panic = 7) {
-    let checkboxArray = []
-    let isPanicked = panic <= 2
-
-    let bloodied = Math.floor(vitality * .25)
-      , wounded = Math.floor(vitality * .5)
-      , critical = Math.floor(vitality * .75)
-
-    for (let i = 0; i < vitality; i++) {
-      switch (i) {
-        case bloodied:
-          isPanicked = panic <= 3
-          checkboxArray.push({ value: 'B', isPanicked })
-          break;
-        case wounded:
-          isPanicked = panic <= 4
-          checkboxArray.push({ value: 'W', isPanicked })
-          break;
-        case critical:
-          isPanicked = panic <= 5
-          checkboxArray.push({ value: 'C', isPanicked })
-          break;
-        default:
-          break;
-      }
-      checkboxArray.push({ checked: false, isPanicked })
-    }
-    return checkboxArray
   }
 
   addAnotherVitalityToBeast(beastIndex) {

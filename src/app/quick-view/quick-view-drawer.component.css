@@ -21,6 +21,10 @@
     cursor: pointer;
 }
 
+.movement-margin {
+    padding-top: 10px;
+}
+
 .overlay {
     position: fixed; /* Sit on top of the page content */
     width: 100vw; /* Full width (cover the whole page) */
@@ -184,11 +188,17 @@
 
 .damage {
     position: absolute;
-    z-index: 1;font-size: 12px;
+    z-index: 1;
+    font-size: 12px;
     text-align: center;
     width: 60px;
     left: 45px;
     top: 97px;
+    line-height: normal;
+}
+
+.specialDamage { 
+    top: 90px !important;
 }
 
 .parry {
