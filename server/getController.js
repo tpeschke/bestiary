@@ -1,5 +1,3 @@
-const { promise } = require("selenium-webdriver")
-
 module.exports = {
   getQuickView(req, res) {
     let { hash } = req.params
@@ -344,7 +342,7 @@ function processDR(drString, flat, slash) {
     flat,
     slash
   }
-  if (newDR.flat !== null || newDR.flat !== null) {
+  if (newDR.flat !== null || newDR.slash !== null) {
     return newDR
   }
 
