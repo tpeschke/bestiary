@@ -59,7 +59,7 @@ export class WeaponSquareComponent implements OnInit {
       this.square.ranges = { increment: 0 }
     }
     this.square[type] = event.value
-    if (type === 'weapontype') {
+    if (type === 'weapontype' || type === 'selectedweapon') {
       this.displayDamage()
     }
   }
@@ -269,7 +269,17 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   displayDamage = () => {
-    let roleDamage = this.square.weapontype === 'm' ? this.selectedRole.damage : this.selectedRole.rangedDamage
+    let roleDamage = null
+    if (!this.square.selectedweapon) {
+      if (this.square.weapontype === 'm') {
+        roleDamage = this.selectedRole.damage
+      } else {
+        roleDamage = this.selectedRole.rangedDamage
+      }
+    } else {
+      roleDamage = this.square.weaponInfo.damage
+    }
+
     let squareDamage = this.square.newDamage
 
     let diceObject = {
@@ -406,6 +416,7 @@ export class WeaponSquareComponent implements OnInit {
     let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
 
     let diceString = ''
+
     if (d3s > 0) {
       diceString += `${d3s}d3!`
     }
@@ -479,6 +490,6 @@ export class WeaponSquareComponent implements OnInit {
     }
 
     this.square.damage = squareDamageString
-    this.displayedDamage = diceString
+    this.displayedDamage = diceString + (this.square.newDamage.hasSpecialAndDamage ? '*' : '')
   }
 }

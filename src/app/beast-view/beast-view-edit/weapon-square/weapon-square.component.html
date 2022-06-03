@@ -7,7 +7,7 @@
   <div>
     <div class="square-shell">
       <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
-      <p class="spd">{{selectedRole.spd + square.spd}}</p>
+      <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd) + square.spd}}</p>
       <p class="atk">{{selectedRole.atk + square.atk}}</p>
       <p class="init">{{selectedRole.init + square.init}}</p>
       <p class="def">{{evaluate(selectedRole.def, square.def)}}</p>
@@ -17,7 +17,7 @@
         <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{displayedShieldDR}}</p>
       </div>
       <div class="measure">
-        <p *ngIf="square.weapontype !== 'r'">{{selectedRole.measure + square.measure}}</p>
+        <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : selectedRole.measure) + square.measure}}</p>
         <p *ngIf="square.weapontype === 'r'">{{selectedRole.ranges.increment + square.ranges.increment}}ri <i
             class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
             Between 5 ft and {{selectedRole.ranges.increment + square.ranges.increment}} ft, -0 atk penalty. 
@@ -25,10 +25,9 @@
             Between {{((selectedRole.ranges.increment + square.ranges.increment) * 2) + 1}} ft and {{(selectedRole.ranges.increment + square.ranges.increment) * 3}} ft, -4 atk penalty.
             and so on." matTooltipClass="my-tooltip"></i></p>
       </div>
-      <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}{{square.newDamage.hasSpecialAndDamage ?
-        '*' : ''}}</p>
+      <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}</p>
       <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-      <p class="parry">{{selectedRole.parry + square.parry}}</p>
+      <p class="parry">{{(square.selectedweapon ? square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
     </div>
     <mat-form-field>
       <mat-label>Weapon Type</mat-label>
