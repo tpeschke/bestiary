@@ -157,7 +157,7 @@
 
           <mat-form-field>
             <mat-label>Combat Secondary Role Type</mat-label>
-            <mat-select (selectionChange)="captureSecondaryRole('secondaryrole', $event)">
+            <mat-select (selectionChange)="captureNewRole('secondaryrole', $event)">
               <mat-option *ngFor="let role of combatRolesSecondary" [value]="role">
                 {{role}}
               </mat-option>
@@ -320,8 +320,10 @@
       </mat-form-field>
     </div>
 
-    <p><strong>Strengths: </strong> {{selectedRole.strengths.join(', ')}}</p>
-    <p><strong>Weaknesses: </strong> {{selectedRole.weaknesses.join(', ')}}</p>
+    <div *ngIf="selectedRole.strengths">
+      <p><strong>Strengths: </strong> {{selectedRole.strengths.join(', ')}}</p>
+      <p><strong>Weaknesses: </strong> {{selectedRole.weaknesses.join(', ')}}</p>
+    </div>
 
     <div class="combat-shell">
       <div *ngFor="let square of beast.combat; let i = index">

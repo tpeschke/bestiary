@@ -12,6 +12,7 @@ const express = require('express')
     , passport = require('passport')
     , Auth0Strategy = require('passport-auth0')
     , path = require("path")
+    , equipmentCtrl = require('./equipmentController')
 
 const app = new express()
 app.use(bodyParser.json({ limit: '10mb' }))
@@ -77,7 +78,7 @@ app.get('/api/beasts/catalog', (req, res) => res.send(ctrl.catalogCache))
 app.get('/api/beasts/:id', getCtrl.getSingleBeast)
 app.get('/api/quickview/:hash', getCtrl.getQuickView)
 app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
-app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({id: 0}))
+app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({ id: 0 }))
 
 app.get('/api/search', searchCtrl.search)
 app.get('/api/obstacles/search', obstCtrl.search)
@@ -99,7 +100,7 @@ app.post('/api/favorite', ctrl.addFavorite)
 
 app.delete('/api/favorite/:beastid', ctrl.deleteFavorite)
 
-function ownerAuth (req, res, next) {
+function ownerAuth(req, res, next) {
     if (!req.user) {
         res.sendStatus(401)
     } else if (req.user.id !== 1 && req.user.id !== 21) {
@@ -128,6 +129,7 @@ app.get('/*', (req, res) => {
 massive(databaseCredentials).then(dbI => {
     app.set('db', dbI)
     app.listen(server, _ => {
+        equipmentCtrl.processEquipment()
         ctrl.collectCache(app, 0)
         obstCtrl.collectCache(app, 0)
         console.log(`Sing to me a sweet song of forgetfulness and Ill die on your shore ${server}`)

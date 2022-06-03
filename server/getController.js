@@ -1,3 +1,5 @@
+const equipmentCtrl = require('./equipmentController')
+
 module.exports = {
   getQuickView(req, res) {
     let { hash } = req.params
@@ -160,7 +162,17 @@ module.exports = {
             newWeaponInfo.newDR = processDR(weapon.dr, weapon.flat, weapon.slash)
             newWeaponInfo.newShieldDr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash)
             newWeaponInfo.newDamage = processDamage(weapon.damage, weapon.isspecial, weapon.hasspecialanddamage)
-            return { ...weapon, ...newWeaponInfo }
+            let equipmentInfo = {}
+            if (weapon.selectedweapon) {
+              equipmentInfo.weaponInfo = equipmentCtrl.getWeapon(weapon.selectedweapon)
+            }
+            if (weapon.selectedarmor) {
+              equipmentInfo.armorInfo = equipmentCtrl.getArmor(weapon.selectedarmor)
+            }
+            if (weapon.selectedshield) {
+              equipmentInfo.shieldInfo = equipmentCtrl.getShield(weapon.selectedshield)
+            }
+            return { ...weapon, ...newWeaponInfo, ...equipmentInfo }
           })
           return result
         }))

@@ -426,10 +426,21 @@ export class BeastViewEditComponent implements OnInit {
         init: 0,
         def: 0,
         Fatigue: "C",
-        dr: 0,
-        shield_dr: null,
+        newDR: {
+          flat: 0,
+          slash: 0
+        },
+        newShieldDr:  {
+          flat: 0,
+          slash: 0
+        },
         measure: 0,
-        damage: '',
+        newDamage: {
+          dice: [],
+          flat: 0,
+          isSpecial: false,
+          hasSpecialAndDamage: false
+        },
         parry: 0,
         weapontype: 'm',
         roleid: this.selectedRoleId
@@ -652,16 +663,33 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureNewRole(type, event) {
-    this.newRole[type] = event.target.value
-  }
-
-  captureSecondaryRole(type, event) {
-    this.newRole[type] = event.target.value
+    if (event.target) {
+      this.newRole[type] = event.target.value
+    } else {
+      this.newRole[type] = event.value
+    }
   }
 
   addNewRole() {
     if (this.newRole.role && this.newRole.name) {
-      this.beast.roles.push({ name: this.newRole.name, role: this.newRole.role, id: this.makeId(), secondaryrole: null })
+      let id = this.makeId()
+      this.beast.roles.push({ name: this.newRole.name, role: this.newRole.role, id, secondaryrole: this.newRole.secondaryrole })
+      this.beast.roleInfo[id] = {
+        attack: null,
+        caution: null,
+        combatpoints: 0,
+        defense: null,
+        hash: null,
+        name: this.newRole.name,
+        panic: null,
+        role: this.newRole.role,
+        secondaryrole: this.newRole.secondaryrole,
+        stress: null,
+        uniqueCombat: true,
+        uniqueLocationalVitality: false,
+        uniqueMovement: false,
+        vitality: null
+      }
       this.newRole = {
         name: null,
         role: null,
@@ -928,7 +956,7 @@ export class BeastViewEditComponent implements OnInit {
 
   updateCombatPoints = (value) => {
     if (this.selectedRoleId) {
-      this.combatRolesInfo[this.selectedRoleId].combatpoints += value
+      this.beast.roleInfo[this.selectedRoleId].combatpoints += value
     } else {
       this.beast.combatpoints += value
     }

@@ -215,8 +215,6 @@ export class WeaponSquareComponent implements OnInit {
         }
 
         this.updateCombatPoints(valueToSubtract)
-      } else {
-        console.log('couldn\'t find ' + primary + ', ' + secondary)
       }
     }
 
@@ -244,10 +242,10 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   evaluate = (one, two) => {
-    if (two >= 0 && !two.includes('+')) {
-      two = `+${two}`
+    if (typeof(two) === 'string' && two.includes('+')) {
+      two = +two.replace('/+/gi', '')
     }
-    return eval(one + two)
+    return eval(one + +two)
   }
 
   displayDR = (drObject, type) => {
@@ -342,7 +340,7 @@ export class WeaponSquareComponent implements OnInit {
         }
       })
     }
-
+    
     squareDamage.dice.forEach(dice => {
       let index = dice.indexOf("d")
         , substring = dice.substring(index)

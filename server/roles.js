@@ -36,7 +36,35 @@ module.exports = {
                 caution: 10,
                 init: 0,
                 combatpointsmelee: 0,
-                combatpointsranged: 0
+                combatpointsranged: 0,
+                weapons: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Longbow', 'Dagger']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Crossbow', 'Bellybow']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Warbow', 'Sling']
+                    }
+                ],
+                armor: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['None']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Buff Coat']
+                    }
+                ],
+                shields: {
+                    label: 'Not Preferred Choices',
+                    items: ['Buckler']
+                }
             },
             'Brute': {
                 strengths: ['Vitality', 'Melee Damage', 'Melee Attack', 'Caution Threshold'],
@@ -72,6 +100,31 @@ module.exports = {
                 Panic: 25,
                 caution: 20,
                 init: 0,
+                weapons: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Bardiche', 'Zweihander']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Bec De Corbin', 'Ranseur']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Peasant\'s Flail', 'Lucerne']
+                    }
+                ],
+                armor: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Chainmail']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Plated Mail']
+                    },
+                ],
+                shields: [],
             },
             'Defender': {
                 strengths: ['Defense', 'DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Stress Threshold', 'Caution Threshold'],
@@ -107,6 +160,48 @@ module.exports = {
                 Panic: 50,
                 caution: 30,
                 init: 0,
+                weapons: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Longsword', 'Dagger']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Court Sword', 'War Hammer']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['War Flail', 'Short Spear']
+                    }
+                ],
+                armor: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Scale']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Laminar']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Full Plate']
+                    }
+                ],
+                shields: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Heater']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Figure Eight']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Kite']
+                    }
+                ],
             },
             'Fencer': {
                 strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Stress Threshold'],
@@ -142,6 +237,36 @@ module.exports = {
                 Panic: 50,
                 caution: 20,
                 init: 0,
+                weapons: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Rapier', 'Stiletto']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Messer', 'Court Sword', 'Estoc']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Military Fork']
+                    }
+                ],
+                armor: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Gambeson']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Leather']
+                    }
+                ],
+                shields: [
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Buckler']
+                    },
+                ]
             },
             'Flanker': {
                 strengths: ['Melee Damage', 'Recovery', 'Movement', 'Mobility Skills'],
@@ -177,6 +302,31 @@ module.exports = {
                 Panic: 25,
                 caution: 10,
                 init: 0,
+                weapons: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Knife', 'Dagger']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Katzbalger']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Bludgeon']
+                    }
+                ],
+                armor: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Gambeson']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Leather']
+                    },
+                ],
+                shields: []
             },
             'Fodder': {
                 strengths: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Mobility Skills'],
@@ -212,6 +362,32 @@ module.exports = {
                 Panic: 1,
                 caution: 10,
                 init: 0,
+                weapons: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Pishaq', 'Handaxe']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Bludgeon', 'Club', 'Short Spear', 'Sling']
+                    }
+                ],
+                armor: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['None']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Buff coat']
+                    }
+                ],
+                shields: [
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Clothe']
+                    }
+                ],
             },
             'Shock': {
                 strengths: ['Fatigue', 'Melee Damage', 'Measure', 'Movement', 'Mobility Skills', 'Panic Threshold', 'Caution Threshold'],
@@ -247,6 +423,31 @@ module.exports = {
                 Panic: 25,
                 caution: 20,
                 init: 0,
+                weapons: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Maul']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Glaive', 'Lucerne']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Zweihander', 'Lochaber Axe']
+                    }
+                ],
+                armor: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Coat of Plates']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['None']
+                    }
+                ],
+                shields: []
             },
             'Skirmisher': {
                 strengths: ['Ranged Attack', 'Movement', 'Mobility Skills', 'Stress Threshold', 'Panic'],
@@ -282,6 +483,40 @@ module.exports = {
                 Panic: 25,
                 caution: 20,
                 init: 0,
+                weapons: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['Knife', 'Handaxe']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Javelin', 'Short Spear']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Handgonne', 'Sling']
+                    }
+                ],
+                armor: [
+                    {
+                        label: 'Preferred Choices',
+                        items: ['None']
+                    },
+                    {
+                        label: 'Neutral Choices',
+                        items: ['Gambeson']
+                    },
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Leather']
+                    }
+                ],
+                shields: [
+                    {
+                        label: 'Not Preferred Choices',
+                        items: ['Buckler']
+                    }
+                ],
             }
         }
     }
