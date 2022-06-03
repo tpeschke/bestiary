@@ -7,14 +7,14 @@
   <div>
     <div class="square-shell">
       <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
-      <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd) + square.spd}}</p>
+      <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd) + (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
       <p class="atk">{{selectedRole.atk + square.atk}}</p>
-      <p class="init">{{selectedRole.init + square.init}}</p>
-      <p class="def">{{evaluate(selectedRole.def, square.def)}}</p>
+      <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init) + square.init}}</p>
+      <p class="def">{{evaluateDefense()}}</p>
       <p class="fatigue">{{ square.fatigue }}</p>
       <div class="dr">
         <p>{{displayedDR}}</p>
-        <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{displayedShieldDR}}</p>
+        <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " " || square.selectedshield'>{{displayedShieldDR}}</p>
       </div>
       <div class="measure">
         <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : selectedRole.measure) + square.measure}}</p>
@@ -27,7 +27,7 @@
       </div>
       <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}</p>
       <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-      <p class="parry">{{(square.selectedweapon ? square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
+      <p class="parry">{{(square.selectedshield ? square.shieldInfo.parry : square.selectedweapon ? square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
     </div>
     <mat-form-field>
       <mat-label>Weapon Type</mat-label>

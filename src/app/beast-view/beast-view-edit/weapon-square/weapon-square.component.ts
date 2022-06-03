@@ -24,8 +24,7 @@ export class WeaponSquareComponent implements OnInit {
 
   ngOnInit() {
     this.displayDamage()
-    this.displayedDR = this.displayDR(this.square.newDR, 'armor')
-    this.displayedShieldDR = this.displayDR(this.square.newShieldDr, 'shield')
+    this.updateBothDisplayDRs()
   }
 
   captureInput = (event, primary, secondary) => {
@@ -58,9 +57,15 @@ export class WeaponSquareComponent implements OnInit {
     if (type === 'weapontype' && !this.square.ranges) {
       this.square.ranges = { increment: 0 }
     }
-    this.square[type] = event.value
+    this.square[type] = event.value === 'None' ? null : event.value
     if (type === 'weapontype' || type === 'selectedweapon') {
       this.displayDamage()
+    }
+    if (type === 'selectedarmor') {
+      this.displayedDR = this.displayDR(this.square.newDR, 'armor')
+    }
+    if (type === 'selectedshield') {
+      this.displayedShieldDR = this.displayDR(this.square.newShieldDr, 'shield')
     }
   }
 
@@ -241,31 +246,78 @@ export class WeaponSquareComponent implements OnInit {
     this.square.newDamage[type] = value
   }
 
-  evaluate = (one, two) => {
-    if (typeof(two) === 'string' && two.includes('+')) {
-      two = +two.replace('/+/gi', '')
+  evaluateDefense = () => {
+    let defMod = this.square.def
+    if (typeof (defMod) === 'string' && defMod.includes('+')) {
+      defMod = +defMod.replace('/+/gi', '')
     }
-    return eval(one + +two)
+
+    let defBase = this.selectedRole.def
+    if (this.square.selectedshield) {
+      defBase += this.square.shieldInfo.def
+    }
+    if (this.square.selectedarmor) {
+      defBase += this.square.armorInfo.def
+    }
+    return defBase + +defMod
+  }
+
+  updateBothDisplayDRs = () => {
+    this.displayedDR = this.displayDR(this.square.newDR, 'armor')
+    this.displayedShieldDR = this.displayDR(this.square.newShieldDr, 'shield')
   }
 
   displayDR = (drObject, type) => {
     let { flat, slash } = drObject
-      , drString = ''
+
+    let strightString = ''
     if (flat && slash) {
-      drString = `${slash}/d+${flat}`
+      strightString = `${slash}/d+${flat}`
     } else if (flat && !slash) {
-      drString = `${flat}`
+      strightString = `${flat}`
     } else if (!flat && slash) {
-      drString = `${slash}/d`
+      strightString = `${slash}/d`
     }
 
     if (type === 'armor') {
-      this.square.dr = drString
+      this.square.dr = strightString
     } else {
-      this.square.shield_dr = drString
+      this.square.shield_dr = strightString
     }
 
-    return drString
+    
+    let equipmentModFlat = 0
+    let equipmentModSlash = 0
+
+    if (type === 'armor' && this.square.selectedarmor) {
+      equipmentModFlat = this.square.armorInfo.dr.flat
+      equipmentModSlash = this.square.armorInfo.dr.slash
+    } else if (type === 'shield' && this.square.selectedshield) {
+      equipmentModFlat = this.square.shieldInfo.dr.flat
+      equipmentModSlash = this.square.shieldInfo.dr.slash
+    } else if (this.selectedRoleId) {
+      if (type === 'armor') {
+        equipmentModFlat = this.selectedRole.dr.flat
+        equipmentModSlash = this.selectedRole.dr.slash
+      } else if (type === 'shield') {
+        equipmentModFlat = this.selectedRole.shield_dr.flat
+        equipmentModSlash = this.selectedRole.shield_dr.slash
+      }
+    }
+
+    let adjustedFlat = flat + equipmentModFlat
+    let adjustedSlash = slash + equipmentModSlash
+    let drString = ''
+
+    if (adjustedFlat && adjustedSlash) {
+      drString = `${adjustedSlash}/d+${adjustedFlat}`
+    } else if (adjustedFlat && !adjustedSlash) {
+      drString = `${adjustedFlat}`
+    } else if (!adjustedFlat && adjustedSlash) {
+      drString = `${adjustedSlash}/d`
+    }
+
+    return drString === '' ? '0' : drString
   }
 
   displayDamage = () => {
@@ -350,7 +402,7 @@ export class WeaponSquareComponent implements OnInit {
         }
       })
     }
-    
+
     squareDamage.dice.forEach(dice => {
       let index = dice.indexOf("d")
         , substring = dice.substring(index)
