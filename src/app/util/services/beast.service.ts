@@ -136,4 +136,8 @@ export class BeastService {
         tap(result => this.handleMessage(result))
       );
   }
+
+  getEquipment(): any {
+    return this.http.get(`${local.endpointBase}/api/equipment`)
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { int } from 'aws-sdk/clients/datapipeline';
+import { BeastService } from 'src/app/util/services/beast.service';
 
 @Component({
   selector: 'app-weapon-square',
@@ -15,16 +16,25 @@ export class WeaponSquareComponent implements OnInit {
   @Input() index: int;
   @Input() removeNewSecondaryItem: Function;
 
-  constructor() { }
+  constructor(
+    public beastService: BeastService
+  ) { }
 
   public displayedDamage = ''
   public displayedDR = ''
   public displayedShieldDR = ''
   public squareDamageArray = []
+  public equipmentLists = {weapons: [], armor: [], shields: []}
+  public equipmentObjects = {weapons: {}, armor: {}, shields: {}}
+  public showAllEquipment = false
 
   ngOnInit() {
     this.displayDamage()
     this.updateBothDisplayDRs()
+    this.beastService.getEquipment().subscribe(res => {
+      this.equipmentLists = res.lists
+      this.equipmentObjects = res.objects
+    })
   }
 
   captureInput = (event, primary, secondary) => {
@@ -58,13 +68,26 @@ export class WeaponSquareComponent implements OnInit {
       this.square.ranges = { increment: 0 }
     }
     this.square[type] = event.value === 'None' ? null : event.value
+    if (type === 'selectedweapon') {
+      this.square.weaponInfo = this.equipmentObjects.weapons[this.square[type]]
+      if (this.square.weaponInfo.range) {
+        this.square.weapontype = 'r'
+        if (!this.square.ranges) {
+          this.square.ranges = { increment: 0 }
+        }
+      } else {
+        this.square.weapontype = 'm'
+      }
+    }
     if (type === 'weapontype' || type === 'selectedweapon') {
       this.displayDamage()
     }
     if (type === 'selectedarmor') {
+      this.square.armorInfo = this.equipmentObjects.armor[this.square[type]]
       this.displayedDR = this.displayDR(this.square.newDR, 'armor')
     }
     if (type === 'selectedshield') {
+      this.square.shieldInfo = this.equipmentObjects.shields[this.square[type]]
       this.displayedShieldDR = this.displayDR(this.square.newShieldDr, 'shield')
     }
   }
@@ -243,7 +266,11 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   checkCheckbox = (type, value) => {
-    this.square.newDamage[type] = value
+    if (type === 'showAllEquipment') {
+      this.showAllEquipment = value
+    } else {
+      this.square.newDamage[type] = value
+    }
   }
 
   evaluateDefense = () => {

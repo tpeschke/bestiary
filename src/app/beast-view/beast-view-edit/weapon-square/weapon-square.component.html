@@ -18,11 +18,11 @@
       </div>
       <div class="measure">
         <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : selectedRole.measure) + square.measure}}</p>
-        <p *ngIf="square.weapontype === 'r'">{{selectedRole.ranges.increment + square.ranges.increment}}ri <i
+        <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment}}ri <i
             class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
-            Between 5 ft and {{selectedRole.ranges.increment + square.ranges.increment}} ft, -0 atk penalty. 
-            Between {{selectedRole.ranges.increment + square.ranges.increment + 1}} ft and {{(selectedRole.ranges.increment + square.ranges.increment) * 2}} ft, -2 atk penalty.
-            Between {{((selectedRole.ranges.increment + square.ranges.increment) * 2) + 1}} ft and {{(selectedRole.ranges.increment + square.ranges.increment) * 3}} ft, -4 atk penalty.
+            Between 5 ft and {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment}} ft, -0 atk penalty. 
+            Between {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment) * 2}} ft, -2 atk penalty.
+            Between {{(((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment) * 2) + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment) * 3}} ft, -4 atk penalty.
             and so on." matTooltipClass="my-tooltip"></i></p>
       </div>
       <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}</p>
@@ -30,13 +30,13 @@
       <p class="parry">{{(square.selectedshield ? square.shieldInfo.parry : square.selectedweapon ? square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
     </div>
     <mat-form-field>
-      <mat-label>Weapon Type</mat-label>
-      <mat-select [value]="square.weapontype" (selectionChange)="captureSelect($event, 'weapontype')">
+      <mat-label>Range Type</mat-label>
+      <mat-select [disabled]="square.selectedweapon" [value]="square.weapontype" (selectionChange)="captureSelect($event, 'weapontype')">
         <mat-option value="m">
-          m
+          Melee
         </mat-option>
         <mat-option value="r">
-          r
+          Range
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -45,7 +45,7 @@
     <div>
       <h3>Selected Weapons, Armor, and Shields</h3>
       <div class="divider white"></div>
-      <div>
+      <div *ngIf="!showAllEquipment">
         <mat-form-field>
           <mat-label>Weapon Choices</mat-label>
           <mat-select [value]="square.selectedweapon" (selectionChange)="captureSelect($event, 'selectedweapon')">
@@ -80,6 +80,45 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div *ngIf="showAllEquipment">
+        <mat-form-field>
+          <mat-label>Weapon Choices</mat-label>
+          <mat-select [value]="square.selectedweapon" (selectionChange)="captureSelect($event, 'selectedweapon')">
+            <mat-option>None</mat-option>
+            <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
+              <mat-option *ngFor="let item of group.items" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Armor Choices</mat-label>
+          <mat-select [value]="square.selectedarmor" (selectionChange)="captureSelect($event, 'selectedarmor')">
+            <mat-option>None</mat-option>
+            <mat-optgroup *ngFor="let group of equipmentLists.armor" [label]="group.label">
+              <mat-option *ngFor="let item of group.items" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Shield Choices</mat-label>
+          <mat-select [value]="square.selectedshield" (selectionChange)="captureSelect($event, 'selectedshield')">
+            <mat-option>None</mat-option>
+            <mat-optgroup *ngFor="let group of equipmentLists.shields" [label]="group.label">
+              <mat-option *ngFor="let item of group.items" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <section>
+        <mat-checkbox [checked]="showAllEquipment" (change)="checkCheckbox('showAllEquipment', $event.checked)">Show me all weapons/armor/shields</mat-checkbox>
+      </section>
+      <br>
     </div>
     <div class="square-combat-shell">
       <h3>Combat Metrics</h3>
@@ -304,13 +343,13 @@
       <p class="parry">{{square.parry}}</p>
     </div>
     <mat-form-field>
-      <mat-label>Weapon Type</mat-label>
+      <mat-label>Range Type</mat-label>
       <mat-select [value]="square.weapontype" (selectionChange)="captureSelect($event, 'weapontype')">
         <mat-option value="m">
-          m
+          Melee
         </mat-option>
         <mat-option value="r">
-          r
+          Ranged
         </mat-option>
       </mat-select>
     </mat-form-field>

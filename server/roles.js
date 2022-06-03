@@ -54,7 +54,7 @@ module.exports = {
                 armor: [
                     {
                         label: 'Preferred Choices',
-                        items: ['None']
+                        items: ['None', 'Unarmed']
                     },
                     {
                         label: 'Neutral Choices',
@@ -305,7 +305,7 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Knife', 'Dagger']
+                        items: ['Knife', 'Throwing Knife', 'Dagger']
                     },
                     {
                         label: 'Neutral Choices',
@@ -365,7 +365,7 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Pishaq', 'Handaxe']
+                        items: ['Pishaq', 'Handaxe', 'Throwing Axe']
                     },
                     {
                         label: 'Not Preferred Choices',
@@ -375,7 +375,7 @@ module.exports = {
                 armor: [
                     {
                         label: 'Preferred Choices',
-                        items: ['None']
+                        items: ['None', 'Unarmed']
                     },
                     {
                         label: 'Not Preferred Choices',
@@ -444,7 +444,7 @@ module.exports = {
                     },
                     {
                         label: 'Neutral Choices',
-                        items: ['None']
+                        items: ['None', 'Unarmed']
                     }
                 ],
                 shields: []
@@ -486,7 +486,7 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Knife', 'Handaxe']
+                        items: ['Knife', 'Throwing Knife', 'Handaxe', 'Throwing Axe']
                     },
                     {
                         label: 'Neutral Choices',
@@ -500,7 +500,7 @@ module.exports = {
                 armor: [
                     {
                         label: 'Preferred Choices',
-                        items: ['None']
+                        items: ['None', 'Unarmed']
                     },
                     {
                         label: 'Neutral Choices',

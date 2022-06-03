@@ -48,8 +48,8 @@ let weaponsObj = {}
     , shieldsObj = {}
 
 module.exports = {
-    getEquipmentList(req, res) {
-        res.send({ weapons, shields, armor })
+    getAllEquipment(req, res) {
+        res.send({lists: { weapons, shields, armor }, objects: {weapons: weaponsObj, shields: shieldsObj, armor: armorObj}})
     },
     getWeapon(weaponName) {
         return weaponsObj[weaponName]
@@ -60,17 +60,14 @@ module.exports = {
     getShield(shieldName) {
         return shieldsObj[shieldName]
     },
-    getEquipmentObjects(req, res) {
-        res.send({weapons: weaponsObj, shields: shieldsObj, armor: armorObj})
-    },
     processEquipment() {
         axios.get(srdEndpoint + 'getWeapons').then(req => {
             req.data.forEach(weapon => {
                 weapon.damage = processDamage(weapon.dam, weapon.bonus)
                 if (weapon.range) {
-                    weapons[1].items.push(weapon)
+                    weapons[1].items.push(weapon.name)
                 } else {
-                    weapons[0].items.push(weapon)
+                    weapons[0].items.push(weapon.name)
                 }
                 weaponsObj[weapon.name] = weapon
             })
@@ -80,11 +77,11 @@ module.exports = {
             req.data.forEach(armorSet => {
                 armorSet.dr = processDR(armorSet.dr)
                 if (armorSet.size === 'S') {
-                    armor[0].items.push(armorSet)
+                    armor[0].items.push(armorSet.name)
                 } else if (armorSet.size === 'M') {
-                    armor[1].items.push(armorSet)
+                    armor[1].items.push(armorSet.name)
                 } else if (armorSet.size === 'L') {
-                    armor[2].items.push(armorSet)
+                    armor[2].items.push(armorSet.name)
                 }
                 armorObj[armorSet.name] = armorSet
             })
@@ -94,11 +91,11 @@ module.exports = {
             req.data.forEach(shield => {
                 shield.dr = processDR(shield.dr)
                 if (shield.size === 'S') {
-                    shields[0].items.push(shield)
+                    shields[0].items.push(shield.name)
                 } else if (shield.size === 'M') {
-                    shields[1].items.push(shield)
+                    shields[1].items.push(shield.name)
                 } else if (shield.size === 'L') {
-                    shields[2].items.push(shield)
+                    shields[2].items.push(shield.name)
                 }
                 shieldsObj[shield.name] = shield
             })

@@ -111,6 +111,7 @@ function ownerAuth(req, res, next) {
 }
 
 app.get('/api/obstacles/isValid/:name', obstCtrl.isValid)
+app.get('/api/equipment', equipmentCtrl.getAllEquipment)
 
 app.patch('/api/beasts/edit', ownerAuth, ctrl.editBeast)
 
