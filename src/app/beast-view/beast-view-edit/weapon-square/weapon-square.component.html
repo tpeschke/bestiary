@@ -1,5 +1,8 @@
 <h3>
-  <mat-form-field>
+  <mat-form-field *ngIf="selectedRole.spd">
+    <input placeholder="Weapon Name (if blank, it will appears as '{{displayName()}}')" matInput [value]="square.weapon" (change)="captureInput($event, 'weapon')">
+  </mat-form-field>
+  <mat-form-field *ngIf="!selectedRole.spd">
     <input placeholder="Weapon Name" matInput [value]="square.weapon" (change)="captureInput($event, 'weapon')">
   </mat-form-field>
 </h3>

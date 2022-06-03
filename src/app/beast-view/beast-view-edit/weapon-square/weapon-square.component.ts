@@ -70,7 +70,7 @@ export class WeaponSquareComponent implements OnInit {
     this.square[type] = event.value === 'None' ? null : event.value
     if (type === 'selectedweapon') {
       this.square.weaponInfo = this.equipmentObjects.weapons[this.square[type]]
-      if (this.square.weaponInfo.range) {
+      if (this.square.weaponInfo && this.square.weaponInfo.range) {
         this.square.weapontype = 'r'
         if (!this.square.ranges) {
           this.square.ranges = { increment: 0 }
@@ -571,4 +571,28 @@ export class WeaponSquareComponent implements OnInit {
     this.square.damage = squareDamageString
     this.displayedDamage = diceString + (this.square.newDamage.hasSpecialAndDamage ? '*' : '')
   }
+
+  displayName = () => {
+    let {selectedweapon, selectedarmor, selectedshield} = this.square
+
+    if (selectedweapon && selectedarmor && selectedshield) {
+      return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
+    } else if (selectedweapon && selectedarmor && !selectedshield) {
+      return `${selectedweapon} & ${selectedarmor}`
+    } else if (selectedweapon && !selectedarmor && selectedshield) {
+      return `${selectedweapon} & ${selectedshield}`
+    } else if (selectedweapon && !selectedarmor && !selectedshield) {
+      return `${selectedweapon}`
+    } else if (!selectedweapon && selectedarmor && selectedshield) {
+      return `${selectedarmor}, & ${selectedshield}`
+    } else if (!selectedweapon && selectedarmor && !selectedshield) {
+      return `${selectedarmor}`
+    } else if (!selectedweapon && !selectedarmor && selectedshield) {
+      return `${selectedshield}`
+    } else {
+      return ' '
+    }
+  }
+
+
 }

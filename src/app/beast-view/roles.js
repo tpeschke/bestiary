@@ -54,7 +54,7 @@ export default {
                 armor: [
                     {
                         label: 'Preferred Choice',
-                        items: ['None', 'Unarmed']
+                        items: ['None']
                     },
                     {
                         label: 'Neutral Choice',
@@ -375,7 +375,7 @@ export default {
                 armor: [
                     {
                         label: 'Preferred Choice',
-                        items: ['None', 'Unarmed']
+                        items: ['None']
                     },
                     {
                         label: 'Not Preferred Choice',
@@ -444,7 +444,7 @@ export default {
                     },
                     {
                         label: 'Neutral Choice',
-                        items: ['None', 'Unarmed']
+                        items: ['None']
                     }
                 ],
                 shields: []
@@ -500,7 +500,7 @@ export default {
                 armor: [
                     {
                         label: 'Preferred Choice',
-                        items: ['None', 'Unarmed']
+                        items: ['None']
                     },
                     {
                         label: 'Neutral Choice',
