@@ -594,5 +594,4 @@ export class WeaponSquareComponent implements OnInit {
     }
   }
 
-
 }

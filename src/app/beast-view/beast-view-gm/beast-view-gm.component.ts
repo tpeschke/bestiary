@@ -40,7 +40,7 @@ export class BeastViewGmComponent implements OnInit {
   public selectedRoleId = null;
   public primaryTables = primaryTables;
   public secondaryTables = secondaryTables
-  public selectedRole = null
+  public selectedRole: any = {}
   public combatRolesInfo = roles.combatRoles.primary
 
   ngOnInit() {
@@ -376,16 +376,16 @@ export class BeastViewGmComponent implements OnInit {
     if (event.value) {
       this.selectedRoleId = event.value
       if (this.beast.roleInfo[this.selectedRoleId].role) {
-        this.selectedRole = this.beast.roleInfo[this.selectedRoleId.role]
+        this.selectedRole = this.combatRolesInfo[this.beast.roleInfo[this.selectedRoleId].role]
       } else {
-        this.selectedRole = null
+        this.selectedRole = {}
       }
     } else {
       this.selectedRoleId = null
       if (this.beast.role) {
         this.selectedRole = this.combatRolesInfo[this.beast.role]
       } else {
-        this.selectedRole = null
+        this.selectedRole = {}
       }
     }
   }
@@ -456,35 +456,62 @@ export class BeastViewGmComponent implements OnInit {
         percentage = .75
         break;
       default:
-        return fatigue
+        percentage = .75
     }
 
     return (vitality * percentage).toFixed(0)
   }
 
-  evaluate = (one, two) => {
-    if (two >= 0 && !two.includes('+')) {
-      two = `+${two}`
-    }
-    return eval(one + two)
-  }
-
-  displayDR = (drObject, type) => {
+  displayDR = (drObject, type, square) => {
     let { flat, slash } = drObject
-      , drString = ''
-    if (flat && slash) {
-      drString = `${slash}/d+${flat}`
-    } else if (flat && !slash) {
-      drString = `${flat}`
-    } else if (!flat && slash) {
-      drString = `${slash}/d`
+    
+    let equipmentModFlat = 0
+    let equipmentModSlash = 0
+
+    if (type === 'armor' && square.selectedarmor) {
+      equipmentModFlat = square.armorInfo.dr.flat
+      equipmentModSlash = square.armorInfo.dr.slash
+    } else if (type === 'shield' && square.selectedshield) {
+      equipmentModFlat = square.shieldInfo.dr.flat
+      equipmentModSlash = square.shieldInfo.dr.slash
+    } else if (this.selectedRoleId) {
+      if (type === 'armor') {
+        equipmentModFlat = this.selectedRole.dr.flat
+        equipmentModSlash = this.selectedRole.dr.slash
+      } else if (type === 'shield') {
+        equipmentModFlat = this.selectedRole.shield_dr.flat
+        equipmentModSlash = this.selectedRole.shield_dr.slash
+      }
     }
 
-    return drString
+    let adjustedFlat = flat + equipmentModFlat
+    let adjustedSlash = slash + equipmentModSlash
+    let drString = ''
+
+    if (adjustedFlat && adjustedSlash) {
+      drString = `${adjustedSlash}/d+${adjustedFlat}`
+    } else if (adjustedFlat && !adjustedSlash) {
+      drString = `${adjustedFlat}`
+    } else if (!adjustedFlat && adjustedSlash) {
+      drString = `${adjustedSlash}/d`
+    }
+
+    return drString === '' ? '0' : drString
   }
   
-  displayDamage = (squareDamage, weapontype) => {
-    let roleDamage = weapontype === 'm' ? this.selectedRole.damage : this.selectedRole.rangedDamage
+  displayDamage = (square) => {
+    let roleDamage = null
+    if (!square.selectedweapon) {
+      if (square.weapontype === 'm') {
+        roleDamage = this.selectedRole.damage
+      } else {
+        roleDamage = this.selectedRole.rangedDamage
+      }
+    } else {
+      roleDamage = square.weaponInfo.damage
+    }
+
+    let squareDamage = square.newDamage
 
     let diceObject = {
       d3s: 0,
@@ -597,6 +624,7 @@ export class BeastViewGmComponent implements OnInit {
     let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
 
     let diceString = ''
+
     if (d3s > 0) {
       diceString += `${d3s}d3!`
     }
@@ -630,6 +658,44 @@ export class BeastViewGmComponent implements OnInit {
       diceString += ` ${modifier}`
     }
 
-    return diceString
+    return diceString + (square.hasSpecialAndDamage ? '*' : '')
+  }
+
+  displayName = (square) => {
+    let {selectedweapon, selectedarmor, selectedshield} = square
+
+    if (selectedweapon && selectedarmor && selectedshield) {
+      return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
+    } else if (selectedweapon && selectedarmor && !selectedshield) {
+      return `${selectedweapon} & ${selectedarmor}`
+    } else if (selectedweapon && !selectedarmor && selectedshield) {
+      return `${selectedweapon} & ${selectedshield}`
+    } else if (selectedweapon && !selectedarmor && !selectedshield) {
+      return `${selectedweapon}`
+    } else if (!selectedweapon && selectedarmor && selectedshield) {
+      return `${selectedarmor}, & ${selectedshield}`
+    } else if (!selectedweapon && selectedarmor && !selectedshield) {
+      return `${selectedarmor}`
+    } else if (!selectedweapon && !selectedarmor && selectedshield) {
+      return `${selectedshield}`
+    } else {
+      return ' '
+    }
+  }
+
+  evaluateDefense = (square) => {
+    let defMod = square.def
+    if (typeof (defMod) === 'string' && defMod.includes('+')) {
+      defMod = +defMod.replace('/+/gi', '')
+    }
+
+    let defBase = this.selectedRole.def
+    if (square.selectedshield) {
+      defBase += square.shieldInfo.def
+    }
+    if (square.selectedarmor) {
+      defBase += square.armorInfo.def
+    }
+    return defBase + +defMod
   }
 }

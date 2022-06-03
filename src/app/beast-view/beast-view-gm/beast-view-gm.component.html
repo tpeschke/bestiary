@@ -108,12 +108,10 @@
         <h2>Weapons</h2>
         <div class="divider"></div>
         <div *ngFor="let square of beast.combat">
-          <div
-            *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueCombat ? square.roleid === null : selectedRoleId === square.roleid">
-            <div *ngIf="!selectedRole">
+          <div *ngIf="selectedRoleId === square.roleid">
+            <div *ngIf="!selectedRole.spd">
               <div class="combat-square">
-                <h3 class="weaponName">{{square.weapon | titlecase}}</h3>
-
+                <h3 class="weaponName">{{square.weapon === '' ? displayName(square) : square.weapon | titlecase}}</h3>
                 <div class="square-shell">
                   <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <p class="spd">{{square.spd}}</p>
@@ -129,50 +127,53 @@
                     <p *ngIf="square.weapontype !== 'r'">{{square.measure}}</p>
                     <p *ngIf="square.weapontype === 'r'">{{square.ranges.increment}}ri <i
                         class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
-                        Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
-                        Between {{square.ranges.increment + 1}} ft and {{square.ranges.increment * 2}} ft, -2 atk penalty.
-                        Between {{(square.ranges.increment * 2) + 1}} ft and {{square.ranges.increment * 3}} ft, -4 atk penalty.
-                        and so on." matTooltipClass="my-tooltip"></i></p>
+                          Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
+                          Between {{square.ranges.increment + 1}} ft and {{square.ranges.increment * 2}} ft, -2 atk penalty.
+                          Between {{(square.ranges.increment * 2) + 1}} ft and {{square.ranges.increment * 3}} ft, -4 atk penalty.
+                          and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
-                  <p class="damage">{{square.damage}}</p>
+                  <p class="damage">{{square.damage !== 'null' ? square.damage : ''}} </p>
                   <p class="parry">{{square.parry}}</p>
                 </div>
               </div>
             </div>
-            <div *ngIf="selectedRole">
-              <div class="combat-square">
-                <h3 class="weaponName">{{square.weapon | titlecase}}</h3>
 
+            <div *ngIf="selectedRole.spd">
+              <div class="combat-square">
+                <h3 class="weaponName">{{square.weapon === '' ? displayName(square) : square.weapon | titlecase}}</h3>
                 <div class="square-shell">
                   <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
-                  <p class="spd">{{selectedRole.spd + square.spd}}</p>
+                  <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd) +
+                    (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
                   <p class="atk">{{selectedRole.atk + square.atk}}</p>
-                  <p class="init">{{selectedRole.init + square.init}}</p>
-                  <p class="def">{{evaluate(selectedRole.def, square.def)}}</p>
+                  <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init) + square.init}}
+                  </p>
+                  <p class="def">{{evaluateDefense(square)}}</p>
                   <p class="fatigue">{{ convertFatigue(square.fatigue) }}</p>
                   <div class="dr">
-                    <p>{{displayDR(square.newDR, 'armor')}}</p>
-                    <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>
-                      {{displayDR(square.newShieldDr, 'shield')}}</p>
+                    <p>{{displayDR(square.newDR, 'armor', square)}}</p>
+                    <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " " || square.selectedshield'>
+                      {{displayDR(square.newShieldDr, 'shield', square)}}</p>
                   </div>
                   <div class="measure">
-                    <p *ngIf="square.weapontype !== 'r'">{{selectedRole.measure + square.measure}}</p>
-                    <p *ngIf="square.weapontype === 'r'">{{selectedRole.ranges.increment + square.ranges.increment}}ri
-                      <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
-                        Between 5 ft and {{selectedRole.ranges.increment + square.ranges.increment}} ft, -0 atk penalty. 
-                        Between {{selectedRole.ranges.increment + square.ranges.increment + 1}} ft and {{(selectedRole.ranges.increment + square.ranges.increment) * 2}} ft, -2 atk penalty.
-                        Between {{((selectedRole.ranges.increment + square.ranges.increment) * 2) + 1}} ft and {{(selectedRole.ranges.increment + square.ranges.increment) * 3}} ft, -4 atk penalty.
-                        and so on." matTooltipClass="my-tooltip"></i>
-                    </p>
+                    <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
+                      selectedRole.measure) + square.measure}}</p>
+                    <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range :
+                      selectedRole.ranges.increment) + square.ranges.increment}}ri <i
+                        class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
+                        Between 5 ft and {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment}} ft, -0 atk penalty. 
+                        Between {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment) * 2}} ft, -2 atk penalty.
+                        Between {{(((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment) * 2) + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment) * 3}} ft, -4 atk penalty.
+                        and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
-                  <p *ngIf="!square.newDamage.isSpecial" class="damage">
-                    {{displayDamage(square.newDamage, square.weapontype)}}{{square.newDamage.hasSpecialAndDamage ?
-                    '*' : ''}}</p>
+                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p class="parry">{{selectedRole.parry + square.parry}}</p>
+                  <p class="parry">{{(square.selectedshield ? square.shieldInfo.parry : square.selectedweapon ?
+                    square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -263,22 +264,21 @@
         </div>
         <div class="flex-row-opposite">
           <h3>Stress Threshold</h3>
-          <p
-            *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0">
+          <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0">
             {{beast.roleInfo[selectedRoleId].stress}}</p>
-          <p *ngIf="!selectedRoleId && beast.stress !== 0">{{beast.stress}}</p>
-          <p *ngIf="beast.stress === 0 || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress)">N/A</p>
+          <p *ngIf="!selectedRoleId && beast.stress !== 0 || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress)">{{beast.stress}}</p>
+          <p *ngIf="beast.stress === 0 || (selectedRoleId && beast.roleInfo[selectedRoleId].stress === 0)">N/A</p>
         </div>
         <div
-          *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || !selectedRoleId && beast.stress !== 0"
+          *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
           class="rolled-stats-shell">
           <mat-form-field>
             <input matInput>
           </mat-form-field>
-          <p> / ({{convertPanic()}}) / {{selectedRoleId ? beast.roleInfo[selectedRoleId].stress : beast.stress}}</p>
+          <p> / ({{convertPanic()}}) / {{selectedRoleId && beast.roleInfo[selectedRoleId].stress ? beast.roleInfo[selectedRoleId].stress : beast.stress}}</p>
         </div>
         <div
-          *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || !selectedRoleId && beast.stress !== 0"
+          *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
           class="flex-row-opposite">
           <h3>Panic</h3>
           <p>{{(selectedRoleId && beast.roleInfo[selectedRoleId].panic) ? beast.roleInfo[selectedRoleId].panic :
