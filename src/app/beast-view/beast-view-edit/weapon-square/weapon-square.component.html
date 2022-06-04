@@ -11,7 +11,7 @@
     <div class="square-shell">
       <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
       <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd) + (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
-      <p class="atk">{{selectedRole.atk + square.atk}}</p>
+      <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk : selectedRole.rangedAtk) + square.atk}}</p>
       <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init) + square.init}}</p>
       <p class="def">{{evaluateDefense()}}</p>
       <p class="fatigue">{{ square.fatigue }}</p>

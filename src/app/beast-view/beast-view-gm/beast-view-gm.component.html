@@ -145,7 +145,7 @@
                   <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd) +
                     (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
-                  <p class="atk">{{selectedRole.atk + square.atk}}</p>
+                  <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk : selectedRole.rangedAtk) + square.atk}}</p>
                   <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init) + square.init}}
                   </p>
                   <p class="def">{{evaluateDefense(square)}}</p>
@@ -542,7 +542,7 @@
       <div class="divider"></div>
       <div class="box-padding">
         <div class="flex-row-opposite">
-          <h3>Combat Value</h3>
+          <h3>Combat Rating</h3>
           <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints}}</p>
         </div>
         <div class="flex-row-opposite" *ngIf="beast.patreon >= 20">

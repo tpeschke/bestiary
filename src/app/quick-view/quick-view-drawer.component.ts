@@ -87,15 +87,26 @@ export class QuickViewDrawerComponent implements OnInit {
       case 'C':
         percentage = .75
         break;
-      default: 
-        return fatigue
+      default:
+        percentage = .75
     }
 
     return (vitality * percentage).toFixed(0)
   }
 
-  displayDamage = (squareDamage, weapontype, roleInfo) => {
-    let roleDamage = weapontype === 'm' ? roleInfo.damage : roleInfo.rangedDamage
+  displayDamage = (square, roleinfo) => {
+    let roleDamage = null
+    if (!square.selectedweapon) {
+      if (square.weapontype === 'm') {
+        roleDamage = roleinfo.damage
+      } else {
+        roleDamage = roleinfo.rangedDamage
+      }
+    } else {
+      roleDamage = square.weaponInfo.damage
+    }
+
+    let squareDamage = square.newDamage
 
     let diceObject = {
       d3s: 0,
@@ -208,6 +219,7 @@ export class QuickViewDrawerComponent implements OnInit {
     let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
 
     let diceString = ''
+
     if (d3s > 0) {
       diceString += `${d3s}d3!`
     }
@@ -241,28 +253,82 @@ export class QuickViewDrawerComponent implements OnInit {
       diceString += ` ${modifier}`
     }
 
-    return diceString
-  }
-  
-  evaluate = (one, two) => {
-    if (two >= 0 && !two.includes('+')) {
-      two = `+${two}`
-    }
-    return eval(one + two)
+    return diceString + (square.hasSpecialAndDamage ? '*' : '')
   }
 
-  displayDR = (drObject, type) => {
+  displayDR = (drObject, type, square, roleinfo) => {
     let { flat, slash } = drObject
-      , drString = ''
-    if (flat && slash) {
-      drString = `${slash}/d+${flat}`
-    } else if (flat && !slash) {
-      drString = `${flat}`
-    } else if (!flat && slash) {
-      drString = `${slash}/d`
+
+    let equipmentModFlat = 0
+    let equipmentModSlash = 0
+
+    if (type === 'armor' && square.selectedarmor) {
+      equipmentModFlat = square.armorInfo.dr.flat
+      equipmentModSlash = square.armorInfo.dr.slash
+    } else if (type === 'shield' && square.selectedshield) {
+      equipmentModFlat = square.shieldInfo.dr.flat
+      equipmentModSlash = square.shieldInfo.dr.slash
+    } else if (roleinfo) {
+      if (type === 'armor') {
+        equipmentModFlat = roleinfo.dr.flat
+        equipmentModSlash = roleinfo.dr.slash
+      } else if (type === 'shield') {
+        equipmentModFlat = roleinfo.shield_dr.flat
+        equipmentModSlash = roleinfo.shield_dr.slash
+      }
     }
 
-    return drString
+    let adjustedFlat = flat + equipmentModFlat
+    let adjustedSlash = slash + equipmentModSlash
+    let drString = ''
+
+    if (adjustedFlat && adjustedSlash) {
+      drString = `${adjustedSlash}/d+${adjustedFlat}`
+    } else if (adjustedFlat && !adjustedSlash) {
+      drString = `${adjustedFlat}`
+    } else if (!adjustedFlat && adjustedSlash) {
+      drString = `${adjustedSlash}/d`
+    }
+
+    return drString === '' ? '0' : drString
+  }
+
+  displayName = (square) => {
+    let { selectedweapon, selectedarmor, selectedshield } = square
+
+    if (selectedweapon && selectedarmor && selectedshield) {
+      return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
+    } else if (selectedweapon && selectedarmor && !selectedshield) {
+      return `${selectedweapon} & ${selectedarmor}`
+    } else if (selectedweapon && !selectedarmor && selectedshield) {
+      return `${selectedweapon} & ${selectedshield}`
+    } else if (selectedweapon && !selectedarmor && !selectedshield) {
+      return `${selectedweapon}`
+    } else if (!selectedweapon && selectedarmor && selectedshield) {
+      return `${selectedarmor}, & ${selectedshield}`
+    } else if (!selectedweapon && selectedarmor && !selectedshield) {
+      return `${selectedarmor}`
+    } else if (!selectedweapon && !selectedarmor && selectedshield) {
+      return `${selectedshield}`
+    } else {
+      return ' '
+    }
+  }
+
+  evaluateDefense = (square, roleinfo) => {
+    let defMod = square.def
+    if (typeof (defMod) === 'string' && defMod.includes('+')) {
+      defMod = +defMod.replace('/+/gi', '')
+    }
+
+    let defBase = roleinfo.def
+    if (square.selectedshield) {
+      defBase += square.shieldInfo.def
+    }
+    if (square.selectedarmor) {
+      defBase += square.armorInfo.def
+    }
+    return defBase + +defMod
   }
 
 }

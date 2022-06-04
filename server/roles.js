@@ -32,7 +32,7 @@ module.exports = {
                     increment: 100
                 },
                 stressThreshold: 30,
-                Panic: 25,
+                panic: 25,
                 caution: 10,
                 init: 0,
                 combatpointsmelee: 0,
@@ -97,7 +97,7 @@ module.exports = {
                     increment: 0
                 },
                 stressThreshold: 30,
-                Panic: 25,
+                panic: 25,
                 caution: 20,
                 init: 0,
                 weapons: [
@@ -157,7 +157,7 @@ module.exports = {
                     increment: 0
                 },
                 stressThreshold: 40,
-                Panic: 50,
+                panic: 50,
                 caution: 30,
                 init: 0,
                 weapons: [
@@ -234,7 +234,7 @@ module.exports = {
                     increment: 0
                 },
                 stressThreshold: 40,
-                Panic: 50,
+                panic: 50,
                 caution: 20,
                 init: 0,
                 weapons: [
@@ -299,7 +299,7 @@ module.exports = {
                     increment: 0
                 },
                 stressThreshold: 30,
-                Panic: 25,
+                panic: 25,
                 caution: 10,
                 init: 0,
                 weapons: [
@@ -359,7 +359,7 @@ module.exports = {
                     increment: 15
                 },
                 stressThreshold: 15,
-                Panic: 1,
+                panic: 1,
                 caution: 10,
                 init: 0,
                 weapons: [
@@ -420,7 +420,7 @@ module.exports = {
                     increment: 0
                 },
                 stressThreshold: 30,
-                Panic: 25,
+                panic: 25,
                 caution: 20,
                 init: 0,
                 weapons: [
@@ -480,7 +480,7 @@ module.exports = {
                     increment: 15
                 },
                 stressThreshold: 30,
-                Panic: 25,
+                panic: 25,
                 caution: 20,
                 init: 0,
                 weapons: [

@@ -1,4 +1,5 @@
-let roles = require('./roles')
+const roles = require('./roles')
+  , equipmentCtrl = require('./equipmentController')
 
 let rollDice = function (diceString) {
   if (typeof (diceString) === 'number') {
@@ -103,24 +104,20 @@ let controllerObj = {
   getFromBestiary(req, res) {
     const db = req.app.get('db')
     db.get.beast_by_hash(req.params.hash).then(result => {
-      let { name, vitality, panic, stressthreshold, roletype, baseroletype, rolename, rolevitality, id: beastid, roleid, caution, rolepanic, rolestressthreshold, rolecaution, hash } = result[0]
+      let { name, vitality, panic, stressthreshold, roletype, baseroletype, rolename, rolevitality, id: beastid, roleid, caution, rolepanic, rolestressthreshold, rolecaution, mainhash, rolehash } = result[0]
 
-      // vitality
-      // stressthreshold
-      // combat
-      // name
-      // caution
-      // panic
-
-      let beast = { name, vitality, panic, stressthreshold, hash, caution, beastid, roleid, combat: [] }
-      let isARole = result[0].roleid && result.length <= 1
+      let beast = { name, vitality, panic, stressthreshold, hash: req.params.hash, caution, beastid, roleid, combat: [] }
+      let isARole = rolehash === req.params.hash
+      let roleToUse = ''
 
       if (baseroletype) {
-        beast.name = name + ` [${baseroletype}]`
+        roleToUse = baseroletype
+        beast.name = name + ` [${roleToUse}]`
         beast.role = baseroletype
       }
 
       if (isARole) {
+        roleToUse = roletype
         if (rolename && rolename.toUpperCase() !== "NONE") {
           beast.name = name + " " + rolename
         }
@@ -158,9 +155,66 @@ let controllerObj = {
           let newWeaponInfo = {
             newDR: {}, newShieldDr: {}, newDR: {}
           }
-          newWeaponInfo.dr = processDR(weapon.dr, weapon.flat, weapon.slash)
-          newWeaponInfo.shield_dr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash)
-          newWeaponInfo.damage = displayDamage(processDamage(weapon.damage, weapon.isspecial, weapon.hasspecialanddamage), weapon.weapontype)
+          weapon.weapon = displayName(weapon)
+
+          !weapon.fatigue ? weapon.fatigue = 'C' : null
+
+          let baseSpd = 0
+          let baseParry = 0
+          let baseMeasure = 0
+          if (roleToUse) {
+            let roleInfo = roles.combatRoles.primary[roleToUse]
+
+            if (weapon.weapontype === 'm') {
+              weapon.atk += roleInfo.atk
+            } else {
+              weapon.atk += roleInfo.rangedAtk
+            }
+
+            weapon.def = roleInfo.def + +weapon.def 
+            weapon.parry += roleInfo.parry
+            weapon.init += roleInfo.init
+            
+            baseMeasure = roleInfo.measure
+            baseSpd = roleInfo.spd
+          }
+
+          newWeaponInfo.dr = processDR(weapon.dr, weapon.flat, weapon.slash, 'armor', roleToUse, weapon.selectedarmor)
+          newWeaponInfo.shield_dr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash, 'shield', roleToUse, weapon.selectedshield)
+
+          weapon.damage = processDamage(weapon.damage, weapon.isspecial, weapon.hasspecialanddamage)
+          newWeaponInfo.damage = displayDamage(weapon, roleToUse)
+
+          if (weapon.selectedweapon) {
+            weaponObj = equipmentCtrl.getWeapon(weapon.selectedweapon)
+
+            baseSpd = weaponObj.rec
+            baseParry = weaponObj.parry
+
+            baseMeasure = weaponObj.measure
+          }
+
+          weapon.spd += baseSpd
+          weapon.measure += baseMeasure
+
+          if (weapon.selectedarmor) {
+            armorObj = equipmentCtrl.getArmor(weapon.selectedarmor)
+
+            weapon.def += armorObj.def
+            weapon.init += armorObj.init
+            weapon.spd += armorObj.rec
+          }
+
+          if (weapon.selectedshield) {
+            shieldObj = equipmentCtrl.getShield(weapon.selectedshield)
+          
+            baseParry = shieldObj.parry
+
+            weapon.def += shieldObj.def
+          }
+
+          weapon.parry += baseParry
+
           return { ...weapon, ...newWeaponInfo }
         })
         return result
@@ -1006,7 +1060,29 @@ async function collectComplication(db, beastId) {
   })
 }
 
-function processDR(drString, flat, slash) {
+function processDR(drString, flat, slash, type, roleToUse, gear) {
+  let role = roles.combatRoles.primary[roleToUse]
+  if (roleToUse) {
+    if (type === 'armor') {
+      flat += role.dr.flat
+      slash += role.dr.slash
+    } else if (type === 'shield') {
+      flat += role.shield_dr.flat
+      slash += role.shield_dr.slash
+    }
+  }
+
+  if (gear) {
+    let gearToUse;
+    if (type === 'armor') {
+      gearToUse = equipmentCtrl.getArmor(gear)
+    } else {
+      gearToUse = equipmentCtrl.getShield(gear)
+    }
+    flat += gearToUse.dr.flat
+    slash += gearToUse.dr.slash
+  }
+
   if (flat && slash) {
     return `${slash}/d ${flat >= 0 ? '+' : ''}${flat}`
   } else if (flat && !slash) {
@@ -1024,6 +1100,27 @@ function processDR(drString, flat, slash) {
         newDRflat = +element
       }
     })
+  }
+
+  if (roleToUse) {
+    if (type === 'armor') {
+      newDRflat += role.dr.flat
+      newDRslash += role.dr.slash
+    } else if (type === 'shield') {
+      newDRflat += role.shield_dr.flat
+      newDRslash += role.shield_dr.slash
+    }
+  }
+
+  if (gear) {
+    let gearToUse;
+    if (type === 'armor') {
+      gearToUse = equipmentCtrl.getArmor(gear)
+    } else {
+      gearToUse = equipmentCtrl.getShield(gear)
+    }
+    newDRflat += gearToUse.dr.flat
+    newDRslash += gearToUse.dr.slash
   }
 
   if (newDRflat && newDRslash) {
@@ -1072,11 +1169,23 @@ function processDamage(damageString, isSpecial, hasSpecialAndDamage) {
   return newDamage
 }
 
-function displayDamage (squareDamage, weapontype) {
-  if (squareDamage.isSpecial) {
+function displayDamage(weapon, roleToUse) {
+  if (weapon.damage.isSpecial) {
     return "*See Attack Info"
   }
-  let roleDamage = weapontype === 'm' ? roles.combatRoles.primary.damage : roles.combatRoles.primary.rangedDamage
+
+  let roleDamage = null
+  if (!weapon.selectedweapon && roleToUse) {
+    if (weapon.weapontype === 'm') {
+      roleDamage = roles.combatRoles.primary[roleToUse].damage
+    } else {
+      roleDamage = roles.combatRoles.primary[roleToUse].rangedDamage
+    }
+  } else if (weapon.selectedweapon) {
+    roleDamage = equipmentCtrl.getWeapon(weapon.selectedweapon).damage
+  }
+
+  let damage = weapon.damage
 
   let diceObject = {
     d3s: 0,
@@ -1138,7 +1247,7 @@ function displayDamage (squareDamage, weapontype) {
     })
   }
 
-  squareDamage.dice.forEach(dice => {
+  damage.dice.forEach(dice => {
     let index = dice.indexOf("d")
       , substring = dice.substring(index)
     if (substring.includes('20')) {
@@ -1211,9 +1320,9 @@ function displayDamage (squareDamage, weapontype) {
     diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
   }
 
-  let modifier = squareDamage.flat
+  let modifier = damage.flat
   if (roleDamage) {
-    modifier = roleDamage.flat + squareDamage.flat
+    modifier = roleDamage.flat + damage.flat
   }
 
   if (modifier > 0) {
@@ -1222,11 +1331,33 @@ function displayDamage (squareDamage, weapontype) {
     diceString += ` ${modifier}`
   }
 
-  if (squareDamage.hasSpecialAndDamage) {
+  if (damage.hasSpecialAndDamage) {
     diceString += '*'
   }
 
   return diceString
+}
+
+function displayName (weapon) {
+  let {selectedweapon, selectedarmor, selectedshield} = weapon
+
+  if (selectedweapon && selectedarmor && selectedshield) {
+    return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
+  } else if (selectedweapon && selectedarmor && !selectedshield) {
+    return `${selectedweapon} & ${selectedarmor}`
+  } else if (selectedweapon && !selectedarmor && selectedshield) {
+    return `${selectedweapon} & ${selectedshield}`
+  } else if (selectedweapon && !selectedarmor && !selectedshield) {
+    return `${selectedweapon}`
+  } else if (!selectedweapon && selectedarmor && selectedshield) {
+    return `${selectedarmor}, & ${selectedshield}`
+  } else if (!selectedweapon && selectedarmor && !selectedshield) {
+    return `${selectedarmor}`
+  } else if (!selectedweapon && !selectedarmor && selectedshield) {
+    return `${selectedshield}`
+  } else {
+    return weapon.weapon
+  }
 }
 
 module.exports = controllerObj
