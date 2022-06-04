@@ -377,7 +377,6 @@ export class BeastViewGmComponent implements OnInit {
       this.selectedRoleId = event.value
       if (this.beast.roleInfo[this.selectedRoleId].role) {
         this.selectedRole = this.combatRolesInfo[this.beast.roleInfo[this.selectedRoleId].role]
-        console.log(this.selectedRole)
       } else {
         this.selectedRole = {}
       }

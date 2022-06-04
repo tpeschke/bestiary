@@ -346,7 +346,11 @@ module.exports = {
           beast.combat.forEach(val => {
             if (val.weapontype === 'r') {
               finalPromise.push(db.get.combatranges(val.id).then(ranges => {
-                val.ranges = ranges[0]
+                if (ranges.length > 0) {
+                  val.ranges = ranges[0]
+                } else {
+                  val.ranges = {increment : 0}
+                }
                 return ranges
               }))
             }
