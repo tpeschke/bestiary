@@ -30,7 +30,7 @@
       </div>
       <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}</p>
       <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-      <p class="parry">{{(square.selectedshield ? square.shieldInfo.parry : square.selectedweapon ? square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
+      <p class="parry">{{(square.selectedshield ? square.shieldInfo.parry : square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
     </div>
     <mat-form-field>
       <mat-label>Range Type</mat-label>
