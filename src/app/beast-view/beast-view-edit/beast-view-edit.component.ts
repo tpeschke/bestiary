@@ -527,14 +527,16 @@ export class BeastViewEditComponent implements OnInit {
   saveChanges() {
     let id = this.route.snapshot.paramMap.get('id');
     this.beast.combat = this.beast.combat.map(weapon => {
-      weapon.damage = weapon.newDamage.dice.join(' +')
-      let modifier = weapon.newDamage.flat
-      if (modifier > 0) {
-        modifier = ` +${modifier}`
-      } else if (modifier === 0) {
-        modifier = ''
+      if (!weapon.deleted) {
+        weapon.damage = weapon.newDamage.dice.join(' +')
+        let modifier = weapon.newDamage.flat
+        if (modifier > 0) {
+          modifier = ` +${modifier}`
+        } else if (modifier === 0) {
+          modifier = ''
+        }
+        weapon.damage += modifier
       }
-      weapon.damage += modifier
       return weapon
     })
     this.beast.encounter = this.encounter
@@ -789,7 +791,7 @@ export class BeastViewEditComponent implements OnInit {
         combatpoints += (newDR.slash * 4)
         combatpoints += ((parry + newShieldDr.flat) / 2)
         combatpoints += (newShieldDr.slash * 2)
-        combatpoints += (spd * 2)
+        combatpoints += (spd * 2) * -1
         combatpoints += (measure * 2)
         combatpoints += atk
         combatpoints += newDamage.flat
@@ -861,7 +863,7 @@ export class BeastViewEditComponent implements OnInit {
             combatpoints += (newDR.slash * 4)
             combatpoints += ((parry + newShieldDr.flat) / 2)
             combatpoints += (newShieldDr.slash * 2)
-            combatpoints += (spd * 2)
+            combatpoints += (spd * 2) * -2
             combatpoints += (measure * 2)
             combatpoints += atk
             combatpoints += newDamage.flat
@@ -914,7 +916,7 @@ export class BeastViewEditComponent implements OnInit {
             combatpoints += (newDR.slash * 4)
             combatpoints += ((parry + newShieldDr.flat) / 2)
             combatpoints += (newShieldDr.slash * 2)
-            combatpoints += (spd * 2)
+            combatpoints += (spd * 2) * -1
             combatpoints += (measure * 2)
             combatpoints += atk
             combatpoints += newDamage.flat

@@ -522,5 +522,4 @@
 <!-- --------------------------------------------------------------------------------------------------- -->
 <!-- --------------------------------------------------------------------------------------------------- -->
 <!-- --------------------------------------------------------------------------------------------------- -->
-<button mat-raised-button (click)="removeNewSecondaryItem('combat', index)" color="warn">REMOVE
-  WEAPON</button>
+<button mat-raised-button (click)="removeNewSecondaryItem('combat', index)" color="warn">REMOVE {{displayName() === '' ? 'WEAPON' : displayName().toUpperCase()}}</button>

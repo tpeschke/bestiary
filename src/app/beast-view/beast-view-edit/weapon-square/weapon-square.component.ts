@@ -167,6 +167,8 @@ export class WeaponSquareComponent implements OnInit {
         valueChange = valueToCompare
         break;
       case 'spd':
+        valueChange = valueToCompare * -2
+        break;
       case 'measure':
       case 'newShieldDr, slash':
       case 'newShieldDr, flat':
