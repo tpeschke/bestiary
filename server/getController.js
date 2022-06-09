@@ -1,26 +1,64 @@
 const equipmentCtrl = require('./equipmentController')
 
+function displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
+  let nameString = ''
+  let roles = false
+
+  if (name) {
+    nameString += name
+  }
+  if (combatrole || socialrole || skillrole) {
+    nameString += ' ['
+    roles = true
+  }
+  if (combatrole) {
+    nameString += `${combatrole}`
+    if (secondarycombat) {
+      nameString += `(${secondarycombat})`
+    }
+  }
+  if (socialrole) {
+    if (nameString.length > name.length + 3) {
+      nameString += '/'
+    }
+    nameString += `${socialrole}`
+  }
+  if (skillrole) {
+    if (nameString.length > name.length + 3) {
+      nameString += '/'
+    }
+    nameString += `${skillrole}`
+  }
+
+  if (roles) {
+    nameString += ']'
+  }
+
+  return nameString
+}
+
 module.exports = {
   getQuickView(req, res) {
     let { hash } = req.params
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution } = result[0]
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution } = result[0]
       let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense }
       let isARole = result[0].roleid && result.length <= 1
 
       if (baseroletype) {
-        beast.name = name + ` [${baseroletype}]`
+        beast.name = displayName(beast.name, baseroletype, basesecondaryrole, basesocialrole, baseskillrole)
         beast.role = baseroletype
       }
 
       if (isARole) {
+        console.log(beast.name, roletype, secondaryroletype)
         if (rolename && rolename.toUpperCase() !== "NONE") {
           beast.name = name + " " + rolename
         }
         if (roletype) {
-          beast.name = beast.name + ` [${roletype}]`
+          beast.name = displayName(beast.name, roletype, secondaryroletype, socialrole, skillrole)
         }
         if (rolevitality) {
           beast.vitality = rolevitality

@@ -97,6 +97,17 @@ mat-toolbar {
     color: whitesmoke;
 }
 
+.characteristic-edit-shell {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.edit-shell-box {
+    display: flex;
+    flex-direction: column;
+}
+
 .explaination-shell {
     position: fixed;
     bottom: 0;

@@ -178,17 +178,21 @@
   </mat-toolbar>
 
   <div>
-    <div class="conflict-shell">
+    <div class="characteristic-edit-shell">
       <div *ngFor="let trait of beast.conflict.traits; let i = index">
-        <div *ngIf="!trait.deleted">
-          <h3>
+        <div *ngIf="!trait.deleted" class="conflict-shell edit-shell-box">
+          <h3 *ngIf="trait.trait !== 'Any'">
             <mat-form-field>
               <input placeholder="Trait" matInput [value]="trait.trait"
                 (change)="captureInput($event, 'conflict', i, 'traits', 'trait')">
             </mat-form-field>
           </h3>
+          <section>
+            <mat-checkbox [checked]="trait.trait === 'Any'" (change)="checkRandomizeTrait(i, $event.checked)">Give this entry a random Trait every time you reload the page</mat-checkbox>
+          </section>
+          <br>
           <mat-form-field>
-            <input placeholder="Dice Value" matInput [value]="trait.value"
+            <input placeholder="Rank" matInput [value]="trait.value"
               (change)="captureInput($event, 'conflict', i, 'traits', 'value')">
           </mat-form-field>
           <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'traits')" color="warn">REMOVE
@@ -205,9 +209,9 @@
 
     <div class="divider"></div>
 
-    <div class="conflict-shell">
+    <div class="characteristic-edit-shell">
       <div *ngFor="let devotion of beast.conflict.devotions; let i = index">
-        <div *ngIf="!devotion.deleted">
+        <div *ngIf="!devotion.deleted" class="conflict-shelledit-shell-box">
           <h3>
             <mat-form-field>
               <input placeholder="devotion" matInput [value]="devotion.trait"
@@ -215,7 +219,7 @@
             </mat-form-field>
           </h3>
           <mat-form-field>
-            <input placeholder="Dice Value" matInput [value]="devotion.value"
+            <input placeholder="Rank" matInput [value]="devotion.value"
               (change)="captureInput($event, 'conflict', i, 'devotions', 'value')">
           </mat-form-field>
           <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'devotions')" color="warn">REMOVE
@@ -233,9 +237,9 @@
 
     <div class="divider"></div>
 
-    <div class="conflict-shell">
+    <div class="characteristic-edit-shell">
       <div *ngFor="let flaw of beast.conflict.flaws; let i = index">
-        <div *ngIf="!flaw.deleted">
+        <div *ngIf="!flaw.deleted" class="conflict-shell edit-shell-box">
           <h3>
             <mat-form-field>
               <input placeholder="flaw" matInput [value]="flaw.trait"
@@ -521,7 +525,8 @@
       <br>
       <h3>Role-Specific Abilities</h3>
       <div>
-        <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack" (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
+        <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
+          (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
       </div>
     </div>
 
@@ -537,7 +542,8 @@
       <br>
       <h3>Role-Specific Abilities</h3>
       <div>
-        <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense" (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
+        <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense"
+          (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
       </div>
     </div>
 

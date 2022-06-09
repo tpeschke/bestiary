@@ -1,4 +1,46 @@
 export default {
+    socialRoles: {
+        'Striker': {
+            strengths: ['Offensive', 'Many Characteristics'],
+            weaknesses: ['Defensive', 'Weak Characteristics']
+        },
+        'Defender': {
+            strengths: ['Defensive', 'Powerful Characteristics'],
+            weaknesses: ['Offensive', 'Few Characteristics']
+        },
+        'Support': {
+            strengths: ['Buffing Others', 'Debuffing Others'],
+            weaknesses: ['Being Alone']
+        },
+        'Feinter': {
+            strengths: ['Longer Confrontations', 'Evidence', 'Using Enemids\ Characteristics Against Them'],
+            weaknesses: ['Shorter Confrontations']
+        },
+        'Fast-Talker': {
+            strengths: ['Shorter Confrontations'],
+            weaknesses: ['Longer Confrontations']
+        },
+        'Sandbagger': {
+            strengths: ['Longer Confrontations', 'Inflicting Stress'],
+            weaknesses: []
+        },
+        'Corruptor': {
+            strengths: ['Stress Threshold', 'Flexible Characteristics'],
+            weaknesses: ['Weak Characteristics']
+        },
+        'Gaslighter': {
+            strengths: ['Debuffing Others', 'Stress Threshold'],
+            weaknesses: ['Weak Characteristics', 'Few Characteristics']
+        },
+        'Enabler': {
+            strengths: ['Buffing Others', 'Using Enemids\ Characteristics Against Them'],
+            weaknesses: []
+        },
+        'Opportunist': {
+            strengths: ['Capitalzing on Weaknesses'],
+            weaknesses: []
+        },
+    },
     combatRoles: {
         primary: {
             'Artillery': {

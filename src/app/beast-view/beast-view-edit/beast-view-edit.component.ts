@@ -228,6 +228,14 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  checkRandomizeTrait = (index, checked) => {
+    if (checked) {
+      this.beast.conflict.traits[index].trait = 'Any'
+    } else {
+      this.beast.conflict.traits[index].trait = ''
+    }
+  }
+
   captureSelect(event, type, index, secondaryType) {
     if (secondaryType) {
       if (event.value === 'r' && !this.beast[type][index].ranges) {

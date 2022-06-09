@@ -81,4 +81,41 @@ export class CatalogComponent implements OnInit {
     this.isDisplayContextMenu = false;
   }
 
+  displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
+    let nameString = ''
+    let roles = false
+
+    if (name) {
+      nameString += name
+    }
+    if (combatrole || socialrole || skillrole) {
+      nameString += ' ['
+      roles = true
+    }
+    if (combatrole) {
+      nameString += `${combatrole}`
+      if (secondarycombat) {
+        nameString += `(${secondarycombat})`
+      }
+    }
+    if (socialrole) {
+      if (nameString.length > name.length + 3) {
+        nameString += '/'
+      }
+      nameString += `${socialrole}`
+    }
+    if (skillrole) {
+      if (nameString.length > name.length + 3) {
+        nameString += '/'
+      }
+      nameString += `${skillrole}`
+    }
+
+    if (roles) {
+      nameString += ']'
+    }
+
+    return nameString
+  }
+
 }

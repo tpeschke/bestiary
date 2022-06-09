@@ -1,2 +1,2 @@
-select id, hash, name, role from bbroles r
+select id, hash, name, role, secondaryrole, socialrole, skillrole from bbroles r
 where r.beastid = $1
