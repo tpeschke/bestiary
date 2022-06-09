@@ -135,4 +135,4 @@ massive(databaseCredentials).then(dbI => {
         obstCtrl.collectCache(app, 0)
         console.log(`Sing to me a sweet song of forgetfulness and Ill die on your shore ${server}`)
     })
-})
+}).catch(e => console.log('DB connection error', e))

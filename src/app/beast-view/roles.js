@@ -22,7 +22,7 @@ export default {
         },
         'Sandbagger': {
             strengths: ['Longer Confrontations', 'Inflicting Stress'],
-            weaknesses: []
+            weaknesses: ['None']
         },
         'Corruptor': {
             strengths: ['Stress Threshold', 'Flexible Characteristics'],
@@ -34,11 +34,11 @@ export default {
         },
         'Enabler': {
             strengths: ['Buffing Others', 'Using Enemids\ Characteristics Against Them'],
-            weaknesses: []
+            weaknesses: ['None']
         },
         'Opportunist': {
             strengths: ['Capitalzing on Weaknesses'],
-            weaknesses: []
+            weaknesses: ['None']
         },
     },
     combatRoles: {

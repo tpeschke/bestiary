@@ -35,10 +35,12 @@ export class BeastViewEditComponent implements OnInit {
   public lootTables = lootTables;
   public selectedRoleId = null;
   public selectedRole = {}
+  public selectedSocialRole = {}
   public newRole = {
     name: null,
     role: null,
-    secondaryrole: null
+    secondaryrole: null,
+    socialrole: null
   };
   public deletedSpellList = null;
 
@@ -82,8 +84,10 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   public combatRoles = ['Artillery', 'Brute', 'Defender', 'Fencer', 'Flanker', 'Fodder', 'Shock', 'Skirmisher']
+  public socialRoles = ['Corrupter', 'Defender', 'Enabler', 'Gaslighter', 'Fast-Talker', 'Feinter', 'Opportunist', 'Sandbagger', 'Support', 'Striker']
 
   combatRolesInfo = roles.combatRoles.primary;
+  socialRolesInfo = roles.socialRoles;
   public combatRolesSecondary = ['Captain', 'Controller', 'Solo']
 
   ngOnInit() {
@@ -96,6 +100,7 @@ export class BeastViewEditComponent implements OnInit {
         this.beast = beast
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
+          this.selectedSocialRole = this.socialRolesInfo[this.beast.role]
         }
         this.beastService.getEditEncounter(this.route.snapshot.params.templateId).subscribe(encounter => {
           this.encounter = encounter
@@ -104,6 +109,7 @@ export class BeastViewEditComponent implements OnInit {
         this.beast = beast
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
+          this.selectedSocialRole = this.socialRolesInfo[this.beast.role]
         }
         if (!this.beast.casting) {
           this.beast.casting = {
@@ -175,7 +181,9 @@ export class BeastViewEditComponent implements OnInit {
           this.beast.roleInfo[role.id].average = this.calculatorService.rollDice(role.vitality)
         }
       })
+
       this.calculateCombatPoints()
+      this.calculateSocialPoints()
       window.scrollTo({
         top: 0,
         left: 0,
@@ -203,6 +211,7 @@ export class BeastViewEditComponent implements OnInit {
 
   captureInput(event, type, index, secondaryType, thirdType) {
     if (type === 'conflict') {
+      this.getValueForPointChange(secondaryType, this.beast[type][secondaryType][index][thirdType], event.target.value)
       let newSecondaryObject = Object.assign({}, this.beast[type])
       newSecondaryObject[secondaryType] = [...newSecondaryObject[secondaryType]]
       newSecondaryObject[secondaryType][index][thirdType] = event.target.value
@@ -262,29 +271,34 @@ export class BeastViewEditComponent implements OnInit {
   getValueForPointChange = (type, oldValue, newValue) => {
     let valueToCompare = 0
     let valueChange;
-    if (type === 'panic') {
-      valueChange = this.getPanicValue(oldValue) - this.getPanicValue(newValue)
-    } else if (type === 'vitality' && !this.selectedRoleId) {
-      valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - this.averageVitality
-      valueChange = Math.ceil(valueToCompare / 10)
-    } else if (type === 'vitality' && this.selectedRoleId) {
-      valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - this.beast.roleInfo[this.selectedRoleId].average
-      valueChange = Math.ceil(valueToCompare / 10)
-    } else {
-      valueToCompare = newValue - oldValue
-
-      switch (type) {
-        case 'stress':
-        case 'caution':
-          valueChange = Math.ceil(valueToCompare / 5)
-          break
-        default:
-          valueChange = 0
-          console.log('could\'t find ' + type)
+    if (type !== 'traits' && type !== 'devotions' && type !== 'flaws') {
+      if (type === 'panic') {
+        valueChange = this.getPanicValue(oldValue) - this.getPanicValue(newValue)
+      } else if (type === 'vitality' && !this.selectedRoleId) {
+        valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - this.averageVitality
+        valueChange = Math.ceil(valueToCompare / 10)
+      } else if (type === 'vitality' && this.selectedRoleId) {
+        valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - this.beast.roleInfo[this.selectedRoleId].average
+        valueChange = Math.ceil(valueToCompare / 10)
+      } else {
+        valueToCompare = newValue - oldValue
+  
+        switch (type) {
+          case 'stress':
+          case 'caution':
+            valueChange = Math.ceil(valueToCompare / 5)
+            break
+          default:
+            valueChange = 0
+            console.log('could\'t find ' + type)
+        }
       }
+  
+      this.updateCombatPoints(valueChange);
+    } else {
+      this.updateSocialPoints(+newValue - +oldValue)
     }
 
-    this.updateCombatPoints(valueChange);
   }
 
   getPanicValue = (panicValue) => {
@@ -438,7 +452,7 @@ export class BeastViewEditComponent implements OnInit {
           flat: 0,
           slash: 0
         },
-        newShieldDr:  {
+        newShieldDr: {
           flat: 0,
           slash: 0
         },
@@ -467,7 +481,8 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type][secondType].push({
         trait: '',
         value: '',
-        type: secondType.substring(0, 1)
+        type: secondType.substring(0, 1),
+        socialroleid: this.selectedRoleId
       })
     } else if (type === 'skills') {
       this.beast[type].push({
@@ -513,6 +528,9 @@ export class BeastViewEditComponent implements OnInit {
     if (type === 'combat') {
       this.calculateCombatPoints();
     }
+    if (type === 'conflict') {
+      this.calculateSocialPoints()
+    }
   }
 
   removeChip(type, index) {
@@ -551,6 +569,7 @@ export class BeastViewEditComponent implements OnInit {
     if (this.deletedSpellList) {
       this.beast.deletedSpellList = this.deletedSpellList
     }
+    this.calculateSocialPoints()
     if (+id) {
       this.beastService.updateBeast(this.beast).subscribe(_ => this.router.navigate([`/beast/${id}/gm`]))
     } else {
@@ -627,19 +646,24 @@ export class BeastViewEditComponent implements OnInit {
       this.selectedRoleId = event.value
       if (this.beast.roleInfo[this.selectedRoleId].role) {
         this.selectedRole = this.combatRolesInfo[this.beast.roleInfo[this.selectedRoleId].role]
+        this.selectedRole = this.socialRolesInfo[this.beast.roleInfo[this.selectedRoleId].socialrole]
       } else {
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
+          this.selectedSocialRole = this.socialRolesInfo[this.beast.socialrole]
         } else {
           this.selectedRole = {}
+          this.selectedSocialRole = {}
         }
       }
     } else {
       this.selectedRoleId = null
       if (this.beast.role) {
         this.selectedRole = this.combatRolesInfo[this.beast.role]
+        this.selectedSocialRole = this.socialRolesInfo[this.beast.socialrole]
       } else {
         this.selectedRole = {}
+        this.selectedSocialRole = {}
       }
     }
   }
@@ -672,6 +696,21 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  setSocialRoleType(event) {
+    if (this.selectedRoleId) {
+      for (let i = 0; i < this.beast.roles.length; i++) {
+        if (this.selectedRoleId === this.beast.roles[i].id) {
+          this.beast.roles[i].socialrole = event.value
+          this.selectedRole = this.socialRolesInfo[event.value]
+          i = this.beast.roles.length
+        }
+      }
+    } else {
+      this.beast.socialrole = event.value
+      this.selectedRole = this.socialRolesInfo[event.value]
+    }
+  }
+
   captureNewRole(type, event) {
     if (event.target) {
       this.newRole[type] = event.target.value
@@ -681,9 +720,9 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   addNewRole() {
-    if (this.newRole.role && this.newRole.name) {
+    if ((this.newRole.role || this.newRole.socialrole) && this.newRole.name) {
       let id = this.makeId()
-      this.beast.roles.push({ name: this.newRole.name, role: this.newRole.role, id, secondaryrole: this.newRole.secondaryrole })
+      this.beast.roles.push({ id, ...this.newRole })
       this.beast.roleInfo[id] = {
         attack: null,
         caution: null,
@@ -694,6 +733,8 @@ export class BeastViewEditComponent implements OnInit {
         panic: null,
         role: this.newRole.role,
         secondaryrole: this.newRole.secondaryrole,
+        socialrole: this.newRole.socialrole,
+        socialpoints: 0,
         stress: null,
         uniqueCombat: true,
         uniqueLocationalVitality: false,
@@ -703,7 +744,8 @@ export class BeastViewEditComponent implements OnInit {
       this.newRole = {
         name: null,
         role: null,
-        secondaryrole: null
+        secondaryrole: null,
+        socialrole: null
       }
     }
   }
@@ -964,11 +1006,62 @@ export class BeastViewEditComponent implements OnInit {
     })
   }
 
+  calculateSocialPoints = () => {
+    let socialpoints = 0
+    this.beast.conflict.devotions.forEach(trait => {
+      if (!trait.socialroleid) {
+        socialpoints += +trait.value
+      }
+    })
+    this.beast.conflict.flaws.forEach(trait => {
+      if (!trait.socialroleid) {
+        socialpoints += +trait.value
+      }
+    })
+    this.beast.conflict.traits.forEach(trait => {
+      if (!trait.socialroleid) {
+        socialpoints += +trait.value
+      }
+    })
+
+    this.beast.socialpoints = socialpoints
+
+    this.beast.roles.forEach(role => {
+      let socialpoints = 0
+      this.beast.conflict.devotions.forEach(trait => {
+        if (trait.socialroleid === role.id) {
+          socialpoints += +trait.value
+        }
+      })
+      this.beast.conflict.flaws.forEach(trait => {
+        if (trait.socialroleid === role.id) {
+          socialpoints += +trait.value
+        }
+      })
+      this.beast.conflict.traits.forEach(trait => {
+        if (trait.socialroleid === role.id) {
+          socialpoints += +trait.value
+        }
+      })
+
+      role.socialpoints = socialpoints
+      this.beast.roleInfo[role.id].socialpoints = socialpoints
+    })
+  }
+
   updateCombatPoints = (value) => {
     if (this.selectedRoleId) {
       this.beast.roleInfo[this.selectedRoleId].combatpoints += value
     } else {
       this.beast.combatpoints += value
+    }
+  }
+
+  updateSocialPoints = (value) => {
+    if (this.selectedRoleId) {
+      this.beast.roleInfo[this.selectedRoleId].socialpoints += value
+    } else {
+      this.beast.socialpoints += value
     }
   }
 }

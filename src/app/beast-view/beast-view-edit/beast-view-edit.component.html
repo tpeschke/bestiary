@@ -4,10 +4,15 @@
     <h5>Combat</h5>
     <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].combatpoints :
       beast.combatpoints}}</p>
+      
+    <h5>Confrontation</h5>
+    <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints :
+      beast.socialpoints}}</p>
   </div>
   <div class="explaination-shell">
+    <p>For each category:</p>
     <p>Put 2 points in green before putting 1 point in white</p>
-    <p>put 2 points in white before putting 1 point in red </p>
+    <p>Put 2 points in white before putting 1 point in red </p>
   </div>
 
   <mat-toolbar color="warn" class="top-toolbar">
@@ -164,6 +169,15 @@
             </mat-select>
           </mat-form-field>
 
+          <mat-form-field>
+            <mat-label>Confrontation Role Type</mat-label>
+            <mat-select (selectionChange)="captureNewRole('socialrole', $event)">
+              <mat-option *ngFor="let role of socialRoles" [value]="role">
+                {{role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <button mat-raised-button (click)="addNewRole()" color="accent">ADD ROLE</button>
         </div>
 
@@ -177,10 +191,27 @@
     </h1>
   </mat-toolbar>
 
+  <h3>Confrontation Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialrole
+    : selectedRoleId ? 'None' : beast.socialrole ? beast.socialrole : 'None'}}</h3>
+
+  <mat-form-field>
+    <mat-label>Change Role Type</mat-label>
+    <mat-select (selectionChange)="setSocialRoleType($event)">
+      <mat-option *ngFor="let role of socialRoles" [value]="role">
+        {{role}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div *ngIf="selectedSocialRole.strengths">
+    <p><strong>Strengths: </strong> {{selectedSocialRole.strengths.join(', ')}}</p>
+    <p><strong>Weaknesses: </strong> {{selectedSocialRole.weaknesses.join(', ')}}</p>
+  </div>
+
   <div>
     <div class="characteristic-edit-shell">
-      <div *ngFor="let trait of beast.conflict.traits; let i = index">
-        <div *ngIf="!trait.deleted" class="conflict-shell edit-shell-box">
+      <div *ngFor="let trait of beast.conflict.traits; let i = index" [ngClass]="{'noDisplay': !(!trait.deleted && selectedRoleId === trait.socialroleid)}">
+        <div class="conflict-shell edit-shell-box">
           <h3 *ngIf="trait.trait !== 'Any'">
             <mat-form-field>
               <input placeholder="Trait" matInput [value]="trait.trait"
@@ -188,7 +219,8 @@
             </mat-form-field>
           </h3>
           <section>
-            <mat-checkbox [checked]="trait.trait === 'Any'" (change)="checkRandomizeTrait(i, $event.checked)">Give this entry a random Trait every time you reload the page</mat-checkbox>
+            <mat-checkbox [checked]="trait.trait === 'Any'" (change)="checkRandomizeTrait(i, $event.checked)">Give this
+              entry a random Trait every time you reload the page</mat-checkbox>
           </section>
           <br>
           <mat-form-field>
@@ -210,8 +242,8 @@
     <div class="divider"></div>
 
     <div class="characteristic-edit-shell">
-      <div *ngFor="let devotion of beast.conflict.devotions; let i = index">
-        <div *ngIf="!devotion.deleted" class="conflict-shelledit-shell-box">
+      <div *ngFor="let devotion of beast.conflict.devotions; let i = index"  [ngClass]="{'noDisplay': !(!devotion.deleted && selectedRoleId === devotion.socialroleid)}">
+        <div class="conflict-shelledit-shell-box">
           <h3>
             <mat-form-field>
               <input placeholder="devotion" matInput [value]="devotion.trait"
@@ -238,8 +270,8 @@
     <div class="divider"></div>
 
     <div class="characteristic-edit-shell">
-      <div *ngFor="let flaw of beast.conflict.flaws; let i = index">
-        <div *ngIf="!flaw.deleted" class="conflict-shell edit-shell-box">
+      <div *ngFor="let flaw of beast.conflict.flaws; let i = index" [ngClass]="{'noDisplay': !(!flaw.deleted && selectedRoleId === flaw.socialroleid)}">
+        <div class="conflict-shell edit-shell-box">
           <h3>
             <mat-form-field>
               <input placeholder="flaw" matInput [value]="flaw.trait"

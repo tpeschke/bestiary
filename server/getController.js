@@ -53,7 +53,6 @@ module.exports = {
       }
 
       if (isARole) {
-        console.log(beast.name, roletype, secondaryroletype)
         if (rolename && rolename.toUpperCase() !== "NONE") {
           beast.name = name + " " + rolename
         }
@@ -361,7 +360,9 @@ module.exports = {
               combatpoints: result[i].combatpoints,
               panic: result[i].panic,
               stress: result[i].stress,
-              caution: result[i].caution
+              caution: result[i].caution,
+              socialrole: result[i].socialrole,
+              socialpoints: result[i].socialpoints,
             }
           }
           return result

@@ -17,14 +17,41 @@
           onerror="this.onerror=null;this.src='/assets/404.png';">
       </div>
 
-      <div class="conflict-shell"
+      <div class="role-shell" *ngIf="beast.roles.length > 0">
+        <h2>Role</h2>
+        <mat-form-field>
+          <mat-select (selectionChange)="setRole($event)" placeholder="Role">
+            <mat-option>
+              No Role
+            </mat-option>
+            <mat-option *ngFor="let role of beast.roles" [value]="role.id">
+              {{role.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="conflict-shell role-select"
+        *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].socialrole) || (!selectedRoleId && beast.socialrole)">
+        <h3>Confrontation Role Type </h3>
+        <p>
+          {{selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole}} <i
+            class="fas fa-info-circle icon-small blue"
+            matTooltip="Strengths:
+            {{socialRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole].strengths.join(', ')}}
+            Weaknesses:
+            {{socialRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole].weaknesses.join(', ')}}"
+            matTooltipClass="my-tooltip"></i></p>
+      </div>
+
+      <div class="box-padding"
         *ngIf="beast.conflict.traits.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0 ">
 
         <div class="conflict-inner-shell" *ngIf="beast.conflict.traits.length > 0">
           <h2>Traits</h2>
-          <div class="divider white"></div>
+          <div class="divider"></div>
           <div *ngFor="let trait of beast.conflict.traits; let i = index">
-            <div class="flex-row-opposite">
+            <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid">
               <h3>{{trait.trait | titlecase}}</h3>
               <h3>{{trait.value}}</h3>
             </div>
@@ -33,7 +60,7 @@
 
         <div class="conflict-inner-shell" *ngIf="beast.conflict.devotions.length > 0">
           <h2>Devotions</h2>
-          <div class="divider white"></div>
+          <div class="divider"></div>
           <div *ngFor="let trait of beast.conflict.devotions; let i = index">
             <div *ngIf="!beast.devotionlimit || i < beast.devotionlimit" class="flex-row-opposite">
               <h3>{{trait.trait | titlecase}}</h3>
@@ -44,7 +71,7 @@
 
         <div class="conflict-inner-shell" *ngIf="beast.conflict.flaws.length > 0">
           <h2>Flaws</h2>
-          <div class="divider white"></div>
+          <div class="divider"></div>
           <div *ngFor="let trait of beast.conflict.flaws; let i = index">
             <div *ngIf="!beast.flawlimit || i < beast.flawlimit" class="flex-row-opposite">
               <h3>{{trait.trait | titlecase}}</h3>
@@ -58,42 +85,29 @@
       <div class="conflict-inner-shell box-padding" *ngIf="beast.skills.length > 0">
         <h2>Special Skills</h2>
         <div class="divider"></div>
-        <div class="box-padding">
-          <div *ngFor="let skill of beast.skills; let i = index">
-            <div class="flex-row-opposite">
-              <h3>{{skill.skill}}</h3>
-              <h3>{{skill.rank}}</h3>
-            </div>
+        <div *ngFor="let skill of beast.skills; let i = index">
+          <div class="flex-row-opposite">
+            <h3>{{skill.skill}}</h3>
+            <h3>{{skill.rank}}</h3>
           </div>
         </div>
       </div>
 
-      <div *ngIf="beast.roles.length > 0">
-        <div class="conflict-shell role-select">
-          <mat-form-field>
-            <mat-select (selectionChange)="setRole($event)" placeholder="Role">
-              <mat-option>
-                No Role
-              </mat-option>
-              <mat-option *ngFor="let role of beast.roles" [value]="role.id">
-                {{role.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].role) || (!selectedRoleId && beast.role)">
-            {{selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role}}
-            {{selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? '[' +
-            beast.roleInfo[selectedRoleId].secondaryrole + ']' :
-            selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}} <i
-              class="fas fa-info-circle icon-small blue"
-              matTooltip="Strengths:
+      <div class="conflict-shell role-select"
+        *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].role) || (!selectedRoleId && beast.role)">
+        <h3>Combat Role Type </h3>
+        <p>
+          {{selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role}}
+          {{selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? '[' +
+          beast.roleInfo[selectedRoleId].secondaryrole + ']' :
+          selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}} <i
+            class="fas fa-info-circle icon-small blue"
+            matTooltip="Strengths:
               {{combatRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role].strengths.join(', ')}}
               Weaknesses:
               {{combatRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role].weaknesses.join(', ')}}" matTooltipClass="my-tooltip"></i></p>
-          <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
-              class="fas fa-plus"></i><i class="fas fa-address-card"></i></div>
-        </div>
+        <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
+            class="fas fa-plus"></i><i class="fas fa-address-card"></i></div>
       </div>
 
       <div *ngIf="beast.roles.length === 0">
@@ -145,7 +159,8 @@
                   <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd) +
                     (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
-                  <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk : selectedRole.rangedAtk) + square.atk}}</p>
+                  <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk : selectedRole.rangedAtk) +
+                    square.atk}}</p>
                   <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init) + square.init}}
                   </p>
                   <p class="def">{{evaluateDefense(square)}}</p>
@@ -168,7 +183,8 @@
                   </div>
                   <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p class="parry">{{(square.selectedshield ? square.shieldInfo.parry : square.selectedweapon && square.weaponInfo.parry ?
+                  <p class="parry">{{(square.selectedshield ? square.shieldInfo.parry : square.selectedweapon &&
+                    square.weaponInfo.parry ?
                     square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
                 </div>
               </div>
@@ -264,9 +280,12 @@
         </div>
         <div class="flex-row-opposite">
           <h3>Stress Threshold</h3>
-          <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0">
+          <p
+            *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0">
             {{beast.roleInfo[selectedRoleId].stress}}</p>
-          <p *ngIf="!selectedRoleId && beast.stress !== 0 || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress)">{{beast.stress}}</p>
+          <p
+            *ngIf="!selectedRoleId && beast.stress !== 0 || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress)">
+            {{beast.stress}}</p>
           <p *ngIf="beast.stress === 0 || (selectedRoleId && beast.roleInfo[selectedRoleId].stress === 0)">N/A</p>
         </div>
         <div
@@ -275,7 +294,8 @@
           <mat-form-field>
             <input matInput>
           </mat-form-field>
-          <p> / ({{convertPanic()}}) / {{selectedRoleId && beast.roleInfo[selectedRoleId].stress ? beast.roleInfo[selectedRoleId].stress : beast.stress}}</p>
+          <p> / ({{convertPanic()}}) / {{selectedRoleId && beast.roleInfo[selectedRoleId].stress ?
+            beast.roleInfo[selectedRoleId].stress : beast.stress}}</p>
         </div>
         <div
           *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
@@ -544,6 +564,10 @@
         <div class="flex-row-opposite">
           <h3>Combat Rating</h3>
           <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints}}</p>
+        </div>
+        <div class="flex-row-opposite">
+          <h3>Confrontation Rating</h3>
+          <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints}}</p>
         </div>
         <div class="flex-row-opposite" *ngIf="beast.patreon >= 20">
           <h3>Access</h3>
