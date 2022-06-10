@@ -54,6 +54,8 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
 
   if (name) {
     nameString += name
+  } else {
+    name = ''
   }
   if (combatrole || socialrole || skillrole) {
     nameString += ' ['
