@@ -22,7 +22,7 @@
         <mat-form-field>
           <mat-select (selectionChange)="setRole($event)" placeholder="Role">
             <mat-option>
-              No Role
+              Generic
             </mat-option>
             <mat-option *ngFor="let role of beast.roles" [value]="role.id">
               {{role.name}}

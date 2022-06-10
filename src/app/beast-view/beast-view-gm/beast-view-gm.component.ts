@@ -351,6 +351,9 @@ export class BeastViewGmComponent implements OnInit {
       price = harvestAndDifficulty * 10
     }
 
+    if (isNaN(price)) {
+      return 'Priceless'
+    }
     return (price / (this.beast.rarity / 2)).toFixed(1) + 'sc'
   }
 

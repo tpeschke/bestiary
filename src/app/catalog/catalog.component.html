@@ -67,7 +67,7 @@
           [ngStyle]="getRightClickMenuStyle()">
           <p (click)="openNewTab()">Open in New Tab</p>
           <p *ngIf="targetRoles.length === 0" (click)="addBeastToQuickView()">Add {{displayName(null, targetRole, null, null, null)}} to Quick View</p>
-          <p *ngIf="targetRoles.length > 0" (click)="addBeastToQuickView()">Add to Generic {{displayName(null, targetRole, null, null, null)}} to Quick View</p>
+          <p *ngIf="targetRoles.length > 0" (click)="addBeastToQuickView()">Add Generic {{displayName(null, targetRole, null, null, null)}} to Quick View</p>
           <div *ngIf="targetRoles.length > 0">
             <div *ngFor="let role of targetRoles; let i = index">
                 <p class="roleIndent" (click)="addRoleToQuickView(i)"> - {{displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)}} to Quick View</p>
