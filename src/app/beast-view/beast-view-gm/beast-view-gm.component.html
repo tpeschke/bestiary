@@ -17,7 +17,7 @@
           onerror="this.onerror=null;this.src='/assets/404.png';">
       </div>
 
-      <div class="role-shell" *ngIf="beast.roles.length > 0">
+      <div class="role-shell conflict-shell" *ngIf="beast.roles.length > 0">
         <h2>Role</h2>
         <mat-form-field>
           <mat-select (selectionChange)="setRole($event)" placeholder="Role">

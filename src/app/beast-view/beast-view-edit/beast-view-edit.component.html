@@ -197,13 +197,13 @@
   <mat-form-field>
     <mat-label>Change Role Type</mat-label>
     <mat-select (selectionChange)="setSocialRoleType($event)">
-      <mat-option *ngFor="let role of socialRoles" [value]="role">
+      <mat-option *ngFor="let role of socialRoles" [value]="socialrole">
         {{role}}
       </mat-option>
     </mat-select>
   </mat-form-field>
-
-  <div *ngIf="selectedSocialRole.strengths">
+  
+  <div *ngIf="selectedSocialRole && selectedSocialRole.strengths">
     <p><strong>Strengths: </strong> {{selectedSocialRole.strengths.join(', ')}}</p>
     <p><strong>Weaknesses: </strong> {{selectedSocialRole.weaknesses.join(', ')}}</p>
   </div>
