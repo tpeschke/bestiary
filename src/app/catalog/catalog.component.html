@@ -52,7 +52,7 @@
         <div class="context-menu" *ngIf="isDisplayContextMenu"
           [ngStyle]="getRightClickMenuStyle()">
           <p (click)="openNewTab()">Open in New Tab</p>
-          <p (click)="addBeastToQuickView()">Add to Quick View {{displayName(role.name, role.secondaryrole, role.socialrole, role.skillrole)}}</p>
+          <p (click)="addBeastToQuickView()">Add to Quick View <strong [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)"></strong></p>
         </div>
       </div>
     </div>
@@ -66,11 +66,11 @@
         <div class="context-menu" *ngIf="isDisplayContextMenu"
           [ngStyle]="getRightClickMenuStyle()">
           <p (click)="openNewTab()">Open in New Tab</p>
-          <p *ngIf="targetRoles.length === 0" (click)="addBeastToQuickView()">Add {{displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)}} to Quick View</p>
-          <p *ngIf="targetRoles.length > 0" (click)="addBeastToQuickView()">Add Generic {{displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)}} to Quick View</p>
+          <p *ngIf="targetRoles.length === 0" (click)="addBeastToQuickView()">Add <strong [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong> to Quick View</p>
+          <p *ngIf="targetRoles.length > 0" (click)="addBeastToQuickView()">Add Generic <strong [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong> to Quick View</p>
           <div *ngIf="targetRoles.length > 0">
             <div *ngFor="let role of targetRoles; let i = index">
-                <p class="roleIndent" (click)="addRoleToQuickView(i)"> - {{displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)}} to Quick View</p>
+                <p class="roleIndent" (click)="addRoleToQuickView(i)"> - <strong [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)"></strong> to Quick View</p>
             </div>
           </div>
         </div>

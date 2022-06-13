@@ -102,7 +102,7 @@ export class CatalogComponent implements OnInit {
       roles = true
     }
     if (combatrole) {
-      nameString += `${combatrole}`
+      nameString += `<img src="./assets/combaticon.svg" alt="combat role type" width="13" height="15">${combatrole}`
       if (secondarycombat) {
         nameString += `(${secondarycombat})`
       }
@@ -111,13 +111,13 @@ export class CatalogComponent implements OnInit {
       if (nameString.length > name.length + 3) {
         nameString += '/'
       }
-      nameString += `${socialrole}`
+      nameString += `<img src="./assets/socialicon.svg" alt="combat role type" width="13" height="15">${socialrole}`
     }
     if (skillrole) {
       if (nameString.length > name.length + 3) {
         nameString += '/'
       }
-      nameString += `${skillrole}`
+      nameString += `<img src="./assets/skillicon.svg" alt="combat role type" width="13" height="15">${skillrole}`
     }
 
     if (roles) {
