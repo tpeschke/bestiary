@@ -123,7 +123,7 @@
         <div class="divider"></div>
         <div *ngFor="let square of beast.combat">
           <div *ngIf="selectedRoleId === square.roleid">
-            <div *ngIf="!selectedRole.spd">
+            <div *ngIf="!selectedRole.spd || !square.addrolemods">
               <div class="combat-square">
                 <h3 class="weaponName">{{square.weapon === '' ? displayName(square) : square.weapon | titlecase}}</h3>
                 <div class="square-shell">
@@ -134,7 +134,7 @@
                   <p class="def">{{square.def}}</p>
                   <p class="fatigue">{{ convertFatigue(square.fatigue) }}</p>
                   <div class="dr">
-                    <p>{{square.dr}}</p>
+                    <p>{{square.dr ? square.dr : '0'}}</p>
                     <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
                   </div>
                   <div class="measure">
@@ -152,7 +152,7 @@
               </div>
             </div>
 
-            <div *ngIf="selectedRole.spd">
+            <div *ngIf="selectedRole.spd && square.addrolemods">
               <div class="combat-square">
                 <h3 class="weaponName">{{square.weapon === '' ? displayName(square) : square.weapon | titlecase}}</h3>
                 <div class="square-shell">

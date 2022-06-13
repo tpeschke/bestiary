@@ -128,7 +128,7 @@
             <div class="combat-square" *ngFor="let square of beast.combat">
               <h3 class="weaponName">{{square.weapon === '' ? displayName(square) : square.weapon | titlecase}}</h3>
 
-              <div *ngIf="!beast.roleinfo" class="square-shell">
+              <div *ngIf="!beast.roleinfo || !square.addrolemods" class="square-shell">
                 <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
                 <p class="spd">{{square.spd}}</p>
                 <p class="atk">{{square.atk}}</p>
@@ -153,7 +153,7 @@
                 <p class="parry">{{square.parry}}</p>
               </div>
 
-              <div *ngIf="beast.roleinfo" class="square-shell">
+              <div *ngIf="beast.roleinfo && square.addrolemods" class="square-shell">
                 <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : beast.roleinfo.spd) +
                     (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>

@@ -1,12 +1,12 @@
 <h3>
-  <mat-form-field *ngIf="selectedRole.spd">
+  <mat-form-field *ngIf="selectedRole.spd && square.addrolemods">
     <input placeholder="Weapon Name (if blank, it will appears as '{{displayName()}}')" matInput [value]="square.weapon" (change)="captureInput($event, 'weapon')">
   </mat-form-field>
-  <mat-form-field *ngIf="!selectedRole.spd">
+  <mat-form-field *ngIf="!selectedRole.spd || !square.addrolemods">
     <input placeholder="Weapon Name" matInput [value]="square.weapon" (change)="captureInput($event, 'weapon')">
   </mat-form-field>
 </h3>
-<div class="edit-combat-squares-shell" *ngIf="selectedRole.spd">
+<div class="edit-combat-squares-shell" *ngIf="selectedRole.spd && square.addrolemods">
   <div>
     <div class="square-shell">
       <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
@@ -45,6 +45,10 @@
     </mat-form-field>
   </div>
   <div class="edit-combat-squares-shell-right">
+    <section>
+      <mat-checkbox [checked]="square.addrolemods" (change)="checkCheckbox('addrolemods', $event.checked)">Role Modifiers Added to This Combat Square</mat-checkbox>
+    </section>
+    <br>
     <div>
       <h3>Selected Weapons, Armor, and Shields</h3>
       <div class="divider white"></div>
@@ -318,7 +322,7 @@
 <!-- --------------------------------------------------------------------------------------------------- -->
 <!-- ------------------------------------------------------------------------------------------------------------- -->
 
-<div class="edit-combat-squares-shell" *ngIf="!selectedRole.spd">
+<div class="edit-combat-squares-shell" *ngIf="!selectedRole.spd || !square.addrolemods">
   <div>
     <div class="square-shell">
       <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
@@ -358,6 +362,10 @@
     </mat-form-field>
   </div>
   <div class="edit-combat-squares-shell-right">
+    <section *ngIf="selectedRole.spd && !square.addrolemods">
+      <mat-checkbox [checked]="square.addrolemods" (change)="checkCheckbox('addrolemods', $event.checked)">Role Modifiers Added to This Combat Square</mat-checkbox>
+    </section>
+    <br>
     <div class="square-combat-shell">
       <mat-form-field>
         <input

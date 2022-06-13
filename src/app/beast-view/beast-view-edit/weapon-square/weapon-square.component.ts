@@ -270,6 +270,10 @@ export class WeaponSquareComponent implements OnInit {
   checkCheckbox = (type, value) => {
     if (type === 'showAllEquipment') {
       this.showAllEquipment = value
+    } if (type === 'addrolemods') {
+      this.square[type] = value
+      this.updateBothDisplayDRs()
+      this.displayDamage()
     } else {
       this.square.newDamage[type] = value
     }
@@ -314,7 +318,6 @@ export class WeaponSquareComponent implements OnInit {
       this.square.shield_dr = strightString
     }
 
-    
     let equipmentModFlat = 0
     let equipmentModSlash = 0
 
@@ -324,7 +327,7 @@ export class WeaponSquareComponent implements OnInit {
     } else if (type === 'shield' && this.square.selectedshield) {
       equipmentModFlat = this.square.shieldInfo.dr.flat
       equipmentModSlash = this.square.shieldInfo.dr.slash
-    } else if (this.selectedRoleId) {
+    } else if (this.selectedRoleId && this.square.addrolemods) {
       if (type === 'armor') {
         equipmentModFlat = this.selectedRole.dr.flat
         equipmentModSlash = this.selectedRole.dr.slash
@@ -351,13 +354,13 @@ export class WeaponSquareComponent implements OnInit {
 
   displayDamage = () => {
     let roleDamage = null
-    if (!this.square.selectedweapon) {
+    if (!this.square.selectedweapon && this.square.addrolemods) {
       if (this.square.weapontype === 'm') {
         roleDamage = this.selectedRole.damage
       } else {
         roleDamage = this.selectedRole.rangedDamage
       }
-    } else {
+    } else if (this.square.addrolemods) {
       roleDamage = this.square.weaponInfo.damage
     }
 

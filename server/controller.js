@@ -202,7 +202,7 @@ let controllerObj = {
           let baseSpd = 0
           let baseParry = 0
           let baseMeasure = 0
-          if (roleToUse) {
+          if (roleToUse && weapon.addrolemods) {
             let roleInfo = roles.combatRoles.primary[roleToUse]
 
             if (weapon.weapontype === 'm') {
@@ -219,11 +219,11 @@ let controllerObj = {
             baseSpd = roleInfo.spd
           }
 
-          newWeaponInfo.dr = processDR(weapon.dr, weapon.flat, weapon.slash, 'armor', roleToUse, weapon.selectedarmor)
-          newWeaponInfo.shield_dr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash, 'shield', roleToUse, weapon.selectedshield)
+          newWeaponInfo.dr = processDR(weapon.dr, weapon.flat, weapon.slash, 'armor', roleToUse, weapon.selectedarmor, weapon.addrolemods)
+          newWeaponInfo.shield_dr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash, 'shield', roleToUse, weapon.selectedshield, weapon.addrolemods)
 
           weapon.damage = processDamage(weapon.damage, weapon.isspecial, weapon.hasspecialanddamage)
-          newWeaponInfo.damage = displayDamage(weapon, roleToUse)
+          newWeaponInfo.damage = displayDamage(weapon, roleToUse, weapon.addrolemods)
 
           if (weapon.selectedweapon) {
             weaponObj = equipmentCtrl.getWeapon(weapon.selectedweapon)
@@ -328,8 +328,8 @@ let controllerObj = {
       environ.forEach(val => {
         promiseArray.push(db.add.beastenviron(id, val.environid).then())
       })
-      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, ranges, roleid, newDamage, selectedweapon, selectedarmor, selectedshield }) => {
-        promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid, newDamage.isSpecial, newDamage.hasSpecialAndDamage, selectedweapon, selectedarmor, selectedshield).then(result => {
+      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, ranges, roleid, newDamage, selectedweapon, selectedarmor, selectedshield, addrolemods }) => {
+        promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid, newDamage.isSpecial, newDamage.hasSpecialAndDamage, selectedweapon, selectedarmor, selectedshield, addrolemods).then(result => {
           if (weapontype === 'r') {
             return db.add.combatranges(result[0].id, +ranges.increment * 6).then()
           }
@@ -547,18 +547,18 @@ let controllerObj = {
         }
       })
       // update combat
-      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, id: weaponId, deleted, weapontype, ranges, roleid, newDamage, newDR, newShieldDR, selectedweapon, selectedarmor, selectedshield }) => {
+      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, id: weaponId, deleted, weapontype, ranges, roleid, newDamage, newDR, newShieldDR, selectedweapon, selectedarmor, selectedshield, addrolemods }) => {
         if (deleted) {
           promiseArray.push(db.delete.beastcombat(weaponId).then())
         } else if (!weaponId) {
-          promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid, newDamage.isSpecial, newDamage.hasSpecialAndDamage, selectedweapon, selectedarmor, selectedshield).then(result => {
+          promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid, newDamage.isSpecial, newDamage.hasSpecialAndDamage, selectedweapon, selectedarmor, selectedshield, addrolemods).then(result => {
             if (weapontype === 'r') {
               return db.add.combatranges(result.weaponid, +ranges.increment * 6).then()
             }
             return true;
           }))
         } else {
-          promiseArray.push(db.update.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weaponId, weapontype, roleid, newDamage.isSpecial, newDamage.hasSpecialAndDamage, selectedweapon, selectedarmor, selectedshield).then())
+          promiseArray.push(db.update.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weaponId, weapontype, roleid, newDamage.isSpecial, newDamage.hasSpecialAndDamage, selectedweapon, selectedarmor, selectedshield, addrolemods).then())
           if (weapontype === 'r' && ranges.id) {
             promiseArray.push(db.update.combatranges(weaponId, +ranges.increment * 6).then())
           } else if (weapontype === 'r') {
@@ -1100,9 +1100,9 @@ async function collectComplication(db, beastId) {
   })
 }
 
-function processDR(drString, flat, slash, type, roleToUse, gear) {
+function processDR(drString, flat, slash, type, roleToUse, gear, addrolemods) {
   let role = roles.combatRoles.primary[roleToUse]
-  if (roleToUse) {
+  if (roleToUse && addrolemods) {
     if (type === 'armor') {
       flat += role.dr.flat
       slash += role.dr.slash
@@ -1142,7 +1142,7 @@ function processDR(drString, flat, slash, type, roleToUse, gear) {
     })
   }
 
-  if (roleToUse) {
+  if (roleToUse && addrolemods) {
     if (type === 'armor') {
       newDRflat += role.dr.flat
       newDRslash += role.dr.slash
@@ -1209,13 +1209,13 @@ function processDamage(damageString, isSpecial, hasSpecialAndDamage) {
   return newDamage
 }
 
-function displayDamage(weapon, roleToUse) {
+function displayDamage(weapon, roleToUse, addrolemods) {
   if (weapon.damage.isSpecial) {
     return "*See Attack Info"
   }
 
   let roleDamage = null
-  if (!weapon.selectedweapon && roleToUse) {
+  if (!weapon.selectedweapon && roleToUse && addrolemods) {
     if (weapon.weapontype === 'm') {
       roleDamage = roles.combatRoles.primary[roleToUse].damage
     } else {
