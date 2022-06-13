@@ -78,7 +78,8 @@ export class CatalogComponent implements OnInit {
     return {
       position: 'fixed',
       left: `${this.rightClickMenuPositionX}px`,
-      top: `${this.rightClickMenuPositionY}px`
+      top: `${this.rightClickMenuPositionY}px`,
+      zIndex: '99'
     }
   }
 

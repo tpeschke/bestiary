@@ -2,6 +2,10 @@
     white-space: pre-line !important;
 }
 
+.tab-wrapper {
+    margin: 15px 0
+}
+
 button {
     margin-top: 15px;
 }
@@ -665,10 +669,6 @@ th {
 
 .fourth-left tr td:nth-child(4) {
     text-align: left;
-}
-
-.add-by-id {
-    margin-bottom:  100px;
 }
 
 .rolled-stats-shell {

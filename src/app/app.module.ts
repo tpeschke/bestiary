@@ -15,6 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
@@ -137,6 +138,7 @@ const routes: Routes = [
     MatDividerModule,
     HttpClientModule,
     MatChipsModule,
+    MatTabsModule,
     MatDialogModule,
     FormsModule,
     ToastrModule.forRoot(),

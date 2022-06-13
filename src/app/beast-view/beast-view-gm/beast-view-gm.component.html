@@ -110,7 +110,7 @@
             class="fas fa-plus"></i><i class="fas fa-address-card"></i></div>
       </div>
 
-      <div *ngIf="beast.roles.length === 0">
+      <div *ngIf="beast.roles.length === 0 && (!selectedRoleId && !beast.role)">
         <div class="conflict-shell role-select extra-padding">
           <h3>Add to Quick View</h3>
           <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i

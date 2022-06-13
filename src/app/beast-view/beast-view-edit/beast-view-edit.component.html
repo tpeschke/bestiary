@@ -4,7 +4,7 @@
     <h5>Combat</h5>
     <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].combatpoints :
       beast.combatpoints}}</p>
-      
+
     <h5>Confrontation</h5>
     <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints :
       beast.socialpoints}}</p>
@@ -185,1362 +185,1365 @@
     </mat-accordion>
   </div>
 
-  <mat-toolbar color="warn">
-    <h1>
-      Confrontations
-    </h1>
-  </mat-toolbar>
+  <br>
 
-  <h3>Confrontation Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialrole
-    : selectedRoleId ? 'None' : beast.socialrole ? beast.socialrole : 'None'}}</h3>
+  <mat-tab-group backgroundColor="warn">
+    <mat-tab label="Confrontations">
+      <div class="tab-wrapper">
+        <h3>Confrontation Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ?
+          beast.roleInfo[selectedRoleId].socialrole
+          : selectedRoleId ? 'None' : beast.socialrole ? beast.socialrole : 'None'}}</h3>
 
-  <mat-form-field>
-    <mat-label>Change Role Type</mat-label>
-    <mat-select (selectionChange)="setSocialRoleType($event)">
-      <mat-option *ngFor="let role of socialRoles" [value]="socialrole">
-        {{role}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  
-  <div *ngIf="selectedSocialRole && selectedSocialRole.strengths">
-    <p><strong>Strengths: </strong> {{selectedSocialRole.strengths.join(', ')}}</p>
-    <p><strong>Weaknesses: </strong> {{selectedSocialRole.weaknesses.join(', ')}}</p>
-  </div>
+        <mat-form-field>
+          <mat-label>Change Role Type</mat-label>
+          <mat-select (selectionChange)="setSocialRoleType($event)">
+            <mat-option *ngFor="let role of socialRoles" [value]="socialrole">
+              {{role}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-  <div>
-    <div class="characteristic-edit-shell">
-      <div *ngFor="let trait of beast.conflict.traits; let i = index" [ngClass]="{'noDisplay': !(!trait.deleted && selectedRoleId === trait.socialroleid)}">
-        <div class="conflict-shell edit-shell-box">
-          <h3 *ngIf="trait.trait !== 'Any'">
-            <mat-form-field>
-              <input placeholder="Trait" matInput [value]="trait.trait"
-                (change)="captureInput($event, 'conflict', i, 'traits', 'trait')">
-            </mat-form-field>
-          </h3>
-          <section>
-            <mat-checkbox [checked]="trait.trait === 'Any'" (change)="checkRandomizeTrait(i, $event.checked)">Give this
-              entry a random Trait every time you reload the page</mat-checkbox>
-          </section>
-          <br>
-          <mat-form-field>
-            <input placeholder="Rank" matInput [value]="trait.value"
-              (change)="captureInput($event, 'conflict', i, 'traits', 'value')">
-          </mat-form-field>
-          <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'traits')" color="warn">REMOVE
+        <div *ngIf="selectedSocialRole && selectedSocialRole.strengths">
+          <p><strong>Strengths: </strong> {{selectedSocialRole.strengths.join(', ')}}</p>
+          <p><strong>Weaknesses: </strong> {{selectedSocialRole.weaknesses.join(', ')}}</p>
+        </div>
+
+        <div>
+          <div class="characteristic-edit-shell">
+            <div *ngFor="let trait of beast.conflict.traits; let i = index"
+              [ngClass]="{'noDisplay': !(!trait.deleted && selectedRoleId === trait.socialroleid)}">
+              <div class="conflict-shell edit-shell-box">
+                <h3 *ngIf="trait.trait !== 'Any'">
+                  <mat-form-field>
+                    <input placeholder="Trait" matInput [value]="trait.trait"
+                      (change)="captureInput($event, 'conflict', i, 'traits', 'trait')">
+                  </mat-form-field>
+                </h3>
+                <section>
+                  <mat-checkbox [checked]="trait.trait === 'Any'" (change)="checkRandomizeTrait(i, $event.checked)">Give
+                    this
+                    entry a random Trait every time you reload the page</mat-checkbox>
+                </section>
+                <br>
+                <mat-form-field>
+                  <input placeholder="Rank" matInput [value]="trait.value"
+                    (change)="captureInput($event, 'conflict', i, 'traits', 'value')">
+                </mat-form-field>
+                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'traits')" color="warn">REMOVE
+                  TRAIT</button>
+              </div>
+            </div>
+          </div>
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'traits')" color="accent">ADD
             TRAIT</button>
-        </div>
-      </div>
-    </div>
-    <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'traits')" color="accent">ADD TRAIT</button>
-    <br />
-    <mat-form-field>
-      <input matInput placeholder="Max Traits Appearing" [value]="beast.traitlimit"
-        (change)="captureInput($event, 'traitlimit')">
-    </mat-form-field>
-
-    <div class="divider"></div>
-
-    <div class="characteristic-edit-shell">
-      <div *ngFor="let devotion of beast.conflict.devotions; let i = index"  [ngClass]="{'noDisplay': !(!devotion.deleted && selectedRoleId === devotion.socialroleid)}">
-        <div class="conflict-shelledit-shell-box">
-          <h3>
-            <mat-form-field>
-              <input placeholder="devotion" matInput [value]="devotion.trait"
-                (change)="captureInput($event, 'conflict', i, 'devotions', 'trait')">
-            </mat-form-field>
-          </h3>
-          <mat-form-field>
-            <input placeholder="Rank" matInput [value]="devotion.value"
-              (change)="captureInput($event, 'conflict', i, 'devotions', 'value')">
-          </mat-form-field>
-          <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'devotions')" color="warn">REMOVE
-            DEVOTION</button>
-        </div>
-      </div>
-    </div>
-    <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">ADD
-      DEVOTIONS</button>
-    <br />
-    <mat-form-field>
-      <input matInput placeholder="Max Devotions Appearing" [value]="beast.devotionlimit"
-        (change)="captureInput($event, 'devotionlimit')">
-    </mat-form-field>
-
-    <div class="divider"></div>
-
-    <div class="characteristic-edit-shell">
-      <div *ngFor="let flaw of beast.conflict.flaws; let i = index" [ngClass]="{'noDisplay': !(!flaw.deleted && selectedRoleId === flaw.socialroleid)}">
-        <div class="conflict-shell edit-shell-box">
-          <h3>
-            <mat-form-field>
-              <input placeholder="flaw" matInput [value]="flaw.trait"
-                (change)="captureInput($event, 'conflict', i, 'flaws', 'trait')">
-            </mat-form-field>
-          </h3>
-          <mat-form-field>
-            <input placeholder="Dice Value" matInput [value]="flaw.value"
-              (change)="captureInput($event, 'conflict', i, 'flaws', 'value')">
-          </mat-form-field>
-          <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'flaws')" color="warn">REMOVE
-            FLAW</button>
-        </div>
-      </div>
-    </div>
-    <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent">ADD FLAW</button>
-    <br />
-    <mat-form-field>
-      <input matInput placeholder="Max Flaws Appearing" [value]="beast.flawlimit"
-        (change)="captureInput($event, 'flawlimit')">
-    </mat-form-field>
-  </div>
-
-  <mat-toolbar color="warn">
-    <h1>
-      Skills
-    </h1>
-  </mat-toolbar>
-  <div>
-
-    <div class="conflict-inner-shell">
-      <div *ngFor="let skill of beast.skills; let i = index">
-        <div *ngIf="!skill.deleted">
-          <h3>
-            <mat-form-field>
-              <input placeholder="Skill Name" matInput [value]="skill.skill"
-                (change)="captureInput($event, 'skills', i, 'skill')">
-            </mat-form-field>
-          </h3>
-          <mat-form-field>
-            <input placeholder="Skill Rank" matInput [value]="skill.rank"
-              (change)="captureInput($event, 'skills', i, 'rank')">
-          </mat-form-field>
-          <button mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn">REMOVE
-            SKILL</button>
-        </div>
-      </div>
-    </div>
-    <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">ADD SKILL</button>
-  </div>
-
-  <mat-toolbar color="warn">
-    <h1>
-      Combat
-    </h1>
-  </mat-toolbar>
-
-  <div>
-    <h3>Combat Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].role :
-      selectedRoleId ? 'None' : beast.role ? beast.role : 'None'}}
-      {{selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? '[' +
-      beast.roleInfo[selectedRoleId].secondaryrole + ']' :
-      selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}}</h3>
-
-    <div>
-      <mat-form-field>
-        <mat-label>Change Role Type</mat-label>
-        <mat-select (selectionChange)="setRoleType($event)">
-          <mat-option *ngFor="let role of combatRoles" [value]="role">
-            {{role}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Change Secondary Role Type</mat-label>
-        <mat-select (selectionChange)="setSecondaryRoleType($event)">
-          <mat-option *ngFor="let role of combatRolesSecondary" [value]="role">
-            {{role}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div *ngIf="selectedRole.strengths">
-      <p><strong>Strengths: </strong> {{selectedRole.strengths.join(', ')}}</p>
-      <p><strong>Weaknesses: </strong> {{selectedRole.weaknesses.join(', ')}}</p>
-    </div>
-
-    <div class="combat-shell">
-      <div *ngFor="let square of beast.combat; let i = index">
-        <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
-          <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
-            [updateCombatPoints]="updateCombatPoints" [index]="i" [removeNewSecondaryItem]="removeNewSecondaryItem">
-          </app-weapon-square>
-        </div>
-      </div>
-      <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">ADD WEAPON</button>
-    </div>
-
-    <div class="vitals-shell">
-      <mat-form-field>
-        <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
-          <input
-            id="{{selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
-            matInput placeholder="Vitality" [value]="beast.roleInfo[selectedRoleId].vitality"
-            (change)="captureRoleVitality($event)">
-        </div>
-        <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
-          <input matInput placeholder="Vitality"
-            id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
-            [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
-        </div>
-      </mat-form-field>
-      <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].average">
-        <p>(Ave: {{beast.roleInfo[selectedRoleId].average}})</p>
-      </div>
-      <p *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].average">(Ave: {{averageVitality}})</p>
-
-      <div *ngFor="let location of beast.locationalvitality; let i = index">
-        <div *ngIf="!location.deleted && selectedRoleId === location.roleid">
           <br />
           <mat-form-field>
-            <input placeholder="Location" matInput [value]="location.location"
-              (change)="captureInput($event, 'locationalvitality', i, 'location')">
+            <input matInput placeholder="Max Traits Appearing" [value]="beast.traitlimit"
+              (change)="captureInput($event, 'traitlimit')">
           </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Vitality" matInput [value]="location.vitality"
-              (change)="captureInput($event, 'locationalvitality', i, 'vitality')">
-          </mat-form-field>
-          <p>(Ave: {{calculatorService.calculateAverageOfDice(location.vitality)}})</p>
-          <button mat-raised-button (click)="removeNewSecondaryItem('locationalvitality', i)" color="warn">REMOVE
-            LOCATION</button>
-        </div>
-      </div>
 
-      <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION
-        VITALITY</button>
-      <br />
-      <br />
-      <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].stress">
-        <mat-form-field>
-          <input
-            id="{{selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
-            matInput placeholder="Stress Threshold" [value]="beast.roleInfo[selectedRoleId].stress"
-            (change)="captureInput($event, 'stress')">
-        </mat-form-field>
-      </div>
-      <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].stress">
-        <mat-form-field>
-          <input matInput placeholder="Stress Threshold"
-            id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
-            [value]="beast.stress" (change)="captureInput($event, 'stress')">
-        </mat-form-field>
-      </div>
-      <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].panic">
-        <mat-form-field>
-          <mat-label>Panic</mat-label>
-          <mat-select [value]="beast.roleInfo[selectedRoleId].panic" (selectionChange)="captureSelect($event, 'panic')"
-            id="{{selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
-            <mat-option value="1">
-              Always
-            </mat-option>
-            <mat-option value="2">
-              Unsure
-            </mat-option>
-            <mat-option value="3">
-              Nervous
-            </mat-option>
-            <mat-option value="4">
-              Shaken
-            </mat-option>
-            <mat-option value="5">
-              Breaking
-            </mat-option>
-            <mat-option value="7">
-              Never
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div class="flex-row-opposite">
-          <h3>Current Panic</h3>
-          <p>{{beast.panic | moraleConverter}}</p>
-        </div>
-      </div>
+          <div class="divider"></div>
 
-      <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].panic">
-        <mat-form-field>
-          <mat-label>Panic</mat-label>
-          <mat-select [value]="beast.panic" (selectionChange)="captureSelect($event, 'panic')"
-            id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
-            <mat-option value="1">
-              Always
-            </mat-option>
-            <mat-option value="2">
-              Unsure
-            </mat-option>
-            <mat-option value="3">
-              Nervous
-            </mat-option>
-            <mat-option value="4">
-              Shaken
-            </mat-option>
-            <mat-option value="5">
-              Breaking
-            </mat-option>
-            <mat-option value="7">
-              Never
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div class="flex-row-opposite">
-          <h3>Current Panic</h3>
-          <p>{{beast.panic | moraleConverter}}</p>
-        </div>
-      </div>
-      <br />
-      <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].caution">
-        <mat-form-field>
-          <input matInput placeholder="Caution Threshold" [value]="beast.roleInfo[selectedRoleId].caution"
-            id="{{selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
-            (change)="captureInput($event, 'caution')">
-        </mat-form-field>
-      </div>
-      <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].caution">
-        <mat-form-field>
-          <input matInput placeholder="Caution Threshold" [value]="beast.caution"
-            id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
-            (change)="captureInput($event, 'caution')">
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div class="vitals-shell">
-      <h3 class="blue">Movement</h3>
-      <div *ngFor="let movementType of beast.movement; let i = index">
-        <div *ngIf="!movementType.deleted && selectedRoleId === movementType.roleid">
-          <div class="divider white"></div>
-          <h3>
-            <mat-form-field>
-              <input placeholder="Movement Type" matInput [value]="movementType.type"
-                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Movement') ? 'green' : selectedRole.weaknesses.includes('Movement') ? 'red' : ''}}"
-                (change)="captureInput($event, 'movement', i, 'type')">
-            </mat-form-field>
-          </h3>
-          <div class="divider white"></div>
-          <mat-form-field>
-            <input placeholder="Stroll/Crawl" matInput [value]="movementType.stroll"
-              (change)="captureInput($event, 'movement', i, 'stroll')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Walk" matInput [value]="movementType.walk"
-              (change)="captureInput($event, 'movement', i, 'walk')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Jog" matInput [value]="movementType.jog"
-              (change)="captureInput($event, 'movement', i, 'jog')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Run" matInput [value]="movementType.run"
-              (change)="captureInput($event, 'movement', i, 'run')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Sprint" matInput [value]="movementType.sprint"
-              (change)="captureInput($event, 'movement', i, 'sprint')">
-          </mat-form-field>
-          <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="warn">REMOVE
-            MOVEMENT</button>
-        </div>
-      </div>
-      <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">ADD MOVEMENT</button>
-    </div>
-
-    <h2>Add. Attack Info</h2>
-    <div class="divider"></div>
-    <br>
-    <h3 *ngIf="selectedRoleId">Base Abilities</h3>
-    <div>
-      <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')"></quill-editor>
-    </div>
-
-    <div *ngIf="selectedRoleId">
-      <br>
-      <h3>Role-Specific Abilities</h3>
-      <div>
-        <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
-          (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
-      </div>
-    </div>
-
-    <h2>Add. Defense Info</h2>
-    <div class="divider"></div>
-    <br>
-    <h3 *ngIf="selectedRoleId">Base Abilities</h3>
-    <div>
-      <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')"></quill-editor>
-    </div>
-
-    <div *ngIf="selectedRoleId">
-      <br>
-      <h3>Role-Specific Abilities</h3>
-      <div>
-        <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense"
-          (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
-      </div>
-    </div>
-
-    <h2>Tactics</h2>
-    <div class="divider"></div>
-    <div>
-      <quill-editor [(ngModel)]="beast.tactics" (onContentChanged)="captureHTML($event, 'tactics')"></quill-editor>
-    </div>
-  </div>
-
-  <mat-toolbar color="warn">
-    <h1>
-      Random Encounters
-    </h1>
-  </mat-toolbar>
-
-  <div>
-    <div *ngIf="encounter">
-      <div>
-        <h3>Temperament</h3>
-        <div>
-          <div *ngFor="let temperament of encounter.temperament.temperament; let i = index">
-            <div class="temperamentList" *ngIf="!temperament.deleted">
-              <p>{{temperament.temperament}}</p>
-              <p>{{temperament.weight}}</p>
-              <i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fas fa-times-circle"></i>
+          <div class="characteristic-edit-shell">
+            <div *ngFor="let devotion of beast.conflict.devotions; let i = index"
+              [ngClass]="{'noDisplay': !(!devotion.deleted && selectedRoleId === devotion.socialroleid)}">
+              <div class="conflict-shelledit-shell-box">
+                <h3>
+                  <mat-form-field>
+                    <input placeholder="devotion" matInput [value]="devotion.trait"
+                      (change)="captureInput($event, 'conflict', i, 'devotions', 'trait')">
+                  </mat-form-field>
+                </h3>
+                <mat-form-field>
+                  <input placeholder="Rank" matInput [value]="devotion.value"
+                    (change)="captureInput($event, 'conflict', i, 'devotions', 'value')">
+                </mat-form-field>
+                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'devotions')"
+                  color="warn">REMOVE
+                  DEVOTION</button>
+              </div>
             </div>
           </div>
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">ADD
+            DEVOTIONS</button>
+          <br />
           <mat-form-field>
-            <mat-label>Select Temperament</mat-label>
-            <mat-select (selectionChange)="captureEncounter($event, 'temperament')">
-              <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament">
-                {{temperament.temperament}}
-              </mat-option>
-            </mat-select>
+            <input matInput placeholder="Max Devotions Appearing" [value]="beast.devotionlimit"
+              (change)="captureInput($event, 'devotionlimit')">
           </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Weight" matInput (change)="captureEncounterInput($event, 'temperament', 'weight')">
-          </mat-form-field>
-        </div>
-        <h3>OR</h3>
-        <div>
-          <mat-form-field>
-            <input placeholder="Add Temperament" matInput [value]="temperament.temperament"
-              (change)="captureEncounterInput($event, 'temperament', 'temperament')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Add Temperament Tooltip" matInput [value]="temperament.tooltip"
-              (change)="captureEncounterInput($event, 'temperament', 'tooltip')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Weight" matInput [value]="temperament.weight"
-              (change)="captureEncounterInputInt($event, 'temperament', 'weight')">
-          </mat-form-field>
-        </div>
-        <button mat-raised-button (click)="addEncounterItem('temperament', 'temperament')" color="accent"
-          [disabled]="!temperament.temperament || !temperament.tooltip || !temperament.weight">Add
-          Temperament</button>
-      </div>
 
-      <div>
-        <h3>Rank</h3>
-        <div>
-          <div *ngFor="let rank of encounter.rank.rank; let i = index">
-            <div class="temperamentList" *ngIf="!rank.deleted">
-              <p>{{rank.rank}}</p>
-              <p>{{rank.weight}}</p>
-              <p>{{rank.othertypechance}}%</p>
-              <p>-{{rank.decayrate}}%</p>
-              <p>{{rank.lair}} miles</p>
-              <p>#{{rank.number}}</p>
-              <i (click)="removeEncounterItem(i, 'rank', 'rank')" class="fas fa-times-circle"></i>
+          <div class="divider"></div>
+
+          <div class="characteristic-edit-shell">
+            <div *ngFor="let flaw of beast.conflict.flaws; let i = index"
+              [ngClass]="{'noDisplay': !(!flaw.deleted && selectedRoleId === flaw.socialroleid)}">
+              <div class="conflict-shell edit-shell-box">
+                <h3>
+                  <mat-form-field>
+                    <input placeholder="flaw" matInput [value]="flaw.trait"
+                      (change)="captureInput($event, 'conflict', i, 'flaws', 'trait')">
+                  </mat-form-field>
+                </h3>
+                <mat-form-field>
+                  <input placeholder="Dice Value" matInput [value]="flaw.value"
+                    (change)="captureInput($event, 'conflict', i, 'flaws', 'value')">
+                </mat-form-field>
+                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'flaws')" color="warn">REMOVE
+                  FLAW</button>
+              </div>
             </div>
           </div>
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent">ADD FLAW</button>
+          <br />
           <mat-form-field>
-            <mat-label>Select Rank</mat-label>
-            <mat-select (selectionChange)="captureEncounter($event, 'rank')">
-              <mat-option *ngFor="let rank of encounter.rank.allRank" [value]="rank">
-                {{rank.rank}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Weight" matInput (change)="captureEncounterInput($event, 'rank', 'weight')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Other Type Chance" matInput
-              (change)="captureEncounterInput($event, 'rank', 'othertypechance')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Decay Rate" matInput (change)="captureEncounterInput($event, 'rank', 'decayrate')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Lair Distance as dice" matInput
-              (change)="captureEncounterInput($event, 'rank', 'lair')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Number as dice" matInput (change)="captureEncounterInput($event, 'rank', 'number')">
+            <input matInput placeholder="Max Flaws Appearing" [value]="beast.flawlimit"
+              (change)="captureInput($event, 'flawlimit')">
           </mat-form-field>
         </div>
-        <h3>OR</h3>
-        <div>
-          <mat-form-field>
-            <input placeholder="Add Rank" matInput [value]="rank.rank"
-              (change)="captureEncounterInput($event, 'rank', 'rank')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Weight" matInput (change)="captureEncounterInputInt($event, 'rank', 'weight')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Other Type Chance" matInput
-              (change)="captureEncounterInputInt($event, 'rank', 'othertypechance')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Decay Rate" matInput (change)="captureEncounterInputInt($event, 'rank', 'decayrate')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Lair Distance as dice" matInput [value]="rank.lair"
-              (change)="captureEncounterInput($event, 'rank', 'lair')">
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Number as dice" matInput (change)="captureEncounterInput($event, 'rank', 'number')">
-          </mat-form-field>
-        </div>
-        <button mat-raised-button (click)="addEncounterItem('rank', 'rank')" color="accent"
-          [disabled]="!rank.rank || !rank.weight || !rank.othertypechance || !rank.decayrate || !rank.lair || !rank.number || (rank.othertypechance > 0 && rank.decayrate <= 0)">Add
-          Rank</button>
       </div>
-
-      <div>
-        <h3>Verb</h3>
-        <div>
-          <div *ngFor="let verb of encounter.verb.verb; let i = index">
-            <div class="temperamentList" *ngIf="!verb.deleted">
-              <p>{{verb.verb}}</p>
-              <i (click)="removeEncounterItem(i, 'verb', 'verb')" class="fas fa-times-circle"></i>
+    </mat-tab>
+    <mat-tab label="Skills">
+      <div class="tab-wrapper">
+        <div class="conflict-inner-shell">
+          <div *ngFor="let skill of beast.skills; let i = index">
+            <div *ngIf="!skill.deleted">
+              <h3>
+                <mat-form-field>
+                  <input placeholder="Skill Name" matInput [value]="skill.skill"
+                    (change)="captureInput($event, 'skills', i, 'skill')">
+                </mat-form-field>
+              </h3>
+              <mat-form-field>
+                <input placeholder="Skill Rank" matInput [value]="skill.rank"
+                  (change)="captureInput($event, 'skills', i, 'rank')">
+              </mat-form-field>
+              <button mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn">REMOVE
+                SKILL</button>
             </div>
           </div>
-          <mat-form-field>
-            <mat-label>Select Verb</mat-label>
-            <mat-select (selectionChange)="captureEncounter($event, 'verb')">
-              <mat-option *ngFor="let verb of encounter.verb.allVerb" [value]="verb">
-                {{verb.verb}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
         </div>
-        <h3>OR</h3>
-        <div>
-          <mat-form-field>
-            <input placeholder="Add Verb" matInput [value]="verb.verb"
-              (change)="captureEncounterInput($event, 'verb', 'verb')">
-          </mat-form-field>
-        </div>
-        <button mat-raised-button (click)="addEncounterItem('verb', 'verb')" color="accent" [disabled]="!verb.verb">Add
-          Verb</button>
-      </div>
+        <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">ADD SKILL</button>
 
-      <div>
-        <h3>Noun</h3>
-        <div>
-          <div *ngFor="let noun of encounter.noun.noun; let i = index">
-            <div class="temperamentList" *ngIf="!noun.deleted">
-              <p>{{noun.noun}}</p>
-              <i (click)="removeEncounterItem(i, 'noun', 'noun')" class="fas fa-times-circle"></i>
-            </div>
-          </div>
-          <mat-form-field>
-            <mat-label>Select Noun</mat-label>
-            <mat-select (selectionChange)="captureEncounter($event, 'noun')">
-              <mat-option *ngFor="let noun of encounter.noun.allNoun" [value]="noun">
-                {{noun.noun}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <h3>OR</h3>
-        <div>
-          <mat-form-field>
-            <input placeholder="Add Noun" matInput [value]="noun.noun"
-              (change)="captureEncounterInput($event, 'noun', 'noun')">
-          </mat-form-field>
-        </div>
-        <button mat-raised-button (click)="addEncounterItem('noun', 'noun')" color="accent" [disabled]="!noun.noun">Add
-          Noun</button>
-      </div>
-    </div>
-
-    <mat-toolbar color="warn">
-      <h1>
-        Misc Information
-      </h1>
-    </mat-toolbar>
-
-    <h2>Type</h2>
-    <div class="divider"></div>
-    <div class="chip-shell box-padding">
-      <mat-chip-list>
-        <div *ngFor="let type of beast.types; let i = index">
-          <mat-chip *ngIf="!type.deleted" (click)="removeNewSecondaryItem('types', i)" color="warn" selected>
-            {{type.typeid | typeConverter}}</mat-chip>
-        </div>
-      </mat-chip-list>
-      <mat-form-field>
-        <mat-label>Select New Type</mat-label>
-        <mat-select (selectionChange)="captureChip($event, 'types')">
-          <mat-option value="1">
-            Demon
-          </mat-option>
-          <mat-option value="2">
-            Undead, Corporeal
-          </mat-option>
-          <mat-option value="3">
-            Undead, Incorporeal
-          </mat-option>
-          <mat-option value="4">
-            Elemental
-          </mat-option>
-          <mat-option value="5">
-            Natural Creature
-          </mat-option>
-          <mat-option value="6">
-            Weird Creature
-          </mat-option>
-          <mat-option value="7">
-            Humanoid
-          </mat-option>
-          <mat-option value="8">
-            Intelligent Evil
-          </mat-option>
-          <mat-option value="9">
-            Goblin
-          </mat-option>
-          <mat-option value="10">
-            Swarm
-          </mat-option>
-          <mat-option value="11">
-            Flora
-          </mat-option>
-          <mat-option value="12">
-            Aos Sidhe
-          </mat-option>
-          <mat-option value="13">
-            Spirit
-          </mat-option>
-          <mat-option value="14">
-            Eldritch
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button mat-raised-button color="accent" (click)="addChip('types')">Add Type</button>
-    </div>
-    <!-- list of types that link to search with that type as a parameter -->
-
-    <h2>Misc Information</h2>
-    <div class="divider"></div>
-    <div class="box-padding">
-
-      <mat-form-field>
-        <mat-label>Size</mat-label>
-        <mat-select [value]="beast.size" (selectionChange)="captureSelect($event, 'size')">
-          <mat-option value="Fine">
-            Fine
-          </mat-option>
-          <mat-option value="Diminutive">
-            Diminutive
-          </mat-option>
-          <mat-option value="Tiny">
-            Tiny
-          </mat-option>
-          <mat-option value="Small">
-            Small
-          </mat-option>
-          <mat-option value="Medium">
-            Medium
-          </mat-option>
-          <mat-option value="Large">
-            Large
-          </mat-option>
-          <mat-option value="Huge">
-            Huge
-          </mat-option>
-          <mat-option value="Giant">
-            Giant
-          </mat-option>
-          <mat-option value="Enormous">
-            Enormous
-          </mat-option>
-          <mat-option value="Colossal">
-            Colossal
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-
-      <mat-form-field>
-        <input matInput placeholder="Intelligence" [value]="beast.int" (change)="captureInput($event, 'int')">
-      </mat-form-field>
-
-      <h3>Environment</h3>
-      <div class="chip-shell">
+        <h2>Skill Challenges</h2>
+        <div class="divider"></div>
         <mat-chip-list>
-          <div *ngFor="let environ of beast.environ; let i = index">
-            <mat-chip *ngIf="!environ.deleted" (click)="removeNewSecondaryItem('environ', i)" color="warn" selected>
-              {{environ.environid | environConverter}}
-            </mat-chip>
+          <div *ngFor="let challenge of beast.challenges; let i = index">
+            <mat-chip (click)="removeChip('challenges', i)" color="warn" selected>
+              {{challenge.challengeid}}</mat-chip>
           </div>
         </mat-chip-list>
         <mat-form-field>
-          <mat-label>Select New Environ</mat-label>
-          <mat-select (selectionChange)="captureChip($event, 'environ')">
-            <mat-option value="1">
-              Dungeon/Ruins
-            </mat-option>
-            <mat-option value="2">
-              Wilderness
-            </mat-option>
-            <mat-option value="3">
-              Forest
-            </mat-option>
-            <mat-option value="4">
-              Castle
-            </mat-option>
-            <mat-option value="5">
-              Cave/Underground
-            </mat-option>
-            <mat-option value="6">
-              Mountain
-            </mat-option>
-            <mat-option value="7">
-              Plains
-            </mat-option>
-            <mat-option value="8">
-              Swamp
-            </mat-option>
-            <mat-option value="9">
-              Urban
-            </mat-option>
-            <mat-option value="10">
-              Ship
-            </mat-option>
-            <mat-option value="11">
-              Coastal
-            </mat-option>
-            <mat-option value="12">
-              Aquatic
-            </mat-option>
-            <mat-option value="13">
-              Other
-            </mat-option>
-            <mat-option value="14">
-              Desert
-            </mat-option>
-            <mat-option value="15">
-              Island
-            </mat-option>
-            <mat-option value="16">
-              Jungle
-            </mat-option>
-            <mat-option value="17">
-              Sewer
-            </mat-option>
-            <mat-option value="18">
-              House
-            </mat-option>
-          </mat-select>
+          <input matInput placeholder="Challenge ID" [value]="newChallengeId" (change)="captureChallenge($event)">
         </mat-form-field>
-        <button mat-raised-button color="accent" (click)="addChip('environ')">Add Environment</button>
+        <button mat-raised-button color="accent" (click)="addChallengeById()">Add By ID</button>
       </div>
+    </mat-tab>
+    <mat-tab label="Combat">
+      <div class="tab-wrapper">
+        <h3>Combat Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].role :
+          selectedRoleId ? 'None' : beast.role ? beast.role : 'None'}}
+          {{selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? '[' +
+          beast.roleInfo[selectedRoleId].secondaryrole + ']' :
+          selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}}</h3>
 
-      <mat-form-field>
-        <mat-label>Rarity</mat-label>
-        <mat-select (selectionChange)="captureSelect($event, 'rarity')">
-          <mat-option value="10">
-            Common
-          </mat-option>
-          <mat-option value="5">
-            Uncommon
-          </mat-option>
-          <mat-option value="3">
-            Rare
-          </mat-option>
-          <mat-option value="1">
-            Legendary
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div class="flex-row-opposite">
-        <h3>Current Rarity</h3>
-        <p>{{beast.rarity | rarityConverter}}</p>
-      </div>
-
-      <mat-form-field>
-        <input placeholder="Senses" matInput [value]="beast.senses" (change)="captureInput($event, 'senses')">
-      </mat-form-field>
-
-      <mat-form-field>
-        <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')">
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Subsystem Focus</mat-label>
-        <mat-select (selectionChange)="captureSelect($event, 'subsystem')">
-          <mat-option value="1">
-            Combat
-          </mat-option>
-          <mat-option value="2">
-            Social
-          </mat-option>
-          <mat-option value="3">
-            Skill
-          </mat-option>
-          <mat-option>
-            none
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div class="flex-row-opposite">
-        <h3>Current Subsystem</h3>
-        <p>{{beast.subsystem | subsystemConverter}}</p>
-      </div>
-    </div>
-
-    <h2>Loot</h2>
-    <div class="divider"></div>
-    <div *ngFor="let lootitem of beast.loot; let i = index">
-      <div *ngIf="!lootitem.deleted">
-        <h3>
+        <div>
           <mat-form-field>
-            <input placeholder="Loot" matInput [value]="lootitem.loot"
-              (change)="captureInput($event, 'loot', i, 'loot')">
+            <mat-label>Change Role Type</mat-label>
+            <mat-select (selectionChange)="setRoleType($event)">
+              <mat-option *ngFor="let role of combatRoles" [value]="role">
+                {{role}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
-        </h3>
+
+          <mat-form-field>
+            <mat-label>Change Secondary Role Type</mat-label>
+            <mat-select (selectionChange)="setSecondaryRoleType($event)">
+              <mat-option *ngFor="let role of combatRolesSecondary" [value]="role">
+                {{role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="selectedRole.strengths">
+          <p><strong>Strengths: </strong> {{selectedRole.strengths.join(', ')}}</p>
+          <p><strong>Weaknesses: </strong> {{selectedRole.weaknesses.join(', ')}}</p>
+        </div>
+
+        <div class="combat-shell">
+          <div *ngFor="let square of beast.combat; let i = index">
+            <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
+              <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
+                [updateCombatPoints]="updateCombatPoints" [index]="i" [removeNewSecondaryItem]="removeNewSecondaryItem">
+              </app-weapon-square>
+            </div>
+          </div>
+          <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">ADD WEAPON</button>
+        </div>
+
+        <div class="vitals-shell">
+          <mat-form-field>
+            <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
+              <input
+                id="{{selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
+                matInput placeholder="Vitality" [value]="beast.roleInfo[selectedRoleId].vitality"
+                (change)="captureRoleVitality($event)">
+            </div>
+            <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
+              <input matInput placeholder="Vitality"
+                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
+                [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
+            </div>
+          </mat-form-field>
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].average">
+            <p>(Ave: {{beast.roleInfo[selectedRoleId].average}})</p>
+          </div>
+          <p *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].average">(Ave: {{averageVitality}})</p>
+
+          <div *ngFor="let location of beast.locationalvitality; let i = index">
+            <div *ngIf="!location.deleted && selectedRoleId === location.roleid">
+              <br />
+              <mat-form-field>
+                <input placeholder="Location" matInput [value]="location.location"
+                  (change)="captureInput($event, 'locationalvitality', i, 'location')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Vitality" matInput [value]="location.vitality"
+                  (change)="captureInput($event, 'locationalvitality', i, 'vitality')">
+              </mat-form-field>
+              <p>(Ave: {{calculatorService.calculateAverageOfDice(location.vitality)}})</p>
+              <button mat-raised-button (click)="removeNewSecondaryItem('locationalvitality', i)" color="warn">REMOVE
+                LOCATION</button>
+            </div>
+          </div>
+
+          <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION
+            VITALITY</button>
+          <br />
+          <br />
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].stress">
+            <mat-form-field>
+              <input
+                id="{{selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
+                matInput placeholder="Stress Threshold" [value]="beast.roleInfo[selectedRoleId].stress"
+                (change)="captureInput($event, 'stress')">
+            </mat-form-field>
+          </div>
+          <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].stress">
+            <mat-form-field>
+              <input matInput placeholder="Stress Threshold"
+                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
+                [value]="beast.stress" (change)="captureInput($event, 'stress')">
+            </mat-form-field>
+          </div>
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].panic">
+            <mat-form-field>
+              <mat-label>Panic</mat-label>
+              <mat-select [value]="beast.roleInfo[selectedRoleId].panic"
+                (selectionChange)="captureSelect($event, 'panic')"
+                id="{{selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
+                <mat-option value="1">
+                  Always
+                </mat-option>
+                <mat-option value="2">
+                  Unsure
+                </mat-option>
+                <mat-option value="3">
+                  Nervous
+                </mat-option>
+                <mat-option value="4">
+                  Shaken
+                </mat-option>
+                <mat-option value="5">
+                  Breaking
+                </mat-option>
+                <mat-option value="7">
+                  Never
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="flex-row-opposite">
+              <h3>Current Panic</h3>
+              <p>{{beast.panic | moraleConverter}}</p>
+            </div>
+          </div>
+
+          <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].panic">
+            <mat-form-field>
+              <mat-label>Panic</mat-label>
+              <mat-select [value]="beast.panic" (selectionChange)="captureSelect($event, 'panic')"
+                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
+                <mat-option value="1">
+                  Always
+                </mat-option>
+                <mat-option value="2">
+                  Unsure
+                </mat-option>
+                <mat-option value="3">
+                  Nervous
+                </mat-option>
+                <mat-option value="4">
+                  Shaken
+                </mat-option>
+                <mat-option value="5">
+                  Breaking
+                </mat-option>
+                <mat-option value="7">
+                  Never
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="flex-row-opposite">
+              <h3>Current Panic</h3>
+              <p>{{beast.panic | moraleConverter}}</p>
+            </div>
+          </div>
+          <br />
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].caution">
+            <mat-form-field>
+              <input matInput placeholder="Caution Threshold" [value]="beast.roleInfo[selectedRoleId].caution"
+                id="{{selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
+                (change)="captureInput($event, 'caution')">
+            </mat-form-field>
+          </div>
+          <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].caution">
+            <mat-form-field>
+              <input matInput placeholder="Caution Threshold" [value]="beast.caution"
+                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
+                (change)="captureInput($event, 'caution')">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="vitals-shell">
+          <h3 class="blue">Movement</h3>
+          <div *ngFor="let movementType of beast.movement; let i = index">
+            <div *ngIf="!movementType.deleted && selectedRoleId === movementType.roleid">
+              <div class="divider white"></div>
+              <h3>
+                <mat-form-field>
+                  <input placeholder="Movement Type" matInput [value]="movementType.type"
+                    id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Movement') ? 'green' : selectedRole.weaknesses.includes('Movement') ? 'red' : ''}}"
+                    (change)="captureInput($event, 'movement', i, 'type')">
+                </mat-form-field>
+              </h3>
+              <div class="divider white"></div>
+              <mat-form-field>
+                <input placeholder="Stroll/Crawl" matInput [value]="movementType.stroll"
+                  (change)="captureInput($event, 'movement', i, 'stroll')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Walk" matInput [value]="movementType.walk"
+                  (change)="captureInput($event, 'movement', i, 'walk')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Jog" matInput [value]="movementType.jog"
+                  (change)="captureInput($event, 'movement', i, 'jog')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Run" matInput [value]="movementType.run"
+                  (change)="captureInput($event, 'movement', i, 'run')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Sprint" matInput [value]="movementType.sprint"
+                  (change)="captureInput($event, 'movement', i, 'sprint')">
+              </mat-form-field>
+              <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="warn">REMOVE
+                MOVEMENT</button>
+            </div>
+          </div>
+          <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">ADD MOVEMENT</button>
+        </div>
+
+        <h2>Add. Attack Info</h2>
+        <div class="divider"></div>
+        <br>
+        <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+        <div>
+          <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')"></quill-editor>
+        </div>
+
+        <div *ngIf="selectedRoleId">
+          <br>
+          <h3>Role-Specific Abilities</h3>
+          <div>
+            <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
+              (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
+          </div>
+        </div>
+
+        <h2>Add. Defense Info</h2>
+        <div class="divider"></div>
+        <br>
+        <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+        <div>
+          <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')"></quill-editor>
+        </div>
+
+        <div *ngIf="selectedRoleId">
+          <br>
+          <h3>Role-Specific Abilities</h3>
+          <div>
+            <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense"
+              (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
+          </div>
+        </div>
+
+        <h2>Tactics</h2>
+        <div class="divider"></div>
+        <div>
+          <quill-editor [(ngModel)]="beast.tactics" (onContentChanged)="captureHTML($event, 'tactics')"></quill-editor>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Random Encounters">
+      <div class="tab-wrapper">
+        <div *ngIf="encounter">
+          <div>
+            <h3>Temperament</h3>
+            <div>
+              <div *ngFor="let temperament of encounter.temperament.temperament; let i = index">
+                <div class="temperamentList" *ngIf="!temperament.deleted">
+                  <p>{{temperament.temperament}}</p>
+                  <p>{{temperament.weight}}</p>
+                  <i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fas fa-times-circle"></i>
+                </div>
+              </div>
+              <mat-form-field>
+                <mat-label>Select Temperament</mat-label>
+                <mat-select (selectionChange)="captureEncounter($event, 'temperament')">
+                  <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament">
+                    {{temperament.temperament}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Weight" matInput (change)="captureEncounterInput($event, 'temperament', 'weight')">
+              </mat-form-field>
+            </div>
+            <h3>OR</h3>
+            <div>
+              <mat-form-field>
+                <input placeholder="Add Temperament" matInput [value]="temperament.temperament"
+                  (change)="captureEncounterInput($event, 'temperament', 'temperament')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Add Temperament Tooltip" matInput [value]="temperament.tooltip"
+                  (change)="captureEncounterInput($event, 'temperament', 'tooltip')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Weight" matInput [value]="temperament.weight"
+                  (change)="captureEncounterInputInt($event, 'temperament', 'weight')">
+              </mat-form-field>
+            </div>
+            <button mat-raised-button (click)="addEncounterItem('temperament', 'temperament')" color="accent"
+              [disabled]="!temperament.temperament || !temperament.tooltip || !temperament.weight">Add
+              Temperament</button>
+          </div>
+
+          <div>
+            <h3>Rank</h3>
+            <div>
+              <div *ngFor="let rank of encounter.rank.rank; let i = index">
+                <div class="temperamentList" *ngIf="!rank.deleted">
+                  <p>{{rank.rank}}</p>
+                  <p>{{rank.weight}}</p>
+                  <p>{{rank.othertypechance}}%</p>
+                  <p>-{{rank.decayrate}}%</p>
+                  <p>{{rank.lair}} miles</p>
+                  <p>#{{rank.number}}</p>
+                  <i (click)="removeEncounterItem(i, 'rank', 'rank')" class="fas fa-times-circle"></i>
+                </div>
+              </div>
+              <mat-form-field>
+                <mat-label>Select Rank</mat-label>
+                <mat-select (selectionChange)="captureEncounter($event, 'rank')">
+                  <mat-option *ngFor="let rank of encounter.rank.allRank" [value]="rank">
+                    {{rank.rank}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Weight" matInput (change)="captureEncounterInput($event, 'rank', 'weight')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Other Type Chance" matInput
+                  (change)="captureEncounterInput($event, 'rank', 'othertypechance')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Decay Rate" matInput (change)="captureEncounterInput($event, 'rank', 'decayrate')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Lair Distance as dice" matInput
+                  (change)="captureEncounterInput($event, 'rank', 'lair')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Number as dice" matInput (change)="captureEncounterInput($event, 'rank', 'number')">
+              </mat-form-field>
+            </div>
+            <h3>OR</h3>
+            <div>
+              <mat-form-field>
+                <input placeholder="Add Rank" matInput [value]="rank.rank"
+                  (change)="captureEncounterInput($event, 'rank', 'rank')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Weight" matInput (change)="captureEncounterInputInt($event, 'rank', 'weight')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Other Type Chance" matInput
+                  (change)="captureEncounterInputInt($event, 'rank', 'othertypechance')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Decay Rate" matInput
+                  (change)="captureEncounterInputInt($event, 'rank', 'decayrate')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Lair Distance as dice" matInput [value]="rank.lair"
+                  (change)="captureEncounterInput($event, 'rank', 'lair')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Number as dice" matInput (change)="captureEncounterInput($event, 'rank', 'number')">
+              </mat-form-field>
+            </div>
+            <button mat-raised-button (click)="addEncounterItem('rank', 'rank')" color="accent"
+              [disabled]="!rank.rank || !rank.weight || !rank.othertypechance || !rank.decayrate || !rank.lair || !rank.number || (rank.othertypechance > 0 && rank.decayrate <= 0)">Add
+              Rank</button>
+          </div>
+
+          <div>
+            <h3>Verb</h3>
+            <div>
+              <div *ngFor="let verb of encounter.verb.verb; let i = index">
+                <div class="temperamentList" *ngIf="!verb.deleted">
+                  <p>{{verb.verb}}</p>
+                  <i (click)="removeEncounterItem(i, 'verb', 'verb')" class="fas fa-times-circle"></i>
+                </div>
+              </div>
+              <mat-form-field>
+                <mat-label>Select Verb</mat-label>
+                <mat-select (selectionChange)="captureEncounter($event, 'verb')">
+                  <mat-option *ngFor="let verb of encounter.verb.allVerb" [value]="verb">
+                    {{verb.verb}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <h3>OR</h3>
+            <div>
+              <mat-form-field>
+                <input placeholder="Add Verb" matInput [value]="verb.verb"
+                  (change)="captureEncounterInput($event, 'verb', 'verb')">
+              </mat-form-field>
+            </div>
+            <button mat-raised-button (click)="addEncounterItem('verb', 'verb')" color="accent"
+              [disabled]="!verb.verb">Add
+              Verb</button>
+          </div>
+
+          <div>
+            <h3>Noun</h3>
+            <div>
+              <div *ngFor="let noun of encounter.noun.noun; let i = index">
+                <div class="temperamentList" *ngIf="!noun.deleted">
+                  <p>{{noun.noun}}</p>
+                  <i (click)="removeEncounterItem(i, 'noun', 'noun')" class="fas fa-times-circle"></i>
+                </div>
+              </div>
+              <mat-form-field>
+                <mat-label>Select Noun</mat-label>
+                <mat-select (selectionChange)="captureEncounter($event, 'noun')">
+                  <mat-option *ngFor="let noun of encounter.noun.allNoun" [value]="noun">
+                    {{noun.noun}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <h3>OR</h3>
+            <div>
+              <mat-form-field>
+                <input placeholder="Add Noun" matInput [value]="noun.noun"
+                  (change)="captureEncounterInput($event, 'noun', 'noun')">
+              </mat-form-field>
+            </div>
+            <button mat-raised-button (click)="addEncounterItem('noun', 'noun')" color="accent"
+              [disabled]="!noun.noun">Add
+              Noun</button>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Loot">
+      <div class="tab-wrapper">
+        <div *ngFor="let lootitem of beast.loot; let i = index">
+          <div *ngIf="!lootitem.deleted">
+            <h3>
+              <mat-form-field>
+                <input placeholder="Loot" matInput [value]="lootitem.loot"
+                  (change)="captureInput($event, 'loot', i, 'loot')">
+              </mat-form-field>
+            </h3>
+            <mat-form-field>
+              <input placeholder="Value" matInput [value]="lootitem.price"
+                (change)="captureInput($event, 'loot', i, 'price')">
+            </mat-form-field>
+            <button mat-raised-button (click)="removeNewSecondaryItem('loot', i)" color="warn">REMOVE
+              LOOT</button>
+          </div>
+        </div>
+
+        <button mat-raised-button (click)="addNewSecondaryItem('loot')" color="accent">ADD LOOT</button>
+
+        <h3 class="loot-notes-subtitle">Loot Notes</h3>
+        <div>
+          <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')">
+          </quill-editor>
+        </div>
+        <br />
+        <h3>Lair Loot</h3>
+        <div class="lair-loot-shell">
+          <mat-form-field>
+            <mat-label>Copper</mat-label>
+            <mat-select [value]="beast.lairloot.copper"
+              (selectionChange)="captureSelectForObject($event, 'copper', 'lairloot')">
+              <mat-option>
+                Nothing
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.staticValues.a}}
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.staticValues.b}}
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.staticValues.c}}
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.staticValues.d}}
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.staticValues.e}}
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.staticValues.f}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Silver</mat-label>
+            <mat-select [value]="beast.lairloot.silver"
+              (selectionChange)="captureSelectForObject($event, 'silver', 'lairloot')">
+              <mat-option>
+                Nothing
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.staticValues.a}}
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.staticValues.b}}
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.staticValues.c}}
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.staticValues.d}}
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.staticValues.e}}
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.staticValues.f}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Gold</mat-label>
+            <mat-select [value]="beast.lairloot.gold"
+              (selectionChange)="captureSelectForObject($event, 'gold', 'lairloot')">
+              <mat-option>
+                Nothing
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.staticValues.a}}
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.staticValues.b}}
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.staticValues.c}}
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.staticValues.d}}
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.staticValues.e}}
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.staticValues.f}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Potions</mat-label>
+            <mat-select [value]="beast.lairloot.potion"
+              (selectionChange)="captureSelectForObject($event, 'potion', 'lairloot')">
+              <mat-option>
+                None
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.numberAppearing.a}}
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.numberAppearing.b}}
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.numberAppearing.c}}
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.numberAppearing.d}}
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.numberAppearing.e}}
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.numberAppearing.f}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Relic Chance</mat-label>
+            <mat-select [value]="beast.lairloot.relic"
+              (selectionChange)="captureSelectForObject($event, 'relic', 'lairloot')">
+              <mat-option>
+                No Chance of Either
+              </mat-option>
+              <mat-option value="a">
+                {{formatRelicAndEnchantedChange(lootTables.relicTable.a)}}
+              </mat-option>
+              <mat-option value="b">
+                {{formatRelicAndEnchantedChange(lootTables.relicTable.b)}}
+              </mat-option>
+              <mat-option value="c">
+                {{formatRelicAndEnchantedChange(lootTables.relicTable.c)}}
+              </mat-option>
+              <mat-option value="d">
+                {{formatRelicAndEnchantedChange(lootTables.relicTable.d)}}
+              </mat-option>
+              <mat-option value="e">
+                {{formatRelicAndEnchantedChange(lootTables.relicTable.e)}}
+              </mat-option>
+              <mat-option value="f">
+                {{formatRelicAndEnchantedChange(lootTables.relicTable.f)}}
+              </mat-option>
+              <mat-option value="g">
+                {{formatRelicAndEnchantedChange(lootTables.relicTable.g)}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Enchanted Item Chance</mat-label>
+            <mat-select [value]="beast.lairloot.enchanted"
+              (selectionChange)="captureSelectForObject($event, 'enchanted', 'lairloot')">
+              <mat-option>
+                No Chance of Either
+              </mat-option>
+              <mat-option value="a">
+                {{formatRelicAndEnchantedChange(lootTables.enchantedTable.a)}}
+              </mat-option>
+              <mat-option value="b">
+                {{formatRelicAndEnchantedChange(lootTables.enchantedTable.b)}}
+              </mat-option>
+              <mat-option value="c">
+                {{formatRelicAndEnchantedChange(lootTables.enchantedTable.c)}}
+              </mat-option>
+              <mat-option value="d">
+                {{formatRelicAndEnchantedChange(lootTables.enchantedTable.d)}}
+              </mat-option>
+              <mat-option value="e">
+                {{formatRelicAndEnchantedChange(lootTables.enchantedTable.e)}}
+              </mat-option>
+              <mat-option value="f">
+                {{formatRelicAndEnchantedChange(lootTables.enchantedTable.f)}}
+              </mat-option>
+              <mat-option value="g">
+                {{formatRelicAndEnchantedChange(lootTables.enchantedTable.g)}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div *ngFor="let equipment of beast.lairloot.equipment; let i = index">
+          <div class="temperamentList" *ngIf="!equipment.deleted">
+            <p>Value: {{lootTables.staticValues[equipment.value]}}</p>
+            <p>Number: {{lootTables.numberAppearing[equipment.number]}} sc</p>
+            <i (click)="removeEqupment(i)" class="fas fa-times-circle"></i>
+          </div>
+        </div>
+        <br />
+        <div>
+          <mat-form-field>
+            <mat-label>Equipment Value</mat-label>
+            <mat-select (selectionChange)="captureEquipment($event, 'value')">
+              <mat-option>
+                No Value
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.staticValues.a}} sc
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.staticValues.b}} sc
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.staticValues.c}} sc
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.staticValues.d}} sc
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.staticValues.e}} sc
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.staticValues.f}} sc
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Equipment Number</mat-label>
+            <mat-select (selectionChange)="captureEquipment($event, 'number')">
+              <mat-option>
+                None
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.numberAppearing.a}}
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.numberAppearing.b}}
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.numberAppearing.c}}
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.numberAppearing.d}}
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.numberAppearing.e}}
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.numberAppearing.f}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button mat-raised-button (click)="captureAddEquipment()" color="accent"
+          [disabled]="!equipment.value || !equipment.number">Add
+          Equipment</button>
+        <br />
+        <br />
+        <div *ngFor="let traited of beast.lairloot.traited; let i = index">
+          <div class="temperamentList" *ngIf="!traited.deleted">
+            <p>Chance Table: {{lootTables.traitedChance[traited.chancetable]}}</p>
+            <p>Value: {{lootTables.staticValues[traited.value]}} sc</p>
+            <i (click)="removeTraited(i)" class="fas fa-times-circle"></i>
+          </div>
+        </div>
+        <br />
+        <div>
+          <mat-form-field>
+            <mat-label>Superior Equipment Value</mat-label>
+            <mat-select (selectionChange)="captureTraited($event, 'value')">
+              <mat-option>
+                No Value
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.staticValues.a}} sc
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.staticValues.b}} sc
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.staticValues.c}} sc
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.staticValues.d}} sc
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.staticValues.e}} sc
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.staticValues.f}} sc
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Superior Equipment Chance Table</mat-label>
+            <mat-select (selectionChange)="captureTraited($event, 'chancetable')">
+              <mat-option>
+                None
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.traitedChance.a}}
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.traitedChance.b}}
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.traitedChance.c}}
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.traitedChance.d}}
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.traitedChance.e}}
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.traitedChance.f}}
+              </mat-option>
+              <mat-option value="g">
+                {{lootTables.traitedChance.g}}
+              </mat-option>
+              <mat-option value="h">
+                {{lootTables.traitedChance.h}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button mat-raised-button (click)="captureAddTraited()" color="accent"
+          [disabled]="!traited.value || !traited.chancetable">Add Superior
+          Equipment</button>
+
+        <br />
+        <br />
+        <div *ngFor="let scroll of beast.lairloot.scrolls; let i = index">
+          <div class="temperamentList" *ngIf="!scroll.deleted">
+            <p>Number: {{lootTables.numberAppearing[scroll.number]}}</p>
+            <p>Power: {{lootTables.scrollPower[scroll.power]}} SP</p>
+            <i (click)="removeScroll(i)" class="fas fa-times-circle"></i>
+          </div>
+        </div>
+        <br />
+        <div>
+          <mat-form-field>
+            <mat-label>Number of Scrolls</mat-label>
+            <mat-select (selectionChange)="captureScroll($event, 'number')">
+              <mat-option>
+                None
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.numberAppearing.a}}
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.numberAppearing.b}}
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.numberAppearing.c}}
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.numberAppearing.d}}
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.numberAppearing.e}}
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.numberAppearing.f}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Scroll Power Range</mat-label>
+            <mat-select (selectionChange)="captureScroll($event, 'power')">
+              <mat-option>
+                None
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.scrollPower.a}} SP
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.scrollPower.b}} SP
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.scrollPower.c}} SP
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.scrollPower.d}} SP
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button mat-raised-button (click)="captureAddScroll()" color="accent"
+          [disabled]="!scroll.number || !scroll.power">Add Scroll</button>
+
+        <br />
+        <br />
+        <div *ngFor="let alm of beast.lairloot.alms; let i = index">
+          <div class="temperamentList" *ngIf="!alm.deleted">
+            <p>Number: {{lootTables.numberAppearing[alm.number]}}</p>
+            <p>Favor: {{lootTables.almsFavor[alm.favor]}}</p>
+            <i (click)="removeAlm(i)" class="fas fa-times-circle"></i>
+          </div>
+        </div>
+        <br />
+        <div>
+          <mat-form-field>
+            <mat-label>Number of Alm Scripts</mat-label>
+            <mat-select (selectionChange)="captureAlm($event, 'number')">
+              <mat-option>
+                None
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.numberAppearing.a}}
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.numberAppearing.b}}
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.numberAppearing.c}}
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.numberAppearing.d}}
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.numberAppearing.e}}
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.numberAppearing.f}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Alm Script Favor Range</mat-label>
+            <mat-select (selectionChange)="captureAlm($event, 'favor')">
+              <mat-option>
+                None
+              </mat-option>
+              <mat-option value="a">
+                {{lootTables.almsFavor.a}}
+              </mat-option>
+              <mat-option value="b">
+                {{lootTables.almsFavor.b}}
+              </mat-option>
+              <mat-option value="c">
+                {{lootTables.almsFavor.c}}
+              </mat-option>
+              <mat-option value="d">
+                {{lootTables.almsFavor.d}}
+              </mat-option>
+              <mat-option value="e">
+                {{lootTables.almsFavor.e}}
+              </mat-option>
+              <mat-option value="f">
+                {{lootTables.almsFavor.f}}
+              </mat-option>
+              <mat-option value="g">
+                {{lootTables.almsFavor.g}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button mat-raised-button (click)="captureAddAlm()" color="accent" [disabled]="!alm.number || !alm.favor">Add
+          Alm
+          Script</button>
+
+        <h2>Weird Reagents</h2>
+        <div class="divider"></div>
+        <div *ngFor="let regeant of beast.reagents; let i = index">
+          <div *ngIf="!regeant.deleted">
+            <mat-form-field>
+              <input placeholder="Body Part" matInput [value]="regeant.name"
+                (change)="captureInput($event, 'reagents', i, 'name')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Spell" matInput [value]="regeant.spell"
+                (change)="captureInput($event, 'reagents', i, 'spell')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Identification" matInput [value]="regeant.difficulty"
+                (change)="captureInput($event, 'reagents', i, 'difficulty')">
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Harvest" matInput [value]="regeant.harvest"
+                (change)="captureInput($event, 'reagents', i, 'harvest')">
+            </mat-form-field>
+            <button mat-raised-button (click)="removeNewSecondaryItem('reagents', i)" color="warn">REMOVE
+              REAGENT</button>
+          </div>
+        </div>
+
+        <button mat-raised-button (click)="addNewSecondaryItem('reagents')" color="accent">ADD REAGENT</button>
+
+        <!-- <h2>Special Harvest</h2> -->
+
+        <h2>Meta Notes</h2>
+        <div class="divider"></div>
+        <div>
+          <quill-editor [(ngModel)]="beast.meta" (onContentChanged)="captureHTML($event, 'meta')"></quill-editor>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Weirdshaping">
+      <div class="tab-wrapper">
+        <app-weird-shaping-edit [casting]="beast.casting" [spells]="beast.spells"
+          [checkWeirdshapeType]="checkWeirdshapeType" [deleteSpell]="deleteSpell" [addNewSpell]="addNewSpell"
+          [captureSpellHTML]="captureSpellHTML" [captureSpellInput]="captureSpellInput"
+          [captureSpellSelect]="captureSpellSelect" [captureSpellDie]="captureSpellDie"
+          [checkWeirdshapeType]="checkWeirdshapeType"></app-weird-shaping-edit>
+      </div>
+    </mat-tab>
+    <mat-tab label="Misc Information">
+      <div class="tab-wrapper">
+        <h2>Type</h2>
+        <div class="divider"></div>
+        <div class="chip-shell box-padding">
+          <mat-chip-list>
+            <div *ngFor="let type of beast.types; let i = index">
+              <mat-chip *ngIf="!type.deleted" (click)="removeNewSecondaryItem('types', i)" color="warn" selected>
+                {{type.typeid | typeConverter}}</mat-chip>
+            </div>
+          </mat-chip-list>
+          <mat-form-field>
+            <mat-label>Select New Type</mat-label>
+            <mat-select (selectionChange)="captureChip($event, 'types')">
+              <mat-option value="1">
+                Demon
+              </mat-option>
+              <mat-option value="2">
+                Undead, Corporeal
+              </mat-option>
+              <mat-option value="3">
+                Undead, Incorporeal
+              </mat-option>
+              <mat-option value="4">
+                Elemental
+              </mat-option>
+              <mat-option value="5">
+                Natural Creature
+              </mat-option>
+              <mat-option value="6">
+                Weird Creature
+              </mat-option>
+              <mat-option value="7">
+                Humanoid
+              </mat-option>
+              <mat-option value="8">
+                Intelligent Evil
+              </mat-option>
+              <mat-option value="9">
+                Goblin
+              </mat-option>
+              <mat-option value="10">
+                Swarm
+              </mat-option>
+              <mat-option value="11">
+                Flora
+              </mat-option>
+              <mat-option value="12">
+                Aos Sidhe
+              </mat-option>
+              <mat-option value="13">
+                Spirit
+              </mat-option>
+              <mat-option value="14">
+                Eldritch
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button color="accent" (click)="addChip('types')">Add Type</button>
+        </div>
+        <!-- list of types that link to search with that type as a parameter -->
+
+        <h2>Misc Information</h2>
+        <div class="divider"></div>
+        <div class="box-padding">
+
+          <mat-form-field>
+            <mat-label>Size</mat-label>
+            <mat-select [value]="beast.size" (selectionChange)="captureSelect($event, 'size')">
+              <mat-option value="Fine">
+                Fine
+              </mat-option>
+              <mat-option value="Diminutive">
+                Diminutive
+              </mat-option>
+              <mat-option value="Tiny">
+                Tiny
+              </mat-option>
+              <mat-option value="Small">
+                Small
+              </mat-option>
+              <mat-option value="Medium">
+                Medium
+              </mat-option>
+              <mat-option value="Large">
+                Large
+              </mat-option>
+              <mat-option value="Huge">
+                Huge
+              </mat-option>
+              <mat-option value="Giant">
+                Giant
+              </mat-option>
+              <mat-option value="Enormous">
+                Enormous
+              </mat-option>
+              <mat-option value="Colossal">
+                Colossal
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+          <mat-form-field>
+            <input matInput placeholder="Intelligence" [value]="beast.int" (change)="captureInput($event, 'int')">
+          </mat-form-field>
+
+          <h3>Environment</h3>
+          <div class="chip-shell">
+            <mat-chip-list>
+              <div *ngFor="let environ of beast.environ; let i = index">
+                <mat-chip *ngIf="!environ.deleted" (click)="removeNewSecondaryItem('environ', i)" color="warn" selected>
+                  {{environ.environid | environConverter}}
+                </mat-chip>
+              </div>
+            </mat-chip-list>
+            <mat-form-field>
+              <mat-label>Select New Environ</mat-label>
+              <mat-select (selectionChange)="captureChip($event, 'environ')">
+                <mat-option value="1">
+                  Dungeon/Ruins
+                </mat-option>
+                <mat-option value="2">
+                  Wilderness
+                </mat-option>
+                <mat-option value="3">
+                  Forest
+                </mat-option>
+                <mat-option value="4">
+                  Castle
+                </mat-option>
+                <mat-option value="5">
+                  Cave/Underground
+                </mat-option>
+                <mat-option value="6">
+                  Mountain
+                </mat-option>
+                <mat-option value="7">
+                  Plains
+                </mat-option>
+                <mat-option value="8">
+                  Swamp
+                </mat-option>
+                <mat-option value="9">
+                  Urban
+                </mat-option>
+                <mat-option value="10">
+                  Ship
+                </mat-option>
+                <mat-option value="11">
+                  Coastal
+                </mat-option>
+                <mat-option value="12">
+                  Aquatic
+                </mat-option>
+                <mat-option value="13">
+                  Other
+                </mat-option>
+                <mat-option value="14">
+                  Desert
+                </mat-option>
+                <mat-option value="15">
+                  Island
+                </mat-option>
+                <mat-option value="16">
+                  Jungle
+                </mat-option>
+                <mat-option value="17">
+                  Sewer
+                </mat-option>
+                <mat-option value="18">
+                  House
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="addChip('environ')">Add Environment</button>
+          </div>
+
+          <mat-form-field>
+            <mat-label>Rarity</mat-label>
+            <mat-select (selectionChange)="captureSelect($event, 'rarity')">
+              <mat-option value="10">
+                Common
+              </mat-option>
+              <mat-option value="5">
+                Uncommon
+              </mat-option>
+              <mat-option value="3">
+                Rare
+              </mat-option>
+              <mat-option value="1">
+                Legendary
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="flex-row-opposite">
+            <h3>Current Rarity</h3>
+            <p>{{beast.rarity | rarityConverter}}</p>
+          </div>
+
+          <mat-form-field>
+            <input placeholder="Senses" matInput [value]="beast.senses" (change)="captureInput($event, 'senses')">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Subsystem Focus</mat-label>
+            <mat-select (selectionChange)="captureSelect($event, 'subsystem')">
+              <mat-option value="1">
+                Combat
+              </mat-option>
+              <mat-option value="2">
+                Social
+              </mat-option>
+              <mat-option value="3">
+                Skill
+              </mat-option>
+              <mat-option>
+                none
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="flex-row-opposite">
+            <h3>Current Subsystem</h3>
+            <p>{{beast.subsystem | subsystemConverter}}</p>
+          </div>
+        </div>
+
+        <h2>Variants</h2>
+        <div class="divider"></div>
+        <mat-chip-list>
+          <div *ngFor="let variant of beast.variants; let i = index">
+            <mat-chip *ngIf="!variant.deleted" (click)="removeNewSecondaryItem('variants', i)" color="warn" selected>
+              {{variant.variantid}}</mat-chip>
+          </div>
+        </mat-chip-list>
         <mat-form-field>
-          <input placeholder="Value" matInput [value]="lootitem.price"
-            (change)="captureInput($event, 'loot', i, 'price')">
+          <input matInput placeholder="Monster ID" [value]="newVariantId" (change)="captureID($event)">
         </mat-form-field>
-        <button mat-raised-button (click)="removeNewSecondaryItem('loot', i)" color="warn">REMOVE
-          LOOT</button>
+        <button mat-raised-button color="accent" (click)="addById()">Add By ID</button>
       </div>
-    </div>
+    </mat-tab>
+  </mat-tab-group>
 
-    <button mat-raised-button (click)="addNewSecondaryItem('loot')" color="accent">ADD LOOT</button>
-
-    <h3 class="loot-notes-subtitle">Loot Notes</h3>
-    <div>
-      <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')">
-      </quill-editor>
-    </div>
-    <br />
-    <h3>Lair Loot</h3>
-    <div class="lair-loot-shell">
-      <mat-form-field>
-        <mat-label>Copper</mat-label>
-        <mat-select [value]="beast.lairloot.copper"
-          (selectionChange)="captureSelectForObject($event, 'copper', 'lairloot')">
-          <mat-option>
-            Nothing
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.staticValues.a}}
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.staticValues.b}}
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.staticValues.c}}
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.staticValues.d}}
-          </mat-option>
-          <mat-option value="e">
-            {{lootTables.staticValues.e}}
-          </mat-option>
-          <mat-option value="f">
-            {{lootTables.staticValues.f}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Silver</mat-label>
-        <mat-select [value]="beast.lairloot.silver"
-          (selectionChange)="captureSelectForObject($event, 'silver', 'lairloot')">
-          <mat-option>
-            Nothing
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.staticValues.a}}
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.staticValues.b}}
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.staticValues.c}}
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.staticValues.d}}
-          </mat-option>
-          <mat-option value="e">
-            {{lootTables.staticValues.e}}
-          </mat-option>
-          <mat-option value="f">
-            {{lootTables.staticValues.f}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Gold</mat-label>
-        <mat-select [value]="beast.lairloot.gold"
-          (selectionChange)="captureSelectForObject($event, 'gold', 'lairloot')">
-          <mat-option>
-            Nothing
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.staticValues.a}}
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.staticValues.b}}
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.staticValues.c}}
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.staticValues.d}}
-          </mat-option>
-          <mat-option value="e">
-            {{lootTables.staticValues.e}}
-          </mat-option>
-          <mat-option value="f">
-            {{lootTables.staticValues.f}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Potions</mat-label>
-        <mat-select [value]="beast.lairloot.potion"
-          (selectionChange)="captureSelectForObject($event, 'potion', 'lairloot')">
-          <mat-option>
-            None
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.numberAppearing.a}}
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.numberAppearing.b}}
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.numberAppearing.c}}
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.numberAppearing.d}}
-          </mat-option>
-          <mat-option value="e">
-            {{lootTables.numberAppearing.e}}
-          </mat-option>
-          <mat-option value="f">
-            {{lootTables.numberAppearing.f}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Relic Chance</mat-label>
-        <mat-select [value]="beast.lairloot.relic"
-          (selectionChange)="captureSelectForObject($event, 'relic', 'lairloot')">
-          <mat-option>
-            No Chance of Either
-          </mat-option>
-          <mat-option value="a">
-            {{formatRelicAndEnchantedChange(lootTables.relicTable.a)}}
-          </mat-option>
-          <mat-option value="b">
-            {{formatRelicAndEnchantedChange(lootTables.relicTable.b)}}
-          </mat-option>
-          <mat-option value="c">
-            {{formatRelicAndEnchantedChange(lootTables.relicTable.c)}}
-          </mat-option>
-          <mat-option value="d">
-            {{formatRelicAndEnchantedChange(lootTables.relicTable.d)}}
-          </mat-option>
-          <mat-option value="e">
-            {{formatRelicAndEnchantedChange(lootTables.relicTable.e)}}
-          </mat-option>
-          <mat-option value="f">
-            {{formatRelicAndEnchantedChange(lootTables.relicTable.f)}}
-          </mat-option>
-          <mat-option value="g">
-            {{formatRelicAndEnchantedChange(lootTables.relicTable.g)}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Enchanted Item Chance</mat-label>
-        <mat-select [value]="beast.lairloot.enchanted"
-          (selectionChange)="captureSelectForObject($event, 'enchanted', 'lairloot')">
-          <mat-option>
-            No Chance of Either
-          </mat-option>
-          <mat-option value="a">
-            {{formatRelicAndEnchantedChange(lootTables.enchantedTable.a)}}
-          </mat-option>
-          <mat-option value="b">
-            {{formatRelicAndEnchantedChange(lootTables.enchantedTable.b)}}
-          </mat-option>
-          <mat-option value="c">
-            {{formatRelicAndEnchantedChange(lootTables.enchantedTable.c)}}
-          </mat-option>
-          <mat-option value="d">
-            {{formatRelicAndEnchantedChange(lootTables.enchantedTable.d)}}
-          </mat-option>
-          <mat-option value="e">
-            {{formatRelicAndEnchantedChange(lootTables.enchantedTable.e)}}
-          </mat-option>
-          <mat-option value="f">
-            {{formatRelicAndEnchantedChange(lootTables.enchantedTable.f)}}
-          </mat-option>
-          <mat-option value="g">
-            {{formatRelicAndEnchantedChange(lootTables.enchantedTable.g)}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div *ngFor="let equipment of beast.lairloot.equipment; let i = index">
-      <div class="temperamentList" *ngIf="!equipment.deleted">
-        <p>Value: {{lootTables.staticValues[equipment.value]}}</p>
-        <p>Number: {{lootTables.numberAppearing[equipment.number]}} sc</p>
-        <i (click)="removeEqupment(i)" class="fas fa-times-circle"></i>
-      </div>
-    </div>
-    <br />
-    <div>
-      <mat-form-field>
-        <mat-label>Equipment Value</mat-label>
-        <mat-select (selectionChange)="captureEquipment($event, 'value')">
-          <mat-option>
-            No Value
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.staticValues.a}} sc
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.staticValues.b}} sc
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.staticValues.c}} sc
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.staticValues.d}} sc
-          </mat-option>
-          <mat-option value="e">
-            {{lootTables.staticValues.e}} sc
-          </mat-option>
-          <mat-option value="f">
-            {{lootTables.staticValues.f}} sc
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Equipment Number</mat-label>
-        <mat-select (selectionChange)="captureEquipment($event, 'number')">
-          <mat-option>
-            None
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.numberAppearing.a}}
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.numberAppearing.b}}
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.numberAppearing.c}}
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.numberAppearing.d}}
-          </mat-option>
-          <mat-option value="e">
-            {{lootTables.numberAppearing.e}}
-          </mat-option>
-          <mat-option value="f">
-            {{lootTables.numberAppearing.f}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <button mat-raised-button (click)="captureAddEquipment()" color="accent"
-      [disabled]="!equipment.value || !equipment.number">Add
-      Equipment</button>
-    <br />
-    <br />
-    <div *ngFor="let traited of beast.lairloot.traited; let i = index">
-      <div class="temperamentList" *ngIf="!traited.deleted">
-        <p>Chance Table: {{lootTables.traitedChance[traited.chancetable]}}</p>
-        <p>Value: {{lootTables.staticValues[traited.value]}} sc</p>
-        <i (click)="removeTraited(i)" class="fas fa-times-circle"></i>
-      </div>
-    </div>
-    <br />
-    <div>
-      <mat-form-field>
-        <mat-label>Superior Equipment Value</mat-label>
-        <mat-select (selectionChange)="captureTraited($event, 'value')">
-          <mat-option>
-            No Value
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.staticValues.a}} sc
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.staticValues.b}} sc
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.staticValues.c}} sc
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.staticValues.d}} sc
-          </mat-option>
-          <mat-option value="e">
-            {{lootTables.staticValues.e}} sc
-          </mat-option>
-          <mat-option value="f">
-            {{lootTables.staticValues.f}} sc
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Superior Equipment Chance Table</mat-label>
-        <mat-select (selectionChange)="captureTraited($event, 'chancetable')">
-          <mat-option>
-            None
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.traitedChance.a}}
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.traitedChance.b}}
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.traitedChance.c}}
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.traitedChance.d}}
-          </mat-option>
-          <mat-option value="e">
-            {{lootTables.traitedChance.e}}
-          </mat-option>
-          <mat-option value="f">
-            {{lootTables.traitedChance.f}}
-          </mat-option>
-          <mat-option value="g">
-            {{lootTables.traitedChance.g}}
-          </mat-option>
-          <mat-option value="h">
-            {{lootTables.traitedChance.h}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <button mat-raised-button (click)="captureAddTraited()" color="accent"
-      [disabled]="!traited.value || !traited.chancetable">Add Superior
-      Equipment</button>
-
-    <br />
-    <br />
-    <div *ngFor="let scroll of beast.lairloot.scrolls; let i = index">
-      <div class="temperamentList" *ngIf="!scroll.deleted">
-        <p>Number: {{lootTables.numberAppearing[scroll.number]}}</p>
-        <p>Power: {{lootTables.scrollPower[scroll.power]}} SP</p>
-        <i (click)="removeScroll(i)" class="fas fa-times-circle"></i>
-      </div>
-    </div>
-    <br />
-    <div>
-      <mat-form-field>
-        <mat-label>Number of Scrolls</mat-label>
-        <mat-select (selectionChange)="captureScroll($event, 'number')">
-          <mat-option>
-            None
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.numberAppearing.a}}
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.numberAppearing.b}}
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.numberAppearing.c}}
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.numberAppearing.d}}
-          </mat-option>
-          <mat-option value="e">
-            {{lootTables.numberAppearing.e}}
-          </mat-option>
-          <mat-option value="f">
-            {{lootTables.numberAppearing.f}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Scroll Power Range</mat-label>
-        <mat-select (selectionChange)="captureScroll($event, 'power')">
-          <mat-option>
-            None
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.scrollPower.a}} SP
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.scrollPower.b}} SP
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.scrollPower.c}} SP
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.scrollPower.d}} SP
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <button mat-raised-button (click)="captureAddScroll()" color="accent"
-      [disabled]="!scroll.number || !scroll.power">Add Scroll</button>
-
-    <br />
-    <br />
-    <div *ngFor="let alm of beast.lairloot.alms; let i = index">
-      <div class="temperamentList" *ngIf="!alm.deleted">
-        <p>Number: {{lootTables.numberAppearing[alm.number]}}</p>
-        <p>Favor: {{lootTables.almsFavor[alm.favor]}}</p>
-        <i (click)="removeAlm(i)" class="fas fa-times-circle"></i>
-      </div>
-    </div>
-    <br />
-    <div>
-      <mat-form-field>
-        <mat-label>Number of Alm Scripts</mat-label>
-        <mat-select (selectionChange)="captureAlm($event, 'number')">
-          <mat-option>
-            None
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.numberAppearing.a}}
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.numberAppearing.b}}
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.numberAppearing.c}}
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.numberAppearing.d}}
-          </mat-option>
-          <mat-option value="e">
-            {{lootTables.numberAppearing.e}}
-          </mat-option>
-          <mat-option value="f">
-            {{lootTables.numberAppearing.f}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Alm Script Favor Range</mat-label>
-        <mat-select (selectionChange)="captureAlm($event, 'favor')">
-          <mat-option>
-            None
-          </mat-option>
-          <mat-option value="a">
-            {{lootTables.almsFavor.a}}
-          </mat-option>
-          <mat-option value="b">
-            {{lootTables.almsFavor.b}}
-          </mat-option>
-          <mat-option value="c">
-            {{lootTables.almsFavor.c}}
-          </mat-option>
-          <mat-option value="d">
-            {{lootTables.almsFavor.d}}
-          </mat-option>
-          <mat-option value="e">
-            {{lootTables.almsFavor.e}}
-          </mat-option>
-          <mat-option value="f">
-            {{lootTables.almsFavor.f}}
-          </mat-option>
-          <mat-option value="g">
-            {{lootTables.almsFavor.g}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <button mat-raised-button (click)="captureAddAlm()" color="accent" [disabled]="!alm.number || !alm.favor">Add Alm
-      Script</button>
-
-    <h2>Weird Reagents</h2>
-    <div class="divider"></div>
-    <div *ngFor="let regeant of beast.reagents; let i = index">
-      <div *ngIf="!regeant.deleted">
-        <mat-form-field>
-          <input placeholder="Body Part" matInput [value]="regeant.name"
-            (change)="captureInput($event, 'reagents', i, 'name')">
-        </mat-form-field>
-        <mat-form-field>
-          <input placeholder="Spell" matInput [value]="regeant.spell"
-            (change)="captureInput($event, 'reagents', i, 'spell')">
-        </mat-form-field>
-        <mat-form-field>
-          <input placeholder="Identification" matInput [value]="regeant.difficulty"
-            (change)="captureInput($event, 'reagents', i, 'difficulty')">
-        </mat-form-field>
-        <mat-form-field>
-          <input placeholder="Harvest" matInput [value]="regeant.harvest"
-            (change)="captureInput($event, 'reagents', i, 'harvest')">
-        </mat-form-field>
-        <button mat-raised-button (click)="removeNewSecondaryItem('reagents', i)" color="warn">REMOVE
-          REAGENT</button>
-      </div>
-    </div>
-
-    <button mat-raised-button (click)="addNewSecondaryItem('reagents')" color="accent">ADD REAGENT</button>
-
-
-    <h2>Variants</h2>
-    <div class="divider"></div>
-    <mat-chip-list>
-      <div *ngFor="let variant of beast.variants; let i = index">
-        <mat-chip *ngIf="!variant.deleted" (click)="removeNewSecondaryItem('variants', i)" color="warn" selected>
-          {{variant.variantid}}</mat-chip>
-      </div>
-    </mat-chip-list>
-    <mat-form-field>
-      <input matInput placeholder="Monster ID" [value]="newVariantId" (change)="captureID($event)">
-    </mat-form-field>
-    <button mat-raised-button color="accent" (click)="addById()">Add By ID</button>
-
-    <!-- <h2>Special Harvest</h2> -->
-
-    <h2>Meta Notes</h2>
-    <div class="divider"></div>
-    <div>
-      <quill-editor [(ngModel)]="beast.meta" (onContentChanged)="captureHTML($event, 'meta')"></quill-editor>
-    </div>
-
-  </div>
-
-  <app-weird-shaping-edit [casting]="beast.casting" [spells]="beast.spells" [checkWeirdshapeType]="checkWeirdshapeType"
-    [deleteSpell]="deleteSpell" [addNewSpell]="addNewSpell" [captureSpellHTML]="captureSpellHTML"
-    [captureSpellInput]="captureSpellInput" [captureSpellSelect]="captureSpellSelect"
-    [captureSpellDie]="captureSpellDie" [checkWeirdshapeType]="checkWeirdshapeType"></app-weird-shaping-edit>
-
-  <h2>Skill Challenges</h2>
+  <br>
   <div class="divider"></div>
-  <mat-chip-list>
-    <div *ngFor="let challenge of beast.challenges; let i = index">
-      <mat-chip (click)="removeChip('challenges', i)" color="warn" selected>
-        {{challenge.challengeid}}</mat-chip>
-    </div>
-  </mat-chip-list>
-  <mat-form-field>
-    <input matInput placeholder="Challenge ID" [value]="newChallengeId" (change)="captureChallenge($event)">
-  </mat-form-field>
-  <button class="add-by-id" mat-raised-button color="accent" (click)="addChallengeById()">Add By ID</button>
+  <br>
 
   <button (click)="saveChanges()" mat-raised-button color="primary">Save</button>
   <button (click)="deleteThisBeast()" mat-raised-button color="warn" class="deleteButton">Delete</button>
