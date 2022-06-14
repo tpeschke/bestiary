@@ -83,7 +83,7 @@ export default {
     skillList: [
         {
             label: 'Skill Suites',
-            skillList: ['Athletics', 'Lore', 'Streetwise', 'Survival', 'Tactics', 'Trades', 'Weirdcraft']
+            skillList: ['Athletics Skill Suite', 'Lore Skill Suite', 'Streetwise Skill Suite', 'Survival Skill Suite', 'Tactics Skill Suite', 'Trades Skill Suite', 'Weirdcraft Skill Suite']
         },
         {
             label: 'Athletics',
