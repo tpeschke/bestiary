@@ -506,7 +506,8 @@ export class BeastViewEditComponent implements OnInit {
     } else if (type === 'skills') {
       this.beast[type].push({
         skill: '',
-        rank: ''
+        rank: '',
+        skillroleid: this.selectedRoleId
       })
     } else if (type === 'loot') {
       this.beast[type].push({
@@ -667,17 +668,36 @@ export class BeastViewEditComponent implements OnInit {
   setRole(event) {
     if (event.value) {
       this.selectedRoleId = event.value
-      if (this.beast.roleInfo[this.selectedRoleId].role) {
-        this.selectedRole = this.combatRolesInfo[this.beast.roleInfo[this.selectedRoleId].role]
-        this.selectedRole = this.socialRolesInfo[this.beast.roleInfo[this.selectedRoleId].socialrole]
+      if (this.selectedRoleId) {
+        if (this.beast.roleInfo[this.selectedRoleId].role) {
+          this.selectedRole = this.combatRolesInfo[this.beast.roleInfo[this.selectedRoleId].role]
+        } else {
+          this.selectedRole = {}
+        }
+        if (this.beast.roleInfo[this.selectedRoleId].socialrole) {
+          this.selectedSocialRole = this.socialRolesInfo[this.beast.roleInfo[this.selectedRoleId].socialrole]
+        } else {
+          this.selectedSocialRole = {}
+        }
+        if (this.beast.roleInfo[this.selectedRoleId].skillrole) {
+          this.selectedSkillRole = this.skillRolesInfo[this.beast.roleInfo[this.selectedRoleId].skillrole]
+        } else {
+          this.selectedSkillRole = {}
+        }
       } else {
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
-          this.selectedSocialRole = this.socialRolesInfo[this.beast.socialrole]
-          this.selectedSkillRole = this.skillRolesInfo[this.beast.skillrole]
         } else {
           this.selectedRole = {}
+        }
+        if (this.beast.socialrole) {
+          this.selectedSocialRole = this.socialRolesInfo[this.beast.socialrole]
+        } else {
           this.selectedSocialRole = {}
+        }
+        if (this.beast.skillrole) {
+          this.selectedSkillRole = this.skillRolesInfo[this.beast.skillrole]
+        } else {
           this.selectedSkillRole = {}
         }
       }
@@ -685,11 +705,17 @@ export class BeastViewEditComponent implements OnInit {
       this.selectedRoleId = null
       if (this.beast.role) {
         this.selectedRole = this.combatRolesInfo[this.beast.role]
-        this.selectedSocialRole = this.socialRolesInfo[this.beast.socialrole]
-        this.selectedSkillRole = this.skillRolesInfo[this.beast.skillrole]
       } else {
         this.selectedRole = {}
+      }
+      if (this.beast.socialrole) {
+        this.selectedSocialRole = this.socialRolesInfo[this.beast.socialrole]
+      } else {
         this.selectedSocialRole = {}
+      }
+      if (this.beast.skillrole) {
+        this.selectedSkillRole = this.skillRolesInfo[this.beast.killrole]
+      } else {
         this.selectedSkillRole = {}
       }
     }
@@ -744,6 +770,7 @@ export class BeastViewEditComponent implements OnInit {
         if (this.selectedRoleId === this.beast.roles[i].id) {
           this.beast.roles[i].skillrole = event.value
           this.selectedSkillRole = this.skillRolesInfo[event.value]
+          this.beast.roleInfo[this.selectedRoleId].skillrole = event.value
           i = this.beast.roles.length
         }
       }
@@ -1146,10 +1173,10 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   updateSkillPoints = (skill, oldvalue, newvalue) => {
-    
+
     if (newvalue && oldvalue) {
-      let value = +newvalue - +oldvalue   
-      
+      let value = +newvalue - +oldvalue
+
       if (this.combatSkills.includes(skill)) {
         if (this.selectedRoleId) {
           this.beast.roleInfo[this.selectedRoleId].combatpoints += value

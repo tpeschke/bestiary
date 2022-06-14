@@ -203,7 +203,7 @@
   <mat-tab-group backgroundColor="warn">
     <mat-tab label="Confrontations">
       <div class="tab-wrapper">
-        <h3>Confrontation Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ?
+        <h3>Confrontation Role: {{selectedRoleId && beast.roleInfo[selectedRoleId].socialrole ?
           beast.roleInfo[selectedRoleId].socialrole
           : selectedRoleId ? 'None' : beast.socialrole ? beast.socialrole : 'None'}}</h3>
 
@@ -325,7 +325,7 @@
     </mat-tab>
     <mat-tab label="Skills">
       <div class="tab-wrapper">
-        <h3>Skill Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ?
+        <h3>Skill Role: {{selectedRoleId && beast.roleInfo[selectedRoleId].skillrole ?
           beast.roleInfo[selectedRoleId].skillrole
           : selectedRoleId ? 'None' : beast.skillrole ? beast.skillrole : 'None'}}</h3>
 
@@ -350,10 +350,8 @@
 
         <div class="characteristic-edit-shell">
           <p *ngIf="beast.skills.length === 0"><br>This monster has no Skills<br></p>
-          <div *ngFor="let skill of beast.skills; let i = index">
-            <div *ngIf="!skill.deleted">
+          <div *ngFor="let skill of beast.skills; let i = index" [ngClass]="{'noDisplay': !(!skill.deleted && selectedRoleId === skill.skillroleid)}">
               <app-skill-display [skillInfo]="skill" [captureInput]="captureInput" [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [selectedSkillRole]="selectedSkillRole" [combatSkills]="combatSkills"></app-skill-display>
-            </div>
           </div>
         </div>
         <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">ADD SKILL</button>
@@ -378,7 +376,7 @@
     </mat-tab>
     <mat-tab label="Combat">
       <div class="tab-wrapper">
-        <h3>Combat Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].role :
+        <h3>Combat Role: {{selectedRoleId && beast.roleInfo[selectedRoleId].role ? beast.roleInfo[selectedRoleId].role :
           selectedRoleId ? 'None' : beast.role ? beast.role : 'None'}}
           {{selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? '[' +
           beast.roleInfo[selectedRoleId].secondaryrole + ']' :

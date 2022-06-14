@@ -15,10 +15,10 @@
       </mat-autocomplete>
     </mat-form-field>
   </h3>
-  <section>
-    <mat-checkbox [checked]="showAllSkills" (change)="checkShowAll($event.checked)">Show Me All Skills</mat-checkbox>
+  <section *ngIf="selectedSkillRole && selectedSkillRole.skillList">
+    <mat-checkbox [checked]="showAllSkills" (change)="checkShowAll($event.checked)">Show Me All My Skill Choices</mat-checkbox>
+    <br>
   </section>
-  <br>
   <mat-form-field>
     <input placeholder="Skill Rank" matInput [value]="skillInfo.rank"
       (change)="captureInput($event, 'skills', i, 'rank')">

@@ -365,6 +365,8 @@ module.exports = {
               caution: result[i].caution,
               socialrole: result[i].socialrole,
               socialpoints: result[i].socialpoints,
+              skillrole: result[i].skillrole,
+              skillpoints: result[i].skillpoints,
             }
           }
           return result
