@@ -16,6 +16,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
@@ -25,7 +26,7 @@ import { BeastViewGmComponent } from './beast-view/beast-view-gm/beast-view-gm.c
 import { BeastViewEditComponent } from './beast-view/beast-view-edit/beast-view-edit.component';
 
 import { QuillModule } from 'ngx-quill'
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TypeConverterPipe } from './util/pipes/type-converter.pipe';
 import { EnvironConverterPipe } from './util/pipes/environ-converter.pipe';
 import { MoraleConverterPipe } from './util/pipes/morale-converter.pipe'
@@ -65,6 +66,7 @@ import { ChallengePopUpComponent } from './obstacle-index/view/challenge-pop-up/
 import { ChallengeShellComponent } from './obstacle-index/view/challenge-shell/challenge-shell.component';
 import { ObstacleInnardsComponent } from './obstacle-index/view/obstacle-innards/obstacle-innards.component';
 import { WeaponSquareComponent } from './beast-view/beast-view-edit/weapon-square/weapon-square.component';
+import { SkillDisplayComponent } from './beast-view/beast-view-edit/skill-display/skill-display.component';
 
 const routes: Routes = [
   { path: 'obstacle', 
@@ -120,7 +122,8 @@ const routes: Routes = [
     ChallengePopUpComponent,
     ChallengeShellComponent,
     ObstacleInnardsComponent,
-    WeaponSquareComponent
+    WeaponSquareComponent,
+    SkillDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -140,7 +143,9 @@ const routes: Routes = [
     MatChipsModule,
     MatTabsModule,
     MatDialogModule,
+    MatAutocompleteModule,
     FormsModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot(),
     QuillModule.forRoot(),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })

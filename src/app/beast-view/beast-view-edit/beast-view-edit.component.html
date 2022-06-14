@@ -8,6 +8,10 @@
     <h5>Confrontation</h5>
     <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints :
       beast.socialpoints}}</p>
+
+    <h5>Skills</h5>
+    <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].skillpoints :
+      beast.skillpoints}}</p>
   </div>
   <div class="explaination-shell">
     <p>For each category:</p>
@@ -178,6 +182,15 @@
             </mat-select>
           </mat-form-field>
 
+          <mat-form-field>
+            <mat-label>Skill Role Type</mat-label>
+            <mat-select (selectionChange)="captureNewRole('skillrole', $event)">
+              <mat-option *ngFor="let role of skillRoles" [value]="role">
+                {{role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <button mat-raised-button (click)="addNewRole()" color="accent">ADD ROLE</button>
         </div>
 
@@ -197,7 +210,7 @@
         <mat-form-field>
           <mat-label>Change Role Type</mat-label>
           <mat-select (selectionChange)="setSocialRoleType($event)">
-            <mat-option *ngFor="let role of socialRoles" [value]="socialrole">
+            <mat-option *ngFor="let role of socialRoles" [value]="role">
               {{role}}
             </mat-option>
           </mat-select>
@@ -209,7 +222,11 @@
         </div>
 
         <div>
+          <h2>Traits</h2>
+          <div class="divider"></div>
+
           <div class="characteristic-edit-shell">
+            <p *ngIf="beast.conflict.traits.length === 0"><br>This monster has no Traits<br></p>
             <div *ngFor="let trait of beast.conflict.traits; let i = index"
               [ngClass]="{'noDisplay': !(!trait.deleted && selectedRoleId === trait.socialroleid)}">
               <div class="conflict-shell edit-shell-box">
@@ -242,9 +259,11 @@
               (change)="captureInput($event, 'traitlimit')">
           </mat-form-field>
 
+          <h2>Devotions</h2>
           <div class="divider"></div>
 
           <div class="characteristic-edit-shell">
+            <p *ngIf="beast.conflict.devotions.length === 0"><br>This monster has no Devotions<br></p>
             <div *ngFor="let devotion of beast.conflict.devotions; let i = index"
               [ngClass]="{'noDisplay': !(!devotion.deleted && selectedRoleId === devotion.socialroleid)}">
               <div class="conflict-shelledit-shell-box">
@@ -272,9 +291,11 @@
               (change)="captureInput($event, 'devotionlimit')">
           </mat-form-field>
 
+          <h2>Flaws</h2>
           <div class="divider"></div>
 
           <div class="characteristic-edit-shell">
+            <p *ngIf="beast.conflict.flaws.length === 0"><br>This monster has no Flaws<br></p>
             <div *ngFor="let flaw of beast.conflict.flaws; let i = index"
               [ngClass]="{'noDisplay': !(!flaw.deleted && selectedRoleId === flaw.socialroleid)}">
               <div class="conflict-shell edit-shell-box">
@@ -304,25 +325,42 @@
     </mat-tab>
     <mat-tab label="Skills">
       <div class="tab-wrapper">
-        <div class="conflict-inner-shell">
+        <h3>Skill Role: {{selectedRoleId && beast.roleInfo[selectedRoleId] ?
+          beast.roleInfo[selectedRoleId].skillrole
+          : selectedRoleId ? 'None' : beast.skillrole ? beast.skillrole : 'None'}}</h3>
+
+        <mat-form-field>
+          <mat-label>Change Role Type</mat-label>
+          <mat-select (selectionChange)="setSkillRoleType($event)">
+            <mat-option *ngFor="let role of skillRoles" [value]="role">
+              {{role}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div *ngIf="selectedSkillRole && selectedSkillRole.strengths">
+          <p><strong>Strengths: </strong> {{selectedSkillRole.strengths}}</p>
+          <p><strong>Weaknesses: </strong> {{selectedSkillRole.weaknesses}}</p>
+        </div>
+
+        <br>
+
+        <h2>Skills</h2>
+        <div class="divider"></div>
+
+        <div class="characteristic-edit-shell">
+          <p *ngIf="beast.skills.length === 0"><br>This monster has no Skills<br></p>
           <div *ngFor="let skill of beast.skills; let i = index">
             <div *ngIf="!skill.deleted">
-              <h3>
-                <mat-form-field>
-                  <input placeholder="Skill Name" matInput [value]="skill.skill"
-                    (change)="captureInput($event, 'skills', i, 'skill')">
-                </mat-form-field>
-              </h3>
-              <mat-form-field>
-                <input placeholder="Skill Rank" matInput [value]="skill.rank"
-                  (change)="captureInput($event, 'skills', i, 'rank')">
-              </mat-form-field>
-              <button mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn">REMOVE
-                SKILL</button>
+              <app-skill-display [skillInfo]="skill" [captureInput]="captureInput" [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [selectedSkillRole]="selectedSkillRole"></app-skill-display>
             </div>
           </div>
         </div>
         <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">ADD SKILL</button>
+
+        <br>
+        <br>
+        <br>
 
         <h2>Skill Challenges</h2>
         <div class="divider"></div>
@@ -1396,11 +1434,6 @@
             </mat-select>
           </mat-form-field>
 
-
-          <mat-form-field>
-            <input matInput placeholder="Intelligence" [value]="beast.int" (change)="captureInput($event, 'int')">
-          </mat-form-field>
-
           <h3>Environment</h3>
           <div class="chip-shell">
             <mat-chip-list>
@@ -1501,28 +1534,6 @@
           <mat-form-field>
             <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')">
           </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Subsystem Focus</mat-label>
-            <mat-select (selectionChange)="captureSelect($event, 'subsystem')">
-              <mat-option value="1">
-                Combat
-              </mat-option>
-              <mat-option value="2">
-                Social
-              </mat-option>
-              <mat-option value="3">
-                Skill
-              </mat-option>
-              <mat-option>
-                none
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <div class="flex-row-opposite">
-            <h3>Current Subsystem</h3>
-            <p>{{beast.subsystem | subsystemConverter}}</p>
-          </div>
         </div>
 
         <h2>Variants</h2>

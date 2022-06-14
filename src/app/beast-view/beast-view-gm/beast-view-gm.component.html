@@ -569,6 +569,10 @@
           <h3>Confrontation Rating</h3>
           <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints}}</p>
         </div>
+        <div class="flex-row-opposite">
+          <h3>Skill Rating</h3>
+          <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints}}</p>
+        </div>
         <div class="flex-row-opposite" *ngIf="beast.patreon >= 20">
           <h3>Access</h3>
           <p>Early <i class="fas fa-dice-d20 icon-blue"></i></p>

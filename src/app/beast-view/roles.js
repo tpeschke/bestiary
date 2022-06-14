@@ -1,4 +1,119 @@
 export default {
+    skillRoles: {
+        'Hunter': {
+            strengths: 'Keeps distance, waiting for the perfect time to strike.',
+            weaknesses: 'Weak outside of when they strike.',
+            skillList: [
+                {
+                    label: 'Preferred Choices',
+                    skillList: ['Acrobatics', 'Endurance', 'Hunting', 'Jumping', 'Move Silently', 'Perception', 'Snaring']
+                },
+                {
+                    label: 'Neutral Choices',
+                    skillList: ['Climbing', 'Listening', 'Navigation', 'Occultism', 'Swimming']
+                },
+                {
+                    label: 'Not Preferred Choices',
+                    skillList: ['Animism', 'Distraction', 'Escape Artist', 'Riding', 'Use Rope', 'World Craft']
+                }
+            ]
+        },
+        'Prey': {
+            strengths: 'Keeps distance, indirectly attacking enemies, possibly crippling them.',
+            weaknesses: 'Always weak.',
+            skillList: [
+                {
+                    label: 'Preferred Choices',
+                    skillList: ['Acrobatics', 'Climbing', 'Deception', 'Distraction', 'Endurance', 'Escape Artist', 'Listening']
+                },
+                {
+                    label: 'Neutral Choices',
+                    skillList: ['Animism', 'Glamour', 'Hiding', 'Jumping', 'Move Silently', 'Swimming']
+                },
+                {
+                    label: 'Not Preferred Choices',
+                    skillList: ['Intuition', 'Navigation', 'Occultism', 'Perception', 'Riding', 'Current Affairs']
+                }
+            ]
+        },
+        'Controller': {
+            strengths: 'Move enemies around using Skills.',
+            weaknesses: 'None.',
+            skillList: [
+                {
+                    label: 'Preferred Choices',
+                    skillList: ['Administration', 'Distraction', 'Intuition', 'Language', 'Perception', 'Performance']
+                },
+                {
+                    label: 'Neutral Choices',
+                    skillList: ['Glamour', 'Occultism', 'Rally']
+                },
+                {
+                    label: 'Not Preferred Choices',
+                    skillList: ['Calling', 'Charm', 'Forgery', 'Signalling', 'Warfare']
+                }
+            ]
+        },
+        'Lock': {
+            strengths: 'Extremely powerful most of the time.',
+            weaknesses: 'Once their Skill Challenge is beaten, usually extremely weak.',
+            skillList: null
+        },
+        'Conditional': {
+            strengths: 'Extremely dangerous.',
+            weaknesses: 'Only dangerous under specific circumstances.',
+            skillList: null
+        },
+        'Antagonist': {
+            strengths: 'Debuffs enemies and buffs their allies.',
+            weaknesses: 'Only effective indirectly.',
+            skillList: null
+        },
+        'Trap': {
+            strengths: 'Hidden and can be crippling or damaging. Often evolve into another type of encounter.',
+            weaknesses: 'Cannot move or adapt. Can be easily avoided',
+            skillList: null
+        },
+        'Hazard': {
+            strengths: 'Extremely crippling and/or damaging.',
+            weaknesses: 'Non-hidden. Can be easily avoided or bypassed. Often non-mobile.',
+            skillList: null
+        },
+    },
+    skillList: [
+        {
+            label: 'Skill Suites',
+            skillList: ['Athletics', 'Lore', 'Streetwise', 'Survival', 'Tactics', 'Trades', 'Weirdcraft']
+        },
+        {
+            label: 'Athletics',
+            skillList: ['Acrobatics', 'Climbing', 'Endurance', 'Escape Artist', 'Jumping', 'Move Silently', 'Sport', 'Swimming', 'Vandalism']
+        },
+        {
+            label: 'Lore',
+            skillList: ['Administration', 'History', 'Language', 'Law', 'Literacy', 'Mathematics', 'Medicine', 'Monster Craft', 'Religion', 'World Craft']
+        },
+        {
+            label: 'Streetwise',
+            skillList: ['Current Affairs', 'Deception', 'Forgery', 'Gambling/Gaming', 'Intuition', 'Listening', 'Lock Picking', 'Perception', 'Slight of Hand']
+        },
+        {
+            label: 'Survival',
+            skillList: ['Botany', 'Fire Building', 'First Aid', 'Handle Animal', 'Hiding', 'Monster Craft', 'Navigation', 'Scavenging', 'Snaring', 'Hunting', 'Use Rope']
+        },
+        {
+            label: 'Tactics',
+            skillList: ['Combat Style', 'Distraction', 'Leadership', 'Quarter Mastering', 'Rally', 'Recruiting', 'Riding', 'Signalling', 'Warfare']
+        },
+        {
+            label: 'Trades',
+            skillList: ['Appraisal', 'Articulation', 'Artistry', 'Cooking/Baking', 'Craft', 'Leatherworking', 'Maintenance', 'Metalworking', 'Musician', 'Performance']
+        },
+        {
+            label: 'Weirdcraft',
+            skillList: ['Animism', 'Calling', 'Charm', 'Glamour', 'Investiture', 'Occultism', 'Sortilege']
+        }
+    ],
     socialRoles: {
         'Striker': {
             strengths: ['Offensive', 'Many Characteristics'],

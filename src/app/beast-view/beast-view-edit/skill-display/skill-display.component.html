@@ -1,0 +1,22 @@
+<div class="conflict-shell edit-shell-box">
+  <h3>
+    <mat-form-field>
+      <input placeholder="Skill Name" matInput [value]="skillInfo.skill"
+        (change)="captureInput($event, 'skills', i, 'skill')" [matAutocomplete]="autoGroup" [formControl]="allSkillControl">
+
+      <mat-autocomplete #autoGroup="matAutocomplete" (optionSelected)="captureSelected($event)">
+        <mat-optgroup *ngFor="let group of skillGroupOptions | async" [label]="group.label">
+          <mat-option *ngFor="let skill of group.skillList" [value]="skill">
+            {{skill}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+    </mat-form-field>
+  </h3>
+  <mat-form-field>
+    <input placeholder="Skill Rank" matInput [value]="skillInfo.rank"
+      (change)="captureInput($event, 'skills', i, 'rank')">
+  </mat-form-field>
+  <button mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn">REMOVE
+    SKILL</button>
+</div>
