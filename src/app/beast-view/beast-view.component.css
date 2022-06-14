@@ -110,6 +110,7 @@ mat-toolbar {
 .edit-shell-box {
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .explaination-shell {

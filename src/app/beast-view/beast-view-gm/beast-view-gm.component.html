@@ -82,8 +82,21 @@
 
       </div>
 
+      <div class="conflict-shell role-select"
+      *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)">
+      <h3>Skill Role Type </h3>
+      <p>
+        {{selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole}} <i
+          class="fas fa-info-circle icon-small blue"
+          matTooltip="Strengths:
+          {{skillRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole].strengths}}
+          Weaknesses:
+          {{skillRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole].weaknesses}}"
+          matTooltipClass="my-tooltip"></i></p>
+    </div>
+
       <div class="conflict-inner-shell box-padding" *ngIf="beast.skills.length > 0">
-        <h2>Special Skills</h2>
+        <h2>Skills</h2>
         <div class="divider"></div>
         <div *ngFor="let skill of beast.skills; let i = index">
           <div class="flex-row-opposite">

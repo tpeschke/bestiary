@@ -43,6 +43,7 @@ export class BeastViewGmComponent implements OnInit {
   public selectedRole: any = {}
   public combatRolesInfo = roles.combatRoles.primary
   public socialRolesInfo = roles.socialRoles
+  public skillRolesInfo = roles.skillRoles
 
   ngOnInit() {
     this.route.data.subscribe(data => {

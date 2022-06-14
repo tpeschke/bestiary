@@ -15,25 +15,24 @@ export class SkillDisplayComponent implements OnInit {
   @Input() removeNewSecondaryItem: Function;
   @Input() i: any;
   @Input() selectedSkillRole: any;
+  @Input() combatSkills: string[]
 
   constructor() { }
 
+  public showAllSkills = false
   public skillList = roles.skillList
 
   allSkillControl: any;
 
   skillGroupOptions: Observable<any[]>;
 
-  ngOnInit() {
-    this.allSkillControl = new FormControl(this.skillInfo.skill);
-    this.skillGroupOptions = this.allSkillControl.valueChanges
-      .pipe(
-        startWith(''),
-        map((value: string) => this._filterGroup(value))
-      );
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes) {
+    this.bootUpAutoComplete()
+  }
+
+  bootUpAutoComplete (){
     this.allSkillControl = new FormControl(this.skillInfo.skill);
     this.skillGroupOptions = this.allSkillControl.valueChanges
     .pipe(
@@ -42,13 +41,18 @@ export class SkillDisplayComponent implements OnInit {
     );
   }
 
+  checkShowAll (value) {
+    this.showAllSkills = value
+    this.bootUpAutoComplete()
+  }
+
   _filter = (opt: string[], value: string): string[] => {
     const filterValue = value.toLowerCase();
     return opt.filter(item => item.toLowerCase().indexOf(filterValue) === 0);
   };
 
   _filterGroup(value: string): any[] {
-    if (!this.selectedSkillRole || !this.selectedSkillRole.skillList) {
+    if (!this.selectedSkillRole || !this.selectedSkillRole.skillList || this.showAllSkills) {
       if (value) {
         return this.skillList
           .map(group => ({ label: group.label, skillList: this._filter(group.skillList, value) }))

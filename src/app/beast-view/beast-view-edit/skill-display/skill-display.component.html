@@ -1,8 +1,10 @@
 <div class="conflict-shell edit-shell-box">
+  <img *ngIf="combatSkills.includes(skillInfo.skill)" class="combat-corner-icon" src="./assets/combatskillicon.svg" alt="combat role type" width="17" height="17" matTooltip="This is a combat skill so it also adds to the monster's Combat Rating.">
   <h3>
     <mat-form-field>
       <input placeholder="Skill Name" matInput [value]="skillInfo.skill"
-        (change)="captureInput($event, 'skills', i, 'skill')" [matAutocomplete]="autoGroup" [formControl]="allSkillControl">
+        (change)="captureInput($event, 'skills', i, 'skill')" [matAutocomplete]="autoGroup"
+        [formControl]="allSkillControl">
 
       <mat-autocomplete #autoGroup="matAutocomplete" (optionSelected)="captureSelected($event)">
         <mat-optgroup *ngFor="let group of skillGroupOptions | async" [label]="group.label">
@@ -13,6 +15,10 @@
       </mat-autocomplete>
     </mat-form-field>
   </h3>
+  <section>
+    <mat-checkbox [checked]="showAllSkills" (change)="checkShowAll($event.checked)">Show Me All Skills</mat-checkbox>
+  </section>
+  <br>
   <mat-form-field>
     <input placeholder="Skill Rank" matInput [value]="skillInfo.rank"
       (change)="captureInput($event, 'skills', i, 'rank')">

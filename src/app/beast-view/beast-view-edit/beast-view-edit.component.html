@@ -352,7 +352,7 @@
           <p *ngIf="beast.skills.length === 0"><br>This monster has no Skills<br></p>
           <div *ngFor="let skill of beast.skills; let i = index">
             <div *ngIf="!skill.deleted">
-              <app-skill-display [skillInfo]="skill" [captureInput]="captureInput" [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [selectedSkillRole]="selectedSkillRole"></app-skill-display>
+              <app-skill-display [skillInfo]="skill" [captureInput]="captureInput" [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [selectedSkillRole]="selectedSkillRole" [combatSkills]="combatSkills"></app-skill-display>
             </div>
           </div>
         </div>

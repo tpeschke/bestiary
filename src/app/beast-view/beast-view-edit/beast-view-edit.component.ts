@@ -94,6 +94,8 @@ export class BeastViewEditComponent implements OnInit {
   skillRolesInfo = roles.skillRoles;
   public combatRolesSecondary = ['Captain', 'Controller', 'Solo']
 
+  public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Acrobatics', 'Escape Artist', 'Warfare']
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       let beast = data['beast']
@@ -243,6 +245,7 @@ export class BeastViewEditComponent implements OnInit {
       }
     } else if (secondaryType && !thirdType) {
       let newSecondaryObject = [...this.beast[type]]
+      this.updateSkillPoints(newSecondaryObject[index].skill, newSecondaryObject[index][secondaryType], event.target.value)
       newSecondaryObject[index][secondaryType] = event.target.value
       this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     } else if (thirdType) {
@@ -864,6 +867,12 @@ export class BeastViewEditComponent implements OnInit {
     combatpoints += Math.ceil(this.averageVitality / 10)
     combatpoints += Math.ceil(this.beast.stress / 5)
 
+    this.beast.skills.forEach(skill => {
+      if (!skill.skillroleid && this.combatSkills.includes(skill.skill)) {
+        combatpoints += +skill.rank
+      }
+    })
+
     this.beast.combat.forEach(weapon => {
       if (weapon.roleid === null) {
         let { def, newDR, parry, newShieldDr, newDamage, atk, rangedDamage, spd, measure, ranges, weapontype, fatigue } = weapon
@@ -932,6 +941,12 @@ export class BeastViewEditComponent implements OnInit {
       } else {
         combatpoints += Math.ceil(this.beast.stress / 5)
       }
+
+      this.beast.skills.forEach(skill => {
+        if (skill.skillroleid === role.id && this.combatSkills.includes(skill.skill)) {
+          combatpoints += +skill.rank
+        }
+      })
 
       let weapons = this.beast.combat.filter(weapon => weapon.roleid === role.id)
 
@@ -1130,11 +1145,23 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  updateSkillPoints = (value) => {
-    if (this.selectedRoleId) {
-      this.beast.roleInfo[this.selectedRoleId].skillpoints += value
-    } else {
-      this.beast.skillpoints += value
+  updateSkillPoints = (skill, oldvalue, newvalue) => {
+    
+    if (newvalue && oldvalue) {
+      let value = +newvalue - +oldvalue   
+      
+      if (this.combatSkills.includes(skill)) {
+        if (this.selectedRoleId) {
+          this.beast.roleInfo[this.selectedRoleId].combatpoints += value
+        } else {
+          this.beast.combatpoints += value
+        }
+      }
+      if (this.selectedRoleId) {
+        this.beast.roleInfo[this.selectedRoleId].skillpoints += value
+      } else {
+        this.beast.skillpoints += value
+      }
     }
   }
 }

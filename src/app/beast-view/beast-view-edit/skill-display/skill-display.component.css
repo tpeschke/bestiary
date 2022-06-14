@@ -1,0 +1,10 @@
+.combat-corner-icon {
+    background: grey;
+    width: 30px;
+    height: 30px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
