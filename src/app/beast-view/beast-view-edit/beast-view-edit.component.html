@@ -350,8 +350,11 @@
 
         <div class="characteristic-edit-shell">
           <p *ngIf="beast.skills.length === 0"><br>This monster has no Skills<br></p>
-          <div *ngFor="let skill of beast.skills; let i = index" [ngClass]="{'noDisplay': !(!skill.deleted && selectedRoleId === skill.skillroleid)}">
-              <app-skill-display [skillInfo]="skill" [captureInput]="captureInput" [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [selectedSkillRole]="selectedSkillRole" [combatSkills]="combatSkills"></app-skill-display>
+          <div *ngFor="let skill of beast.skills; let i = index"
+            [ngClass]="{'noDisplay': !(!skill.deleted && selectedRoleId === skill.skillroleid)}">
+            <app-skill-display [skillInfo]="skill" [captureInput]="captureInput"
+              [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [selectedSkillRole]="selectedSkillRole"
+              [combatSkills]="combatSkills"></app-skill-display>
           </div>
         </div>
         <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">ADD SKILL</button>
@@ -375,263 +378,268 @@
       </div>
     </mat-tab>
     <mat-tab label="Combat">
-      <div class="tab-wrapper">
-        <h3>Combat Role: {{selectedRoleId && beast.roleInfo[selectedRoleId].role ? beast.roleInfo[selectedRoleId].role :
-          selectedRoleId ? 'None' : beast.role ? beast.role : 'None'}}
-          {{selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? '[' +
-          beast.roleInfo[selectedRoleId].secondaryrole + ']' :
-          selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}}</h3>
+      <ng-template matTabContent>
+        <div class="tab-wrapper">
+          <h3>Combat Role: {{selectedRoleId && beast.roleInfo[selectedRoleId].role ? beast.roleInfo[selectedRoleId].role
+            :
+            selectedRoleId ? 'None' : beast.role ? beast.role : 'None'}}
+            {{selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? '[' +
+            beast.roleInfo[selectedRoleId].secondaryrole + ']' :
+            selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}}</h3>
 
-        <div>
-          <mat-form-field>
-            <mat-label>Change Role Type</mat-label>
-            <mat-select (selectionChange)="setRoleType($event)">
-              <mat-option *ngFor="let role of combatRoles" [value]="role">
-                {{role}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Change Secondary Role Type</mat-label>
-            <mat-select (selectionChange)="setSecondaryRoleType($event)">
-              <mat-option *ngFor="let role of combatRolesSecondary" [value]="role">
-                {{role}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div *ngIf="selectedRole.strengths">
-          <p><strong>Strengths: </strong> {{selectedRole.strengths.join(', ')}}</p>
-          <p><strong>Weaknesses: </strong> {{selectedRole.weaknesses.join(', ')}}</p>
-        </div>
-
-        <div class="combat-shell">
-          <div *ngFor="let square of beast.combat; let i = index">
-            <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
-              <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
-                [updateCombatPoints]="updateCombatPoints" [index]="i" [removeNewSecondaryItem]="removeNewSecondaryItem">
-              </app-weapon-square>
-            </div>
-          </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">ADD WEAPON</button>
-        </div>
-
-        <div class="vitals-shell">
-          <mat-form-field>
-            <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
-              <input
-                id="{{selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
-                matInput placeholder="Vitality" [value]="beast.roleInfo[selectedRoleId].vitality"
-                (change)="captureRoleVitality($event)">
-            </div>
-            <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
-              <input matInput placeholder="Vitality"
-                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
-                [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
-            </div>
-          </mat-form-field>
-          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].average">
-            <p>(Ave: {{beast.roleInfo[selectedRoleId].average}})</p>
-          </div>
-          <p *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].average">(Ave: {{averageVitality}})</p>
-
-          <div *ngFor="let location of beast.locationalvitality; let i = index">
-            <div *ngIf="!location.deleted && selectedRoleId === location.roleid">
-              <br />
-              <mat-form-field>
-                <input placeholder="Location" matInput [value]="location.location"
-                  (change)="captureInput($event, 'locationalvitality', i, 'location')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Vitality" matInput [value]="location.vitality"
-                  (change)="captureInput($event, 'locationalvitality', i, 'vitality')">
-              </mat-form-field>
-              <p>(Ave: {{calculatorService.calculateAverageOfDice(location.vitality)}})</p>
-              <button mat-raised-button (click)="removeNewSecondaryItem('locationalvitality', i)" color="warn">REMOVE
-                LOCATION</button>
-            </div>
-          </div>
-
-          <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION
-            VITALITY</button>
-          <br />
-          <br />
-          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].stress">
+          <div>
             <mat-form-field>
-              <input
-                id="{{selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
-                matInput placeholder="Stress Threshold" [value]="beast.roleInfo[selectedRoleId].stress"
-                (change)="captureInput($event, 'stress')">
-            </mat-form-field>
-          </div>
-          <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].stress">
-            <mat-form-field>
-              <input matInput placeholder="Stress Threshold"
-                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
-                [value]="beast.stress" (change)="captureInput($event, 'stress')">
-            </mat-form-field>
-          </div>
-          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].panic">
-            <mat-form-field>
-              <mat-label>Panic</mat-label>
-              <mat-select [value]="beast.roleInfo[selectedRoleId].panic"
-                (selectionChange)="captureSelect($event, 'panic')"
-                id="{{selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
-                <mat-option value="1">
-                  Always
-                </mat-option>
-                <mat-option value="2">
-                  Unsure
-                </mat-option>
-                <mat-option value="3">
-                  Nervous
-                </mat-option>
-                <mat-option value="4">
-                  Shaken
-                </mat-option>
-                <mat-option value="5">
-                  Breaking
-                </mat-option>
-                <mat-option value="7">
-                  Never
+              <mat-label>Change Role Type</mat-label>
+              <mat-select (selectionChange)="setRoleType($event)">
+                <mat-option *ngFor="let role of combatRoles" [value]="role">
+                  {{role}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <div class="flex-row-opposite">
-              <h3>Current Panic</h3>
-              <p>{{beast.panic | moraleConverter}}</p>
-            </div>
-          </div>
 
-          <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].panic">
             <mat-form-field>
-              <mat-label>Panic</mat-label>
-              <mat-select [value]="beast.panic" (selectionChange)="captureSelect($event, 'panic')"
-                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
-                <mat-option value="1">
-                  Always
-                </mat-option>
-                <mat-option value="2">
-                  Unsure
-                </mat-option>
-                <mat-option value="3">
-                  Nervous
-                </mat-option>
-                <mat-option value="4">
-                  Shaken
-                </mat-option>
-                <mat-option value="5">
-                  Breaking
-                </mat-option>
-                <mat-option value="7">
-                  Never
+              <mat-label>Change Secondary Role Type</mat-label>
+              <mat-select (selectionChange)="setSecondaryRoleType($event)">
+                <mat-option *ngFor="let role of combatRolesSecondary" [value]="role">
+                  {{role}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <div class="flex-row-opposite">
-              <h3>Current Panic</h3>
-              <p>{{beast.panic | moraleConverter}}</p>
-            </div>
           </div>
-          <br />
-          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].caution">
-            <mat-form-field>
-              <input matInput placeholder="Caution Threshold" [value]="beast.roleInfo[selectedRoleId].caution"
-                id="{{selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
-                (change)="captureInput($event, 'caution')">
-            </mat-form-field>
-          </div>
-          <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].caution">
-            <mat-form-field>
-              <input matInput placeholder="Caution Threshold" [value]="beast.caution"
-                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
-                (change)="captureInput($event, 'caution')">
-            </mat-form-field>
-          </div>
-        </div>
 
-        <div class="vitals-shell">
-          <h3 class="blue">Movement</h3>
-          <div *ngFor="let movementType of beast.movement; let i = index">
-            <div *ngIf="!movementType.deleted && selectedRoleId === movementType.roleid">
-              <div class="divider white"></div>
-              <h3>
+          <div *ngIf="selectedRole.strengths">
+            <p><strong>Strengths: </strong> {{selectedRole.strengths.join(', ')}}</p>
+            <p><strong>Weaknesses: </strong> {{selectedRole.weaknesses.join(', ')}}</p>
+          </div>
+
+          <div class="combat-shell">
+            <div *ngFor="let square of beast.combat; let i = index">
+              <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
+                <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
+                  [updateCombatPoints]="updateCombatPoints" [index]="i"
+                  [removeNewSecondaryItem]="removeNewSecondaryItem">
+                </app-weapon-square>
+              </div>
+            </div>
+            <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">ADD WEAPON</button>
+          </div>
+
+          <div class="vitals-shell">
+            <mat-form-field>
+              <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
+                <input
+                  id="{{selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
+                  matInput placeholder="Vitality" [value]="beast.roleInfo[selectedRoleId].vitality"
+                  (change)="captureRoleVitality($event)">
+              </div>
+              <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
+                <input matInput placeholder="Vitality"
+                  id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
+                  [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
+              </div>
+            </mat-form-field>
+            <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].average">
+              <p>(Ave: {{beast.roleInfo[selectedRoleId].average}})</p>
+            </div>
+            <p *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].average">(Ave: {{averageVitality}})</p>
+
+            <div *ngFor="let location of beast.locationalvitality; let i = index">
+              <div *ngIf="!location.deleted && selectedRoleId === location.roleid">
+                <br />
                 <mat-form-field>
-                  <input placeholder="Movement Type" matInput [value]="movementType.type"
-                    id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Movement') ? 'green' : selectedRole.weaknesses.includes('Movement') ? 'red' : ''}}"
-                    (change)="captureInput($event, 'movement', i, 'type')">
+                  <input placeholder="Location" matInput [value]="location.location"
+                    (change)="captureInput($event, 'locationalvitality', i, 'location')">
                 </mat-form-field>
-              </h3>
-              <div class="divider white"></div>
+                <mat-form-field>
+                  <input placeholder="Vitality" matInput [value]="location.vitality"
+                    (change)="captureInput($event, 'locationalvitality', i, 'vitality')">
+                </mat-form-field>
+                <p>(Ave: {{calculatorService.calculateAverageOfDice(location.vitality)}})</p>
+                <button mat-raised-button (click)="removeNewSecondaryItem('locationalvitality', i)" color="warn">REMOVE
+                  LOCATION</button>
+              </div>
+            </div>
+
+            <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION
+              VITALITY</button>
+            <br />
+            <br />
+            <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].stress">
               <mat-form-field>
-                <input placeholder="Stroll/Crawl" matInput [value]="movementType.stroll"
-                  (change)="captureInput($event, 'movement', i, 'stroll')">
+                <input
+                  id="{{selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
+                  matInput placeholder="Stress Threshold" [value]="beast.roleInfo[selectedRoleId].stress"
+                  (change)="captureInput($event, 'stress')">
               </mat-form-field>
+            </div>
+            <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].stress">
               <mat-form-field>
-                <input placeholder="Walk" matInput [value]="movementType.walk"
-                  (change)="captureInput($event, 'movement', i, 'walk')">
+                <input matInput placeholder="Stress Threshold"
+                  id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
+                  [value]="beast.stress" (change)="captureInput($event, 'stress')">
               </mat-form-field>
+            </div>
+            <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].panic">
               <mat-form-field>
-                <input placeholder="Jog" matInput [value]="movementType.jog"
-                  (change)="captureInput($event, 'movement', i, 'jog')">
+                <mat-label>Panic</mat-label>
+                <mat-select [value]="beast.roleInfo[selectedRoleId].panic"
+                  (selectionChange)="captureSelect($event, 'panic')"
+                  id="{{selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
+                  <mat-option value="1">
+                    Always
+                  </mat-option>
+                  <mat-option value="2">
+                    Unsure
+                  </mat-option>
+                  <mat-option value="3">
+                    Nervous
+                  </mat-option>
+                  <mat-option value="4">
+                    Shaken
+                  </mat-option>
+                  <mat-option value="5">
+                    Breaking
+                  </mat-option>
+                  <mat-option value="7">
+                    Never
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
+              <div class="flex-row-opposite">
+                <h3>Current Panic</h3>
+                <p>{{beast.panic | moraleConverter}}</p>
+              </div>
+            </div>
+
+            <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].panic">
               <mat-form-field>
-                <input placeholder="Run" matInput [value]="movementType.run"
-                  (change)="captureInput($event, 'movement', i, 'run')">
+                <mat-label>Panic</mat-label>
+                <mat-select [value]="beast.panic" (selectionChange)="captureSelect($event, 'panic')"
+                  id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
+                  <mat-option value="1">
+                    Always
+                  </mat-option>
+                  <mat-option value="2">
+                    Unsure
+                  </mat-option>
+                  <mat-option value="3">
+                    Nervous
+                  </mat-option>
+                  <mat-option value="4">
+                    Shaken
+                  </mat-option>
+                  <mat-option value="5">
+                    Breaking
+                  </mat-option>
+                  <mat-option value="7">
+                    Never
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
+              <div class="flex-row-opposite">
+                <h3>Current Panic</h3>
+                <p>{{beast.panic | moraleConverter}}</p>
+              </div>
+            </div>
+            <br />
+            <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].caution">
               <mat-form-field>
-                <input placeholder="Sprint" matInput [value]="movementType.sprint"
-                  (change)="captureInput($event, 'movement', i, 'sprint')">
+                <input matInput placeholder="Caution Threshold" [value]="beast.roleInfo[selectedRoleId].caution"
+                  id="{{selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
+                  (change)="captureInput($event, 'caution')">
               </mat-form-field>
-              <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="warn">REMOVE
-                MOVEMENT</button>
+            </div>
+            <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].caution">
+              <mat-form-field>
+                <input matInput placeholder="Caution Threshold" [value]="beast.caution"
+                  id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
+                  (change)="captureInput($event, 'caution')">
+              </mat-form-field>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">ADD MOVEMENT</button>
-        </div>
 
-        <h2>Add. Attack Info</h2>
-        <div class="divider"></div>
-        <br>
-        <h3 *ngIf="selectedRoleId">Base Abilities</h3>
-        <div>
-          <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')"></quill-editor>
-        </div>
+          <div class="vitals-shell">
+            <h3 class="blue">Movement</h3>
+            <div *ngFor="let movementType of beast.movement; let i = index">
+              <div *ngIf="!movementType.deleted && selectedRoleId === movementType.roleid">
+                <div class="divider white"></div>
+                <h3>
+                  <mat-form-field>
+                    <input placeholder="Movement Type" matInput [value]="movementType.type"
+                      id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Movement') ? 'green' : selectedRole.weaknesses.includes('Movement') ? 'red' : ''}}"
+                      (change)="captureInput($event, 'movement', i, 'type')">
+                  </mat-form-field>
+                </h3>
+                <div class="divider white"></div>
+                <mat-form-field>
+                  <input placeholder="Stroll/Crawl" matInput [value]="movementType.stroll"
+                    (change)="captureInput($event, 'movement', i, 'stroll')">
+                </mat-form-field>
+                <mat-form-field>
+                  <input placeholder="Walk" matInput [value]="movementType.walk"
+                    (change)="captureInput($event, 'movement', i, 'walk')">
+                </mat-form-field>
+                <mat-form-field>
+                  <input placeholder="Jog" matInput [value]="movementType.jog"
+                    (change)="captureInput($event, 'movement', i, 'jog')">
+                </mat-form-field>
+                <mat-form-field>
+                  <input placeholder="Run" matInput [value]="movementType.run"
+                    (change)="captureInput($event, 'movement', i, 'run')">
+                </mat-form-field>
+                <mat-form-field>
+                  <input placeholder="Sprint" matInput [value]="movementType.sprint"
+                    (change)="captureInput($event, 'movement', i, 'sprint')">
+                </mat-form-field>
+                <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="warn">REMOVE
+                  MOVEMENT</button>
+              </div>
+            </div>
+            <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">ADD MOVEMENT</button>
+          </div>
 
-        <div *ngIf="selectedRoleId">
+          <h2>Add. Attack Info</h2>
+          <div class="divider"></div>
           <br>
-          <h3>Role-Specific Abilities</h3>
+          <h3 *ngIf="selectedRoleId">Base Abilities</h3>
           <div>
-            <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
-              (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
+            <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')"></quill-editor>
+          </div>
+
+          <div *ngIf="selectedRoleId">
+            <br>
+            <h3>Role-Specific Abilities</h3>
+            <div>
+              <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
+                (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
+            </div>
+          </div>
+
+          <h2>Add. Defense Info</h2>
+          <div class="divider"></div>
+          <br>
+          <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+          <div>
+            <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')"></quill-editor>
+          </div>
+
+          <div *ngIf="selectedRoleId">
+            <br>
+            <h3>Role-Specific Abilities</h3>
+            <div>
+              <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense"
+                (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
+            </div>
+          </div>
+
+          <h2>Tactics</h2>
+          <div class="divider"></div>
+          <div>
+            <quill-editor [(ngModel)]="beast.tactics" (onContentChanged)="captureHTML($event, 'tactics')">
+            </quill-editor>
           </div>
         </div>
-
-        <h2>Add. Defense Info</h2>
-        <div class="divider"></div>
-        <br>
-        <h3 *ngIf="selectedRoleId">Base Abilities</h3>
-        <div>
-          <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')"></quill-editor>
-        </div>
-
-        <div *ngIf="selectedRoleId">
-          <br>
-          <h3>Role-Specific Abilities</h3>
-          <div>
-            <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense"
-              (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
-          </div>
-        </div>
-
-        <h2>Tactics</h2>
-        <div class="divider"></div>
-        <div>
-          <quill-editor [(ngModel)]="beast.tactics" (onContentChanged)="captureHTML($event, 'tactics')"></quill-editor>
-        </div>
-      </div>
+      </ng-template>
     </mat-tab>
     <mat-tab label="Random Encounters">
       <div class="tab-wrapper">
@@ -1313,12 +1321,6 @@
         <button mat-raised-button (click)="addNewSecondaryItem('reagents')" color="accent">ADD REAGENT</button>
 
         <!-- <h2>Special Harvest</h2> -->
-
-        <h2>Meta Notes</h2>
-        <div class="divider"></div>
-        <div>
-          <quill-editor [(ngModel)]="beast.meta" (onContentChanged)="captureHTML($event, 'meta')"></quill-editor>
-        </div>
       </div>
     </mat-tab>
     <mat-tab label="Weirdshaping">
@@ -1331,222 +1333,231 @@
       </div>
     </mat-tab>
     <mat-tab label="Misc Information">
-      <div class="tab-wrapper">
-        <h2>Type</h2>
-        <div class="divider"></div>
-        <div class="chip-shell box-padding">
-          <mat-chip-list>
-            <div *ngFor="let type of beast.types; let i = index">
-              <mat-chip *ngIf="!type.deleted" (click)="removeNewSecondaryItem('types', i)" color="warn" selected>
-                {{type.typeid | typeConverter}}</mat-chip>
-            </div>
-          </mat-chip-list>
-          <mat-form-field>
-            <mat-label>Select New Type</mat-label>
-            <mat-select (selectionChange)="captureChip($event, 'types')">
-              <mat-option value="1">
-                Demon
-              </mat-option>
-              <mat-option value="2">
-                Undead, Corporeal
-              </mat-option>
-              <mat-option value="3">
-                Undead, Incorporeal
-              </mat-option>
-              <mat-option value="4">
-                Elemental
-              </mat-option>
-              <mat-option value="5">
-                Natural Creature
-              </mat-option>
-              <mat-option value="6">
-                Weird Creature
-              </mat-option>
-              <mat-option value="7">
-                Humanoid
-              </mat-option>
-              <mat-option value="8">
-                Intelligent Evil
-              </mat-option>
-              <mat-option value="9">
-                Goblin
-              </mat-option>
-              <mat-option value="10">
-                Swarm
-              </mat-option>
-              <mat-option value="11">
-                Flora
-              </mat-option>
-              <mat-option value="12">
-                Aos Sidhe
-              </mat-option>
-              <mat-option value="13">
-                Spirit
-              </mat-option>
-              <mat-option value="14">
-                Eldritch
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button mat-raised-button color="accent" (click)="addChip('types')">Add Type</button>
-        </div>
-        <!-- list of types that link to search with that type as a parameter -->
-
-        <h2>Misc Information</h2>
-        <div class="divider"></div>
-        <div class="box-padding">
-
-          <mat-form-field>
-            <mat-label>Size</mat-label>
-            <mat-select [value]="beast.size" (selectionChange)="captureSelect($event, 'size')">
-              <mat-option value="Fine">
-                Fine
-              </mat-option>
-              <mat-option value="Diminutive">
-                Diminutive
-              </mat-option>
-              <mat-option value="Tiny">
-                Tiny
-              </mat-option>
-              <mat-option value="Small">
-                Small
-              </mat-option>
-              <mat-option value="Medium">
-                Medium
-              </mat-option>
-              <mat-option value="Large">
-                Large
-              </mat-option>
-              <mat-option value="Huge">
-                Huge
-              </mat-option>
-              <mat-option value="Giant">
-                Giant
-              </mat-option>
-              <mat-option value="Enormous">
-                Enormous
-              </mat-option>
-              <mat-option value="Colossal">
-                Colossal
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <h3>Environment</h3>
-          <div class="chip-shell">
+      <ng-template matTabContent>
+        <div class="tab-wrapper">
+          <h2>Type</h2>
+          <div class="divider"></div>
+          <div class="chip-shell box-padding">
             <mat-chip-list>
-              <div *ngFor="let environ of beast.environ; let i = index">
-                <mat-chip *ngIf="!environ.deleted" (click)="removeNewSecondaryItem('environ', i)" color="warn" selected>
-                  {{environ.environid | environConverter}}
-                </mat-chip>
+              <div *ngFor="let type of beast.types; let i = index">
+                <mat-chip *ngIf="!type.deleted" (click)="removeNewSecondaryItem('types', i)" color="warn" selected>
+                  {{type.typeid | typeConverter}}</mat-chip>
               </div>
             </mat-chip-list>
             <mat-form-field>
-              <mat-label>Select New Environ</mat-label>
-              <mat-select (selectionChange)="captureChip($event, 'environ')">
+              <mat-label>Select New Type</mat-label>
+              <mat-select (selectionChange)="captureChip($event, 'types')">
                 <mat-option value="1">
-                  Dungeon/Ruins
+                  Demon
                 </mat-option>
                 <mat-option value="2">
-                  Wilderness
+                  Undead, Corporeal
                 </mat-option>
                 <mat-option value="3">
-                  Forest
+                  Undead, Incorporeal
                 </mat-option>
                 <mat-option value="4">
-                  Castle
+                  Elemental
                 </mat-option>
                 <mat-option value="5">
-                  Cave/Underground
+                  Natural Creature
                 </mat-option>
                 <mat-option value="6">
-                  Mountain
+                  Weird Creature
                 </mat-option>
                 <mat-option value="7">
-                  Plains
+                  Humanoid
                 </mat-option>
                 <mat-option value="8">
-                  Swamp
+                  Intelligent Evil
                 </mat-option>
                 <mat-option value="9">
-                  Urban
+                  Goblin
                 </mat-option>
                 <mat-option value="10">
-                  Ship
+                  Swarm
                 </mat-option>
                 <mat-option value="11">
-                  Coastal
+                  Flora
                 </mat-option>
                 <mat-option value="12">
-                  Aquatic
+                  Aos Sidhe
                 </mat-option>
                 <mat-option value="13">
-                  Other
+                  Spirit
                 </mat-option>
                 <mat-option value="14">
-                  Desert
-                </mat-option>
-                <mat-option value="15">
-                  Island
-                </mat-option>
-                <mat-option value="16">
-                  Jungle
-                </mat-option>
-                <mat-option value="17">
-                  Sewer
-                </mat-option>
-                <mat-option value="18">
-                  House
+                  Eldritch
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-raised-button color="accent" (click)="addChip('environ')">Add Environment</button>
+            <button mat-raised-button color="accent" (click)="addChip('types')">Add Type</button>
+          </div>
+          <!-- list of types that link to search with that type as a parameter -->
+
+          <h2>Misc Information</h2>
+          <div class="divider"></div>
+          <div class="box-padding">
+
+            <mat-form-field>
+              <mat-label>Size</mat-label>
+              <mat-select [value]="beast.size" (selectionChange)="captureSelect($event, 'size')">
+                <mat-option value="Fine">
+                  Fine
+                </mat-option>
+                <mat-option value="Diminutive">
+                  Diminutive
+                </mat-option>
+                <mat-option value="Tiny">
+                  Tiny
+                </mat-option>
+                <mat-option value="Small">
+                  Small
+                </mat-option>
+                <mat-option value="Medium">
+                  Medium
+                </mat-option>
+                <mat-option value="Large">
+                  Large
+                </mat-option>
+                <mat-option value="Huge">
+                  Huge
+                </mat-option>
+                <mat-option value="Giant">
+                  Giant
+                </mat-option>
+                <mat-option value="Enormous">
+                  Enormous
+                </mat-option>
+                <mat-option value="Colossal">
+                  Colossal
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <h3>Environment</h3>
+            <div class="chip-shell">
+              <mat-chip-list>
+                <div *ngFor="let environ of beast.environ; let i = index">
+                  <mat-chip *ngIf="!environ.deleted" (click)="removeNewSecondaryItem('environ', i)" color="warn"
+                    selected>
+                    {{environ.environid | environConverter}}
+                  </mat-chip>
+                </div>
+              </mat-chip-list>
+              <mat-form-field>
+                <mat-label>Select New Environ</mat-label>
+                <mat-select (selectionChange)="captureChip($event, 'environ')">
+                  <mat-option value="1">
+                    Dungeon/Ruins
+                  </mat-option>
+                  <mat-option value="2">
+                    Wilderness
+                  </mat-option>
+                  <mat-option value="3">
+                    Forest
+                  </mat-option>
+                  <mat-option value="4">
+                    Castle
+                  </mat-option>
+                  <mat-option value="5">
+                    Cave/Underground
+                  </mat-option>
+                  <mat-option value="6">
+                    Mountain
+                  </mat-option>
+                  <mat-option value="7">
+                    Plains
+                  </mat-option>
+                  <mat-option value="8">
+                    Swamp
+                  </mat-option>
+                  <mat-option value="9">
+                    Urban
+                  </mat-option>
+                  <mat-option value="10">
+                    Ship
+                  </mat-option>
+                  <mat-option value="11">
+                    Coastal
+                  </mat-option>
+                  <mat-option value="12">
+                    Aquatic
+                  </mat-option>
+                  <mat-option value="13">
+                    Other
+                  </mat-option>
+                  <mat-option value="14">
+                    Desert
+                  </mat-option>
+                  <mat-option value="15">
+                    Island
+                  </mat-option>
+                  <mat-option value="16">
+                    Jungle
+                  </mat-option>
+                  <mat-option value="17">
+                    Sewer
+                  </mat-option>
+                  <mat-option value="18">
+                    House
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button mat-raised-button color="accent" (click)="addChip('environ')">Add Environment</button>
+            </div>
+
+            <mat-form-field>
+              <mat-label>Rarity</mat-label>
+              <mat-select (selectionChange)="captureSelect($event, 'rarity')">
+                <mat-option value="10">
+                  Common
+                </mat-option>
+                <mat-option value="5">
+                  Uncommon
+                </mat-option>
+                <mat-option value="3">
+                  Rare
+                </mat-option>
+                <mat-option value="1">
+                  Legendary
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="flex-row-opposite">
+              <h3>Current Rarity</h3>
+              <p>{{beast.rarity | rarityConverter}}</p>
+            </div>
+
+            <mat-form-field>
+              <input placeholder="Senses" matInput [value]="beast.senses" (change)="captureInput($event, 'senses')">
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')">
+            </mat-form-field>
           </div>
 
+          <h2>Variants</h2>
+          <div class="divider"></div>
+          <mat-chip-list>
+            <div *ngFor="let variant of beast.variants; let i = index">
+              <mat-chip *ngIf="!variant.deleted" (click)="removeNewSecondaryItem('variants', i)" color="warn" selected>
+                {{variant.variantid}}</mat-chip>
+            </div>
+          </mat-chip-list>
           <mat-form-field>
-            <mat-label>Rarity</mat-label>
-            <mat-select (selectionChange)="captureSelect($event, 'rarity')">
-              <mat-option value="10">
-                Common
-              </mat-option>
-              <mat-option value="5">
-                Uncommon
-              </mat-option>
-              <mat-option value="3">
-                Rare
-              </mat-option>
-              <mat-option value="1">
-                Legendary
-              </mat-option>
-            </mat-select>
+            <input matInput placeholder="Monster ID" [value]="newVariantId" (change)="captureID($event)">
           </mat-form-field>
-          <div class="flex-row-opposite">
-            <h3>Current Rarity</h3>
-            <p>{{beast.rarity | rarityConverter}}</p>
-          </div>
-
-          <mat-form-field>
-            <input placeholder="Senses" matInput [value]="beast.senses" (change)="captureInput($event, 'senses')">
-          </mat-form-field>
-
-          <mat-form-field>
-            <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')">
-          </mat-form-field>
+          <button mat-raised-button color="accent" (click)="addById()">Add By ID</button>
         </div>
-
-        <h2>Variants</h2>
+        
+        <h2>Meta Notes</h2>
         <div class="divider"></div>
-        <mat-chip-list>
-          <div *ngFor="let variant of beast.variants; let i = index">
-            <mat-chip *ngIf="!variant.deleted" (click)="removeNewSecondaryItem('variants', i)" color="warn" selected>
-              {{variant.variantid}}</mat-chip>
-          </div>
-        </mat-chip-list>
-        <mat-form-field>
-          <input matInput placeholder="Monster ID" [value]="newVariantId" (change)="captureID($event)">
-        </mat-form-field>
-        <button mat-raised-button color="accent" (click)="addById()">Add By ID</button>
-      </div>
+        <div>
+          <quill-editor [(ngModel)]="beast.meta" (onContentChanged)="captureHTML($event, 'meta')"></quill-editor>
+        </div>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>
 

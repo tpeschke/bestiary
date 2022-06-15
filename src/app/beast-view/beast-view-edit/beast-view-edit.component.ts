@@ -118,6 +118,7 @@ export class BeastViewEditComponent implements OnInit {
         })
       } else if (beast) {
         this.beast = beast
+        console.log(this.beast.sp_def)
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
         }
@@ -1173,7 +1174,6 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   updateSkillPoints = (skill, oldvalue, newvalue) => {
-
     if (newvalue && oldvalue) {
       let value = +newvalue - +oldvalue
 

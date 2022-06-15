@@ -5,18 +5,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-import { MatTooltipModule } from '@angular/material/tooltip'; 
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
@@ -69,35 +69,38 @@ import { WeaponSquareComponent } from './beast-view/beast-view-edit/weapon-squar
 import { SkillDisplayComponent } from './beast-view/beast-view-edit/skill-display/skill-display.component';
 
 const routes: Routes = [
-  { path: 'obstacle', 
+  {
+    path: 'obstacle',
     component: ObstacleHomeComponent,
-    children: [ 
-      { path: 'view/:id', component: ChallengeShellComponent},
+    children: [
+      { path: 'view/:id', component: ChallengeShellComponent },
       { path: 'edit/:id', component: EditHomeComponent, resolve: { obstacle: GetObstacleService } },
       { path: 'search', component: ObstacleSearchResultsComponent },
       { path: '', component: ObstacleCatalogComponent, resolve: { catalog: CatalogResolverService } },
       { path: '**', redirectTo: '' },
     ]
   },
-  { path: '', 
+  {
+    path: '',
     component: BestiaryHomeComponent,
-    children: [ { path: '', component: CatalogComponent, resolve: { catalog: CatalogResolverService } },
-                { path: 'beast/:id/gm', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: { beast: SingleBeastResolverService } },
-                { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: { beast: PlayerBeastResolverService } },
-                { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: { beast: SingleBeastResolverService } },
-                { path: 'search', component: SearchResultsComponent },
-                { path: '**', redirectTo: '' }
-              ]
+    children: [{ path: '', component: CatalogComponent, resolve: { catalog: CatalogResolverService } },
+    { path: 'beast/:id/gm', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: { beast: SingleBeastResolverService } },
+    { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: { beast: PlayerBeastResolverService } },
+    { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: { beast: SingleBeastResolverService } },
+    { path: 'search', component: SearchResultsComponent },
+    { path: '**', redirectTo: '' }
+    ]
   },
   { path: '**', redirectTo: '' },
 ];
+
 @NgModule({
   declarations: [
     AppComponent,
-    SearchBarComponent, 
-    SearchResultsComponent, 
-    CatalogComponent, 
-    BeastViewPlayerComponent, 
+    SearchBarComponent,
+    SearchResultsComponent,
+    CatalogComponent,
+    BeastViewPlayerComponent,
     BeastViewGmComponent,
     BeastViewEditComponent,
     TypeConverterPipe,
