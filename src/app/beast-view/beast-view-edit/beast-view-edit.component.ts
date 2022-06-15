@@ -86,7 +86,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   public combatRoles = ['Artillery', 'Brute', 'Defender', 'Fencer', 'Flanker', 'Fodder', 'Shock', 'Skirmisher']
-  public socialRoles = ['Corrupter', 'Defender', 'Enabler', 'Gaslighter', 'Fast-Talker', 'Feinter', 'Opportunist', 'Sandbagger', 'Support', 'Striker']
+  public socialRoles = ['Corruptor', 'Defender', 'Enabler', 'Gaslighter', 'Fast-Talker', 'Feinter', 'Opportunist', 'Sandbagger', 'Support', 'Striker']
   public skillRoles = ['Hunter', 'Prey', 'Controller', 'Lock', 'Conditional', 'Antagonist', 'Trap', 'Hazard']
 
   combatRolesInfo = roles.combatRoles.primary;
@@ -118,7 +118,6 @@ export class BeastViewEditComponent implements OnInit {
         })
       } else if (beast) {
         this.beast = beast
-        console.log(this.beast.sp_def)
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
         }
