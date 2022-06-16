@@ -441,7 +441,9 @@ function processDamage(damageString, isSpecial, hasSpecialAndDamage) {
     newDamage.isSpecial = true
     return newDamage
   }
-  if (damageString.includes('*') && !hasSpecialAndDamage) {
+
+  if (damageString.includes('*')) {
+    damageString = damageString.replace(/\*/g, '')
     newDamage.hasSpecialAndDamage = true
   }
 
@@ -462,7 +464,6 @@ function processDamage(damageString, isSpecial, hasSpecialAndDamage) {
       expressionValue = expressionValue + val;
     }
   })
-
 
   return newDamage
 }

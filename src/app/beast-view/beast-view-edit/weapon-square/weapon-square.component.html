@@ -234,6 +234,9 @@
       <h3>Damage</h3>
       <div class="divider white"></div>
       <section>
+        <mat-checkbox [checked]="square.dontaddroledamage" (change)="checkCheckbox('dontaddroledamage', $event.checked)">Remove Damage Dice from Role</mat-checkbox>
+      </section>
+      <section>
         <mat-checkbox [checked]="square.newDamage.isSpecial" (change)="checkCheckbox('isSpecial', $event.checked)">Is a
           Special Attack</mat-checkbox>
       </section>
@@ -344,8 +347,7 @@
             Between {{((square.ranges.increment) * 2) + 1}} ft and {{(square.ranges.increment) * 3}} ft, -4 atk penalty.
             and so on." matTooltipClass="my-tooltip"></i></p>
       </div>
-      <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}{{square.newDamage.hasSpecialAndDamage ?
-        '*' : ''}}</p>
+      <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}</p>
       <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
       <p class="parry">{{square.parry}}</p>
     </div>

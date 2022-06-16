@@ -719,6 +719,8 @@ export class BeastViewEditComponent implements OnInit {
         this.selectedSkillRole = {}
       }
     }
+
+    
   }
 
   setRoleType(event) {

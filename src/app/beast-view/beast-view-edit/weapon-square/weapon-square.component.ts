@@ -37,6 +37,11 @@ export class WeaponSquareComponent implements OnInit {
     })
   }
 
+  ngOnChanges(changes) {
+    this.displayDamage()
+    this.updateBothDisplayDRs()
+  }
+
   captureInput = (event, primary, secondary) => {
     this.updateNonIntCombatValues(primary, secondary, event.target.value)
     if (secondary) {
@@ -270,6 +275,9 @@ export class WeaponSquareComponent implements OnInit {
   checkCheckbox = (type, value) => {
     if (type === 'showAllEquipment') {
       this.showAllEquipment = value
+    } else if (type === 'dontaddroledamage') {
+      this.square[type] = value
+      this.displayDamage()
     } if (type === 'addrolemods') {
       this.square[type] = value
       this.updateBothDisplayDRs()
@@ -354,13 +362,13 @@ export class WeaponSquareComponent implements OnInit {
 
   displayDamage = () => {
     let roleDamage = null
-    if (!this.square.selectedweapon && this.square.addrolemods) {
+    if (!this.square.selectedweapon && this.square.addrolemods && !this.square.dontaddroledamage) {
       if (this.square.weapontype === 'm') {
         roleDamage = this.selectedRole.damage
       } else {
         roleDamage = this.selectedRole.rangedDamage
       }
-    } else if (this.square.addrolemods) {
+    } else if (this.square.addrolemods && !this.square.dontaddroledamage) {
       roleDamage = this.square.weaponInfo.damage
     }
 
