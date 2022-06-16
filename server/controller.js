@@ -310,9 +310,9 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints } = body
 
-    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, +int, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints).then(result => {
+    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints).then(result => {
       let id = result[0].id
         , promiseArray = []
 
@@ -320,13 +320,13 @@ let controllerObj = {
         if (!hash) {
           hash = controllerObj.createHash()
         }
-        promiseArray.push(db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints))
+        promiseArray.push(db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints).catch(e => console.log('----------------------- add beast roles: ', e)))
       })
       types.forEach(val => {
-        promiseArray.push(db.add.beasttype(id, val.typeid).then())
+        promiseArray.push(db.add.beasttype(id, val.typeid).then().catch(e => console.log('----------------------- add beast types: ', e)))
       })
       environ.forEach(val => {
-        promiseArray.push(db.add.beastenviron(id, val.environid).then())
+        promiseArray.push(db.add.beastenviron(id, val.environid).then().catch(e => console.log('----------------------- add beast environ: ', e)))
       })
       combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, ranges, roleid, newDamage, selectedweapon, selectedarmor, selectedshield, addrolemods, dontaddroledamage }) => {
         promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid, newDamage.isSpecial, newDamage.hasSpecialAndDamage, selectedweapon, selectedarmor, selectedshield, addrolemods, dontaddroledamage).then(result => {
@@ -334,111 +334,111 @@ let controllerObj = {
             return db.add.combatranges(result[0].id, +ranges.increment * 6).then()
           }
           return true;
-        }))
+        }).catch(e => console.log('----------------------- add beast combat: ', e)))
       })
       let newConflict = []
       Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
       newConflict.forEach(({ trait, value, type, socialroleid }) => {
-        promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid).then())
+        promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid).then().catch(e => console.log('----------------------- add beast conflict: ', e)))
       })
       skills.forEach(({ skill, rank, skillroleid }) => {
-        promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid).then())
+        promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid).then().catch(e => console.log('----------------------- add beast skills: ', e)))
       })
       movement.forEach(({ stroll, walk, jog, run, sprint, type, roleid }) => {
-        promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid).then())
+        promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid).then().catch(e => console.log('----------------------- add beast movement: ', e)))
       })
       variants.forEach(({ variantid }) => {
-        promiseArray.push(db.add.beastvariants(id, variantid).then())
-        promiseArray.push(db.add.beastvariants(variantid, id).then())
+        promiseArray.push(db.add.beastvariants(id, variantid).then().catch(e => console.log('----------------------- add beast varients 1: ', e)))
+        promiseArray.push(db.add.beastvariants(variantid, id).then().catch(e => console.log('----------------------- add beast varients 2: ', e)))
       })
       loot.forEach(({ loot, price }) => {
-        promiseArray.push(db.add.beastloot(id, loot, price).then())
+        promiseArray.push(db.add.beastloot(id, loot, price).then().catch(e => console.log('----------------------- add beast loot: ', e)))
       })
       reagents.forEach(({ name, spell, difficulty, harvest }) => {
-        promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then())
+        promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then().catch(e => console.log('----------------------- add beast reagents: ', e)))
       })
 
       let { temperament } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted, temperamentid }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
+          promiseArray.push(db.delete.encounter.temperament(beastid, tempid).catch(e => console.log('----------------------- add beast delete temp: ', e)))
         } else if ((temperamentid && !beastid) || (temperamentid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.temperament(id, temperamentid, weight))
+          promiseArray.push(db.add.encounter.temperament(id, temperamentid, weight).catch(e => console.log('----------------------- add beast add temp: ', e)))
         } else if (temperamentid && beastid) {
-          promiseArray.push(db.update.encounter.temperament(weight, beastid, temperamentid))
+          promiseArray.push(db.update.encounter.temperament(weight, beastid, temperamentid).catch(e => console.log('----------------------- add beast update temp: ', e)))
         } else if (!temperamentid) {
           db.add.encounter.allTemp(temp, tooltip).then(result => {
-            promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight))
-          })
+            promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight).catch(e => console.log('----------------------- add beast add temp with weight: ', e)))
+          }).catch(e => console.log('----------------------- add beast all temp: ', e))
         }
       })
 
       let { rank } = encounter;
       rank.rank.forEach(({ rank: rank, weight, id: rankid, beastid, lair, othertypechance, decayrate, deleted, number }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.rank(beastid, rankid))
+          promiseArray.push(db.delete.encounter.rank(beastid, rankid).catch(e => console.log('----------------------- add beast delete rank: ', e)))
         } else if ((rankid && !beastid) || (rankid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair, number))
+          promiseArray.push(db.add.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair, number).catch(e => console.log('----------------------- add beast add rank: ', e)))
         } else if (rankid && beastid) {
-          promiseArray.push(db.update.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair, number))
+          promiseArray.push(db.update.encounter.rank(rankid, id, weight, othertypechance, decayrate, lair, number).catch(e => console.log('----------------------- add beast update rank: ', e)))
         } else if (!rankid) {
           db.add.encounter.allRank(rank).then(result => {
-            promiseArray.push(db.add.encounter.rank(result[0].id, id, weight, othertypechance, decayrate, lair, number))
-          })
+            promiseArray.push(db.add.encounter.rank(result[0].id, id, weight, othertypechance, decayrate, lair, number).catch(e => console.log('----------------------- add beast add rank with weight: ', e)))
+          }).catch(e => console.log('----------------------- add beast all ranks: ', e))
         }
       })
 
       let { verb } = encounter;
       verb.verb.forEach(({ verb, id: verbid, beastid, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.verb(beastid, verbid))
+          promiseArray.push(db.delete.encounter.verb(beastid, verbid).catch(e => console.log('----------------------- add beast delete verb: ', e)))
         } else if ((verbid && !beastid) || (verbid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.verb(verbid, id))
+          promiseArray.push(db.add.encounter.verb(verbid, id).catch(e => console.log('----------------------- add beast add verb: ', e)))
         } else if (!verbid) {
           db.add.encounter.allVerb(verb).then(result => {
-            promiseArray.push(db.add.encounter.verb(result[0].id, id))
-          })
+            promiseArray.push(db.add.encounter.verb(result[0].id, id).catch(e => console.log('----------------------- add beast add verb 2: ', e)))
+          }).catch(e => console.log('----------------------- add beast all verbs: ', e))
         }
       })
 
       locationalvitality.forEach(({ id: locationid, location, vitality, beastid, roleid }) => {
         if (deleted) {
-          promiseArray.push(db.delete.locationalvitality(beastid, locationid))
+          promiseArray.push(db.delete.locationalvitality(beastid, locationid).catch(e => console.log('----------------------- add beast delete locational vitality: ', e)))
         } else if (locationid && beastid) {
-          promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid))
+          promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid).catch(e => console.log('----------------------- add beast update locational vitality: ', e)))
         } else {
-          promiseArray.push(db.add.locationalvitality(beastid, locationid, vitality, roleid))
+          promiseArray.push(db.add.locationalvitality(beastid, locationid, vitality, roleid).catch(e => console.log('----------------------- add beast add locational vitality: ', e)))
         }
       })
 
       let { noun } = encounter;
       noun.noun.forEach(({ noun, id: nounid, beastid, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.noun(beastid, nounid))
+          promiseArray.push(db.delete.encounter.noun(beastid, nounid).catch(e => console.log('----------------------- add beast delete noun: ', e)))
         } else if ((nounid && !beastid) || (nounid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.noun(nounid, id))
+          promiseArray.push(db.add.encounter.noun(nounid, id).catch(e => console.log('----------------------- add beast add noun: ', e)))
         } else if (!nounid) {
           db.add.encounter.allNoun(noun).then(result => {
-            promiseArray.push(db.add.encounter.noun(result[0].id, id))
-          })
+            promiseArray.push(db.add.encounter.noun(result[0].id, id).catch(e => console.log('----------------------- add beast add noun 2: ', e)))
+          }).catch(e => console.log('----------------------- add beast add all nouns: ', e))
         }
       })
 
       let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms } = lairloot
       if (!beastid) {
-        promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted))
+        promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted).catch(e => console.log('----------------------- add beast add loot basic ', e)))
       } else {
-        promiseArray.push(db.update.loot.basic(beastid, copper, silver, gold, potion, relic, enchanted))
+        promiseArray.push(db.update.loot.basic(beastid, copper, silver, gold, potion, relic, enchanted).catch(e => console.log('----------------------- add beast update loot basic: ', e)))
       }
 
       if (equipment) {
         equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.equipment(beastid, equipid))
+            promiseArray.push(db.delete.loot.equipment(beastid, equipid).catch(e => console.log('----------------------- add beast delete equipment: ', e)))
           } else if (equipid && beastid) {
-            promiseArray.push(db.update.loot.equipment(equipid, value, number))
+            promiseArray.push(db.update.loot.equipment(equipid, value, number).catch(e => console.log('----------------------- add beast update equipment: ', e)))
           } else {
-            promiseArray.push(db.add.loot.equipment(id, value, number))
+            promiseArray.push(db.add.loot.equipment(id, value, number).catch(e => console.log('----------------------- add beast add equipment: ', e)))
           }
         })
       }
@@ -446,11 +446,11 @@ let controllerObj = {
       if (traited) {
         traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.traited(beastid, traitedid))
+            promiseArray.push(db.delete.loot.traited(beastid, traitedid).catch(e => console.log('----------------------- add beast delete traited equipment: ', e)))
           } else if (traitedid && beastid) {
-            promiseArray.push(db.update.loot.traited(traitedid, value, chancetable))
+            promiseArray.push(db.update.loot.traited(traitedid, value, chancetable).catch(e => console.log('----------------------- add beast update traited equipment: ', e)))
           } else {
-            promiseArray.push(db.add.loot.traited(id, value, chancetable))
+            promiseArray.push(db.add.loot.traited(id, value, chancetable).catch(e => console.log('----------------------- add beast add traited equipment: ', e)))
           }
         })
       }
@@ -458,11 +458,11 @@ let controllerObj = {
       if (scrolls) {
         scrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.scrolls(beastid, scrollid))
+            promiseArray.push(db.delete.loot.scrolls(beastid, scrollid).catch(e => console.log('----------------------- add beast delete scrolls: ', e)))
           } else if (scrollid && beastid) {
-            promiseArray.push(db.update.loot.scrolls(scrollid, number, power))
+            promiseArray.push(db.update.loot.scrolls(scrollid, number, power).catch(e => console.log('----------------------- add beast update scrolls: ', e)))
           } else {
-            promiseArray.push(db.add.loot.scrolls(id, number, power))
+            promiseArray.push(db.add.loot.scrolls(id, number, power).catch(e => console.log('----------------------- add beast add scrolls: ', e)))
           }
         })
       }
@@ -470,40 +470,40 @@ let controllerObj = {
       if (alms) {
         alms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.alms(beastid, almid))
+            promiseArray.push(db.delete.loot.alms(beastid, almid).catch(e => console.log('----------------------- add beast delete alms: ', e)))
           } else if (almid && beastid) {
-            promiseArray.push(db.update.loot.alms(almid, number, favor))
+            promiseArray.push(db.update.loot.alms(almid, number, favor).catch(e => console.log('----------------------- add beast update alms: ', e)))
           } else {
-            promiseArray.push(db.add.loot.alms(id, number, favor))
+            promiseArray.push(db.add.loot.alms(id, number, favor).catch(e => console.log('----------------------- add beast add alms: ', e)))
           }
         })
       }
 
       if (casting) {
         let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
-        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id))
+        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id).catch(e => console.log('----------------------- add beast casting: ', e)))
       }
 
       if (spells) {
         spells.forEach(({ id: spellid, name, origin, shape, range, interval, effect, beastid }) => {
           if (beastid) {
-            promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid))
+            promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid).catch(e => console.log('----------------------- add beast update spell: ', e)))
           } else {
-            promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id))
+            promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id).catch(e => console.log('----------------------- add beast add spell: ', e)))
           }
         })
       }
 
       if (deletedSpellList) {
         deletedSpellList.forEach(val => {
-          promiseArray.push(db.delete.spell(val, id))
+          promiseArray.push(db.delete.spell(val, id).catch(e => console.log('----------------------- add beast delete spell list: ', e)))
         })
       }
 
       promiseArray.push(db.delete.challenges([id, [0, ...challenges.map(challenges => challenges.id)]]).then(_ => {
         return challenges.map(({ challengesid }) => {
           if (!uniqueid) {
-            return db.add.challenges(challengesid, id)
+            return db.add.challenges(challengesid, id).catch(e => console.log('----------------------- add beast challenges: ', e))
           } else {
             return true
           }
@@ -514,13 +514,12 @@ let controllerObj = {
         controllerObj.collectCache(app, 0)
         res.send({ id })
       })
-    })
+    }).catch(e => console.log('----------------------- add beast main add: ', e))
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
     let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints } = body
     // update beast
-
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints).then(result => {
       let promiseArray = []
 

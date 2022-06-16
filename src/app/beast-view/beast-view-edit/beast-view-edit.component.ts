@@ -235,11 +235,13 @@ export class BeastViewEditComponent implements OnInit {
       this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     } else if (!secondaryType) {
       this.getValueForPointChange(type, this.beast[type], event.target.value)
-      let objectToModify = this.beast
+      let objectToModify = {...this.beast}
       if (this.selectedRole && (type === 'stress' || type === 'caution')) {
         objectToModify = this.beast.roleInfo[this.selectedRoleId]
+        this.beast.roleInfo[this.selectedRoleId] = Object.assign({}, objectToModify, { [type]: event.target.value })
+      } else {
+        this.beast = Object.assign({}, objectToModify, { [type]: event.target.value })
       }
-      objectToModify = Object.assign({}, objectToModify, { [type]: event.target.value })
       if (type === 'vitality') {
         this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
       }
