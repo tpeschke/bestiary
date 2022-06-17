@@ -296,10 +296,12 @@ export class BeastViewEditComponent implements OnInit {
       if (type === 'panic') {
         valueChange = this.getPanicValue(oldValue) - this.getPanicValue(newValue)
       } else if (type === 'vitality' && !this.selectedRoleId) {
-        valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - this.averageVitality
-        valueChange = Math.ceil(valueToCompare / 10)
-      } else if (type === 'vitality' && this.selectedRoleId) {
-        valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - this.beast.roleInfo[this.selectedRoleId].average
+        let oldValue = this.beast.roleInfo[this.selectedRoleId].average ? this.beast.roleInfo[this.selectedRoleId].average : this.averageVitality
+        if (!this.selectedRoleId) {
+          valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - oldValue
+        } else {
+          valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - oldValue
+        }
         valueChange = Math.ceil(valueToCompare / 10)
       } else {
         valueToCompare = newValue - oldValue
@@ -478,6 +480,7 @@ export class BeastViewEditComponent implements OnInit {
           slash: 0
         },
         measure: 0,
+        addrolemods: true,
         newDamage: {
           dice: [],
           flat: 0,
@@ -730,6 +733,7 @@ export class BeastViewEditComponent implements OnInit {
       for (let i = 0; i < this.beast.roles.length; i++) {
         if (this.selectedRoleId === this.beast.roles[i].id) {
           this.beast.roles[i].role = event.value
+          this.beast.roleInfo[this.selectedRoleId].role = event.value
           this.selectedRole = this.combatRolesInfo[event.value]
           i = this.beast.roles.length
         }

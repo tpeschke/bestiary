@@ -17,7 +17,7 @@
       <p class="fatigue">{{ square.fatigue }}</p>
       <div class="dr">
         <p>{{displayedDR}}</p>
-        <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " " || square.selectedshield'>{{displayedShieldDR}}</p>
+        <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " " || square.selectedshield || (selectedRole.shield_dr.flat && selectedRole.shield_dr.slash)'>{{displayedShieldDR}}</p>
       </div>
       <div class="measure">
         <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : selectedRole.measure) + square.measure}}</p>

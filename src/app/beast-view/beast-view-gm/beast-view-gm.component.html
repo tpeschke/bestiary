@@ -83,17 +83,16 @@
       </div>
 
       <div class="conflict-shell role-select"
-      *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)">
-      <h3>Skill Role Type </h3>
-      <p>
-        {{selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole}} <i
-          class="fas fa-info-circle icon-small blue"
-          matTooltip="Strengths:
+        *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)">
+        <h3>Skill Role Type </h3>
+        <p>
+          {{selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole}} <i
+            class="fas fa-info-circle icon-small blue" matTooltip="Strengths:
           {{skillRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole].strengths}}
           Weaknesses:
           {{skillRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole].weaknesses}}"
-          matTooltipClass="my-tooltip"></i></p>
-    </div>
+            matTooltipClass="my-tooltip"></i></p>
+      </div>
 
       <div class="conflict-inner-shell box-padding" *ngIf="beast.skills.length > 0">
         <h2>Skills</h2>
@@ -297,7 +296,7 @@
             *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0">
             {{beast.roleInfo[selectedRoleId].stress}}</p>
           <p
-            *ngIf="!selectedRoleId && beast.stress !== 0 || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress)">
+            *ngIf="!selectedRoleId && beast.stress !== 0 || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && beast.stress !== 0)">
             {{beast.stress}}</p>
           <p *ngIf="beast.stress === 0 || (selectedRoleId && beast.roleInfo[selectedRoleId].stress === 0)">N/A</p>
         </div>
@@ -364,7 +363,7 @@
 
       <h2>Add. Attack Info</h2>
       <div class="divider"></div>
-      <div>
+      <div *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk.includes('None'))">
         <quill-view-html [content]="beast.sp_atk"></quill-view-html>
       </div>
       <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].attack">
@@ -373,7 +372,7 @@
 
       <h2>Add. Defense Info</h2>
       <div class="divider"></div>
-      <div>
+      <div *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].defense && beast.sp_def.includes('None'))">
         <quill-view-html [content]="beast.sp_def"></quill-view-html>
       </div>
       <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].defense">

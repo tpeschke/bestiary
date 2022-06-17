@@ -158,6 +158,9 @@
           <mat-form-field>
             <mat-label>Combat Role Type</mat-label>
             <mat-select (selectionChange)="captureNewRole('role', $event)">
+              <mat-option>
+                None
+              </mat-option>
               <mat-option *ngFor="let role of combatRoles" [value]="role">
                 {{role}}
               </mat-option>
@@ -167,6 +170,9 @@
           <mat-form-field>
             <mat-label>Combat Secondary Role Type</mat-label>
             <mat-select (selectionChange)="captureNewRole('secondaryrole', $event)">
+              <mat-option>
+                None
+              </mat-option>
               <mat-option *ngFor="let role of combatRolesSecondary" [value]="role">
                 {{role}}
               </mat-option>
@@ -176,6 +182,9 @@
           <mat-form-field>
             <mat-label>Confrontation Role Type</mat-label>
             <mat-select (selectionChange)="captureNewRole('socialrole', $event)">
+              <mat-option>
+                None
+              </mat-option>
               <mat-option *ngFor="let role of socialRoles" [value]="role">
                 {{role}}
               </mat-option>
@@ -185,6 +194,9 @@
           <mat-form-field>
             <mat-label>Skill Role Type</mat-label>
             <mat-select (selectionChange)="captureNewRole('skillrole', $event)">
+              <mat-option>
+                None
+              </mat-option>
               <mat-option *ngFor="let role of skillRoles" [value]="role">
                 {{role}}
               </mat-option>
@@ -426,22 +438,18 @@
 
           <div class="vitals-shell">
             <mat-form-field>
-              <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
+              <div *ngIf="selectedRoleId">
                 <input
                   id="{{selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
                   matInput placeholder="Vitality" [value]="beast.roleInfo[selectedRoleId].vitality"
                   (change)="captureRoleVitality($event)">
               </div>
-              <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
+              <div *ngIf="!selectedRoleId">
                 <input matInput placeholder="Vitality"
                   id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
                   [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
               </div>
             </mat-form-field>
-            <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].average">
-              <p>(Ave: {{beast.roleInfo[selectedRoleId].average}})</p>
-            </div>
-            <p *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].average">(Ave: {{averageVitality}})</p>
 
             <div *ngFor="let location of beast.locationalvitality; let i = index">
               <div *ngIf="!location.deleted && selectedRoleId === location.roleid">
@@ -464,7 +472,7 @@
               VITALITY</button>
             <br />
             <br />
-            <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].stress">
+            <div *ngIf="selectedRoleId">
               <mat-form-field>
                 <input
                   id="{{selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
@@ -472,14 +480,14 @@
                   (change)="captureInput($event, 'stress')">
               </mat-form-field>
             </div>
-            <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].stress">
+            <div *ngIf="!selectedRoleId">
               <mat-form-field>
                 <input matInput placeholder="Stress Threshold"
                   id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
                   [value]="beast.stress" (change)="captureInput($event, 'stress')">
               </mat-form-field>
             </div>
-            <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].panic">
+            <div *ngIf="selectedRoleId">
               <mat-form-field>
                 <mat-label>Panic</mat-label>
                 <mat-select [value]="beast.roleInfo[selectedRoleId].panic"
@@ -511,7 +519,7 @@
               </div>
             </div>
 
-            <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].panic">
+            <div *ngIf="!selectedRoleId">
               <mat-form-field>
                 <mat-label>Panic</mat-label>
                 <mat-select [value]="beast.panic" (selectionChange)="captureSelect($event, 'panic')"
@@ -542,14 +550,14 @@
               </div>
             </div>
             <br />
-            <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].caution">
+            <div *ngIf="selectedRoleId">
               <mat-form-field>
                 <input matInput placeholder="Caution Threshold" [value]="beast.roleInfo[selectedRoleId].caution"
                   id="{{selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
                   (change)="captureInput($event, 'caution')">
               </mat-form-field>
             </div>
-            <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].caution">
+            <div *ngIf="!selectedRoleId">
               <mat-form-field>
                 <input matInput placeholder="Caution Threshold" [value]="beast.caution"
                   id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
