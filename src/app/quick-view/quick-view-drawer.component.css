@@ -223,8 +223,15 @@
 .input-shell {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     margin: -15px 0;
 }
+
+.input-shell mat-form-field {
+    width: 60%;
+    text-align: right;
+}
+
 
 .flex-row-opposite {
     margin-top: 5px;

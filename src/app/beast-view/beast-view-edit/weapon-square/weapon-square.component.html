@@ -233,7 +233,7 @@
     <div>
       <h3>Damage</h3>
       <div class="divider white"></div>
-      <section>
+      <section *ngIf="!square.newDamage.isSpecial">
         <mat-checkbox [checked]="square.dontaddroledamage" (change)="checkCheckbox('dontaddroledamage', $event.checked)">Remove Damage Dice from Role</mat-checkbox>
       </section>
       <section>

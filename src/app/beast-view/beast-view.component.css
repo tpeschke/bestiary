@@ -57,6 +57,11 @@ mat-toolbar {
     justify-content: space-evenly;
 }
 
+.rolled-stats-shell mat-form-field {
+    width: 60%;
+    text-align: right;
+}
+
 .new-roll-shell {
     display: flex;
     flex-direction: column;
@@ -184,6 +189,7 @@ mat-toolbar {
 .combat-shell {
     display: flex;
     flex-wrap: wrap;
+    align-items: end;
 }
 
 .combat-square {

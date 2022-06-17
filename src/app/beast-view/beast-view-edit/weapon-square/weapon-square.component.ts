@@ -29,6 +29,7 @@ export class WeaponSquareComponent implements OnInit {
   public showAllEquipment = false
 
   ngOnInit() {
+    this.turnOnAllEquipment()
     this.displayDamage()
     this.updateBothDisplayDRs()
     this.beastService.getEquipment().subscribe(res => {
@@ -40,6 +41,30 @@ export class WeaponSquareComponent implements OnInit {
   ngOnChanges(changes) {
     this.displayDamage()
     this.updateBothDisplayDRs()
+  }
+
+  turnOnAllEquipment = () => {
+    let turnOnAllEquipment = false
+    this.selectedRole.weapons.forEach(weaponCat => {
+      let result = weaponCat.items.includes(this.square.selectedweapon)
+      if(!result) {
+        turnOnAllEquipment = true
+      }
+    })
+    this.selectedRole.armor.forEach(armorCat => {
+      let result = armorCat.items.includes(this.square.selectedarmor)
+      if(!result) {
+        turnOnAllEquipment = true
+      }
+    })
+    this.selectedRole.shields.forEach(shieldCat => {
+      let result = shieldCat.items.includes(this.square.selectedshield)
+      if(!result) {
+        turnOnAllEquipment = true
+      }
+    })
+
+    this.showAllEquipment = turnOnAllEquipment
   }
 
   captureInput = (event, primary, secondary) => {
@@ -138,7 +163,7 @@ export class WeaponSquareComponent implements OnInit {
     this.updateNonIntCombatValues('damage dice', 'remove', type)
     for (let i = 0; i < dice.length; i++) {
       let positionType = dice[i].split('d')[1]
-      if (positionType === type + '!') {
+      if (positionType === type + '!' || positionType === type) {
         let number = dice[i].split('d')[0]
         if (number !== '' && number !== '1') {
           dice[i] = `${+number - 1}d${type}!`
