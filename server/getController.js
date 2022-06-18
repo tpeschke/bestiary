@@ -144,6 +144,9 @@ module.exports = {
             if (weapon.selectedshield) {
               equipmentInfo.shieldInfo = equipmentCtrl.getShield(weapon.selectedshield)
             }
+
+            weapon.parry = weapon.showmaxparry ? 99 : weapon.parry
+            
             return { ...weapon, ...newWeaponInfo, ...equipmentInfo }
           })
           return result

@@ -30,7 +30,7 @@
       </div>
       <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}</p>
       <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-      <p class="parry">{{(square.selectedshield ? square.shieldInfo.parry : square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
+      <p class="parry">{{(square.showmaxparry ? 99 : square.selectedshield ? square.shieldInfo.parry : square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
     </div>
     <mat-form-field>
       <mat-label>Range Type</mat-label>
@@ -211,7 +211,7 @@
       <h3>Parry/Shield</h3>
       <div class="divider white"></div>
       <div>
-        <mat-form-field>
+        <mat-form-field *ngIf="!square.showmaxparry">
           <input
             id="{{selectedRole.strengths.includes('Parry') ? 'green' : selectedRole.weaknesses.includes('Parry') ? 'red' : ''}}"
             placeholder="Parry" matInput [value]="square.parry" (change)="captureInputNumber($event, 'parry')">
@@ -229,6 +229,12 @@
             (change)="captureInputNumber($event, 'newShieldDr', 'flat')">
         </mat-form-field>
       </div>
+      <section>
+        <mat-checkbox [checked]="square.showmaxparry"
+          (change)="checkCheckbox('showmaxparry', $event.checked)">Show 99 Parry</mat-checkbox>
+          <br>
+          <br>
+      </section>
     </div>
     <div>
       <h3>Damage</h3>
@@ -349,7 +355,7 @@
       </div>
       <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}</p>
       <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-      <p class="parry">{{square.parry}}</p>
+      <p class="parry">{{square.showmaxparry ? 99 : square.parry}}</p>
     </div>
     <mat-form-field>
       <mat-label>Range Type</mat-label>
@@ -441,7 +447,7 @@
       <h3>Parry/Shield</h3>
       <div class="divider white"></div>
       <div>
-        <mat-form-field>
+        <mat-form-field *ngIf="!square.showmaxparry">
           <input
             placeholder="Parry" matInput [value]="square.parry" (change)="captureInputNumber($event, 'parry')">
         </mat-form-field>
@@ -456,6 +462,13 @@
             (change)="captureInputNumber($event, 'newShieldDr', 'flat')">
         </mat-form-field>
       </div>
+      <section>
+        <mat-checkbox [checked]="square.showmaxparry"
+          (change)="checkCheckbox('showmaxparry', $event.checked)">Show 99 Parry </mat-checkbox> <i
+          class="fas fa-info-circle icon-small blue" matTooltip="Giving a monster 99 Parry means that any shield DR they have is tripled against piercing weapons so it's an easy way to build in a creature that's resistent/immune to piercing damage." matTooltipClass="my-tooltip"></i>
+          <br>
+          <br>
+      </section>
     </div>
     <div>
       <h3>Damage</h3>

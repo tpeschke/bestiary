@@ -315,6 +315,8 @@ export class WeaponSquareComponent implements OnInit {
       this.square[type] = value
       this.updateBothDisplayDRs()
       this.displayDamage()
+    } if (type === 'showmaxparry') {
+      this.square[type] = value
     } else {
       this.square.newDamage[type] = value
     }

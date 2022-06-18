@@ -224,7 +224,7 @@ mat-toolbar {
     position: absolute;
     z-index: 1;
     top: 20px;
-    left: 13px;
+    left: 5px;
     font-size: 17px;
 }
 
@@ -240,7 +240,7 @@ mat-toolbar {
     position: absolute;
     z-index: 1;
     top: 20px;
-    right: 13px;
+    right: 5px;
     font-size: 17px;
 }
 
@@ -284,9 +284,12 @@ mat-toolbar {
 .measure {
     position: absolute;
     z-index: 1;
-    font-size: 17px;
     bottom: 18px;
-    left: 13px;
+    left: 5px;
+}
+
+.measure p {
+    font-size: 17px;
 }
 
 .damage {
@@ -304,7 +307,7 @@ mat-toolbar {
     z-index: 1;
     font-size: 17px;
     bottom: 18px;
-    right: 13px;
+    right: 5px;
 }
 
 .conflict-shell {
