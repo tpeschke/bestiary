@@ -45,24 +45,32 @@ export class WeaponSquareComponent implements OnInit {
 
   turnOnAllEquipment = () => {
     let turnOnAllEquipment = false
-    this.selectedRole.weapons.forEach(weaponCat => {
-      let result = weaponCat.items.includes(this.square.selectedweapon)
-      if(!result) {
-        turnOnAllEquipment = true
+    if (this.selectedRole.weapons || this.selectedRole.armor || this.selectedRole.shields) {
+      if (this.square.selectedweapon) {
+        this.selectedRole.weapons.forEach(weaponCat => {
+          let result = weaponCat.items.includes(this.square.selectedweapon)
+          if(!result) {
+            turnOnAllEquipment = true
+          }
+        })
       }
-    })
-    this.selectedRole.armor.forEach(armorCat => {
-      let result = armorCat.items.includes(this.square.selectedarmor)
-      if(!result) {
-        turnOnAllEquipment = true
+      if (this.square.selectedarmor) {
+        this.selectedRole.armor.forEach(armorCat => {
+          let result = armorCat.items.includes(this.square.selectedarmor)
+          if(!result) {
+            turnOnAllEquipment = true
+          }
+        })
       }
-    })
-    this.selectedRole.shields.forEach(shieldCat => {
-      let result = shieldCat.items.includes(this.square.selectedshield)
-      if(!result) {
-        turnOnAllEquipment = true
+      if (this.square.selectedshield) {
+        this.selectedRole.shields.forEach(shieldCat => {
+          let result = shieldCat.items.includes(this.square.selectedshield)
+          if(!result) {
+            turnOnAllEquipment = true
+          }
+        })
       }
-    })
+    }
 
     this.showAllEquipment = turnOnAllEquipment
   }
