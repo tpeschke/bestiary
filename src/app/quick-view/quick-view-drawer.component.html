@@ -150,7 +150,8 @@
                       and so on." matTooltipClass="my-tooltip"></i></p>
                 </div>
                 <p class="damage">{{square.damage}}</p>
-                <p class="parry">{{square.parry}}</p>
+                <p class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">{{square.parry}} <i *ngIf="square.showmaxparry"
+                  class="fas fa-info-circle icon-small blue" matTooltip="EUA means that every attack is parried except unarmed attacks" matTooltipClass="my-tooltip"></i></p>
               </div>
 
               <div *ngIf="beast.roleinfo && square.addrolemods" class="square-shell">
@@ -180,8 +181,9 @@
                   </div>
                   <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square, beast.roleinfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p class="parry">{{(square.selectedshield ? square.shieldInfo.parry : square.selectedweapon && square.weaponInfo.parry ?
-                    square.weaponInfo.parry : beast.roleinfo.parry) + square.parry}}</p>
+                  <p class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">{{(square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry : square.selectedweapon && square.weaponInfo.parry ?
+                    square.weaponInfo.parry : beast.roleinfo.parry) + square.parry)}} <i *ngIf="square.showmaxparry"
+                    class="fas fa-info-circle icon-small blue" matTooltip="EUA means that every attack is parried except unarmed attacks" matTooltipClass="my-tooltip"></i></p>
               </div>
             </div>
           </div>

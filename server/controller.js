@@ -254,7 +254,7 @@ let controllerObj = {
           }
 
           weapon.parry += baseParry
-          weapon.parry = weapon.showmaxparry ? 99 : weapon.parry
+          weapon.parry = weapon.showmaxparry ? 'EUA' : weapon.parry
 
           return { ...weapon, ...newWeaponInfo }
         })

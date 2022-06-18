@@ -597,6 +597,7 @@ export class BeastViewEditComponent implements OnInit {
     if (this.deletedSpellList) {
       this.beast.deletedSpellList = this.deletedSpellList
     }
+    this.calculateCombatPoints()
     this.calculateSocialPoints()
     this.calculateSkillPoints()
     if (+id) {

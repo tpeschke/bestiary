@@ -310,6 +310,10 @@ mat-toolbar {
     right: 5px;
 }
 
+.eua-parry {
+    font-size: 13px;
+}
+
 .conflict-shell {
     background: rgba(211, 211, 211, 0.5);
     padding: 15px;

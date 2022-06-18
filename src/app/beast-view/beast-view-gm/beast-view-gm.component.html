@@ -159,8 +159,8 @@
                           and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
                   <p class="damage">{{square.damage !== 'null' ? square.damage : ''}} </p>
-                  <p class="parry">{{square.showmaxparry ? 99 : square.parry}}<i *ngIf="square.showmaxparry"
-                    class="fas fa-info-circle icon-small blue" matTooltip="This counts as Parry from a shield for unarmed attacks against this monster." matTooltipClass="my-tooltip"></i></p>
+                  <p class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">{{square.showmaxparry ? 'EUA' : square.parry}}<i *ngIf="square.showmaxparry"
+                    class="fas fa-info-circle icon-small blue" matTooltip="EUA means that every attack is parried except unarmed attacks" matTooltipClass="my-tooltip"></i></p>
                 </div>
               </div>
             </div>
@@ -196,10 +196,10 @@
                   </div>
                   <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p class="parry">{{(square.showmaxparry ? 99 : square.selectedshield ? square.shieldInfo.parry : square.selectedweapon &&
+                  <p class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">{{(square.showmaxparry ? 'EUA' : square.selectedshield ? square.shieldInfo.parry : square.selectedweapon &&
                     square.weaponInfo.parry ?
                     square.weaponInfo.parry : selectedRole.parry) + square.parry}}<i *ngIf="square.showmaxparry"
-                    class="fas fa-info-circle icon-small blue" matTooltip="This counts as Parry from a shield for unarmed attacks against this monster." matTooltipClass="my-tooltip"></i></p>
+                    class="fas fa-info-circle icon-small blue" matTooltip="EUA means that every attack is parried except unarmed attacks" matTooltipClass="my-tooltip"></i></p>
                 </div>
               </div>
             </div>

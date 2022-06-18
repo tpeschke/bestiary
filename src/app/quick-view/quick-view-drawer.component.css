@@ -212,6 +212,10 @@
     right: 5px;
 }
 
+.eua-parry {
+    font-size: 13px;
+}
+
 .vitals-shell {
     background: rgba(211, 211, 211, 0.5);
     padding: 0px 15px 15px 15px;

@@ -30,7 +30,7 @@
       </div>
       <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}</p>
       <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-      <p class="parry">{{(square.showmaxparry ? 99 : square.selectedshield ? square.shieldInfo.parry : square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
+      <p class="parry">{{(square.showmaxparry ? 'EUA' : square.selectedshield ? square.shieldInfo.parry : square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : selectedRole.parry) + square.parry}}</p>
     </div>
     <mat-form-field>
       <mat-label>Range Type</mat-label>
@@ -231,7 +231,8 @@
       </div>
       <section>
         <mat-checkbox [checked]="square.showmaxparry"
-          (change)="checkCheckbox('showmaxparry', $event.checked)">Show 99 Parry</mat-checkbox>
+          (change)="checkCheckbox('showmaxparry', $event.checked)">'Except Unarmed Attacks' Parry</mat-checkbox> <i
+          class="fas fa-info-circle icon-small blue" matTooltip="Every attack is parried except unarmed attacks" matTooltipClass="my-tooltip"></i>
           <br>
           <br>
       </section>
@@ -355,7 +356,7 @@
       </div>
       <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}</p>
       <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-      <p class="parry">{{square.showmaxparry ? 99 : square.parry}}</p>
+      <p class="parry">{{square.showmaxparry ? 'EUA' : square.parry}}</p>
     </div>
     <mat-form-field>
       <mat-label>Range Type</mat-label>
@@ -464,8 +465,8 @@
       </div>
       <section>
         <mat-checkbox [checked]="square.showmaxparry"
-          (change)="checkCheckbox('showmaxparry', $event.checked)">Show 99 Parry </mat-checkbox> <i
-          class="fas fa-info-circle icon-small blue" matTooltip="Giving a monster 99 Parry means that any shield DR they have is tripled against piercing weapons so it's an easy way to build in a creature that's resistent/immune to piercing damage." matTooltipClass="my-tooltip"></i>
+          (change)="checkCheckbox('showmaxparry', $event.checked)">'Except Unarmed Attacks' Parry </mat-checkbox> <i
+          class="fas fa-info-circle icon-small blue" matTooltip="Every attack is parried except unarmed attacks" matTooltipClass="my-tooltip"></i>
           <br>
           <br>
       </section>
