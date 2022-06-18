@@ -1,5 +1,12 @@
 const equipmentCtrl = require('./equipmentController')
 
+function formatNameWithCommas (name) {
+  if (name.includes(',')) {
+    let nameArray = name.split(', ')
+    return `${nameArray[1]} ${nameArray[0]}`
+  } 
+  return name
+}
 function displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
   let nameString = ''
   let roles = false
@@ -9,6 +16,7 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
   } else {
     name = ''
   }
+
   if (combatrole || socialrole || skillrole) {
     nameString += ' ['
     roles = true
@@ -45,18 +53,19 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution } = result[0]
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash } = result[0]
       let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense }
-      let isARole = result[0].roleid && result.length <= 1
+      let isARole = rolehash === req.params.hash
 
-      if (baseroletype) {
-        beast.name = displayName(beast.name, baseroletype, basesecondaryrole, basesocialrole, baseskillrole)
+      beast.name = formatNameWithCommas(beast.name)
+      if (!isARole) {
+        beast.name = displayName(beast.name, baseroletype, secondaryroletype, baseskillrole, basesocialrole)
         beast.role = baseroletype
       }
 
       if (isARole) {
         if (rolename && rolename.toUpperCase() !== "NONE") {
-          beast.name = name + " " + rolename
+          beast.name = beast.name + " " + rolename
         }
         if (roletype) {
           beast.name = displayName(beast.name, roletype, secondaryroletype, socialrole, skillrole)
@@ -157,7 +166,11 @@ module.exports = {
           beast.combat.forEach(val => {
             if (val.weapontype === 'r') {
               finalPromise.push(db.get.combatranges(val.id).then(ranges => {
-                val.ranges = ranges[0]
+                if (ranges.length > 0) {
+                  val.ranges = ranges[0]
+                } else {
+                  val.ranges = {increment: 0}
+                }
                 return ranges
               }))
             }
