@@ -314,6 +314,10 @@ mat-toolbar {
     font-size: 13px;
 }
 
+.characteristics-appearing ::ng-deep .mat-form-field-infix {
+    width: 100%;
+}
+
 .conflict-shell {
     background: rgba(211, 211, 211, 0.5);
     padding: 15px;

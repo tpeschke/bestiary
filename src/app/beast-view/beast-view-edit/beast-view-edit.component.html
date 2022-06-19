@@ -208,9 +208,12 @@
 
       </mat-expansion-panel>
     </mat-accordion>
-  </div>
 
-  <br>
+    <br>
+    <mat-form-field *ngIf="selectedRoleId">
+      <input matInput placeholder="Change Role Name" [value]="beast.roleInfo[selectedRoleId].name" (change)="captureRoleName($event)">
+    </mat-form-field>
+  </div>
 
   <mat-tab-group backgroundColor="warn">
     <mat-tab label="Confrontations">
@@ -266,10 +269,11 @@
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'traits')" color="accent">ADD
             TRAIT</button>
           <br />
-          <mat-form-field>
+          <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.traits.length > 0">
             <input matInput placeholder="Max Traits Appearing" [value]="beast.traitlimit"
-              (change)="captureInput($event, 'traitlimit')">
+            (change)="captureInput($event, 'traitlimit')">
           </mat-form-field>
+          <br />
 
           <h2>Devotions</h2>
           <div class="divider"></div>
@@ -298,10 +302,11 @@
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">ADD
             DEVOTIONS</button>
           <br />
-          <mat-form-field>
+          <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.devotions.length > 0">
             <input matInput placeholder="Max Devotions Appearing" [value]="beast.devotionlimit"
               (change)="captureInput($event, 'devotionlimit')">
           </mat-form-field>
+          <br />
 
           <h2>Flaws</h2>
           <div class="divider"></div>
@@ -328,10 +333,12 @@
           </div>
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent">ADD FLAW</button>
           <br />
-          <mat-form-field>
+          <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.flaws.length > 0">
             <input matInput placeholder="Max Flaws Appearing" [value]="beast.flawlimit"
               (change)="captureInput($event, 'flawlimit')">
           </mat-form-field>
+          <br />
+
         </div>
       </div>
     </mat-tab>

@@ -4,3 +4,4 @@ left join bbmovement m on m.roleid = r.id
 left join bblocationalvitality lv on lv.roleid = r.id
 where r.beastid = $1
 group by r.id
+order by name

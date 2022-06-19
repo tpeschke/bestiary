@@ -226,6 +226,15 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  captureRoleName = (event) => {
+    this.beast.roleInfo[this.selectedRoleId].name = event.target.value
+    this.beast.roles.forEach(role => {
+      if (role.id === this.selectedRoleId) {
+        role.name = event.target.value
+      }
+    })
+  }
+
   captureInputUnbound = (event, type, index, secondaryType, thirdType) => {
     if (type === 'conflict') {
       this.getValueForPointChange(secondaryType, this.beast[type][secondaryType][index][thirdType], event.target.value)
