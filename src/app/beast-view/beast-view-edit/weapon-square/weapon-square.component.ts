@@ -230,7 +230,8 @@ export class WeaponSquareComponent implements OnInit {
   updateNonIntCombatValues = (primary, secondary, value) => {
     if (primary !== 'weapontype') {
       if (primary === 'fatigue') {
-        this.updateCombatPoints(this.getFatigueValue(value) - this.getFatigueValue(this.square.fatigue));
+        let oldFatigueValue = this.getFatigueValue(this.square.fatigue)
+        this.updateCombatPoints(this.getFatigueValue(value) - (oldFatigueValue ? oldFatigueValue : 0));
       } else if (primary === 'damage dice' && secondary === 'add') {
         let valueToAdd = 0
 

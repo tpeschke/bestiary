@@ -130,7 +130,7 @@
   <div class="combat-role-shell">
     <div class="conflict-shell">
       <mat-form-field>
-        <mat-label>Role</mat-label>
+        <mat-label>Select Role</mat-label>
         <mat-select (selectionChange)="setRole($event)">
           <mat-option>
             Base
@@ -139,6 +139,12 @@
             {{role.name}}
           </mat-option>
         </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="selectedRoleId">
+      <mat-form-field>
+        <input matInput placeholder="Change Role Name" [value]="beast.roleInfo[selectedRoleId].name" (change)="captureRoleName($event)">
       </mat-form-field>
     </div>
 
@@ -210,9 +216,6 @@
     </mat-accordion>
 
     <br>
-    <mat-form-field *ngIf="selectedRoleId">
-      <input matInput placeholder="Change Role Name" [value]="beast.roleInfo[selectedRoleId].name" (change)="captureRoleName($event)">
-    </mat-form-field>
   </div>
 
   <mat-tab-group backgroundColor="warn">

@@ -460,6 +460,8 @@ export class BeastViewGmComponent implements OnInit {
       case 'C':
         percentage = .75
         break;
+      case 'N':
+        return 'N'
       default:
         percentage = .75
     }
