@@ -338,7 +338,7 @@ export default {
                     },
                     {
                         label: 'Neutral Choice',
-                        items: ['Laminar']
+                        items: ['Laminar (Banded Mail)']
                     },
                     {
                         label: 'Not Preferred Choice',

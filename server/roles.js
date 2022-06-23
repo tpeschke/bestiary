@@ -181,7 +181,7 @@ module.exports = {
                     },
                     {
                         label: 'Neutral Choices',
-                        items: ['Laminar']
+                        items: ['Laminar (Banded Mail)']
                     },
                     {
                         label: 'Not Preferred Choices',

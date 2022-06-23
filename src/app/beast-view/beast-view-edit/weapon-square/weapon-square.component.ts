@@ -380,7 +380,7 @@ export class WeaponSquareComponent implements OnInit {
         equipmentModSlash = this.selectedRole.shield_dr.slash
       }
     }
-
+    
     let adjustedFlat = flat + equipmentModFlat
     let adjustedSlash = slash + equipmentModSlash
     let drString = ''
