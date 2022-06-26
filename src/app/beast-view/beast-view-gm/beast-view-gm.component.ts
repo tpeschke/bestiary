@@ -670,7 +670,7 @@ export class BeastViewGmComponent implements OnInit {
 
   displayName = (square) => {
     let {selectedweapon, selectedarmor, selectedshield} = square
-
+  
     if (selectedweapon && selectedarmor && selectedshield) {
       return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
     } else if (selectedweapon && selectedarmor && !selectedshield) {
