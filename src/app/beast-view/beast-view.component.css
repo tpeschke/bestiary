@@ -301,6 +301,10 @@ mat-toolbar {
     width: 60px;
     left: 45px;
     top: 91px;
+    height: 37px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .parry {

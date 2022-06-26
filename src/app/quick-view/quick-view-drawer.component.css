@@ -198,6 +198,10 @@
     left: 45px;
     top: 91px;
     line-height: normal;
+    height: 37px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .specialDamage { 
