@@ -13,7 +13,7 @@ import roles from '../roles.js'
 @Component({
   selector: 'app-beast-view-gm',
   templateUrl: './beast-view-gm.component.html',
-  styleUrls: ['../beast-view.component.css']
+  styleUrls: ['../beast-view.component.css', './beast-view-gm.component.css']
 })
 export class BeastViewGmComponent implements OnInit {
 
@@ -665,7 +665,7 @@ export class BeastViewGmComponent implements OnInit {
       diceString += ` ${modifier}`
     }
 
-    return diceString + (square.hasSpecialAndDamage ? '*' : '')
+    return diceString + (square.hasspecialanddamage ? '*' : '')
   }
 
   displayName = (square) => {

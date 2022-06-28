@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
 import { QuickViewService } from 'src/app/util/services/quick-view.service';
 import roles from '../beast-view/roles.js'
+import { MatExpansionPanel } from '@angular/material';
 
 @Component({
   selector: 'app-quick-view-drawer',
@@ -9,6 +10,7 @@ import roles from '../beast-view/roles.js'
   styleUrls: ['./quick-view-drawer.component.css']
 })
 export class QuickViewDrawerComponent implements OnInit {
+  @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
 
   constructor(
     private router: Router,
@@ -22,6 +24,9 @@ export class QuickViewDrawerComponent implements OnInit {
 
   toggleQuickViewList() {
     this.quickViewListIsOpen = !this.quickViewListIsOpen
+    if (!this.quickViewListIsOpen) {
+      this.viewPanels.forEach(p => p.close());
+    }
   }
 
   isNumber(val): boolean {
@@ -255,7 +260,7 @@ export class QuickViewDrawerComponent implements OnInit {
       diceString += ` ${modifier}`
     }
 
-    return diceString + (square.hasSpecialAndDamage ? '*' : '')
+    return diceString + (square.hasspecialanddamage ? '*' : '')
   }
 
   displayDR = (drObject, type, square, roleinfo) => {

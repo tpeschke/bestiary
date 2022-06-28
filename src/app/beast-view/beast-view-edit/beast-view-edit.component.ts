@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BeastService } from '../../util/services/beast.service';
 import variables from '../../../local.js'
 import { CalculatorService } from '../../util/services/calculator.service';
 import lootTables from "../loot-tables.js"
 import roles from '../roles.js'
+import { MatExpansionPanel } from '@angular/material';
 
 @Component({
   selector: 'app-beast-view-edit',
@@ -12,7 +13,7 @@ import roles from '../roles.js'
   styleUrls: ['../beast-view.component.css']
 })
 export class BeastViewEditComponent implements OnInit {
-
+  @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   imageObj: File;
 
   constructor(
@@ -237,7 +238,9 @@ export class BeastViewEditComponent implements OnInit {
 
   captureInputUnbound = (event, type, index, secondaryType, thirdType) => {
     if (type === 'conflict') {
-      this.getValueForPointChange(secondaryType, this.beast[type][secondaryType][index][thirdType], event.target.value)
+      if (thirdType === 'value') {
+        this.getValueForPointChange(secondaryType, this.beast[type][secondaryType][index][thirdType], event.target.value)
+      }
       let newSecondaryObject = Object.assign({}, this.beast[type])
       newSecondaryObject[secondaryType] = [...newSecondaryObject[secondaryType]]
       newSecondaryObject[secondaryType][index][thirdType] = event.target.value
@@ -837,6 +840,7 @@ export class BeastViewEditComponent implements OnInit {
         socialrole: null,
         skillrole: null
       }
+      this.viewPanels.forEach(p => p.close());
     }
   }
 
