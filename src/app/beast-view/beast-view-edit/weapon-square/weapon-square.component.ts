@@ -15,6 +15,7 @@ export class WeaponSquareComponent implements OnInit {
   @Input() updateCombatPoints: Function;
   @Input() index: int;
   @Input() removeNewSecondaryItem: Function;
+  @Input() copyWeaponSquare: Function;
 
   constructor(
     public beastService: BeastService
@@ -622,11 +623,18 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   displayName = () => {
+    if (this.square.weapon !== '') {
+      if (this.square.damagetype && !this.square.weapon.includes('(')) {
+        return `${this.square.weapon} (${this.square.damagetype})`
+      }
+      return this.square.weapon
+    }
     let {selectedweapon, selectedarmor, selectedshield} = this.square
-
-    if (selectedweapon && this.square.weaponInfo.type) {
+  
+    if (selectedweapon && this.square.weaponInfo.type && !selectedweapon.includes('(')) {
       selectedweapon = `${selectedweapon} (${this.square.weaponInfo.type})`
     }
+  
     if (selectedweapon && selectedarmor && selectedshield) {
       return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
     } else if (selectedweapon && selectedarmor && !selectedshield) {

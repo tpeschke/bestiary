@@ -59,9 +59,10 @@ module.exports = {
                     items: []
                 }
                 weaponType.weapons.forEach(weapon => {
-                    weaponTypeObj.items.push(weapon.name)
+                    weaponTypeObj.items.push(`${weapon.name} (${weapon.type})`)
                     weapon.damage = processDamage(weapon.dam, weapon.bonus)
-                    weaponsObj[weapon.name] = weapon
+                    weaponsObj[`${weapon.name} (${weapon.type})`] = weapon
+                    weaponsObj[`${weapon.name}`] = weapon
                 })
                 weapons.push(weaponTypeObj)
             })

@@ -302,15 +302,14 @@ export class QuickViewDrawerComponent implements OnInit {
 
   displayName = (square) => {
     if (square.weapon !== '') {
-      if (square.damagetype) {
+      if (square.damagetype && !square.weapon.includes('(')) {
         return `${square.weapon} (${square.damagetype})`
       }
       return square.weapon
     }
-
-    let { selectedweapon, selectedarmor, selectedshield } = square
-
-    if (selectedweapon && square.weaponInfo.type) {
+    let {selectedweapon, selectedarmor, selectedshield} = square
+  
+    if (selectedweapon && square.weaponInfo.type && !selectedweapon.includes('(')) {
       selectedweapon = `${selectedweapon} (${square.weaponInfo.type})`
     }
 

@@ -439,7 +439,8 @@
               <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
                 <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
                   [updateCombatPoints]="updateCombatPoints" [index]="i"
-                  [removeNewSecondaryItem]="removeNewSecondaryItem">
+                  [removeNewSecondaryItem]="removeNewSecondaryItem"
+                  [copyWeaponSquare]="copyWeaponSquare">
                 </app-weapon-square>
               </div>
             </div>

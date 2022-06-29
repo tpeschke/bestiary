@@ -252,7 +252,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     } else if (!secondaryType) {
       this.getValueForPointChange(type, this.beast[type], event.target.value)
-      let objectToModify = {...this.beast}
+      let objectToModify = { ...this.beast }
       if (this.selectedRole && (type === 'stress' || type === 'caution')) {
         objectToModify = this.beast.roleInfo[this.selectedRoleId]
         this.beast.roleInfo[this.selectedRoleId] = Object.assign({}, objectToModify, { [type]: event.target.value })
@@ -743,7 +743,7 @@ export class BeastViewEditComponent implements OnInit {
       }
     }
 
-    
+
   }
 
   setRoleType(event) {
@@ -875,6 +875,19 @@ export class BeastViewEditComponent implements OnInit {
     return text;
   }
 
+  copyWeaponSquareUnbound (square) {
+    let newDR = {...square.newDR}
+    let newDamage = {...square.newDamage}
+    let newShieldDr = {...square.newShieldDr}
+    let weaponInfo = {...square.weaponInfo}
+
+    let weaponCopy = {...square, newDR, newDamage, newShieldDr, weaponInfo}
+    delete weaponCopy.id
+
+    this.beast.combat.push(weaponCopy)
+    this.calculateCombatPoints()
+  }
+  copyWeaponSquare = this.copyWeaponSquareUnbound.bind(this);
 
   // SPELL STUFF
   checkWeirdshapeType = (type, e) => {

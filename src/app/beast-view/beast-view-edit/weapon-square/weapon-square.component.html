@@ -59,7 +59,7 @@
             <mat-option>None</mat-option>
             <mat-optgroup *ngFor="let group of selectedRole.weapons" [label]="group.label">
               <mat-option *ngFor="let item of group.items" [value]="item">
-                {{item}} ({{equipmentObjects.weapons[item].type}})
+                {{item}}
               </mat-option>
             </mat-optgroup>
           </mat-select>
@@ -94,7 +94,7 @@
             <mat-option>None</mat-option>
             <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
               <mat-option *ngFor="let item of group.items" [value]="item">
-                {{item}} ({{equipmentObjects.weapons[item].type}})
+                {{item}}
               </mat-option>
             </mat-optgroup>
           </mat-select>
@@ -576,4 +576,5 @@
 <!-- --------------------------------------------------------------------------------------------------- -->
 <!-- --------------------------------------------------------------------------------------------------- -->
 <!-- --------------------------------------------------------------------------------------------------- -->
+<button mat-raised-button (click)="copyWeaponSquare(square)" color="accent">COPY {{displayName() === '' ? 'WEAPON' : displayName().toUpperCase()}}</button>
 <button mat-raised-button (click)="removeNewSecondaryItem('combat', index)" color="warn">REMOVE {{displayName() === '' ? 'WEAPON' : displayName().toUpperCase()}}</button>
