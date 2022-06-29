@@ -2,16 +2,7 @@ const axios = require('axios')
     , { srdEndpoint } = require('./server-config')
 
 let weapons =
-    [
-        {
-            label: 'Melee Weapons',
-            items: []
-        },
-        {
-            label: 'Ranged Weapons',
-            items: []
-        },
-    ]
+    []
     , armor =
         [
             {
@@ -61,15 +52,18 @@ module.exports = {
         return shieldsObj[shieldName]
     },
     processEquipment() {
-        axios.get(srdEndpoint + 'getWeapons').then(req => {
-            req.data.forEach(weapon => {
-                weapon.damage = processDamage(weapon.dam, weapon.bonus)
-                if (weapon.range) {
-                    weapons[1].items.push(weapon.name)
-                } else {
-                    weapons[0].items.push(weapon.name)
+        axios.get(srdEndpoint + 'getGroupedWeapons').then(req => {
+            req.data.forEach(weaponType => {
+                let weaponTypeObj = {
+                    label: weaponType.label,
+                    items: []
                 }
-                weaponsObj[weapon.name] = weapon
+                weaponType.weapons.forEach(weapon => {
+                    weaponTypeObj.items.push(weapon.name)
+                    weapon.damage = processDamage(weapon.dam, weapon.bonus)
+                    weaponsObj[weapon.name] = weapon
+                })
+                weapons.push(weaponTypeObj)
             })
             console.log('weapons done collecting')
         })

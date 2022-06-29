@@ -59,7 +59,7 @@
             <mat-option>None</mat-option>
             <mat-optgroup *ngFor="let group of selectedRole.weapons" [label]="group.label">
               <mat-option *ngFor="let item of group.items" [value]="item">
-                {{item}}
+                {{item}} ({{equipmentObjects.weapons[item].type}})
               </mat-option>
             </mat-optgroup>
           </mat-select>
@@ -94,7 +94,7 @@
             <mat-option>None</mat-option>
             <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
               <mat-option *ngFor="let item of group.items" [value]="item">
-                {{item}}
+                {{item}} ({{equipmentObjects.weapons[item].type}})
               </mat-option>
             </mat-optgroup>
           </mat-select>
@@ -318,6 +318,21 @@
             placeholder="Flat Damage Modifier" matInput [value]="square.newDamage.flat"
             (change)="captureInputNumber($event, 'newDamage', 'flat')">
         </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Damage Type</mat-label>
+          <mat-select [disabled]="square.selectedweapon" [value]="square.selectedweapon ? square.weaponInfo.type : square.damagetype" (selectionChange)="captureSelect($event, 'damagetype')">
+            <mat-option value="S">
+              Slashing
+            </mat-option>
+            <mat-option value="P">
+              Piercing
+            </mat-option>
+            <mat-option value="C">
+              Crushing
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
     </div>
   </div>
@@ -533,6 +548,21 @@
           <input
             placeholder="Flat Damage Modifier" matInput [value]="square.newDamage.flat"
             (change)="captureInputNumber($event, 'newDamage', 'flat')">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Damage Type</mat-label>
+          <mat-select [value]="square.damagetype" (selectionChange)="captureSelect($event, 'damagetype')">
+            <mat-option value="S">
+              Slashing
+            </mat-option>
+            <mat-option value="P">
+              Piercing
+            </mat-option>
+            <mat-option value="C">
+              Crushing
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
     </div>

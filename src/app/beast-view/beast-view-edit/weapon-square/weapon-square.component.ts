@@ -624,6 +624,9 @@ export class WeaponSquareComponent implements OnInit {
   displayName = () => {
     let {selectedweapon, selectedarmor, selectedshield} = this.square
 
+    if (selectedweapon && this.square.weaponInfo.type) {
+      selectedweapon = `${selectedweapon} (${this.square.weaponInfo.type})`
+    }
     if (selectedweapon && selectedarmor && selectedshield) {
       return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
     } else if (selectedweapon && selectedarmor && !selectedshield) {

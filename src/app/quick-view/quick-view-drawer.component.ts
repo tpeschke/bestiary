@@ -93,7 +93,7 @@ export class QuickViewDrawerComponent implements OnInit {
         percentage = .75
         break;
       case 'N':
-          return 'N'
+        return 'N'
       default:
         percentage = .75
     }
@@ -301,7 +301,18 @@ export class QuickViewDrawerComponent implements OnInit {
   }
 
   displayName = (square) => {
+    if (square.weapon !== '') {
+      if (square.damagetype) {
+        return `${square.weapon} (${square.damagetype})`
+      }
+      return square.weapon
+    }
+
     let { selectedweapon, selectedarmor, selectedshield } = square
+
+    if (selectedweapon && square.weaponInfo.type) {
+      selectedweapon = `${selectedweapon} (${square.weaponInfo.type})`
+    }
 
     if (selectedweapon && selectedarmor && selectedshield) {
       return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`

@@ -126,7 +126,7 @@
 
           <div *ngIf="!isTrackedInCombatCounter" class="combat-shell">
             <div class="combat-square" *ngFor="let square of beast.combat">
-              <h3 class="weaponName">{{square.weapon === '' ? displayName(square) : square.weapon | titlecase}}</h3>
+              <h3 class="weaponName">{{displayName(square)}}</h3>
 
               <div *ngIf="!beast.roleinfo || !square.addrolemods" class="square-shell">
                 <img class="combat-image" src="../../../../assets/square.png" alt="combat square">

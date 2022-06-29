@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BeastService } from '../../util/services/beast.service';
 import variables from '../../../local.js'
 import { CalculatorService } from '../../util/services/calculator.service';
 import lootTables from "../loot-tables.js"
 import roles from '../roles.js'
-import { MatExpansionPanel } from '@angular/material';
+import { MatExpansionPanel, MatSelect } from '@angular/material';
 
 @Component({
   selector: 'app-beast-view-edit',
@@ -14,6 +14,11 @@ import { MatExpansionPanel } from '@angular/material';
 })
 export class BeastViewEditComponent implements OnInit {
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
+  @ViewChild('newRoleName') newRoleName;
+  @ViewChild('newCombatRoleSelect') newCombatRoleSelect: MatSelect;
+  @ViewChild('newSecondaryRoleSelect') newSecondaryRoleSelect: MatSelect;
+  @ViewChild('newConfRoleSelect') newConfRoleSelect: MatSelect;
+  @ViewChild('newSkillRoleSelect') newSkillRoleSelect: MatSelect;
   imageObj: File;
 
   constructor(
@@ -841,6 +846,11 @@ export class BeastViewEditComponent implements OnInit {
         skillrole: null
       }
       this.viewPanels.forEach(p => p.close());
+      this.newRoleName.nativeElement.value = null
+      this.newCombatRoleSelect.options.forEach((data) => data.deselect())
+      this.newSecondaryRoleSelect.options.forEach((data) => data.deselect())
+      this.newConfRoleSelect.options.forEach((data) => data.deselect())
+      this.newSkillRoleSelect.options.forEach((data) => data.deselect())
     }
   }
 

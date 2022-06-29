@@ -137,7 +137,7 @@
           <div *ngIf="selectedRoleId === square.roleid">
             <div *ngIf="!selectedRole.spd || !square.addrolemods">
               <div class="combat-square">
-                <h3 class="weaponName">{{square.weapon === '' ? displayName(square) : square.weapon | titlecase}}</h3>
+                <h3 class="weaponName">{{displayName(square)}}</h3>
                 <div class="square-shell">
                   <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <p class="spd">{{square.spd}}</p>
@@ -167,7 +167,7 @@
 
             <div *ngIf="selectedRole.spd && square.addrolemods">
               <div class="combat-square">
-                <h3 class="weaponName">{{square.weapon === '' ? displayName(square) : square.weapon | titlecase}}</h3>
+                <h3 class="weaponName">{{displayName(square)}}</h3>
                 <div class="square-shell">
                   <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd) +

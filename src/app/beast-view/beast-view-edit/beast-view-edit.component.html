@@ -158,12 +158,12 @@
 
         <div class="new-roll-shell">
           <mat-form-field>
-            <input placeholder="Role Name" matInput (change)="captureNewRole('name', $event)">
+            <input #newRoleName placeholder="Role Name" matInput (change)="captureNewRole('name', $event)">
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Combat Role Type</mat-label>
-            <mat-select (selectionChange)="captureNewRole('role', $event)">
+            <mat-select #newCombatRoleSelect (selectionChange)="captureNewRole('role', $event)">
               <mat-option>
                 None
               </mat-option>
@@ -175,7 +175,7 @@
 
           <mat-form-field>
             <mat-label>Combat Secondary Role Type</mat-label>
-            <mat-select (selectionChange)="captureNewRole('secondaryrole', $event)">
+            <mat-select #newSecondaryRoleSelect (selectionChange)="captureNewRole('secondaryrole', $event)">
               <mat-option>
                 None
               </mat-option>
@@ -187,7 +187,7 @@
 
           <mat-form-field>
             <mat-label>Confrontation Role Type</mat-label>
-            <mat-select (selectionChange)="captureNewRole('socialrole', $event)">
+            <mat-select #newConfRoleSelect (selectionChange)="captureNewRole('socialrole', $event)">
               <mat-option>
                 None
               </mat-option>
@@ -199,7 +199,7 @@
 
           <mat-form-field>
             <mat-label>Skill Role Type</mat-label>
-            <mat-select (selectionChange)="captureNewRole('skillrole', $event)">
+            <mat-select #newSkillRoleSelect (selectionChange)="captureNewRole('skillrole', $event)">
               <mat-option>
                 None
               </mat-option>

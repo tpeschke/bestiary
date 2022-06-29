@@ -669,8 +669,19 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   displayName = (square) => {
+
+    if (square.weapon !== '') {
+      if (square.damagetype) {
+        return `${square.weapon} (${square.damagetype})`
+      }
+      return square.weapon
+    }
     let {selectedweapon, selectedarmor, selectedshield} = square
   
+    if (selectedweapon && square.weaponInfo.type) {
+      selectedweapon = `${selectedweapon} (${square.weaponInfo.type})`
+    }
+
     if (selectedweapon && selectedarmor && selectedshield) {
       return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
     } else if (selectedweapon && selectedarmor && !selectedshield) {
