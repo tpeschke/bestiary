@@ -322,6 +322,9 @@
         <mat-form-field>
           <mat-label>Damage Type</mat-label>
           <mat-select [disabled]="square.selectedweapon" [value]="square.selectedweapon ? square.weaponInfo.type : square.damagetype" (selectionChange)="captureSelect($event, 'damagetype')">
+            <mat-option>
+              None
+            </mat-option>
             <mat-option value="S">
               Slashing
             </mat-option>
@@ -553,6 +556,9 @@
         <mat-form-field>
           <mat-label>Damage Type</mat-label>
           <mat-select [value]="square.damagetype" (selectionChange)="captureSelect($event, 'damagetype')">
+            <mat-option>
+              None
+            </mat-option>
             <mat-option value="S">
               Slashing
             </mat-option>

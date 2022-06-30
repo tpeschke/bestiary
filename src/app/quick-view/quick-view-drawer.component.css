@@ -189,6 +189,10 @@
     font-size: 17px;
 }
 
+.weaponName {
+    width: 150px;
+}
+
 .damage {
     position: absolute;
     z-index: 1;

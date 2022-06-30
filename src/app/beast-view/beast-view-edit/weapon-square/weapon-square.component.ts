@@ -623,12 +623,7 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   displayName = () => {
-    if (this.square.weapon !== '') {
-      if (this.square.damagetype && !this.square.weapon.includes('(')) {
-        return `${this.square.weapon} (${this.square.damagetype})`
-      }
-      return this.square.weapon
-    }
+
     let {selectedweapon, selectedarmor, selectedshield} = this.square
   
     if (selectedweapon && this.square.weaponInfo.type && !selectedweapon.includes('(')) {
