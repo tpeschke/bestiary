@@ -253,7 +253,7 @@ export class BeastViewEditComponent implements OnInit {
     } else if (!secondaryType) {
       this.getValueForPointChange(type, this.beast[type], event.target.value)
       let objectToModify = { ...this.beast }
-      if (this.selectedRole && (type === 'stress' || type === 'caution')) {
+      if (this.selectedRoleId && (type === 'stress' || type === 'caution')) {
         objectToModify = this.beast.roleInfo[this.selectedRoleId]
         this.beast.roleInfo[this.selectedRoleId] = Object.assign({}, objectToModify, { [type]: event.target.value })
       } else {

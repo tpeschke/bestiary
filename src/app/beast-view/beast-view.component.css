@@ -341,6 +341,13 @@ mat-toolbar {
     color: #795548;
 }
 
+.vitality-shell {
+    display: flex;
+    justify-content: space-between;
+    width: 550px;
+    margin: 15px auto 0;
+}
+
 .chip-shell {
     margin: 15px 0;
 }
