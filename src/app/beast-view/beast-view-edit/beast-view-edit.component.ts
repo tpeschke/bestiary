@@ -313,7 +313,12 @@ export class BeastViewEditComponent implements OnInit {
       if (type === 'panic') {
         valueChange = this.getPanicValue(oldValue) - this.getPanicValue(newValue)
       } else if (type === 'vitality' && !this.selectedRoleId) {
-        let oldValue = this.beast.roleInfo[this.selectedRoleId].average ? this.beast.roleInfo[this.selectedRoleId].average : this.averageVitality
+        let oldValue = 0
+        if (this.beast.roleInfo[this.selectedRoleId] && this.beast.roleInfo[this.selectedRoleId].average) {
+          oldValue = this.beast.roleInfo[this.selectedRoleId].average
+        } else if (this.averageVitality) {
+          oldValue = this.averageVitality
+        } 
         if (!this.selectedRoleId) {
           valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - oldValue
         } else {
