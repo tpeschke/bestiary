@@ -140,27 +140,30 @@
                 <h3 class="weaponName">{{displayName(square)}}</h3>
                 <div class="square-shell">
                   <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
-                  <p class="spd">{{square.spd}}</p>
+                  <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : 0) + (square.selectedarmor ?
+                    square.armorInfo.rec : 0) + square.spd}}</p>
                   <p class="atk">{{square.atk}}</p>
-                  <p class="init">{{square.init}}</p>
-                  <p class="def">{{square.def}}</p>
+                  <p class="init">{{(square.selectedarmor ? square.armorInfo.init : 0) + square.init}}</p>
+                  <p class="def">{{evaluateDefense(square)}}</p>
                   <p class="fatigue">{{ convertFatigue(square.fatigue) }}</p>
                   <div class="dr">
-                    <p>{{square.dr ? square.dr : '0'}}</p>
-                    <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{square.shield_dr}}</p>
+                    <p>{{displayDR(square.newDR, 'armor', square)}}</p>
+                    <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{displayDR(square.newShieldDr, 'shield', square)}}</p>
                   </div>
                   <div class="measure">
-                    <p *ngIf="square.weapontype !== 'r'">{{square.measure}}</p>
-                    <p *ngIf="square.weapontype === 'r'">{{square.ranges.increment}}ri <i
-                        class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
-                          Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
-                          Between {{square.ranges.increment + 1}} ft and {{square.ranges.increment * 2}} ft, -2 atk penalty.
-                          Between {{(square.ranges.increment * 2) + 1}} ft and {{square.ranges.increment * 3}} ft, -4 atk penalty.
-                          and so on." matTooltipClass="my-tooltip"></i></p>
+                    <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : 0) +
+                      square.measure}}</p>
+                    <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : 0) +
+                      square.ranges.increment}}ri <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
+            Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
+            Between {{square.ranges.increment + 1}} ft and {{(square.ranges.increment) * 2}} ft, -2 atk penalty.
+            Between {{((square.ranges.increment) * 2) + 1}} ft and {{(square.ranges.increment) * 3}} ft, -4 atk penalty.
+            and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
-                  <p class="damage">{{square.damage !== 'null' ? square.damage : ''}} </p>
-                  <p class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">{{square.showmaxparry ? 'EUA' : square.parry}}<i *ngIf="square.showmaxparry"
-                    class="fas fa-info-circle icon-small blue" matTooltip="EUA means that every attack is parried except unarmed attacks" matTooltipClass="my-tooltip"></i></p>
+                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square)}}</p>
+                  <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
+                  <p class="parry">{{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry :
+                    square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : 0) + square.parry}}</p>
                 </div>
               </div>
             </div>
@@ -196,10 +199,13 @@
                   </div>
                   <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">{{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry : square.selectedweapon &&
+                  <p class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">{{square.showmaxparry ? 'EUA' :
+                    (square.selectedshield ? square.shieldInfo.parry : square.selectedweapon &&
                     square.weaponInfo.parry ?
                     square.weaponInfo.parry : selectedRole.parry) + square.parry}}<i *ngIf="square.showmaxparry"
-                    class="fas fa-info-circle icon-small blue" matTooltip="EUA means that every attack is parried except unarmed attacks" matTooltipClass="my-tooltip"></i></p>
+                      class="fas fa-info-circle icon-small blue"
+                      matTooltip="EUA means that every attack is parried except unarmed attacks"
+                      matTooltipClass="my-tooltip"></i></p>
                 </div>
               </div>
             </div>

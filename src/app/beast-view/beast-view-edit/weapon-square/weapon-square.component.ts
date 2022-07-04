@@ -332,7 +332,7 @@ export class WeaponSquareComponent implements OnInit {
       defMod = +defMod.replace('/+/gi', '')
     }
 
-    let defBase = this.selectedRole.def
+    let defBase = this.selectedRole ? this.selectedRole.def : 0
     if (this.square.selectedshield) {
       defBase += this.square.shieldInfo.def
     }
@@ -407,10 +407,10 @@ export class WeaponSquareComponent implements OnInit {
       } else {
         roleDamage = this.selectedRole.rangedDamage
       }
-    } else if (this.square.addrolemods && !this.square.dontaddroledamage) {
+    } else if (this.square.weaponInfo && !this.square.dontaddroledamage) {
       roleDamage = this.square.weaponInfo.damage
     }
-
+    
     let squareDamage = this.square.newDamage
 
     let diceObject = {

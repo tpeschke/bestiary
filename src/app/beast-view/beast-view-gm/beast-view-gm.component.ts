@@ -514,7 +514,7 @@ export class BeastViewGmComponent implements OnInit {
       } else {
         roleDamage = this.selectedRole.rangedDamage
       }
-    } else if (!square.dontaddroledamage) {
+    } else if (square.weaponInfo && !square.dontaddroledamage) {
       roleDamage = square.weaponInfo.damage
     }
 
