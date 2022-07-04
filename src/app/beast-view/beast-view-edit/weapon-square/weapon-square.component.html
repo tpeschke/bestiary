@@ -133,33 +133,33 @@
       <mat-form-field>
         <input
           id="{{selectedRole.strengths.includes('Recovery') ? 'green' : selectedRole.weaknesses.includes('Recovery') ? 'red' : ''}}"
-          placeholder="Recovery" matInput [value]="square.spd" (change)="captureInputNumber($event, 'spd')">
+          placeholder="Recovery (2 points)" matInput [value]="square.spd" (change)="captureInputNumber($event, 'spd')">
       </mat-form-field>
       <mat-form-field *ngIf="square.weapontype === 'm'">
         <input
           id="{{selectedRole.strengths.includes('Melee Attack') ? 'green' : selectedRole.weaknesses.includes('Melee Attack') ? 'red' : ''}}"
-          placeholder="Attack" matInput [value]="square.atk" (change)="captureInputNumber($event, 'atk')">
+          placeholder="Attack (1 point)" matInput [value]="square.atk" (change)="captureInputNumber($event, 'atk')">
       </mat-form-field>
       <mat-form-field *ngIf="square.weapontype === 'r'">
         <input
           id="{{selectedRole.strengths.includes('Ranged Attack') ? 'green' : selectedRole.weaknesses.includes('Ranged Attack') ? 'red' : ''}}"
-          placeholder="Attack" matInput [value]="square.atk" (change)="captureInputNumber($event, 'atk')">
+          placeholder="Attack (1 point)" matInput [value]="square.atk" (change)="captureInputNumber($event, 'atk')">
       </mat-form-field>
       <mat-form-field>
-        <input placeholder="Initiative" matInput [value]="square.init" (change)="captureInputNumber($event, 'init')">
+        <input placeholder="Initiative (1 point)" matInput [value]="square.init" (change)="captureInputNumber($event, 'init')">
       </mat-form-field>
       <mat-form-field>
         <input
           id="{{selectedRole.strengths.includes('Defense') ? 'green' : selectedRole.weaknesses.includes('Defense') ? 'red' : ''}}"
-          placeholder="Defense" matInput [value]="square.def" (change)="captureInputNumber($event, 'def')">
+          placeholder="Defense (1 point; max 10)" matInput [value]="square.def" (change)="captureInputNumber($event, 'def')">
       </mat-form-field>
       <mat-form-field>
         <input
           id="{{selectedRole.strengths.includes('Measure') ? 'green' : selectedRole.weaknesses.includes('Measure') ? 'red' : ''}}"
-          placeholder="Measure" matInput [value]="square.measure" (change)="captureInputNumber($event, 'measure')">
+          placeholder="Measure (1 point)" matInput [value]="square.measure" (change)="captureInputNumber($event, 'measure')">
       </mat-form-field>
-      <mat-form-field>
-        <mat-label>Fatigue Threshold</mat-label>
+      <mat-form-field class="fatigue-field">
+        <mat-label>Fatigue Threshold (+/-4 points per Cat Above/Below Critical)</mat-label>
         <mat-select [value]="square.fatigue" (selectionChange)="captureSelect($event, 'fatigue')"
           id="{{selectedRole.strengths.includes('Fatigue') ? 'green' : selectedRole.weaknesses.includes('Fatigue') ? 'red' : ''}}">
           <mat-option value="A">
@@ -185,7 +185,7 @@
       <mat-form-field *ngIf="square.weapontype === 'r'">
         <input
           id="{{selectedRole.strengths.includes('Ranged Penalties') ? 'green' : selectedRole.weaknesses.includes('Ranged Penalties') ? 'red' : ''}}"
-          placeholder="Range Increment" matInput [value]="square.ranges.increment"
+          placeholder="Range Increment (1 point / 10 ft)" matInput [value]="square.ranges.increment"
           (change)="captureInputNumber($event, 'ranges', 'increment')">
       </mat-form-field>
     </div>
@@ -196,13 +196,13 @@
         <mat-form-field>
           <input
             id="{{selectedRole.strengths.includes('/DR') ? 'green' : selectedRole.weaknesses.includes('/DR') ? 'red' : ''}}"
-            placeholder="/DR" matInput [value]="square.newDR.slash"
+            placeholder="/DR (4 points)" matInput [value]="square.newDR.slash"
             (change)="captureInputNumber($event, 'newDR', 'slash')">
         </mat-form-field>
         <mat-form-field>
           <input
             id="{{selectedRole.strengths.includes('DR') ? 'green' : selectedRole.weaknesses.includes('DR') ? 'red' : ''}}"
-            placeholder="DR" matInput [value]="square.newDR.flat"
+            placeholder="DR (1 point)" matInput [value]="square.newDR.flat"
             (change)="captureInputNumber($event, 'newDR', 'flat')">
         </mat-form-field>
       </div>
@@ -214,18 +214,18 @@
         <mat-form-field *ngIf="!square.showmaxparry">
           <input
             id="{{selectedRole.strengths.includes('Parry') ? 'green' : selectedRole.weaknesses.includes('Parry') ? 'red' : ''}}"
-            placeholder="Parry" matInput [value]="square.parry" (change)="captureInputNumber($event, 'parry')">
+            placeholder="Parry (1 point)" matInput [value]="square.parry" (change)="captureInputNumber($event, 'parry')">
         </mat-form-field>
         <mat-form-field>
           <input
             id="{{selectedRole.strengths.includes('Parry DR') ? 'green' : selectedRole.weaknesses.includes('Parry DR') ? 'red' : ''}}"
-            placeholder="Shield /DR" matInput [value]="square.newShieldDr.slash"
+            placeholder="Parry /DR (2 points)" matInput [value]="square.newShieldDr.slash"
             (change)="captureInputNumber($event, 'newShieldDr', 'slash')">
         </mat-form-field>
         <mat-form-field>
           <input
             id="{{selectedRole.strengths.includes('Parry /DR') ? 'green' : selectedRole.weaknesses.includes('Parry /DR') ? 'red' : ''}}"
-            placeholder="Shield DR" matInput [value]="square.newShieldDr.flat"
+            placeholder="Parry DR (1 point)" matInput [value]="square.newShieldDr.flat"
             (change)="captureInputNumber($event, 'newShieldDr', 'flat')">
         </mat-form-field>
       </div>
@@ -268,54 +268,54 @@
           <div *ngIf="square.weapontype === 'm'" class="marginBottom">
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}"
-              (click)="addChip('3')">d3!</button>
+              (click)="addChip('3')">d3! (1 point)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}"
-              (click)="addChip('4')">d4!</button>
+              (click)="addChip('4')">d4! (1 point)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}"
-              (click)="addChip('6')">d6!</button>
+              (click)="addChip('6')">d6! (2 points)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}"
-              (click)="addChip('8')">d8!</button>
+              (click)="addChip('8')">d8! (2 points)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}"
-              (click)="addChip('10')">d10!</button>
+              (click)="addChip('10')">d10! (3 points)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}"
-              (click)="addChip('12')">d12!</button>
+              (click)="addChip('12')">d12! (4 points)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}"
-              (click)="addChip('20')">d20!</button>
+              (click)="addChip('20')">d20! (6 points)</button>
           </div>
           <div *ngIf="square.weapontype === 'r'" class="marginBottom">
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Ranged Damage') ? 'green' : selectedRole.weaknesses.includes('Ranged Damage') ? 'red' : ''}}"
-              (click)="addChip('3')">d3!</button>
+              (click)="addChip('3')">d3! (1 point)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Ranged Damage') ? 'green' : selectedRole.weaknesses.includes('Ranged Damage') ? 'red' : ''}}"
-              (click)="addChip('4')">d4!</button>
+              (click)="addChip('4')">d4! (1 point)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Ranged Damage') ? 'green' : selectedRole.weaknesses.includes('Ranged Damage') ? 'red' : ''}}"
-              (click)="addChip('6')">d6!</button>
+              (click)="addChip('6')">d6! (2 points)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Ranged Damage') ? 'green' : selectedRole.weaknesses.includes('Ranged Damage') ? 'red' : ''}}"
-              (click)="addChip('8')">d8!</button>
+              (click)="addChip('8')">d8! (2 points)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Ranged Damage') ? 'green' : selectedRole.weaknesses.includes('Ranged Damage') ? 'red' : ''}}"
-              (click)="addChip('10')">d10!</button>
+              (click)="addChip('10')">d10! (3 points)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Ranged Damage') ? 'green' : selectedRole.weaknesses.includes('Ranged Damage') ? 'red' : ''}}"
-              (click)="addChip('12')">d12!</button>
+              (click)="addChip('12')">d12! (4 points)</button>
             <button mat-raised-button
               id="{{selectedRole.strengths.includes('Ranged Damage') ? 'green' : selectedRole.weaknesses.includes('Ranged Damage') ? 'red' : ''}}"
-              (click)="addChip('20')">d20!</button>
+              (click)="addChip('20')">d20! (6 points)</button>
           </div>
         </div>
         <mat-form-field>
           <input
             id="{{selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}"
-            placeholder="Flat Damage Modifier" matInput [value]="square.newDamage.flat"
+            placeholder="Flat Damage Modifier(1 point)" matInput [value]="square.newDamage.flat"
             (change)="captureInputNumber($event, 'newDamage', 'flat')">
         </mat-form-field>
         <br>
@@ -396,29 +396,29 @@
     <div class="square-combat-shell">
       <mat-form-field>
         <input
-          placeholder="Recovery" matInput [value]="square.spd" (change)="captureInputNumber($event, 'spd')">
+          placeholder="Recovery (2 points)" matInput [value]="square.spd" (change)="captureInputNumber($event, 'spd')">
       </mat-form-field>
       <mat-form-field *ngIf="square.weapontype === 'm'">
         <input
-          placeholder="Attack" matInput [value]="square.atk" (change)="captureInputNumber($event, 'atk')">
+          placeholder="Attack (1 point)" matInput [value]="square.atk" (change)="captureInputNumber($event, 'atk')">
       </mat-form-field>
       <mat-form-field *ngIf="square.weapontype === 'r'">
         <input
-          placeholder="Attack" matInput [value]="square.atk" (change)="captureInputNumber($event, 'atk')">
+          placeholder="Attack (1 point)" matInput [value]="square.atk" (change)="captureInputNumber($event, 'atk')">
       </mat-form-field>
       <mat-form-field>
-        <input placeholder="Initiative" matInput [value]="square.init" (change)="captureInputNumber($event, 'init')">
-      </mat-form-field>
-      <mat-form-field>
-        <input
-          placeholder="Defense" matInput [value]="square.def" (change)="captureInputNumber($event, 'def')">
+        <input placeholder="Initiative (1 point)" matInput [value]="square.init" (change)="captureInputNumber($event, 'init')">
       </mat-form-field>
       <mat-form-field>
         <input
-          placeholder="Measure" matInput [value]="square.measure" (change)="captureInputNumber($event, 'measure')">
+          placeholder="Defense (1 point; max 10)" matInput [value]="square.def" (change)="captureInputNumber($event, 'def')">
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Fatigue Threshold</mat-label>
+        <input
+          placeholder="Measure (1 point)" matInput [value]="square.measure" (change)="captureInputNumber($event, 'measure')">
+      </mat-form-field>
+      <mat-form-field class="fatigue-field">
+        <mat-label>Fatigue Threshold (+/-4 points per Cat Above/Below Critical)</mat-label>
         <mat-select [value]="square.fatigue" (selectionChange)="captureSelect($event, 'fatigue')">
           <mat-option value="A">
             Always
@@ -442,7 +442,7 @@
       </mat-form-field>
       <mat-form-field *ngIf="square.weapontype === 'r'">
         <input
-          placeholder="Range Increment" matInput [value]="square.ranges.increment"
+          placeholder="Range Increment (1 point / 10 ft)" matInput [value]="square.ranges.increment"
           (change)="captureInputNumber($event, 'ranges', 'increment')">
       </mat-form-field>
     </div>
@@ -452,12 +452,12 @@
       <div>
         <mat-form-field>
           <input
-            placeholder="/DR" matInput [value]="square.newDR.slash"
+            placeholder="/DR (4 points)" matInput [value]="square.newDR.slash"
             (change)="captureInputNumber($event, 'newDR', 'slash')">
         </mat-form-field>
         <mat-form-field>
           <input
-            placeholder="DR" matInput [value]="square.newDR.flat"
+            placeholder="DR (1 point)" matInput [value]="square.newDR.flat"
             (change)="captureInputNumber($event, 'newDR', 'flat')">
         </mat-form-field>
       </div>
@@ -468,16 +468,16 @@
       <div>
         <mat-form-field *ngIf="!square.showmaxparry">
           <input
-            placeholder="Parry" matInput [value]="square.parry" (change)="captureInputNumber($event, 'parry')">
+            placeholder="Parry (1 point)" matInput [value]="square.parry" (change)="captureInputNumber($event, 'parry')">
         </mat-form-field>
         <mat-form-field>
           <input
-            placeholder="Shield /DR" matInput [value]="square.newShieldDr.slash"
+            placeholder="Parry /DR (2 points)" matInput [value]="square.newShieldDr.slash"
             (change)="captureInputNumber($event, 'newShieldDr', 'slash')">
         </mat-form-field>
         <mat-form-field>
           <input
-            placeholder="Shield DR" matInput [value]="square.newShieldDr.flat"
+            placeholder="Parry DR (1 point)" matInput [value]="square.newShieldDr.flat"
             (change)="captureInputNumber($event, 'newShieldDr', 'flat')">
         </mat-form-field>
       </div>
@@ -516,40 +516,40 @@
           Click to add 1 dice
           <div *ngIf="square.weapontype === 'm'" class="marginBottom">
             <button mat-raised-button
-              (click)="addChip('3')">d3!</button>
+              (click)="addChip('3')">d3! (1 point)</button>
             <button mat-raised-button
-              (click)="addChip('4')">d4!</button>
+              (click)="addChip('4')">d4! (1 point)</button>
             <button mat-raised-button
-              (click)="addChip('6')">d6!</button>
+              (click)="addChip('6')">d6! (2 points)</button>
             <button mat-raised-button
-              (click)="addChip('8')">d8!</button>
+              (click)="addChip('8')">d8! (2 points)</button>
             <button mat-raised-button
-              (click)="addChip('10')">d10!</button>
+              (click)="addChip('10')">d10! (3 points)</button>
             <button mat-raised-button
-              (click)="addChip('12')">d12!</button>
+              (click)="addChip('12')">d12! (4 points)</button>
             <button mat-raised-button
-              (click)="addChip('20')">d20!</button>
+              (click)="addChip('20')">d20! (6 points)</button>
           </div>
           <div *ngIf="square.weapontype === 'r'" class="marginBottom">
             <button mat-raised-button
-              (click)="addChip('3')">d3!</button>
+              (click)="addChip('3')">d3! (1 point)</button>
             <button mat-raised-button
-              (click)="addChip('4')">d4!</button>
+              (click)="addChip('4')">d4! (1 point)</button>
             <button mat-raised-button
-              (click)="addChip('6')">d6!</button>
+              (click)="addChip('6')">d6! (2 points)</button>
             <button mat-raised-button
-              (click)="addChip('8')">d8!</button>
+              (click)="addChip('8')">d8! (2 points)</button>
             <button mat-raised-button
-              (click)="addChip('10')">d10!</button>
+              (click)="addChip('10')">d10! (3 points)</button>
             <button mat-raised-button
-              (click)="addChip('12')">d12!</button>
+              (click)="addChip('12')">d12! (4 points)</button>
             <button mat-raised-button
-              (click)="addChip('20')">d20!</button>
+              (click)="addChip('20')">d20! (6 points)</button>
           </div>
         </div>
         <mat-form-field>
           <input
-            placeholder="Flat Damage Modifier" matInput [value]="square.newDamage.flat"
+            placeholder="Flat Damage Modifier(1 point)" matInput [value]="square.newDamage.flat"
             (change)="captureInputNumber($event, 'newDamage', 'flat')">
         </mat-form-field>
         <br>

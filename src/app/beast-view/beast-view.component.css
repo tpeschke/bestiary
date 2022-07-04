@@ -732,6 +732,15 @@ h3 mat-form-field {
 
 mat-form-field {
     margin-right: 15px;
+
+}
+
+.long-field mat-form-field, mat-form-field.long-field {
+    width: 265px;
+}
+
+mat-form-field.fatigue-field {
+    width: 322px;
 }
 
 .edit-combat-squares-shell-right {
