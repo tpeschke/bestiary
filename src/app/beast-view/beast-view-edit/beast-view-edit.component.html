@@ -144,7 +144,8 @@
 
     <div *ngIf="selectedRoleId">
       <mat-form-field>
-        <input matInput placeholder="Change Role Name" [value]="beast.roleInfo[selectedRoleId].name" (change)="captureRoleName($event)">
+        <input matInput placeholder="Change Role Name" [value]="beast.roleInfo[selectedRoleId].name"
+          (change)="captureRoleName($event)">
       </mat-form-field>
     </div>
 
@@ -264,8 +265,7 @@
                   <input placeholder="Rank" matInput [value]="trait.value"
                     (change)="captureInput($event, 'conflict', i, 'traits', 'value')">
                 </mat-form-field>
-                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'traits')" color="warn">REMOVE
-                  TRAIT</button>
+                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'traits')" color="warn"><i class="fa-solid fa-minus"></i></button>
               </div>
             </div>
           </div>
@@ -274,7 +274,7 @@
           <br />
           <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.traits.length > 0">
             <input matInput placeholder="Max Traits Appearing" [value]="beast.traitlimit"
-            (change)="captureInput($event, 'traitlimit')">
+              (change)="captureInput($event, 'traitlimit')">
           </mat-form-field>
           <br />
 
@@ -297,8 +297,7 @@
                     (change)="captureInput($event, 'conflict', i, 'devotions', 'value')">
                 </mat-form-field>
                 <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'devotions')"
-                  color="warn">REMOVE
-                  DEVOTION</button>
+                  color="warn"><i class="fa-solid fa-minus"></i></button>
               </div>
             </div>
           </div>
@@ -329,8 +328,7 @@
                   <input placeholder="Dice Value" matInput [value]="flaw.value"
                     (change)="captureInput($event, 'conflict', i, 'flaws', 'value')">
                 </mat-form-field>
-                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'flaws')" color="warn">REMOVE
-                  FLAW</button>
+                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'flaws')" color="warn"><i class="fa-solid fa-minus"></i></button>
               </div>
             </div>
           </div>
@@ -439,144 +437,134 @@
               <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
                 <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
                   [updateCombatPoints]="updateCombatPoints" [index]="i"
-                  [removeNewSecondaryItem]="removeNewSecondaryItem"
-                  [copyWeaponSquare]="copyWeaponSquare">
+                  [removeNewSecondaryItem]="removeNewSecondaryItem" [copyWeaponSquare]="copyWeaponSquare">
                 </app-weapon-square>
               </div>
             </div>
             <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">ADD WEAPON</button>
           </div>
 
-          <div class="vitals-shell vitality-shell">
-            <div>
-              <mat-form-field>
-                <div *ngIf="selectedRoleId">
-                  <input
-                    id="{{selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
-                    matInput placeholder="Vitality" [value]="beast.roleInfo[selectedRoleId].vitality"
-                    (change)="captureRoleVitality($event)">
-                </div>
-                <div *ngIf="!selectedRoleId">
-                  <input matInput placeholder="Vitality"
-                    id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
-                    [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
-                </div>
-              </mat-form-field>
-  
-              <div *ngFor="let location of beast.locationalvitality; let i = index">
-                <div *ngIf="!location.deleted && selectedRoleId === location.roleid">
-                  <br />
-                  <mat-form-field>
-                    <input placeholder="Location" matInput [value]="location.location"
-                      (change)="captureInput($event, 'locationalvitality', i, 'location')">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input placeholder="Vitality" matInput [value]="location.vitality"
-                      (change)="captureInput($event, 'locationalvitality', i, 'vitality')">
-                  </mat-form-field>
-                  <p>(Ave: {{calculatorService.calculateAverageOfDice(location.vitality)}})</p>
-                  <button mat-raised-button (click)="removeNewSecondaryItem('locationalvitality', i)" color="warn">REMOVE
-                    LOCATION</button>
-                </div>
-              </div>
-  
-              <br>
-              <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION
-                VITALITY</button>
+          <br>
+          <h2>Vitality & Stress</h2>
+          <div class="divider"></div>
+          <mat-form-field>
+            <div *ngIf="selectedRoleId">
+              <input
+                id="{{selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
+                matInput placeholder="Base Vitality" [value]="beast.roleInfo[selectedRoleId].vitality"
+                (change)="captureRoleVitality($event)">
             </div>
-            <div>
-              <div *ngIf="selectedRoleId">
+            <div *ngIf="!selectedRoleId">
+              <input matInput placeholder="Vitality"
+                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
+                [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
+            </div>
+          </mat-form-field>
+
+          <div class="locational-shell">
+            <div *ngFor="let location of beast.locationalvitality; let i = index" class="locational-id-shell" [ngClass]="{'noDisplay': !location.deleted && !((selectedRoleId && selectedRoleId === location.roleid) || (!selectedRoleId && selectedRoleId === null))}">
                 <mat-form-field>
-                  <input
-                    id="{{selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
-                    matInput placeholder="Stress Threshold" [value]="beast.roleInfo[selectedRoleId].stress"
-                    (change)="captureInput($event, 'stress')">
+                  <input placeholder="Location" matInput [value]="location.location"
+                    (change)="captureInput($event, 'locationalvitality', i, 'location')">
                 </mat-form-field>
-              </div>
-              <div *ngIf="!selectedRoleId">
                 <mat-form-field>
-                  <input matInput placeholder="Stress Threshold"
-                    id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
-                    [value]="beast.stress" (change)="captureInput($event, 'stress')">
+                  <input placeholder="Vitality" matInput [value]="location.vitality"
+                    (change)="captureInput($event, 'locationalvitality', i, 'vitality')">
                 </mat-form-field>
+                <p>(Ave: {{calculatorService.calculateAverageOfDice(location.vitality)}})</p>
+                <button mat-raised-button (click)="removeNewSecondaryItem('locationalvitality', i)" color="warn"><i class="fa-solid fa-minus"></i></button>
               </div>
-              <div *ngIf="selectedRoleId">
-                <mat-form-field>
-                  <mat-label>Panic</mat-label>
-                  <mat-select [value]="beast.roleInfo[selectedRoleId].panic"
-                    (selectionChange)="captureSelect($event, 'panic')"
-                    id="{{selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
-                    <mat-option value="1">
-                      Always
-                    </mat-option>
-                    <mat-option value="2">
-                      Unsure
-                    </mat-option>
-                    <mat-option value="3">
-                      Nervous
-                    </mat-option>
-                    <mat-option value="4">
-                      Shaken
-                    </mat-option>
-                    <mat-option value="5">
-                      Breaking
-                    </mat-option>
-                    <mat-option value="7">
-                      Never
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <div class="flex-row-opposite">
-                  <h3>Current Panic</h3>
-                  <p>{{beast.panic | moraleConverter}}</p>
-                </div>
-              </div>
-  
-              <div *ngIf="!selectedRoleId">
-                <mat-form-field>
-                  <mat-label>Panic</mat-label>
-                  <mat-select [value]="beast.panic" (selectionChange)="captureSelect($event, 'panic')"
-                    id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
-                    <mat-option value="1">
-                      Always
-                    </mat-option>
-                    <mat-option value="2">
-                      Unsure
-                    </mat-option>
-                    <mat-option value="3">
-                      Nervous
-                    </mat-option>
-                    <mat-option value="4">
-                      Shaken
-                    </mat-option>
-                    <mat-option value="5">
-                      Breaking
-                    </mat-option>
-                    <mat-option value="7">
-                      Never
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <div class="flex-row-opposite">
-                  <h3>Current Panic</h3>
-                  <p>{{beast.panic | moraleConverter}}</p>
-                </div>
-              </div>
-              <br />
-              <div *ngIf="selectedRoleId">
-                <mat-form-field>
-                  <input matInput placeholder="Caution Threshold" [value]="beast.roleInfo[selectedRoleId].caution"
-                    id="{{selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
-                    (change)="captureInput($event, 'caution')">
-                </mat-form-field>
-              </div>
-              <div *ngIf="!selectedRoleId">
-                <mat-form-field>
-                  <input matInput placeholder="Caution Threshold" [value]="beast.caution"
-                    id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
-                    (change)="captureInput($event, 'caution')">
-                </mat-form-field>
-              </div>
+          </div>
+
+          <br>
+          <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION
+            VITALITY</button>
+
+
+          <div class="vitals-shell">
+            <div *ngIf="selectedRoleId">
+              <mat-form-field>
+                <input
+                  id="{{selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
+                  matInput placeholder="Stress Threshold" [value]="beast.roleInfo[selectedRoleId].stress"
+                  (change)="captureInput($event, 'stress')">
+              </mat-form-field>
+            </div>
+            <div *ngIf="!selectedRoleId">
+              <mat-form-field>
+                <input matInput placeholder="Stress Threshold"
+                  id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
+                  [value]="beast.stress" (change)="captureInput($event, 'stress')">
+              </mat-form-field>
+            </div>
+            <div *ngIf="selectedRoleId">
+              <mat-form-field>
+                <mat-label>Panic</mat-label>
+                <mat-select [(value)]="'' + beast.roleInfo[selectedRoleId].panic"
+                  (selectionChange)="captureSelect($event, 'panic')"
+                  id="{{selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
+                  <mat-option value="1">
+                    Always
+                  </mat-option>
+                  <mat-option value="2">
+                    Unsure
+                  </mat-option>
+                  <mat-option value="3">
+                    Nervous
+                  </mat-option>
+                  <mat-option value="4">
+                    Shaken
+                  </mat-option>
+                  <mat-option value="5">
+                    Breaking
+                  </mat-option>
+                  <mat-option value="7">
+                    Never
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div *ngIf="!selectedRoleId">
+              <mat-form-field>
+                <mat-label>Panic</mat-label>
+                <mat-select [(value)]="'' + beast.panic" (selectionChange)="captureSelect($event, 'panic')"
+                  id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
+                  <mat-option value="1">
+                    Always
+                  </mat-option>
+                  <mat-option value="2">
+                    Unsure
+                  </mat-option>
+                  <mat-option value="3">
+                    Nervous
+                  </mat-option>
+                  <mat-option value="4">
+                    Shaken
+                  </mat-option>
+                  <mat-option value="5">
+                    Breaking
+                  </mat-option>
+                  <mat-option value="7">
+                    Never
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <br />
+            <div *ngIf="selectedRoleId">
+              <mat-form-field>
+                <input matInput placeholder="Caution Threshold" [value]="beast.roleInfo[selectedRoleId].caution"
+                  id="{{selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
+                  (change)="captureInput($event, 'caution')">
+              </mat-form-field>
+            </div>
+            <div *ngIf="!selectedRoleId">
+              <mat-form-field>
+                <input matInput placeholder="Caution Threshold" [value]="beast.caution"
+                  id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
+                  (change)="captureInput($event, 'caution')">
+              </mat-form-field>
             </div>
           </div>
 
@@ -613,8 +601,7 @@
                   <input placeholder="Sprint" matInput [value]="movementType.sprint"
                     (change)="captureInput($event, 'movement', i, 'sprint')">
                 </mat-form-field>
-                <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="warn">REMOVE
-                  MOVEMENT</button>
+                <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="warn"><i class="fa-solid fa-minus"></i></button>
               </div>
             </div>
             <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">ADD MOVEMENT</button>
@@ -854,8 +841,7 @@
               <input placeholder="Value" matInput [value]="lootitem.price"
                 (change)="captureInput($event, 'loot', i, 'price')">
             </mat-form-field>
-            <button mat-raised-button (click)="removeNewSecondaryItem('loot', i)" color="warn">REMOVE
-              LOOT</button>
+            <button mat-raised-button (click)="removeNewSecondaryItem('loot', i)" color="warn"><i class="fa-solid fa-minus"></i></button>
           </div>
         </div>
 
@@ -1335,8 +1321,7 @@
               <input placeholder="Harvest" matInput [value]="regeant.harvest"
                 (change)="captureInput($event, 'reagents', i, 'harvest')">
             </mat-form-field>
-            <button mat-raised-button (click)="removeNewSecondaryItem('reagents', i)" color="warn">REMOVE
-              REAGENT</button>
+            <button mat-raised-button (click)="removeNewSecondaryItem('reagents', i)" color="warn"><i class="fa-solid fa-minus"></i></button>
           </div>
         </div>
 
@@ -1573,7 +1558,7 @@
           </mat-form-field>
           <button mat-raised-button color="accent" (click)="addById()">Add By ID</button>
         </div>
-        
+
         <h2>Meta Notes</h2>
         <div class="divider"></div>
         <div>

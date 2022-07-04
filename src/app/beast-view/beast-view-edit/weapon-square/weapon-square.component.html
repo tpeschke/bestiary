@@ -582,5 +582,5 @@
 <!-- --------------------------------------------------------------------------------------------------- -->
 <!-- --------------------------------------------------------------------------------------------------- -->
 <!-- --------------------------------------------------------------------------------------------------- -->
-<button mat-raised-button (click)="copyWeaponSquare(square)" color="accent">COPY {{displayName() === '' ? 'WEAPON' : displayName().toUpperCase()}}</button>
-<button mat-raised-button (click)="removeNewSecondaryItem('combat', index)" color="warn">REMOVE {{displayName() === '' ? 'WEAPON' : displayName().toUpperCase()}}</button>
+<button mat-raised-button (click)="copyWeaponSquare(square)" color="accent" matTooltip="Copy {{displayName() === '' ? 'weapon' : displayName()}}"><i class="fa-solid fa-clone"></i></button>
+<button mat-raised-button (click)="removeNewSecondaryItem('combat', index)" color="warn"><i class="fa-solid fa-minus"></i></button>

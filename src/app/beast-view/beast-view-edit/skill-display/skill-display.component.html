@@ -23,6 +23,5 @@
     <input placeholder="Skill Rank" matInput [value]="skillInfo.rank"
       (change)="captureInput($event, 'skills', i, 'rank')">
   </mat-form-field>
-  <button mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn">REMOVE
-    SKILL</button>
+  <button mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn"><i class="fa-solid fa-minus"></i></button>
 </div>
