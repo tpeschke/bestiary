@@ -1240,4 +1240,40 @@ export class BeastViewEditComponent implements OnInit {
       }
     }
   }
+
+  convertPanic() {
+    let stress
+    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].stress) {
+      stress = this.beast.roleInfo[this.selectedRoleId].stress
+    } else if ((this.selectedRoleId && !this.beast.roleInfo[this.selectedRoleId].stress) || !this.selectedRoleId) {
+      stress = this.beast.stress
+    }
+    let panic
+    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].panic) {
+      panic = this.beast.roleInfo[this.selectedRoleId].panic
+    } else if ((this.selectedRoleId && !this.beast.roleInfo[this.selectedRoleId].panic) || !this.selectedRoleId) {
+      panic = this.beast.panic
+    }
+    let percentage = .00;
+    switch (panic) {
+      case 1:
+        return 'Always';
+      case 2:
+        return 1
+      case 3:
+        percentage = .25
+        break;
+      case 4:
+        percentage = .5
+        break;
+      case 5:
+        percentage = .75
+        break;
+      case 7:
+        return 'Never'
+      default: panic
+    }
+
+    return (stress * percentage).toFixed(0)
+  }
 }

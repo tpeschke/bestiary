@@ -14,7 +14,7 @@
       <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk : selectedRole.rangedAtk) + square.atk}}</p>
       <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init) + square.init}}</p>
       <p class="def">{{evaluateDefense()}}</p>
-      <p class="fatigue">{{ square.fatigue }}</p>
+      <p class="fatigue">{{ convertFatigue() }}</p>
       <div class="dr">
         <p>{{displayedDR}}</p>
         <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " " || square.selectedshield || (selectedRole.shield_dr.flat && selectedRole.shield_dr.slash)'>{{displayedShieldDR}}</p>
@@ -358,7 +358,7 @@
       <p class="atk">{{square.atk}}</p>
       <p class="init">{{square.init}}</p>
       <p class="def">{{square.def}}</p>
-      <p class="fatigue">{{ square.fatigue }}</p>
+      <p class="fatigue">{{ convertFatigue() }}</p>
       <div class="dr">
         <p>{{displayedDR}}</p>
         <p class="shield_dr" *ngIf='square.shield_dr && square.shield_dr !== " "'>{{displayedShieldDR}}</p>

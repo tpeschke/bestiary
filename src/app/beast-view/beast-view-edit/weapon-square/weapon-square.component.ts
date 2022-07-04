@@ -16,6 +16,8 @@ export class WeaponSquareComponent implements OnInit {
   @Input() index: int;
   @Input() removeNewSecondaryItem: Function;
   @Input() copyWeaponSquare: Function;
+  @Input() roleVitality: any;
+  @Input() mainVitality: any
 
   constructor(
     public beastService: BeastService
@@ -646,6 +648,36 @@ export class WeaponSquareComponent implements OnInit {
     } else {
       return ' '
     }
+  }
+
+  convertFatigue() {
+    let vitality
+
+    if (this.selectedRoleId && this.roleVitality) {
+      vitality = this.roleVitality
+    } else {
+      vitality = this.mainVitality
+    }
+    let percentage = .00;
+    switch (this.square.fatigue) {
+      case 'H':
+        return 1
+      case 'B':
+        percentage = .25
+        break;
+      case 'W':
+        percentage = .5
+        break;
+      case 'C':
+        percentage = .75
+        break;
+      case 'N':
+        return 'N'
+      default:
+        percentage = .75
+    }
+
+    return (vitality * percentage).toFixed(0)
   }
 
 }

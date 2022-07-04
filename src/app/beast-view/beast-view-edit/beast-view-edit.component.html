@@ -362,8 +362,96 @@
           <p><strong>Strengths: </strong> {{selectedSkillRole.strengths}}</p>
           <p><strong>Weaknesses: </strong> {{selectedSkillRole.weaknesses}}</p>
         </div>
+        
+        <div class="vitals-shell">
+          <div *ngIf="selectedRoleId">
+            <mat-form-field>
+              <input
+                id="{{selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
+                matInput placeholder="Stress Threshold" [value]="beast.roleInfo[selectedRoleId].stress"
+                (change)="captureInput($event, 'stress')">
+            </mat-form-field>
+          </div>
+          <div *ngIf="!selectedRoleId">
+            <mat-form-field>
+              <input matInput placeholder="Stress Threshold"
+                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
+                [value]="beast.stress" (change)="captureInput($event, 'stress')">
+            </mat-form-field>
+          </div>
+          <div *ngIf="selectedRoleId">
+            <mat-form-field>
+              <mat-label>Panic</mat-label>
+              <mat-select [(value)]="'' + beast.roleInfo[selectedRoleId].panic"
+                (selectionChange)="captureSelect($event, 'panic')"
+                id="{{selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
+                <mat-option value="1">
+                  Always
+                </mat-option>
+                <mat-option value="2">
+                  Unsure
+                </mat-option>
+                <mat-option value="3">
+                  Nervous
+                </mat-option>
+                <mat-option value="4">
+                  Shaken
+                </mat-option>
+                <mat-option value="5">
+                  Breaking
+                </mat-option>
+                <mat-option value="7">
+                  Never
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-        <br>
+          <div *ngIf="!selectedRoleId">
+            <mat-form-field>
+              <mat-label>Panic</mat-label>
+              <mat-select [(value)]="'' + beast.panic" (selectionChange)="captureSelect($event, 'panic')"
+                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
+                <mat-option value="1">
+                  Always
+                </mat-option>
+                <mat-option value="2">
+                  Unsure
+                </mat-option>
+                <mat-option value="3">
+                  Nervous
+                </mat-option>
+                <mat-option value="4">
+                  Shaken
+                </mat-option>
+                <mat-option value="5">
+                  Breaking
+                </mat-option>
+                <mat-option value="7">
+                  Never
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <p>Panic as Number: {{convertPanic()}}</p>
+          <br>
+
+          <div *ngIf="selectedRoleId">
+            <mat-form-field>
+              <input matInput placeholder="Caution Threshold" [value]="beast.roleInfo[selectedRoleId].caution"
+                id="{{selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
+                (change)="captureInput($event, 'caution')">
+            </mat-form-field>
+          </div>
+          <div *ngIf="!selectedRoleId">
+            <mat-form-field>
+              <input matInput placeholder="Caution Threshold" [value]="beast.caution"
+                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
+                (change)="captureInput($event, 'caution')">
+            </mat-form-field>
+          </div>
+        </div>
 
         <h2>Skills</h2>
         <div class="divider"></div>
@@ -436,7 +524,8 @@
             <div *ngFor="let square of beast.combat; let i = index">
               <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
                 <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
-                  [updateCombatPoints]="updateCombatPoints" [index]="i"
+                  [updateCombatPoints]="updateCombatPoints" [index]="i" [roleVitality]="selectedRoleId ? beast.roleInfo[this.selectedRoleId].average : null"
+                  [mainVitality]="averageVitality"
                   [removeNewSecondaryItem]="removeNewSecondaryItem" [copyWeaponSquare]="copyWeaponSquare">
                 </app-weapon-square>
               </div>
@@ -445,7 +534,7 @@
           </div>
 
           <br>
-          <h2>Vitality & Stress</h2>
+          <h2>Vitality</h2>
           <div class="divider"></div>
           <mat-form-field>
             <div *ngIf="selectedRoleId">
@@ -460,6 +549,7 @@
                 [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
             </div>
           </mat-form-field>
+          <p>(Ave: {{averageVitality}})</p>
 
           <div class="locational-shell">
             <div *ngFor="let location of beast.locationalvitality; let i = index" class="locational-id-shell" [ngClass]="{'noDisplay': !location.deleted && !((selectedRoleId && selectedRoleId === location.roleid) || (!selectedRoleId && selectedRoleId === null))}">
@@ -477,94 +567,6 @@
           </div>
           <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION
             VITALITY</button>
-
-
-          <div class="vitals-shell">
-            <div *ngIf="selectedRoleId">
-              <mat-form-field>
-                <input
-                  id="{{selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
-                  matInput placeholder="Stress Threshold" [value]="beast.roleInfo[selectedRoleId].stress"
-                  (change)="captureInput($event, 'stress')">
-              </mat-form-field>
-            </div>
-            <div *ngIf="!selectedRoleId">
-              <mat-form-field>
-                <input matInput placeholder="Stress Threshold"
-                  id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
-                  [value]="beast.stress" (change)="captureInput($event, 'stress')">
-              </mat-form-field>
-            </div>
-            <div *ngIf="selectedRoleId">
-              <mat-form-field>
-                <mat-label>Panic</mat-label>
-                <mat-select [(value)]="'' + beast.roleInfo[selectedRoleId].panic"
-                  (selectionChange)="captureSelect($event, 'panic')"
-                  id="{{selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
-                  <mat-option value="1">
-                    Always
-                  </mat-option>
-                  <mat-option value="2">
-                    Unsure
-                  </mat-option>
-                  <mat-option value="3">
-                    Nervous
-                  </mat-option>
-                  <mat-option value="4">
-                    Shaken
-                  </mat-option>
-                  <mat-option value="5">
-                    Breaking
-                  </mat-option>
-                  <mat-option value="7">
-                    Never
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-            <div *ngIf="!selectedRoleId">
-              <mat-form-field>
-                <mat-label>Panic</mat-label>
-                <mat-select [(value)]="'' + beast.panic" (selectionChange)="captureSelect($event, 'panic')"
-                  id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
-                  <mat-option value="1">
-                    Always
-                  </mat-option>
-                  <mat-option value="2">
-                    Unsure
-                  </mat-option>
-                  <mat-option value="3">
-                    Nervous
-                  </mat-option>
-                  <mat-option value="4">
-                    Shaken
-                  </mat-option>
-                  <mat-option value="5">
-                    Breaking
-                  </mat-option>
-                  <mat-option value="7">
-                    Never
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <br />
-            <div *ngIf="selectedRoleId">
-              <mat-form-field>
-                <input matInput placeholder="Caution Threshold" [value]="beast.roleInfo[selectedRoleId].caution"
-                  id="{{selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
-                  (change)="captureInput($event, 'caution')">
-              </mat-form-field>
-            </div>
-            <div *ngIf="!selectedRoleId">
-              <mat-form-field>
-                <input matInput placeholder="Caution Threshold" [value]="beast.caution"
-                  id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
-                  (change)="captureInput($event, 'caution')">
-              </mat-form-field>
-            </div>
-          </div>
 
           <div class="vitals-shell">
             <h3 class="blue">Movement</h3>
