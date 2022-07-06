@@ -151,7 +151,7 @@
       <mat-form-field>
         <input
           id="{{selectedRole.strengths.includes('Defense') ? 'green' : selectedRole.weaknesses.includes('Defense') ? 'red' : ''}}"
-          placeholder="Defense (1 point; max 10)" matInput [value]="square.def" (change)="captureInputNumber($event, 'def')">
+          placeholder="Defense (1 point; max +10)" matInput [value]="square.def" (change)="captureInputNumber($event, 'def')">
       </mat-form-field>
       <mat-form-field>
         <input
@@ -453,7 +453,7 @@
       </mat-form-field>
       <mat-form-field>
         <input
-          placeholder="Defense (1 point; max 10)" matInput [value]="square.def" (change)="captureInputNumber($event, 'def')">
+          placeholder="Defense (1 point; max +10)" matInput [value]="square.def" (change)="captureInputNumber($event, 'def')">
       </mat-form-field>
       <mat-form-field>
         <input

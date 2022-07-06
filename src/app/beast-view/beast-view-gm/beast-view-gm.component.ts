@@ -508,7 +508,7 @@ export class BeastViewGmComponent implements OnInit {
   
   displayDamage = (square) => {
     let roleDamage = null
-    if (!square.selectedweapon && !square.dontaddroledamage) {
+    if (!square.selectedweapon && !square.dontaddroledamage && square.addrolemods) {
       if (square.weapontype === 'm') {
         roleDamage = this.selectedRole.damage
       } else {
