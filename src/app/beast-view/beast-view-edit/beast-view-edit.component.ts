@@ -318,7 +318,7 @@ export class BeastViewEditComponent implements OnInit {
           oldValue = this.beast.roleInfo[this.selectedRoleId].average
         } else if (this.averageVitality) {
           oldValue = this.averageVitality
-        } 
+        }
         if (!this.selectedRoleId) {
           valueToCompare = this.calculatorService.calculateAverageOfDice(newValue) - oldValue
         } else {
@@ -880,13 +880,13 @@ export class BeastViewEditComponent implements OnInit {
     return text;
   }
 
-  copyWeaponSquareUnbound (square) {
-    let newDR = {...square.newDR}
-    let newDamage = {...square.newDamage}
-    let newShieldDr = {...square.newShieldDr}
-    let weaponInfo = {...square.weaponInfo}
+  copyWeaponSquareUnbound(square) {
+    let newDR = { ...square.newDR }
+    let newDamage = { ...square.newDamage }
+    let newShieldDr = { ...square.newShieldDr }
+    let weaponInfo = { ...square.weaponInfo }
 
-    let weaponCopy = {...square, newDR, newDamage, newShieldDr, weaponInfo}
+    let weaponCopy = { ...square, newDR, newDamage, newShieldDr, weaponInfo }
     delete weaponCopy.id
 
     this.beast.combat.push(weaponCopy)
@@ -943,6 +943,18 @@ export class BeastViewEditComponent implements OnInit {
     let combatpoints = 0
     combatpoints += Math.ceil(this.averageVitality / 10)
     combatpoints += Math.ceil(this.beast.stress / 5)
+
+    if (this.beast.panic === 1) {
+      combatpoints -= 2
+    } else if (this.beast.panic === 2) {
+      combatpoints -= 2
+    } else if (this.beast.panic === 3) {
+      combatpoints -= 2
+    } else if (this.beast.panic === 4) {
+      combatpoints -= 2
+    } else if (this.beast.panic === 7) {
+      combatpoints += 2
+    }
 
     this.beast.skills.forEach(skill => {
       if (!skill.skillroleid && this.combatSkills.includes(skill.skill)) {
@@ -1024,6 +1036,19 @@ export class BeastViewEditComponent implements OnInit {
           combatpoints += +skill.rank
         }
       })
+
+      let panic = role.panic ? role.panic : this.beast.panic
+      if (panic === 1) {
+        combatpoints -= 2
+      } else if (panic === 2) {
+        combatpoints -= 2
+      } else if (panic === 3) {
+        combatpoints -= 2
+      } else if (panic === 4) {
+        combatpoints -= 2
+      } else if (panic === 7) {
+        combatpoints += 2
+      }
 
       let weapons = this.beast.combat.filter(weapon => weapon.roleid === role.id)
 
@@ -1142,6 +1167,21 @@ export class BeastViewEditComponent implements OnInit {
 
   calculateSocialPoints = () => {
     let socialpoints = 0
+
+    socialpoints += Math.ceil(this.beast.stress / 5)
+
+    if (this.beast.panic === 1) {
+      socialpoints -= 2
+    } else if (this.beast.panic === 2) {
+      socialpoints -= 2
+    } else if (this.beast.panic === 3) {
+      socialpoints -= 2
+    } else if (this.beast.panic === 4) {
+      socialpoints -= 2
+    } else if (this.beast.panic === 7) {
+      socialpoints += 2
+    }
+
     this.beast.conflict.devotions.forEach(trait => {
       if (!trait.socialroleid) {
         socialpoints += +trait.value
@@ -1149,7 +1189,7 @@ export class BeastViewEditComponent implements OnInit {
     })
     this.beast.conflict.flaws.forEach(trait => {
       if (!trait.socialroleid) {
-        socialpoints += +trait.value
+        socialpoints += 2
       }
     })
     this.beast.conflict.traits.forEach(trait => {
@@ -1162,6 +1202,20 @@ export class BeastViewEditComponent implements OnInit {
 
     this.beast.roles.forEach(role => {
       let socialpoints = 0
+
+      let panic = role.panic ? role.panic : this.beast.panic
+      if (panic === 1) {
+        socialpoints -= 2
+      } else if (panic === 2) {
+        socialpoints -= 2
+      } else if (panic === 3) {
+        socialpoints -= 2
+      } else if (panic === 4) {
+        socialpoints -= 2
+      } else if (panic === 7) {
+        socialpoints += 2
+      }
+
       this.beast.conflict.devotions.forEach(trait => {
         if (trait.socialroleid === role.id) {
           socialpoints += +trait.value
@@ -1185,6 +1239,21 @@ export class BeastViewEditComponent implements OnInit {
 
   calculateSkillPoints = () => {
     let skillpoints = 0
+
+    skillpoints += Math.ceil(this.beast.stress / 5)
+
+    if (this.beast.panic === 1) {
+      skillpoints -= 2
+    } else if (this.beast.panic === 2) {
+      skillpoints -= 2
+    } else if (this.beast.panic === 3) {
+      skillpoints -= 2
+    } else if (this.beast.panic === 4) {
+      skillpoints -= 2
+    } else if (this.beast.panic === 7) {
+      skillpoints += 2
+    }
+    
     this.beast.skills.forEach(skill => {
       if (!skill.skillroleid) {
         skillpoints += +skill.rank
@@ -1195,6 +1264,20 @@ export class BeastViewEditComponent implements OnInit {
 
     this.beast.roles.forEach(role => {
       let skillpoints = 0
+      
+      let panic = role.panic ? role.panic : this.beast.panic
+      if (panic === 1) {
+        skillpoints -= 2
+      } else if (panic === 2) {
+        skillpoints -= 2
+      } else if (panic === 3) {
+        skillpoints -= 2
+      } else if (panic === 4) {
+        skillpoints -= 2
+      } else if (panic === 7) {
+        skillpoints += 2
+      }
+
       this.beast.skills.forEach(skill => {
         if (skill.skillroleid === role.id) {
           skillpoints += +skill.rank
