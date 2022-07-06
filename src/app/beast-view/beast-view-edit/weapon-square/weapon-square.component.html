@@ -396,42 +396,7 @@
     <div>
       <h3>Selected Weapons, Armor, and Shields</h3>
       <div class="divider white"></div>
-      <div *ngIf="!showAllEquipment">
-        <mat-form-field>
-          <mat-label>Weapon Choices</mat-label>
-          <mat-select [value]="square.selectedweapon" (selectionChange)="captureSelect($event, 'selectedweapon')">
-            <mat-option>None</mat-option>
-            <mat-optgroup *ngFor="let group of selectedRole.weapons" [label]="group.label">
-              <mat-option *ngFor="let item of group.items" [value]="item">
-                {{item}}
-              </mat-option>
-            </mat-optgroup>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field *ngIf="selectedRole.armor.length > 0">
-          <mat-label>Armor Choices</mat-label>
-          <mat-select [value]="square.selectedarmor" (selectionChange)="captureSelect($event, 'selectedarmor')">
-            <mat-option>None</mat-option>
-            <mat-optgroup *ngFor="let group of selectedRole.armor" [label]="group.label">
-              <mat-option *ngFor="let item of group.items" [value]="item">
-                {{item}}
-              </mat-option>
-            </mat-optgroup>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field *ngIf="selectedRole.shields.length > 0">
-          <mat-label>Shield Choices</mat-label>
-          <mat-select [value]="square.selectedshield" (selectionChange)="captureSelect($event, 'selectedshield')">
-            <mat-option>None</mat-option>
-            <mat-optgroup *ngFor="let group of selectedRole.shields" [label]="group.label">
-              <mat-option *ngFor="let item of group.items" [value]="item">
-                {{item}}
-              </mat-option>
-            </mat-optgroup>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div *ngIf="showAllEquipment">
+      <div>
         <mat-form-field>
           <mat-label>Weapon Choices</mat-label>
           <mat-select [value]="square.selectedweapon" (selectionChange)="captureSelect($event, 'selectedweapon')">
@@ -466,12 +431,11 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <section>
-        <mat-checkbox [checked]="showAllEquipment" (change)="checkCheckbox('showAllEquipment', $event.checked)">Show me all weapons/armor/shields</mat-checkbox>
-      </section>
       <br>
     </div>
     <div class="square-combat-shell">
+      <h3>Combat Metrics</h3>
+      <div class="divider white"></div>
       <mat-form-field>
         <input
           placeholder="Recovery (2 points)" matInput [value]="square.spd" (change)="captureInputNumber($event, 'spd')">
