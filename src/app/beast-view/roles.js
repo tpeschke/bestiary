@@ -16,7 +16,8 @@ export default {
                     label: 'Not Preferred Choices',
                     skillList: ['Animism', 'Distraction', 'Escape Artist', 'Riding', 'Use Rope', 'World Craft']
                 }
-            ]
+            ],
+            description: "Hunters keep their prey at a distance until it's time to strike. They use their Skills to pick their moment of engagement, a moment where they're exceptionally powerful."
         },
         'Prey': {
             strengths: 'Keeps distance, indirectly attacking enemies, possibly crippling them.',
@@ -34,7 +35,8 @@ export default {
                     label: 'Not Preferred Choices',
                     skillList: ['Intuition', 'Navigation', 'Occultism', 'Perception', 'Riding', 'Current Affairs']
                 }
-            ]
+            ],
+            description: "Prey keeps their distance with Skills based around movement. They're usually extremely weak when caught but can often use the terrain to their advantage."
         },
         'Controller': {
             strengths: 'Move enemies around using Skills.',
@@ -52,32 +54,38 @@ export default {
                     label: 'Not Preferred Choices',
                     skillList: ['Calling', 'Charm', 'Forgery', 'Signalling', 'Warfare']
                 }
-            ]
+            ],
+            description: "A Controller uses their Skills to move players around, either on a battlefield or on an overland map."
         },
         'Lock': {
             strengths: 'Extremely powerful most of the time.',
             weaknesses: 'Once their Skill Challenge is beaten, usually extremely weak.',
-            skillList: null
+            skillList: null,
+            description: "Locks are those enemies that can only be beaten after a Skill Challenge. They're usually extremely powerful and/or invulnerable until after, at which point they become a pushover."
         },
         'Conditional': {
             strengths: 'Extremely dangerous.',
             weaknesses: 'Only dangerous under specific circumstances.',
-            skillList: null
+            skillList: null,
+            description: "A Conditional enemy is one that is extremely powerful but only under certain conditions. Often they'll also have immunities that must be discovered to truly hurt them."
         },
         'Antagonist': {
             strengths: 'Debuffs enemies and buffs their allies.',
             weaknesses: 'Only effective indirectly.',
-            skillList: null
+            skillList: null,
+            description: "Antagonists are effective indirectly and focus on applying penalities to the enemy, rather than actually being skilled."
         },
         'Trap': {
             strengths: 'Hidden and can be crippling or damaging. Often evolve into another type of encounter.',
             weaknesses: 'Cannot move or adapt. Can be easily avoided',
-            skillList: null
+            skillList: null,
+            description: "Traps are hidden, making them a nasty surprise to punish the unwary, however, they're also dumb, only being a threat when triggered."
         },
         'Hazard': {
             strengths: 'Extremely crippling and/or damaging.',
             weaknesses: 'Non-hidden. Can be easily avoided or bypassed. Often non-mobile.',
-            skillList: null
+            skillList: null,
+            description: "Hazards are extremely powerful, however, they're non-moving and non-hidden, meaning that they're easily avoided."
         },
     },
     skillList: [
@@ -117,43 +125,53 @@ export default {
     socialRoles: {
         'Striker': {
             strengths: ['Offensive', 'Many Characteristics'],
-            weaknesses: ['Defensive', 'Weak Characteristics']
+            weaknesses: ['Defensive', 'Weak Characteristics'],
+            description: "A Strike has many Characteristics that are weak; this allows them to have a lot of avenues to convince others, looking for a soft spot, but unable to really fight off someone attacking them."
         },
         'Defender': {
             strengths: ['Defensive', 'Powerful Characteristics'],
-            weaknesses: ['Offensive', 'Few Characteristics']
+            weaknesses: ['Offensive', 'Few Characteristics'],
+            description: "A Defender is stauch in their beliefs and often unmoveable but, because of this specialization, they're rarely able to actually go on the offensive to convince others."
         },
         'Support': {
             strengths: ['Buffing Others', 'Debuffing Others'],
-            weaknesses: ['Being Alone']
+            weaknesses: ['Being Alone'],
+            description: "Support is all about buffing their own team and debuffing the others; Giving bonuses to their friends and penalties to their enemies."
         },
         'Feinter': {
-            strengths: ['Longer Confrontations', 'Evidence', 'Using Enemids\ Characteristics Against Them'],
-            weaknesses: ['Shorter Confrontations']
+            strengths: ['Longer Confrontations', 'Evidence', 'Using Enemies\ Characteristics Against Them'],
+            weaknesses: ['Shorter Confrontations'],
+            description: "A Feinter thrives in shorter Confrontations as they tend to wait until the enemy has got enough rope to hang themselves. Often they have powers that allow them to quickly glean their enemy's Characteristics."
         },
         'Fast-Talker': {
-            strengths: ['Shorter Confrontations'],
-            weaknesses: ['Longer Confrontations']
+            strengths: ['Shorter Confrontations', 'Powerful Characteristics', 'Ways to get points beyond Checks'],
+            weaknesses: ['Longer Confrontations'],
+            description: "Faster-Talkers are all about getting a lot of points really early so that they can override any remaining concerns you have without having to directly address them."
         },
         'Sandbagger': {
             strengths: ['Longer Confrontations', 'Inflicting Stress'],
-            weaknesses: ['None']
+            weaknesses: ['None'],
+            description: "Sandbaggers start off weak but gain more power the longer the Confrontation goes on, often relying on enemies underestimating them to stay in the back until they're ready to strike."
         },
         'Corruptor': {
             strengths: ['Stress Threshold', 'Flexible Characteristics'],
-            weaknesses: ['Weak Characteristics']
+            weaknesses: ['Weak Characteristics'],
+            description: "A Corrupter is often weak but they're presistent, often wearing away at an enemy's Stress Threshold and, possibly, changing who they are."
         },
         'Gaslighter': {
             strengths: ['Debuffing Others', 'Stress Threshold'],
-            weaknesses: ['Weak Characteristics', 'Few Characteristics']
+            weaknesses: ['Weak Characteristics', 'Few Characteristics'],
+            description: "Gaslighters are weak on their own but they debuff others can, with a high Stress Threshold, can simply out last others in a straigh up slugging match."
         },
         'Enabler': {
             strengths: ['Buffing Others', 'Using Enemids\ Characteristics Against Them'],
-            weaknesses: ['None']
+            weaknesses: ['None'],
+            description: "Enablers are power for a price: enables can either buff their own team but also can buff the enemy only for the buff to come at a cost."
         },
         'Opportunist': {
             strengths: ['Capitalzing on Weaknesses'],
-            weaknesses: ['None']
+            weaknesses: ['None'],
+            description: "An Opportunist waits for their enemy to become Fatigued or Stressed before pouncing; often they have abilities they make them more powerful when their enemy has those conditions."
         },
     },
     combatRoles: {
@@ -161,6 +179,7 @@ export default {
             'Artillery': {
                 strengths: ['Vitality', 'Ranged Damage', 'Ranged Attack', 'Ranged Penalties'],
                 weaknesses: ['/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Melee Attack', 'Recovery', 'Movement', 'Caution Threshold'],
+                description: "Artillery have high ranged attack and damage which means that they can threaten anyone on the battlefield, however, their low mobility and melee abilities means that they can often be charged down and taken out.",
                 vitality: 30,
                 fatigue: 25,
                 def: 0,
@@ -226,6 +245,7 @@ export default {
             'Brute': {
                 strengths: ['Vitality', 'Melee Damage', 'Melee Attack', 'Caution Threshold'],
                 weaknesses: ['Defense', 'Parry', 'Parry DR', 'Parry /DR', 'Ranged Damage', 'Ranged Attack', 'Recovery', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
+                description: "Brutes are high damage and attack but low mobility making them moving threats. While easy to avoid, they'll punish any players who don't move so they can churn up the battlefield.",
                 vitality: 80,
                 fatigue: 50,
                 def: -4,
@@ -286,6 +306,7 @@ export default {
             'Defender': {
                 strengths: ['Defense', 'DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Stress Threshold', 'Caution Threshold'],
                 weaknesses: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
+                description: "Defenders defend. They're tanky: able to take a large amount of damage but they're unable to deal it out or effectively move around.",
                 vitality: 40,
                 fatigue: 25,
                 def: -3,
@@ -363,6 +384,7 @@ export default {
             'Fencer': {
                 strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Stress Threshold'],
                 weaknesses: ['/DR', 'Melee Damage', 'Ranged Damage', 'Range Penalties'],
+                description: "The fencer is particularly good at one-on-one fights due to their fast attack and high parry but they tend to suffer from being out numbered or out ranged.",
                 vitality: 30,
                 fatigue: 25,
                 def: 0,
@@ -428,6 +450,7 @@ export default {
             'Flanker': {
                 strengths: ['Melee Damage', 'Recovery', 'Movement', 'Mobility Skills'],
                 weaknesses: ['Defense', 'DR', '/DR', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Range Penalties', 'Caution Threshold'],
+                description: "Flankers are mobile with high damge, however, their attack leaves something to be desired so they focus on getting around the opponent to attack from different angles.",
                 vitality: 30,
                 fatigue: 25,
                 def: 0,
@@ -488,6 +511,7 @@ export default {
             'Fodder': {
                 strengths: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Mobility Skills'],
                 weaknesses: ['Vitality', 'Fatigue', '/DR', 'DR', 'Parry', 'Parry DR', 'Parry /DR', 'Movement', 'Stress Threshold', 'Panic Threshold', 'Caution Threshold'],
+                description: "Fooder are good at dealing damage, both melee and ranged, making them versitile but they lack defenses, making them easier to dispatch.",
                 vitality: 15,
                 fatigue: 1,
                 def: -2,
@@ -549,6 +573,7 @@ export default {
             'Shock': {
                 strengths: ['Fatigue', 'Melee Damage', 'Measure', 'Movement', 'Mobility Skills', 'Panic Threshold', 'Caution Threshold'],
                 weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Ranged Damage', 'Ranged Attack', 'Recovery', 'Range Penalties'],
+                description: 'First into combat and first to hit, shock monsters are great on the offensive but terrible in long, drawn out combats.',
                 vitality: 40,
                 fatigue: 25,
                 def: -4,
@@ -609,6 +634,7 @@ export default {
             'Skirmisher': {
                 strengths: ['Ranged Attack', 'Movement', 'Mobility Skills', 'Stress Threshold', 'Panic'],
                 weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Ranged Damage', 'Melee Attack', 'Caution Threshold'],
+                description: 'Fast on their feet, the skirmisher focuses on hit-and-run tactics, although their focus on ranged combat makes them squishy in melee.',
                 vitality: 30,
                 fatigue: 25,
                 def: 0,

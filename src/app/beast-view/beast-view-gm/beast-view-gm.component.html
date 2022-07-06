@@ -37,10 +37,7 @@
         <p>
           {{selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole}} <i
             class="fas fa-info-circle icon-small blue"
-            matTooltip="Strengths:
-            {{socialRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole].strengths.join(', ')}}
-            Weaknesses:
-            {{socialRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole].weaknesses.join(', ')}}"
+            matTooltip="{{socialRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole].description}}"
             matTooltipClass="my-tooltip"></i></p>
       </div>
 
@@ -87,10 +84,7 @@
         <h3>Skill Role Type </h3>
         <p>
           {{selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole}} <i
-            class="fas fa-info-circle icon-small blue" matTooltip="Strengths:
-          {{skillRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole].strengths}}
-          Weaknesses:
-          {{skillRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole].weaknesses}}"
+            class="fas fa-info-circle icon-small blue" matTooltip="{{skillRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole].description}}"
             matTooltipClass="my-tooltip"></i></p>
       </div>
 
@@ -114,10 +108,7 @@
           beast.roleInfo[selectedRoleId].secondaryrole + ']' :
           selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}} <i
             class="fas fa-info-circle icon-small blue"
-            matTooltip="Strengths:
-              {{combatRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role].strengths.join(', ')}}
-              Weaknesses:
-              {{combatRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role].weaknesses.join(', ')}}" matTooltipClass="my-tooltip"></i></p>
+            matTooltip="{{combatRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role].description}}" matTooltipClass="my-tooltip"></i></p>
         <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
             class="fas fa-plus"></i><i class="fas fa-address-card"></i></div>
       </div>

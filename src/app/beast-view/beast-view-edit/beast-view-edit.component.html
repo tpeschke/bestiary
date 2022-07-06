@@ -235,9 +235,8 @@
           </mat-select>
         </mat-form-field>
 
-        <div *ngIf="selectedSocialRole && selectedSocialRole.strengths">
-          <p><strong>Strengths: </strong> {{selectedSocialRole.strengths.join(', ')}}</p>
-          <p><strong>Weaknesses: </strong> {{selectedSocialRole.weaknesses.join(', ')}}</p>
+        <div *ngIf="selectedSocialRole && selectedSocialRole.description">
+          <p><strong>Description: </strong> {{selectedSocialRole.description}}</p>
         </div>
 
         <div>
@@ -361,9 +360,8 @@
           </mat-select>
         </mat-form-field>
 
-        <div *ngIf="selectedSkillRole && selectedSkillRole.strengths">
-          <p><strong>Strengths: </strong> {{selectedSkillRole.strengths}}</p>
-          <p><strong>Weaknesses: </strong> {{selectedSkillRole.weaknesses}}</p>
+        <div *ngIf="selectedSkillRole && selectedSkillRole.description">
+          <p><strong>Description: </strong> {{selectedSkillRole.description}}</p>
         </div>
         
         <div class="vitals-shell">
@@ -485,6 +483,7 @@
         <mat-form-field>
           <input matInput placeholder="Challenge ID" [value]="newChallengeId" (change)="captureChallenge($event)">
         </mat-form-field>
+        <br>
         <button mat-raised-button color="accent" (click)="addChallengeById()">Add By ID</button>
       </div>
     </mat-tab>
@@ -518,9 +517,8 @@
             </mat-form-field>
           </div>
 
-          <div *ngIf="selectedRole.strengths">
-            <p><strong>Strengths: </strong> {{selectedRole.strengths.join(', ')}}</p>
-            <p><strong>Weaknesses: </strong> {{selectedRole.weaknesses.join(', ')}}</p>
+          <div *ngIf="selectedRole.description">
+            <p><strong>Description: </strong> {{selectedRole.description}}</p>
           </div>
 
           <div class="combat-shell">
@@ -1514,6 +1512,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
+              <br>
               <button mat-raised-button color="accent" (click)="addChip('environ')">Add Environment</button>
             </div>
 
@@ -1559,6 +1558,7 @@
           <mat-form-field>
             <input matInput placeholder="Monster ID" [value]="newVariantId" (change)="captureID($event)">
           </mat-form-field>
+          <br>
           <button mat-raised-button color="accent" (click)="addById()">Add By ID</button>
         </div>
 
