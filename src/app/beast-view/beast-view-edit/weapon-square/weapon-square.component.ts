@@ -332,7 +332,7 @@ export class WeaponSquareComponent implements OnInit {
       defMod = +defMod.replace('/+/gi', '')
     }
 
-    let defBase = this.selectedRole.def ? this.selectedRole.def : 0
+    let defBase = this.selectedRole.def && this.square.addrolemods ? this.selectedRole.def : 0
     if (this.square.selectedshield) {
       defBase += this.square.shieldInfo.def
     }

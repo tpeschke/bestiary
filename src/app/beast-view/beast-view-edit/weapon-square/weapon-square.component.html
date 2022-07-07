@@ -7,9 +7,9 @@
   <div>
     <div class="square-shell">
       <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
-      <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd ? selectedRole.spd : 0) + (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
-      <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk ? selectedRole.atk : 0 : selectedRole.rangedAtk ? selectedRole.rangedAtk : 0) + square.atk}}</p>
-      <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init ? selectedRole.init : 0) + square.init}}</p>
+      <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd && square.addrolemods ? selectedRole.spd : 0) + (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
+      <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk && square.addrolemods ? selectedRole.atk : 0 : selectedRole.rangedAtk && square.addrolemods ? selectedRole.rangedAtk : 0) + square.atk}}</p>
+      <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init && square.addrolemods ? selectedRole.init : 0) + square.init}}</p>
       <p class="def">{{evaluateDefense()}}</p>
       <p class="fatigue">{{ convertFatigue() }}</p>
       <div class="dr">
@@ -17,17 +17,17 @@
         <p class="shield_dr" *ngIf="displayedShieldDR && displayedShieldDR > 0">{{displayedShieldDR}}</p>
       </div>
       <div class="measure">
-        <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : selectedRole.measure ? selectedRole.measure : 0) + square.measure}}</p>
-        <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges ? selectedRole.ranges.increment : 0) + square.ranges.increment}}ri <i
+        <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : selectedRole.measure && square.addrolemods ? selectedRole.measure : 0) + square.measure}}</p>
+        <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment}}ri <i
             class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
-            Between 5 ft and {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges ? selectedRole.ranges.increment : 0) + square.ranges.increment}} ft, -0 atk penalty. 
-            Between {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges ? selectedRole.ranges.increment : 0) + square.ranges.increment + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 2}} ft, -2 atk penalty.
-            Between {{(((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 2) + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 3}} ft, -4 atk penalty.
+            Between 5 ft and {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment}} ft, -0 atk penalty. 
+            Between {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 2}} ft, -2 atk penalty.
+            Between {{(((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 2) + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 3}} ft, -4 atk penalty.
             and so on." matTooltipClass="my-tooltip"></i></p>
       </div>
       <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayedDamage}}</p>
       <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-      <p class="parry">{{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry : square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : selectedRole.parry ? selectedRole.parry : 0) + square.parry}}</p>
+      <p class="parry">{{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry : square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : selectedRole.parry && square.addrolemods ? selectedRole.parry : 0) + square.parry}}</p>
     </div>
     <mat-form-field>
       <mat-label>Range Type</mat-label>
@@ -42,7 +42,7 @@
     </mat-form-field>
   </div>
   <div class="edit-combat-squares-shell-right">
-    <section>
+    <section *ngIf="selectedRole.spd">
       <mat-checkbox [checked]="square.addrolemods" (change)="checkCheckbox('addrolemods', $event.checked)">Role Modifiers Added to This Combat Square</mat-checkbox>
     </section>
     <br>

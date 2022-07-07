@@ -503,6 +503,9 @@
               <mat-select [(value)]="selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ?
               beast.roleInfo[selectedRoleId].secondaryrole :
               selectedRoleId ? null : beast.secondaryrole" (selectionChange)="setSecondaryRoleType($event)">
+                <mat-option>
+                  None
+                </mat-option>
                 <mat-option *ngFor="let role of combatRolesSecondary" [value]="role">
                   {{role}}
                 </mat-option>
