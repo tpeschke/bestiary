@@ -295,11 +295,11 @@ export class WeaponSquareComponent implements OnInit {
   getFatigueValue = (fatigue) => {
     switch (fatigue) {
       case 'A':
-        return -4;
+        return -16;
       case 'H':
-        return -4;
+        return -12;
       case 'B':
-        return -4;
+        return -8;
       case 'W':
         return -4;
       case 'C':
@@ -332,7 +332,7 @@ export class WeaponSquareComponent implements OnInit {
       defMod = +defMod.replace('/+/gi', '')
     }
 
-    let defBase = this.selectedRole ? this.selectedRole.def : 0
+    let defBase = this.selectedRole.def ? this.selectedRole.def : 0
     if (this.square.selectedshield) {
       defBase += this.square.shieldInfo.def
     }

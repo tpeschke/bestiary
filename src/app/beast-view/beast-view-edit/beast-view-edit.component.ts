@@ -970,11 +970,11 @@ export class BeastViewEditComponent implements OnInit {
         } else if (fatigue === 'W') {
           combatpoints -= 4
         } else if (fatigue === 'B') {
-          combatpoints -= 4
+          combatpoints -= 8
         } else if (fatigue === 'H') {
-          combatpoints -= 4
+          combatpoints -= 12
         } else if (fatigue === 'A') {
-          combatpoints -= 4
+          combatpoints -= 16
         }
         combatpoints += eval(def)
         combatpoints += newDR.flat
@@ -1039,11 +1039,11 @@ export class BeastViewEditComponent implements OnInit {
 
       let panic = role.panic ? role.panic : this.beast.panic
       if (panic === 1) {
-        combatpoints -= 2
+        combatpoints -= 8
       } else if (panic === 2) {
-        combatpoints -= 2
+        combatpoints -= 6
       } else if (panic === 3) {
-        combatpoints -= 2
+        combatpoints -= 4
       } else if (panic === 4) {
         combatpoints -= 2
       } else if (panic === 7) {
@@ -1061,11 +1061,11 @@ export class BeastViewEditComponent implements OnInit {
             } else if (fatigue === 'W') {
               combatpoints -= 4
             } else if (fatigue === 'B') {
-              combatpoints -= 4
+              combatpoints -= 8
             } else if (fatigue === 'H') {
-              combatpoints -= 4
+              combatpoints -= 12
             } else if (fatigue === 'A') {
-              combatpoints -= 4
+              combatpoints -= 16
             }
             combatpoints += eval(def)
             combatpoints += newDR.flat
@@ -1114,11 +1114,11 @@ export class BeastViewEditComponent implements OnInit {
             } else if (fatigue === 'W') {
               combatpoints -= 4
             } else if (fatigue === 'B') {
-              combatpoints -= 4
+              combatpoints -= 8
             } else if (fatigue === 'H') {
-              combatpoints -= 4
+              combatpoints -= 12
             } else if (fatigue === 'A') {
-              combatpoints -= 4
+              combatpoints -= 16
             }
             combatpoints += eval(def)
             combatpoints += newDR.flat
@@ -1171,11 +1171,11 @@ export class BeastViewEditComponent implements OnInit {
     socialpoints += Math.ceil(this.beast.stress / 5)
 
     if (this.beast.panic === 1) {
-      socialpoints -= 2
+      socialpoints -= 8
     } else if (this.beast.panic === 2) {
-      socialpoints -= 2
+      socialpoints -= 6
     } else if (this.beast.panic === 3) {
-      socialpoints -= 2
+      socialpoints -= 4
     } else if (this.beast.panic === 4) {
       socialpoints -= 2
     } else if (this.beast.panic === 7) {
@@ -1205,11 +1205,11 @@ export class BeastViewEditComponent implements OnInit {
 
       let panic = role.panic ? role.panic : this.beast.panic
       if (panic === 1) {
-        socialpoints -= 2
+        socialpoints -= 8
       } else if (panic === 2) {
-        socialpoints -= 2
+        socialpoints -= 6
       } else if (panic === 3) {
-        socialpoints -= 2
+        socialpoints -= 4
       } else if (panic === 4) {
         socialpoints -= 2
       } else if (panic === 7) {
@@ -1243,11 +1243,11 @@ export class BeastViewEditComponent implements OnInit {
     skillpoints += Math.ceil(this.beast.stress / 5)
 
     if (this.beast.panic === 1) {
-      skillpoints -= 2
+      skillpoints -= 8
     } else if (this.beast.panic === 2) {
-      skillpoints -= 2
+      skillpoints -= 6
     } else if (this.beast.panic === 3) {
-      skillpoints -= 2
+      skillpoints -= 4
     } else if (this.beast.panic === 4) {
       skillpoints -= 2
     } else if (this.beast.panic === 7) {
@@ -1267,11 +1267,11 @@ export class BeastViewEditComponent implements OnInit {
       
       let panic = role.panic ? role.panic : this.beast.panic
       if (panic === 1) {
-        skillpoints -= 2
+        skillpoints -= 8
       } else if (panic === 2) {
-        skillpoints -= 2
+        skillpoints -= 6
       } else if (panic === 3) {
-        skillpoints -= 2
+        skillpoints -= 4
       } else if (panic === 4) {
         skillpoints -= 2
       } else if (panic === 7) {
