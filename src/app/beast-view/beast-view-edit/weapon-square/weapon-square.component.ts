@@ -626,7 +626,7 @@ export class WeaponSquareComponent implements OnInit {
 
   displayName = () => {
     let {selectedweapon, selectedarmor, selectedshield} = this.square
-  
+
     if (selectedweapon && this.square.weaponInfo.type && !selectedweapon.includes('(')) {
       selectedweapon = `${selectedweapon} (${this.square.weaponInfo.type})`
     }
@@ -657,6 +657,10 @@ export class WeaponSquareComponent implements OnInit {
       vitality = this.roleVitality
     } else {
       vitality = this.mainVitality
+    }
+
+    if (isNaN(vitality)) {
+      return ' '
     }
     let percentage = .00;
     switch (this.square.fatigue) {

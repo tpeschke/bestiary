@@ -49,7 +49,7 @@
     <div>
       <h3>Selected Weapons, Armor, and Shields</h3>
       <div class="divider white"></div>
-      <div *ngIf="!showAllEquipment">
+      <div *ngIf="!showAllEquipment && selectedRole.spd">
         <mat-form-field>
           <mat-label>Weapon Choices</mat-label>
           <mat-select [value]="square.selectedweapon" (selectionChange)="captureSelect($event, 'selectedweapon')">
@@ -84,7 +84,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div *ngIf="showAllEquipment">
+      <div *ngIf="showAllEquipment || !selectedRole.spd">
         <mat-form-field>
           <mat-label>Weapon Choices</mat-label>
           <mat-select [value]="square.selectedweapon" (selectionChange)="captureSelect($event, 'selectedweapon')">
@@ -119,7 +119,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <section>
+      <section *ngIf="selectedRole.spd">
         <mat-checkbox [checked]="showAllEquipment" (change)="checkCheckbox('showAllEquipment', $event.checked)">Show me all weapons/armor/shields</mat-checkbox>
       </section>
       <br>

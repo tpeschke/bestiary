@@ -419,7 +419,7 @@ export default {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Rapier (P)', 'Stiletto (S)']
+                        items: ['Rapier (P)', 'Stiletto (P)']
                     },
                     {
                         label: 'Neutral Choices',
@@ -485,7 +485,7 @@ export default {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Knife (S)', 'Throwing Knife (S)', 'Dagger (S)', 'Dagger (P)']
+                        items: ['Knife (S)', 'Throwing Knife (P)', 'Dagger (S)', 'Dagger (P)']
                     },
                     {
                         label: 'Neutral Choice',
@@ -669,7 +669,7 @@ export default {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Knife (S)', 'Throwing Knife (S)', 'Handaxe (S)', 'Throwing Axe (S)']
+                        items: ['Knife (S)', 'Throwing Knife (P)', 'Handaxe (S)', 'Throwing Axe (S)']
                     },
                     {
                         label: 'Neutral Choices',

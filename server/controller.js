@@ -1007,7 +1007,6 @@ let controllerObj = {
 async function collectComplication(db, beastId) {
   return db.get.complication.complication().then(result => {
     let complication = result[0]
-
     if (complication.id === 1) {
       //rival
       return db.get.complication.rival(beastId).then(result => {
@@ -1044,6 +1043,7 @@ async function collectComplication(db, beastId) {
       //Back up coming
       return db.get.complication.backup(beastId).then(result => {
         let backup = result[0]
+        console.log(backup)
         if (backup.plural && backup.rank.toUpperCase() === 'NONE') {
           backup.rank = backup.name
           backup.rankplural = backup.plural

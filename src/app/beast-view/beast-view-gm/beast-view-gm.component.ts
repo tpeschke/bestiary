@@ -447,6 +447,10 @@ export class BeastViewGmComponent implements OnInit {
     } else {
       vitality = this.locationCheckboxes.mainVitality.average
     }
+
+    if (isNaN(vitality)) {
+      return 'N'
+    }
     let percentage = .00;
     switch (fatigue) {
       case 'H':

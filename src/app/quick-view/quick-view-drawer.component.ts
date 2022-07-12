@@ -79,6 +79,10 @@ export class QuickViewDrawerComponent implements OnInit {
   }
 
   convertFatigue(vitality, fatigue) {
+    if (isNaN(vitality)) {
+      return 'N'
+    }
+    
     let percentage = .00;
     switch (fatigue) {
       case 'H':
