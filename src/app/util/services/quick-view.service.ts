@@ -21,6 +21,7 @@ export class QuickViewService {
       results = this.modifyVitality(results)
       results.vitalityArray = []
       results.vitalityArray.push({ locationCheckboxes: results.locationCheckboxes, label: "" })
+      results.averageVitality = results.vitalityArray[0].locationCheckboxes.mainVitality.average
       if (results.role) {
         results.roleinfo = this.combatRolesInfo[results.role]
       }

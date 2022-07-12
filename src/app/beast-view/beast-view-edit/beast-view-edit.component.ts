@@ -1306,9 +1306,10 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   updateSkillPoints = (skill, oldvalue, newvalue) => {
-    if (newvalue && oldvalue) {
+    console.log(skill, newvalue, oldvalue)
+    if (newvalue && !isNaN(+newvalue)) {
+      oldvalue = oldvalue ? oldvalue : 0
       let value = +newvalue - +oldvalue
-
       if (this.combatSkills.includes(skill)) {
         if (this.selectedRoleId) {
           this.beast.roleInfo[this.selectedRoleId].combatpoints += value

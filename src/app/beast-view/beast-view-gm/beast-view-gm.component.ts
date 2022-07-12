@@ -705,8 +705,8 @@ export class BeastViewGmComponent implements OnInit {
     if (typeof (defMod) === 'string' && defMod.includes('+')) {
       defMod = +defMod.replace('/+/gi', '')
     }
-
-    let defBase = this.selectedRole.def ? this.selectedRole.def : 0
+    
+    let defBase = this.selectedRole.def && square.addrolemods ? this.selectedRole.def : 0
     if (square.selectedshield) {
       defBase += square.shieldInfo.def
     }

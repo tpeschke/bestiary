@@ -103,13 +103,13 @@ export class QuickViewDrawerComponent implements OnInit {
 
   displayDamage = (square, roleinfo) => {
     let roleDamage = null
-    if (!square.selectedweapon && square.addrolemods) {
+    if (!square.selectedweapon && square.addrolemods && !square.dontaddroledamage) {
       if (square.weapontype === 'm') {
         roleDamage = roleinfo.damage
       } else {
         roleDamage = roleinfo.rangedDamage
       }
-    } else if (square.addrolemods) {
+    } else if (square.weaponInfo && !square.dontaddroledamage) {
       roleDamage = square.weaponInfo.damage
     }
 
@@ -338,7 +338,7 @@ export class QuickViewDrawerComponent implements OnInit {
       defMod = +defMod.replace('/+/gi', '')
     }
 
-    let defBase = roleinfo.def
+    let defBase = roleinfo.def && square.addrolemods ? roleinfo.def : 0
     if (square.selectedshield) {
       defBase += square.shieldInfo.def
     }

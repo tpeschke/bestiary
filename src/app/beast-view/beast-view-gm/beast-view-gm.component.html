@@ -146,10 +146,10 @@
                       square.measure}}</p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : 0) +
                       square.ranges.increment}}ri <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
-            Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
-            Between {{square.ranges.increment + 1}} ft and {{(square.ranges.increment) * 2}} ft, -2 atk penalty.
-            Between {{((square.ranges.increment) * 2) + 1}} ft and {{(square.ranges.increment) * 3}} ft, -4 atk penalty.
-            and so on." matTooltipClass="my-tooltip"></i></p>
+                        Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
+                        Between {{square.ranges.increment + 1}} ft and {{(square.ranges.increment) * 2}} ft, -2 atk penalty.
+                        Between {{((square.ranges.increment) * 2) + 1}} ft and {{(square.ranges.increment) * 3}} ft, -4 atk penalty.
+                        and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
                   <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
