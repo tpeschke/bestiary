@@ -18,6 +18,7 @@ export class WeaponSquareComponent implements OnInit {
   @Input() copyWeaponSquare: Function;
   @Input() roleVitality: any;
   @Input() mainVitality: any
+  @Input() beastSize: any;
 
   constructor(
     public beastService: BeastService
@@ -27,8 +28,8 @@ export class WeaponSquareComponent implements OnInit {
   public displayedDR = ''
   public displayedShieldDR = ''
   public squareDamageArray = []
-  public equipmentLists = {weapons: [], armor: [], shields: []}
-  public equipmentObjects = {weapons: {}, armor: {}, shields: {}}
+  public equipmentLists = { weapons: [], armor: [], shields: [] }
+  public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
   public showAllEquipment = false
 
   ngOnInit() {
@@ -47,29 +48,29 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   turnOnAllEquipment = () => {
-    let turnOnAllEquipment = false
+    let turnOnAllEquipment = true
     if (this.selectedRole.weapons || this.selectedRole.armor || this.selectedRole.shields) {
       if (this.square.selectedweapon) {
         this.selectedRole.weapons.forEach(weaponCat => {
           let result = weaponCat.items.includes(this.square.selectedweapon)
-          if(!result) {
-            turnOnAllEquipment = true
+          if (result) {
+            turnOnAllEquipment = false
           }
         })
       }
       if (this.square.selectedarmor) {
         this.selectedRole.armor.forEach(armorCat => {
           let result = armorCat.items.includes(this.square.selectedarmor)
-          if(!result) {
-            turnOnAllEquipment = true
+          if (result) {
+            turnOnAllEquipment = false
           }
         })
       }
       if (this.square.selectedshield) {
         this.selectedRole.shields.forEach(shieldCat => {
           let result = shieldCat.items.includes(this.square.selectedshield)
-          if(!result) {
-            turnOnAllEquipment = true
+          if (result) {
+            turnOnAllEquipment = false
           }
         })
       }
@@ -339,7 +340,7 @@ export class WeaponSquareComponent implements OnInit {
     if (this.square.selectedarmor) {
       defBase += this.square.armorInfo.def
     }
-    return defBase + +defMod
+    return defBase + +defMod + this.returnSizeDefenseModifier()
   }
 
   updateBothDisplayDRs = () => {
@@ -383,7 +384,7 @@ export class WeaponSquareComponent implements OnInit {
         equipmentModSlash = this.selectedRole.shield_dr.slash
       }
     }
-    
+
     let adjustedFlat = flat + equipmentModFlat
     let adjustedSlash = slash + equipmentModSlash
     let drString = ''
@@ -410,7 +411,7 @@ export class WeaponSquareComponent implements OnInit {
     } else if (this.square.weaponInfo && !this.square.dontaddroledamage) {
       roleDamage = this.square.weaponInfo.damage
     }
-    
+
     let squareDamage = this.square.newDamage
 
     let diceObject = {
@@ -625,12 +626,12 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   displayName = () => {
-    let {selectedweapon, selectedarmor, selectedshield} = this.square
+    let { selectedweapon, selectedarmor, selectedshield } = this.square
 
     if (selectedweapon && this.square.weaponInfo.type && !selectedweapon.includes('(')) {
       selectedweapon = `${selectedweapon} (${this.square.weaponInfo.type})`
     }
-  
+
     if (selectedweapon && selectedarmor && selectedshield) {
       return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
     } else if (selectedweapon && selectedarmor && !selectedshield) {
@@ -684,4 +685,57 @@ export class WeaponSquareComponent implements OnInit {
     return (vitality * percentage).toFixed(0)
   }
 
+  returnSizeMeasureModifier = () => {
+    switch (this.beastSize) {
+      case "Fine":
+        return -4
+      case "Diminutive":
+        return -3
+      case "Tiny":
+        return -2
+      case "Small":
+        return -1
+      case "Medium":
+        return 0
+      case "Large":
+        return 1
+      case "Huge":
+        return 2
+      case "Giant":
+        return 3
+      case "Enormous":
+        return 4
+      case "Colossal":
+        return 5
+      default:
+        return 0
+    }
+  }
+
+  returnSizeDefenseModifier = () => {
+    switch (this.beastSize) {
+      case "Fine":
+        return 12
+      case "Diminutive":
+        return 9
+      case "Tiny":
+        return 6
+      case "Small":
+        return 3
+      case "Medium":
+        return 0
+      case "Large":
+        return -3
+      case "Huge":
+        return -6
+      case "Giant":
+        return -9
+      case "Enormous":
+        return -12
+      case "Colossal":
+        return -15
+      default:
+        return 0
+    }
+  }
 }

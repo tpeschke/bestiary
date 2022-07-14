@@ -134,7 +134,7 @@
                   square.armorInfo.rec : 0) + square.spd}}</p>
                 <p class="atk">{{square.atk}}</p>
                 <p class="init">{{(square.selectedarmor ? square.armorInfo.init : 0) + square.init}}</p>
-                <p class="def">{{evaluateDefense(square, beast.roleinfo)}}</p>
+                <p class="def">{{evaluateDefense(square, beast.roleinfo, beast.size)}}</p>
                 <p class="fatigue">{{ convertFatigue(beast.averageVitality, square.fatigue) }}</p>
                 <div class="dr">
                   <p>{{displayDR(square.newDR, 'armor', square)}}</p>
@@ -143,7 +143,7 @@
                 </div>
                 <div class="measure">
                   <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : 0) +
-                    square.measure}}</p>
+                    square.measure + returnSizeMeasureModifier(beast.size)}}</p>
                   <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : 0) +
                     square.ranges.increment}}ri <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
                       Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
@@ -165,7 +165,7 @@
                   square.atk}}</p>
                 <p class="init">{{(square.selectedarmor ? square.armorInfo.init : beast.roleinfo.init) + square.init}}
                 </p>
-                <p class="def">{{evaluateDefense(square, beast.roleinfo)}}</p>
+                <p class="def">{{evaluateDefense(square, beast.roleinfo, beast.size)}}</p>
                 <p class="fatigue">{{ convertFatigue(beast.averageVitality, square.fatigue) }}</p>
                 <div class="dr">
                   <p>{{displayDR(square.newDR, 'armor', square)}}</p>
@@ -174,7 +174,7 @@
                 </div>
                 <div class="measure">
                   <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
-                    beast.roleinfo.measure) + square.measure}}</p>
+                    beast.roleinfo.measure) + square.measure + returnSizeMeasureModifier(beast.size)}}</p>
                   <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range :
                     beast.roleinfo.ranges.increment) + square.ranges.increment}}ri <i
                       class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 

@@ -9,3 +9,8 @@ button {
 .square-shell {
     background: whitesmoke;
 }
+
+.input-with-tooltip-shell {
+    width: 220px;
+    display: inline-block;
+}

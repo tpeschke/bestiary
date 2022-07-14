@@ -143,7 +143,7 @@
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : 0) +
-                      square.measure}}</p>
+                      square.measure + returnSizeMeasureModifier()}}</p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : 0) +
                       square.ranges.increment}}ri <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
                         Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
@@ -179,7 +179,7 @@
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
-                      selectedRole.measure) + square.measure}}</p>
+                      selectedRole.measure) + square.measure + returnSizeMeasureModifier()}}</p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range :
                       selectedRole.ranges.increment) + square.ranges.increment}}ri <i
                         class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
