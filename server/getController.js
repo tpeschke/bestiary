@@ -264,7 +264,7 @@ module.exports = {
             beast.conflict = { traits: [], devotions: [], flaws: [], passions: [] }
             result.forEach(val => {
               if (val.type === 't' || !val.type) {
-                if (beast.traitlimit && beast.conflict.traits.length <= beast.traitlimit) {
+                if (beast.traitlimit && beast.conflict.traits.length < beast.traitlimit) {
                   beast.conflict.traits.push(val)
                 } else if (!beast.traitlimit) {
                   beast.conflict.traits.push(val)
