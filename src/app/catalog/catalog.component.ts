@@ -61,6 +61,11 @@ export class CatalogComponent implements OnInit {
     this.quickViewService.addToQuickViewArray(this.targetRoles[index].hash)
   }
 
+  addRandomRoleToQuickView() {
+    let randomIndex = Math.floor(Math.random() * this.targetRoles.length)
+    this.quickViewService.addToQuickViewArray(this.targetRoles[randomIndex].hash)
+  }
+
   displayContextMenu(event, beastid, hash, roles, role, secondaryrole, socialrole, skillrole) {
     this.isDisplayContextMenu = true;
     this.rightClickMenuPositionX = event.clientX;

@@ -72,6 +72,7 @@
             <div *ngFor="let role of targetRoles; let i = index">
                 <p class="roleIndent" (click)="addRoleToQuickView(i)"> - <strong [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)"></strong> to Quick View</p>
             </div>
+            <p class="roleIndent" (click)="addRandomRoleToQuickView()"><i class="fa-solid fa-dice"></i> Add Random Role to Quick View</p>
           </div>
         </div>
 
