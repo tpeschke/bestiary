@@ -131,9 +131,9 @@
             <div *ngIf="(!selectedRole.spd || !square.addrolemods) && !square.showEquipmentSelection">
               <div class="combat-square">
                 <h3 class="weaponName">{{displayName(square)}}<i
-                  *ngIf="square.selectedweapon || square.selectedarmor || square.selectedshield"
-                  (click)="toggleEquipmentSelection(square)" class="fa-solid fa-arrow-right-arrow-left swap-equipment"
-                  matTooltip="Click to swap out gear." matTooltipClass="my-tooltip"></i></h3>
+                    *ngIf="square.selectedweapon || square.selectedarmor || square.selectedshield"
+                    (click)="toggleEquipmentSelection(square)" class="fa-solid fa-arrow-right-arrow-left swap-equipment"
+                    matTooltip="Click to swap out gear." matTooltipClass="my-tooltip"></i></h3>
                 <div class="square-shell">
                   <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : 0) + (square.selectedarmor ?
@@ -289,8 +289,8 @@
                   </mat-form-field>
                 </div>
                 <section>
-                  <mat-checkbox [checked]="showAllEquipment"
-                    (change)="checkShowAllEquipment($event.checked)">Show me all weapons/armor/shields
+                  <mat-checkbox [checked]="showAllEquipment" (change)="checkShowAllEquipment($event.checked)">Show me
+                    all weapons/armor/shields
                   </mat-checkbox>
                 </section>
                 <div class="swap-equipment-buttons">
@@ -571,6 +571,29 @@
                   <tr *ngFor="let row of table.rows; let i = index">
                     <td>{{i === 0 ? 1 : (((table.max / table.rows.length) * (i)) + 1 ).toFixed(0)}} - {{((table.max /
                       table.rows.length) * (i + 1)).toFixed(0)}}</td>
+                    <td colspan="2">{{row}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+
+      <div *ngIf="demonIds.includes(beast.id)">
+        <div class="mutation-shell box-padding">
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let table of demonTables">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <h3>Random {{table.name}}</h3>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <table>
+                <tbody>
+                  <tr *ngFor="let row of table.rows; let i = index">
+                    <td>{{i === 0 ? 1 : (((table.max / table.rows.length) * (i)) + 1 ).toFixed(0)}}</td>
                     <td colspan="2">{{row}}</td>
                   </tr>
                 </tbody>

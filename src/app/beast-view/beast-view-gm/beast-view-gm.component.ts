@@ -8,6 +8,7 @@ import { Title } from "@angular/platform-browser";
 import lootTables from "../loot-tables.js"
 import { QuickViewService } from 'src/app/util/services/quick-view.service';
 import { primaryTables, secondaryTables } from './firbolg-tables'
+import { demonIds, tables as demonTables } from './demon-tables'
 import roles from '../roles.js'
 
 @Component({
@@ -39,7 +40,9 @@ export class BeastViewGmComponent implements OnInit {
   public lairlootpresent = false
   public selectedRoleId = null;
   public primaryTables = primaryTables;
-  public secondaryTables = secondaryTables
+  public secondaryTables = secondaryTables;
+  public demonIds = demonIds
+  public demonTables = demonTables
   public selectedRole: any = {}
   public combatRolesInfo = roles.combatRoles.primary
   public socialRolesInfo = roles.socialRoles
