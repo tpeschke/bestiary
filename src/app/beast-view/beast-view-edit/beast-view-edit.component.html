@@ -321,10 +321,20 @@
                       (change)="captureInput($event, 'conflict', i, 'flaws', 'trait')">
                   </mat-form-field>
                 </h3>
-                <mat-form-field>
-                  <input placeholder="Dice Value" matInput [value]="flaw.value"
-                    (change)="captureInput($event, 'conflict', i, 'flaws', 'value')">
-                </mat-form-field>
+                <div class="flaw-dice-shell">
+                  <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '' || !flaw.value || flaw.value === '1d4!'}"
+                    (click)="captureInput({target: {value: '1d4!'}}, 'conflict', i, 'flaws', 'value')">d4! (2 points)</button>
+                  <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d6!'}"
+                    (click)="captureInput({target: {value: '1d6!'}}, 'conflict', i, 'flaws', 'value')">d6! (3 points)</button>
+                  <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d8!'}"
+                    (click)="captureInput({target: {value: '1d8!'}}, 'conflict', i, 'flaws', 'value')">d8! (4 points)</button>
+                  <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d10!'}"
+                    (click)="captureInput({target: {value: '1d10!'}}, 'conflict', i, 'flaws', 'value')">d10! (5 points)</button>
+                  <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d12!'}"
+                    (click)="captureInput({target: {value: '1d12!'}}, 'conflict', i, 'flaws', 'value')">d12! (6 points)</button>
+                  <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d20!'}"
+                    (click)="captureInput({target: {value: '1d20!'}}, 'conflict', i, 'flaws', 'value')">d20! (10 points)</button>
+                </div>
                 <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'flaws')" color="warn"><i
                     class="fa-solid fa-minus"></i></button>
               </div>

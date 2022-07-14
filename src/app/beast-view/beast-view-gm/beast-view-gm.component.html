@@ -72,7 +72,7 @@
           <div *ngFor="let trait of beast.conflict.flaws; let i = index">
             <div *ngIf="!beast.flawlimit || i < beast.flawlimit" class="flex-row-opposite">
               <h3>{{trait.trait | titlecase}}</h3>
-              <h3>d4!+Stress</h3>
+              <h3>{{trait.value ? trait.value : '1d4!'}}</h3>
             </div>
           </div>
         </div>

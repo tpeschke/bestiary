@@ -410,6 +410,18 @@ mat-toolbar {
     margin-top: 0;
 }
 
+.flaw-dice-shell {
+    display: flex;
+    justify-content: space-between;
+    max-width: 257px;
+    flex-wrap: wrap;
+}
+
+.selected-flaw-value {
+    background: #607d8b;
+    color: whitesmoke;
+}
+
 .square-range-shell {
     display: flex;
     flex-wrap: wrap;

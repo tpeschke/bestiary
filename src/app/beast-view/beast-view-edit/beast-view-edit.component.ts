@@ -340,10 +340,33 @@ export class BeastViewEditComponent implements OnInit {
       }
 
       this.updateCombatPoints(valueChange);
+    } else if (isNaN(newValue)) {
+      let oldValueAsNumber = this.getFlawDiceValue(oldValue)
+      let newValueAsNumber = this.getFlawDiceValue(newValue)
+      this.updateSocialPoints(newValueAsNumber - oldValueAsNumber)
     } else {
       this.updateSocialPoints(+newValue - +oldValue)
     }
 
+  }
+
+  getFlawDiceValue = (dice) => {
+    switch (dice) {
+      case '1d4!':
+        return 2
+      case '1d6!':
+        return 3
+      case '1d8!':
+        return 4
+      case '1d10!':
+        return 5
+      case '1d12!':
+        return 6
+      case '1d20!':
+        return 10
+      default:
+        return 2
+    }
   }
 
   getPanicValue = (panicValue) => {
@@ -1253,7 +1276,7 @@ export class BeastViewEditComponent implements OnInit {
     } else if (this.beast.panic === 7) {
       skillpoints += 2
     }
-    
+
     this.beast.skills.forEach(skill => {
       if (!skill.skillroleid) {
         skillpoints += +skill.rank
@@ -1264,7 +1287,7 @@ export class BeastViewEditComponent implements OnInit {
 
     this.beast.roles.forEach(role => {
       let skillpoints = 0
-      
+
       let panic = role.panic ? role.panic : this.beast.panic
       if (panic === 1) {
         skillpoints -= 8
