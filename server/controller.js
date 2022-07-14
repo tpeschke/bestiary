@@ -339,11 +339,11 @@ let controllerObj = {
       })
       let newConflict = []
       Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
-      newConflict.forEach(({ trait, value, type, socialroleid }) => {
-        promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid).then().catch(e => console.log('----------------------- add beast conflict: ', e)))
+      newConflict.forEach(({ trait, value, type, socialroleid, allroles }) => {
+        promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles).then().catch(e => console.log('----------------------- add beast conflict: ', e)))
       })
-      skills.forEach(({ skill, rank, skillroleid }) => {
-        promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid).then().catch(e => console.log('----------------------- add beast skills: ', e)))
+      skills.forEach(({ skill, rank, skillroleid, allroles }) => {
+        promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid, allroles).then().catch(e => console.log('----------------------- add beast skills: ', e)))
       })
       movement.forEach(({ stroll, walk, jog, run, sprint, type, roleid }) => {
         promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid).then().catch(e => console.log('----------------------- add beast movement: ', e)))
@@ -569,23 +569,23 @@ let controllerObj = {
       // update conflict
       let newConflict = []
       Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
-      newConflict.forEach(({ trait, value, type, id: conflictId, deleted, socialroleid }) => {
+      newConflict.forEach(({ trait, value, type, id: conflictId, deleted, socialroleid, allroles }) => {
         if (deleted) {
           promiseArray.push(db.delete.beastconflict(conflictId).then())
         } else if (!conflictId) {
-          promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid).then())
+          promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles).then())
         } else {
-          promiseArray.push(db.update.beastconflict(id, trait, value, type, conflictId, socialroleid).then())
+          promiseArray.push(db.update.beastconflict(id, trait, value, type, conflictId, socialroleid, allroles).then())
         }
       })
       // update skills
-      skills.forEach(({ skill, rank, id: skillId, deleted, skillroleid }) => {
+      skills.forEach(({ skill, rank, id: skillId, deleted, skillroleid, allroles }) => {
         if (deleted) {
           promiseArray.push(db.delete.beastskill(skillId).then())
         } else if (!skillId) {
-          promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid).then())
+          promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid, allroles).then())
         } else {
-          promiseArray.push(db.update.beastskill(id, skill, rank, skillId, skillroleid).then())
+          promiseArray.push(db.update.beastskill(id, skill, rank, skillId, skillroleid, allroles).then())
         }
       })
       // update movement

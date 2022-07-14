@@ -283,6 +283,14 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  checkAllRoles = (type, index, checked) => {
+    if (type === 'skills') {
+      this.beast[type][index].allroles = checked
+    } else {
+      this.beast.conflict[type][index].allroles = checked
+    }
+  }
+
   captureSelect(event, type, index, secondaryType) {
     if (secondaryType) {
       if (event.value === 'r' && !this.beast[type][index].ranges) {

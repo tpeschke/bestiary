@@ -48,7 +48,7 @@
           <h2>Traits</h2>
           <div class="divider"></div>
           <div *ngFor="let trait of beast.conflict.traits; let i = index">
-            <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid">
+            <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
               <h3>{{trait.trait | titlecase}}</h3>
               <h3>{{trait.value}}</h3>
             </div>
@@ -93,7 +93,7 @@
         <h2>Skills</h2>
         <div class="divider"></div>
         <div *ngFor="let skill of beast.skills; let i = index">
-          <div class="flex-row-opposite" *ngIf="selectedRoleId === skill.skillroleid">
+          <div class="flex-row-opposite" *ngIf="selectedRoleId === skill.skillroleid || skill.allroles">
             <h3>{{skill.skill}}</h3>
             <h3>{{skill.rank}}</h3>
           </div>

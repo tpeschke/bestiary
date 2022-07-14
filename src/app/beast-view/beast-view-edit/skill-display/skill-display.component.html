@@ -23,5 +23,8 @@
     <input placeholder="Skill Rank" matInput [value]="skillInfo.rank"
       (change)="captureInput($event, 'skills', i, 'rank')">
   </mat-form-field>
+  <section>
+    <mat-checkbox [checked]="skillInfo.allroles" (change)="checkAllRoles('skills', i, $event.checked)">Add to all Roles</mat-checkbox>
+  </section>
   <button mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn"><i class="fa-solid fa-minus"></i></button>
 </div>

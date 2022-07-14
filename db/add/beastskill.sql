@@ -1,2 +1,2 @@
-insert into bbskills (beastid, skill, rank, skillroleid) 
-values  ($1, $2, $3, $4)
+insert into bbskills (beastid, skill, rank, skillroleid, allroles) 
+values  ($1, $2, $3, $4, $5)

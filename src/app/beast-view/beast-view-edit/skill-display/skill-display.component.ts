@@ -16,6 +16,7 @@ export class SkillDisplayComponent implements OnInit {
   @Input() i: any;
   @Input() selectedSkillRole: any;
   @Input() combatSkills: string[]
+  @Input() checkAllRoles: Function;
 
   constructor() { }
 
