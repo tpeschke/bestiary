@@ -378,6 +378,10 @@ mat-toolbar {
     color: #607d8b !important;
 }
 
+.orange {
+    color: #ff5722 !important
+}
+
 .margin-left-small {
     margin-left: 5px;
     font-size: 10px

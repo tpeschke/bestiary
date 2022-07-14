@@ -264,6 +264,31 @@
     color: #607d8b !important;
 }
 
+.orange {
+    color: #ff5722 !important
+}
+
+.swap-equipment {
+    font-size: 10px;
+    margin-left: 5px;
+    cursor: pointer
+}
+
+.swap-equipment:hover {
+    transition: .6s;
+    color: lightgray !important;
+}
+
+.swap-equipment-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.swap-equipment-buttons i {
+    cursor: pointer
+}
+
 h2 {
     font-family: 'know';
 }

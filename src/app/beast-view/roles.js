@@ -560,7 +560,7 @@ export default {
                     },
                     {
                         label: 'Not Preferred Choice',
-                        items: ['Buff coat']
+                        items: ['Buff Coat']
                     }
                 ],
                 shields: [

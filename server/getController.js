@@ -223,7 +223,7 @@ module.exports = {
         promiseArray.push(db.get.beastcombat(id).then(result => {
           beast.combat = result.map(weapon => {
             let newWeaponInfo = {
-              newDR: {}, newShieldDr: {}, newDR: {}
+              newDR: {}, newShieldDr: {}, newDR: {}, showEquipmentSelection: false
             }
             newWeaponInfo.newDR = processDR(weapon.dr, weapon.flat, weapon.slash)
             newWeaponInfo.newShieldDr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash)

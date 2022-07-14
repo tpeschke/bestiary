@@ -45,6 +45,17 @@ export class BeastViewGmComponent implements OnInit {
   public socialRolesInfo = roles.socialRoles
   public skillRolesInfo = roles.skillRoles
 
+  public equipmentLists = { weapons: [], armor: [], shields: [] }
+  public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
+
+  public newSelectedWeapon;
+  public newWeaponInfo;
+  public newSelectedArmor;
+  public newArmorInfo
+  public newSelectedShield;
+  public newShieldInfo;
+  public showAllEquipment;
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
@@ -84,6 +95,11 @@ export class BeastViewGmComponent implements OnInit {
       this.trauma = +(this.trauma / 2).toFixed(0);
 
       this.getLairLoot()
+
+      this.beastService.getEquipment().subscribe(res => {
+        this.equipmentLists = res.lists
+        this.equipmentObjects = res.objects
+      })
 
       if (this.beast.role) {
         this.selectedRole = this.combatRolesInfo[this.beast.role]
@@ -479,19 +495,37 @@ export class BeastViewGmComponent implements OnInit {
     let equipmentModFlat = 0
     let equipmentModSlash = 0
 
-    if (type === 'armor' && square.selectedarmor) {
-      equipmentModFlat = square.armorInfo.dr.flat
-      equipmentModSlash = square.armorInfo.dr.slash
-    } else if (type === 'shield' && square.selectedshield) {
-      equipmentModFlat = square.shieldInfo.dr.flat
-      equipmentModSlash = square.shieldInfo.dr.slash
-    } else if (this.selectedRoleId) {
-      if (type === 'armor') {
-        equipmentModFlat = this.selectedRole.dr.flat
-        equipmentModSlash = this.selectedRole.dr.slash
-      } else if (type === 'shield') {
-        equipmentModFlat = this.selectedRole.shield_dr.flat
-        equipmentModSlash = this.selectedRole.shield_dr.slash
+    if (!square.showEquipmentSelection) {
+      if (type === 'armor' && square.selectedarmor) {
+        equipmentModFlat = square.armorInfo.dr.flat
+        equipmentModSlash = square.armorInfo.dr.slash
+      } else if (type === 'shield' && square.selectedshield) {
+        equipmentModFlat = square.shieldInfo.dr.flat
+        equipmentModSlash = square.shieldInfo.dr.slash
+      } else if (this.selectedRoleId) {
+        if (type === 'armor') {
+          equipmentModFlat = this.selectedRole.dr.flat
+          equipmentModSlash = this.selectedRole.dr.slash
+        } else if (type === 'shield') {
+          equipmentModFlat = this.selectedRole.shield_dr.flat
+          equipmentModSlash = this.selectedRole.shield_dr.slash
+        }
+      }
+    } else {
+      if (type === 'armor' && this.newSelectedArmor) {
+        equipmentModFlat = this.newArmorInfo.dr.flat
+        equipmentModSlash = this.newArmorInfo.dr.slash
+      } else if (type === 'shield' && this.newSelectedShield) {
+        equipmentModFlat = this.newShieldInfo.dr.flat
+        equipmentModSlash = this.newShieldInfo.dr.slash
+      } else if (this.selectedRoleId) {
+        if (type === 'armor') {
+          equipmentModFlat = this.selectedRole.dr.flat
+          equipmentModSlash = this.selectedRole.dr.slash
+        } else if (type === 'shield') {
+          equipmentModFlat = this.selectedRole.shield_dr.flat
+          equipmentModSlash = this.selectedRole.shield_dr.slash
+        }
       }
     }
 
@@ -512,14 +546,27 @@ export class BeastViewGmComponent implements OnInit {
   
   displayDamage = (square) => {
     let roleDamage = null
-    if (!square.selectedweapon && !square.dontaddroledamage && square.addrolemods) {
-      if (square.weapontype === 'm') {
-        roleDamage = this.selectedRole.damage
-      } else {
-        roleDamage = this.selectedRole.rangedDamage
+
+    if (!square.showEquipmentSelection) {
+      if (!square.selectedweapon && !square.dontaddroledamage && square.addrolemods) {
+        if (square.weapontype === 'm') {
+          roleDamage = this.selectedRole.damage
+        } else {
+          roleDamage = this.selectedRole.rangedDamage
+        }
+      } else if (square.weaponInfo && !square.dontaddroledamage) {
+        roleDamage = square.weaponInfo.damage
       }
-    } else if (square.weaponInfo && !square.dontaddroledamage) {
-      roleDamage = square.weaponInfo.damage
+    } else {
+      if (!this.newSelectedWeapon && !square.dontaddroledamage && square.addrolemods) {
+        if (square.weapontype === 'm') {
+          roleDamage = this.selectedRole.damage
+        } else {
+          roleDamage = this.selectedRole.rangedDamage
+        }
+      } else if (this.newWeaponInfo && !square.dontaddroledamage) {
+        roleDamage = this.newWeaponInfo.damage
+      }
     }
 
     let squareDamage = square.newDamage
@@ -772,5 +819,98 @@ export class BeastViewGmComponent implements OnInit {
       default:
         return 0
     }
+  }
+
+  toggleEquipmentSelection = (square) => {
+    if (!square.showEquipmentSelection) {
+      this.newSelectedWeapon = square.selectedweapon
+      this.newWeaponInfo = square.weaponInfo
+      this.newSelectedArmor = square.selectedarmor
+      this.newArmorInfo = square.armorInfo
+      this.newSelectedShield = square.selectedshield
+      this.newShieldInfo = square.shieldInfo
+      this.showAllEquipment = this.turnOnAllEquipment()
+    } else if (square.showEquipmentSelection) {
+      square.selectedweapon = this.newSelectedWeapon
+      square.weaponInfo = this.newWeaponInfo
+      if (square.weaponInfo.range) {
+        square.weapontype = 'r'
+        if (!square.ranges) {
+          square.ranges = { increment: 0 }
+        }
+      } else {
+        square.weapontype = 'm'
+      }
+      square.selectedarmor = this.newSelectedArmor
+      square.armorInfo = this.newArmorInfo 
+      square.selectedshield = this.newSelectedShield
+      square.shieldInfo = this.newShieldInfo
+    }
+    square.showEquipmentSelection = !square.showEquipmentSelection
+  }
+
+  backoutOfEquipmentSelection = (square) => {
+    this.newSelectedWeapon = null
+    this.newWeaponInfo = null
+    this.newSelectedArmor = null
+    this.newArmorInfo = null
+    this.newSelectedShield = null
+    this.newShieldInfo = null
+    this.showAllEquipment = false
+    square.showEquipmentSelection = false
+  }
+
+  captureEquipmentChange = ({value}, type) => {
+    if (type === 'selectedweapon') {
+      this.newSelectedWeapon = value
+      this.newWeaponInfo = this.equipmentObjects.weapons[value]
+      if (this.newWeaponInfo && this.newWeaponInfo.range) {
+        this.newWeaponInfo.weapontype = 'r'
+      } else {
+        this.newWeaponInfo.weapontype = 'm'
+      }
+    } else if (type === 'selectedarmor') {
+      this.newSelectedArmor = value
+      this.newArmorInfo = this.equipmentObjects.armor[value]
+    } else if (type === 'selectedshield') {
+      this.newSelectedShield = value
+      this.newShieldInfo = this.equipmentObjects.shields[value]
+    }
+  }
+
+  turnOnAllEquipment = () => {
+    let turnOnAllEquipment = true
+    if (this.selectedRole.weapons || this.selectedRole.armor || this.selectedRole.shields) {
+      if (this.newSelectedWeapon) {
+        this.selectedRole.weapons.forEach(weaponCat => {
+          let result = weaponCat.items.includes(this.newSelectedWeapon)
+          if (result) {
+            turnOnAllEquipment = false
+          }
+        })
+      }
+      if (this.newSelectedArmor) {
+        this.selectedRole.armor.forEach(armorCat => {
+          let result = armorCat.items.includes(this.newSelectedArmor)
+          if (result) {
+            turnOnAllEquipment = false
+          }
+        })
+      }
+      if (this.newSelectedShield) {
+        this.selectedRole.shields.forEach(shieldCat => {
+          let result = shieldCat.items.includes(this.newSelectedShield)
+          if (result) {
+            turnOnAllEquipment = false
+          }
+        })
+      }
+    }
+
+    return turnOnAllEquipment
+  }
+
+  checkShowAllEquipment = (checked) => {
+    this.showAllEquipment = checked
   }
 }

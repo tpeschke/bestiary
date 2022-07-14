@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { QuickViewService } from 'src/app/util/services/quick-view.service';
 import roles from '../beast-view/roles.js'
 import { MatExpansionPanel } from '@angular/material';
+import { BeastService } from '../util/services/beast.service.js';
 
 @Component({
   selector: 'app-quick-view-drawer',
@@ -13,6 +14,7 @@ export class QuickViewDrawerComponent implements OnInit {
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
 
   constructor(
+    private beastService: BeastService,
     private router: Router,
     private quickViewService: QuickViewService
   ) { }
@@ -20,9 +22,25 @@ export class QuickViewDrawerComponent implements OnInit {
   private quickViewListIsOpen = false
   private isTrackedInCombatCounter = false
 
+  public equipmentLists = { weapons: [], armor: [], shields: [] }
+  public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
+
+  public newSelectedWeapon;
+  public newWeaponInfo;
+  public newSelectedArmor;
+  public newArmorInfo
+  public newSelectedShield;
+  public newShieldInfo;
+  public showAllEquipment;
+
   ngOnInit() { }
 
   toggleQuickViewList() {
+    this.beastService.getEquipment().subscribe(res => {
+      this.equipmentLists = res.lists
+      this.equipmentObjects = res.objects
+    })
+    
     this.quickViewListIsOpen = !this.quickViewListIsOpen
     if (!this.quickViewListIsOpen) {
       this.viewPanels.forEach(p => p.close());
@@ -107,14 +125,27 @@ export class QuickViewDrawerComponent implements OnInit {
 
   displayDamage = (square, roleinfo) => {
     let roleDamage = null
-    if (!square.selectedweapon && square.addrolemods && !square.dontaddroledamage) {
-      if (square.weapontype === 'm') {
-        roleDamage = roleinfo.damage
-      } else {
-        roleDamage = roleinfo.rangedDamage
+
+    if (!square.showEquipmentSelection) {
+      if (!square.selectedweapon && !square.dontaddroledamage && square.addrolemods) {
+        if (square.weapontype === 'm') {
+          roleDamage = roleinfo.damage
+        } else {
+          roleDamage = roleinfo.rangedDamage
+        }
+      } else if (square.weaponInfo && !square.dontaddroledamage) {
+        roleDamage = square.weaponInfo.damage
       }
-    } else if (square.weaponInfo && !square.dontaddroledamage) {
-      roleDamage = square.weaponInfo.damage
+    } else {
+      if (!this.newSelectedWeapon && !square.dontaddroledamage && square.addrolemods) {
+        if (square.weapontype === 'm') {
+          roleDamage = roleinfo.damage
+        } else {
+          roleDamage = roleinfo.rangedDamage
+        }
+      } else if (this.newWeaponInfo && !square.dontaddroledamage) {
+        roleDamage = this.newWeaponInfo.damage
+      }
     }
 
     let squareDamage = square.newDamage
@@ -272,20 +303,38 @@ export class QuickViewDrawerComponent implements OnInit {
 
     let equipmentModFlat = 0
     let equipmentModSlash = 0
-
-    if (type === 'armor' && square.selectedarmor) {
-      equipmentModFlat = square.armorInfo.dr.flat
-      equipmentModSlash = square.armorInfo.dr.slash
-    } else if (type === 'shield' && square.selectedshield) {
-      equipmentModFlat = square.shieldInfo.dr.flat
-      equipmentModSlash = square.shieldInfo.dr.slash
-    } else if (roleinfo && square.addrolemods) {
-      if (type === 'armor') {
-        equipmentModFlat = roleinfo.dr.flat
-        equipmentModSlash = roleinfo.dr.slash
-      } else if (type === 'shield') {
-        equipmentModFlat = roleinfo.shield_dr.flat
-        equipmentModSlash = roleinfo.shield_dr.slash
+    
+    if (!square.showEquipmentSelection) {
+      if (type === 'armor' && square.selectedarmor) {
+        equipmentModFlat = square.armorInfo.dr.flat
+        equipmentModSlash = square.armorInfo.dr.slash
+      } else if (type === 'shield' && square.selectedshield) {
+        equipmentModFlat = square.shieldInfo.dr.flat
+        equipmentModSlash = square.shieldInfo.dr.slash
+      } else if (roleinfo && square.addrolemods) {
+        if (type === 'armor') {
+          equipmentModFlat = roleinfo.dr.flat
+          equipmentModSlash = roleinfo.dr.slash
+        } else if (type === 'shield') {
+          equipmentModFlat = roleinfo.shield_dr.flat
+          equipmentModSlash = roleinfo.shield_dr.slash
+        }
+      }
+    } else {
+      if (type === 'armor' && this.newSelectedArmor) {
+        equipmentModFlat = this.newArmorInfo.dr.flat
+        equipmentModSlash = this.newArmorInfo.dr.slash
+      } else if (type === 'shield' && this.newSelectedShield) {
+        equipmentModFlat = this.newShieldInfo.dr.flat
+        equipmentModSlash = this.newShieldInfo.dr.slash
+      } else if (roleinfo && square.addrolemods) {
+        if (type === 'armor') {
+          equipmentModFlat = roleinfo.dr.flat
+          equipmentModSlash = roleinfo.dr.slash
+        } else if (type === 'shield') {
+          equipmentModFlat = roleinfo.shield_dr.flat
+          equipmentModSlash = roleinfo.shield_dr.slash
+        }
       }
     }
 
@@ -404,5 +453,98 @@ export class QuickViewDrawerComponent implements OnInit {
       default:
         return 0
     }
+  }
+
+  toggleEquipmentSelection = (square, roleInfo) => {
+    if (!square.showEquipmentSelection) {
+      this.newSelectedWeapon = square.selectedweapon
+      this.newWeaponInfo = square.weaponInfo
+      this.newSelectedArmor = square.selectedarmor
+      this.newArmorInfo = square.armorInfo
+      this.newSelectedShield = square.selectedshield
+      this.newShieldInfo = square.shieldInfo
+      this.showAllEquipment = this.turnOnAllEquipment(roleInfo)
+    } else if (square.showEquipmentSelection) {
+      square.selectedweapon = this.newSelectedWeapon
+      square.weaponInfo = this.newWeaponInfo
+      if (square.weaponInfo.range) {
+        square.weapontype = 'r'
+        if (!square.ranges) {
+          square.ranges = { increment: 0 }
+        }
+      } else {
+        square.weapontype = 'm'
+      }
+      square.selectedarmor = this.newSelectedArmor
+      square.armorInfo = this.newArmorInfo 
+      square.selectedshield = this.newSelectedShield
+      square.shieldInfo = this.newShieldInfo
+    }
+    square.showEquipmentSelection = !square.showEquipmentSelection
+  }
+
+  backoutOfEquipmentSelection = (square) => {
+    this.newSelectedWeapon = null
+    this.newWeaponInfo = null
+    this.newSelectedArmor = null
+    this.newArmorInfo = null
+    this.newSelectedShield = null
+    this.newShieldInfo = null
+    this.showAllEquipment = false
+    square.showEquipmentSelection = false
+  }
+
+  captureEquipmentChange = ({value}, type) => {
+    if (type === 'selectedweapon') {
+      this.newSelectedWeapon = value
+      this.newWeaponInfo = this.equipmentObjects.weapons[value]
+      if (this.newWeaponInfo && this.newWeaponInfo.range) {
+        this.newWeaponInfo.weapontype = 'r'
+      } else {
+        this.newWeaponInfo.weapontype = 'm'
+      }
+    } else if (type === 'selectedarmor') {
+      this.newSelectedArmor = value
+      this.newArmorInfo = this.equipmentObjects.armor[value]
+    } else if (type === 'selectedshield') {
+      this.newSelectedShield = value
+      this.newShieldInfo = this.equipmentObjects.shields[value]
+    }
+  }
+
+  turnOnAllEquipment = (roleInfo) => {
+    let turnOnAllEquipment = true
+    if (roleInfo.weapons || roleInfo.armor || roleInfo.shields) {
+      if (this.newSelectedWeapon) {
+        roleInfo.weapons.forEach(weaponCat => {
+          let result = weaponCat.items.includes(this.newSelectedWeapon)
+          if (result) {
+            turnOnAllEquipment = false
+          }
+        })
+      }
+      if (this.newSelectedArmor) {
+        roleInfo.armor.forEach(armorCat => {
+          let result = armorCat.items.includes(this.newSelectedArmor)
+          if (result) {
+            turnOnAllEquipment = false
+          }
+        })
+      }
+      if (this.newSelectedShield) {
+        roleInfo.shields.forEach(shieldCat => {
+          let result = shieldCat.items.includes(this.newSelectedShield)
+          if (result) {
+            turnOnAllEquipment = false
+          }
+        })
+      }
+    }
+
+    return turnOnAllEquipment
+  }
+
+  checkShowAllEquipment = (checked) => {
+    this.showAllEquipment = checked
   }
 }
