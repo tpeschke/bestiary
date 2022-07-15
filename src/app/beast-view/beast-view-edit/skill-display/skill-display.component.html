@@ -1,5 +1,6 @@
 <div class="conflict-shell edit-shell-box">
-  <img *ngIf="combatSkills.includes(skillInfo.skill)" class="combat-corner-icon" src="./assets/combatskillicon.svg" alt="combat role type" width="17" height="17" matTooltip="This is a combat skill so it also adds to the monster's Combat Rating.">
+  <img *ngIf="combatSkills.includes(skillInfo.skill)" class="combat-corner-icon" src="./assets/combatskillicon.svg" alt="combat role type" width="17" height="17" matTooltip="This is also a combat skill so it also adds to the monster's Combat Rating.">
+  <img *ngIf="socialSkills.includes(skillInfo.skill)" class="combat-corner-icon" src="./assets/socialskillicon.svg" alt="social role type" width="17" height="17" matTooltip="This is also a social skill so it also adds to the monster's Confrontation Rating.">
   <h3>
     <mat-form-field>
       <input placeholder="Skill Name" matInput [value]="skillInfo.skill"

@@ -489,7 +489,7 @@
             [ngClass]="{'noDisplay': !(!skill.deleted && selectedRoleId === skill.skillroleid)}">
             <app-skill-display [skillInfo]="skill" [captureInput]="captureInput"
               [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [selectedSkillRole]="selectedSkillRole"
-              [combatSkills]="combatSkills" [checkAllRoles]="checkAllRoles"></app-skill-display>
+              [combatSkills]="combatSkills" [checkAllRoles]="checkAllRoles" [socialSkills]="socialSkills"></app-skill-display>
           </div>
         </div>
         <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">ADD SKILL</button>
@@ -546,23 +546,7 @@
           <div *ngIf="selectedRole.description">
             <p><strong>Description: </strong> {{selectedRole.description}}</p>
           </div>
-
-          <div class="combat-shell">
-            <div *ngFor="let square of beast.combat; let i = index">
-              <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
-                <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
-                  [updateCombatPoints]="updateCombatPoints" [index]="i"
-                  [roleVitality]="selectedRoleId ? beast.roleInfo[this.selectedRoleId].average : null"
-                  [mainVitality]="averageVitality" [removeNewSecondaryItem]="removeNewSecondaryItem"
-                  [copyWeaponSquare]="copyWeaponSquare" [beastSize]="beast.size">
-                </app-weapon-square>
-              </div>
-            </div>
-            <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">ADD WEAPON</button>
-          </div>
-
           <br>
-          <h2>Vitality</h2>
           <div class="divider"></div>
           <mat-form-field class="long-field">
             <div *ngIf="selectedRoleId">
@@ -597,6 +581,22 @@
           </div>
           <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION
             VITALITY</button>
+
+          <br>
+          <br>
+          <div class="combat-shell">
+            <div *ngFor="let square of beast.combat; let i = index">
+              <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
+                <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
+                  [updateCombatPoints]="updateCombatPoints" [index]="i"
+                  [roleVitality]="selectedRoleId ? beast.roleInfo[this.selectedRoleId].average : null"
+                  [mainVitality]="averageVitality" [removeNewSecondaryItem]="removeNewSecondaryItem"
+                  [copyWeaponSquare]="copyWeaponSquare" [beastSize]="beast.size">
+                </app-weapon-square>
+              </div>
+            </div>
+            <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">ADD WEAPON</button>
+          </div>
 
           <div class="vitals-shell">
             <h3 class="blue">Movement</h3>

@@ -100,7 +100,8 @@ export class BeastViewEditComponent implements OnInit {
   skillRolesInfo = roles.skillRoles;
   public combatRolesSecondary = ['Captain', 'Controller', 'Solo']
 
-  public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Acrobatics', 'Escape Artist', 'Warfare']
+  public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Acrobatics', 'Escape Artist', 'Warfare', 'Rally']
+  public socialSkills = ['Deception', 'Intuition', 'Perception', 'Leadership', 'Articulation', 'Performance']
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -1229,6 +1230,12 @@ export class BeastViewEditComponent implements OnInit {
       }
     })
 
+    this.beast.skills.forEach(skill => {
+      if (!skill.skillroleid && this.socialSkills.includes(skill.skill)) {
+        socialpoints += +skill.rank
+      }
+    })
+
     this.beast.socialpoints = socialpoints
 
     this.beast.roles.forEach(role => {
@@ -1260,6 +1267,12 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.conflict.traits.forEach(trait => {
         if (trait.socialroleid === role.id) {
           socialpoints += +trait.value
+        }
+      })
+
+      this.beast.skills.forEach(skill => {
+        if (skill.skillroleid === role.id && this.socialRoles.includes(skill.skill)) {
+          socialpoints += +skill.rank
         }
       })
 
@@ -1337,7 +1350,6 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   updateSkillPoints = (skill, oldvalue, newvalue) => {
-    console.log(skill, newvalue, oldvalue)
     if (newvalue && !isNaN(+newvalue)) {
       oldvalue = oldvalue ? oldvalue : 0
       let value = +newvalue - +oldvalue
@@ -1348,6 +1360,15 @@ export class BeastViewEditComponent implements OnInit {
           this.beast.combatpoints += value
         }
       }
+
+      if (this.socialSkills.includes(skill)) {
+        if (this.selectedRoleId) {
+          this.beast.roleInfo[this.selectedRoleId].socialpoints += value
+        } else {
+          this.beast.socialpoints += value
+        }
+      }
+
       if (this.selectedRoleId) {
         this.beast.roleInfo[this.selectedRoleId].skillpoints += value
       } else {
