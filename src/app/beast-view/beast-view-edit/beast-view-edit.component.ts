@@ -1008,7 +1008,7 @@ export class BeastViewEditComponent implements OnInit {
         } else if (fatigue === 'A') {
           combatpoints -= 16
         }
-        combatpoints += eval(def)
+        // combatpoints += evaluateDefense(def)
         combatpoints += newDR.flat
         combatpoints += (newDR.slash * 4)
         combatpoints += ((parry + newShieldDr.flat) / 2)
@@ -1152,7 +1152,7 @@ export class BeastViewEditComponent implements OnInit {
             } else if (fatigue === 'A') {
               combatpoints -= 16
             }
-            combatpoints += eval(def)
+            // combatpoints += evaluateDefense(def)
             combatpoints += newDR.flat
             combatpoints += (newDR.slash * 4)
             combatpoints += ((parry + newShieldDr.flat) / 2)

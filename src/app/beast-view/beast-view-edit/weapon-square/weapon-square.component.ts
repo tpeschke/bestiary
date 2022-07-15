@@ -48,35 +48,43 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   turnOnAllEquipment = () => {
-    let turnOnAllEquipment = true
+    let turnOnWeapons = false
+    let turnOnArmor = false
+    let turnOnShields = false
     if (this.selectedRole.weapons || this.selectedRole.armor || this.selectedRole.shields) {
       if (this.square.selectedweapon) {
         this.selectedRole.weapons.forEach(weaponCat => {
           let result = weaponCat.items.includes(this.square.selectedweapon)
-          if (result) {
-            turnOnAllEquipment = false
+          if (!result) {
+            turnOnWeapons = true
+          } else {
+            turnOnWeapons = false
           }
         })
       }
       if (this.square.selectedarmor) {
         this.selectedRole.armor.forEach(armorCat => {
           let result = armorCat.items.includes(this.square.selectedarmor)
-          if (result) {
-            turnOnAllEquipment = false
+          if (!result) {
+            turnOnArmor = true
+          } else {
+            turnOnArmor = false
           }
         })
       }
       if (this.square.selectedshield) {
         this.selectedRole.shields.forEach(shieldCat => {
           let result = shieldCat.items.includes(this.square.selectedshield)
-          if (result) {
-            turnOnAllEquipment = false
+          if (!result) {
+            turnOnShields = true
+          } else {
+            turnOnShields = false
           }
         })
       }
     }
 
-    this.showAllEquipment = turnOnAllEquipment
+    this.showAllEquipment = (turnOnWeapons || turnOnArmor || turnOnShields)
   }
 
   captureInput = (event, primary, secondary) => {
@@ -331,6 +339,8 @@ export class WeaponSquareComponent implements OnInit {
     let defMod = this.square.def
     if (typeof (defMod) === 'string' && defMod.includes('+')) {
       defMod = +defMod.replace('/+/gi', '')
+    } else if (typeof (defMod) === 'string') {
+      defMod = 2
     }
 
     let defBase = this.selectedRole.def && this.square.addrolemods ? this.selectedRole.def : 0
@@ -340,6 +350,7 @@ export class WeaponSquareComponent implements OnInit {
     if (this.square.selectedarmor) {
       defBase += this.square.armorInfo.def
     }
+
     return defBase + +defMod + this.returnSizeDefenseModifier()
   }
 
