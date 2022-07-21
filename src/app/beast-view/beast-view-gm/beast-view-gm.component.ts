@@ -767,10 +767,13 @@ export class BeastViewGmComponent implements OnInit {
     if (square.selectedarmor) {
       defBase += square.armorInfo.def
     }
-    return defBase + +defMod + this.returnSizeDefenseModifier()
+    return defBase + +defMod + this.returnSizeDefenseModifier(square)
   }
   
-  returnSizeMeasureModifier = () => {
+  returnSizeMeasureModifier = (square) => {
+    if (!square.addrolemods) {
+      return 0
+    }
     switch (this.beast.size) {
       case "Fine":
         return -4
@@ -797,7 +800,10 @@ export class BeastViewGmComponent implements OnInit {
     }
   }
 
-  returnSizeDefenseModifier = () => {
+  returnSizeDefenseModifier = (square) => {
+    if (!square.addrolemods) {
+      return 0
+    }
     switch (this.beast.size) {
       case "Fine":
         return 12

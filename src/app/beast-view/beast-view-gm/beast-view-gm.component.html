@@ -149,7 +149,7 @@
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : 0) +
-                      square.measure + returnSizeMeasureModifier()}}</p>
+                      square.measure + returnSizeMeasureModifier(square)}}</p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : 0) +
                       square.ranges.increment}}ri <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
                         Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
@@ -188,7 +188,7 @@
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
-                      selectedRole.measure) + square.measure + returnSizeMeasureModifier()}}</p>
+                      selectedRole.measure) + square.measure + returnSizeMeasureModifier(square)}}</p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range :
                       selectedRole.ranges.increment) + square.ranges.increment}}ri <i
                         class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
@@ -323,7 +323,7 @@
                 <div class="measure">
                   <p *ngIf="newWeaponInfo.weapontype !== 'r'">{{(newSelectedWeapon ? newWeaponInfo.measure :
                     selectedRole.measure
-                    && square.addrolemods ? selectedRole.measure : 0) + square.measure + returnSizeMeasureModifier()}}
+                    && square.addrolemods ? selectedRole.measure : 0) + square.measure + returnSizeMeasureModifier(square)}}
                   </p>
                   <p *ngIf="newWeaponInfo.weapontype === 'r'">{{(newSelectedWeapon ? newWeaponInfo.range :
                     selectedRole.ranges &&

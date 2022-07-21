@@ -697,6 +697,9 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   returnSizeMeasureModifier = () => {
+    if (!this.square.addrolemods) {
+      return 0
+    }
     switch (this.beastSize) {
       case "Fine":
         return -4
@@ -724,6 +727,9 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   returnSizeDefenseModifier = () => {
+    if (!this.square.addrolemods) {
+      return 0
+    }
     switch (this.beastSize) {
       case "Fine":
         return 12

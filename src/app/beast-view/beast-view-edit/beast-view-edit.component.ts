@@ -101,7 +101,7 @@ export class BeastViewEditComponent implements OnInit {
   public combatRolesSecondary = ['Captain', 'Controller', 'Solo']
 
   public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Acrobatics', 'Escape Artist', 'Warfare', 'Rally']
-  public socialSkills = ['Deception', 'Intuition', 'Perception', 'Leadership', 'Articulation', 'Performance']
+  public socialSkills = ['Deception', 'Intuition', 'Perception', 'Leadership', 'Articulation', 'Performance', 'Language (All)', 'Language']
 
   ngOnInit() {
     this.route.data.subscribe(data => {
