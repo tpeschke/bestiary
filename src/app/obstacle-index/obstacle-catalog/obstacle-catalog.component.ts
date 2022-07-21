@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Title} from "@angular/platform-browser";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ObstaclePopUpComponent } from '../obstacle-pop-up/obstacle-pop-up.component';
 import { MatDialog } from '@angular/material';
 import { DifficultyMatrixComponent } from '../difficulty-matrix/difficulty-matrix.component';
@@ -15,17 +15,25 @@ export class ObstacleCatalogComponent implements OnInit {
 
   constructor(
     private titleService: Title,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private dialog: MatDialog,
   ) { }
 
-  public obstacles = [[{name: "atest"}], [{name: "btest"}], 'c']
+  public obstacles = []
 
   ngOnInit() {
     this.titleService.setTitle("Obstacle Index")
-    this.route.data.subscribe(data => {
+    this.activatedRoute.data.subscribe(data => {
       this.obstacles = data['catalog']
     })
+
+    if ((this.router.url.match(new RegExp("\/", "g")) || []).length === 2) {
+      let id = +this.router.url.split('/')[2]
+      if (!isNaN(id)) {
+        this.dialog.open(ObstaclePopUpComponent, { width: '400px', data: { id }});
+      }
+    }
   }
 
   openObstacle(id, type) {

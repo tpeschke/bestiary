@@ -5,6 +5,7 @@ import variables from '../../../../local.js'
 import { Router } from '@angular/router';
 import mermaid from "mermaid";
 import { ToastrService } from 'ngx-toastr';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-challenge-pop-up',
@@ -23,7 +24,8 @@ export class ChallengePopUpComponent implements OnInit {
     public beastService: BeastService,
     private router: Router,
     private toastr: ToastrService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private titleService: Title,
   ) { }
 
   public challenge: any = {}
@@ -35,6 +37,7 @@ export class ChallengePopUpComponent implements OnInit {
   ngOnInit() {
     this.obstacleService.getObstacle(this.id, 'challenge').subscribe(challenge => {
       this.challenge = challenge
+      this.titleService.setTitle(this.challenge.name)
       setTimeout(() => this.initMermaid(this.challenge.flowchart), 500)
     })
     this.beastService.checkLogin().subscribe(result => {

@@ -4,6 +4,7 @@ import { ObstacleService } from 'src/app/util/services/obstacle.service';
 import variables from '../../../../local.js'
 import { DifficultyMatrixComponent } from '../../difficulty-matrix/difficulty-matrix.component';
 import { MatDialog } from '@angular/material';
+import local from '../../../../local.js'
 
 @Component({
   selector: 'app-obstacle-innards',
@@ -17,7 +18,8 @@ export class ObstacleInnardsComponent implements OnInit {
   constructor(
     public obstacleService: ObstacleService,
     public beastService: BeastService,
-    private dialog: MatDialog,) { }
+    private dialog: MatDialog,
+  ) { }
 
   public obstacle: any = {}
   public loggedIn: boolean | string | number = false;
@@ -41,5 +43,21 @@ export class ObstacleInnardsComponent implements OnInit {
 
   openMatrix() {
     this.dialog.open(DifficultyMatrixComponent)
+  }
+
+  copyLink(id) {
+    console.log(`Obstacle Id: ${id}`)
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = local.endpointBase + '/obstacle/' + id;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.beastService.handleMessage({ message: 'Quick Link Copied', color: 'green' })
   }
 }

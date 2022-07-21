@@ -21,6 +21,7 @@ export class ObstacleSearchResultsComponent implements OnInit {
   public challenges: any = 'loading'
 
   ngOnInit() {
+    this.titleService.setTitle("Obstacle Index")
     let { params } = this.currentRoute.snapshot
     this.obstacleService.searchObstacles(params).subscribe(incomingObstacles => {
       this.obstacles = incomingObstacles.obstacles

@@ -76,6 +76,7 @@ const routes: Routes = [
       { path: 'view/:id', component: ChallengeShellComponent },
       { path: 'edit/:id', component: EditHomeComponent, resolve: { obstacle: GetObstacleService } },
       { path: 'search', component: ObstacleSearchResultsComponent },
+      { path: ':id', component: ObstacleCatalogComponent, resolve: { catalog: CatalogResolverService } },
       { path: '', component: ObstacleCatalogComponent, resolve: { catalog: CatalogResolverService } },
       { path: '**', redirectTo: '' },
     ]

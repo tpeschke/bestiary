@@ -69,6 +69,12 @@
     <quill-view-html [content]="obstacle.notes"></quill-view-html>
   </div>
 
-  <button class="new-button right-most-buttom" *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
-  (click)="goToEdit()">Edit</button>
+  <div class="copy-link-shell">
+    <button class="new-button" *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
+    (click)="goToEdit()"><i class="fa-solid fa-pen-to-square"></i></button>
+    <div *ngIf="loggedIn !== 'owner'"></div>
+
+    <button class="new-button" mat-raised-button color="accent" matTooltip="Get Quick Link for Obstacle"
+    (click)="copyLink(obstacle.id)"><i class="fa-solid fa-link"></i></button>
+  </div>
 </div>
