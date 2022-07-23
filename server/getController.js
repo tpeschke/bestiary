@@ -453,6 +453,8 @@ function processDamage(damageString, isSpecial, hasSpecialAndDamage) {
     hasSpecialAndDamage
   }
 
+  damageString = damageString ? damageString : ''
+
   if (damageString.includes('see') && !isSpecial) {
     newDamage.isSpecial = true
     return newDamage
