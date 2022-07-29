@@ -398,10 +398,13 @@ export class QuickViewDrawerComponent implements OnInit {
     if (square.selectedarmor) {
       defBase += square.armorInfo.def
     }
-    return defBase + +defMod + this.returnSizeDefenseModifier(size)
+    return defBase + +defMod + this.returnSizeDefenseModifier(size, square.addsizemod)
   }
 
-  returnSizeMeasureModifier = (size) => {
+  returnSizeMeasureModifier = (size, addsizemod) => {
+    if (!addsizemod) {
+      return 0
+    }
     switch (size) {
       case "Fine":
         return -4
@@ -428,7 +431,10 @@ export class QuickViewDrawerComponent implements OnInit {
     }
   }
 
-  returnSizeDefenseModifier = (size) => {
+  returnSizeDefenseModifier = (size, addsizemod) => {
+    if (!addsizemod) {
+      return 0
+    }
     switch (size) {
       case "Fine":
         return 12

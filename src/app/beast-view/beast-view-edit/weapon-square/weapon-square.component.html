@@ -14,7 +14,7 @@
         selectedRole.rangedAtk && square.addrolemods ? selectedRole.rangedAtk : 0) + square.atk}}</p>
       <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init && square.addrolemods ?
         selectedRole.init : 0) + square.init}}</p>
-      <p class="def">{{evaluateDefense()}}</p>
+      <p class="def">{{displayedDefense}}</p>
       <p class="fatigue">{{ convertFatigue() }}</p>
       <div class="dr">
         <p>{{displayedDR}}</p>
@@ -52,8 +52,10 @@
   </div>
   <div class="edit-combat-squares-shell-right">
     <section *ngIf="selectedRole.spd">
-      <mat-checkbox [checked]="square.addrolemods" (change)="checkCheckbox('addrolemods', $event.checked)">Role
-        Modifiers Added to This Combat Square</mat-checkbox>
+      <mat-checkbox [checked]="square.addrolemods" (change)="checkCheckbox('addrolemods', $event.checked)">Role Modifiers Added</mat-checkbox>
+    </section>
+    <section>
+      <mat-checkbox [checked]="square.addsizemod" (change)="checkCheckbox('addsizemod', $event.checked)">Size Modifiers Added</mat-checkbox>
     </section>
     <br>
     <div>

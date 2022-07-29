@@ -771,7 +771,7 @@ export class BeastViewGmComponent implements OnInit {
   }
   
   returnSizeMeasureModifier = (square) => {
-    if (!square.addrolemods) {
+    if (!square.addsizemod) {
       return 0
     }
     switch (this.beast.size) {
@@ -801,7 +801,7 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   returnSizeDefenseModifier = (square) => {
-    if (!square.addrolemods) {
+    if (!square.addsizemod) {
       return 0
     }
     switch (this.beast.size) {

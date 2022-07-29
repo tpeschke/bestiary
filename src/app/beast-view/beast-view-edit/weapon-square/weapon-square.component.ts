@@ -27,6 +27,7 @@ export class WeaponSquareComponent implements OnInit {
   public displayedDamage = ''
   public displayedDR = ''
   public displayedShieldDR = ''
+  public displayedDefense = ''
   public squareDamageArray = []
   public equipmentLists = { weapons: [], armor: [], shields: [] }
   public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
@@ -34,6 +35,7 @@ export class WeaponSquareComponent implements OnInit {
 
   ngOnInit() {
     this.turnOnAllEquipment()
+    this.evaluateDefense()
     this.displayDamage()
     this.updateBothDisplayDRs()
     this.beastService.getEquipment().subscribe(res => {
@@ -109,6 +111,9 @@ export class WeaponSquareComponent implements OnInit {
       }
     } else {
       this.square[primary] = +event.target.value
+      if (primary === 'def') {
+        this.evaluateDefense()
+      }
     }
   }
 
@@ -326,9 +331,12 @@ export class WeaponSquareComponent implements OnInit {
       this.displayDamage()
     } if (type === 'addrolemods') {
       this.square[type] = value
+      this.evaluateDefense()
       this.updateBothDisplayDRs()
       this.displayDamage()
-    } if (type === 'showmaxparry') {
+    } if (type === 'addsizemod') {
+      this.square[type] = value
+    }  if (type === 'showmaxparry') {
       this.square[type] = value
     } else {
       this.square.newDamage[type] = value
@@ -339,10 +347,8 @@ export class WeaponSquareComponent implements OnInit {
     let defMod = this.square.def
     if (typeof (defMod) === 'string' && defMod.includes('+')) {
       defMod = +defMod.replace('/+/gi', '')
-    } else if (typeof (defMod) === 'string') {
-      defMod = 2
     }
-
+    
     let defBase = this.selectedRole.def && this.square.addrolemods ? this.selectedRole.def : 0
     if (this.square.selectedshield) {
       defBase += this.square.shieldInfo.def
@@ -350,8 +356,7 @@ export class WeaponSquareComponent implements OnInit {
     if (this.square.selectedarmor) {
       defBase += this.square.armorInfo.def
     }
-
-    return defBase + +defMod + this.returnSizeDefenseModifier()
+    this.displayedDefense = defBase + +defMod + this.returnSizeDefenseModifier()
   }
 
   updateBothDisplayDRs = () => {
@@ -697,7 +702,7 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   returnSizeMeasureModifier = () => {
-    if (!this.square.addrolemods) {
+    if (!this.square.addsizemod) {
       return 0
     }
     switch (this.beastSize) {
@@ -727,7 +732,7 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   returnSizeDefenseModifier = () => {
-    if (!this.square.addrolemods) {
+    if (!this.square.addsizemod) {
       return 0
     }
     switch (this.beastSize) {

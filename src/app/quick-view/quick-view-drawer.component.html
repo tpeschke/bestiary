@@ -312,7 +312,7 @@
                   <div class="measure">
                     <p *ngIf="newWeaponInfo.weapontype !== 'r'">{{(newSelectedWeapon ? newWeaponInfo.measure :
                       beast.roleinfo.measure
-                      && square.addrolemods ? beast.roleinfo.measure : 0) + square.measure + returnSizeMeasureModifier()}}
+                      && square.addrolemods ? beast.roleinfo.measure : 0) + square.measure + returnSizeMeasureModifier(beast.size, square.addsizemod)}}
                     </p>
                     <p *ngIf="newWeaponInfo.weapontype === 'r'">{{(newSelectedWeapon ? newWeaponInfo.range :
                       beast.roleinfo.ranges &&
