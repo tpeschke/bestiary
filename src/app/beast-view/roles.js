@@ -91,7 +91,7 @@ export default {
     skillList: [
         {
             label: 'Skill Suites',
-            skillList: ['Athletics Skill Suite', 'Lore Skill Suite', 'Streetwise Skill Suite', 'Survival Skill Suite', 'Tactics Skill Suite', 'Trades Skill Suite', 'Weirdcraft Skill Suite']
+            skillList: ['Athletics Skill Suite', 'Lore Skill Suite', 'Streetwise Skill Suite', 'Survival Skill Suite', 'Strategy Skill Suite', 'Trades Skill Suite', 'Weirdcraft Skill Suite']
         },
         {
             label: 'Athletics',
@@ -110,7 +110,7 @@ export default {
             skillList: ['Botany', 'Fire Building', 'First Aid', 'Handle Animal', 'Hiding', 'Monster Craft', 'Navigation', 'Scavenging', 'Snaring', 'Hunting', 'Use Rope']
         },
         {
-            label: 'Tactics',
+            label: 'Strategy',
             skillList: ['Combat Style', 'Distraction', 'Leadership', 'Quarter Mastering', 'Rally', 'Recruiting', 'Riding', 'Signalling', 'Warfare']
         },
         {
