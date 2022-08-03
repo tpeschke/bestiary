@@ -144,7 +144,7 @@
                   <p class="fatigue">{{ convertFatigue(square.fatigue) }}</p>
                   <div class="dr">
                     <p>{{displayDR(square.newDR, 'armor', square)}}</p>
-                    <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square) > 0">
+                    <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square)">
                       {{displayDR(square.newShieldDr, 'shield', square)}}</p>
                   </div>
                   <div class="measure">
@@ -183,7 +183,7 @@
                   <p class="fatigue">{{ convertFatigue(square.fatigue) }}</p>
                   <div class="dr">
                     <p>{{displayDR(square.newDR, 'armor', square)}}</p>
-                    <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square) > 0">
+                    <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square)">
                       {{displayDR(square.newShieldDr, 'shield', square)}}</p>
                   </div>
                   <div class="measure">
@@ -317,7 +317,7 @@
                 <p class="fatigue">{{ convertFatigue(square.fatigue) }}</p>
                 <div class="dr">
                   <p>{{displayDR(square.newDR, 'armor', square)}}</p>
-                  <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square) > 0">
+                  <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square)">
                     {{displayDR(square.newShieldDr, 'shield', square)}}</p>
                 </div>
                 <div class="measure">

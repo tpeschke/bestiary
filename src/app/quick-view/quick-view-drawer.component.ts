@@ -350,7 +350,7 @@ export class QuickViewDrawerComponent implements OnInit {
       drString = `${adjustedSlash}/d`
     }
 
-    return drString === '' ? '0' : drString
+    return drString === '' ? 0 : drString
   }
 
   displayName = (square) => {

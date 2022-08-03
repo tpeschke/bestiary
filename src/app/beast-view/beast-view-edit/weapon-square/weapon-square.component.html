@@ -18,7 +18,7 @@
       <p class="fatigue">{{ convertFatigue() }}</p>
       <div class="dr">
         <p>{{displayedDR}}</p>
-        <p class="shield_dr" *ngIf="displayedShieldDR && displayedShieldDR > 0">{{displayedShieldDR}}</p>
+        <p class="shield_dr" *ngIf="displayedShieldDR && displayedShieldDR">{{displayedShieldDR}}</p>
       </div>
       <div class="measure">
         <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : selectedRole.measure

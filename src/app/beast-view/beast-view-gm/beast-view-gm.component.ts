@@ -544,7 +544,7 @@ export class BeastViewGmComponent implements OnInit {
       drString = `${adjustedSlash}/d`
     }
 
-    return drString === '' ? '0' : drString
+    return drString === '' ? 0 : drString
   }
   
   displayDamage = (square) => {

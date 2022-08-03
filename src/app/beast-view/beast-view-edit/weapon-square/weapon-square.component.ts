@@ -25,8 +25,8 @@ export class WeaponSquareComponent implements OnInit {
   ) { }
 
   public displayedDamage = ''
-  public displayedDR = ''
-  public displayedShieldDR = ''
+  public displayedDR: any = ''
+  public displayedShieldDR: any = ''
   public displayedDefense = ''
   public squareDamageArray = []
   public equipmentLists = { weapons: [], armor: [], shields: [] }
@@ -413,7 +413,7 @@ export class WeaponSquareComponent implements OnInit {
       drString = `${adjustedSlash}/d`
     }
 
-    return drString === '' ? '0' : drString
+    return drString === '' ? 0 : drString
   }
 
   displayDamage = () => {
