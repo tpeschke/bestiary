@@ -1,5 +1,24 @@
 export default {
     skillRoles: {
+        'Fodder': {
+            strengths: 'None.',
+            weaknesses: 'All of them.',
+            skillList: [
+                {
+                    label: 'Preferred Choices',
+                    skillList: []
+                },
+                {
+                    label: 'Neutral Choices',
+                    skillList: []
+                },
+                {
+                    label: 'Not Preferred Choices',
+                    skillList: []
+                }
+            ],
+            description: "Skill Fodder are just not good at Skill Challenges and roll a d12! for all rules by default."
+        },
         'Hunter': {
             strengths: 'Keeps distance, waiting for the perfect time to strike.',
             weaknesses: 'Weak outside of when they strike.',
@@ -123,6 +142,25 @@ export default {
         }
     ],
     socialRoles: {
+        'Fodder': {
+            strengths: 'None.',
+            weaknesses: 'All of them.',
+            skillList: [
+                {
+                    label: 'Preferred Choices',
+                    skillList: []
+                },
+                {
+                    label: 'Neutral Choices',
+                    skillList: []
+                },
+                {
+                    label: 'Not Preferred Choices',
+                    skillList: []
+                }
+            ],
+            description: "Confrontation Fodder are just not good at Confrontations and roll a d12! for all rules by default."
+        },
         'Striker': {
             strengths: ['Offensive', 'Many Characteristics'],
             weaknesses: ['Defensive', 'Weak Characteristics'],
