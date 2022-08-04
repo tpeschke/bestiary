@@ -270,11 +270,17 @@ module.exports = {
                   beast.conflict.traits.push(val)
                 }
               } else if (val.type === 'd') {
-                beast.conflict.devotions.push(val)
+                if (beast.devotionlimit && beast.conflict.devotions.length < beast.devotionlimit) {
+                  beast.conflict.devotions.push(val)
+                } else if (!beast.devotionlimit) {
+                  beast.conflict.devotions.push(val)
+                }
               } else if (val.type === 'f') {
-                beast.conflict.flaws.push(val)
-              } else if (val.type === 'p') {
-                beast.conflict.passions.push(val)
+                if (beast.flawlimit && beast.conflict.devotions.length < beast.flawlimit) {
+                  beast.conflict.flaws.push(val)
+                } else if (!beast.flawlimit) {
+                  beast.conflict.flaws.push(val)
+                }
               }
             })
             return result

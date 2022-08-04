@@ -113,6 +113,8 @@ export class WeaponSquareComponent implements OnInit {
       this.square[primary] = +event.target.value
       if (primary === 'def') {
         this.evaluateDefense()
+      } else if (primary === 'damageskill') {
+        this.displayDamage()
       }
     }
   }
@@ -236,12 +238,31 @@ export class WeaponSquareComponent implements OnInit {
       case 'ranges, increment':
         valueChange = Math.ceil(valueToCompare / 10)
         break;
+      case 'damageskill':
+        let damagetype = this.square.selectedweapon ? this.square.weaponInfo.type : this.square.damagetype
+        if (damagetype === 'S') {
+          valueChange = Math.ceil(this.square.damageskill / 2)
+        } else if (damagetype === 'P') {
+          valueChange = Math.ceil(this.square.damageskill / 4) * 2
+        } else {
+          valueChange = this.square.damageskill
+        }
+        break;
       default:
         valueChange = 0
         console.log('couldn\'t find ' + metricToCompare)
     }
 
     this.updateCombatPoints(valueChange)
+  }
+
+  returnPointValueForDamageSkills = () => {
+    let damageType = this.square.selectedweapon ? this.square.weaponInfo.type : this.square.damagetype
+    if (damageType === 'P') {
+      return 2
+    } else {
+      return 1
+    }
   }
 
   updateNonIntCombatValues = (primary, secondary, value) => {
@@ -336,7 +357,7 @@ export class WeaponSquareComponent implements OnInit {
       this.displayDamage()
     } if (type === 'addsizemod') {
       this.square[type] = value
-    }  if (type === 'showmaxparry') {
+    } if (type === 'showmaxparry') {
       this.square[type] = value
     } else {
       this.square.newDamage[type] = value
@@ -348,7 +369,7 @@ export class WeaponSquareComponent implements OnInit {
     if (typeof (defMod) === 'string' && defMod.includes('+')) {
       defMod = +defMod.replace('/+/gi', '')
     }
-    
+
     let defBase = this.selectedRole.def && this.square.addrolemods ? this.selectedRole.def : 0
     if (this.square.selectedshield) {
       defBase += this.square.shieldInfo.def
@@ -561,6 +582,18 @@ export class WeaponSquareComponent implements OnInit {
       }
     })
 
+    let crushingDamageMod = 0
+    let damagetype = this.square.selectedweapon ? this.square.weaponInfo.type : this.square.damagetype
+    if (this.square.damageskill) {
+      if (damagetype === 'S') {
+        diceObject.d4s += Math.ceil(this.square.damageskill / 2)
+      } else if (damagetype === 'P') {
+        diceObject.d8s += Math.ceil(this.square.damageskill / 4)
+      } else {
+        crushingDamageMod = this.square.damageskill
+      }
+    }
+
     let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
 
     let diceString = ''
@@ -631,10 +664,10 @@ export class WeaponSquareComponent implements OnInit {
       squareDamageString += ` ${squareDamage.flat}`
     }
 
-    if (modifier > 0) {
-      diceString += ` +${modifier}`
+    if (modifier + crushingDamageMod > 0) {
+      diceString += ` +${modifier + crushingDamageMod}`
     } else if (modifier < 0) {
-      diceString += ` ${modifier}`
+      diceString += ` ${modifier + crushingDamageMod}`
     }
 
     this.square.damage = squareDamageString
@@ -699,6 +732,20 @@ export class WeaponSquareComponent implements OnInit {
     }
 
     return (vitality * percentage).toFixed(0)
+  }
+
+  addedDice() {
+    let damagetype = this.square.selectedweapon ? this.square.weaponInfo.type : this.square.damagetype
+    if (!this.square.damageskill) {
+      return ''
+    }
+    if (damagetype === 'S') {
+      return `+${Math.ceil(this.square.damageskill / 2)}d4!`
+    } else if (damagetype === 'P') {
+      return `+${Math.ceil(this.square.damageskill / 4)}d8!`
+    } else {
+      return `+${this.square.damageskill}`
+    }
   }
 
   returnSizeMeasureModifier = () => {

@@ -287,8 +287,10 @@ export class BeastViewEditComponent implements OnInit {
   checkAllRoles = (type, index, checked) => {
     if (type === 'skills') {
       this.beast[type][index].allroles = checked
+      this.calculateSkillPoints()
     } else {
       this.beast.conflict[type][index].allroles = checked
+      this.calculateSocialPoints()
     }
   }
 
@@ -996,7 +998,7 @@ export class BeastViewEditComponent implements OnInit {
 
     this.beast.combat.forEach(weapon => {
       if (weapon.roleid === null) {
-        let { def, newDR, parry, newShieldDr, newDamage, atk, rangedDamage, spd, measure, ranges, weapontype, fatigue } = weapon
+        let { def, newDR, parry, newShieldDr, newDamage, atk, rangedDamage, spd, measure, ranges, weapontype, fatigue, selectedweapon, damageskill, weaponInfo, damagetype} = weapon
         if (fatigue === 'N') {
           combatpoints += 4
         } else if (fatigue === 'W') {
@@ -1017,6 +1019,14 @@ export class BeastViewEditComponent implements OnInit {
         combatpoints += (measure * 2)
         combatpoints += atk
         combatpoints += newDamage.flat
+        let damageType = selectedweapon ? weaponInfo.type : damagetype
+        if (damageType === 'S') {
+          combatpoints += Math.ceil(damageskill / 2)
+        } else if (damageType === 'P') {
+          combatpoints += Math.ceil(damageskill / 4) * 2
+        } else {
+          combatpoints += damageskill
+        }
         newDamage.dice.forEach(damage => {
           let pointValue
           let damageArray = damage.split('d')
@@ -1215,23 +1225,23 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     this.beast.conflict.devotions.forEach(trait => {
-      if (!trait.socialroleid) {
+      if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
         socialpoints += +trait.value
       }
     })
     this.beast.conflict.flaws.forEach(trait => {
-      if (!trait.socialroleid) {
+      if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
         socialpoints += 2
       }
     })
     this.beast.conflict.traits.forEach(trait => {
-      if (!trait.socialroleid) {
+      if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
         socialpoints += +trait.value
       }
     })
 
     this.beast.skills.forEach(skill => {
-      if (!skill.skillroleid && this.socialSkills.includes(skill.skill)) {
+      if ((!skill.skillroleid || skill.allroles) && this.socialSkills.includes(skill.skill) && !skill.deleted) {
         socialpoints += +skill.rank
       }
     })
@@ -1255,23 +1265,23 @@ export class BeastViewEditComponent implements OnInit {
       }
 
       this.beast.conflict.devotions.forEach(trait => {
-        if (trait.socialroleid === role.id) {
+        if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
           socialpoints += +trait.value
         }
       })
       this.beast.conflict.flaws.forEach(trait => {
-        if (trait.socialroleid === role.id) {
+        if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
           socialpoints += +trait.value
         }
       })
       this.beast.conflict.traits.forEach(trait => {
-        if (trait.socialroleid === role.id) {
+        if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
           socialpoints += +trait.value
         }
       })
 
       this.beast.skills.forEach(skill => {
-        if (skill.skillroleid === role.id && this.socialRoles.includes(skill.skill)) {
+        if ((skill.skillroleid === role.id || skill.allroles) && this.socialRoles.includes(skill.skill) && !skill.deleted) {
           socialpoints += +skill.rank
         }
       })
@@ -1299,7 +1309,7 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     this.beast.skills.forEach(skill => {
-      if (!skill.skillroleid) {
+      if ((!skill.skillroleid || skill.allroles) && !skill.deleted) {
         skillpoints += +skill.rank
       }
     })
@@ -1323,7 +1333,7 @@ export class BeastViewEditComponent implements OnInit {
       }
 
       this.beast.skills.forEach(skill => {
-        if (skill.skillroleid === role.id) {
+        if ((skill.skillroleid === role.id || skill.allroles) && !skill.deleted) {
           skillpoints += +skill.rank
         }
       })

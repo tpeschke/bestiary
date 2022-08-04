@@ -14,3 +14,16 @@ button {
     width: 220px;
     display: inline-block;
 }
+
+.p-subtitle {
+    color: gray
+}
+
+.damage-skill-shell {
+    display: flex;
+    align-items: center;
+}
+
+.damage-skill-shell .p-subtitle {
+    margin-right: 5px;
+}

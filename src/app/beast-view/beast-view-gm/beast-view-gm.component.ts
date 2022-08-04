@@ -682,6 +682,18 @@ export class BeastViewGmComponent implements OnInit {
       }
     })
 
+    let crushingDamageMod = 0
+    let damagetype = square.selectedweapon ? square.weaponInfo.type : square.damagetype
+    if (square.damageskill) {
+      if (damagetype === 'S') {
+        diceObject.d4s += Math.ceil(square.damageskill / 2)
+      } else if (damagetype === 'P') {
+        diceObject.d8s += Math.ceil(square.damageskill / 4)
+      } else {
+        crushingDamageMod = square.damageskill
+      }
+    }
+
     let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
 
     let diceString = ''
@@ -713,10 +725,10 @@ export class BeastViewGmComponent implements OnInit {
       modifier = roleDamage.flat + squareDamage.flat
     }
 
-    if (modifier > 0) {
-      diceString += ` +${modifier}`
+    if (modifier + crushingDamageMod > 0) {
+      diceString += ` +${modifier + crushingDamageMod}`
     } else if (modifier < 0) {
-      diceString += ` ${modifier}`
+      diceString += ` ${modifier + crushingDamageMod}`
     }
 
     return diceString + (square.hasspecialanddamage ? '*' : '')

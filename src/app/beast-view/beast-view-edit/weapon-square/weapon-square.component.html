@@ -295,9 +295,28 @@
           <mat-checkbox [checked]="square.newDamage.hasSpecialAndDamage"
             (change)="checkCheckbox('hasSpecialAndDamage', $event.checked)">Part of the Attack is Special</mat-checkbox>
         </section>
+        
         <br>
+        <div class="damage-skill-shell" *ngIf="square.weapontype === 'm'">
+          <mat-form-field>
+            <input id="{{selectedRole.strengths && selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}" placeholder="Damage Skill ({{returnPointValueForDamageSkills()}} point{{returnPointValueForDamageSkills() === 2 ? 's' : ''}})" matInput [value]="square.damageskill"
+              (change)="captureInputNumber($event, 'damageskill')">
+          </mat-form-field>
+          <p class="p-subtitle">{{addedDice()}}</p>
+          <i class="fas fa-info-circle icon-small blue"
+            matTooltip="This behaves like the Damage Advanced Skill" matTooltipClass="my-tooltip"></i>
+        </div>
+        <div class="damage-skill-shell" *ngIf="square.weapontype === 'r'">
+          <mat-form-field>
+            <input id="{{selectedRole.strengths && selectedRole.strengths.includes('Ranged Damage') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Ranged Damage') ? 'red' : ''}}" placeholder="Damage Skill ({{returnPointValueForDamageSkills()}} point{{returnPointValueForDamageSkills() === 2 ? 's' : ''}})" matInput [value]="square.damageskill"
+              (change)="captureInputNumber($event, 'damageskill')">
+          </mat-form-field>
+          <p class="p-subtitle">{{addedDice()}}</p>
+          <i class="fas fa-info-circle icon-small blue"
+            matTooltip="This behaves like the Damage Advanced Skill" matTooltipClass="my-tooltip"></i>
+        </div>
         <div *ngIf="squareDamageArray.length > 0">
-          Click to remove 1 dice
+          <p class="p-subtitle">Click to remove 1 dice</p>
           <mat-chip-list>
             <div *ngFor="let dice of squareDamageArray; let i = index">
               <mat-chip (click)="removeChip(dice.type)" color="warn" selected>
@@ -305,10 +324,11 @@
               </mat-chip>
             </div>
           </mat-chip-list>
+          <br>
         </div>
         <div>
-          Click to add 1 dice
           <div *ngIf="square.weapontype === 'm'" class="marginBottom">
+            <p class="p-subtitle"> Click to add 1 dice</p>
             <button mat-raised-button
               id="{{selectedRole.strengths && selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}"
               (click)="addChip('3')">d3! (1 point)</button>
@@ -358,7 +378,7 @@
         <mat-form-field>
           <input
             id="{{selectedRole.strengths && selectedRole.strengths.includes('Melee Damage') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Melee Damage') ? 'red' : ''}}"
-            placeholder="Flat Damage Modifier(1 point)" matInput [value]="square.newDamage.flat"
+            placeholder="Flat Damage Modifier (1 point)" matInput [value]="square.newDamage.flat"
             (change)="captureInputNumber($event, 'newDamage', 'flat')">
         </mat-form-field>
       </div>
