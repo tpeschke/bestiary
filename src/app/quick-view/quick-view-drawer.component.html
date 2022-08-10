@@ -19,7 +19,7 @@
   <div *ngIf="quickViewService.quickViewArray.length > 0" class="quick-view-with-monsters-shell">
     <div class="accordian-shell">
       <mat-accordion>
-        <mat-expansion-panel *ngFor="let beast of quickViewService.quickViewArray; let beastIndex = index">
+        <mat-expansion-panel *ngFor="let beast of beasts; let beastIndex = index">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <h2>{{beast.name}}</h2>
@@ -129,7 +129,7 @@
               <div class="combat-square"  *ngIf="!square.showEquipmentSelection">
                 <h3 class="weaponName">{{displayName(square)}}<i
                   *ngIf="square.selectedweapon || square.selectedarmor || square.selectedshield"
-                  (click)="toggleEquipmentSelection(square, beast.roleinfo)" class="fa-solid fa-arrow-right-arrow-left swap-equipment"
+                  (click)="toggleEquipmentSelection(square, beast, beastIndex)" class="fa-solid fa-arrow-right-arrow-left swap-equipment"
                   matTooltip="Click to swap out gear." matTooltipClass="my-tooltip"></i> </h3>
   
                 <div *ngIf="!beast.roleinfo || !square.addrolemods" class="square-shell">
@@ -285,7 +285,7 @@
                   <div class="swap-equipment-buttons">
                     <i (click)="backoutOfEquipmentSelection(square)" matTooltip="Go back without saving any changes"
                       matTooltipClass="my-tooltip" class="fa-solid fa-delete-left orange"></i>
-                    <i (click)="toggleEquipmentSelection(square, beast.roleinfo)" matTooltip="Save changes.
+                    <i (click)="toggleEquipmentSelection(square, beast, beastIndex)" matTooltip="Save changes.
                     Note: these changes only last until you move off of this page." matTooltipClass="my-tooltip"
                       class="fa-solid fa-floppy-disk blue"></i>
                   </div>
@@ -333,7 +333,7 @@
             </div>
           </div>
 
-          <div *ngIf="!beast.sp_atk.includes('None') || beast.roleattack">
+          <div *ngIf="!beast.sp_atk.includes('None') || beast.roleattack || beast.specialAbilities.length > 0">
             <h2>Add. Attack Info</h2>
             <div class="divider"></div>
             <div *ngIf="!beast.sp_atk.includes('None')">
@@ -341,6 +341,9 @@
             </div>
             <div *ngIf="beast.roleattack">
               <quill-view-html [content]="beast.roleattack"></quill-view-html>
+            </div>
+            <div *ngFor="let ability of beast.specialAbilities">
+              <quill-view-html [content]="ability"></quill-view-html>
             </div>
           </div>
 

@@ -1,3 +1,4 @@
+const { ConsoleReporter } = require('jasmine')
 const equipmentCtrl = require('./equipmentController')
 
 function formatNameWithCommas (name) {
@@ -126,6 +127,7 @@ module.exports = {
           } else {
             beast.combat = result.filter(weapon => !weapon.roleid)
           }
+          let specialAbilities = []
           beast.combat = beast.combat.map(weapon => {
             let newWeaponInfo = {
               newDR: {}, newShieldDr: {}, newDR: {}
@@ -146,9 +148,17 @@ module.exports = {
             }
 
             weapon.parry = weapon.showmaxparry ? 'EUA' : weapon.parry
-            
+
+            if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong) {
+              specialAbilities.push(equipmentInfo.weaponInfo.bonusLong)
+            }
+            if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong) {
+              specialAbilities.push(equipmentInfo.shieldInfo.bonusLong)
+            }
+
             return { ...weapon, ...newWeaponInfo, ...equipmentInfo }
           })
+          beast.specialAbilities = specialAbilities
           return result
         }))
 
@@ -221,6 +231,7 @@ module.exports = {
         }))
 
         promiseArray.push(db.get.beastcombat(id).then(result => {
+          let specialAbilities = {}
           beast.combat = result.map(weapon => {
             let newWeaponInfo = {
               newDR: {}, newShieldDr: {}, newDR: {}, showEquipmentSelection: false
@@ -238,8 +249,29 @@ module.exports = {
             if (weapon.selectedshield) {
               equipmentInfo.shieldInfo = equipmentCtrl.getShield(weapon.selectedshield)
             }
+            role = 'generic'
+            if (weapon.roleid) {
+              role = weapon.roleid
+            }
+            if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong) {
+              if (!specialAbilities[role]) {
+                specialAbilities[role] = []
+              }
+              specialAbilities[role].push(equipmentInfo.weaponInfo.bonusLong)
+            }
+            if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong) {
+              if (!specialAbilities[role]) {
+                specialAbilities[role] = []
+              }
+              specialAbilities[role].push(equipmentInfo.shieldInfo.bonusLong)
+            }
             return { ...weapon, ...newWeaponInfo, ...equipmentInfo }
           })
+          for (const key in specialAbilities) {
+            let deduped = specialAbilities[key].filter((c, index) => specialAbilities[key].indexOf(c) === index)
+            specialAbilities[key] = deduped
+          }
+          beast.specialAbilities = specialAbilities;
           return result
         }))
 

@@ -323,7 +323,8 @@
                 <div class="measure">
                   <p *ngIf="newWeaponInfo.weapontype !== 'r'">{{(newSelectedWeapon ? newWeaponInfo.measure :
                     selectedRole.measure
-                    && square.addrolemods ? selectedRole.measure : 0) + square.measure + returnSizeMeasureModifier(square)}}
+                    && square.addrolemods ? selectedRole.measure : 0) + square.measure +
+                    returnSizeMeasureModifier(square)}}
                   </p>
                   <p *ngIf="newWeaponInfo.weapontype === 'r'">{{(newSelectedWeapon ? newWeaponInfo.range :
                     selectedRole.ranges &&
@@ -503,11 +504,21 @@
 
       <h2>Add. Attack Info</h2>
       <div class="divider"></div>
-      <div *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk.includes('None'))">
+      <div *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk.includes('None') || ((selectedRoleId && beast.specialAbilities[selectedRoleId]) || (!selectedRoleId && beast.specialAbilities.generic)) && beast.sp_atk.includes('None'))">
         <quill-view-html [content]="beast.sp_atk"></quill-view-html>
       </div>
       <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].attack">
         <quill-view-html [content]="beast.roleInfo[selectedRoleId].attack"></quill-view-html>
+      </div>
+      <div *ngIf="selectedRoleId && beast.specialAbilities[selectedRoleId]">
+        <div *ngFor="let ability of beast.specialAbilities[selectedRoleId]">
+          <quill-view-html [content]="ability"></quill-view-html>
+        </div>
+      </div>
+      <div *ngIf="!selectedRoleId && beast.specialAbilities['generic']">
+        <div *ngFor="let ability of beast.specialAbilities.generic">
+          <quill-view-html [content]="ability"></quill-view-html>
+        </div>
       </div>
 
       <h2>Add. Defense Info</h2>

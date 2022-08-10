@@ -21,6 +21,7 @@ export class QuickViewDrawerComponent implements OnInit {
 
   private quickViewListIsOpen = false
   private isTrackedInCombatCounter = false
+  private beasts = this.quickViewService.quickViewArray
 
   public equipmentLists = { weapons: [], armor: [], shields: [] }
   public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
@@ -40,7 +41,7 @@ export class QuickViewDrawerComponent implements OnInit {
       this.equipmentLists = res.lists
       this.equipmentObjects = res.objects
     })
-    
+
     this.quickViewListIsOpen = !this.quickViewListIsOpen
     if (!this.quickViewListIsOpen) {
       this.viewPanels.forEach(p => p.close());
@@ -100,7 +101,7 @@ export class QuickViewDrawerComponent implements OnInit {
     if (isNaN(vitality)) {
       return 'N'
     }
-    
+
     let percentage = .00;
     switch (fatigue) {
       case 'H':
@@ -257,7 +258,7 @@ export class QuickViewDrawerComponent implements OnInit {
         }
       }
     })
-    
+
     let crushingDamageMod = 0
     let damagetype = square.selectedweapon ? square.weaponInfo.type : square.damagetype
     if (square.damageskill) {
@@ -315,7 +316,7 @@ export class QuickViewDrawerComponent implements OnInit {
 
     let equipmentModFlat = 0
     let equipmentModSlash = 0
-    
+
     if (!square.showEquipmentSelection) {
       if (type === 'armor' && square.selectedarmor) {
         equipmentModFlat = square.armorInfo.dr.flat
@@ -372,8 +373,8 @@ export class QuickViewDrawerComponent implements OnInit {
       }
       return square.weapon
     }
-    let {selectedweapon, selectedarmor, selectedshield} = square
-  
+    let { selectedweapon, selectedarmor, selectedshield } = square
+
     if (selectedweapon && square.weaponInfo.type && !selectedweapon.includes('(')) {
       selectedweapon = `${selectedweapon} (${square.weaponInfo.type})`
     }
@@ -473,7 +474,7 @@ export class QuickViewDrawerComponent implements OnInit {
     }
   }
 
-  toggleEquipmentSelection = (square, roleInfo) => {
+  toggleEquipmentSelection = (square, beast, beastIndex) => {
     if (!square.showEquipmentSelection) {
       this.newSelectedWeapon = square.selectedweapon
       this.newWeaponInfo = square.weaponInfo
@@ -481,9 +482,26 @@ export class QuickViewDrawerComponent implements OnInit {
       this.newArmorInfo = square.armorInfo
       this.newSelectedShield = square.selectedshield
       this.newShieldInfo = square.shieldInfo
-      this.showAllEquipment = this.turnOnAllEquipment(roleInfo)
+      this.showAllEquipment = this.turnOnAllEquipment(beast.roleinfo)
     } else if (square.showEquipmentSelection) {
       square.selectedweapon = this.newSelectedWeapon
+
+      if (!this.beasts[beastIndex].specialAbilities) {
+        this.beasts[beastIndex].specialAbilities = []
+      }
+      if (square.weaponInfo.bonusLong) {
+        this.beasts[beastIndex].specialAbilities = this.beasts[beastIndex].specialAbilities.filter(bonus => bonus !== square.weaponInfo.bonusLong)
+      }
+      if (this.newWeaponInfo.bonusLong) {
+        this.beasts[beastIndex].specialAbilities.push(this.newWeaponInfo.bonusLong)
+      }
+      if (square.shieldInfo.bonusLong) {
+        this.beasts[beastIndex].specialAbilities = this.beasts[beastIndex].specialAbilities.filter(bonus => bonus !== square.shieldInfo.bonusLong)
+      }
+      if (this.newShieldInfo.bonusLong) {
+        this.beasts[beastIndex].specialAbilities.push(this.newShieldInfo.bonusLong)
+      }
+
       square.weaponInfo = this.newWeaponInfo
       if (square.weaponInfo.range) {
         square.weapontype = 'r'
@@ -494,7 +512,7 @@ export class QuickViewDrawerComponent implements OnInit {
         square.weapontype = 'm'
       }
       square.selectedarmor = this.newSelectedArmor
-      square.armorInfo = this.newArmorInfo 
+      square.armorInfo = this.newArmorInfo
       square.selectedshield = this.newSelectedShield
       square.shieldInfo = this.newShieldInfo
     }
@@ -512,7 +530,7 @@ export class QuickViewDrawerComponent implements OnInit {
     square.showEquipmentSelection = false
   }
 
-  captureEquipmentChange = ({value}, type) => {
+  captureEquipmentChange = ({ value }, type) => {
     if (type === 'selectedweapon') {
       this.newSelectedWeapon = value
       this.newWeaponInfo = this.equipmentObjects.weapons[value]

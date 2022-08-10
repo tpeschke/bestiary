@@ -853,6 +853,41 @@ export class BeastViewGmComponent implements OnInit {
       this.showAllEquipment = this.turnOnAllEquipment()
     } else if (square.showEquipmentSelection) {
       square.selectedweapon = this.newSelectedWeapon
+
+      if (this.selectedRoleId && !this.beast.specialAbilities[this.selectedRoleId]) {
+        this.beast.specialAbilities[this.selectedRoleId] = []
+      } else if (!this.selectedRoleId && !this.beast.specialAbilities.generic) {
+        this.beast.specialAbilities.generic = []
+      }
+
+      if (this.selectedRoleId) {
+        if (square.weaponInfo.bonusLong) {
+          this.beast.specialAbilities[this.selectedRoleId] = this.beast.specialAbilities[this.selectedRoleId].filter(bonus => bonus !== square.weaponInfo.bonusLong)
+        }
+        if (this.newWeaponInfo.bonusLong) {
+          this.beast.specialAbilities[this.selectedRoleId].push(this.newWeaponInfo.bonusLong)
+        }
+        if (square.shieldInfo.bonusLong) {
+          this.beast.specialAbilities[this.selectedRoleId] = this.beast.specialAbilities[this.selectedRoleId].filter(bonus => bonus !== square.shieldInfo.bonusLong)
+        }
+        if (this.newShieldInfo.bonusLong) {
+          this.beast.specialAbilities[this.selectedRoleId].push(this.newShieldInfo.bonusLong)
+        }
+      } else if (!this.selectedRoleId) {
+        if (square.weaponInfo.bonusLong) {
+          this.beast.specialAbilities.generic = this.beast.specialAbilities.generic.filter(bonus => bonus !== square.weaponInfo.bonusLong)
+        }
+        if (this.newWeaponInfo.bonusLong) {
+          this.beast.specialAbilities.generic.push(this.newWeaponInfo.bonusLong)
+        }
+        if (square.shieldInfo.bonusLong) {
+          this.beast.specialAbilities.generic = this.beast.specialAbilities.generic.filter(bonus => bonus !== square.shieldInfo.bonusLong)
+        }
+        if (this.newShieldInfo.bonusLong) {
+          this.beast.specialAbilities.generic.push(this.newShieldInfo.bonusLong)
+        }
+      } 
+
       square.weaponInfo = this.newWeaponInfo
       if (square.weaponInfo.range) {
         square.weapontype = 'r'

@@ -27,22 +27,22 @@ export default {
     },
     traitDice: ['d4!', 'd6!', 'd8!', 'd10!', 'd12!', 'd20!', 'd20!+d4!', 'd20!+d6!', 'd20!+d8!', 'd20!+d10!', 'd20!+d12!', '2d20!'],
     relicTable: {
-        a: {minor: 10, middling: 0},
-        b: {minor: 25, middling: 0},
-        c: {minor: 45, middling: 5},
-        d: {minor: 60, middling: 10},
-        e: {minor: 70, middling: 25},
-        f: {minor: 80, middling: 45},
-        g: {minor: 100, middling: 60}
+        a: {minor: 1, middling: 0},
+        b: {minor: 5, middling: 0},
+        c: {minor: 10, middling: 1},
+        d: {minor: 15, middling: 5},
+        e: {minor: 20, middling: 10},
+        f: {minor: 25, middling: 15},
+        g: {minor: 30, middling: 20}
     },
     enchantedTable: {
-        a: {minor: 10, middling: 0},
-        b: {minor: 25, middling: 0},
-        c: {minor: 45, middling: 5},
-        d: {minor: 60, middling: 10},
-        e: {minor: 70, middling: 25},
-        f: {minor: 80, middling: 45},
-        g: {minor: 100, middling: 60}
+        a: {minor: 1, middling: 0},
+        b: {minor: 5, middling: 0},
+        c: {minor: 10, middling: 1},
+        d: {minor: 15, middling: 5},
+        e: {minor: 20, middling: 10},
+        f: {minor: 25, middling: 15},
+        g: {minor: 30, middling: 20}
     },
     scrollPower: {
         a: "6+d4",

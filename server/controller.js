@@ -296,7 +296,7 @@ let controllerObj = {
       } else {
         db.get.usernotecount(req.user.id).then(count => {
           count = count[0]
-          if (count >= 50 || count >= (req.user.patreon * 10) + 50) {
+          if (count >= 50 || count >= (req.user.patreon * 30) + 50) {
             res.status(401).send('You need to upgrade your Patreon to add more notes')
           } else {
             db.add.beastnotes(beastId, req.user.id, notes).then(result => {
