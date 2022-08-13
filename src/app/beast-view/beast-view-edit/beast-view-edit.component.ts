@@ -92,8 +92,8 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   public combatRoles = ['Artillery', 'Brute', 'Defender', 'Fencer', 'Flanker', 'Fodder', 'Shock', 'Skirmisher']
-  public socialRoles = ['Corruptor', 'Defender', 'Enabler', 'Gaslighter', 'Fast-Talker', 'Feinter', 'Opportunist', 'Sandbagger', 'Support', 'Striker']
-  public skillRoles = ['Hunter', 'Prey', 'Controller', 'Lock', 'Conditional', 'Antagonist', 'Trap', 'Hazard']
+  public socialRoles = ['Corruptor', 'Defender', 'Enabler', 'Gaslighter', 'Fast-Talker', 'Feinter', 'Fodder', 'Opportunist', 'Sandbagger', 'Support', 'Striker']
+  public skillRoles = ['Antagonist', 'Conditional', 'Controller', 'Fodder', 'Hazard', 'Hunter', 'Lock', 'Prey', 'Trap']
 
   combatRolesInfo = roles.combatRoles.primary;
   socialRolesInfo = roles.socialRoles;
