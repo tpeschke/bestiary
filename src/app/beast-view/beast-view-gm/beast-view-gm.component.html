@@ -350,16 +350,16 @@
       <div class="vitals-shell">
         <div class="flex-row-opposite">
           <h3>Vitality</h3>
-          <span>
-            <p *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
-              {{beast.roleInfo[selectedRoleId].vitality}}</p>
-            <p *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">{{beast.vitality}}</p>
+          <span class="vitality-flex">
             <p
               *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
-              (Ave: {{beast.roleInfo[selectedRoleId].average}})</p>
+              {{beast.roleInfo[selectedRoleId].average}}</p>
             <p
               *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
-              (Ave: {{locationCheckboxes.mainVitality.average}})</p>
+              {{locationCheckboxes.mainVitality.average}}</p>
+            <p class="vitality-flex-subtitle" *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
+              {{beast.roleInfo[selectedRoleId].vitality}}</p>
+            <p class="vitality-flex-subtitle" *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">{{beast.vitality}}</p>
           </span>
         </div>
 

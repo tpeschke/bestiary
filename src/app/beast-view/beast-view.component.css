@@ -771,6 +771,16 @@ mat-form-field.fatigue-field {
     background: rgb(248, 134, 134)
 }
 
+.attack-and-defense-shell {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.attack-and-defense-inner-shell {
+    width: 49%;
+}
+
 @media (max-width: 1295px) {
     .lairLoot li {
         width: 45%;
@@ -794,6 +804,10 @@ mat-form-field.fatigue-field {
 }
 
 @media (max-width: 699px) {
+    .attack-and-defense-inner-shell {
+        width: 100%;
+    }
+
     .right, .left {
         width: 100%;
         padding: 0;

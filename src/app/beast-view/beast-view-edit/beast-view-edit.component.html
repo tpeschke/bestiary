@@ -216,6 +216,47 @@
     <br>
   </div>
 
+  <div class="attack-and-defense-shell">
+    <div class="attack-and-defense-inner-shell">
+      <h2>Add. Attack Info</h2>
+      <div class="divider"></div>
+      <br>
+      <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+      <div>
+        <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')"></quill-editor>
+      </div>
+
+      <div *ngIf="selectedRoleId">
+        <br>
+        <h3>Role-Specific Abilities</h3>
+        <div>
+          <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
+            (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
+        </div>
+      </div>
+    </div>
+    <div class="attack-and-defense-inner-shell">
+      <h2>Add. Defense Info</h2>
+      <div class="divider"></div>
+      <br>
+      <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+      <div>
+        <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')"></quill-editor>
+      </div>
+
+      <div *ngIf="selectedRoleId">
+        <br>
+        <h3>Role-Specific Abilities</h3>
+        <div>
+          <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense"
+            (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <br>
+
   <mat-tab-group backgroundColor="warn">
     <mat-tab label="Confrontations">
       <div class="tab-wrapper">
@@ -489,7 +530,8 @@
             [ngClass]="{'noDisplay': !(!skill.deleted && selectedRoleId === skill.skillroleid)}">
             <app-skill-display [skillInfo]="skill" [captureInput]="captureInput"
               [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [selectedSkillRole]="selectedSkillRole"
-              [combatSkills]="combatSkills" [checkAllRoles]="checkAllRoles" [socialSkills]="socialSkills"></app-skill-display>
+              [combatSkills]="combatSkills" [checkAllRoles]="checkAllRoles" [socialSkills]="socialSkills">
+            </app-skill-display>
           </div>
         </div>
         <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">ADD SKILL</button>
@@ -636,40 +678,6 @@
               </div>
             </div>
             <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">ADD MOVEMENT</button>
-          </div>
-
-          <h2>Add. Attack Info</h2>
-          <div class="divider"></div>
-          <br>
-          <h3 *ngIf="selectedRoleId">Base Abilities</h3>
-          <div>
-            <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')"></quill-editor>
-          </div>
-
-          <div *ngIf="selectedRoleId">
-            <br>
-            <h3>Role-Specific Abilities</h3>
-            <div>
-              <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
-                (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
-            </div>
-          </div>
-
-          <h2>Add. Defense Info</h2>
-          <div class="divider"></div>
-          <br>
-          <h3 *ngIf="selectedRoleId">Base Abilities</h3>
-          <div>
-            <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')"></quill-editor>
-          </div>
-
-          <div *ngIf="selectedRoleId">
-            <br>
-            <h3>Role-Specific Abilities</h3>
-            <div>
-              <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense"
-                (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
-            </div>
           </div>
 
           <h2>Tactics & Strategy</h2>
