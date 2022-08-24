@@ -173,12 +173,19 @@ let controllerObj = {
         if (rolestressthreshold) {
           beast.stressthreshold = rolestressthreshold
         }
+        if (!beast.stressthreshold) {
+          beast.panic = 7
+        }
         if (rolecaution) {
           beast.caution = rolecaution
         }
         if (roletype) {
           beast.role = roletype
         }
+      }
+      
+      if (!beast.stressthreshold) {
+        beast.panic = 7
       }
 
       let finalPromise = [];
