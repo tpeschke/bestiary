@@ -1336,7 +1336,7 @@ function displayDamage(weapon, roleToUse, addrolemods) {
   })
 
   let crushingDamageMod = 0
-  let damagetype = weapon.selectedweapon ? weapon.weaponInfo.type : weapon.damagetype
+  let damagetype = weapon.selectedweapon ? equipmentCtrl.getWeapon(weapon.selectedweapon).type : weapon.damagetype
   if (weapon.damageskill) {
     if (damagetype === 'S') {
       diceObject.d4s += Math.ceil(weapon.damageskill / 2)
