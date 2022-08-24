@@ -864,26 +864,26 @@ export class BeastViewGmComponent implements OnInit {
         if (square.weaponInfo.bonusLong) {
           this.beast.specialAbilities[this.selectedRoleId] = this.beast.specialAbilities[this.selectedRoleId].filter(bonus => bonus !== square.weaponInfo.bonusLong)
         }
-        if (this.newWeaponInfo.bonusLong) {
+        if (this.newWeaponInfo && this.newWeaponInfo.bonusLong) {
           this.beast.specialAbilities[this.selectedRoleId].push(this.newWeaponInfo.bonusLong)
         }
         if (square.shieldInfo.bonusLong) {
           this.beast.specialAbilities[this.selectedRoleId] = this.beast.specialAbilities[this.selectedRoleId].filter(bonus => bonus !== square.shieldInfo.bonusLong)
         }
-        if (this.newShieldInfo.bonusLong) {
+        if (this.newShieldInfo && this.newShieldInfo.bonusLong) {
           this.beast.specialAbilities[this.selectedRoleId].push(this.newShieldInfo.bonusLong)
         }
       } else if (!this.selectedRoleId) {
         if (square.weaponInfo.bonusLong) {
           this.beast.specialAbilities.generic = this.beast.specialAbilities.generic.filter(bonus => bonus !== square.weaponInfo.bonusLong)
         }
-        if (this.newWeaponInfo.bonusLong) {
+        if (this.newWeaponInfo && this.newWeaponInfo.bonusLong) {
           this.beast.specialAbilities.generic.push(this.newWeaponInfo.bonusLong)
         }
         if (square.shieldInfo.bonusLong) {
           this.beast.specialAbilities.generic = this.beast.specialAbilities.generic.filter(bonus => bonus !== square.shieldInfo.bonusLong)
         }
-        if (this.newShieldInfo.bonusLong) {
+        if (this.newShieldInfo && this.newShieldInfo.bonusLong) {
           this.beast.specialAbilities.generic.push(this.newShieldInfo.bonusLong)
         }
       } 
@@ -917,13 +917,16 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   captureEquipmentChange = ({value}, type) => {
+    if (value === 'None') { value = null }
     if (type === 'selectedweapon') {
       this.newSelectedWeapon = value
       this.newWeaponInfo = this.equipmentObjects.weapons[value]
       if (this.newWeaponInfo && this.newWeaponInfo.range) {
         this.newWeaponInfo.weapontype = 'r'
-      } else {
+      } else if (this.newWeaponInfo) {
         this.newWeaponInfo.weapontype = 'm'
+      } else {
+        this.newWeaponInfo = {weapontype: 'm'}
       }
     } else if (type === 'selectedarmor') {
       this.newSelectedArmor = value

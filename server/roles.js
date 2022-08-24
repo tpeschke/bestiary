@@ -40,15 +40,15 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Longbow', 'Dagger']
+                        items: ['Longbow (P)', 'Dagger (S)', 'Dagger (P)']
                     },
                     {
                         label: 'Neutral Choices',
-                        items: ['Crossbow', 'Bellybow']
+                        items: ['Crossbow (P)', 'Bellybow (P)']
                     },
                     {
                         label: 'Not Preferred Choices',
-                        items: ['Warbow', 'Sling']
+                        items: ['Warbow (P)', 'Sling (C)']
                     }
                 ],
                 armor: [
@@ -103,15 +103,15 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Bardiche', 'Zweihander']
+                        items: ['Bardiche (S)', 'Zweihander (S)']
                     },
                     {
                         label: 'Neutral Choices',
-                        items: ['Bec De Corbin', 'Ranseur']
+                        items: ['Bec De Corbin (C)', 'Ranseur (P)']
                     },
                     {
                         label: 'Not Preferred Choices',
-                        items: ['Peasant\'s Flail', 'Lucerne']
+                        items: ['Peasant\'s Flail (C)', 'Lucerne (C)']
                     }
                 ],
                 armor: [
@@ -163,15 +163,15 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Longsword', 'Dagger']
+                        items: ['Longsword (S)', 'Dagger (S)', 'Dagger (P)']
                     },
                     {
                         label: 'Neutral Choices',
-                        items: ['Court Sword', 'War Hammer']
+                        items: ['Court Sword (P)', 'War Hammer (C)']
                     },
                     {
                         label: 'Not Preferred Choices',
-                        items: ['War Flail', 'Short Spear']
+                        items: ['War Flail (C)', 'Short Spear (P)']
                     }
                 ],
                 armor: [
@@ -240,15 +240,15 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Rapier', 'Stiletto']
+                        items: ['Rapier (P)', 'Stiletto (P)']
                     },
                     {
                         label: 'Neutral Choices',
-                        items: ['Messer', 'Court Sword', 'Estoc']
+                        items: ['Messer (S)', 'Court Sword (P)', 'Estoc (P)']
                     },
                     {
-                        label: 'Not Preferred Choices',
-                        items: ['Military Fork']
+                        label: 'Not Preferred Choice',
+                        items: ['Military Fork (P)']
                     }
                 ],
                 armor: [
@@ -305,15 +305,15 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Knife', 'Throwing Knife', 'Dagger']
+                        items: ['Knife (S)', 'Throwing Knife (P)', 'Dagger (S)', 'Dagger (P)']
                     },
                     {
-                        label: 'Neutral Choices',
-                        items: ['Katzbalger']
+                        label: 'Neutral Choice',
+                        items: ['Katzbalger (S)']
                     },
                     {
-                        label: 'Not Preferred Choices',
-                        items: ['Bludgeon']
+                        label: 'Not Preferred Choice',
+                        items: ['Bludgeon (C)']
                     }
                 ],
                 armor: [
@@ -365,11 +365,11 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Pishaq', 'Handaxe', 'Throwing Axe']
+                        items: ['Messer (S)', 'Handaxe (S)', 'Throwing Axe (S)']
                     },
                     {
                         label: 'Not Preferred Choices',
-                        items: ['Bludgeon', 'Club', 'Short Spear', 'Sling']
+                        items: ['Bludgeon (C)', 'Club (C)', 'Short Spear (P)', 'Sling (C)']
                     }
                 ],
                 armor: [
@@ -425,16 +425,16 @@ module.exports = {
                 init: 0,
                 weapons: [
                     {
-                        label: 'Preferred Choices',
-                        items: ['Maul']
-                    },
+                        label: 'Preferred Choice',
+                        items: ['Maul (C)']
+                    }, 
                     {
                         label: 'Neutral Choices',
-                        items: ['Glaive', 'Lucerne']
+                        items: ['Glaive (S)', 'Lucerne (C)']
                     },
                     {
                         label: 'Not Preferred Choices',
-                        items: ['Zweihander', 'Lochaber Axe']
+                        items: ['Zweihander (S)', 'Lochaber Axe']
                     }
                 ],
                 armor: [
@@ -486,15 +486,15 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Knife', 'Throwing Knife', 'Handaxe', 'Throwing Axe']
+                        items: ['Knife (S)', 'Throwing Knife (P)', 'Handaxe (S)', 'Throwing Axe (S)']
                     },
                     {
                         label: 'Neutral Choices',
-                        items: ['Javelin', 'Short Spear']
+                        items: ['Javelin (P)', 'Short Spear (P)']
                     },
                     {
                         label: 'Not Preferred Choices',
-                        items: ['Handgonne', 'Sling']
+                        items: ['Handgonne (C)', 'Sling (C)']
                     }
                 ],
                 armor: [

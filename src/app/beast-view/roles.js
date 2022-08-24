@@ -584,7 +584,7 @@ export default {
                 weapons: [
                     {
                         label: 'Preferred Choices',
-                        items: ['Pishaq (S)', 'Handaxe (S)', 'Throwing Axe (S)']
+                        items: ['Messer (S)', 'Handaxe (S)', 'Throwing Axe (S)']
                     },
                     {
                         label: 'Not Preferred Choices',

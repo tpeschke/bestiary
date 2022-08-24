@@ -325,7 +325,7 @@
                   </div>
                   <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square, beast.roleinfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p class="parry">{{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry :
+                  <p class="parry">{{square.showmaxparry ? 'EUA' : (newSelectedShield? newShieldInfo.parry :
                     newSelectedWeapon && newWeaponInfo.parry ? newWeaponInfo.parry : beast.roleinfo.parry &&
                     square.addrolemods ? beast.roleinfo.parry : 0) + square.parry}}</p>
                 </div>

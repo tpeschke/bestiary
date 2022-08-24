@@ -190,7 +190,7 @@ mat-toolbar {
 .combat-shell {
     display: flex;
     flex-wrap: wrap;
-    align-items: end;
+    align-items: flex-end;
 }
 
 .combat-square {

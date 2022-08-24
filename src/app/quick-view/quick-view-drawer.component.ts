@@ -498,7 +498,7 @@ export class QuickViewDrawerComponent implements OnInit {
       if (square.shieldInfo.bonusLong) {
         this.beasts[beastIndex].specialAbilities = this.beasts[beastIndex].specialAbilities.filter(bonus => bonus !== square.shieldInfo.bonusLong)
       }
-      if (this.newShieldInfo.bonusLong) {
+      if (this.newShieldInfo && this.newShieldInfo.bonusLong) {
         this.beasts[beastIndex].specialAbilities.push(this.newShieldInfo.bonusLong)
       }
 
@@ -531,13 +531,16 @@ export class QuickViewDrawerComponent implements OnInit {
   }
 
   captureEquipmentChange = ({ value }, type) => {
+    if (value === 'None') { value = null }
     if (type === 'selectedweapon') {
       this.newSelectedWeapon = value
       this.newWeaponInfo = this.equipmentObjects.weapons[value]
       if (this.newWeaponInfo && this.newWeaponInfo.range) {
         this.newWeaponInfo.weapontype = 'r'
-      } else {
+      } else if (this.newWeaponInfo) {
         this.newWeaponInfo.weapontype = 'm'
+      } else {
+        this.newWeaponInfo = {weapontype: 'm'}
       }
     } else if (type === 'selectedarmor') {
       this.newSelectedArmor = value
