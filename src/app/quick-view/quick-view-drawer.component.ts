@@ -126,26 +126,27 @@ export class QuickViewDrawerComponent implements OnInit {
 
   displayDamage = (square, roleinfo) => {
     let roleDamage = null
-
-    if (!square.showEquipmentSelection) {
-      if (!square.selectedweapon && !square.dontaddroledamage && square.addrolemods) {
-        if (square.weapontype === 'm') {
-          roleDamage = roleinfo.damage
-        } else {
-          roleDamage = roleinfo.rangedDamage
+    if (roleinfo) {
+      if (!square.showEquipmentSelection) {
+        if (!square.selectedweapon && !square.dontaddroledamage && square.addrolemods) {
+          if (square.weapontype === 'm') {
+            roleDamage = roleinfo.damage
+          } else {
+            roleDamage = roleinfo.rangedDamage
+          }
+        } else if (square.weaponInfo && !square.dontaddroledamage) {
+          roleDamage = square.weaponInfo.damage
         }
-      } else if (square.weaponInfo && !square.dontaddroledamage) {
-        roleDamage = square.weaponInfo.damage
-      }
-    } else {
-      if (!this.newSelectedWeapon && !square.dontaddroledamage && square.addrolemods) {
-        if (square.weapontype === 'm') {
-          roleDamage = roleinfo.damage
-        } else {
-          roleDamage = roleinfo.rangedDamage
+      } else {
+        if (!this.newSelectedWeapon && !square.dontaddroledamage && square.addrolemods) {
+          if (square.weapontype === 'm') {
+            roleDamage = roleinfo.damage
+          } else {
+            roleDamage = roleinfo.rangedDamage
+          }
+        } else if (this.newWeaponInfo && !square.dontaddroledamage) {
+          roleDamage = this.newWeaponInfo.damage
         }
-      } else if (this.newWeaponInfo && !square.dontaddroledamage) {
-        roleDamage = this.newWeaponInfo.damage
       }
     }
 
@@ -404,7 +405,7 @@ export class QuickViewDrawerComponent implements OnInit {
       defMod = +defMod.replace('/+/gi', '')
     }
 
-    let defBase = roleinfo.def && square.addrolemods ? roleinfo.def : 0
+    let defBase = roleinfo && square.addrolemods ? roleinfo.def : 0
     if (square.selectedshield) {
       defBase += square.shieldInfo.def
     }
@@ -540,7 +541,7 @@ export class QuickViewDrawerComponent implements OnInit {
       } else if (this.newWeaponInfo) {
         this.newWeaponInfo.weapontype = 'm'
       } else {
-        this.newWeaponInfo = {weapontype: 'm'}
+        this.newWeaponInfo = { weapontype: 'm' }
       }
     } else if (type === 'selectedarmor') {
       this.newSelectedArmor = value
