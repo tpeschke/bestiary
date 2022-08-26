@@ -108,6 +108,11 @@
     position: relative;
 }
 
+.equipment-choices {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .spd {
     position: absolute;
     z-index: 1;

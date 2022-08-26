@@ -212,81 +212,89 @@
 
             <div *ngIf="square.showEquipmentSelection">
               <div>
-                <div *ngIf="!showAllEquipment && selectedRole.spd">
-                  <mat-form-field>
-                    <mat-label>Weapon Choices</mat-label>
-                    <mat-select [value]="newSelectedWeapon"
-                      (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
-                      <mat-option>None</mat-option>
-                      <mat-optgroup *ngFor="let group of selectedRole.weapons" [label]="group.label">
-                        <mat-option *ngFor="let item of group.items" [value]="item">
+                <div class="equipment-choices">
+                  <div *ngIf="!showAllEquipment && selectedRole.spd && selectedRole.weapons.length > 0">
+                    <mat-form-field>
+                      <mat-label>Weapon Choices</mat-label>
+                      <mat-select [value]="square.selectedweapon"
+                        (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
+                        <mat-option>None</mat-option>
+                        <mat-optgroup *ngFor="let group of selectedRole.weapons" [label]="group.label">
+                          <mat-option *ngFor="let item of group.items" [value]="item">
+                            {{item}}
+                          </mat-option>
+                        </mat-optgroup>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="showAllEquipment || !selectedRole.spd || !selectedRole.weapons.length > 0">
+                    <mat-form-field>
+                      <mat-label>Weapon Choices</mat-label>
+                      <mat-select [value]="square.selectedweapon"
+                        (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
+                        <mat-option>None</mat-option>
+                        <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
+                          <mat-option *ngFor="let item of group.items" [value]="item">
+                            {{item}}
+                          </mat-option>
+                        </mat-optgroup>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div *ngIf="!showAllEquipment && selectedRole.spd">
+                    <mat-form-field *ngIf="selectedRole.armor && selectedRole.armor.length > 0">
+                      <mat-label>Armor Choices</mat-label>
+                      <mat-select [value]="square.selectedarmor"
+                        (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let item of selectedRole.armor" [value]="item">
                           {{item}}
                         </mat-option>
-                      </mat-optgroup>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field *ngIf="selectedRole.armor && selectedRole.armor.length > 0">
-                    <mat-label>Armor Choices</mat-label>
-                    <mat-select [value]="newSelectedArmor"
-                      (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
-                      <mat-option>None</mat-option>
-                      <mat-optgroup *ngFor="let group of selectedRole.armor" [label]="group.label">
-                        <mat-option *ngFor="let item of group.items" [value]="item">
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="showAllEquipment || !selectedRole.spd">
+                    <mat-form-field>
+                      <mat-label>Armor Choices</mat-label>
+                      <mat-select [value]="square.selectedarmor"
+                        (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
+                        <mat-option>None</mat-option>
+                        <mat-optgroup *ngFor="let group of equipmentLists.armor" [label]="group.label">
+                          <mat-option *ngFor="let item of group.items" [value]="item">
+                            {{item}}
+                          </mat-option>
+                        </mat-optgroup>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div *ngIf="!showAllEquipment && selectedRole.spd">
+                    <mat-form-field *ngIf="selectedRole.shields && selectedRole.shields.length > 0">
+                      <mat-label>Shield Choices</mat-label>
+                      <mat-select [value]="square.selectedshield"
+                        (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let item of selectedRole.shields" [value]="item">
                           {{item}}
                         </mat-option>
-                      </mat-optgroup>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field *ngIf="selectedRole.shields && selectedRole.shields.length > 0">
-                    <mat-label>Shield Choices</mat-label>
-                    <mat-select [value]="newSelectedShield"
-                      (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
-                      <mat-option>None</mat-option>
-                      <mat-optgroup *ngFor="let group of selectedRole.shields" [label]="group.label">
-                        <mat-option *ngFor="let item of group.items" [value]="item">
-                          {{item}}
-                        </mat-option>
-                      </mat-optgroup>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div *ngIf="showAllEquipment || !selectedRole.spd">
-                  <mat-form-field>
-                    <mat-label>Weapon Choices</mat-label>
-                    <mat-select [value]="newSelectedWeapon"
-                      (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
-                      <mat-option>None</mat-option>
-                      <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
-                        <mat-option *ngFor="let item of group.items" [value]="item">
-                          {{item}}
-                        </mat-option>
-                      </mat-optgroup>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Armor Choices</mat-label>
-                    <mat-select [value]="newSelectedArmor"
-                      (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
-                      <mat-option>None</mat-option>
-                      <mat-optgroup *ngFor="let group of equipmentLists.armor" [label]="group.label">
-                        <mat-option *ngFor="let item of group.items" [value]="item">
-                          {{item}}
-                        </mat-option>
-                      </mat-optgroup>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Shield Choices</mat-label>
-                    <mat-select [value]="newSelectedShield"
-                      (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
-                      <mat-option>None</mat-option>
-                      <mat-optgroup *ngFor="let group of equipmentLists.shields" [label]="group.label">
-                        <mat-option *ngFor="let item of group.items" [value]="item">
-                          {{item}}
-                        </mat-option>
-                      </mat-optgroup>
-                    </mat-select>
-                  </mat-form-field>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="showAllEquipment || !selectedRole.spd">
+                    <mat-form-field>
+                      <mat-label>Shield Choices</mat-label>
+                      <mat-select [value]="square.selectedshield"
+                        (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
+                        <mat-option>None</mat-option>
+                        <mat-optgroup *ngFor="let group of equipmentLists.shields" [label]="group.label">
+                          <mat-option *ngFor="let item of group.items" [value]="item">
+                            {{item}}
+                          </mat-option>
+                        </mat-optgroup>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
                 </div>
                 <section>
                   <mat-checkbox [checked]="showAllEquipment" (change)="checkShowAllEquipment($event.checked)">Show me
@@ -337,7 +345,9 @@
                 </div>
                 <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square)}}</p>
                 <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                <p class="parry">{{square.showmaxparry ? 'EUA' : (newSelectedShield ? newShieldInfo.parry : newSelectedWeapon && newWeaponInfo.parry ? newWeaponInfo.parry : selectedRole.parry && square.addrolemods ? selectedRole.parry : 0) + square.parry}}</p>
+                <p class="parry">{{square.showmaxparry ? 'EUA' : (newSelectedShield ? newShieldInfo.parry :
+                  newSelectedWeapon && newWeaponInfo.parry ? newWeaponInfo.parry : selectedRole.parry &&
+                  square.addrolemods ? selectedRole.parry : 0) + square.parry}}</p>
               </div>
             </div>
 
@@ -357,7 +367,8 @@
               {{locationCheckboxes.mainVitality.average}}</p>
             <p class="vitality-flex-subtitle" *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
               {{beast.roleInfo[selectedRoleId].vitality}}</p>
-            <p class="vitality-flex-subtitle" *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">{{beast.vitality}}</p>
+            <p class="vitality-flex-subtitle" *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
+              {{beast.vitality}}</p>
           </span>
         </div>
 
@@ -502,7 +513,8 @@
 
       <h2>Add. Attack Info</h2>
       <div class="divider"></div>
-      <div *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk.includes('None') || ((selectedRoleId && beast.specialAbilities[selectedRoleId]) || (!selectedRoleId && beast.specialAbilities.generic)) && beast.sp_atk.includes('None'))">
+      <div
+        *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk.includes('None') || ((selectedRoleId && beast.specialAbilities[selectedRoleId]) || (!selectedRoleId && beast.specialAbilities.generic)) && beast.sp_atk.includes('None'))">
         <quill-view-html [content]="beast.sp_atk"></quill-view-html>
       </div>
       <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].attack">

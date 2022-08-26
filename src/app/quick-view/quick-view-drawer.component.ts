@@ -496,7 +496,7 @@ export class QuickViewDrawerComponent implements OnInit {
       if (this.newWeaponInfo.bonusLong) {
         this.beasts[beastIndex].specialAbilities.push(this.newWeaponInfo.bonusLong)
       }
-      if (square.shieldInfo.bonusLong) {
+      if (square.shieldInfo && square.shieldInfo.bonusLong) {
         this.beasts[beastIndex].specialAbilities = this.beasts[beastIndex].specialAbilities.filter(bonus => bonus !== square.shieldInfo.bonusLong)
       }
       if (this.newShieldInfo && this.newShieldInfo.bonusLong) {

@@ -63,6 +63,8 @@ export class WeaponSquareComponent implements OnInit {
             turnOnWeapons = false
           }
         })
+      } else {
+        turnOnWeapons = false
       }
       if (this.square.selectedarmor) {
         this.selectedRole.armor.forEach(armorCat => {
@@ -73,6 +75,8 @@ export class WeaponSquareComponent implements OnInit {
             turnOnArmor = false
           }
         })
+      } else {
+        turnOnArmor = false
       }
       if (this.square.selectedshield) {
         this.selectedRole.shields.forEach(shieldCat => {
@@ -83,6 +87,8 @@ export class WeaponSquareComponent implements OnInit {
             turnOnShields = false
           }
         })
+      } else {
+        turnOnShields = false
       }
     }
 

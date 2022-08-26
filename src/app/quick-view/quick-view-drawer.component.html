@@ -126,12 +126,13 @@
 
           <div *ngIf="!isTrackedInCombatCounter" class="combat-shell">
             <div *ngFor="let square of beast.combat">
-              <div class="combat-square"  *ngIf="!square.showEquipmentSelection">
+              <div class="combat-square" *ngIf="!square.showEquipmentSelection">
                 <h3 class="weaponName">{{displayName(square)}}<i
-                  *ngIf="square.selectedweapon || square.selectedarmor || square.selectedshield"
-                  (click)="toggleEquipmentSelection(square, beast, beastIndex)" class="fa-solid fa-arrow-right-arrow-left swap-equipment"
-                  matTooltip="Click to swap out gear." matTooltipClass="my-tooltip"></i> </h3>
-  
+                    *ngIf="square.selectedweapon || square.selectedarmor || square.selectedshield"
+                    (click)="toggleEquipmentSelection(square, beast, beastIndex)"
+                    class="fa-solid fa-arrow-right-arrow-left swap-equipment" matTooltip="Click to swap out gear."
+                    matTooltipClass="my-tooltip"></i> </h3>
+
                 <div *ngIf="!beast.roleinfo || !square.addrolemods" class="square-shell">
                   <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : 0) + (square.selectedarmor ?
@@ -160,7 +161,7 @@
                   <p class="parry">{{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry :
                     square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : 0) + square.parry}}</p>
                 </div>
-  
+
                 <div *ngIf="beast.roleinfo && square.addrolemods" class="square-shell">
                   <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : beast.roleinfo.spd) +
@@ -198,88 +199,96 @@
                       matTooltipClass="my-tooltip"></i></p>
                 </div>
               </div>
-              
+
               <div *ngIf="square.showEquipmentSelection">
                 <div>
-                  <div *ngIf="!showAllEquipment && beast.roleinfo.spd">
-                    <mat-form-field>
-                      <mat-label>Weapon Choices</mat-label>
-                      <mat-select [value]="newSelectedWeapon"
-                        (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
-                        <mat-option>None</mat-option>
-                        <mat-optgroup *ngFor="let group of beast.roleinfo.weapons" [label]="group.label">
-                          <mat-option *ngFor="let item of group.items" [value]="item">
+                  <div class="equipment-choices">
+                    <div *ngIf="!showAllEquipment && selectedRole.spd && selectedRole.weapons.length > 0">
+                      <mat-form-field>
+                        <mat-label>Weapon Choices</mat-label>
+                        <mat-select [value]="square.selectedweapon"
+                          (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
+                          <mat-option>None</mat-option>
+                          <mat-optgroup *ngFor="let group of selectedRole.weapons" [label]="group.label">
+                            <mat-option *ngFor="let item of group.items" [value]="item">
+                              {{item}}
+                            </mat-option>
+                          </mat-optgroup>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div *ngIf="showAllEquipment || !selectedRole.spd || !selectedRole.weapons.length > 0">
+                      <mat-form-field>
+                        <mat-label>Weapon Choices</mat-label>
+                        <mat-select [value]="square.selectedweapon"
+                          (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
+                          <mat-option>None</mat-option>
+                          <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
+                            <mat-option *ngFor="let item of group.items" [value]="item">
+                              {{item}}
+                            </mat-option>
+                          </mat-optgroup>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                    <div *ngIf="!showAllEquipment && selectedRole.spd">
+                      <mat-form-field *ngIf="selectedRole.armor && selectedRole.armor.length > 0">
+                        <mat-label>Armor Choices</mat-label>
+                        <mat-select [value]="square.selectedarmor"
+                          (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
+                          <mat-option>None</mat-option>
+                          <mat-option *ngFor="let item of selectedRole.armor" [value]="item">
                             {{item}}
                           </mat-option>
-                        </mat-optgroup>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-form-field *ngIf="beast.roleinfo.armor && beast.roleinfo.armor.length > 0">
-                      <mat-label>Armor Choices</mat-label>
-                      <mat-select [value]="newSelectedArmor"
-                        (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
-                        <mat-option>None</mat-option>
-                        <mat-optgroup *ngFor="let group of beast.roleinfo.armor" [label]="group.label">
-                          <mat-option *ngFor="let item of group.items" [value]="item">
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div *ngIf="showAllEquipment || !selectedRole.spd">
+                      <mat-form-field>
+                        <mat-label>Armor Choices</mat-label>
+                        <mat-select [value]="square.selectedarmor"
+                          (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
+                          <mat-option>None</mat-option>
+                          <mat-optgroup *ngFor="let group of equipmentLists.armor" [label]="group.label">
+                            <mat-option *ngFor="let item of group.items" [value]="item">
+                              {{item}}
+                            </mat-option>
+                          </mat-optgroup>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                    <div *ngIf="!showAllEquipment && selectedRole.spd">
+                      <mat-form-field *ngIf="selectedRole.shields && selectedRole.shields.length > 0">
+                        <mat-label>Shield Choices</mat-label>
+                        <mat-select [value]="square.selectedshield"
+                          (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
+                          <mat-option>None</mat-option>
+                          <mat-option *ngFor="let item of selectedRole.shields" [value]="item">
                             {{item}}
                           </mat-option>
-                        </mat-optgroup>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-form-field *ngIf="beast.roleinfo.shields && beast.roleinfo.shields.length > 0">
-                      <mat-label>Shield Choices</mat-label>
-                      <mat-select [value]="newSelectedShield"
-                        (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
-                        <mat-option>None</mat-option>
-                        <mat-optgroup *ngFor="let group of beast.roleinfo.shields" [label]="group.label">
-                          <mat-option *ngFor="let item of group.items" [value]="item">
-                            {{item}}
-                          </mat-option>
-                        </mat-optgroup>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div *ngIf="showAllEquipment || !beast.roleinfo.spd">
-                    <mat-form-field>
-                      <mat-label>Weapon Choices</mat-label>
-                      <mat-select [value]="newSelectedWeapon"
-                        (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
-                        <mat-option>None</mat-option>
-                        <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
-                          <mat-option *ngFor="let item of group.items" [value]="item">
-                            {{item}}
-                          </mat-option>
-                        </mat-optgroup>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Armor Choices</mat-label>
-                      <mat-select [value]="newSelectedArmor"
-                        (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
-                        <mat-option>None</mat-option>
-                        <mat-optgroup *ngFor="let group of equipmentLists.armor" [label]="group.label">
-                          <mat-option *ngFor="let item of group.items" [value]="item">
-                            {{item}}
-                          </mat-option>
-                        </mat-optgroup>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Shield Choices</mat-label>
-                      <mat-select [value]="newSelectedShield"
-                        (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
-                        <mat-option>None</mat-option>
-                        <mat-optgroup *ngFor="let group of equipmentLists.shields" [label]="group.label">
-                          <mat-option *ngFor="let item of group.items" [value]="item">
-                            {{item}}
-                          </mat-option>
-                        </mat-optgroup>
-                      </mat-select>
-                    </mat-form-field>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div *ngIf="showAllEquipment || !selectedRole.spd">
+                      <mat-form-field>
+                        <mat-label>Shield Choices</mat-label>
+                        <mat-select [value]="square.selectedshield"
+                          (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
+                          <mat-option>None</mat-option>
+                          <mat-optgroup *ngFor="let group of equipmentLists.shields" [label]="group.label">
+                            <mat-option *ngFor="let item of group.items" [value]="item">
+                              {{item}}
+                            </mat-option>
+                          </mat-optgroup>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
                   </div>
                   <section>
-                    <mat-checkbox [checked]="showAllEquipment"
-                      (change)="checkShowAllEquipment($event.checked)">Show me all weapons/armor/shields
+                    <mat-checkbox [checked]="showAllEquipment" (change)="checkShowAllEquipment($event.checked)">Show me
+                      all weapons/armor/shields
                     </mat-checkbox>
                   </section>
                   <div class="swap-equipment-buttons">
@@ -290,13 +299,14 @@
                       class="fa-solid fa-floppy-disk blue"></i>
                   </div>
                 </div>
-  
+
                 <div class="square-shell">
                   <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <p class="spd">{{(newSelectedWeapon ? newWeaponInfo.rec : beast.roleinfo.spd && square.addrolemods
                     ?
                     beast.roleinfo.spd : 0) + (newSelectedArmor ? newArmorInfo.rec : 0) + square.spd}}</p>
-                  <p class="atk">{{(square.weapontype === 'm' ? beast.roleinfo.atk && square.addrolemods ? beast.roleinfo.atk
+                  <p class="atk">{{(square.weapontype === 'm' ? beast.roleinfo.atk && square.addrolemods ?
+                    beast.roleinfo.atk
                     : 0 :
                     beast.roleinfo.rangedAtk && square.addrolemods ? beast.roleinfo.rangedAtk : 0) + square.atk}}</p>
                   <p class="init">{{(newSelectedArmor ? newArmorInfo.init : beast.roleinfo.init &&
@@ -312,11 +322,13 @@
                   <div class="measure">
                     <p *ngIf="newWeaponInfo.weapontype !== 'r'">{{(newSelectedWeapon ? newWeaponInfo.measure :
                       beast.roleinfo.measure
-                      && square.addrolemods ? beast.roleinfo.measure : 0) + square.measure + returnSizeMeasureModifier(beast.size, square.addsizemod)}}
+                      && square.addrolemods ? beast.roleinfo.measure : 0) + square.measure +
+                      returnSizeMeasureModifier(beast.size, square.addsizemod)}}
                     </p>
                     <p *ngIf="newWeaponInfo.weapontype === 'r'">{{(newSelectedWeapon ? newWeaponInfo.range :
                       beast.roleinfo.ranges &&
-                      square.addrolemods ? beast.roleinfo.ranges.increment : 0) + (square.ranges ? square.ranges.increment :
+                      square.addrolemods ? beast.roleinfo.ranges.increment : 0) + (square.ranges ?
+                      square.ranges.increment :
                       0)}}ri <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
                         Between 5 ft and {{(newSelectedWeapon ? newWeaponInfo.range : beast.roleinfo.ranges && square.addrolemods ? beast.roleinfo.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)}} ft, -0 atk penalty. 
                         Between {{(newSelectedWeapon ? newWeaponInfo.range : beast.roleinfo.ranges && square.addrolemods ? beast.roleinfo.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0) + 1}} ft and {{((newSelectedWeapon ? newWeaponInfo.range : beast.roleinfo.ranges && square.addrolemods ? beast.roleinfo.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 2}} ft, -2 atk penalty.

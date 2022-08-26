@@ -37,34 +37,19 @@ module.exports = {
                 init: 0,
                 combatpointsmelee: 0,
                 combatpointsranged: 0,
+                damagebonus: 2,
                 weapons: [
                     {
-                        label: 'Preferred Choices',
-                        items: ['Longbow (P)', 'Dagger (S)', 'Dagger (P)']
+                        label: 'Ranged',
+                        items: ['Bellybow', 'Crossbow', 'Latchet Crossbow', 'Longbow', 'Warbow']
                     },
                     {
-                        label: 'Neutral Choices',
-                        items: ['Crossbow (P)', 'Bellybow (P)']
-                    },
-                    {
-                        label: 'Not Preferred Choices',
-                        items: ['Warbow (P)', 'Sling (C)']
+                        label: 'Sidearms',
+                        items: ['Dagger (P)', 'Dagger (S)']
                     }
                 ],
-                armor: [
-                    {
-                        label: 'Preferred Choices',
-                        items: ['None']
-                    },
-                    {
-                        label: 'Neutral Choices',
-                        items: ['Buff Coat']
-                    }
-                ],
-                shields: {
-                    label: 'Not Preferred Choices',
-                    items: ['Buckler']
-                }
+                armor: ['Buff Coat'],
+                shields: ['Buckler']
             },
             'Brute': {
                 strengths: ['Vitality', 'Melee Damage', 'Melee Attack', 'Caution Threshold'],
@@ -100,30 +85,30 @@ module.exports = {
                 panic: 25,
                 caution: 20,
                 init: 0,
+                damagebonus: 1,
                 weapons: [
                     {
-                        label: 'Preferred Choices',
-                        items: ['Bardiche (S)', 'Zweihander (S)']
+                        label: 'Axes',
+                        items: ['Bardiche', 'Battle Axe']
                     },
                     {
-                        label: 'Neutral Choices',
-                        items: ['Bec De Corbin (C)', 'Ranseur (P)']
+                        label: 'Polearms',
+                        items: ['Ranseur', 'War-scythe']
                     },
                     {
-                        label: 'Not Preferred Choices',
-                        items: ['Peasant\'s Flail (C)', 'Lucerne (C)']
+                        label: 'Sidearms',
+                        items: ['Dagger (P)', 'Dagger (S)']
+                    },
+                    {
+                        label: 'Swords',
+                        items: ['Zweihander']
+                    },
+                    {
+                        label: 'Trauma',
+                        items: ['Club', 'Mace', 'Maul', 'War Flail', 'War Hammer']
                     }
                 ],
-                armor: [
-                    {
-                        label: 'Preferred Choices',
-                        items: ['Chainmail']
-                    },
-                    {
-                        label: 'Neutral Choices',
-                        items: ['Plated Mail']
-                    },
-                ],
+                armor: ['Chainmail', 'Plated Mail'],
                 shields: [],
             },
             'Defender': {
@@ -160,48 +145,23 @@ module.exports = {
                 panic: 50,
                 caution: 30,
                 init: 0,
+                damagebonus: -1,
                 weapons: [
                     {
-                        label: 'Preferred Choices',
-                        items: ['Longsword (S)', 'Dagger (S)', 'Dagger (P)']
+                        label: 'Polearms',
+                        items: ['Bill', 'Guisarme', 'Pike']
                     },
                     {
-                        label: 'Neutral Choices',
-                        items: ['Court Sword (P)', 'War Hammer (C)']
+                        label: 'Sidearms',
+                        items: ['Dagger (P)', 'Dagger (S)', 'Dusack']
                     },
                     {
-                        label: 'Not Preferred Choices',
-                        items: ['War Flail (C)', 'Short Spear (P)']
+                        label: 'Swords',
+                        items: ['Arming Sword', 'Court Sword', 'Messer', 'Sabre', 'Schiavona']
                     }
                 ],
-                armor: [
-                    {
-                        label: 'Preferred Choices',
-                        items: ['Scale']
-                    },
-                    {
-                        label: 'Neutral Choices',
-                        items: ['Laminar (Banded Mail)']
-                    },
-                    {
-                        label: 'Not Preferred Choices',
-                        items: ['Full Plate']
-                    }
-                ],
-                shields: [
-                    {
-                        label: 'Preferred Choices',
-                        items: ['Heater']
-                    },
-                    {
-                        label: 'Neutral Choices',
-                        items: ['Figure Eight']
-                    },
-                    {
-                        label: 'Not Preferred Choices',
-                        items: ['Kite']
-                    }
-                ],
+                armor: ['Scale', 'Laminar (Banded Mail)', 'Full Plate'],
+                shields: ['Heater', 'Figure Eight', 'Kite'],
             },
             'Fencer': {
                 strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Stress Threshold'],
@@ -237,36 +197,27 @@ module.exports = {
                 panic: 50,
                 caution: 20,
                 init: 0,
+                damagebonus: 0,
                 weapons: [
                     {
-                        label: 'Preferred Choices',
-                        items: ['Rapier (P)', 'Stiletto (P)']
+                        label: 'Polearms',
+                        items: ['Halberd (S)', 'Halberd (P)', 'Planson', 'Shortspear', 'Voulge']
                     },
                     {
-                        label: 'Neutral Choices',
-                        items: ['Messer (S)', 'Court Sword (P)', 'Estoc (P)']
+                        label: 'Sidearms',
+                        items: ['Dagger (P)', 'Dagger (S)', 'Scourge', 'Stiletto']
                     },
                     {
-                        label: 'Not Preferred Choice',
-                        items: ['Military Fork (P)']
+                        label: 'Swords',
+                        items: ['Estock', 'Longsword', 'Rapier']
+                    },
+                    {
+                        label: 'Trauma',
+                        items: ['Goedenag', 'Quarterstaff', 'Rapier']
                     }
                 ],
-                armor: [
-                    {
-                        label: 'Preferred Choices',
-                        items: ['Gambeson']
-                    },
-                    {
-                        label: 'Not Preferred Choices',
-                        items: ['Leather']
-                    }
-                ],
-                shields: [
-                    {
-                        label: 'Neutral Choices',
-                        items: ['Buckler']
-                    },
-                ]
+                armor: ['Gambeson', 'Leather'],
+                shields: ['Buckler']
             },
             'Flanker': {
                 strengths: ['Melee Damage', 'Recovery', 'Movement', 'Mobility Skills'],
@@ -302,30 +253,18 @@ module.exports = {
                 panic: 25,
                 caution: 10,
                 init: 0,
+                damagebonus: 2,
                 weapons: [
                     {
-                        label: 'Preferred Choices',
-                        items: ['Knife (S)', 'Throwing Knife (P)', 'Dagger (S)', 'Dagger (P)']
+                        label: 'Sidearms',
+                        items: ['Cinquedea', 'Dagger (P)', 'Dagger (S)', 'Katzbalger']
                     },
                     {
-                        label: 'Neutral Choice',
-                        items: ['Katzbalger (S)']
-                    },
-                    {
-                        label: 'Not Preferred Choice',
-                        items: ['Bludgeon (C)']
+                        label: 'Trauma',
+                        items: ['Bludgeon']
                     }
                 ],
-                armor: [
-                    {
-                        label: 'Preferred Choices',
-                        items: ['Gambeson']
-                    },
-                    {
-                        label: 'Neutral Choices',
-                        items: ['Leather']
-                    },
-                ],
+                armor: ['Gambeson', 'Leather'],
                 shields: []
             },
             'Fodder': {
@@ -362,32 +301,10 @@ module.exports = {
                 panic: 1,
                 caution: 10,
                 init: 0,
-                weapons: [
-                    {
-                        label: 'Preferred Choices',
-                        items: ['Messer (S)', 'Handaxe (S)', 'Throwing Axe (S)']
-                    },
-                    {
-                        label: 'Not Preferred Choices',
-                        items: ['Bludgeon (C)', 'Club (C)', 'Short Spear (P)', 'Sling (C)']
-                    }
-                ],
-                armor: [
-                    {
-                        label: 'Preferred Choices',
-                        items: ['None']
-                    },
-                    {
-                        label: 'Not Preferred Choices',
-                        items: ['Buff coat']
-                    }
-                ],
-                shields: [
-                    {
-                        label: 'Neutral Choices',
-                        items: ['Clothe']
-                    }
-                ],
+                damagebonus: -2,
+                weapons: [],
+                armor: ['Buff coat'],
+                shields: ['Clothe'],
             },
             'Shock': {
                 strengths: ['Fatigue', 'Melee Damage', 'Measure', 'Movement', 'Mobility Skills', 'Panic Threshold', 'Caution Threshold'],
@@ -423,30 +340,30 @@ module.exports = {
                 panic: 25,
                 caution: 20,
                 init: 0,
+                damagebonus: 3,
                 weapons: [
                     {
-                        label: 'Preferred Choice',
-                        items: ['Maul (C)']
-                    }, 
-                    {
-                        label: 'Neutral Choices',
-                        items: ['Glaive (S)', 'Lucerne (C)']
+                        label: 'Axes',
+                        items: ['Horseman\'s pick', 'Lochaber Axe']
                     },
                     {
-                        label: 'Not Preferred Choices',
-                        items: ['Zweihander (S)', 'Lochaber Axe']
-                    }
-                ],
-                armor: [
-                    {
-                        label: 'Preferred Choices',
-                        items: ['Coat of Plates']
+                        label: 'Polearms',
+                        items: ['Glaive', 'Lance', 'Lucerne', 'Sovnya']
                     },
                     {
-                        label: 'Neutral Choices',
-                        items: ['None']
+                        label: 'Sidearms',
+                        items: ['Dagger (P)', 'Dagger (S)']
+                    },
+                    {
+                        label: 'Swords',
+                        items: ['Executioner\'s Sword', 'Falchion', 'Koncerz']
+                    },
+                    {
+                        label: 'Trauma',
+                        items: ['Bec De Corbin', 'Great Hammer', 'Peasant\'s Flail']
                     }
                 ],
+                armor: ['Coat of Plates'],
                 shields: []
             },
             'Skirmisher': {
@@ -483,40 +400,27 @@ module.exports = {
                 panic: 25,
                 caution: 20,
                 init: 0,
+                damagebonus: 0,
                 weapons: [
                     {
-                        label: 'Preferred Choices',
-                        items: ['Knife (S)', 'Throwing Knife (P)', 'Handaxe (S)', 'Throwing Axe (S)']
+                        label: 'Axes',
+                        items: ['Handaxe']
                     },
                     {
                         label: 'Neutral Choices',
                         items: ['Javelin (P)', 'Short Spear (P)']
                     },
                     {
-                        label: 'Not Preferred Choices',
-                        items: ['Handgonne (C)', 'Sling (C)']
-                    }
-                ],
-                armor: [
-                    {
-                        label: 'Preferred Choices',
-                        items: ['None']
+                        label: 'Ranged',
+                        items: ['Composite Bow', 'Javelin', 'Sling', 'Throwing Axe', 'Throwing Knife']
                     },
                     {
-                        label: 'Neutral Choices',
-                        items: ['Gambeson']
-                    },
-                    {
-                        label: 'Not Preferred Choices',
-                        items: ['Leather']
+                        label: 'Sidearms',
+                        items: ['Dagger (P)', 'Dagger (S)', 'Knife']
                     }
                 ],
-                shields: [
-                    {
-                        label: 'Not Preferred Choices',
-                        items: ['Buckler']
-                    }
-                ],
+                armor: ['Gambeson', 'Leather'],
+                shields: ['Buckler'],
             }
         }
     }

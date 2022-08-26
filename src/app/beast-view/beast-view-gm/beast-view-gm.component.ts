@@ -880,7 +880,7 @@ export class BeastViewGmComponent implements OnInit {
         if (this.newWeaponInfo && this.newWeaponInfo.bonusLong) {
           this.beast.specialAbilities.generic.push(this.newWeaponInfo.bonusLong)
         }
-        if (square.shieldInfo.bonusLong) {
+        if (square.shieldInfo && square.shieldInfo.bonusLong) {
           this.beast.specialAbilities.generic = this.beast.specialAbilities.generic.filter(bonus => bonus !== square.shieldInfo.bonusLong)
         }
         if (this.newShieldInfo && this.newShieldInfo.bonusLong) {
