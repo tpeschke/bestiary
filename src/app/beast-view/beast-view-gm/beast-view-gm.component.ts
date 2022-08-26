@@ -725,10 +725,11 @@ export class BeastViewGmComponent implements OnInit {
       modifier = roleDamage.flat + squareDamage.flat
     }
 
-    if (modifier + crushingDamageMod > 0) {
-      diceString += ` +${modifier + crushingDamageMod}`
-    } else if (modifier < 0) {
-      diceString += ` ${modifier + crushingDamageMod}`
+    let staticRoleDamage = this.selectedRole && !square.dontaddroledamage && square.addrolemods ? this.selectedRole.damagebonus : 0
+    if (modifier + crushingDamageMod + staticRoleDamage > 0) {
+      diceString += ` +${modifier + crushingDamageMod + staticRoleDamage}`
+    } else if (modifier + crushingDamageMod + staticRoleDamage < 0) {
+      diceString += ` ${modifier + crushingDamageMod + staticRoleDamage}`
     }
 
     return diceString + (square.hasspecialanddamage ? '*' : '')

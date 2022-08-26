@@ -1384,10 +1384,11 @@ function displayDamage(weapon, roleToUse, addrolemods) {
     modifier = roleDamage.flat + damage.flat
   }
 
-  if (modifier + crushingDamageMod > 0) {
-    diceString += ` +${modifier + crushingDamageMod}`
-  } else if (modifier < 0) {
-    diceString += ` ${modifier + crushingDamageMod}`
+  let staticRoleDamage = roleToUse && !weapon.dontaddroledamage && weapon.addrolemods ? roles.combatRoles.primary[roleToUse].damagebonus : 0
+  if (modifier + crushingDamageMod + staticRoleDamage > 0) {
+    diceString += ` +${modifier + crushingDamageMod + staticRoleDamage}`
+  } else if (modifier + crushingDamageMod + staticRoleDamage < 0) {
+    diceString += ` ${modifier + crushingDamageMod + staticRoleDamage}`
   }
 
   if (damage.hasSpecialAndDamage) {

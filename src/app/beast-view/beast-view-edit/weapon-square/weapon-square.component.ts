@@ -670,10 +670,11 @@ export class WeaponSquareComponent implements OnInit {
       squareDamageString += ` ${squareDamage.flat}`
     }
 
-    if (modifier + crushingDamageMod > 0) {
-      diceString += ` +${modifier + crushingDamageMod}`
-    } else if (modifier < 0) {
-      diceString += ` ${modifier + crushingDamageMod}`
+    let staticRoleDamage = this.selectedRole && !this.square.dontaddroledamage && this.square.addrolemods ? this.selectedRole.damagebonus : 0
+    if (modifier + crushingDamageMod + staticRoleDamage > 0) {
+      diceString += ` +${modifier + crushingDamageMod + staticRoleDamage}`
+    } else if (modifier + crushingDamageMod + staticRoleDamage < 0) {
+      diceString += ` ${modifier + crushingDamageMod + staticRoleDamage}`
     }
 
     this.square.damage = squareDamageString
