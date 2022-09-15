@@ -366,7 +366,7 @@ let controllerObj = {
         promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then().catch(e => console.log('----------------------- add beast reagents: ', e)))
       })
 
-      let { temperament } = encounter;
+      let { temperament, rank, verb, noun, signs  } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted, temperamentid }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.temperament(beastid, tempid).catch(e => console.log('----------------------- add beast delete temp: ', e)))
@@ -381,7 +381,20 @@ let controllerObj = {
         }
       })
 
-      let { rank } = encounter;
+      signs.sign.forEach(({ sign, weight, id: signid, beastid, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.signs(beastid, signid).catch(e => console.log('----------------------- add beast delete sign: ', e)))
+        } else if ((signid && !beastid) || (signid && beastid !== id)) {
+          promiseArray.push(db.add.encounter.sign(id, signid, weight).catch(e => console.log('----------------------- add beast add sign: ', e)))
+        } else if (signid && beastid) {
+          promiseArray.push(db.update.encounter.signs(weight, beastid, signid).catch(e => console.log('----------------------- add beast update sign: ', e)))
+        } else if (!signid) {
+          db.add.encounter.allSigns(sign).then(result => {
+            promiseArray.push(db.add.encounter.sign(id, result[0].id, weight).catch(e => console.log('----------------------- add beast add sign with weight: ', e)))
+          }).catch(e => console.log('----------------------- add beast all signs: ', e))
+        }
+      })
+
       rank.rank.forEach(({ rank: rank, weight, id: rankid, beastid, lair, othertypechance, decayrate, deleted, number }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.rank(beastid, rankid).catch(e => console.log('----------------------- add beast delete rank: ', e)))
@@ -396,7 +409,6 @@ let controllerObj = {
         }
       })
 
-      let { verb } = encounter;
       verb.verb.forEach(({ verb, id: verbid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.verb(beastid, verbid).catch(e => console.log('----------------------- add beast delete verb: ', e)))
@@ -409,17 +421,6 @@ let controllerObj = {
         }
       })
 
-      locationalvitality.forEach(({ id: locationid, location, vitality, beastid, roleid }) => {
-        if (deleted) {
-          promiseArray.push(db.delete.locationalvitality(beastid, locationid).catch(e => console.log('----------------------- add beast delete locational vitality: ', e)))
-        } else if (locationid && beastid) {
-          promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid).catch(e => console.log('----------------------- add beast update locational vitality: ', e)))
-        } else {
-          promiseArray.push(db.add.locationalvitality(beastid, locationid, vitality, roleid).catch(e => console.log('----------------------- add beast add locational vitality: ', e)))
-        }
-      })
-
-      let { noun } = encounter;
       noun.noun.forEach(({ noun, id: nounid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.noun(beastid, nounid).catch(e => console.log('----------------------- add beast delete noun: ', e)))
@@ -429,6 +430,16 @@ let controllerObj = {
           db.add.encounter.allNoun(noun).then(result => {
             promiseArray.push(db.add.encounter.noun(result[0].id, id).catch(e => console.log('----------------------- add beast add noun 2: ', e)))
           }).catch(e => console.log('----------------------- add beast add all nouns: ', e))
+        }
+      })
+
+      locationalvitality.forEach(({ id: locationid, location, vitality, beastid, roleid }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.locationalvitality(beastid, locationid).catch(e => console.log('----------------------- add beast delete locational vitality: ', e)))
+        } else if (locationid && beastid) {
+          promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid).catch(e => console.log('----------------------- add beast update locational vitality: ', e)))
+        } else {
+          promiseArray.push(db.add.locationalvitality(beastid, locationid, vitality, roleid).catch(e => console.log('----------------------- add beast add locational vitality: ', e)))
         }
       })
 
@@ -648,7 +659,7 @@ let controllerObj = {
         })
       }
 
-      let { temperament } = encounter;
+      let { temperament, signs, rank, noun, verb } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
@@ -662,8 +673,21 @@ let controllerObj = {
           })
         }
       })
+      
+      signs.signs.forEach(({ sign, weight, id: signid, beastid, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.signs(beastid, signid).catch(e => console.log('----------------------- add beast delete sign: ', e)))
+        } else if ((signid && !beastid) || (signid && beastid !== id)) {
+          promiseArray.push(db.add.encounter.sign(id, signid, weight).catch(e => console.log('----------------------- add beast add sign: ', e)))
+        } else if (signid && beastid) {
+          promiseArray.push(db.update.encounter.signs(weight, beastid, signid).catch(e => console.log('----------------------- add beast update sign: ', e)))
+        } else if (!signid) {
+          db.add.encounter.allSigns(sign).then(result => {
+            promiseArray.push(db.add.encounter.sign(id, result[0].id, weight).catch(e => console.log('----------------------- add beast add sign with weight: ', e)))
+          }).catch(e => console.log('----------------------- add beast all signs: ', e))
+        }
+      })
 
-      let { rank } = encounter;
       rank.rank.forEach(({ rank: rank, weight, id: rankid, beastid, lair, othertypechance, decayrate, deleted, number }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.rank(beastid, rankid))
@@ -678,7 +702,6 @@ let controllerObj = {
         }
       })
 
-      let { verb } = encounter;
       verb.verb.forEach(({ verb, id: verbid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.verb(beastid, verbid))
@@ -691,7 +714,6 @@ let controllerObj = {
         }
       })
 
-      let { noun } = encounter;
       noun.noun.forEach(({ noun, id: nounid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.noun(beastid, nounid))
@@ -860,7 +882,8 @@ let controllerObj = {
         temperament: {},
         rank: {},
         verb: {},
-        noun: {}
+        noun: {},
+        signs: {}
       }
       , beastid = +req.params.beastid
 
@@ -900,6 +923,15 @@ let controllerObj = {
       return result
     }))
 
+    promiseArray.push(db.get.encounter.signs(beastid).then(result => {
+      encounterObject.signs.signs = result
+      return result
+    }).catch(e => `get signs -------------------------------------------- ${e}`))
+    promiseArray.push(db.get.encounter.allSigns(beastid).then(result => {
+      encounterObject.signs.allSigns = result
+      return result
+    }).catch(e => `get all signs -------------------------------------------- ${e}`))
+
     Promise.all(promiseArray).then(_ => {
       res.send(encounterObject)
     })
@@ -912,6 +944,11 @@ let controllerObj = {
 
     promiseArray.push(db.get.encounter.tempWeighted(beastId).then(result => {
       encounterObject.temperament = result[0]
+      return result
+    }))
+
+    promiseArray.push(db.get.encounter.signWeighted(beastId).then(result => {
+      encounterObject.sign = result[0]
       return result
     }))
 

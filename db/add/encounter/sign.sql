@@ -1,0 +1,1 @@
+insert into bbbeastsigns (beastid, signid, weight) values ($1, $2, $3)

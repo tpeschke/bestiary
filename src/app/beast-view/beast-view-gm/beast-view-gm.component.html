@@ -145,7 +145,9 @@
                   <div class="dr">
                     <p>{{displayDR(square.newDR, 'armor', square)}}</p>
                     <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square)">
-                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15" height="15">{{displayDR(square.newShieldDr, 'shield', square)}}</p>
+                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
+                        height="15">{{displayDR(square.newShieldDr, 'shield', square)}}
+                    </p>
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : 0) +
@@ -184,7 +186,9 @@
                   <div class="dr">
                     <p>{{displayDR(square.newDR, 'armor', square)}}</p>
                     <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square)">
-                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15" height="15">{{displayDR(square.newShieldDr, 'shield', square)}}</p>
+                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
+                        height="15">{{displayDR(square.newShieldDr, 'shield', square)}}
+                    </p>
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
@@ -322,11 +326,14 @@
                   square.addrolemods ?
                   selectedRole.init : 0) + square.init}}</p>
                 <p class="def">{{evaluateDefense(square)}}</p>
-                <p class="fatigue">{{ newSelectedWeapon ? newWeaponInfo.type : square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
+                <p class="fatigue">{{ newSelectedWeapon ? newWeaponInfo.type : square.selectedweapon ?
+                  square.weaponInfo.type : square.damagetype }}</p>
                 <div class="dr">
                   <p>{{displayDR(square.newDR, 'armor', square)}}</p>
                   <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square)">
-                    <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15" height="15">{{displayDR(square.newShieldDr, 'shield', square)}}</p>
+                    <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
+                      height="15">{{displayDR(square.newShieldDr, 'shield', square)}}
+                  </p>
                 </div>
                 <div class="measure">
                   <p *ngIf="newWeaponInfo.weapontype !== 'r'">{{(newSelectedWeapon ? newWeaponInfo.measure :
@@ -634,6 +641,12 @@
       </h2>
       <div class="divider"></div>
       <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && encounter.temperament">
+        <div *ngIf="encounter.sign" class="flex-row-opposite">
+          <h3>Sign <i class="fas fa-info-circle icon-small blue"
+            matTooltip="A sign is something that hints of the monster before the players actually interact with it.
+            You can use them on a 'Close Call' result or as a way to warn your players about an encounter before it happens."></i></h3>
+          <p>{{encounter.sign.sign}}</p>
+        </div>
         <div class="playerShell">
           <div class="flex-row-opposite">
             <h3>Main Players</h3>

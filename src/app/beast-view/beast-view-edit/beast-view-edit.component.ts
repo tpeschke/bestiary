@@ -59,6 +59,10 @@ export class BeastViewEditComponent implements OnInit {
     tooltip: null,
     weight: null
   };
+  public signs = {
+    sign: null,
+    weight: null
+  }
   public rank = {
     rank: null,
     weight: null,
@@ -705,6 +709,11 @@ export class BeastViewEditComponent implements OnInit {
     } else if (type === 'noun') {
       this.noun = {
         noun: null
+      }
+    } else if (type === 'sign') {
+      this.signs = {
+        sign: null,
+        weight: null
       }
     }
   }
