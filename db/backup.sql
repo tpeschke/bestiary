@@ -317,3 +317,15 @@ create table bbskillbeast (
 	beastid int,
 	challengeid int
 )
+
+create table bbsigns (
+    id serial primary key,
+    sign varchar(250)
+);
+
+create table bbbeastsigns (
+    id serial primary key,
+    beastid int,
+    signid int,
+    weight int
+);

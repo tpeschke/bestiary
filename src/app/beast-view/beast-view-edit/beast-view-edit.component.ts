@@ -122,6 +122,7 @@ export class BeastViewEditComponent implements OnInit {
         if (this.beast.skillrole) {
           this.selectedSkillRole = this.skillRolesInfo[this.beast.skillrole]
         }
+        this.beast.patreon = 20
         this.beastService.getEditEncounter(this.route.snapshot.params.templateId).subscribe(encounter => {
           this.encounter = encounter
         })
@@ -171,7 +172,7 @@ export class BeastViewEditComponent implements OnInit {
           size: '',
           int: 0,
           subsystem: 0,
-          patreon: 0,
+          patreon: 20,
           vitality: '',
           panic: '',
           stress: 0,

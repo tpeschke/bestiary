@@ -720,17 +720,22 @@
     </mat-tab>
     <mat-tab label="Random Encounters">
       <div class="tab-wrapper">
-        <div *ngIf="encounter">
-          <div>
-            <h3>Temperament</h3>
-            <div>
-              <div *ngFor="let temperament of encounter.temperament.temperament; let i = index">
-                <div class="temperamentList" *ngIf="!temperament.deleted">
-                  <p>{{temperament.temperament}}</p>
-                  <p>{{temperament.weight}}</p>
-                  <i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fas fa-times-circle"></i>
-                </div>
-              </div>
+        <div *ngIf="encounter" class="random-encounters">
+          <!-- <div class="temperamentList" *ngIf="!rank.deleted"> -->
+          <div class="random-container">
+            <table class="first-column-left">
+              <thead>
+                <th colspan="3">Temperament</th>
+              </thead>
+              <tr *ngFor="let temperament of encounter.temperament.temperament; let i = index">
+                <td>{{temperament.temperament}}</td>
+                <td>{{temperament.weight}}</td>
+                <td><i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fas fa-times-circle"></i>
+                </td>
+              </tr>
+            </table>
+            <h4 class="add-from-list">Add from List</h4>
+            <div class="add-new-random">
               <mat-form-field>
                 <mat-label>Select Temperament</mat-label>
                 <mat-select (selectionChange)="captureEncounter($event, 'temperament')">
@@ -743,8 +748,8 @@
                 <input placeholder="Weight" matInput (change)="captureEncounterInput($event, 'temperament', 'weight')">
               </mat-form-field>
             </div>
-            <h3>OR</h3>
-            <div>
+            <h4>Add New</h4>
+            <div class="add-new-random">
               <mat-form-field>
                 <input placeholder="Add Temperament" matInput [value]="temperament.temperament"
                   (change)="captureEncounterInput($event, 'temperament', 'temperament')">
@@ -759,26 +764,29 @@
               </mat-form-field>
             </div>
             <button mat-raised-button (click)="addEncounterItem('temperament', 'temperament')" color="accent"
-              [disabled]="!temperament.temperament || !temperament.tooltip || !temperament.weight">Add
-              Temperament</button>
+              [disabled]="!temperament.temperament || !temperament.tooltip || !temperament.weight"><i
+                class="fa-solid fa-plus"></i></button>
           </div>
 
-          <div>
-            <h3>Rank</h3>
-            <div>
-              <div *ngFor="let rank of encounter.rank.rank; let i = index">
-                <div class="temperamentList" *ngIf="!rank.deleted">
-                  <p>{{rank.rank}}</p>
-                  <p>{{rank.weight}}</p>
-                  <p>{{rank.othertypechance}}%</p>
-                  <p>-{{rank.decayrate}}%</p>
-                  <p>{{rank.lair}} miles</p>
-                  <p>#{{rank.number}}</p>
-                  <i (click)="removeEncounterItem(i, 'rank', 'rank')" class="fas fa-times-circle"></i>
-                </div>
-              </div>
+          <div class="random-container double-wide-container">
+            <table class="first-column-left">
+              <thead>
+                <th colspan="7">Roles</th>
+              </thead>
+              <tr *ngFor="let rank of encounter.rank.rank; let i = index">
+                <td>{{rank.rank}}</td>
+                <td>{{rank.weight}}</td>
+                <td>{{rank.othertypechance}}%</td>
+                <td>-{{rank.decayrate}}%</td>
+                <td>{{rank.lair}} miles</td>
+                <td>#{{rank.number}}</td>
+                <td><i (click)="removeEncounterItem(i, 'rank', 'rank')" class="fas fa-times-circle"></i></td>
+              </tr>
+            </table>
+            <h4 class="add-from-list">Add from List</h4>
+            <div class="add-new-random">
               <mat-form-field>
-                <mat-label>Select Rank</mat-label>
+                <mat-label>Select Role</mat-label>
                 <mat-select (selectionChange)="captureEncounter($event, 'rank')">
                   <mat-option *ngFor="let rank of encounter.rank.allRank" [value]="rank">
                     {{rank.rank}}
@@ -803,10 +811,10 @@
                 <input placeholder="Number as dice" matInput (change)="captureEncounterInput($event, 'rank', 'number')">
               </mat-form-field>
             </div>
-            <h3>OR</h3>
-            <div>
+            <h4>Add New</h4>
+            <div class="add-new-random">
               <mat-form-field>
-                <input placeholder="Add Rank" matInput [value]="rank.rank"
+                <input placeholder="Add Role" matInput [value]="rank.rank"
                   (change)="captureEncounterInput($event, 'rank', 'rank')">
               </mat-form-field>
               <mat-form-field>
@@ -829,19 +837,22 @@
               </mat-form-field>
             </div>
             <button mat-raised-button (click)="addEncounterItem('rank', 'rank')" color="accent"
-              [disabled]="!rank.rank || !rank.weight || !rank.othertypechance || !rank.decayrate || !rank.lair || !rank.number || (rank.othertypechance > 0 && rank.decayrate <= 0)">Add
-              Rank</button>
+              [disabled]="!rank.rank || !rank.weight || !rank.othertypechance || !rank.decayrate || !rank.lair || !rank.number || (rank.othertypechance > 0 && rank.decayrate <= 0)"><i
+              class="fa-solid fa-plus"></i></button>
           </div>
 
-          <div>
-            <h3>Verb</h3>
-            <div>
-              <div *ngFor="let verb of encounter.verb.verb; let i = index">
-                <div class="temperamentList" *ngIf="!verb.deleted">
-                  <p>{{verb.verb}}</p>
-                  <i (click)="removeEncounterItem(i, 'verb', 'verb')" class="fas fa-times-circle"></i>
-                </div>
-              </div>
+          <div class="random-container">
+            <table class="first-column-left">
+              <thead>
+                <th colspan="2">Verb</th>
+              </thead>
+              <tr *ngFor="let verb of encounter.verb.verb; let i = index">
+                <td>{{verb.verb}}</td>
+                <td><i (click)="removeEncounterItem(i, 'verb', 'verb')" class="fas fa-times-circle"></i></td>
+              </tr>
+            </table>
+            <h4 class="add-from-list">Add from List</h4>
+            <div class="add-new-random">
               <mat-form-field>
                 <mat-label>Select Verb</mat-label>
                 <mat-select (selectionChange)="captureEncounter($event, 'verb')">
@@ -851,27 +862,29 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <h3>OR</h3>
-            <div>
+            <h4>Add New</h4>
+            <div class="add-new-random">
               <mat-form-field>
                 <input placeholder="Add Verb" matInput [value]="verb.verb"
                   (change)="captureEncounterInput($event, 'verb', 'verb')">
               </mat-form-field>
             </div>
             <button mat-raised-button (click)="addEncounterItem('verb', 'verb')" color="accent"
-              [disabled]="!verb.verb">Add
-              Verb</button>
+              [disabled]="!verb.verb"><i class="fa-solid fa-plus"></i></button>
           </div>
 
-          <div>
-            <h3>Noun</h3>
-            <div>
-              <div *ngFor="let noun of encounter.noun.noun; let i = index">
-                <div class="temperamentList" *ngIf="!noun.deleted">
-                  <p>{{noun.noun}}</p>
-                  <i (click)="removeEncounterItem(i, 'noun', 'noun')" class="fas fa-times-circle"></i>
-                </div>
-              </div>
+          <div class="random-container">
+            <table class="first-column-left">
+              <thead>
+                <th colspan="2">Noun</th>
+              </thead>
+              <tr *ngFor="let noun of encounter.noun.noun; let i = index">
+                <td>{{noun.noun}}</td>
+                <i (click)="removeEncounterItem(i, 'noun', 'noun')" class="fas fa-times-circle"></i>
+              </tr>
+            </table>
+            <h4 class="add-from-list">Add from List</h4>
+            <div class="add-new-random">
               <mat-form-field>
                 <mat-label>Select Noun</mat-label>
                 <mat-select (selectionChange)="captureEncounter($event, 'noun')">
@@ -881,16 +894,15 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <h3>OR</h3>
-            <div>
+            <h4>Add New</h4>
+            <div class="add-new-random">
               <mat-form-field>
                 <input placeholder="Add Noun" matInput [value]="noun.noun"
                   (change)="captureEncounterInput($event, 'noun', 'noun')">
               </mat-form-field>
             </div>
             <button mat-raised-button (click)="addEncounterItem('noun', 'noun')" color="accent"
-              [disabled]="!noun.noun">Add
-              Noun</button>
+              [disabled]="!noun.noun"><i class="fa-solid fa-plus"></i></button>
           </div>
         </div>
       </div>

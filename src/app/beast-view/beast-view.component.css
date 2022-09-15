@@ -707,6 +707,14 @@ table tbody tr td:first-child {
     text-align: center;
 }
 
+.random-encounters .random-container table tbody tr td:last-child {
+    text-align: center;
+}
+
+.first-column-left tbody tr td:first-child {
+    text-align: left;
+}
+
 tbody tr:nth-child(even) {
     background-color: lightgrey;
 }
@@ -729,6 +737,53 @@ th {
 
 .fourth-left tr td:nth-child(4) {
     text-align: left;
+}
+
+.random-encounters {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.random-container {
+    width: 33%;
+    margin-bottom: 15px;
+}
+
+.double-wide-container {
+    width: 60%;
+}
+
+.random-container .add-new-random {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.random-encounters table {
+    width: 100%;
+}
+
+.add-from-list {
+    margin-top: 15px;
+}
+
+.random-container i:hover {
+  color: red
+}
+
+.random-container mat-form-field {
+    font-size: 14px;
+    width: 49%;
+    margin-right: 0px;
+}
+
+.double-wide-container mat-form-field {
+    width: 30%;
+}
+
+.random-container button {
+    margin: 0
 }
 
 .rolled-stats-shell {
@@ -845,6 +900,10 @@ mat-form-field.fatigue-field {
 
 @media (max-width: 699px) {
     .lairLoot li {
+        width: 100%;
+    }
+
+    .random-container, .double-wide-container {
         width: 100%;
     }
 }
