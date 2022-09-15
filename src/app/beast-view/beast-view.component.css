@@ -723,16 +723,18 @@ th, td {
     padding: 4px 7px;
 }
 
-th {
+
+table tr th {
+    background: #4b4b4b;
+    color: white;
+}
+
+thead th {
     background: #607d8b;
     color: white;
     position: sticky;
     font-family: "ancient";
     letter-spacing: 2px;
-}
-
-table tr th {
-    background: #4b4b4b !important;
 }
 
 .first-left tr td:first-child, .first-left tr th:first-child {
