@@ -715,7 +715,7 @@ table tbody tr td:first-child {
     text-align: left;
 }
 
-tbody tr:nth-child(even) {
+tbody tr:nth-child(odd) {
     background-color: lightgrey;
 }
 
@@ -729,6 +729,10 @@ th {
     position: sticky;
     font-family: "ancient";
     letter-spacing: 2px;
+}
+
+table tr th {
+    background: #4b4b4b !important;
 }
 
 .first-left tr td:first-child, .first-left tr th:first-child {

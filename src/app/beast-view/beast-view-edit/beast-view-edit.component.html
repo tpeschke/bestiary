@@ -727,6 +727,11 @@
               <thead>
                 <th colspan="3">Temperament</th>
               </thead>
+              <tr>
+                <th>Value</th>
+                <th>Weight</th>
+                <th></th>
+              </tr>
               <tr *ngFor="let temperament of encounter.temperament.temperament; let i = index">
                 <td>{{temperament.temperament}}</td>
                 <td>{{temperament.weight}}</td>
@@ -773,12 +778,21 @@
               <thead>
                 <th colspan="7">Roles</th>
               </thead>
+              <tr>
+                <th>Role</th>
+                <th>Weight</th>
+                <th>Chance of Other</th>
+                <th>Chance Decay Rate</th>
+                <th>Miles from Lair</th>
+                <th># Appearing</th>
+                <th></th>
+              </tr>
               <tr *ngFor="let rank of encounter.rank.rank; let i = index">
                 <td>{{rank.rank}}</td>
                 <td>{{rank.weight}}</td>
                 <td>{{rank.othertypechance}}%</td>
                 <td>-{{rank.decayrate}}%</td>
-                <td>{{rank.lair}} miles</td>
+                <td>{{rank.lair}}</td>
                 <td>#{{rank.number}}</td>
                 <td><i (click)="removeEncounterItem(i, 'rank', 'rank')" class="fas fa-times-circle"></i></td>
               </tr>
@@ -910,6 +924,11 @@
               <thead>
                 <th colspan="3">Signs</th>
               </thead>
+              <tr>
+                <th>Value</th>
+                <th>Weight</th>
+                <th></th>
+              </tr>
               <tr *ngFor="let sign of encounter.signs.signs; let i = index">
                 <td>{{sign.sign}}</td>
                 <td>{{sign.weight}}</td>
