@@ -59,7 +59,7 @@
                   <mat-form-field>
                     <input matInput>
                   </mat-form-field>
-                  <p>/ {{vitalities.locationCheckboxes.mainVitality.rolled}}</p>
+                  <p> / ({{convertFatigue(beast)}}) / {{vitalities.locationCheckboxes.mainVitality.rolled}}</p>
                 </div>
               </div>
 
@@ -140,11 +140,11 @@
                   <p class="atk">{{square.atk}}</p>
                   <p class="init">{{(square.selectedarmor ? square.armorInfo.init : 0) + square.init}}</p>
                   <p class="def">{{evaluateDefense(square, beast.roleinfo, beast.size)}}</p>
-                  <p class="fatigue">{{ convertFatigue(beast.averageVitality, square.fatigue) }}</p>
+                  <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
                     <p>{{displayDR(square.newDR, 'armor', square)}}</p>
                     <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square) > 0">
-                      {{displayDR(square.newShieldDr, 'shield', square)}}</p>
+                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15" height="15">{{displayDR(square.newShieldDr, 'shield', square)}}</p>
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : 0) +
@@ -171,11 +171,11 @@
                   <p class="init">{{(square.selectedarmor ? square.armorInfo.init : beast.roleinfo.init) + square.init}}
                   </p>
                   <p class="def">{{evaluateDefense(square, beast.roleinfo, beast.size)}}</p>
-                  <p class="fatigue">{{ convertFatigue(beast.averageVitality, square.fatigue) }}</p>
+                  <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
                     <p>{{displayDR(square.newDR, 'armor', square)}}</p>
                     <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square) > 0">
-                      {{displayDR(square.newShieldDr, 'shield', square)}}</p>
+                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15" height="15">{{displayDR(square.newShieldDr, 'shield', square)}}</p>
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
@@ -313,11 +313,11 @@
                     square.addrolemods ?
                     beast.roleinfo.init : 0) + square.init}}</p>
                   <p class="def">{{evaluateDefense(square, beast.roleinfo, beast.size)}}</p>
-                  <p class="fatigue">{{ convertFatigue(beast.averageVitality, square.fatigue) }}</p>
+                  <p class="fatigue">{{ newSelectedWeapon ? newWeaponInfo.type : square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
                     <p>{{displayDR(square.newDR, 'armor', square)}}</p>
                     <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square)">
-                      {{displayDR(square.newShieldDr, 'shield', square)}}</p>
+                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15" height="15">{{displayDR(square.newShieldDr, 'shield', square)}}</p>
                   </div>
                   <div class="measure">
                     <p *ngIf="newWeaponInfo.weapontype !== 'r'">{{(newSelectedWeapon ? newWeaponInfo.measure :

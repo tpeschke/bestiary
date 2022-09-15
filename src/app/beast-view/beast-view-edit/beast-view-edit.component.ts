@@ -39,8 +39,10 @@ export class BeastViewEditComponent implements OnInit {
   public newChallengeId = null;
   public averageVitality = null;
   public lootTables = lootTables;
+  public displayFatigue = null;
+  public fatigueAsVitality: any = '';
   public selectedRoleId = null;
-  public selectedRole = {}
+  public selectedRole: any = {}
   public selectedSocialRole = {}
   public selectedSkillRole = {}
   public newRole = {
@@ -199,6 +201,7 @@ export class BeastViewEditComponent implements OnInit {
         }
       }
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
+      this.determineBaseFatigue()
       this.beast.roles.forEach(role => {
         if (role.vitality) {
           this.beast.roleInfo[role.id].average = this.calculatorService.rollDice(role.vitality)
@@ -258,10 +261,12 @@ export class BeastViewEditComponent implements OnInit {
         objectToModify = this.beast.roleInfo[this.selectedRoleId]
         this.beast.roleInfo[this.selectedRoleId] = Object.assign({}, objectToModify, { [type]: event.target.value })
       } else {
+        console.log(type, event.target.value)
         this.beast = Object.assign({}, objectToModify, { [type]: event.target.value })
       }
       if (type === 'vitality') {
         this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
+        this.determineBaseFatigue();
       }
     } else if (secondaryType && !thirdType) {
       let newSecondaryObject = [...this.beast[type]]
@@ -306,6 +311,12 @@ export class BeastViewEditComponent implements OnInit {
         this.beast.roleInfo[this.selectedRoleId][type] = event.value
       } else {
         this.beast[type] = event.value
+        if (type === 'basefatigue') {
+          let oldFatigueValue = this.getFatigueValue(this.displayFatigue)
+            , newFatigueValue = event.value ? event.value : this.selectedRole ? this.selectedRole.fatigue : 'C'
+          this.updateCombatPoints(this.getFatigueValue(newFatigueValue) - (oldFatigueValue ? oldFatigueValue : 0));
+          this.determineBaseFatigue()
+        }
       }
     }
   }
@@ -320,7 +331,7 @@ export class BeastViewEditComponent implements OnInit {
   getValueForPointChange = (type, oldValue, newValue) => {
     let valueToCompare = 0
     let valueChange;
-    if (type !== 'traits' && type !== 'devotions' && type !== 'flaws') {
+    if (type !== 'traits' && type !== 'devotions' && type !== 'flaws' && type !== 'basefatigue') {
       if (type === 'panic') {
         valueChange = this.getPanicValue(oldValue) - this.getPanicValue(newValue)
       } else if (type === 'vitality' && !this.selectedRoleId) {
@@ -996,19 +1007,25 @@ export class BeastViewEditComponent implements OnInit {
       }
     })
 
+    let fatigueAddedIn = false;
+
     this.beast.combat.forEach(weapon => {
       if (weapon.roleid === null) {
         let { def, newDR, parry, newShieldDr, newDamage, atk, rangedDamage, spd, measure, ranges, weapontype, fatigue, selectedweapon, damageskill, weaponInfo, damagetype} = weapon
-        if (fatigue === 'N') {
-          combatpoints += 4
-        } else if (fatigue === 'W') {
-          combatpoints -= 4
-        } else if (fatigue === 'B') {
-          combatpoints -= 8
-        } else if (fatigue === 'H') {
-          combatpoints -= 12
-        } else if (fatigue === 'A') {
-          combatpoints -= 16
+        
+        if (!fatigueAddedIn) {
+          if (fatigue === 'N') {
+            combatpoints += 4
+          } else if (fatigue === 'W') {
+            combatpoints -= 4
+          } else if (fatigue === 'B') {
+            combatpoints -= 8
+          } else if (fatigue === 'H') {
+            combatpoints -= 12
+          } else if (fatigue === 'A') {
+            combatpoints -= 16
+          }
+          fatigueAddedIn = true;
         }
         // combatpoints += evaluateDefense(def)
         combatpoints += newDR.flat
@@ -1094,20 +1111,26 @@ export class BeastViewEditComponent implements OnInit {
 
       let weapons = this.beast.combat.filter(weapon => weapon.roleid === role.id)
 
+      let fatigueAddedIn = false;
+
       if (weapons.length > 0) {
         weapons.forEach(weapon => {
           if (weapon.roleid === null) {
             let { def, newDR, parry, newShieldDr, newDamage, atk, spd, measure, ranges, weapontype, fatigue } = weapon
-            if (fatigue === 'N') {
-              combatpoints += 4
-            } else if (fatigue === 'W') {
-              combatpoints -= 4
-            } else if (fatigue === 'B') {
-              combatpoints -= 8
-            } else if (fatigue === 'H') {
-              combatpoints -= 12
-            } else if (fatigue === 'A') {
-              combatpoints -= 16
+
+            if (!fatigueAddedIn) {
+              if (fatigue === 'N') {
+                combatpoints += 4
+              } else if (fatigue === 'W') {
+                combatpoints -= 4
+              } else if (fatigue === 'B') {
+                combatpoints -= 8
+              } else if (fatigue === 'H') {
+                combatpoints -= 12
+              } else if (fatigue === 'A') {
+                combatpoints -= 16
+              }
+              fatigueAddedIn = true
             }
             combatpoints += eval(def)
             combatpoints += newDR.flat
@@ -1151,16 +1174,20 @@ export class BeastViewEditComponent implements OnInit {
         this.beast.combat.forEach(weapon => {
           if (weapon.roleid === null) {
             let { def, newDR, parry, newShieldDr, newDamage, atk, spd, measure, ranges, weapontype, fatigue } = weapon
-            if (fatigue === 'N') {
-              combatpoints += 4
-            } else if (fatigue === 'W') {
-              combatpoints -= 4
-            } else if (fatigue === 'B') {
-              combatpoints -= 8
-            } else if (fatigue === 'H') {
-              combatpoints -= 12
-            } else if (fatigue === 'A') {
-              combatpoints -= 16
+
+            if (!fatigueAddedIn) {
+              if (fatigue === 'N') {
+                combatpoints += 4
+              } else if (fatigue === 'W') {
+                combatpoints -= 4
+              } else if (fatigue === 'B') {
+                combatpoints -= 8
+              } else if (fatigue === 'H') {
+                combatpoints -= 12
+              } else if (fatigue === 'A') {
+                combatpoints -= 16
+              }
+              fatigueAddedIn = true
             }
             // combatpoints += evaluateDefense(def)
             combatpoints += newDR.flat
@@ -1421,5 +1448,86 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     return (stress * percentage).toFixed(0)
+  }
+
+  determineBaseFatigue = () => {
+    let {combat, basefatigue} = this.beast
+    let armor = null;
+    let weaponFatigue = null
+
+    if (basefatigue) {
+      this.displayFatigue = basefatigue;
+    } else {
+      for (let i = 0; i < combat.length; i++) {
+        let weapon = combat[i]
+        if (weapon.roleid === this.selectedRoleId) {
+          weaponFatigue = weapon.fatigue
+          weapon.selectedarmor = armor
+          i = combat.length
+        }
+      }
+  
+      this.displayFatigue = armor ? armor.fatigue : this.selectedRole ? this.selectedRole.fatigue : weaponFatigue ? weaponFatigue : 'C';
+    }
+    this.convertFatigue()
+  }
+
+  convertFatigue() {
+    if (isNaN(this.averageVitality)) {
+      return ' '
+    }
+
+    let percentage: any = .00;
+    switch (this.displayFatigue) {
+      case 'A':
+        percentage =  'A'
+        break;
+      case 'H':
+        percentage =  1
+        break;
+      case 'B':
+        percentage = .25
+        break;
+      case 'W':
+        percentage = .5
+        break;
+      case 'C':
+        percentage = .75
+        break;
+      case 'N':
+        percentage = 'N'
+        break;
+      default:
+        percentage = .75
+    }
+
+    if (percentage < 1 && !isNaN(percentage)) {
+      this.fatigueAsVitality = `Fatigued at ${(this.averageVitality * percentage).toFixed(0)} damage`
+    } else if (!isNaN(percentage)) {
+      this.fatigueAsVitality = `Fatigued at ${percentage} damage`
+    } else if (percentage === 'A') {
+      this.fatigueAsVitality = "This Monster is Always Fatigued"
+    } else if (percentage === 'N') {
+      this.fatigueAsVitality = "This Monster is Never Fatigued"
+    } else {
+      this.fatigueAsVitality = 'Something went wrong calculating when this monster is fatigued.'
+    }
+  }
+
+  getFatigueValue = (fatigue) => {
+    switch (fatigue) {
+      case 'A':
+        return -16;
+      case 'H':
+        return -12;
+      case 'B':
+        return -8;
+      case 'W':
+        return -4;
+      case 'C':
+        return 0;
+      case 'N':
+        return 4;
+    }
   }
 }

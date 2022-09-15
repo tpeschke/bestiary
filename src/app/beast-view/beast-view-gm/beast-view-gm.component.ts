@@ -458,7 +458,27 @@ export class BeastViewGmComponent implements OnInit {
     return (stress * percentage).toFixed(0)
   }
 
-  convertFatigue(fatigue) {
+  convertFatigue() {
+    let {combat, basefatigue} = this.beast
+    let armor = null;
+    let weaponFatigue = null
+    let displayedFatigue = null
+
+    if (basefatigue) {
+      displayedFatigue = basefatigue;
+    } else {
+      for (let i = 0; i < combat.length; i++) {
+        let weapon = combat[i]
+        if (weapon.roleid === this.selectedRoleId) {
+          weaponFatigue = weapon.fatigue
+          armor = weapon.selectedarmor
+          i = combat.length
+        }
+      }
+  
+      displayedFatigue = armor ? armor.fatigue : this.selectedRole ? this.selectedRole.fatigue : weaponFatigue ? weaponFatigue : 'C';
+    }
+
     let vitality
 
     if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].average) {
@@ -471,7 +491,9 @@ export class BeastViewGmComponent implements OnInit {
       return 'N'
     }
     let percentage = .00;
-    switch (fatigue) {
+    switch (displayedFatigue) {
+      case 'A':
+        return 1
       case 'H':
         return 1
       case 'B':
@@ -537,7 +559,7 @@ export class BeastViewGmComponent implements OnInit {
     let drString = ''
 
     if (adjustedFlat && adjustedSlash) {
-      drString = `${adjustedSlash}/d+${adjustedFlat}`
+      drString = `${adjustedSlash}/d +${adjustedFlat}`
     } else if (adjustedFlat && !adjustedSlash) {
       drString = `${adjustedFlat}`
     } else if (!adjustedFlat && adjustedSlash) {
@@ -737,15 +759,15 @@ export class BeastViewGmComponent implements OnInit {
 
   displayName = (square) => {
     if (square.weapon !== '') {
-      if (square.damagetype && !square.weapon.includes('(')) {
-        return `${square.weapon} (${square.damagetype})`
+      if (square.damagetype && square.weapon.includes('(')) {
+        return `${square.weapon.slice(0, -4)}`
       }
       return square.weapon
     }
     let {selectedweapon, selectedarmor, selectedshield} = square
-  
-    if (selectedweapon && square.weaponInfo.type && !selectedweapon.includes('(')) {
-      selectedweapon = `${selectedweapon} (${square.weaponInfo.type})`
+
+    if (selectedweapon && selectedweapon.includes('(')) {
+      selectedweapon = `${selectedweapon.slice(0, -4)}`
     }
   
     if (selectedweapon && selectedarmor && selectedshield) {
@@ -868,7 +890,7 @@ export class BeastViewGmComponent implements OnInit {
         if (this.newWeaponInfo && this.newWeaponInfo.bonusLong) {
           this.beast.specialAbilities[this.selectedRoleId].push(this.newWeaponInfo.bonusLong)
         }
-        if (square.shieldInfo.bonusLong) {
+        if (square.shieldInfo && square.shieldInfo.bonusLong) {
           this.beast.specialAbilities[this.selectedRoleId] = this.beast.specialAbilities[this.selectedRoleId].filter(bonus => bonus !== square.shieldInfo.bonusLong)
         }
         if (this.newShieldInfo && this.newShieldInfo.bonusLong) {
@@ -951,17 +973,21 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (this.newSelectedArmor) {
         this.selectedRole.armor.forEach(armorCat => {
-          let result = armorCat.items.includes(this.newSelectedArmor)
-          if (result) {
-            turnOnAllEquipment = false
+          if (armorCat.items) {
+            let result = armorCat.items.includes(this.newSelectedArmor)
+            if (result) {
+              turnOnAllEquipment = false
+            }
           }
         })
       }
       if (this.newSelectedShield) {
         this.selectedRole.shields.forEach(shieldCat => {
-          let result = shieldCat.items.includes(this.newSelectedShield)
-          if (result) {
-            turnOnAllEquipment = false
+          if (shieldCat.items) {
+            let result = shieldCat.items.includes(this.newSelectedShield)
+            if (result) {
+              turnOnAllEquipment = false
+            }
           }
         })
       }

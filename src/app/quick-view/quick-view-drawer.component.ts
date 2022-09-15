@@ -97,13 +97,26 @@ export class QuickViewDrawerComponent implements OnInit {
     return (stress * percentage).toFixed(0)
   }
 
-  convertFatigue(vitality, fatigue) {
-    if (isNaN(vitality)) {
-      return 'N'
+  convertFatigue(beast) {
+    let { combat, basefatigue, averageVitality, roleinfo } = beast
+    let armor = null;
+    let weaponFatigue = null
+    let displayedFatigue = armor ? armor.fatigue : roleinfo ? roleinfo.fatigue :  weaponFatigue ? weaponFatigue : 'C';
+
+    if (basefatigue) {
+      displayedFatigue = basefatigue;
+    } else {
+      weaponFatigue = combat[0].fatigue
+      armor = combat[0].selectedarmor
     }
 
+    if (isNaN(averageVitality)) {
+      return 'N'
+    }
     let percentage = .00;
-    switch (fatigue) {
+    switch (displayedFatigue) {
+      case 'A':
+        return 'A'
       case 'H':
         return 1
       case 'B':
@@ -121,7 +134,7 @@ export class QuickViewDrawerComponent implements OnInit {
         percentage = .75
     }
 
-    return (vitality * percentage).toFixed(0)
+    return (averageVitality * percentage).toFixed(0)
   }
 
   displayDamage = (square, roleinfo) => {
@@ -377,8 +390,8 @@ export class QuickViewDrawerComponent implements OnInit {
     }
     let { selectedweapon, selectedarmor, selectedshield } = square
 
-    if (selectedweapon && square.weaponInfo.type && !selectedweapon.includes('(')) {
-      selectedweapon = `${selectedweapon} (${square.weaponInfo.type})`
+    if (selectedweapon && selectedweapon.includes('(')) {
+      selectedweapon = `${selectedweapon.slice(0, -4)}`
     }
 
     if (selectedweapon && selectedarmor && selectedshield) {
@@ -566,17 +579,22 @@ export class QuickViewDrawerComponent implements OnInit {
       }
       if (this.newSelectedArmor) {
         roleInfo.armor.forEach(armorCat => {
-          let result = armorCat.items.includes(this.newSelectedArmor)
-          if (result) {
-            turnOnAllEquipment = false
+          if (armorCat.items) {
+            let result = armorCat.items.includes(this.newSelectedArmor)
+            if (result) {
+              turnOnAllEquipment = false
+            }
           }
         })
       }
       if (this.newSelectedShield) {
         roleInfo.shields.forEach(shieldCat => {
-          let result = shieldCat.items.includes(this.newSelectedShield)
-          if (result) {
-            turnOnAllEquipment = false
+          console.log(shieldCat.items)
+          if (shieldCat.items) {
+            let result = shieldCat.items.includes(this.newSelectedShield)
+            if (result) {
+              turnOnAllEquipment = false
+            }
           }
         })
       }

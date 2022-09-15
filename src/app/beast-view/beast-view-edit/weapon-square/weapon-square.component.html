@@ -15,10 +15,10 @@
       <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init && square.addrolemods ?
         selectedRole.init : 0) + square.init}}</p>
       <p class="def">{{displayedDefense}}</p>
-      <p class="fatigue">{{ convertFatigue() }}</p>
+      <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
       <div class="dr">
         <p>{{displayedDR}}</p>
-        <p class="shield_dr" *ngIf="displayedShieldDR && displayedShieldDR">{{displayedShieldDR}}</p>
+        <p class="shield_dr" *ngIf="displayedShieldDR && displayedShieldDR"><img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15" height="15">{{displayedShieldDR}}</p>
       </div>
       <div class="measure">
         <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : selectedRole.measure
@@ -191,31 +191,6 @@
         <i class="fas fa-info-circle icon-small blue" matTooltip="The monster's size is factored into Measure."
           matTooltipClass="my-tooltip"></i>
       </div>
-
-      <mat-form-field class="fatigue-field">
-        <mat-label>Fatigue Threshold (+/-4 points per Cat Above/Below Critical)</mat-label>
-        <mat-select [value]="square.fatigue" (selectionChange)="captureSelect($event, 'fatigue')"
-          id="{{selectedRole.strengths && selectedRole.strengths.includes('Fatigue') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Fatigue') ? 'red' : ''}}">
-          <mat-option value="A">
-            Always
-          </mat-option>
-          <mat-option value="H">
-            Hurt
-          </mat-option>
-          <mat-option value="B">
-            Blooded
-          </mat-option>
-          <mat-option value="W">
-            Wounded
-          </mat-option>
-          <mat-option value="C">
-            Critical
-          </mat-option>
-          <mat-option value="N">
-            Never
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
       <mat-form-field *ngIf="square.weapontype === 'r'">
         <input
           id="{{selectedRole.strengths && selectedRole.strengths.includes('Ranged Penalties') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Ranged Penalties') ? 'red' : ''}}"

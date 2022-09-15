@@ -219,7 +219,7 @@ export default {
                 weaknesses: ['/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Melee Attack', 'Recovery', 'Movement', 'Caution Threshold'],
                 description: "Artillery have high ranged attack and damage which means that they can threaten anyone on the battlefield, however, their low mobility and melee abilities means that they can often be charged down and taken out.",
                 vitality: 30,
-                fatigue: 25,
+                fatigue: 'C',
                 def: 0,
                 dr: {
                     flat: 0,
@@ -270,7 +270,7 @@ export default {
                 weaknesses: ['Defense', 'Parry', 'Parry DR', 'Parry /DR', 'Ranged Damage', 'Ranged Attack', 'Recovery', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
                 description: "Brutes are high damage and attack but low mobility making them moving threats. While easy to avoid, they'll punish any players who don't move so they can churn up the battlefield.",
                 vitality: 80,
-                fatigue: 50,
+                fatigue: 'W',
                 def: -4,
                 dr: {
                     flat: 3,
@@ -331,7 +331,7 @@ export default {
                 weaknesses: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
                 description: "Defenders defend. They're tanky: able to take a large amount of damage but they're unable to deal it out or effectively move around.",
                 vitality: 40,
-                fatigue: 25,
+                fatigue: 'C',
                 def: -3,
                 dr: {
                     flat: 2,
@@ -384,7 +384,7 @@ export default {
                 weaknesses: ['/DR', 'Melee Damage', 'Ranged Damage', 'Range Penalties'],
                 description: "The fencer is particularly good at one-on-one fights due to their fast attack and high parry but they tend to suffer from being out numbered or out ranged.",
                 vitality: 30,
-                fatigue: 25,
+                fatigue: 'C',
                 def: 0,
                 dr: {
                     flat: 3,
@@ -441,7 +441,7 @@ export default {
                 weaknesses: ['Defense', 'DR', '/DR', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Range Penalties', 'Caution Threshold'],
                 description: "Flankers are mobile with high damge, however, their attack leaves something to be desired so they focus on getting around the opponent to attack from different angles.",
                 vitality: 30,
-                fatigue: 25,
+                fatigue: 'C',
                 def: 0,
                 dr: {
                     flat: 0,
@@ -490,7 +490,7 @@ export default {
                 weaknesses: ['Vitality', 'Fatigue', '/DR', 'DR', 'Parry', 'Parry DR', 'Parry /DR', 'Movement', 'Stress Threshold', 'Panic Threshold', 'Caution Threshold'],
                 description: "Fooder are good at dealing damage, both melee and ranged, making them versitile but they lack defenses, making them easier to dispatch.",
                 vitality: 15,
-                fatigue: 1,
+                fatigue: "H",
                 def: -2,
                 dr: {
                     flat: 0,
@@ -530,7 +530,7 @@ export default {
                 weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Ranged Damage', 'Ranged Attack', 'Recovery', 'Range Penalties'],
                 description: 'First into combat and first to hit, shock monsters are great on the offensive but terrible in long, drawn out combats.',
                 vitality: 40,
-                fatigue: 25,
+                fatigue: "C",
                 def: -4,
                 dr: {
                     flat: 0,
@@ -591,7 +591,7 @@ export default {
                 weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Ranged Damage', 'Melee Attack', 'Caution Threshold'],
                 description: 'Fast on their feet, the skirmisher focuses on hit-and-run tactics, although their focus on ranged combat makes them squishy in melee.',
                 vitality: 30,
-                fatigue: 25,
+                fatigue: 'C',
                 def: 0,
                 dr: {
                     flat: 0,

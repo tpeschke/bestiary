@@ -295,3 +295,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 #temperamentPTag {
   text-align: right !important;
 }
+
+.shield-dr {
+  float: left;
+  width: unset !important;
+}

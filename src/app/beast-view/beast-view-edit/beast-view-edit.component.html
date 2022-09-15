@@ -604,6 +604,35 @@
             </div>
           </mat-form-field>
           <p>(Ave: {{averageVitality}})</p>
+          <br>
+          <mat-form-field class="fatigue-field">
+            <mat-label>Fatigue Threshold (+/-4 points per Cat Above/Below Critical)</mat-label>
+            <mat-select [value]="displayFatigue" (selectionChange)="captureSelect($event, 'basefatigue')"
+              id="{{selectedRole.strengths && selectedRole.strengths.includes('Fatigue') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Fatigue') ? 'red' : ''}}">
+              <mat-option [value]="null">
+                Default to Role
+              </mat-option>
+              <mat-option value="A">
+                Always
+              </mat-option>
+              <mat-option value="H">
+                Hurt
+              </mat-option>
+              <mat-option value="B">
+                Blooded
+              </mat-option>
+              <mat-option value="W">
+                Wounded
+              </mat-option>
+              <mat-option value="C">
+                Critical
+              </mat-option>
+              <mat-option value="N">
+                Never
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <p>{{fatigueAsVitality}}</p>
 
           <div class="locational-shell">
             <div *ngFor="let location of beast.locationalvitality; let i = index" class="locational-id-shell"

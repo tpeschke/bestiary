@@ -68,11 +68,13 @@ export class WeaponSquareComponent implements OnInit {
       }
       if (this.square.selectedarmor) {
         this.selectedRole.armor.forEach(armorCat => {
-          let result = armorCat.items.includes(this.square.selectedarmor)
-          if (!result) {
-            turnOnArmor = true
-          } else {
-            turnOnArmor = false
+          if (armorCat.items){
+            let result = armorCat.items.includes(this.square.selectedarmor)
+            if (!result) {
+              turnOnArmor = true
+            } else {
+              turnOnArmor = false
+            }
           }
         })
       } else {
@@ -80,11 +82,13 @@ export class WeaponSquareComponent implements OnInit {
       }
       if (this.square.selectedshield) {
         this.selectedRole.shields.forEach(shieldCat => {
-          let result = shieldCat.items.includes(this.square.selectedshield)
-          if (!result) {
-            turnOnShields = true
-          } else {
-            turnOnShields = false
+          if (shieldCat.items) {
+            let result = shieldCat.items.includes(this.square.selectedshield)
+            if (!result) {
+              turnOnShields = true
+            } else {
+              turnOnShields = false
+            }
           }
         })
       } else {
@@ -273,10 +277,7 @@ export class WeaponSquareComponent implements OnInit {
 
   updateNonIntCombatValues = (primary, secondary, value) => {
     if (primary !== 'weapontype') {
-      if (primary === 'fatigue') {
-        let oldFatigueValue = this.getFatigueValue(this.square.fatigue)
-        this.updateCombatPoints(this.getFatigueValue(value) - (oldFatigueValue ? oldFatigueValue : 0));
-      } else if (primary === 'damage dice' && secondary === 'add') {
+      if (primary === 'damage dice' && secondary === 'add') {
         let valueToAdd = 0
 
         switch (+value) {
@@ -333,23 +334,6 @@ export class WeaponSquareComponent implements OnInit {
 
   }
 
-  getFatigueValue = (fatigue) => {
-    switch (fatigue) {
-      case 'A':
-        return -16;
-      case 'H':
-        return -12;
-      case 'B':
-        return -8;
-      case 'W':
-        return -4;
-      case 'C':
-        return 0;
-      case 'N':
-        return 4;
-    }
-  }
-
   checkCheckbox = (type, value) => {
     if (type === 'showAllEquipment') {
       this.showAllEquipment = value
@@ -375,7 +359,7 @@ export class WeaponSquareComponent implements OnInit {
     if (typeof (defMod) === 'string' && defMod.includes('+')) {
       defMod = +defMod.replace('/+/gi', '')
     }
-
+    
     let defBase = this.selectedRole.def && this.square.addrolemods ? this.selectedRole.def : 0
     if (this.square.selectedshield) {
       defBase += this.square.shieldInfo.def
@@ -684,8 +668,8 @@ export class WeaponSquareComponent implements OnInit {
   displayName = () => {
     let { selectedweapon, selectedarmor, selectedshield } = this.square
 
-    if (selectedweapon && this.square.weaponInfo.type && !selectedweapon.includes('(')) {
-      selectedweapon = `${selectedweapon} (${this.square.weaponInfo.type})`
+    if (selectedweapon && selectedweapon.includes('(')) {
+      selectedweapon = `${selectedweapon.slice(0, -4)}`
     }
 
     if (selectedweapon && selectedarmor && selectedshield) {
@@ -705,40 +689,6 @@ export class WeaponSquareComponent implements OnInit {
     } else {
       return ' '
     }
-  }
-
-  convertFatigue() {
-    let vitality
-
-    if (this.selectedRoleId && this.roleVitality) {
-      vitality = this.roleVitality
-    } else {
-      vitality = this.mainVitality
-    }
-
-    if (isNaN(vitality)) {
-      return ' '
-    }
-    let percentage = .00;
-    switch (this.square.fatigue) {
-      case 'H':
-        return 1
-      case 'B':
-        percentage = .25
-        break;
-      case 'W':
-        percentage = .5
-        break;
-      case 'C':
-        percentage = .75
-        break;
-      case 'N':
-        return 'N'
-      default:
-        percentage = .75
-    }
-
-    return (vitality * percentage).toFixed(0)
   }
 
   addedDice() {
