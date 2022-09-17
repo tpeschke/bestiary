@@ -974,13 +974,15 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   turnOnAllEquipment = () => {
-    let turnOnAllEquipment = true
+    let turnOnWeapons = true
+    let turnOnArmor = true
+    let turnOnShields = true
     if (this.selectedRole.weapons || this.selectedRole.armor || this.selectedRole.shields) {
       if (this.newSelectedWeapon) {
         this.selectedRole.weapons.forEach(weaponCat => {
           let result = weaponCat.items.includes(`${this.newSelectedWeapon} (${this.newWeaponInfo.type})`)
           if (result) {
-            turnOnAllEquipment = false
+            turnOnWeapons = false
           }
         })
       }
@@ -989,7 +991,7 @@ export class BeastViewGmComponent implements OnInit {
           if (armorCat.items) {
             let result = armorCat.items.includes(this.newSelectedArmor)
             if (result) {
-              turnOnAllEquipment = false
+              turnOnArmor = false
             }
           }
         })
@@ -999,14 +1001,14 @@ export class BeastViewGmComponent implements OnInit {
           if (shieldCat.items) {
             let result = shieldCat.items.includes(this.newSelectedShield)
             if (result) {
-              turnOnAllEquipment = false
+              turnOnShields = false
             }
           }
         })
       }
     }
 
-    return turnOnAllEquipment
+    return (turnOnWeapons && turnOnArmor && turnOnShields)
   }
 
   checkShowAllEquipment = (checked) => {

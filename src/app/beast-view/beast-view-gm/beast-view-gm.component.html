@@ -222,7 +222,7 @@
                   <div *ngIf="!showAllEquipment && selectedRole.spd && selectedRole.weapons.length > 0">
                     <mat-form-field>
                       <mat-label>Weapon Choices</mat-label>
-                      <mat-select [value]="square.selectedweapon + ' (' + square.type + ')'"
+                      <mat-select [value]="square.selectedweapon"
                         (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
                         <mat-option>None</mat-option>
                         <mat-optgroup *ngFor="let group of selectedRole.weapons" [label]="group.label">
@@ -236,7 +236,7 @@
                   <div *ngIf="showAllEquipment || !selectedRole.spd || !selectedRole.weapons.length > 0">
                     <mat-form-field>
                       <mat-label>Weapon Choices</mat-label>
-                      <mat-select [value]="square.selectedweapon + ' (' + square.type + ')'"
+                      <mat-select [value]="square.selectedweapon"
                         (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
                         <mat-option>None</mat-option>
                         <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">

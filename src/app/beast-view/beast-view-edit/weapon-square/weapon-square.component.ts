@@ -50,53 +50,41 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   turnOnAllEquipment = () => {
-    let turnOnWeapons = false
-    let turnOnArmor = false
-    let turnOnShields = false
+    let turnOnWeapons = true
+    let turnOnArmor = true
+    let turnOnShields = true
     if (this.selectedRole.weapons || this.selectedRole.armor || this.selectedRole.shields) {
       if (this.square.selectedweapon) {
         this.selectedRole.weapons.forEach(weaponCat => {
           let result = weaponCat.items.includes(this.square.selectedweapon)
-          if (!result) {
-            turnOnWeapons = true
-          } else {
+          if (result) {
             turnOnWeapons = false
           }
         })
-      } else {
-        turnOnWeapons = false
       }
       if (this.square.selectedarmor) {
         this.selectedRole.armor.forEach(armorCat => {
           if (armorCat.items){
             let result = armorCat.items.includes(this.square.selectedarmor)
-            if (!result) {
-              turnOnArmor = true
-            } else {
+            if (result) {
               turnOnArmor = false
             }
           }
         })
-      } else {
-        turnOnArmor = false
       }
       if (this.square.selectedshield) {
         this.selectedRole.shields.forEach(shieldCat => {
           if (shieldCat.items) {
             let result = shieldCat.items.includes(this.square.selectedshield)
-            if (!result) {
-              turnOnShields = true
-            } else {
+            if (result) {
               turnOnShields = false
             }
           }
         })
-      } else {
-        turnOnShields = false
       }
     }
 
-    this.showAllEquipment = (turnOnWeapons || turnOnArmor || turnOnShields)
+    this.showAllEquipment = (turnOnWeapons && turnOnArmor && turnOnShields)
   }
 
   captureInput = (event, primary, secondary) => {

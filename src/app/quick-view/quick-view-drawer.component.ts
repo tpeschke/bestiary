@@ -26,6 +26,8 @@ export class QuickViewDrawerComponent implements OnInit {
   public equipmentLists = { weapons: [], armor: [], shields: [] }
   public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
 
+  public roles = roles;
+
   public newSelectedWeapon;
   public newWeaponInfo;
   public newSelectedArmor;
@@ -34,7 +36,7 @@ export class QuickViewDrawerComponent implements OnInit {
   public newShieldInfo;
   public showAllEquipment;
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   toggleQuickViewList() {
     this.beastService.getEquipment().subscribe(res => {
