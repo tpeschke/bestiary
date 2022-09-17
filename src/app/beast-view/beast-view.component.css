@@ -181,6 +181,13 @@ mat-toolbar {
     margin-left: 5px
 }
 
+.flex-row-together {
+    justify-content: flex-start;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+
 .left {
     padding: 15px;
     min-height: 500px;

@@ -239,6 +239,7 @@ let controllerObj = {
             baseParry = weaponObj.parry
 
             baseMeasure = weaponObj.measure
+            weapon.damagetype = weaponObj.type
           }
 
           weapon.spd += baseSpd
@@ -966,9 +967,16 @@ let controllerObj = {
       return result
     }))
 
-    promiseArray.push(db.get.encounter.battlefield(beastId).then(result => {
+    promiseArray.push(db.get.encounter.battlefield().then(result => {
       if (result[0]) {
         encounterObject.battlefield = result[0].battlefield
+      }
+      return result
+    }))
+
+    promiseArray.push(db.get.encounter.pattern().then(result => {
+      if (result[0]) {
+        encounterObject.pattern = result[0].pattern
       }
       return result
     }))
@@ -1380,14 +1388,26 @@ function displayDamage(weapon, roleToUse, addrolemods) {
   })
 
   let crushingDamageMod = 0
-  let damagetype = weapon.selectedweapon ? equipmentCtrl.getWeapon(weapon.selectedweapon).type : weapon.damagetype
-  if (weapon.damageskill) {
+  let damagetype = square.selectedweapon ? square.weaponInfo.type : square.damagetype
+  if (square.damageskill) {
     if (damagetype === 'S') {
-      diceObject.d4s += Math.ceil(weapon.damageskill / 2)
+      diceObject.d4s += Math.floor(square.damageskill / 2)
+      let leftover = square.damageskill % 2
+      if (leftover === 1) {
+        diceObject.d3s += 1
+      }
     } else if (damagetype === 'P') {
-      diceObject.d8s += Math.ceil(weapon.damageskill / 4)
+      diceObject.d8s += Math.floor(square.damageskill / 4)
+      let leftover = square.damageskill % 4
+      if (leftover === 1) {
+        diceObject.d3s += 1
+      } else if (leftover === 2) {
+        diceObject.d4s += 1
+      } else if (leftover === 4) {
+        diceObject.d6s += 1
+      }
     } else {
-      crushingDamageMod = weapon.damageskill
+      crushingDamageMod = square.damageskill
     }
   }
 

@@ -576,9 +576,21 @@ export class WeaponSquareComponent implements OnInit {
     let damagetype = this.square.selectedweapon ? this.square.weaponInfo.type : this.square.damagetype
     if (this.square.damageskill) {
       if (damagetype === 'S') {
-        diceObject.d4s += Math.ceil(this.square.damageskill / 2)
+        diceObject.d4s += Math.floor(this.square.damageskill / 2)
+        let leftover = this.square.damageskill % 2
+        if (leftover === 1) {
+          diceObject.d3s += 1
+        }
       } else if (damagetype === 'P') {
-        diceObject.d8s += Math.ceil(this.square.damageskill / 4)
+        diceObject.d8s += Math.floor(this.square.damageskill / 4)
+        let leftover = this.square.damageskill % 4
+        if (leftover === 1) {
+          diceObject.d3s += 1
+        } else if (leftover === 2) {
+          diceObject.d4s += 1
+        } else if (leftover === 4) {
+          diceObject.d6s += 1
+        }
       } else {
         crushingDamageMod = this.square.damageskill
       }

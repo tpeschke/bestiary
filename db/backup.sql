@@ -203,6 +203,18 @@ insert into bbbattlefield (battlefield) values
 , ('Ambush (for Enemies)'), ('Ambush (for Company)'), ('Bad Weather')
 , ('More Powerful Force Shows Up During')
 
+create table bbbattlefieldpattern (
+    id serial primary key,
+    pattern varchar(250)
+);
+
+insert into bbbattlefieldpattern (pattern) values 
+('Open Field'), ('Divide')
+, ('Danger Wall'), ('Pillar'), ('Guardian')
+, ('Pincer'), ('Funnel'), ('Horseshoe')
+, ('Long-Path'), ('Alley'), ('Up-Hill')
+, ('King of the Hill')
+
 create table bblairlootbasic (
 	id serial primary key,
 	beastid int,

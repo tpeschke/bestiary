@@ -134,7 +134,8 @@
                     matTooltipClass="my-tooltip"></i> </h3>
 
                 <div *ngIf="!beast.roleinfo || !square.addrolemods" class="square-shell">
-                  <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
+                  <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
+                  <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
                   <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : 0) + (square.selectedarmor ?
                     square.armorInfo.rec : 0) + square.spd}}</p>
                   <p class="atk">{{square.atk}}</p>
@@ -158,12 +159,13 @@
                   </div>
                   <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square, beast.roleinfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p class="parry">{{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry :
+                  <p *ngIf="square.weapontype === 'm'" class="parry">{{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry :
                     square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : 0) + square.parry}}</p>
                 </div>
 
                 <div *ngIf="beast.roleinfo && square.addrolemods" class="square-shell">
-                  <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
+                  <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
+                  <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
                   <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : beast.roleinfo.spd) +
                     (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
                   <p class="atk">{{(square.weapontype === 'm' ? beast.roleinfo.atk : beast.roleinfo.rangedAtk) +
@@ -190,7 +192,7 @@
                   </div>
                   <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square, beast.roleinfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">{{square.showmaxparry ? 'EUA' :
+                  <p *ngIf="square.weapontype === 'm'" class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">{{square.showmaxparry ? 'EUA' :
                     (square.selectedshield ? square.shieldInfo.parry : square.selectedweapon &&
                     square.weaponInfo.parry ?
                     square.weaponInfo.parry : beast.roleinfo.parry) + square.parry}}<i *ngIf="square.showmaxparry"
@@ -301,7 +303,8 @@
                 </div>
 
                 <div class="square-shell">
-                  <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
+                  <img *ngIf="newWeaponInfo.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
+                  <img *ngIf="newWeaponInfo.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
                   <p class="spd">{{(newSelectedWeapon ? newWeaponInfo.rec : beast.roleinfo.spd && square.addrolemods
                     ?
                     beast.roleinfo.spd : 0) + (newSelectedArmor ? newArmorInfo.rec : 0) + square.spd}}</p>
@@ -337,7 +340,7 @@
                   </div>
                   <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square, beast.roleinfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p class="parry">{{square.showmaxparry ? 'EUA' : (newSelectedShield? newShieldInfo.parry :
+                  <p *ngIf="newWeaponInfo.weapontype === 'm'" class="parry">{{square.showmaxparry ? 'EUA' : (newSelectedShield? newShieldInfo.parry :
                     newSelectedWeapon && newWeaponInfo.parry ? newWeaponInfo.parry : beast.roleinfo.parry &&
                     square.addrolemods ? beast.roleinfo.parry : 0) + square.parry}}</p>
                 </div>

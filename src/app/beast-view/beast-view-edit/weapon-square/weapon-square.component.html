@@ -7,7 +7,8 @@
 <div class="edit-combat-squares-shell">
   <div>
     <div class="square-shell">
-      <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
+      <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
+      <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
       <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd && square.addrolemods ?
         selectedRole.spd : 0) + (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
       <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk && square.addrolemods ? selectedRole.atk : 0 :
