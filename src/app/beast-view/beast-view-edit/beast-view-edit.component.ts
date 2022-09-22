@@ -687,7 +687,7 @@ export class BeastViewEditComponent implements OnInit {
   //ENCOUNTER STUFF BECAUSE I KNOW THERE WILL BE A LOT
 
   addEncounterItem(type, subtype) {
-    this.encounter[type][subtype].push(this[type])
+    this.encounter[type][subtype].push({...this[type]})
     if (type === 'temperament') {
       this.temperament = {
         temperament: null,
