@@ -1,0 +1,1 @@
+delete from bbbeastsigns where beastid = $1 and signid = $2
