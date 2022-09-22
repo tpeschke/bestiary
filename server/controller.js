@@ -183,7 +183,7 @@ let controllerObj = {
           beast.role = roletype
         }
       }
-      
+
       if (!beast.stressthreshold) {
         beast.panic = 7
       }
@@ -218,10 +218,10 @@ let controllerObj = {
               weapon.atk += roleInfo.rangedAtk
             }
 
-            weapon.def = roleInfo.def + +weapon.def 
+            weapon.def = roleInfo.def + +weapon.def
             weapon.parry += roleInfo.parry
             weapon.init += roleInfo.init
-            
+
             baseMeasure = roleInfo.measure
             baseSpd = roleInfo.spd
           }
@@ -255,7 +255,7 @@ let controllerObj = {
 
           if (weapon.selectedshield) {
             shieldObj = equipmentCtrl.getShield(weapon.selectedshield)
-          
+
             baseParry = shieldObj.parry
 
             weapon.def += shieldObj.def
@@ -367,7 +367,7 @@ let controllerObj = {
         promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then().catch(e => console.log('----------------------- add beast reagents: ', e)))
       })
 
-      let { temperament, rank, verb, noun, signs  } = encounter;
+      let { temperament, rank, verb, noun, signs } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted, temperamentid }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.temperament(beastid, tempid).catch(e => console.log('----------------------- add beast delete temp: ', e)))
@@ -674,7 +674,7 @@ let controllerObj = {
           })
         }
       })
-      
+
       signs.signs.forEach(({ sign, weight, id: signid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.signs(beastid, signid).catch(e => console.log('----------------------- add beast delete sign: ', e)))
@@ -1113,7 +1113,7 @@ async function collectComplication(db, beastId) {
           time: '30d2'
         }
       })
-    } else if (complication.id >= 12) {
+    } else if (complication.id === 12) {
       //roll an additional time
       let promiseArray = []
       promiseArray.push(collectComplication(db, beastId).then(result => {
@@ -1455,8 +1455,8 @@ function displayDamage(weapon, roleToUse, addrolemods) {
   return diceString
 }
 
-function displayName (weapon) {
-  let {selectedweapon, selectedarmor, selectedshield} = weapon
+function displayName(weapon) {
+  let { selectedweapon, selectedarmor, selectedshield } = weapon
 
   if (selectedweapon && selectedarmor && selectedshield) {
     return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
