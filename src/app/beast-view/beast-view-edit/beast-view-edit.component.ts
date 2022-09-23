@@ -710,7 +710,7 @@ export class BeastViewEditComponent implements OnInit {
       this.noun = {
         noun: null
       }
-    } else if (type === 'sign') {
+    } else if (type === 'signs') {
       this.signs = {
         sign: null,
         weight: null
