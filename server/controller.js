@@ -952,6 +952,10 @@ let controllerObj = {
       encounterObject.sign = result[0]
       return result
     }))
+    promiseArray.push(db.get.encounter.signsOrderedByWeight(beastId).then(result => {
+      encounterObject.allSigns = result
+      return result
+    }).catch(e => `get all signs view -------------------------------------------- ${e}`))
 
     promiseArray.push(db.get.encounter.verbWeighted(beastId).then(result => {
       if (result[0]) {

@@ -19,6 +19,7 @@ export class BeastViewEditComponent implements OnInit {
   @ViewChild('newSecondaryRoleSelect') newSecondaryRoleSelect: MatSelect;
   @ViewChild('newConfRoleSelect') newConfRoleSelect: MatSelect;
   @ViewChild('newSkillRoleSelect') newSkillRoleSelect: MatSelect;
+  @ViewChildren(MatSelect) selects: QueryList<MatSelect>;
   imageObj: File;
 
   constructor(
@@ -687,7 +688,7 @@ export class BeastViewEditComponent implements OnInit {
   //ENCOUNTER STUFF BECAUSE I KNOW THERE WILL BE A LOT
 
   addEncounterItem(type, subtype) {
-    this.encounter[type][subtype].push({...this[type]})
+    this.encounter[type][subtype].push({ ...this[type] })
     if (type === 'temperament') {
       this.temperament = {
         temperament: null,
@@ -716,6 +717,12 @@ export class BeastViewEditComponent implements OnInit {
         weight: null
       }
     }
+
+    let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
+    for (let i = 0; i < inputs.length; ++i) {
+      inputs[i].value = null
+    }
+    this.selects.forEach(s => s.value = null)
   }
 
   captureEncounter({ value }, type) {
@@ -1021,8 +1028,8 @@ export class BeastViewEditComponent implements OnInit {
 
     this.beast.combat.forEach(weapon => {
       if (weapon.roleid === null) {
-        let { def, newDR, parry, newShieldDr, newDamage, atk, rangedDamage, spd, measure, ranges, weapontype, fatigue, selectedweapon, damageskill, weaponInfo, damagetype} = weapon
-        
+        let { def, newDR, parry, newShieldDr, newDamage, atk, rangedDamage, spd, measure, ranges, weapontype, fatigue, selectedweapon, damageskill, weaponInfo, damagetype } = weapon
+
         if (!fatigueAddedIn) {
           if (fatigue === 'N') {
             combatpoints += 4
@@ -1461,7 +1468,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   determineBaseFatigue = () => {
-    let {combat, basefatigue} = this.beast
+    let { combat, basefatigue } = this.beast
     let armor = null;
     let weaponFatigue = null
 
@@ -1476,7 +1483,7 @@ export class BeastViewEditComponent implements OnInit {
           i = combat.length
         }
       }
-  
+
       this.displayFatigue = armor ? armor.fatigue : this.selectedRole ? this.selectedRole.fatigue : weaponFatigue ? weaponFatigue : 'C';
     }
     this.convertFatigue()
@@ -1490,10 +1497,10 @@ export class BeastViewEditComponent implements OnInit {
     let percentage: any = .00;
     switch (this.displayFatigue) {
       case 'A':
-        percentage =  'A'
+        percentage = 'A'
         break;
       case 'H':
-        percentage =  1
+        percentage = 1
         break;
       case 'B':
         percentage = .25

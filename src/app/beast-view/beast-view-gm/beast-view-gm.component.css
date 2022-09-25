@@ -40,3 +40,23 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.flex-shell-with-table {
+    width: 49%;
+}
+
+.flex-shell-with-table .flex-row-opposite {
+    width: 100%;
+}
+
+.flex-shell-with-table table {
+    margin: 15px 0;
+}
+
+.upside-down {
+    transform: rotate(180deg);
+}
+
+.locationVitality .vitality-flex {
+    margin-top: 15px;
+}

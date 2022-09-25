@@ -29,6 +29,7 @@ export class BeastViewGmComponent implements OnInit {
   ) { }
 
   public beast: any = {}
+  public isAllSignsTableShown = false;
   public encounter: any = "loading";
   public loggedIn = this.beastService.loggedIn || false;
   public imageBase = variables.imageBase;
@@ -1013,5 +1014,39 @@ export class BeastViewGmComponent implements OnInit {
 
   checkShowAllEquipment = (checked) => {
     this.showAllEquipment = checked
+  }
+
+  toggleAllSigns = () => {
+    this.isAllSignsTableShown = !this.isAllSignsTableShown
+  }
+
+  spellPointBonus = () => {
+    switch (+this.beast.rarity) {
+      case 1:
+        return '+32';
+      case 3:
+        return '+16';
+      case 5:
+        return '+8';
+      case 10:
+        return '+4';
+      default:
+        return '+0'
+    }
+  }
+
+  spellCheckBonus = () => {
+    switch (+this.beast.rarity) {
+      case 1:
+        return '+16';
+      case 3:
+        return '+8';
+      case 5:
+        return '+4';
+      case 10:
+        return '+2';
+      default:
+        return '+0'
+    }
   }
 }
