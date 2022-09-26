@@ -19,7 +19,6 @@ export class BeastViewEditComponent implements OnInit {
   @ViewChild('newSecondaryRoleSelect') newSecondaryRoleSelect: MatSelect;
   @ViewChild('newConfRoleSelect') newConfRoleSelect: MatSelect;
   @ViewChild('newSkillRoleSelect') newSkillRoleSelect: MatSelect;
-  @ViewChildren(MatSelect) selects: QueryList<MatSelect>;
   imageObj: File;
 
   constructor(
@@ -722,7 +721,6 @@ export class BeastViewEditComponent implements OnInit {
     for (let i = 0; i < inputs.length; ++i) {
       inputs[i].value = null
     }
-    this.selects.forEach(s => s.value = null)
   }
 
   captureEncounter({ value }, type) {
