@@ -113,6 +113,10 @@ mat-toolbar {
     justify-content: space-evenly;
 }
 
+.carried-loot-shell {
+    width: 33%;
+}
+
 .edit-shell-box {
     display: flex;
     flex-direction: column;
@@ -682,6 +686,43 @@ a {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.lair-loot-category-shell {
+    background: rgba(211, 211, 211, 0.5);
+    padding: 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+    width: 49%;
+    height: 100%;
+}
+
+.lair-loot-category-shell button {
+    margin: 0
+}
+
+.lair-loot-category-shell .divider {
+    margin: 15px 0;
+}
+
+.lair-loot-category-shell table {
+    width: 50%
+}
+
+.lair-loot-category-shell .loot-inner-shell {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+.reagent-single-shell {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.reagent-single-shell mat-form-field {
+    width: 25%;
 }
 
 .role-select {
