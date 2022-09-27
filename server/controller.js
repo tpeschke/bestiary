@@ -1392,17 +1392,17 @@ function displayDamage(weapon, roleToUse, addrolemods) {
   })
 
   let crushingDamageMod = 0
-  let damagetype = square.selectedweapon ? square.weaponInfo.type : square.damagetype
-  if (square.damageskill) {
+  let damagetype = weapon.selectedweapon ? equipmentCtrl.getWeapon(weapon.selectedweapon).type : weapon.damagetype
+  if (weapon.damageskill) {
     if (damagetype === 'S') {
-      diceObject.d4s += Math.floor(square.damageskill / 2)
-      let leftover = square.damageskill % 2
+      diceObject.d4s += Math.floor(weapon.damageskill / 2)
+      let leftover = weapon.damageskill % 2
       if (leftover === 1) {
         diceObject.d3s += 1
       }
     } else if (damagetype === 'P') {
-      diceObject.d8s += Math.floor(square.damageskill / 4)
-      let leftover = square.damageskill % 4
+      diceObject.d8s += Math.floor(weapon.damageskill / 4)
+      let leftover = weapon.damageskill % 4
       if (leftover === 1) {
         diceObject.d3s += 1
       } else if (leftover === 2) {
@@ -1411,7 +1411,7 @@ function displayDamage(weapon, roleToUse, addrolemods) {
         diceObject.d6s += 1
       }
     } else {
-      crushingDamageMod = square.damageskill
+      crushingDamageMod = weapon.damageskill
     }
   }
 
