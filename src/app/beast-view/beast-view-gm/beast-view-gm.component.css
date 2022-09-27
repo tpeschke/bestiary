@@ -60,3 +60,17 @@
 .locationVitality .vitality-flex {
     margin-top: 15px;
 }
+
+.multi-loot {
+    display: flex;
+    align-items: center;
+}
+
+.multi-loot input {
+    margin: 0 5px;
+    border: none;
+    border-bottom: 1px solid;
+    width: 50px;
+    text-align: center;
+    font-size: 12px;
+}

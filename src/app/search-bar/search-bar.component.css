@@ -13,6 +13,25 @@ button {
   justify-content: space-evenly;
   align-items: center;
 }
+
+.search-role-shell {
+  display: flex;
+  justify-content: space-between;
+}
+
+.role-inner-shell {
+  width: 31%;
+  padding: 0 5px;
+  margin-top: 5px;
+  border-left: 1px solid grey;
+}
+
+.role-checkbox-shell {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 144px;
+}
   
   .example-full-width {
       width: 96.5%;

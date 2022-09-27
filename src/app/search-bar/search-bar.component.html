@@ -105,6 +105,62 @@
         <mat-expansion-panel class="environPanel">
             <mat-expansion-panel-header>
                 <mat-panel-title>
+                    Roles
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="search-role-shell">
+                <div class="role-inner-shell">
+                    <h4>Confrontation Roles</h4>
+                    <div class="role-checkbox-shell">
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(1, $event)">Striker</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(2, $event)">Defender</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(3, $event)">Fast-Talker</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(4, $event)">Feinter</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(5, $event)">Fodder</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(6, $event)">Sandbagger</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(7, $event)">Corruptor</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(8, $event)">Gaslighter</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(9, $event)">Enabler</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(10, $event)">Opportunist</mat-checkbox>
+                    </div>
+                </div>
+                <div class="role-inner-shell">
+                    <h4>Combat Roles</h4>
+                    <div class="role-checkbox-shell">
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(11, $event)">Artillery</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(12, $event)">Brute</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(13, $event)">Captain</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(14, $event)">Controller</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(15, $event)">Defender</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(16, $event)">Fencer</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(17, $event)">Flanker</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(18, $event)">Fodder</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(19, $event)">Shock</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(20, $event)">Skimisher</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(21, $event)">Solo</mat-checkbox>
+                    </div>
+                </div>
+                <div class="role-inner-shell">
+                    <h4>Challenge Roles</h4>
+                    <div class="role-checkbox-shell">
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(22, $event)">Hunter</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(23, $event)">Prey</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(24, $event)">Controller</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(25, $event)">Lock</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(26, $event)">Conditional</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(27, $event)">Antagonist</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(28, $event)">Trap</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(29, $event)">Hazard</mat-checkbox>
+                        <mat-checkbox color='primary' (change)="enterSearchRoles(30, $event)">Fodder</mat-checkbox>
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="environPanel">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
                     Types
                 </mat-panel-title>
             </mat-expansion-panel-header>

@@ -9,9 +9,9 @@
       <div>
         <img src="../../../assets/TWRealFire.png" alt="Bonfire RPG Logo">
         <h1 routerLink="/catalog" class="title">Bonfire Bestiary</h1>
-        <p class="subtitle-desktop">(& Obstacle Index)</p>
+        <p class="subtitle-desktop" [routerLink]="['/obstacle']">(& Obstacle Index)</p>
       </div>
-        <p class="subtitle-mobile">(& Obstacle Index)</p>
+        <p class="subtitle-mobile" [routerLink]="['/obstacle']">(& Obstacle Index)</p>
 
       <div>
         <button mat-flat-button color="accent" [routerLink]="['/obstacle']">Obstacle Index <i

@@ -56,6 +56,20 @@ module.exports = {
                         })
                     }
                     break;
+                case "roles":
+                    if (req.query.roles !== '') {
+                        req.query.roles.split(',').forEach(val => {
+                            let roleName = getRoleName(val)
+                            if (+val < 11) {
+                                idArray.push(db.get.search.roles_confrontation(roleName).then(result => result))
+                            } else if (+val > 10 && +val < 21) {
+                                idArray.push(db.get.search.roles_combat(roleName).then(result => result))
+                            } else {
+                                idArray.push(db.get.search.roles_skill(roleName).then(result => result))
+                            }
+                        })
+                    }
+                    break;
             }
         }
 
@@ -112,5 +126,72 @@ module.exports = {
         db.get.search.randomMonster().then(data => {
             res.send(data[0])
         })
+    }
+}
+
+getRoleName = (val) => {
+    switch (+val) {
+        case 1:
+            return 'Striker'
+        case 2:
+            return 'Defender'
+        case 3:
+            return 'Fast-Talker'
+        case 4:
+            return 'Feinter'
+        case 5:
+            return 'Fodder'
+        case 6:
+            return 'Sandbagger'
+        case 7:
+            return 'Corruptor'
+        case 8:
+            return 'Gaslighter'
+        case 9:
+            return 'Enabler'
+        case 10:
+            return 'Opportunist'
+        case 11:
+            return 'Artillery'
+        case 12:
+            return 'Brute'
+        case 13:
+            return 'Captain'
+        case 14:
+            return 'Controller'
+        case 15:
+            return 'Defender'
+        case 16:
+            return 'Fencer'
+        case 17:
+            return 'Flanker'
+        case 18:
+            return 'Fodder'
+        case 19:
+            return 'Shock'
+        case 20:
+            return 'Skimisher'
+        case 21:
+            return 'Solo'
+        case 22:
+            return 'Hunter'
+        case 23:
+            return 'Prey'
+        case 24:
+            return 'Controller'
+        case 25:
+            return 'Lock'
+        case 26:
+            return 'Conditional'
+        case 27:
+            return 'Antagonist'
+        case 28:
+            return 'Trap'
+        case 29:
+            return 'Hazard'
+        case 30:
+            return 'Fodder'
+        default:
+            return ''
     }
 }

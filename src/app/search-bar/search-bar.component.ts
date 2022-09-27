@@ -17,6 +17,7 @@ class QueryObject {
   anyaccess?: boolean
   environ?: any
   types?: any
+  roles?: any
 }
 @Component({
   selector: 'app-search-bar',
@@ -35,12 +36,16 @@ export class SearchBarComponent implements OnInit {
   public queryObject: QueryObject = {}
   public environ = []
   public types = []
+  public roles = []
 
   ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.queryObject = {}
         if(!event.url.includes('search')) {
+          this.environ = []
+          this.types = []
+          this.roles = []
+          this.queryObject = {}
           this.viewPanels.forEach(p => p.close());
           this.checkBoxes.forEach(p => p.checked = false)
         }
@@ -170,7 +175,23 @@ export class SearchBarComponent implements OnInit {
       this.router.navigate(['/search', { ...this.queryObject }]);
     } else {
       this.queryObject = { ...this.queryObject, types: this.types }
-      this.router.navigate(['/search', { ...this.queryObject, types: this.types }]);
+      this.router.navigate(['/search', { ...this.queryObject }]);
+    }
+  }
+
+  enterSearchRoles(id, e) {
+    if (e.checked) {
+      this.roles.push(id)
+    } else {
+      let index = this.roles.indexOf(id)
+      this.roles.splice(index, 1)
+    }
+    if (this.roles.length === 0) {
+      delete this.queryObject.roles
+      this.router.navigate(['/search', { ...this.queryObject }]);
+    } else {
+      this.queryObject = { ...this.queryObject, roles: this.roles }
+      this.router.navigate(['/search', { ...this.queryObject }]);
     }
   }
 

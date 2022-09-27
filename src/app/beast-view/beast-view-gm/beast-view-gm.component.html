@@ -378,9 +378,11 @@
         <div class="flex-row-opposite">
           <h3>Vitality</h3>
           <span class="vitality-flex">
-            <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
+            <p
+              *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
               {{beast.roleInfo[selectedRoleId].average}}</p>
-            <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
+            <p
+              *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
               {{locationCheckboxes.mainVitality.average}}</p>
             <p class="vitality-flex-subtitle" *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
               {{beast.roleInfo[selectedRoleId].vitality}}</p>
@@ -427,7 +429,8 @@
               <div class="flex-row-opposite">
                 <h3>{{location.location}}</h3>
                 <span class="vitality-flex">
-                  <p *ngIf="isNumber(locationCheckboxes[location.id].average)">{{locationCheckboxes[location.id].average}}</p>
+                  <p *ngIf="isNumber(locationCheckboxes[location.id].average)">
+                    {{locationCheckboxes[location.id].average}}</p>
                   <p class="vitality-flex-subtitle">{{location.vitality}} </p>
                 </span>
               </div>
@@ -655,7 +658,8 @@
             <h3>Sign <i class="fas fa-info-circle icon-small blue"
                 matTooltip="A sign is something that hints of the monster before the players actually interact with it.
               You can use them on a 'Close Call' result or as a way to warn your players about an encounter before it happens."></i></h3>
-            <p>{{encounter.sign.sign}} <i *ngIf="encounter.allSigns" (click)="toggleAllSigns()" class="fa-solid fa-chevron-down blue {{isAllSignsTableShown ? 'upside-down' : ''}}"
+            <p>{{encounter.sign.sign}} <i *ngIf="encounter.allSigns" (click)="toggleAllSigns()"
+                class="fa-solid fa-chevron-down blue {{isAllSignsTableShown ? 'upside-down' : ''}}"
                 matTooltip="{{isAllSignsTableShown ? 'Hide' : 'Show'}} all signs for this entry."></i></p>
           </div>
           <table *ngIf="isAllSignsTableShown" class="first-column-left">
@@ -883,7 +887,12 @@
         <h3>This creature has no loot at their lair.</h3>
       </div>
 
-      <div *ngIf="lairlootpresent" class="regenerateButtonShell">
+      <div *ngIf="lairlootpresent" class="loot-regenerate-shell">
+        <div class="multi-loot">
+          <p>I need loot for </p>
+          <input type="number" placeholder="1" (change)="setMonsterNumber($event)"(blur)="getLairLoot()" min="1" max="25"/>
+          <p>monsters</p>
+        </div>
         <button color="primary" mat-raised-button (click)="getLairLoot()" color="warn"><i
             class="fas fa-redo"></i></button>
       </div>

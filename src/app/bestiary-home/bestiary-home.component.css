@@ -37,6 +37,11 @@ img {
     display: none;
 }
 
+.subtitle-desktop {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
 @media (max-width: 699px) { 
     .subtitle-desktop {
         display: none;
@@ -45,6 +50,7 @@ img {
     .subtitle-mobile {
         display: inherit;
         margin-top: -15px;
+        cursor: pointer;
     }
 
     .main-app-shell {

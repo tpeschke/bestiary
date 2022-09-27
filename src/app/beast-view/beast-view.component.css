@@ -622,6 +622,16 @@ a {
     margin: 0
 }
 
+.loot-regenerate-shell {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.loot-regenerate-shell button {
+    margin: 0
+}
+
 .complicationsShell {
     display: flex;
     justify-content: space-between;

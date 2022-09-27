@@ -41,6 +41,11 @@ img {
     margin-left: 15px;
 }
 
+.subtitle-desktop {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
 @media (max-width: 850px) {
     .title {
         font-size: 25px;
@@ -55,6 +60,7 @@ img {
     .subtitle-mobile {
         display: inherit;
         margin-top: -15px;
+        cursor: pointer;
     }
 
     .main-app-shell {
