@@ -857,6 +857,10 @@ thead th {
     margin: -15px 0px;
 }
 
+.rolled-stats-shell p {
+    margin-left: 5px
+}
+
 .conflict-inner-shell h2 {
     margin: 0;
 }

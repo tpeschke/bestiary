@@ -49,6 +49,10 @@ export class BeastViewGmComponent implements OnInit {
   public combatRolesInfo = roles.combatRoles.primary
   public socialRolesInfo = roles.socialRoles
   public skillRolesInfo = roles.skillRoles
+  public displayedFatigue = null;
+  public numberFatigue = null;
+  public displayedPanic = null;
+  public numberPanic = null;
 
   public equipmentLists = { weapons: [], armor: [], shields: [] }
   public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
@@ -109,6 +113,9 @@ export class BeastViewGmComponent implements OnInit {
       if (this.beast.role) {
         this.selectedRole = this.combatRolesInfo[this.beast.role]
       }
+
+      this.convertFatigue()
+      this.convertPanic()
     })
   }
 
@@ -468,9 +475,9 @@ export class BeastViewGmComponent implements OnInit {
     let percentage = .00;
     switch (panic) {
       case 1:
-        return 'Always';
+        this.numberPanic = 'Always';
       case 2:
-        return 1
+        this.numberPanic = 1
       case 3:
         percentage = .25
         break;
@@ -481,11 +488,34 @@ export class BeastViewGmComponent implements OnInit {
         percentage = .75
         break;
       case 7:
-        return 'Never'
+        this.numberPanic = 'Never'
       default: panic
     }
 
-    return (stress * percentage).toFixed(0)
+    if (!this.displayedPanic) {
+      switch (panic) {
+        case 1:
+          this.displayedPanic = 'Always';
+          break;
+        case 2:
+          this.displayedPanic = 'Unsure';
+          break;
+        case 3: 
+          this.displayedPanic = 'Nervous';
+          break;
+        case 4:
+          this.displayedPanic = 'Shaken';
+          break;
+        case 5:
+          this.displayedPanic = 'Breaking'
+          break;
+        case 7:
+          this.displayedPanic = 'Never'
+        default: panic
+      }
+    }
+
+    this.numberPanic = (stress * percentage).toFixed(0)
   }
 
   convertFatigue() {
@@ -518,14 +548,14 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     if (isNaN(vitality)) {
-      return 'N'
+      this.numberFatigue =  'N'
     }
     let percentage = .00;
     switch (displayedFatigue) {
       case 'A':
-        return 1
+        this.numberFatigue =  1
       case 'H':
-        return 1
+        this.numberFatigue =  1
       case 'B':
         percentage = .25
         break;
@@ -536,12 +566,37 @@ export class BeastViewGmComponent implements OnInit {
         percentage = .75
         break;
       case 'N':
-        return 'N'
+        this.numberFatigue =  'N'
       default:
         percentage = .75
     }
 
-    return (vitality * percentage).toFixed(0)
+    if (!this.displayedFatigue || this.displayedFatigue.length <= 1) {
+      switch (displayedFatigue) {
+        case 'A':
+          this.displayedFatigue = "Always"
+          break;
+        case 'H':
+          this.displayedFatigue = 'Hurt'
+          break;
+        case 'B':
+          this.displayedFatigue = 'Bloodied'
+          break;
+        case 'W':
+          this.displayedFatigue = 'Wounded'
+          break;
+        case 'C':
+          this.displayedFatigue = 'Critical'
+          break;
+        case 'N':
+          this.displayedFatigue = 'Never'
+          break;
+        default:
+          this.displayedFatigue = 'Critical'
+      }
+    }
+
+    this.numberFatigue = (vitality * percentage).toFixed(0)
   }
 
   displayDR = (drObject, type, square) => {
