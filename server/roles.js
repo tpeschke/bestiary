@@ -201,7 +201,7 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Polearms',
-                        items: ['Halberd (S)', 'Halberd (P)', 'Planson', 'Shortspear', 'Voulge']
+                        items: ['Halberd (S)', 'Halberd (P)', 'Planson', 'Short Spear', 'Voulge']
                     },
                     {
                         label: 'Sidearms',

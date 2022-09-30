@@ -583,7 +583,7 @@ export class WeaponSquareComponent implements OnInit {
           diceObject.d3s += 1
         } else if (leftover === 2) {
           diceObject.d4s += 1
-        } else if (leftover === 4) {
+        } else if (leftover === 3) {
           diceObject.d6s += 1
         }
       } else {
@@ -703,13 +703,54 @@ export class WeaponSquareComponent implements OnInit {
     if (!this.square.damageskill) {
       return ''
     }
-    if (damagetype === 'S') {
-      return `+${Math.ceil(this.square.damageskill / 2)}d4!`
-    } else if (damagetype === 'P') {
-      return `+${Math.ceil(this.square.damageskill / 4)}d8!`
-    } else {
-      return `+${this.square.damageskill}`
+    if (this.square.damageskill) {
+      if (damagetype === 'S') {
+        let d3s = null
+        let d4s = Math.floor(this.square.damageskill / 2)
+        let leftover = this.square.damageskill % 2
+        if (leftover === 1) {
+          d3s = 1
+        }
+        let diceString = ''
+        if (d4s > 0) {
+          diceString += `+${d4s}d4!`
+        }
+        if (d3s > 0) {
+          diceString += `+${d3s}d3!`
+        }
+        return diceString
+      } else if (damagetype === 'P') {
+        let d3s = null
+        , d4s = null
+        , d6s = null
+        let d8s = Math.floor(this.square.damageskill / 4)
+        let leftover = this.square.damageskill % 4
+        if (leftover === 1) {
+          d3s += 1
+        } else if (leftover === 2) {
+          d4s += 1
+        } else if (leftover === 3) {
+          d6s += 1
+        }
+        let diceString = ''
+        if (d8s > 0) {
+          diceString += `+${d8s}d8!`
+        }
+        if (d6s > 0) {
+          diceString += `+${d6s}d6!`
+        }
+        if (d4s > 0) {
+          diceString += `+${d4s}d4!`
+        }
+        if (d3s > 0) {
+          diceString += `+${d3s}d3!`
+        }
+        return diceString
+      } else {
+        return `+${this.square.damageskill}`
+      }
     }
+    
   }
 
   returnSizeMeasureModifier = () => {
