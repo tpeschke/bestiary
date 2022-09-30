@@ -561,7 +561,9 @@ export class BeastViewEditComponent implements OnInit {
         },
         parry: 0,
         weapontype: 'm',
-        roleid: this.selectedRoleId
+        roleid: this.selectedRoleId,
+        damageskill: 0,
+        addsizemod: true
       })
     } else if (type === 'movement') {
       this.beast[type].push({

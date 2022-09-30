@@ -1133,4 +1133,5 @@ export class BeastViewGmComponent implements OnInit {
         return '+0'
     }
   }
+
 }

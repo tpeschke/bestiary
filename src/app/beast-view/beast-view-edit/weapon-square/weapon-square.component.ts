@@ -61,16 +61,20 @@ export class WeaponSquareComponent implements OnInit {
             turnOnWeapons = false
           }
         })
+      } else {
+        turnOnWeapons = false
       }
       if (this.square.selectedarmor) {
         this.selectedRole.armor.forEach(armorCat => {
-          if (armorCat.items){
+          if (armorCat.items) {
             let result = armorCat.items.includes(this.square.selectedarmor)
             if (result) {
               turnOnArmor = false
             }
           }
         })
+      } else {
+        turnOnArmor = false
       }
       if (this.square.selectedshield) {
         this.selectedRole.shields.forEach(shieldCat => {
@@ -81,10 +85,13 @@ export class WeaponSquareComponent implements OnInit {
             }
           }
         })
+      } else {
+        turnOnShields = false
       }
+      this.showAllEquipment = (turnOnWeapons && turnOnArmor && turnOnShields)
+    } else {
+      this.showAllEquipment = false
     }
-
-    this.showAllEquipment = (turnOnWeapons && turnOnArmor && turnOnShields)
   }
 
   captureInput = (event, primary, secondary) => {
@@ -347,7 +354,7 @@ export class WeaponSquareComponent implements OnInit {
     if (typeof (defMod) === 'string' && defMod.includes('+')) {
       defMod = +defMod.replace('/+/gi', '')
     }
-    
+
     let defBase = this.selectedRole.def && this.square.addrolemods ? this.selectedRole.def : 0
     if (this.square.selectedshield) {
       defBase += this.square.shieldInfo.def
