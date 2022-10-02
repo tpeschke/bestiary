@@ -4,7 +4,7 @@ import { BeastService } from '../../util/services/beast.service';
 import { CalculatorService } from '../../util/services/calculator.service';
 import variables from '../../../local.js'
 import { MatDialog } from '@angular/material';
-import { Title } from "@angular/platform-browser";
+import { Title, Meta } from "@angular/platform-browser";
 import lootTables from "../loot-tables.js"
 import { QuickViewService } from 'src/app/util/services/quick-view.service';
 import { primaryTables, secondaryTables } from './firbolg-tables'
@@ -25,7 +25,8 @@ export class BeastViewGmComponent implements OnInit {
     private dialog: MatDialog,
     public router: Router,
     public titleService: Title,
-    public quickViewService: QuickViewService
+    public quickViewService: QuickViewService,
+    public metaService: Meta
   ) { }
 
   public beast: any = {}
@@ -69,6 +70,8 @@ export class BeastViewGmComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
+      this.metaService.addTag( { name:'description', content: this.beast.name});
+      this.metaService.addTag( { name:'image', content: this.imageBase + this.beast.id});
       this.getRandomEncounter()
 
       this.locationCheckboxes.mainVitality = {

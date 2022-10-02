@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BeastService } from 'src/app/util/services/beast.service';
 import variables from '../../local.js'
-import { Title } from "@angular/platform-browser";
+import { Title, Meta } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-search-results',
@@ -18,7 +18,8 @@ export class SearchResultsComponent implements OnInit {
     public currentRoute: ActivatedRoute,
     public adventureService: BeastService,
     public titleService: Title,
-    public beastService: BeastService
+    public beastService: BeastService,
+    public metaService: Meta
   ) { }
 
   public beasts = 'loading'
@@ -42,6 +43,8 @@ export class SearchResultsComponent implements OnInit {
       }
     })
     this.titleService.setTitle('Bestiary')
+    this.metaService.addTag( { name:'description', content: 'The Bestiary for the Bonfire TTRPG'});
+    this.metaService.addTag( { name:'image', content: "../../../assets/TWRealFire.png"});
   }
 
   getRandom() {

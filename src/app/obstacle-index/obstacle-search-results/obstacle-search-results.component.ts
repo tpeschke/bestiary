@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ObstacleService } from 'src/app/util/services/obstacle.service';
-import { Title } from "@angular/platform-browser";
+import { Title, Meta } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-obstacle-search-results',
@@ -15,13 +15,13 @@ export class ObstacleSearchResultsComponent implements OnInit {
     public currentRoute: ActivatedRoute,
     public obstacleService: ObstacleService,
     public titleService: Title,
+    public metaService: Meta
   ) { }
 
   public obstacles: any = 'loading'
   public challenges: any = 'loading'
 
   ngOnInit() {
-    this.titleService.setTitle("Obstacle Index")
     let { params } = this.currentRoute.snapshot
     this.obstacleService.searchObstacles(params).subscribe(incomingObstacles => {
       this.obstacles = incomingObstacles.obstacles
@@ -40,5 +40,7 @@ export class ObstacleSearchResultsComponent implements OnInit {
       }
     })
     this.titleService.setTitle('Obstacle Index')
+    this.metaService.addTag( { name:'description', content: 'An Index of Obstacle for the Bonfire TTRPG'});
+    this.metaService.addTag( { name:'image', content: "../../../assets/TWRealFire.png"});
   }
 }

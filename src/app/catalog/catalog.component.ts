@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { BeastService } from '../util/services/beast.service'
 import variables from '../../local.js'
-import {Title} from "@angular/platform-browser";
+import {Title, Meta} from "@angular/platform-browser";
 import { QuickViewService } from '../util/services/quick-view.service';
 
 @Component({
@@ -16,7 +16,8 @@ export class CatalogComponent implements OnInit {
     private route: ActivatedRoute,
     private beastService: BeastService,
     private titleService: Title,
-    private quickViewService: QuickViewService
+    private quickViewService: QuickViewService,
+    private metaService: Meta
   ) { }
 
   public beasts = []
@@ -37,6 +38,8 @@ export class CatalogComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle("Bestiary")
+    this.metaService.addTag( { name:'description', content: 'The Bestiary for the Bonfire TTRPG'});
+    this.metaService.addTag( { name:'image', content: "../../../assets/TWRealFire.png"});
     this.route.data.subscribe(data => {
       this.beasts = data['catalog']
     })

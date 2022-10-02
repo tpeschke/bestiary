@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Title} from "@angular/platform-browser";
+import {Title, Meta} from "@angular/platform-browser";
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObstaclePopUpComponent } from '../obstacle-pop-up/obstacle-pop-up.component';
 import { MatDialog } from '@angular/material';
@@ -18,12 +18,15 @@ export class ObstacleCatalogComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
+    private metaService: Meta
   ) { }
 
   public obstacles = []
 
   ngOnInit() {
     this.titleService.setTitle("Obstacle Index")
+    this.metaService.addTag( { name:'description', content: 'An Index of Obstacle for the Bonfire TTRPG'});
+    this.metaService.addTag( { name:'image', content: "../../../assets/TWRealFire.png"});
     this.activatedRoute.data.subscribe(data => {
       this.obstacles = data['catalog']
     })
