@@ -50,7 +50,7 @@
   <div class="content-shell">
     <div class="left">
       <div>
-        <img *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name"
+        <img *ngIf="beast.id" [src]="imageBase + beast.id  " [alt]="beast.name"
           onerror="this.onerror=null;this.src='/assets/404.png';">
       </div>
 
@@ -95,7 +95,7 @@
 
         <h3>Preview</h3>
         <img class="preview" [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
-          [src]="imageBase + beast.id" [alt]="beast.name">
+          [src]="imageBase + beast.id  " [alt]="beast.name">
       </div>
 
       <div class="margin-spacing" *ngIf="!beast.id">
@@ -207,7 +207,7 @@
             </mat-select>
           </mat-form-field>
 
-          <button mat-raised-button (click)="addNewRole()" color="accent">ADD ROLE</button>
+          <button mat-raised-button (click)="addNewRole()" color="accent">Add Role</button>
         </div>
 
       </mat-expansion-panel>
@@ -401,7 +401,7 @@
               </div>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent">ADD FLAW</button>
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent">Add Flaw</button>
           <br *ngIf="beast.conflict.flaws.length > 0" />
           <br />
           <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.flaws.length > 0">
@@ -534,7 +534,7 @@
             </app-skill-display>
           </div>
         </div>
-        <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">ADD SKILL</button>
+        <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">Add Skill</button>
 
         <br>
         <br>
@@ -650,8 +650,7 @@
                   class="fa-solid fa-minus"></i></button>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">ADD LOCATION
-            VITALITY</button>
+          <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">Add Locational Vitality</button>
 
           <br>
           <br>
@@ -666,7 +665,7 @@
                 </app-weapon-square>
               </div>
             </div>
-            <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">ADD WEAPON</button>
+            <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">Add Weapon</button>
           </div>
 
           <div class="vitals-shell">
@@ -706,7 +705,7 @@
                     class="fa-solid fa-minus"></i></button>
               </div>
             </div>
-            <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">ADD MOVEMENT</button>
+            <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">Add Movement</button>
           </div>
 
           <h2>Tactics & Strategy</h2>
@@ -990,7 +989,7 @@
             </div>
           </div>
         </div>
-        <button mat-raised-button (click)="addNewSecondaryItem('loot')" color="accent">ADD LOOT</button>
+        <button mat-raised-button (click)="addNewSecondaryItem('loot')" color="accent">Add Loot</button>
         <br />
         <br />
         <h3 class="loot-notes-subtitle">Loot Notes</h3>

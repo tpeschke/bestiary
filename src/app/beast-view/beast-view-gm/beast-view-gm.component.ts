@@ -70,7 +70,7 @@ export class BeastViewGmComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
-      this.metaService.updateTag( { name:'og:description', content: this.beast.name});
+      this.metaService.updateTag({ name: 'og:description', content: this.beast.name });
       // this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/preview.png" });
       this.getRandomEncounter()
 
@@ -193,7 +193,7 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     if (traited.length > 0) {
-      for (let y = 0; y < timesToRoll; y++) { 
+      for (let y = 0; y < timesToRoll; y++) {
         for (let i = 0; i < traited.length; i++) {
           let traitChance = Math.floor(Math.random() * 101)
             , table = traitedChance[traited[i].chancetable]
@@ -503,7 +503,7 @@ export class BeastViewGmComponent implements OnInit {
         case 2:
           this.displayedPanic = 'Unsure';
           break;
-        case 3: 
+        case 3:
           this.displayedPanic = 'Nervous';
           break;
         case 4:
@@ -551,14 +551,14 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     if (isNaN(vitality)) {
-      this.numberFatigue =  'N'
+      this.numberFatigue = 'N'
     }
     switch (displayedFatigue) {
       case 'A':
-        this.numberFatigue =  'A'
+        this.numberFatigue = 'A'
         break;
       case 'H':
-        this.numberFatigue =  1
+        this.numberFatigue = 1
         break
       case 'B':
         this.numberFatigue = (vitality * .25).toFixed(0)
@@ -570,7 +570,7 @@ export class BeastViewGmComponent implements OnInit {
         this.numberFatigue = (vitality * .75).toFixed(0)
         break;
       case 'N':
-        this.numberFatigue =  'N'
+        this.numberFatigue = 'N'
         break;
       default:
         this.numberFatigue = (vitality * .75).toFixed(0)
@@ -1134,6 +1134,15 @@ export class BeastViewGmComponent implements OnInit {
         return '+2';
       default:
         return '+0'
+    }
+  }
+
+  handleCommaInName(name) {
+    if (name.includes(',')) {
+      let splitname = name.split(', ')
+      return `${splitname[1]} ${splitname[0]}`
+    } else {
+      return name
     }
   }
 

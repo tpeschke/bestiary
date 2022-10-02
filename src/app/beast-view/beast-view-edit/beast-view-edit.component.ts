@@ -586,7 +586,8 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type].push({
         skill: '',
         rank: '',
-        skillroleid: this.selectedRoleId
+        skillroleid: this.selectedRoleId,
+        showAllSkills: true
       })
     } else if (type === 'loot') {
       this.beast[type].push({

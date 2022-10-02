@@ -21,7 +21,7 @@ export class SkillDisplayComponent implements OnInit {
 
   constructor() { }
 
-  public showAllSkills = false
+  public showAllSkills = true
   public skillList = roles.skillList
 
   allSkillControl: any;
