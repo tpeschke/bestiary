@@ -71,7 +71,7 @@ export class BeastViewGmComponent implements OnInit {
       this.beast = data['beast']
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
       this.metaService.updateTag( { name:'og:description', content: this.beast.name});
-      this.metaService.updateTag( { name:'og:image', content: this.imageBase + this.beast.id});
+      this.metaService.updateTag( { name:'og:image', content: this.imageBase + this.beast.id + '.png'});
       this.getRandomEncounter()
 
       this.locationCheckboxes.mainVitality = {
