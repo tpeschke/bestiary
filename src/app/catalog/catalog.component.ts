@@ -38,8 +38,8 @@ export class CatalogComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle("Bestiary")
-    this.metaService.addTag( { name:'description', content: 'The Bestiary for the Bonfire TTRPG'});
-    this.metaService.addTag( { name:'image', content: "https://bestiary.dragon-slayer.net/assets/TWRealFire.png"});
+    this.metaService.updateTag( { name:'og:description', content: 'The Bestiary for the Bonfire TTRPG'});
+    this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/TWRealFire.png"});
     this.route.data.subscribe(data => {
       this.beasts = data['catalog']
     })

@@ -70,8 +70,8 @@ export class BeastViewGmComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
-      this.metaService.addTag( { name:'description', content: this.beast.name});
-      this.metaService.addTag( { name:'image', content: this.imageBase + this.beast.id});
+      this.metaService.updateTag( { name:'og:description', content: this.beast.name});
+      this.metaService.updateTag( { name:'og:image', content: this.imageBase + this.beast.id});
       this.getRandomEncounter()
 
       this.locationCheckboxes.mainVitality = {
