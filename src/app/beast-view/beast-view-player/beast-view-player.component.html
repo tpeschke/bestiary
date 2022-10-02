@@ -8,7 +8,7 @@
   </mat-toolbar>
 
   <div class="content-shell">
-    <img class="player-image" *ngIf="beast.id" [src]="imageBase + beast.id + '.png'" [alt]="beast.name">
+    <img class="player-image" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name">
     <app-player-notes class="player-notes-shell" [notes]="beast.notes" [id]="beast.id"></app-player-notes>
   </div>
 </mat-card>

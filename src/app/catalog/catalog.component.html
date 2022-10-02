@@ -12,7 +12,7 @@
           (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
-              [src]="imageBase + beast.id + '.png'" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
+              [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
           </div>
           <div class="beast-name-shell">
             <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
@@ -27,7 +27,7 @@
           (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
-              [src]="imageBase + beast.id + '.png'" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
+              [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
           </div>
           <div class="beast-name-shell">
             <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
@@ -40,7 +40,7 @@
           (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
-              [src]="imageBase + beast.id + '.png'" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
+              [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
           </div>
           <div class="beast-name-shell">
             <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
@@ -81,7 +81,7 @@
             mat-button (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
             <div class="img-shell">
               <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
-                [src]="imageBase + beast.id + '.png'" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
+                [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
             </div>
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
@@ -98,7 +98,7 @@
             (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
             <div class="img-shell">
               <img [ngStyle]="beast.thumbnail ? {'object-position': beast.thumbnail} : {}" *ngIf="beast.id"
-                [src]="imageBase + beast.id + '.png'" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
+                [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
             </div>
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
@@ -111,7 +111,7 @@
             mat-button (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
             <div class="img-shell">
               <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail :  'top'}" *ngIf="beast.id"
-                [src]="imageBase + beast.id + '.png'" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
+                [src]="imageBase + beast.id" [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
             </div>
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
