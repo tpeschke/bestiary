@@ -44,24 +44,24 @@
 
           <div class="extra-info">
             <div>
-              <h3>HR:</h3>
-              <p>{{beast.hr}}</p>
+              <h3>Combat Rating:</h3>
+              <p>{{toFixed(beast.combatpoints)}}</p>
+            </div>
+            <div>
+              <h3>Confrontation Rating:</h3>
+              <p>{{toFixed(beast.socialpoints)}}</p>
+            </div>
+            <div>
+              <h3>Challenge Rating:</h3>
+              <p>{{toFixed(beast.skillpoints)}}</p>
             </div>
             <div>
               <h3>Rarity:</h3>
               <p>{{beast.rarity | rarityConverter}}</p>
             </div>
             <div>
-              <h3>Subsystem:</h3>
-              <p>{{beast.subsystem | subsystemConverter}}</p>
-            </div>
-            <div>
               <h3>Size:</h3>
               <p>{{beast.size}}</p>
-            </div>
-            <div>
-              <h3>Int:</h3>
-              <p>{{beast.int}}</p>
             </div>
           </div>
         </div>

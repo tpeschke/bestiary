@@ -332,7 +332,7 @@ export class BeastViewGmComponent implements OnInit {
   getRandomEncounter() {
     this.encounter = 'loading'
     this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
-      if (result.temperament) {
+      if (result.temperament && result.rank) {
         let dedupedArray = []
           , alreadyAddedRanks = []
 
@@ -550,25 +550,27 @@ export class BeastViewGmComponent implements OnInit {
     if (isNaN(vitality)) {
       this.numberFatigue =  'N'
     }
-    let percentage = .00;
     switch (displayedFatigue) {
       case 'A':
-        this.numberFatigue =  1
+        this.numberFatigue =  'A'
+        break;
       case 'H':
         this.numberFatigue =  1
+        break
       case 'B':
-        percentage = .25
+        this.numberFatigue = (vitality * .25).toFixed(0)
         break;
       case 'W':
-        percentage = .5
+        this.numberFatigue = (vitality * .5).toFixed(0)
         break;
       case 'C':
-        percentage = .75
+        this.numberFatigue = (vitality * .75).toFixed(0)
         break;
       case 'N':
         this.numberFatigue =  'N'
+        break;
       default:
-        percentage = .75
+        this.numberFatigue = (vitality * .75).toFixed(0)
     }
 
     if (!this.displayedFatigue || this.displayedFatigue.length <= 1) {
@@ -595,8 +597,6 @@ export class BeastViewGmComponent implements OnInit {
           this.displayedFatigue = 'Critical'
       }
     }
-
-    this.numberFatigue = (vitality * percentage).toFixed(0)
   }
 
   displayDR = (drObject, type, square) => {

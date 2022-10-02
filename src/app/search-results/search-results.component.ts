@@ -95,4 +95,8 @@ export class SearchResultsComponent implements OnInit {
 
     document.body.removeChild(textArea);
   }
+
+  toFixed (value) {
+    return Math.floor(value)
+  }
 }

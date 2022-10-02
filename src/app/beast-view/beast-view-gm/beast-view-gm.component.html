@@ -508,7 +508,7 @@
         </div>
         <div class="flex-row-opposite">
           <h3>Caution Threshold</h3>
-          <p>{{beast.caution < 0 ? 'Always' : beast.caution===0 ? 'Never' : beast.caution}} <i
+          <p>{{beast.caution < 0 ? 'Always' : beast.caution === 0 || !beast.caution ? 'Never' : beast.caution}} <i
               class="fas fa-info-circle icon-small blue"
               matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable.">
               </i></p>
@@ -674,7 +674,7 @@
           matTooltip="This gives you guidelines on generating a random encounter using this monster. The results are tailored to the monster and so will generally be indicative of its behavior."></i>
       </h2>
       <div class="divider"></div>
-      <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && encounter.temperament">
+      <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && encounter.temperament && encounter.rank">
         <div *ngIf="encounter.sign" class="flex-shell-with-table">
           <div class="flex-row-opposite">
             <h3>Sign <i class="fas fa-info-circle icon-small blue"
@@ -744,7 +744,7 @@
         </div>
       </div>
 
-      <div class="box-padding" *ngIf="encounter.complication && encounter.temperament">
+      <div class="box-padding" *ngIf="encounter.complication && encounter.temperament && encounter.rank">
         <h3>Complication{{encounter.complication.length > 1 ? 's' : ''}}</h3>
         <div class="complicationsShell">
           <div class="complicationCard" *ngFor="let complication of encounter.complication">
@@ -777,7 +777,7 @@
         </div>
       </div>
 
-      <div *ngIf="encounter !== 'loading' && encounter.temperament" class="regenerateButtonShell">
+      <div *ngIf="encounter !== 'loading' && encounter.temperament && encounter.rank" class="regenerateButtonShell">
         <button mat-raised-button (click)="getRandomEncounter()" color="warn"><i class="fas fa-redo"></i></button>
       </div>
 
@@ -789,7 +789,7 @@
         </div>
       </div>
 
-      <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && !encounter.temperament">
+      <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && (!encounter.temperament || !encounter.rank)">
         <h3>This Monster Currently Has No Random Encounter Information.</h3>
       </div>
 
