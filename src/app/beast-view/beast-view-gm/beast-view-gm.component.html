@@ -790,7 +790,7 @@
       </div>
 
       <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && (!encounter.temperament || !encounter.rank)">
-        <h3>This Monster Currently Has No Random Encounter Information.</h3>
+        <p>This Monster Currently Has No Random Encounter Information.</p>
       </div>
 
       <div class="divider"></div>
@@ -890,7 +890,7 @@
       </div>
 
       <div *ngIf="beast.loot.length == 0 && (!beast.lootnotes || beast.lootnotes.length == 0)" class="box-padding">
-        <h3>This creature carries nothing else of value.</h3>
+        <p>This creature carries nothing else of value.</p>
       </div>
 
       <h3>Lair Loot <i class="fas fa-info-circle icon-small blue"
@@ -906,7 +906,7 @@
         </li>
       </ul>
       <div *ngIf="lairLoot.length == 0" class="box-padding">
-        <h3>This creature has no loot at their lair.</h3>
+        <p>This creature has no loot at their lair.</p>
       </div>
 
       <div *ngIf="lairlootpresent" class="loot-regenerate-shell">
@@ -965,7 +965,7 @@
         </mat-accordion>
       </div>
       <div *ngIf="beast.reagents.length == 0" class="box-padding">
-        <h3>This creature has no harvestable reagents.</h3>
+        <p>This creature has no harvestable reagents.</p>
       </div>
 
       <h2>Variants</h2>
@@ -978,7 +978,7 @@
         </mat-chip-list>
       </div>
       <div *ngIf="beast.variants.length == 0" class="box-padding">
-        <h3>This creature currently has no variants</h3>
+        <p>This creature currently has no variants</p>
       </div>
 
       <!-- <h2>Special Harvest</h2> -->
@@ -990,7 +990,7 @@
       </div>
 
       <div *ngIf="!beast.meta || beast.meta.length == 0" class="box-padding">
-        <h3>This creature currently has no meta notes</h3>
+        <p>This creature currently has no meta notes</p>
       </div>
 
       <h2>Personal Notes</h2>
