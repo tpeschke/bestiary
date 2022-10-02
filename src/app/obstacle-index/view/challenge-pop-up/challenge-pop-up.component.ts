@@ -40,7 +40,7 @@ export class ChallengePopUpComponent implements OnInit {
       this.challenge = challenge
       this.titleService.setTitle(this.challenge.name)
       this.metaService.addTag( { name:'description', content: `${this.challenge.name} Skill Challenge`});
-      this.metaService.addTag( { name:'image', content: "../../../assets/TWRealFire.png"});
+      this.metaService.addTag( { name:'image', content: "https://bestiary.dragon-slayer.net/assets/TWRealFire.png"});
       setTimeout(() => this.initMermaid(this.challenge.flowchart), 500)
     })
     this.beastService.checkLogin().subscribe(result => {
