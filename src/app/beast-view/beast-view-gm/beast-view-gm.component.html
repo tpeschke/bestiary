@@ -508,7 +508,7 @@
         </div>
         <div class="flex-row-opposite">
           <h3>Caution Threshold</h3>
-          <p>{{beast.caution < 0 ? 'Always' : beast.caution === 0 || !beast.caution ? 'Never' : beast.caution}} <i
+          <p>{{beast.caution < 0 ? 'Always' : beast.caution===0 || !beast.caution ? 'Never' : beast.caution}} <i
               class="fas fa-info-circle icon-small blue"
               matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable.">
               </i></p>
@@ -674,7 +674,8 @@
           matTooltip="This gives you guidelines on generating a random encounter using this monster. The results are tailored to the monster and so will generally be indicative of its behavior."></i>
       </h2>
       <div class="divider"></div>
-      <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && encounter.temperament && encounter.rank">
+      <div class="box-padding encounterShell"
+        *ngIf="encounter !== 'loading' && encounter.temperament && encounter.rank">
         <div *ngIf="encounter.sign" class="flex-shell-with-table">
           <div class="flex-row-opposite">
             <h3>Sign <i class="fas fa-info-circle icon-small blue"
@@ -703,7 +704,8 @@
             <h3>Main Players</h3>
             <ul>
               <li *ngFor="let player of encounter.rank.mainPlayers">{{player.number}} {{player.rank !== 'None' ?
-                (player.number === 1 ? player.rank : player.rank + "s") : player.number === 1 ? handleCommaInName(beast.name) :
+                (player.number === 1 ? player.rank : player.rank + "s") : player.number === 1 ?
+                handleCommaInName(beast.name) :
                 beast.plural ? beast.plural : handleCommaInName(beast.name) + "s"}}</li>
             </ul>
           </div>
@@ -789,7 +791,8 @@
         </div>
       </div>
 
-      <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && (!encounter.temperament || !encounter.rank)">
+      <div class="box-padding encounterShell"
+        *ngIf="encounter !== 'loading' && (!encounter.temperament || !encounter.rank)">
         <p>This Monster Currently Has No Random Encounter Information.</p>
       </div>
 
@@ -1017,3 +1020,4 @@
   <button *ngIf="loggedIn === 'owner'" mat-raised-button color="accent"
     [routerLink]="['/beast', 0, 'edit', {'templateId': beast.id}]">Use As Template For New</button>
 </mat-card>
+

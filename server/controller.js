@@ -338,7 +338,7 @@ let controllerObj = {
         promiseArray.push(db.add.beastenviron(id, val.environid).then().catch(e => console.log('----------------------- add beast environ: ', e)))
       })
       combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, ranges, roleid, newDamage, selectedweapon, selectedarmor, selectedshield, addrolemods, dontaddroledamage, showmaxparry, damagetype, addsizemod, damageskill }) => {
-        promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid, newDamage.isSpecial, newDamage.hasSpecialAndDamage, selectedweapon, selectedarmor, selectedshield, addrolemods, dontaddroledamage, showmaxparry, damagetype, addsizemod, damageskill).then(result => {
+        promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid, newDamage ? newDamage.isSpecial : false, newDamage ? newDamage.hasSpecialAndDamage : false, selectedweapon, selectedarmor, selectedshield, addrolemods, dontaddroledamage, showmaxparry, damagetype, addsizemod, damageskill).then(result => {
           if (weapontype === 'r') {
             return db.add.combatranges(result[0].id, +ranges.increment * 6).then()
           }

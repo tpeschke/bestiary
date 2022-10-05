@@ -266,7 +266,6 @@ export class BeastViewEditComponent implements OnInit {
         objectToModify = this.beast.roleInfo[this.selectedRoleId]
         this.beast.roleInfo[this.selectedRoleId] = Object.assign({}, objectToModify, { [type]: event.target.value })
       } else {
-        console.log(type, event.target.value)
         this.beast = Object.assign({}, objectToModify, { [type]: event.target.value })
       }
       if (type === 'vitality') {
@@ -341,7 +340,7 @@ export class BeastViewEditComponent implements OnInit {
         valueChange = this.getPanicValue(oldValue) - this.getPanicValue(newValue)
       } else if (type === 'vitality' && !this.selectedRoleId) {
         let oldValue = 0
-        if (this.beast.roleInfo[this.selectedRoleId] && this.beast.roleInfo[this.selectedRoleId].average) {
+        if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId] && this.beast.roleInfo[this.selectedRoleId].average) {
           oldValue = this.beast.roleInfo[this.selectedRoleId].average
         } else if (this.averageVitality) {
           oldValue = this.averageVitality
