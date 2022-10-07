@@ -1,4 +1,5 @@
 const { ConsoleReporter } = require('jasmine')
+const { promise } = require('protractor')
 const equipmentCtrl = require('./equipmentController')
 
 function formatNameWithCommas (name) {
@@ -274,6 +275,20 @@ module.exports = {
           beast.specialAbilities = specialAbilities;
           return result
         }))
+
+        beast.artistInfo = {}
+        if (req.query.edit === 'true') {
+          promiseArray.push(db.get.artist(id).then(result => {
+            beast.artistInfo = {... beast.artistInfo, ...result[0]}
+          }))
+          promiseArray.push(db.get.allartists(id).then(result => {
+            beast.artistInfo = {... beast.artistInfo, allartists: [...result]}
+          }))
+        } else {
+          promiseArray.push(db.get.artist(id).then(result => {
+            beast.artistInfo = {... beast.artistInfo, ...result[0]}
+          }))
+        }
 
         if (req.query.edit === 'true') {
           promiseArray.push(db.get.beastconflictedit(id).then(result => {

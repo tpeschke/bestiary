@@ -93,10 +93,50 @@
           </mat-select>
         </mat-form-field>
 
-        <h3>Preview</h3>
-        <img class="preview" [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
-          [src]="imageBase + beast.id  " [alt]="beast.name">
+        <div>
+          <h3>Preview</h3>
+          <img class="preview" [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}"
+            *ngIf="beast.id" [src]="imageBase + beast.id  " [alt]="beast.name">
+        </div>
       </div>
+
+      <div>
+        <p>Artist: {{beast.artistInfo.artist}}</p>
+        <mat-form-field>
+          <mat-label>Select Artist</mat-label>
+          <mat-select (selectionChange)="setArtist($event)">
+            <mat-option *ngFor="let artist of beast.artistInfo.allartists" [value]="artist">
+              {{artist.artist}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h3>Add a New Artist</h3>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="new-roll-shell">
+            <mat-form-field>
+              <input #artistName placeholder="Artist Name" matInput (change)="captureNewArtist('artist', $event)">
+            </mat-form-field>
+
+            <mat-form-field>
+              <input #artistLink placeholder="Link" matInput (change)="captureNewArtist('link', $event)">
+            </mat-form-field>
+
+            <mat-form-field>
+              <textarea #artistTooltip placeholder="Tooltop" matInput (change)="captureNewArtist('tooltip', $event)"></textarea>
+            </mat-form-field>
+            <button mat-raised-button (click)="addNewArtist()" color="accent">Add Artist</button>
+          </div>
+
+        </mat-expansion-panel>
+      </mat-accordion>
 
       <div class="margin-spacing" *ngIf="!beast.id">
         <h3>You need to save this monster before uploading an image</h3>
@@ -650,7 +690,8 @@
                   class="fa-solid fa-minus"></i></button>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">Add Locational Vitality</button>
+          <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">Add Locational
+            Vitality</button>
 
           <br>
           <br>

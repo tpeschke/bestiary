@@ -1,0 +1,1 @@
+insert into bbbeastartist (beastid, artistid) values ($1, $2)

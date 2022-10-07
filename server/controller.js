@@ -319,7 +319,7 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo } = body
 
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue).then(result => {
       let id = result[0].id
@@ -366,6 +366,17 @@ let controllerObj = {
       reagents.forEach(({ name, spell, difficulty, harvest }) => {
         promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then().catch(e => console.log('----------------------- add beast reagents: ', e)))
       })
+
+      let { id: artistid, artist, tooltip, link} = artistInfo;
+      if (artist) {
+        if (!artistid) {
+          promiseArray.push(db.add.allartists(artist, tooltip, link).then(result => {
+            return promiseArray.push(db.add.artist(id, result[0].id).then(result => result))
+          }))
+        } else {
+          promiseArray.push(db.add.artist(id, artistid).then(result => result))
+        }
+      }
 
       let { temperament, rank, verb, noun, signs } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted, temperamentid }) => {
@@ -538,7 +549,7 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo } = body
     // update beast
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, basefatigue).then(result => {
       let promiseArray = []
@@ -660,6 +671,17 @@ let controllerObj = {
         })
       }
 
+      let { id: artistid, artist, tooltip, link} = artistInfo;
+      if (artist) {
+        if (!artistid) {
+          promiseArray.push(db.add.allartists(artist, tooltip, link).then(result => {
+            return promiseArray.push(db.add.artist(id, result[0].id).then(result => result))
+          }))
+        } else {
+          promiseArray.push(db.add.artist(id, artistid).then(result => result))
+        }
+      }
+      
       let { temperament, signs, rank, noun, verb } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
         if (deleted) {

@@ -657,10 +657,14 @@ a {
     border-radius: 5px;
     height: 90px;
     width: 100px;
-    margin: 15px auto 0;
+    margin: 0 auto;
     object-fit: cover;
     object-position: top;
     border: 1px solid grey;
+}
+
+.thumbnailShell {
+    display: flex;
 }
 
 .locationVitality div:first-child .flex-row-opposite {

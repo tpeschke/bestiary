@@ -341,3 +341,16 @@ create table bbbeastsigns (
     signid int,
     weight int
 );
+
+create table bbartists (
+    id serial primary key,
+    artist varchar(500),
+    tooltip varchar(500),
+    link varchar(500)
+);
+
+create table bbbeastartist (
+    id serial primary key,
+    beastid int,
+    artistid int
+);

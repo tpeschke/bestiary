@@ -78,3 +78,18 @@
 .black {
     color: black
 }
+
+.artist-credits {
+    text-align: center;
+    color: grey;
+    margin-top: 5px;
+}
+
+.artist-credits p {
+    font-size: 16px;
+    font-family: 'know';
+}
+
+.artist-credits i {
+    margin-left: 5px
+}

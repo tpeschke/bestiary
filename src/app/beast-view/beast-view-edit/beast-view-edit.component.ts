@@ -15,6 +15,9 @@ import { MatExpansionPanel, MatSelect } from '@angular/material';
 export class BeastViewEditComponent implements OnInit {
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   @ViewChild('newRoleName') newRoleName;
+  @ViewChild('artistName') artistName;
+  @ViewChild('artistLink') artistLink;
+  @ViewChild('artistTooltip') artistTooltip;
   @ViewChild('newCombatRoleSelect') newCombatRoleSelect: MatSelect;
   @ViewChild('newSecondaryRoleSelect') newSecondaryRoleSelect: MatSelect;
   @ViewChild('newConfRoleSelect') newConfRoleSelect: MatSelect;
@@ -95,6 +98,13 @@ export class BeastViewEditComponent implements OnInit {
   public alm = {
     number: null,
     favor: null
+  }
+
+  public artist = {
+    id: null,
+    artist: null,
+    tooltip: null,
+    link: null
   }
 
   public combatRoles = ['Artillery', 'Brute', 'Defender', 'Fencer', 'Flanker', 'Fodder', 'Shock', 'Skirmisher']
@@ -753,6 +763,42 @@ export class BeastViewEditComponent implements OnInit {
 
   formatRelicAndEnchantedChange(chances) {
     return `${chances.minor}% of Minor, ${chances.middling}% of Middling`
+  }
+
+  setArtist(event) {
+    let { artist, tooltip, link, id: artistid } = event.value
+    this.beast.artistInfo.id = artistid
+    this.beast.artistInfo.artist = artist
+    this.beast.artistInfo.tooltip = tooltip
+    this.beast.artistInfo.link = link
+  }
+
+  captureNewArtist(type, event) {
+    if (event.target) {
+      this.artist[type] = event.target.value
+    } else {
+      this.artist[type] = event.value
+    }
+  }
+
+  addNewArtist() {
+    let {artist, tooltip, link} = this.artist
+    this.beast.artistInfo.artistid = null
+    this.beast.artistInfo.artist = artist
+    this.beast.artistInfo.tooltip = tooltip
+    this.beast.artistInfo.link = link
+
+    this.artist = {
+      id: null,
+      artist: null,
+      tooltip: null,
+      link: null
+    }
+
+    this.viewPanels.forEach(p => p.close());
+    this.artistName.nativeElement.value = null
+    this.artistLink.nativeElement.value = null
+    this.artistTooltip.nativeElement.value = null
   }
 
   setRole(event) {

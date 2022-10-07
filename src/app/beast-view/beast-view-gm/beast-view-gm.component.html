@@ -15,6 +15,13 @@
       <div>
         <img class="beastImg" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name"
           onerror="this.onerror=null;this.src='/assets/404.png';">
+        <div *ngIf="beast.artistInfo.artist" class="artist-credits">
+          <p *ngIf="!beast.artistInfo.link">Artist: {{beast.artistInfo.artist}}</p>
+          <a *ngIf="beast.artistInfo.link" target="_blank" href="{{beast.artistInfo.link}}">Artist: {{beast.artistInfo.artist}}</a>
+          <i *ngIf="beast.artistInfo.tooltip" class="fas fa-info-circle icon-small blue"
+            matTooltip="{{beast.artistInfo.tooltip}}"
+            matTooltipClass="my-tooltip"></i>
+        </div>
       </div>
 
       <div class="role-shell conflict-shell" *ngIf="beast.roles.length > 0">
