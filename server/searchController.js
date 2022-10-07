@@ -62,7 +62,7 @@ module.exports = {
                             let roleName = getRoleName(val)
                             if (+val < 11) {
                                 idArray.push(db.get.search.roles_confrontation(roleName).then(result => result))
-                            } else if (+val > 10 && +val < 21) {
+                            } else if (+val > 10 && +val < 22) {
                                 idArray.push(db.get.search.roles_combat(roleName).then(result => result))
                             } else {
                                 idArray.push(db.get.search.roles_skill(roleName).then(result => result))
@@ -170,7 +170,7 @@ getRoleName = (val) => {
         case 19:
             return 'Shock'
         case 20:
-            return 'Skimisher'
+            return 'Skirmisher'
         case 21:
             return 'Solo'
         case 22:
