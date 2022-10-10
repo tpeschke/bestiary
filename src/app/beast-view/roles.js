@@ -522,7 +522,7 @@ export default {
                 init: 0,
                 damagebonus: -2,
                 weapons: [],
-                armor: ['Buff coat'],
+                armor: ['Buff Coat'],
                 shields: ['Clothe'],
             },
             'Shock': {
