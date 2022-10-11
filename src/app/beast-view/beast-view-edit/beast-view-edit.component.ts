@@ -212,7 +212,9 @@ export class BeastViewEditComponent implements OnInit {
             commanding: null,
             bloodpact: null
           },
-          challenges: []
+          challenges: [],
+          artistInfo: {},
+          plural: null
         }
       }
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)

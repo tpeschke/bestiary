@@ -59,7 +59,7 @@
         <button mat-button-raised color="accent" (click)="onImageUpload()">Upload Image</button>
       </div>
       <br>
-      <div class="thumbnailShell">
+      <div class="thumbnailShell" *ngIf="beast.id">
         <mat-form-field>
           <mat-label>Thumbnail Position</mat-label>
           <mat-select [(value)]="beast.thumbnail" (selectionChange)="captureSelect($event, 'thumbnail')">
@@ -100,8 +100,8 @@
         </div>
       </div>
 
-      <div>
-        <p>Artist: {{beast.artistInfo.artist}}</p>
+      <div *ngIf="beast.id">
+        <p>Artist: {{beast.artistInfo.artist}} {{beast.id}}</p>
         <mat-form-field>
           <mat-label>Select Artist</mat-label>
           <mat-select (selectionChange)="setArtist($event)">
@@ -112,7 +112,7 @@
         </mat-form-field>
       </div>
 
-      <mat-accordion>
+      <mat-accordion *ngIf="beast.id">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>

@@ -1057,7 +1057,7 @@ let controllerObj = {
     }))
 
     let randomEncounter = Math.floor(Math.random() * 10) > 5
-    if (randomEncounter) {
+    if (randomEncounter && mainPlayers[0]) {
       promiseArray.push(collectComplication(db, beastId).then(result => {
         let flatArray = []
         if (result.length) {
