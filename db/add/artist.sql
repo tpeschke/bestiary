@@ -1,1 +1,5 @@
-insert into bbbeastartist (beastid, artistid) values ($1, $2)
+INSERT INTO bbbeastartist (beastid, artistid)
+VALUES($1, $2) 
+ON CONFLICT (beastid)
+DO 
+   UPDATE SET artistid = $2;

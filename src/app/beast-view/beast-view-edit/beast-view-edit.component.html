@@ -101,7 +101,7 @@
       </div>
 
       <div *ngIf="beast.id">
-        <p>Artist: {{beast.artistInfo.artist}} {{beast.id}}</p>
+        <p>Artist: {{beast.artistInfo.artist}}</p>
         <mat-form-field>
           <mat-label>Select Artist</mat-label>
           <mat-select (selectionChange)="setArtist($event)">
