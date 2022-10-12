@@ -563,7 +563,7 @@
         </div>
       </div>
 
-      <div *ngIf="(beast.sp_atk && !beast.sp_atk.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack) || (selectedRoleId && beast.specialAbilities[selectedRoleId].length > 0) || (!selectedRoleId && beast.specialAbilities['generic'].length > 0)">
+      <div *ngIf="(beast.sp_atk && !beast.sp_atk.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack) || (selectedRoleId && beast.specialAbilities[selectedRoleId] && beast.specialAbilities[selectedRoleId].length > 0) || (!selectedRoleId && beast.specialAbilities['generic'] && beast.specialAbilities['generic'].length > 0)">
         <h3 class="margin-top">Add. Attack Info</h3>
         <div
           *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk.includes('None') || ((selectedRoleId && beast.specialAbilities[selectedRoleId]) || (!selectedRoleId && beast.specialAbilities.generic)) && beast.sp_atk.includes('None'))">
@@ -584,7 +584,7 @@
         </div>
       </div>
 
-      <div *ngIf="(beast.sp_def && !beast.sp_def.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId].defense)">
+      <div *ngIf="(beast.sp_def && !beast.sp_def.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].defense)">
         <h3 class="margin-top">Add. Defense Info</h3>
         <div *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].defense && (beast.sp_def && beast.sp_def.includes('None') || !beast.sp_def))">
           <quill-view-html [content]="beast.sp_def"></quill-view-html>
