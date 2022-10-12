@@ -1026,6 +1026,8 @@ export class BeastViewGmComponent implements OnInit {
       square.selectedshield = this.newSelectedShield
       square.shieldInfo = this.newShieldInfo
     }
+    console.log(square)
+    console.log(this.beast.specialAbilities.generic)
     square.showEquipmentSelection = !square.showEquipmentSelection
   }
 

@@ -110,6 +110,10 @@
     margin-top: 10px;
 }
 
+.margin-bottom {
+    margin-bottom: 10px;
+}
+
 @media (max-width: 1246px) {
     .vitals-and-movement-shell .vitals-shell {
         width: 100%;
