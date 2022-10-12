@@ -414,22 +414,22 @@
                 <div class="flaw-dice-shell">
                   <button mat-raised-button
                     [ngClass]="{'selected-flaw-value': flaw.value === '' || !flaw.value || flaw.value === '1d4!'}"
-                    (click)="captureInput({target: {value: '1d4!'}}, 'conflict', i, 'flaws', 'value')">d4! (2
+                    (click)="captureInput({target: {value: '1d4!'}}, 'conflict', i, 'flaws', 'value')">d4! (-2
                     points)</button>
                   <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d6!'}"
-                    (click)="captureInput({target: {value: '1d6!'}}, 'conflict', i, 'flaws', 'value')">d6! (3
+                    (click)="captureInput({target: {value: '1d6!'}}, 'conflict', i, 'flaws', 'value')">d6! (-3
                     points)</button>
                   <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d8!'}"
-                    (click)="captureInput({target: {value: '1d8!'}}, 'conflict', i, 'flaws', 'value')">d8! (4
+                    (click)="captureInput({target: {value: '1d8!'}}, 'conflict', i, 'flaws', 'value')">d8! (-4
                     points)</button>
                   <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d10!'}"
-                    (click)="captureInput({target: {value: '1d10!'}}, 'conflict', i, 'flaws', 'value')">d10! (5
+                    (click)="captureInput({target: {value: '1d10!'}}, 'conflict', i, 'flaws', 'value')">d10! (-5
                     points)</button>
                   <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d12!'}"
-                    (click)="captureInput({target: {value: '1d12!'}}, 'conflict', i, 'flaws', 'value')">d12! (6
+                    (click)="captureInput({target: {value: '1d12!'}}, 'conflict', i, 'flaws', 'value')">d12! (-6
                     points)</button>
                   <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d20!'}"
-                    (click)="captureInput({target: {value: '1d20!'}}, 'conflict', i, 'flaws', 'value')">d20! (10
+                    (click)="captureInput({target: {value: '1d20!'}}, 'conflict', i, 'flaws', 'value')">d20! (-10
                     points)</button>
                 </div>
                 <br>
@@ -774,7 +774,7 @@
                 <th></th>
               </tr>
               <tr *ngFor="let temperament of encounter.temperament.temperament; let i = index">
-                <td>{{temperament.temperament}}</td>
+                <td matTooltip="{{temperament.tooltip}}">{{temperament.temperament}}</td>
                 <td>{{temperament.weight}}</td>
                 <td><i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fas fa-times-circle"></i>
                 </td>
@@ -785,7 +785,7 @@
               <mat-form-field>
                 <mat-label>Select Temperament</mat-label>
                 <mat-select (selectionChange)="captureEncounter($event, 'temperament')">
-                  <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament">
+                  <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament" matTooltip="{{temperament.tooltip}}">
                     {{temperament.temperament}}
                   </mat-option>
                 </mat-select>

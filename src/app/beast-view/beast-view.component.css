@@ -424,7 +424,7 @@ mat-toolbar {
 .flaw-dice-shell {
     display: flex;
     justify-content: space-between;
-    max-width: 257px;
+    max-width: 269px;
     flex-wrap: wrap;
 }
 

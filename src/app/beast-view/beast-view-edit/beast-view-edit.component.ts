@@ -377,12 +377,15 @@ export class BeastViewEditComponent implements OnInit {
             console.log('could\'t find ' + type)
         }
       }
-
       this.updateCombatPoints(valueChange);
     } else if (isNaN(newValue)) {
       let oldValueAsNumber = this.getFlawDiceValue(oldValue)
       let newValueAsNumber = this.getFlawDiceValue(newValue)
-      this.updateSocialPoints(newValueAsNumber - oldValueAsNumber)
+      if (type === 'flaws') {
+        this.updateSocialPoints((newValueAsNumber - oldValueAsNumber) * -1)
+      } else {
+        this.updateSocialPoints(newValueAsNumber - oldValueAsNumber)
+      }
     } else {
       this.updateSocialPoints(+newValue - +oldValue)
     }
@@ -409,6 +412,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   getPanicValue = (panicValue) => {
+    panicValue = panicValue ? panicValue : 5
     switch (panicValue) {
       case 1:
         return -2;
@@ -422,6 +426,8 @@ export class BeastViewEditComponent implements OnInit {
         return 0;
       case 7:
         return 2;
+      default:
+        return 0
     }
   }
 
@@ -744,10 +750,9 @@ export class BeastViewEditComponent implements OnInit {
 
   captureEncounterSecondary({value}, type, index, secondaryType) {
     let newSecondaryObject = Object.assign([], this.beast[type])
-    console.log(newSecondaryObject[index].secondaryType, value)
     newSecondaryObject[index] = {...newSecondaryObject[index]}
     newSecondaryObject[index][secondaryType] = value
-    this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject }, _=> console.log(this.beast[type][index]))
+    this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
   }
 
   captureEncounterInputInt(event, type, subtype) {
@@ -1332,7 +1337,7 @@ export class BeastViewEditComponent implements OnInit {
     })
     this.beast.conflict.flaws.forEach(trait => {
       if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
-        socialpoints += 2
+        socialpoints -= 2
       }
     })
     this.beast.conflict.traits.forEach(trait => {
@@ -1372,7 +1377,7 @@ export class BeastViewEditComponent implements OnInit {
       })
       this.beast.conflict.flaws.forEach(trait => {
         if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
-          socialpoints += +trait.value
+          socialpoints -= +trait.value
         }
       })
       this.beast.conflict.traits.forEach(trait => {

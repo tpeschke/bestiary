@@ -182,7 +182,7 @@
         <i class="fas fa-info-circle icon-small blue" matTooltip="The monster's size is factored into Defense."
           matTooltipClass="my-tooltip"></i>
       </div>
-      <div class="input-with-tooltip-shell">
+      <div class="input-with-tooltip-shell" *ngIf="square.weapontype === 'm'">
         <mat-form-field>
           <input
             id="{{selectedRole.strengths && selectedRole.strengths.includes('Measure') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Measure') ? 'red' : ''}}"
