@@ -130,7 +130,8 @@
             </mat-form-field>
 
             <mat-form-field>
-              <textarea #artistTooltip placeholder="Tooltop" matInput (change)="captureNewArtist('tooltip', $event)"></textarea>
+              <textarea #artistTooltip placeholder="Tooltop" matInput
+                (change)="captureNewArtist('tooltip', $event)"></textarea>
             </mat-form-field>
             <button mat-raised-button (click)="addNewArtist()" color="accent">Add Artist</button>
           </div>
@@ -170,7 +171,7 @@
         <mat-label>Select Role</mat-label>
         <mat-select (selectionChange)="setRole($event)">
           <mat-option>
-            Base
+            Generic
           </mat-option>
           <mat-option *ngFor="let role of beast.roles" [value]="role.id">
             {{role.name}}
@@ -322,7 +323,7 @@
           <div class="characteristic-edit-shell">
             <p *ngIf="beast.conflict.traits.length === 0"><br>This monster has no Traits<br></p>
             <div *ngFor="let trait of beast.conflict.traits; let i = index"
-              [ngClass]="{'noDisplay': !(!trait.deleted && selectedRoleId === trait.socialroleid)}">
+              [ngClass]="{'noDisplay': !(!trait.deleted && (selectedRoleId === trait.socialroleid || trait.allroles))}">
               <div class="conflict-shell edit-shell-box">
                 <h3 *ngIf="trait.trait !== 'Any'">
                   <mat-form-field>
@@ -349,8 +350,8 @@
               </div>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'traits')" color="accent">ADD
-            TRAIT</button>
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'traits')" color="accent">Add
+            Trait</button>
           <br *ngIf="beast.conflict.traits.length > 0" />
           <br />
           <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.traits.length > 0">
@@ -365,7 +366,7 @@
           <div class="characteristic-edit-shell">
             <p *ngIf="beast.conflict.devotions.length === 0"><br>This monster has no Devotions<br></p>
             <div *ngFor="let devotion of beast.conflict.devotions; let i = index"
-              [ngClass]="{'noDisplay': !(!devotion.deleted && selectedRoleId === devotion.socialroleid)}">
+              [ngClass]="{'noDisplay': !(!devotion.deleted && (selectedRoleId === devotion.socialroleid || devotion.allroles))}">
               <div class="conflict-shell edit-shell-box">
                 <h3>
                   <mat-form-field>
@@ -386,8 +387,8 @@
               </div>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">ADD
-            DEVOTIONS</button>
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">Add
+            Devotion</button>
           <br *ngIf="beast.conflict.devotions.length > 0" />
           <br />
           <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.devotions.length > 0">
@@ -402,7 +403,7 @@
           <div class="characteristic-edit-shell">
             <p *ngIf="beast.conflict.flaws.length === 0"><br>This monster has no Flaws<br></p>
             <div *ngFor="let flaw of beast.conflict.flaws; let i = index"
-              [ngClass]="{'noDisplay': !(!flaw.deleted && selectedRoleId === flaw.socialroleid)}">
+              [ngClass]="{'noDisplay': !(!flaw.deleted && (selectedRoleId === flaw.socialroleid || flaw.allroles))}">
               <div class="conflict-shell edit-shell-box">
                 <h3>
                   <mat-form-field>
@@ -791,21 +792,6 @@
               </mat-form-field>
               <mat-form-field>
                 <input placeholder="Weight" matInput (change)="captureEncounterInput($event, 'temperament', 'weight')">
-              </mat-form-field>
-            </div>
-            <h4>Add New</h4>
-            <div class="add-new-random">
-              <mat-form-field>
-                <input placeholder="Add Temperament" matInput [value]="temperament.temperament"
-                  (change)="captureEncounterInput($event, 'temperament', 'temperament')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Add Temperament Tooltip" matInput [value]="temperament.tooltip"
-                  (change)="captureEncounterInput($event, 'temperament', 'tooltip')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Weight" matInput [value]="temperament.weight"
-                  (change)="captureEncounterInputInt($event, 'temperament', 'weight')">
               </mat-form-field>
             </div>
             <button mat-raised-button (click)="addEncounterItem('temperament', 'temperament')" color="accent"
@@ -1559,12 +1545,85 @@
                 (change)="captureInput($event, 'reagents', i, 'spell')">
             </mat-form-field>
             <mat-form-field>
-              <input placeholder="Identification" matInput [value]="regeant.difficulty"
-                (change)="captureInput($event, 'reagents', i, 'difficulty')">
+              <mat-label>Identification</mat-label>
+              <mat-select (selectionChange)="captureEncounterSecondary($event, 'reagents', i, 'difficulty')"
+                [value]="regeant.difficulty">
+                <mat-option value="Depends">
+                  Depends
+                </mat-option>
+                <mat-option value="n/a">
+                  n/a
+                </mat-option>
+                <mat-option value="0">
+                  0
+                </mat-option>
+                <mat-option value="d4!">
+                  d4!
+                </mat-option>
+                <mat-option value="d6!">
+                  d6!
+                </mat-option>
+                <mat-option value="d8!">
+                  d8!
+                </mat-option>
+                <mat-option value="d10!">
+                  d10!
+                </mat-option>
+                <mat-option value="d12!">
+                  d12!
+                </mat-option>
+                <mat-option value="d20!">
+                  d20!
+                </mat-option>
+                <mat-option value="d20!+d4!">
+                  d20!+d4!
+                </mat-option>
+                <mat-option value="5d20!">
+                  d20!+d4!
+                </mat-option>
+              </mat-select>
             </mat-form-field>
             <mat-form-field>
-              <input placeholder="Harvest" matInput [value]="regeant.harvest"
-                (change)="captureInput($event, 'reagents', i, 'harvest')">
+              <mat-label>Harvest</mat-label>
+              <mat-select (selectionChange)="captureEncounterSecondary($event, 'reagents', i, 'harvest')"
+                [value]="regeant.harvest">
+                <mat-option>
+                  Same as Harvest
+                </mat-option>
+                <mat-option value="Depends">
+                  Depends
+                </mat-option>
+                <mat-option value="n/a">
+                  n/a
+                </mat-option>
+                <mat-option value="0">
+                  0
+                </mat-option>
+                <mat-option value="d4!">
+                  d4!
+                </mat-option>
+                <mat-option value="d6!">
+                  d6!
+                </mat-option>
+                <mat-option value="d8!">
+                  d8!
+                </mat-option>
+                <mat-option value="d10!">
+                  d10!
+                </mat-option>
+                <mat-option value="d12!">
+                  d12!
+                </mat-option>
+                <mat-option value="d20!">
+                  d20!
+                </mat-option>
+                <mat-option value="d20!+d4!">
+                  d20!+d4!
+                </mat-option>
+                <mat-option value="5d20!">
+                  d20!+d4!
+                </mat-option>
+              </mat-select>
             </mat-form-field>
             <button mat-raised-button (click)="removeNewSecondaryItem('reagents', i)" color="warn"><i
                 class="fa-solid fa-minus"></i></button>

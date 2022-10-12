@@ -45,6 +45,7 @@ export class BeastViewEditComponent implements OnInit {
   public displayFatigue = null;
   public fatigueAsVitality: any = '';
   public selectedRoleId = null;
+  public filteredRoles = [];
   public selectedRole: any = {}
   public selectedSocialRole = {}
   public selectedSkillRole = {}
@@ -739,6 +740,14 @@ export class BeastViewEditComponent implements OnInit {
 
   captureEncounter({ value }, type) {
     this[type] = value
+  }
+
+  captureEncounterSecondary({value}, type, index, secondaryType) {
+    let newSecondaryObject = Object.assign([], this.beast[type])
+    console.log(newSecondaryObject[index].secondaryType, value)
+    newSecondaryObject[index] = {...newSecondaryObject[index]}
+    newSecondaryObject[index][secondaryType] = value
+    this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject }, _=> console.log(this.beast[type][index]))
   }
 
   captureEncounterInputInt(event, type, subtype) {
