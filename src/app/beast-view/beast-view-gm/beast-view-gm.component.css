@@ -93,3 +93,26 @@
 .artist-credits i {
     margin-left: 5px
 }
+
+.vitals-and-movement-shell {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.vitals-and-movement-shell .vitals-shell {
+    width: 49%;
+    min-width: 220px;
+    height: 100%;
+}
+
+.margin-top {
+    margin-top: 10px;
+}
+
+@media (max-width: 1246px) {
+    .vitals-and-movement-shell .vitals-shell {
+        width: 100%;
+        min-width: unset;
+    }    
+}

@@ -1057,7 +1057,7 @@ let controllerObj = {
     }))
 
     let randomEncounter = Math.floor(Math.random() * 10) > 5
-    if (randomEncounter && mainPlayers[0]) {
+    if (randomEncounter) {
       promiseArray.push(collectComplication(db, beastId).then(result => {
         let flatArray = []
         if (result.length) {
@@ -1123,23 +1123,32 @@ async function collectComplication(db, beastId) {
       //Back up coming
       return db.get.complication.backup(beastId).then(result => {
         let backup = result[0]
-        console.log(backup)
-        if (backup.plural && backup.rank.toUpperCase() === 'NONE') {
-          backup.rank = backup.name
-          backup.rankplural = backup.plural
-        } else if (!backup.plural && backup.rank.toUpperCase() === 'NONE') {
-          backup.rank = backup.name
-          backup.rankplural = backup.rank += 's'
-        } else if (!backup.plural && backup.rank.toUpperCase() !== 'NONE') {
-          backup.rankplural = backup.rank += 's'
+        if (backup) {
+          if (backup.plural && backup.rank.toUpperCase() === 'NONE') {
+            backup.rank = backup.name
+            backup.rankplural = backup.plural
+          } else if (!backup.plural && backup.rank.toUpperCase() === 'NONE') {
+            backup.rank = backup.name
+            backup.rankplural = backup.rank += 's'
+          } else if (!backup.plural && backup.rank.toUpperCase() !== 'NONE') {
+            backup.rankplural = backup.rank += 's'
+          }
+  
+          return {
+            id: 8,
+            type: 'Back Up Coming',
+            backup,
+            time: '30d2'
+          }
+        } else {
+          return {
+            id: 8,
+            type: 'Back Up Coming',
+            backup: 'Double the Main Players',
+            time: '30d2'
+          }
         }
 
-        return {
-          id: 8,
-          type: 'Back Up Coming',
-          backup,
-          time: '30d2'
-        }
       })
     } else if (complication.id === 12) {
       //roll an additional time

@@ -17,10 +17,10 @@
           onerror="this.onerror=null;this.src='/assets/404.png';">
         <div *ngIf="beast.artistInfo.artist" class="artist-credits">
           <p *ngIf="!beast.artistInfo.link">Artist: {{beast.artistInfo.artist}}</p>
-          <a *ngIf="beast.artistInfo.link" target="_blank" href="{{beast.artistInfo.link}}">Artist: {{beast.artistInfo.artist}}</a>
+          <a *ngIf="beast.artistInfo.link" target="_blank" href="{{beast.artistInfo.link}}">Artist:
+            {{beast.artistInfo.artist}}</a>
           <i *ngIf="beast.artistInfo.tooltip" class="fas fa-info-circle icon-small blue"
-            matTooltip="{{beast.artistInfo.tooltip}}"
-            matTooltipClass="my-tooltip"></i>
+            matTooltip="{{beast.artistInfo.tooltip}}" matTooltipClass="my-tooltip"></i>
         </div>
       </div>
 
@@ -38,7 +38,9 @@
         </mat-form-field>
       </div>
 
-      <div class="conflict-shell role-select"
+      <h2>Confrontation</h2>
+      <div class="divider"></div>
+      <div class="role-select"
         *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].socialrole) || (!selectedRoleId && beast.socialrole)">
         <h3>Confrontation Role Type </h3>
         <p>
@@ -48,45 +50,45 @@
             matTooltipClass="my-tooltip"></i></p>
       </div>
 
-      <div
-        *ngIf="beast.conflict.traits.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0 ">
-
+      <div class="conflict-shell"
+        *ngIf="beast.conflict.traits.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0">
         <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.traits.length > 0">
-          <h2>Traits</h2>
-          <div class="divider"></div>
+          <h3>Traits</h3>
+          <div class="divider white"></div>
           <div *ngFor="let trait of beast.conflict.traits; let i = index">
             <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
-              <h3>{{trait.trait | titlecase}}</h3>
-              <h3>{{trait.value}}</h3>
+              <h4>{{trait.trait | titlecase}}</h4>
+              <h4>{{trait.value}}</h4>
             </div>
           </div>
         </div>
 
         <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.devotions.length > 0">
-          <h2>Devotions</h2>
-          <div class="divider"></div>
+          <h3>Devotions</h3>
+          <div class="divider white"></div>
           <div *ngFor="let trait of beast.conflict.devotions; let i = index">
             <div *ngIf="!beast.devotionlimit || i < beast.devotionlimit" class="flex-row-opposite">
-              <h3>{{trait.trait | titlecase}}</h3>
-              <h3>{{trait.value}}</h3>
+              <h4>{{trait.trait | titlecase}}</h4>
+              <h4>{{trait.value}}</h4>
             </div>
           </div>
         </div>
 
         <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.flaws.length > 0">
-          <h2>Flaws</h2>
-          <div class="divider"></div>
+          <h3>Flaws</h3>
+          <div class="divider white"></div>
           <div *ngFor="let trait of beast.conflict.flaws; let i = index">
             <div *ngIf="!beast.flawlimit || i < beast.flawlimit" class="flex-row-opposite">
-              <h3>{{trait.trait | titlecase}}</h3>
-              <h3>{{trait.value ? trait.value : '1d4!'}}</h3>
+              <h4>{{trait.trait | titlecase}}</h4>
+              <h4>{{trait.value ? trait.value : '1d4!'}}</h4>
             </div>
           </div>
         </div>
-
       </div>
 
-      <div class="conflict-shell role-select"
+      <h2>Skills</h2>
+      <div class="divider"></div>
+      <div class="role-select"
         *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)">
         <h3>Skill Role Type </h3>
         <p>
@@ -95,10 +97,10 @@
             matTooltip="{{skillRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole].description}}"
             matTooltipClass="my-tooltip"></i></p>
       </div>
-
       <div class="conflict-inner-shell box-padding" *ngIf="beast.skills.length > 0">
-        <h2>Skills</h2>
-        <div class="divider"></div>
+        <div
+          *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)"
+          class="divider"></div>
         <div *ngFor="let skill of beast.skills; let i = index">
           <div class="flex-row-opposite" *ngIf="selectedRoleId === skill.skillroleid || skill.allroles">
             <h3>{{skill.skill}}</h3>
@@ -107,7 +109,9 @@
         </div>
       </div>
 
-      <div class="conflict-shell role-select"
+      <h2>Combat</h2>
+      <div class="divider"></div>
+      <div class="role-select"
         *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].role) || (!selectedRoleId && beast.role)">
         <h3>Combat Role Type </h3>
         <p>
@@ -123,7 +127,7 @@
       </div>
 
       <div *ngIf="beast.roles.length === 0 && (!selectedRoleId && !beast.role)">
-        <div class="conflict-shell role-select extra-padding">
+        <div class="role-select extra-padding">
           <h3>Add to Quick View</h3>
           <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
               class="fas fa-plus"></i><i class="fas fa-address-card"></i></div>
@@ -131,16 +135,15 @@
       </div>
 
       <div class="combat-shell" *ngIf="beast.combat.length > 0">
-        <h2>Weapons</h2>
         <div class="divider"></div>
         <div *ngFor="let square of beast.combat">
           <div *ngIf="selectedRoleId === square.roleid">
             <div *ngIf="(!selectedRole.spd || !square.addrolemods) && !square.showEquipmentSelection">
               <div class="combat-square">
-                <h3 class="weaponName">{{displayName(square)}}<i
+                <h4 class="weaponName">{{displayName(square)}}<i
                     *ngIf="square.selectedweapon || square.selectedarmor || square.selectedshield"
                     (click)="toggleEquipmentSelection(square)" class="fa-solid fa-arrow-right-arrow-left swap-equipment"
-                    matTooltip="Click to swap out gear." matTooltipClass="my-tooltip"></i></h3>
+                    matTooltip="Click to swap out gear." matTooltipClass="my-tooltip"></i></h4>
                 <div class="square-shell">
                   <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png"
                     alt="combat square">
@@ -180,10 +183,10 @@
 
             <div *ngIf="selectedRole.spd && square.addrolemods && !square.showEquipmentSelection">
               <div class="combat-square">
-                <h3 class="weaponName">{{displayName(square)}}<i
+                <h4 class="weaponName">{{displayName(square)}}<i
                     *ngIf="square.selectedweapon || square.selectedarmor || square.selectedshield"
                     (click)="toggleEquipmentSelection(square)" class="fa-solid fa-arrow-right-arrow-left swap-equipment"
-                    matTooltip="Click to swap out gear." matTooltipClass="my-tooltip"></i></h3>
+                    matTooltip="Click to swap out gear." matTooltipClass="my-tooltip"></i></h4>
                 <div class="square-shell">
                   <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png"
                     alt="combat square">
@@ -381,185 +384,186 @@
         </div>
       </div>
 
-      <div class="vitals-shell">
-        <div class="flex-row-opposite">
-          <h3>Vitality</h3>
-          <span class="vitality-flex">
-            <p
-              *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
-              {{beast.roleInfo[selectedRoleId].average}}</p>
-            <p
-              *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
-              {{locationCheckboxes.mainVitality.average}}</p>
-            <p class="vitality-flex-subtitle" *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
-              {{beast.roleInfo[selectedRoleId].vitality}}</p>
-            <p class="vitality-flex-subtitle" *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
-              {{beast.vitality}}</p>
-          </span>
-        </div>
-
-        <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
-          <!-- <div class="checkboxShell">
-            <div *ngFor="let checkbox of beast.roleInfo[selectedRoleId].checkboxes; let i = index">
-              <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkRoleCheckbox($event, i)"
-                [(ngModel)]="checkbox.checked"></mat-checkbox>
-              <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
-            </div>
-          </div> -->
-          <div class="rolled-stats-shell">
-            <mat-form-field>
-              <input matInput>
-            </mat-form-field>
-            <p> / </p>
-            <p
-              matTooltip="This is the Fatigue Threshold based on the average Vitality and a Threshold of {{displayedFatigue}}">
-              ({{numberFatigue}}) </p>
-            <p> / </p>
-            <p> {{beast.roleInfo[selectedRoleId].rolled}} </p>
+      <div class="vitals-and-movement-shell">
+        <div class="vitals-shell">
+          <div class="flex-row-opposite">
+            <h3>Vitality</h3>
+            <span class="vitality-flex">
+              <p
+                *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
+                {{beast.roleInfo[selectedRoleId].average}}</p>
+              <p
+                *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
+                {{locationCheckboxes.mainVitality.average}}</p>
+              <p class="vitality-flex-subtitle" *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
+                {{beast.roleInfo[selectedRoleId].vitality}}</p>
+              <p class="vitality-flex-subtitle" *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
+                {{beast.vitality}}</p>
+            </span>
           </div>
-        </div>
-        <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
-          <!-- <div class="checkboxShell">
-            <div *ngFor="let checkbox of locationCheckboxes.mainVitality.checkboxes; let i = index">
-              <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
-                (change)="checkCheckbox($event, i, 'mainVitality')" [(ngModel)]="checkbox.checked"></mat-checkbox>
-              <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
-            </div>
-          </div> -->
-          <div *ngIf="locationCheckboxes.mainVitality.rolled" class="rolled-stats-shell">
-            <mat-form-field>
-              <input matInput>
-            </mat-form-field>
-            <p> / </p>
-            <p
-              matTooltip="This is the Fatigue Threshold based on the average Vitality and a Threshold of {{displayedFatigue}}">
-              ({{numberFatigue}}) </p>
-            <p> / </p>
-            <p> {{locationCheckboxes.mainVitality.rolled}} </p>
-          </div>
-        </div>
 
-        <div class="locationVitality">
-          <div *ngFor="let location of beast.locationalvitality; let i = index">
-            <div
-              *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueLocationalVitality ? null === location.roleid : selectedRoleId === location.roleid">
-              <div class="flex-row-opposite">
-                <h3>{{location.location}}</h3>
-                <span class="vitality-flex">
-                  <p *ngIf="isNumber(locationCheckboxes[location.id].average)">
-                    {{locationCheckboxes[location.id].average}}</p>
-                  <p class="vitality-flex-subtitle">{{location.vitality}} </p>
-                </span>
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
+            <!-- <div class="checkboxShell">
+              <div *ngFor="let checkbox of beast.roleInfo[selectedRoleId].checkboxes; let i = index">
+                <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkRoleCheckbox($event, i)"
+                  [(ngModel)]="checkbox.checked"></mat-checkbox>
+                <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
               </div>
-              <!-- <div class="checkboxShell"> -->
-              <!-- <div *ngFor="let checkbox of locationCheckboxes[location.id].checkboxes; let i = index">
-                  <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
-                    (change)="checkCheckbox($event, i, location.id)" [(ngModel)]="checkbox.checked">
-                  </mat-checkbox>
-                  <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
-                </div> -->
-              <div class="rolled-stats-shell">
-                <mat-form-field>
-                  <input matInput>
-                </mat-form-field>
-                <p> / {{locationCheckboxes[location.id].rolled}}</p>
-              </div>
-              <!-- </div> -->
+            </div> -->
+            <div class="rolled-stats-shell">
+              <mat-form-field>
+                <input matInput>
+              </mat-form-field>
+              <p> / </p>
+              <p
+                matTooltip="This is the Fatigue Threshold based on the average Vitality and a Threshold of {{displayedFatigue}}">
+                ({{numberFatigue}}) </p>
+              <p> / </p>
+              <p> {{beast.roleInfo[selectedRoleId].rolled}} </p>
             </div>
           </div>
-        </div>
+          <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
+            <!-- <div class="checkboxShell">
+              <div *ngFor="let checkbox of locationCheckboxes.mainVitality.checkboxes; let i = index">
+                <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
+                  (change)="checkCheckbox($event, i, 'mainVitality')" [(ngModel)]="checkbox.checked"></mat-checkbox>
+                <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+              </div>
+            </div> -->
+            <div *ngIf="locationCheckboxes.mainVitality.rolled" class="rolled-stats-shell">
+              <mat-form-field>
+                <input matInput>
+              </mat-form-field>
+              <p> / </p>
+              <p
+                matTooltip="This is the Fatigue Threshold based on the average Vitality and a Threshold of {{displayedFatigue}}">
+                ({{numberFatigue}}) </p>
+              <p> / </p>
+              <p> {{locationCheckboxes.mainVitality.rolled}} </p>
+            </div>
+          </div>
 
-        <div *ngIf="isNumber(trauma)" class="flex-row-opposite">
-          <h3>Trauma Threshold</h3>
-          <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">
-            {{beast.roleInfo[selectedRoleId].trauma}}</p>
-          <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">{{trauma}}</p>
-        </div>
-        <div class="flex-row-opposite">
-          <h3>Fatigue</h3>
-          <p [matTooltipDisabled]="numberFatigue === 'Always' || numberFatigue === 'Never'"
-            matTooltip="Fatigue Based on Average Vitality: {{numberFatigue}}">{{displayedFatigue}}</p>
-        </div>
+          <div class="locationVitality">
+            <div *ngFor="let location of beast.locationalvitality; let i = index">
+              <div
+                *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueLocationalVitality ? null === location.roleid : selectedRoleId === location.roleid">
+                <div class="flex-row-opposite">
+                  <h3>{{location.location}}</h3>
+                  <span class="vitality-flex">
+                    <p *ngIf="isNumber(locationCheckboxes[location.id].average)">
+                      {{locationCheckboxes[location.id].average}}</p>
+                    <p class="vitality-flex-subtitle">{{location.vitality}} </p>
+                  </span>
+                </div>
+                <!-- <div class="checkboxShell"> -->
+                <!-- <div *ngFor="let checkbox of locationCheckboxes[location.id].checkboxes; let i = index">
+                    <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
+                      (change)="checkCheckbox($event, i, location.id)" [(ngModel)]="checkbox.checked">
+                    </mat-checkbox>
+                    <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
+                  </div> -->
+                <div class="rolled-stats-shell">
+                  <mat-form-field>
+                    <input matInput>
+                  </mat-form-field>
+                  <p> / {{locationCheckboxes[location.id].rolled}}</p>
+                </div>
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
 
-        <div class="divider white"></div>
+          <div *ngIf="isNumber(trauma)" class="flex-row-opposite">
+            <h3>Trauma Threshold</h3>
+            <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">
+              {{beast.roleInfo[selectedRoleId].trauma}}</p>
+            <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">{{trauma}}</p>
+          </div>
+          <div class="flex-row-opposite">
+            <h3>Fatigue</h3>
+            <p [matTooltipDisabled]="numberFatigue === 'Always' || numberFatigue === 'Never'"
+              matTooltip="Fatigue Based on Average Vitality: {{numberFatigue}}">{{displayedFatigue}}</p>
+          </div>
 
-        <div class="flex-row-opposite">
-          <h3>Stress Threshold</h3>
-          <p
-            *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0">
-            {{beast.roleInfo[selectedRoleId].stress}}</p>
-          <p
-            *ngIf="!selectedRoleId && beast.stress !== 0 || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && beast.stress !== 0)">
-            {{beast.stress}}</p>
-          <p *ngIf="beast.stress === 0 || (selectedRoleId && beast.roleInfo[selectedRoleId].stress === 0)">N/A</p>
-        </div>
-        <div
-          *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
-          class="rolled-stats-shell">
-          <mat-form-field>
-            <input matInput>
-          </mat-form-field>
-          <p> / </p>
-          <p matTooltip="This is the Panic Threshold based on the Stress Threshold and a Panic of {{displayedPanic}}">
-            ({{numberPanic}}) </p>
-          <p> / </p>
-          <p> {{selectedRoleId && beast.roleInfo[selectedRoleId].stress ?
-            beast.roleInfo[selectedRoleId].stress : beast.stress}} </p>
-        </div>
-        <div
-          *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
-          class="flex-row-opposite">
-          <h3>Panic</h3>
-          <p [matTooltipDisabled]="displayedPanic === 'Always' || displayedPanic === 'Never'"
-            matTooltip="Panic Based on Stress Threshold: {{numberPanic}}">{{displayedPanic}}</p>
-        </div>
-        <div class="flex-row-opposite">
-          <h3>Caution Threshold</h3>
-          <p>{{beast.caution < 0 ? 'Always' : beast.caution===0 || !beast.caution ? 'Never' : beast.caution}} <i
-              class="fas fa-info-circle icon-small blue"
-              matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable.">
-              </i></p>
-        </div>
-      </div>
-
-      <div class="vitals-shell">
-        <h3 class="blue">Movement</h3>
-        <div *ngIf="beast.movement.length == 0">
           <div class="divider white"></div>
-          <h3>This Monster Can't Move</h3>
-        </div>
-        <div *ngFor="let movementType of beast.movement">
+
+          <div class="flex-row-opposite">
+            <h3>Stress Threshold</h3>
+            <p
+              *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0">
+              {{beast.roleInfo[selectedRoleId].stress}}</p>
+            <p
+              *ngIf="!selectedRoleId && beast.stress !== 0 || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && beast.stress !== 0)">
+              {{beast.stress}}</p>
+            <p *ngIf="beast.stress === 0 || (selectedRoleId && beast.roleInfo[selectedRoleId].stress === 0)">N/A</p>
+          </div>
           <div
-            *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueMovement ? null === movementType.roleid : selectedRoleId === movementType.roleid">
+            *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
+            class="rolled-stats-shell">
+            <mat-form-field>
+              <input matInput>
+            </mat-form-field>
+            <p> / </p>
+            <p matTooltip="This is the Panic Threshold based on the Stress Threshold and a Panic of {{displayedPanic}}">
+              ({{numberPanic}}) </p>
+            <p> / </p>
+            <p> {{selectedRoleId && beast.roleInfo[selectedRoleId].stress ?
+              beast.roleInfo[selectedRoleId].stress : beast.stress}} </p>
+          </div>
+          <div
+            *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
+            class="flex-row-opposite">
+            <h3>Panic</h3>
+            <p [matTooltipDisabled]="displayedPanic === 'Always' || displayedPanic === 'Never'"
+              matTooltip="Panic Based on Stress Threshold: {{numberPanic}}">{{displayedPanic}}</p>
+          </div>
+          <div class="flex-row-opposite">
+            <h3>Caution Threshold</h3>
+            <p>{{beast.caution < 0 ? 'Always' : beast.caution===0 || !beast.caution ? 'Never' : beast.caution}} <i
+                class="fas fa-info-circle icon-small blue"
+                matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable.">
+                </i></p>
+          </div>
+        </div>
+
+        <div class="vitals-shell">
+          <h3 class="blue">Movement</h3>
+          <div *ngIf="beast.movement.length == 0">
             <div class="divider white"></div>
-            <h3>{{movementType.type | titlecase}}</h3>
-            <div class="divider white"></div>
-            <div class="flex-row-opposite">
-              <h3>Stroll/Crawl</h3>
-              <p>{{movementType.stroll}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
-            </div>
-            <div class="flex-row-opposite">
-              <h3>Walk</h3>
-              <p>{{movementType.walk}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
-            </div>
-            <div class="flex-row-opposite">
-              <h3>Jog</h3>
-              <p>{{movementType.jog}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
-            </div>
-            <div class="flex-row-opposite">
-              <h3>Run</h3>
-              <p>{{movementType.run}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
-            </div>
-            <div class="flex-row-opposite">
-              <h3>Sprint</h3>
-              <p>{{movementType.sprint}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
+            <h4>This Monster Can't Move</h4>
+          </div>
+          <div *ngFor="let movementType of beast.movement">
+            <div
+              *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueMovement ? null === movementType.roleid : selectedRoleId === movementType.roleid">
+              <div class="divider white"></div>
+              <h3>{{movementType.type | titlecase}}</h3>
+              <div class="divider white"></div>
+              <div class="flex-row-opposite">
+                <h4>Stroll/Crawl</h4>
+                <p>{{movementType.stroll}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
+              </div>
+              <div class="flex-row-opposite">
+                <h4>Walk</h4>
+                <p>{{movementType.walk}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
+              </div>
+              <div class="flex-row-opposite">
+                <h4>Jog</h4>
+                <p>{{movementType.jog}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
+              </div>
+              <div class="flex-row-opposite">
+                <h4>Run</h4>
+                <p>{{movementType.run}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
+              </div>
+              <div class="flex-row-opposite">
+                <h4>Sprint</h4>
+                <p>{{movementType.sprint}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <h2>Add. Attack Info</h2>
-      <div class="divider"></div>
+      <h3 class="margin-top">Add. Attack Info</h3>
       <div
         *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk.includes('None') || ((selectedRoleId && beast.specialAbilities[selectedRoleId]) || (!selectedRoleId && beast.specialAbilities.generic)) && beast.sp_atk.includes('None'))">
         <quill-view-html [content]="beast.sp_atk"></quill-view-html>
@@ -578,8 +582,7 @@
         </div>
       </div>
 
-      <h2>Add. Defense Info</h2>
-      <div class="divider"></div>
+      <h3 class="margin-top">Add. Defense Info</h3>
       <div *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].defense && beast.sp_def.includes('None'))">
         <quill-view-html [content]="beast.sp_def"></quill-view-html>
       </div>
@@ -587,8 +590,7 @@
         <quill-view-html [content]="beast.roleInfo[selectedRoleId].defense"></quill-view-html>
       </div>
 
-      <h2>Tactics & Strategy</h2>
-      <div class="divider"></div>
+      <h3 class="margin-top">Tactics & Strategy</h3>
       <div>
         <quill-view-html [content]="beast.tactics"></quill-view-html>
       </div>
@@ -1027,4 +1029,3 @@
   <button *ngIf="loggedIn === 'owner'" mat-raised-button color="accent"
     [routerLink]="['/beast', 0, 'edit', {'templateId': beast.id}]">Use As Template For New</button>
 </mat-card>
-
