@@ -665,6 +665,8 @@ a {
 
 .thumbnailShell {
     display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
 }
 
 .locationVitality div:first-child .flex-row-opposite {

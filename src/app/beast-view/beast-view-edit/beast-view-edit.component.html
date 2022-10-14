@@ -370,7 +370,7 @@
               <div class="conflict-shell edit-shell-box">
                 <h3>
                   <mat-form-field>
-                    <input placeholder="devotion" matInput [value]="devotion.trait"
+                    <input placeholder="Devotion" matInput [value]="devotion.trait"
                       (change)="captureInput($event, 'conflict', i, 'devotions', 'trait')">
                   </mat-form-field>
                 </h3>
@@ -568,7 +568,7 @@
         <div class="characteristic-edit-shell">
           <p *ngIf="beast.skills.length === 0"><br>This monster has no Skills<br></p>
           <div *ngFor="let skill of beast.skills; let i = index"
-            [ngClass]="{'noDisplay': !(!skill.deleted && selectedRoleId === skill.skillroleid)}">
+            [ngClass]="{'noDisplay': !(!skill.deleted && (selectedRoleId === skill.skillroleid || skill.allroles))}">
             <app-skill-display [skillInfo]="skill" [captureInput]="captureInput"
               [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [selectedSkillRole]="selectedSkillRole"
               [combatSkills]="combatSkills" [checkAllRoles]="checkAllRoles" [socialSkills]="socialSkills">
@@ -1844,7 +1844,7 @@
             </mat-form-field>
 
             <mat-form-field>
-              <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')">
+              <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')" maxlength="40">
             </mat-form-field>
           </div>
 
