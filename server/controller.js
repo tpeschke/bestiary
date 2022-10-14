@@ -367,9 +367,9 @@ let controllerObj = {
         promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then().catch(e => console.log('----------------------- add beast reagents: ', e)))
       })
 
-      let { id: artistid, artist, tooltip, link} = artistInfo;
+      let { id: dbid, artistid, artist, tooltip, link} = artistInfo;
       if (artist) {
-        if (!artistid) {
+        if (!dbid) {
           promiseArray.push(db.add.allartists(artist, tooltip, link).then(result => {
             return promiseArray.push(db.add.artist(id, result[0].id).then(result => result))
           }))
@@ -671,9 +671,9 @@ let controllerObj = {
         })
       }
 
-      let { id: artistid, artist, tooltip, link} = artistInfo;
+      let { id: dbid,  artistid, artist, tooltip, link} = artistInfo;
       if (artist) {
-        if (!artistid) {
+        if (!dbid) {
           promiseArray.push(db.add.allartists(artist, tooltip, link).then(result => {
             return promiseArray.push(db.add.artist(id, result[0].id).then(result => result))
           }))

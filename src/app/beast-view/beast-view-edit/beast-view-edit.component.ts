@@ -49,6 +49,7 @@ export class BeastViewEditComponent implements OnInit {
   public selectedRole: any = {}
   public selectedSocialRole = {}
   public selectedSkillRole = {}
+  public imageUrl = null;
   public newRole = {
     name: null,
     role: null,
@@ -166,6 +167,7 @@ export class BeastViewEditComponent implements OnInit {
         this.beastService.getEditEncounter(this.beast.id).subscribe(encounter => {
           this.encounter = encounter
         })
+        this.getImageUrl()
       } else {
         this.beastService.getEditEncounter(0).subscribe(encounter => {
           this.encounter = encounter
@@ -278,6 +280,7 @@ export class BeastViewEditComponent implements OnInit {
       if (this.selectedRoleId && (type === 'stress' || type === 'caution')) {
         objectToModify = this.beast.roleInfo[this.selectedRoleId]
         this.beast.roleInfo[this.selectedRoleId] = Object.assign({}, objectToModify, { [type]: event.target.value })
+        this.updateRolesObject(type, event.target.value)
       } else {
         this.beast = Object.assign({}, objectToModify, { [type]: event.target.value })
       }
@@ -306,6 +309,15 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  updateRolesObject(type, value) {
+    for (let i = 0; i < this.beast.roles.length; i++) {
+      if (this.beast.roles[i].id === this.selectedRoleId) {
+        this.beast.roles[i][type] = value
+        i = this.beast.roles.length
+      }
+    }
+  }
+
   checkAllRoles = (type, index, checked) => {
     if (type === 'skills') {
       this.beast[type][index].allroles = checked
@@ -326,6 +338,7 @@ export class BeastViewEditComponent implements OnInit {
       this.getValueForPointChange(type, this.beast[type], event.value)
       if (this.selectedRoleId && type === 'panic') {
         this.beast.roleInfo[this.selectedRoleId][type] = event.value
+        this.updateRolesObject(type, event.value)
       } else {
         this.beast[type] = event.value
         if (type === 'basefatigue') {
@@ -668,6 +681,7 @@ export class BeastViewEditComponent implements OnInit {
     imageForm.append('image', this.imageObj);
     this.beastService.imageUpload(imageForm, this.beast.id).subscribe(res => {
       this.beast.image = res['image']
+      this.getImageUrl()
     });
   }
 
@@ -1608,5 +1622,9 @@ export class BeastViewEditComponent implements OnInit {
       case 'N':
         return 4;
     }
+  }
+
+  getImageUrl () {
+    this.imageUrl = this.imageBase + this.beast.id + '?t=' + new Date().getTime() 
   }
 }

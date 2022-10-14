@@ -264,8 +264,8 @@ table {
 .ql-editor strong {
   font-weight: 600;
   font-family: 'know';
-  font-size: 17px;
-  color: #607d8b;
+  font-size: 15px;
+  letter-spacing: 2px;
 }
 
 .ql-editor em {

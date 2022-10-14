@@ -452,6 +452,7 @@ export class BeastViewGmComponent implements OnInit {
         this.selectedRole = {}
       }
     }
+    this.convertPanic()
   }
 
   addToQuickView() {
@@ -475,6 +476,7 @@ export class BeastViewGmComponent implements OnInit {
     } else if ((this.selectedRoleId && !this.beast.roleInfo[this.selectedRoleId].panic) || !this.selectedRoleId) {
       panic = this.beast.panic
     }
+
     let percentage = .00;
     switch (panic) {
       case 1:
@@ -495,27 +497,25 @@ export class BeastViewGmComponent implements OnInit {
       default: panic
     }
 
-    if (!this.displayedPanic) {
-      switch (panic) {
-        case 1:
-          this.displayedPanic = 'Always';
-          break;
-        case 2:
-          this.displayedPanic = 'Unsure';
-          break;
-        case 3:
-          this.displayedPanic = 'Nervous';
-          break;
-        case 4:
-          this.displayedPanic = 'Shaken';
-          break;
-        case 5:
-          this.displayedPanic = 'Breaking'
-          break;
-        case 7:
-          this.displayedPanic = 'Never'
-        default: panic
-      }
+    switch (panic) {
+      case 1:
+        this.displayedPanic = 'Always';
+        break;
+      case 2:
+        this.displayedPanic = 'Unsure';
+        break;
+      case 3:
+        this.displayedPanic = 'Nervous';
+        break;
+      case 4:
+        this.displayedPanic = 'Shaken';
+        break;
+      case 5:
+        this.displayedPanic = 'Breaking'
+        break;
+      case 7:
+        this.displayedPanic = 'Never'
+      default: panic
     }
 
     this.numberPanic = (stress * percentage).toFixed(0)
