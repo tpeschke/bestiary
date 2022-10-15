@@ -670,9 +670,8 @@ a {
     margin-bottom: 15px;
 }
 
-.locationVitality div:first-child .flex-row-opposite {
-    border-top: 1px solid white;
-    margin-top: 10px;
+.locationVitality {
+    margin-bottom: 15px;
 }
 
 .locationVitality div:last-child .checkboxShell {
@@ -683,7 +682,7 @@ a {
 
 .locationVitality h3 {
     color: #607d8b;
-    font-size: 17px;
+    font-size: 16px;
     padding-top: 10px;
 }
 

@@ -315,9 +315,8 @@ strong {
 }
 
 .locationVitality div:first-child .flex-row-opposite {
-    border-top: 1px solid white;
-    margin-top: 10px;
-    padding-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
 }
 .locationVitality div:last-child .flex-row-opposite {
     border-bottom: 1px solid white;
@@ -326,7 +325,7 @@ strong {
 }
 .locationVitality h3 {
     color: #607d8b;
-    font-size: 17px;
+    font-size: 16px;
     padding-top: 10px;
 }
 

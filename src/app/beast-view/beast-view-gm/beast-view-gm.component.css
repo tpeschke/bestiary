@@ -1,4 +1,7 @@
 /* ::ng-deep .mat-select-value, ::ng-deep .mat-option-text { text-align: right; } */
+h4 {
+    font-weight: bold;
+}
 
 .weaponName {
     width: 150px

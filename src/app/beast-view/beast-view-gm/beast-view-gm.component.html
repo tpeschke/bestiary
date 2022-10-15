@@ -57,8 +57,8 @@
           <div class="divider white"></div>
           <div *ngFor="let trait of beast.conflict.traits; let i = index">
             <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
-              <h4>{{trait.trait | titlecase}}</h4>
-              <h4>{{trait.value}}</h4>
+              <h5>{{trait.trait | titlecase}}</h5>
+              <h5>{{trait.value}}</h5>
             </div>
           </div>
         </div>
@@ -68,8 +68,8 @@
           <div class="divider white"></div>
           <div *ngFor="let trait of beast.conflict.devotions; let i = index">
             <div *ngIf="!beast.devotionlimit || i < beast.devotionlimit" class="flex-row-opposite">
-              <h4>{{trait.trait | titlecase}}</h4>
-              <h4>{{trait.value}}</h4>
+              <h5>{{trait.trait | titlecase}}</h5>
+              <h5>{{trait.value}}</h5>
             </div>
           </div>
         </div>
@@ -79,8 +79,8 @@
           <div class="divider white"></div>
           <div *ngFor="let trait of beast.conflict.flaws; let i = index">
             <div *ngIf="!beast.flawlimit || i < beast.flawlimit" class="flex-row-opposite">
-              <h4>{{trait.trait | titlecase}}</h4>
-              <h4>{{trait.value ? trait.value : '1d4!'}}</h4>
+              <h5>{{trait.trait | titlecase}}</h5>
+              <h5>{{trait.value ? trait.value : '1d4!'}}</h5>
             </div>
           </div>
         </div>
@@ -448,7 +448,7 @@
               <div
                 *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueLocationalVitality ? null === location.roleid : selectedRoleId === location.roleid">
                 <div class="flex-row-opposite">
-                  <h3>{{location.location}}</h3>
+                  <h3>{{location.location}} Vitality</h3>
                   <span class="vitality-flex">
                     <p *ngIf="isNumber(locationCheckboxes[location.id].average)">
                       {{locationCheckboxes[location.id].average}}</p>
@@ -527,7 +527,7 @@
         </div>
 
         <div class="vitals-shell">
-          <h3 class="blue">Movement</h3>
+          <h3>Movement</h3>
           <div *ngIf="beast.movement.length == 0">
             <div class="divider white"></div>
             <h4>This Monster Can't Move</h4>
@@ -536,26 +536,26 @@
             <div
               *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueMovement ? null === movementType.roleid : selectedRoleId === movementType.roleid">
               <div class="divider white"></div>
-              <h3>{{movementType.type | titlecase}}</h3>
+              <h4>{{movementType.type | titlecase}}</h4>
               <div class="divider white"></div>
               <div class="flex-row-opposite">
-                <h4>Stroll/Crawl</h4>
+                <h5>Stroll/Crawl</h5>
                 <p>{{movementType.stroll}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
               <div class="flex-row-opposite">
-                <h4>Walk</h4>
+                <h5>Walk</h5>
                 <p>{{movementType.walk}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
               <div class="flex-row-opposite">
-                <h4>Jog</h4>
+                <h5>Jog</h5>
                 <p>{{movementType.jog}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
               <div class="flex-row-opposite">
-                <h4>Run</h4>
+                <h5>Run</h5>
                 <p>{{movementType.run}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
               <div class="flex-row-opposite">
-                <h4>Sprint</h4>
+                <h5>Sprint</h5>
                 <p>{{movementType.sprint}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
             </div>
