@@ -355,7 +355,7 @@ mat-toolbar {
 .locational-shell {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    margin-top: 15px;
 }
 
 .locational-id-shell {

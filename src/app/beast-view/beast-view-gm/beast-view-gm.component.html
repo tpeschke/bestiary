@@ -192,12 +192,15 @@
                     alt="combat square">
                   <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png"
                     alt="combat square">
-                  <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd) +
-                    (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
-                  <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk : selectedRole.rangedAtk) +
-                    square.atk}}</p>
-                  <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init) + square.init}}
-                  </p>
+                  <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd &&
+                    square.addrolemods ?
+                    selectedRole.spd : 0) + (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
+                  <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk && square.addrolemods ?
+                    selectedRole.atk : 0 :
+                    selectedRole.rangedAtk && square.addrolemods ? selectedRole.rangedAtk : 0) + square.atk}}</p>
+                  <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init &&
+                    square.addrolemods ?
+                    selectedRole.init : 0) + square.init}}</p>
                   <p class="def">{{evaluateDefense(square)}}</p>
                   <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
@@ -209,22 +212,24 @@
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
-                      selectedRole.measure) + square.measure + returnSizeMeasureModifier(square)}}</p>
+                      selectedRole.measure
+                      && square.addrolemods ? selectedRole.measure : 0) + square.measure + returnSizeMeasureModifier(square)}}
+                    </p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range :
-                      selectedRole.ranges.increment) + square.ranges.increment}}ri <i
+                      selectedRole.ranges &&
+                      square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment}}ri <i
                         class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
-                        Between 5 ft and {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment}} ft, -0 atk penalty. 
-                        Between {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment) * 2}} ft, -2 atk penalty.
-                        Between {{(((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment) * 2) + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges.increment) + square.ranges.increment) * 3}} ft, -4 atk penalty.
+                        Between 5 ft and {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment}} ft, -0 atk penalty. 
+                        Between {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 2}} ft, -2 atk penalty.
+                        Between {{(((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 2) + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 3}} ft, -4 atk penalty.
                         and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
                   <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
                   <p *ngIf="square.weapontype !== 'r'" class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">
-                    {{square.showmaxparry ? 'EUA' :
-                    (square.selectedshield ? square.shieldInfo.parry : square.selectedweapon &&
-                    square.weaponInfo.parry ?
-                    square.weaponInfo.parry : selectedRole.parry) + square.parry}}<i *ngIf="square.showmaxparry"
+                    {{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry :
+                    square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : selectedRole.parry &&
+                    square.addrolemods ? selectedRole.parry : 0) + square.parry}}<i *ngIf="square.showmaxparry"
                       class="fas fa-info-circle icon-small blue"
                       matTooltip="EUA means that every attack is parried except unarmed attacks"
                       matTooltipClass="my-tooltip"></i></p>
@@ -519,7 +524,8 @@
           </div>
           <div class="flex-row-opposite">
             <h3>Caution Threshold</h3>
-            <p>{{selectedRoleId && beast.roleInfo[selectedRoleId].caution ? beast.roleInfo[selectedRoleId].caution : beast.caution < 0 ? 'Always' : beast.caution===0 || !beast.caution ? 'Never' : beast.caution}} <i
+            <p>{{selectedRoleId && beast.roleInfo[selectedRoleId].caution ? beast.roleInfo[selectedRoleId].caution :
+              beast.caution < 0 ? 'Always' : beast.caution===0 || !beast.caution ? 'Never' : beast.caution}} <i
                 class="fas fa-info-circle icon-small blue"
                 matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable.">
                 </i></p>
@@ -563,7 +569,8 @@
         </div>
       </div>
 
-      <div *ngIf="(beast.sp_atk && !beast.sp_atk.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack) || (selectedRoleId && beast.specialAbilities[selectedRoleId] && beast.specialAbilities[selectedRoleId].length > 0) || (!selectedRoleId && beast.specialAbilities['generic'] && beast.specialAbilities['generic'].length > 0)">
+      <div
+        *ngIf="(beast.sp_atk && !beast.sp_atk.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack) || (selectedRoleId && beast.specialAbilities[selectedRoleId] && beast.specialAbilities[selectedRoleId].length > 0) || (!selectedRoleId && beast.specialAbilities['generic'] && beast.specialAbilities['generic'].length > 0)">
         <h3 class="margin-top">Add. Attack Info</h3>
         <div
           *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk.includes('None') || ((selectedRoleId && beast.specialAbilities[selectedRoleId]) || (!selectedRoleId && beast.specialAbilities.generic)) && beast.sp_atk.includes('None'))">
@@ -584,9 +591,11 @@
         </div>
       </div>
 
-      <div *ngIf="(beast.sp_def && !beast.sp_def.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].defense)">
+      <div
+        *ngIf="(beast.sp_def && !beast.sp_def.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].defense)">
         <h3 class="margin-top">Add. Defense Info</h3>
-        <div *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].defense && (beast.sp_def && beast.sp_def.includes('None') || !beast.sp_def))">
+        <div
+          *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].defense && (beast.sp_def && beast.sp_def.includes('None') || !beast.sp_def))">
           <quill-view-html [content]="beast.sp_def"></quill-view-html>
         </div>
         <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].defense">
@@ -905,7 +914,8 @@
         </div>
       </div>
 
-      <div *ngIf="beast.loot.length == 0 && (!beast.lootnotes || beast.lootnotes.length == 0)" class="box-padding margin-bottom">
+      <div *ngIf="beast.loot.length == 0 && (!beast.lootnotes || beast.lootnotes.length == 0)"
+        class="box-padding margin-bottom">
         <p>This creature carries nothing else of value.</p>
       </div>
 

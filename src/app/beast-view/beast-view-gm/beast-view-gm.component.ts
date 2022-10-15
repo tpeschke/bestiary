@@ -615,7 +615,7 @@ export class BeastViewGmComponent implements OnInit {
       } else if (type === 'shield' && square.selectedshield) {
         equipmentModFlat = square.shieldInfo.dr.flat
         equipmentModSlash = square.shieldInfo.dr.slash
-      } else if (this.selectedRoleId) {
+      } else if (this.selectedRoleId && square.addrolemods) {
         if (type === 'armor') {
           equipmentModFlat = this.selectedRole.dr.flat
           equipmentModSlash = this.selectedRole.dr.slash
@@ -631,7 +631,7 @@ export class BeastViewGmComponent implements OnInit {
       } else if (type === 'shield' && this.newSelectedShield) {
         equipmentModFlat = this.newShieldInfo.dr.flat
         equipmentModSlash = this.newShieldInfo.dr.slash
-      } else if (this.selectedRoleId) {
+      } else if (this.selectedRoleId & square.addrolemods) {
         if (type === 'armor') {
           equipmentModFlat = this.selectedRole.dr.flat
           equipmentModSlash = this.selectedRole.dr.slash
