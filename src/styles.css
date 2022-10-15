@@ -259,6 +259,11 @@ table {
 .ql-editor {
   text-indent: 25px;
   padding: 10px 5px;
+  white-space: pre-wrap !important;
+}
+
+.ql-editor a {
+  font-size: 16px;
 }
 
 .ql-editor strong {

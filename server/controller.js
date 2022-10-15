@@ -554,7 +554,6 @@ let controllerObj = {
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, basefatigue).then(result => {
       let promiseArray = []
 
-      console.log([...roles.map(roles => roles.id)])
       promiseArray.push(db.delete.roles([id, ['', ...roles.map(roles => roles.id)]]).then(_ => {
         return roles.map(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints }) => {
           if (!hash) {
