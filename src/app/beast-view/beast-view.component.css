@@ -185,6 +185,10 @@ mat-toolbar {
     margin-left: 5px
 }
 
+.flex-row-opposite button {
+    margin: 0;
+}
+
 .flex-row-together {
     justify-content: flex-start;
     margin-top: 5px;

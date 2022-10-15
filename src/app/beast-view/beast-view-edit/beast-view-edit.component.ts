@@ -18,6 +18,7 @@ export class BeastViewEditComponent implements OnInit {
   @ViewChild('artistName') artistName;
   @ViewChild('artistLink') artistLink;
   @ViewChild('artistTooltip') artistTooltip;
+  @ViewChild('selectRole') selectRole;
   @ViewChild('newCombatRoleSelect') newCombatRoleSelect: MatSelect;
   @ViewChild('newSecondaryRoleSelect') newSecondaryRoleSelect: MatSelect;
   @ViewChild('newConfRoleSelect') newConfRoleSelect: MatSelect;
@@ -762,9 +763,9 @@ export class BeastViewEditComponent implements OnInit {
     this[type] = value
   }
 
-  captureEncounterSecondary({value}, type, index, secondaryType) {
+  captureEncounterSecondary({ value }, type, index, secondaryType) {
     let newSecondaryObject = Object.assign([], this.beast[type])
-    newSecondaryObject[index] = {...newSecondaryObject[index]}
+    newSecondaryObject[index] = { ...newSecondaryObject[index] }
     newSecondaryObject[index][secondaryType] = value
     this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
   }
@@ -812,7 +813,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   addNewArtist() {
-    let {artist, tooltip, link} = this.artist
+    let { artist, tooltip, link } = this.artist
     this.beast.artistInfo.id = null
     this.beast.artistInfo.artist = artist
     this.beast.artistInfo.tooltip = tooltip
@@ -885,8 +886,6 @@ export class BeastViewEditComponent implements OnInit {
         this.selectedSkillRole = {}
       }
     }
-
-
   }
 
   setRoleType(event) {
@@ -1624,7 +1623,48 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  getImageUrl () {
-    this.imageUrl = this.imageBase + this.beast.id + '?t=' + new Date().getTime() 
+  getImageUrl() {
+    this.imageUrl = this.imageBase + this.beast.id + '?t=' + new Date().getTime()
+  }
+
+  deleteRole() {
+    this.beast.conflict.devotions.forEach((subcat, index) => {
+      if (this.selectedRoleId === subcat.socialroleid) {
+        this.removeNewSecondaryItem('conflict', index, 'devotions')
+      }
+    })
+    this.beast.conflict.traits.forEach((subcat, index) => {
+      if (this.selectedRoleId === subcat.socialroleid) {
+        this.removeNewSecondaryItem('conflict', index, 'traits')
+      }
+    })
+    this.beast.conflict.flaws.forEach((subcat, index) => {
+      if (this.selectedRoleId === subcat.socialroleid) {
+        this.removeNewSecondaryItem('conflict', index, 'flaws')
+      }
+    })
+
+    this.beast.skills.forEach((cat, index) => {
+      if (this.selectedRoleId === cat.skillroleid) {
+        this.removeNewSecondaryItem('skills', index, null)
+      }
+    })
+
+    this.beast.combat.forEach((cat, index) => {
+      if (this.selectedRoleId === cat.roleid) {
+        this.removeNewSecondaryItem('combat', index, null)
+      }
+    })
+
+    this.beast.movement.forEach((cat, index) => {
+      if (this.selectedRoleId === cat.roleid) {
+        this.removeNewSecondaryItem('movement', index, null)
+      }
+    })
+
+    let oldRoleId = this.selectedRoleId
+    this.setRole({value: null})
+    this.selectRole.value = null
+    this.beast.roles = this.beast.roles.filter(role => role.id !== oldRoleId)
   }
 }

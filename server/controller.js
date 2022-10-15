@@ -367,7 +367,7 @@ let controllerObj = {
         promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then().catch(e => console.log('----------------------- add beast reagents: ', e)))
       })
 
-      let { id: dbid, artistid, artist, tooltip, link} = artistInfo;
+      let { id: dbid, artistid, artist, tooltip, link } = artistInfo;
       if (artist) {
         if (!dbid) {
           promiseArray.push(db.add.allartists(artist, tooltip, link).then(result => {
@@ -554,12 +554,15 @@ let controllerObj = {
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, basefatigue).then(result => {
       let promiseArray = []
 
-      roles.forEach(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints }) => {
-        if (!hash) {
-          hash = controllerObj.createHash()
-        }
-        promiseArray.push(db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints).catch(e => console.log(e)))
-      })
+      console.log([...roles.map(roles => roles.id)])
+      promiseArray.push(db.delete.roles([id, ['', ...roles.map(roles => roles.id)]]).then(_ => {
+        return roles.map(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints }) => {
+          if (!hash) {
+            hash = controllerObj.createHash()
+          }
+          return db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints).catch(e => console.log(e))
+        })
+      }).catch(e => console.log("roles ~ ", e)))
       // update types
       types.forEach(val => {
         if (!val.id) {
@@ -671,7 +674,7 @@ let controllerObj = {
         })
       }
 
-      let { id: dbid,  artistid, artist, tooltip, link} = artistInfo;
+      let { id: dbid, artistid, artist, tooltip, link } = artistInfo;
       if (artist) {
         if (!dbid) {
           promiseArray.push(db.add.allartists(artist, tooltip, link).then(result => {
@@ -681,7 +684,7 @@ let controllerObj = {
           promiseArray.push(db.add.artist(id, artistid).then(result => result))
         }
       }
-      
+
       let { temperament, signs, rank, noun, verb } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
         if (deleted) {
@@ -1133,7 +1136,7 @@ async function collectComplication(db, beastId) {
           } else if (!backup.plural && backup.rank.toUpperCase() !== 'NONE') {
             backup.rankplural = backup.rank += 's'
           }
-  
+
           return {
             id: 8,
             type: 'Back Up Coming',

@@ -169,7 +169,7 @@
     <div class="conflict-shell">
       <mat-form-field>
         <mat-label>Select Role</mat-label>
-        <mat-select (selectionChange)="setRole($event)">
+        <mat-select (selectionChange)="setRole($event)" #selectRole>
           <mat-option>
             Generic
           </mat-option>
@@ -180,11 +180,13 @@
       </mat-form-field>
     </div>
 
-    <div *ngIf="selectedRoleId">
+    <div *ngIf="selectedRoleId" class="flex-row-opposite">
       <mat-form-field>
         <input matInput placeholder="Change Role Name" [value]="beast.roleInfo[selectedRoleId].name"
           (change)="captureRoleName($event)">
       </mat-form-field>
+      
+      <button mat-raised-button (click)="deleteRole()" color="warn">Delete Role</button>
     </div>
 
     <mat-accordion>
