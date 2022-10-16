@@ -166,7 +166,7 @@
   </div>
 
   <div class="combat-role-shell">
-    <div class="conflict-shell">
+    <div class="conflict-shell set-role-shell" *ngIf="beast.roles.length > 0">
       <mat-form-field>
         <mat-label>Select Role</mat-label>
         <mat-select (selectionChange)="setRole($event)" #selectRole>
@@ -366,9 +366,7 @@
                   </mat-form-field>
                 </h3>
                 <section>
-                  <mat-checkbox [checked]="trait.trait === 'Any'" (change)="checkRandomizeTrait(i, $event.checked)">Give
-                    this
-                    entry a random Conviction every time you reload the page</mat-checkbox>
+                  <mat-checkbox [checked]="trait.trait === 'Any'" (change)="checkRandomizeTrait(i, $event.checked)">Make this a Random Conviction</mat-checkbox>
                 </section>
                 <br>
                 <mat-form-field>
@@ -491,7 +489,7 @@
           <div *ngIf="selectedRoleId" class="long-field">
             <mat-form-field>
               <input
-                id="{{selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
+                id="{{selectedRole.strengths ? selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : '' : ''}}"
                 matInput placeholder="Stress Threshold (1 point / 5 Stress)"
                 [value]="beast.roleInfo[selectedRoleId].stress" (change)="captureInput($event, 'stress')">
             </mat-form-field>
@@ -508,7 +506,7 @@
               <mat-label>Panic (+/-2 points per Cat Above/Below Breaking)</mat-label>
               <mat-select [(value)]="'' + beast.roleInfo[selectedRoleId].panic"
                 (selectionChange)="captureSelect($event, 'panic')"
-                id="{{selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
+                id="{{selectedRole.strengths ? selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : '' : ''}}">
                 <mat-option value="1">
                   Always
                 </mat-option>
@@ -565,7 +563,7 @@
             <mat-form-field>
               <input matInput placeholder="Caution Threshold (1 point / 5)"
                 [value]="beast.roleInfo[selectedRoleId].caution"
-                id="{{selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
+                id="{{selectedRole.strengths ? selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : '' : ''}}"
                 (change)="captureInput($event, 'caution')">
             </mat-form-field>
           </div>
@@ -650,7 +648,7 @@
           <mat-form-field class="long-field">
             <div *ngIf="selectedRoleId">
               <input
-                id="{{selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
+                id="{{selectedRole.strengths ? selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : '' : ''}}"
                 matInput placeholder="Vitality (1 point / 10 Average Vitality)"
                 [value]="beast.roleInfo[selectedRoleId].vitality" (change)="captureRoleVitality($event)">
             </div>
@@ -665,7 +663,7 @@
           <mat-form-field class="fatigue-field">
             <mat-label>Fatigue Threshold (+/-4 points per Cat Above/Below Critical)</mat-label>
             <mat-select [value]="displayFatigue" (selectionChange)="captureSelect($event, 'basefatigue')"
-              id="{{selectedRole.strengths && selectedRole.strengths.includes('Fatigue') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Fatigue') ? 'red' : ''}}">
+              id="{{selectedRole.strengths ? selectedRole.strengths.includes('Fatigue') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Fatigue') ? 'red' : '' : ''}}">
               <mat-option [value]="null">
                 Default to Role
               </mat-option>

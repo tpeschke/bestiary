@@ -294,7 +294,7 @@ module.exports = {
           promiseArray.push(db.get.beastconflictedit(id).then(result => {
             beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [] }
             result.forEach(val => {
-              if (val.type === 't' || !val.type) {
+              if (val.type === 't' || val.type === 'c' || !val.type) {
                 beast.conflict.convictions.push(val)
               } else if (val.type === 'd') {
                 beast.conflict.devotions.push(val)
@@ -310,7 +310,7 @@ module.exports = {
           promiseArray.push(db.get.beastconflict(id).then(result => {
             beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [] }
             result.forEach(val => {
-              if (val.type === 't' || !val.type) {
+              if (val.type === 't' || val.type === 'c' || !val.type) {
                 if (beast.traitlimit && beast.conflict.convictions.length < beast.traitlimit) {
                   beast.conflict.convictions.push(val)
                 } else if (!beast.traitlimit) {
