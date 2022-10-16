@@ -195,7 +195,7 @@ export class BeastViewEditComponent implements OnInit {
           panic: '',
           stress: 0,
           combat: [],
-          conflict: { traits: [], devotions: [], flaws: [], passions: [] },
+          conflict: { descriptions: [], convictions: [], devotions: [], flaws: []},
           skills: [],
           movement: [],
           types: [],
@@ -304,9 +304,9 @@ export class BeastViewEditComponent implements OnInit {
 
   checkRandomizeTrait = (index, checked) => {
     if (checked) {
-      this.beast.conflict.traits[index].trait = 'Any'
+      this.beast.conflict.convictions[index].trait = 'Any'
     } else {
-      this.beast.conflict.traits[index].trait = ''
+      this.beast.conflict.convictions[index].trait = ''
     }
   }
 
@@ -362,7 +362,7 @@ export class BeastViewEditComponent implements OnInit {
   getValueForPointChange = (type, oldValue, newValue) => {
     let valueToCompare = 0
     let valueChange;
-    if (type !== 'traits' && type !== 'devotions' && type !== 'flaws' && type !== 'basefatigue') {
+    if (type !== 'convictions' && type !== 'descriptions' && type !== 'devotions' && type !== 'flaws' && type !== 'basefatigue') {
       if (type === 'panic') {
         valueChange = this.getPanicValue(oldValue) - this.getPanicValue(newValue)
       } else if (type === 'vitality' && !this.selectedRoleId) {
@@ -608,10 +608,11 @@ export class BeastViewEditComponent implements OnInit {
         roleid: this.selectedRoleId
       })
     } else if (type === 'conflict') {
+      let traitType = secondType === 'descriptions' ? 'h' :  secondType.substring(0, 1);
       this.beast[type][secondType].push({
         trait: '',
         value: '',
-        type: secondType.substring(0, 1),
+        type: traitType,
         socialroleid: this.selectedRoleId
       })
     } else if (type === 'skills') {
@@ -1353,7 +1354,12 @@ export class BeastViewEditComponent implements OnInit {
         socialpoints -= 2
       }
     })
-    this.beast.conflict.traits.forEach(trait => {
+    this.beast.conflict.convictions.forEach(trait => {
+      if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
+        socialpoints += +trait.value
+      }
+    })
+    this.beast.conflict.descriptions.forEach(trait => {
       if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
         socialpoints += +trait.value
       }
@@ -1393,7 +1399,12 @@ export class BeastViewEditComponent implements OnInit {
           socialpoints -= +trait.value
         }
       })
-      this.beast.conflict.traits.forEach(trait => {
+      this.beast.conflict.convictions.forEach(trait => {
+        if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
+          socialpoints += +trait.value
+        }
+      })
+      this.beast.conflict.descriptions.forEach(trait => {
         if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
           socialpoints += +trait.value
         }
@@ -1633,9 +1644,14 @@ export class BeastViewEditComponent implements OnInit {
         this.removeNewSecondaryItem('conflict', index, 'devotions')
       }
     })
-    this.beast.conflict.traits.forEach((subcat, index) => {
+    this.beast.conflict.convictions.forEach((subcat, index) => {
       if (this.selectedRoleId === subcat.socialroleid) {
-        this.removeNewSecondaryItem('conflict', index, 'traits')
+        this.removeNewSecondaryItem('conflict', index, 'convictions')
+      }
+    })
+    this.beast.conflict.descriptions.forEach((subcat, index) => {
+      if (this.selectedRoleId === subcat.socialroleid) {
+        this.removeNewSecondaryItem('conflict', index, 'descriptions')
       }
     })
     this.beast.conflict.flaws.forEach((subcat, index) => {

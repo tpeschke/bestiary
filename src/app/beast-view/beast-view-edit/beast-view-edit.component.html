@@ -319,18 +319,50 @@
         </div>
 
         <div>
-          <h2>Traits</h2>
+          <h2>Descriptions</h2>
           <div class="divider"></div>
 
           <div class="characteristic-edit-shell">
-            <p *ngIf="beast.conflict.traits.length === 0"><br>This monster has no Traits<br></p>
-            <div *ngFor="let trait of beast.conflict.traits; let i = index"
+            <p *ngIf="beast.conflict.descriptions.length === 0"><br>This monster has no Descriptions<br></p>
+            <div *ngFor="let description of beast.conflict.descriptions; let i = index"
+              [ngClass]="{'noDisplay': !(!description.deleted && (selectedRoleId === description.socialroleid || description.allroles))}">
+              <div class="conflict-shell edit-shell-box">
+                <h3>
+                  <mat-form-field>
+                    <input placeholder="description" matInput [value]="description.trait"
+                      (change)="captureInput($event, 'conflict', i, 'descriptions', 'trait')">
+                  </mat-form-field>
+                </h3>
+                <mat-form-field>
+                  <input placeholder="Rank (1 point)" matInput [value]="description.value"
+                    (change)="captureInput($event, 'conflict', i, 'descriptions', 'value')">
+                </mat-form-field>
+                <section>
+                  <mat-checkbox [checked]="description.allroles" (change)="checkAllRoles('descriptions', i, $event.checked)">
+                    Add to all Roles</mat-checkbox>
+                </section>
+                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'descriptions')" color="warn"><i
+                    class="fa-solid fa-minus"></i></button>
+              </div>
+            </div>
+          </div>
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'descriptions')" color="accent">Add
+            Description</button>
+          <br />
+          <br />
+
+          <h2>Convictions</h2>
+          <div class="divider"></div>
+
+          <div class="characteristic-edit-shell">
+            <p *ngIf="beast.conflict.convictions.length === 0"><br>This monster has no Convictions<br></p>
+            <div *ngFor="let trait of beast.conflict.convictions; let i = index"
               [ngClass]="{'noDisplay': !(!trait.deleted && (selectedRoleId === trait.socialroleid || trait.allroles))}">
               <div class="conflict-shell edit-shell-box">
                 <h3 *ngIf="trait.trait !== 'Any'">
                   <mat-form-field>
                     <input placeholder="Trait" matInput [value]="trait.trait"
-                      (change)="captureInput($event, 'conflict', i, 'traits', 'trait')">
+                      (change)="captureInput($event, 'conflict', i, 'convictions', 'trait')">
                   </mat-form-field>
                 </h3>
                 <section>
@@ -341,23 +373,23 @@
                 <br>
                 <mat-form-field>
                   <input placeholder="Rank (1 point)" matInput [value]="trait.value"
-                    (change)="captureInput($event, 'conflict', i, 'traits', 'value')">
+                    (change)="captureInput($event, 'conflict', i, 'convictions', 'value')">
                 </mat-form-field>
                 <section>
-                  <mat-checkbox [checked]="trait.allroles" (change)="checkAllRoles('traits', i, $event.checked)">Add to
+                  <mat-checkbox [checked]="trait.allroles" (change)="checkAllRoles('convictions', i, $event.checked)">Add to
                     all Roles</mat-checkbox>
                 </section>
-                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'traits')" color="warn"><i
+                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'convictions')" color="warn"><i
                     class="fa-solid fa-minus"></i></button>
               </div>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'traits')" color="accent">Add
-            Trait</button>
-          <br *ngIf="beast.conflict.traits.length > 0" />
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'convictions')" color="accent">Add
+            Conviction</button>
+          <br *ngIf="beast.conflict.convictions.length > 0" />
           <br />
-          <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.traits.length > 0">
-            <input matInput placeholder="Max Traits Appearing" [value]="beast.traitlimit"
+          <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.convictions.length > 0">
+            <input matInput placeholder="Max Convictions Appearing" [value]="beast.traitlimit"
               (change)="captureInput($event, 'traitlimit')">
           </mat-form-field>
           <br />
@@ -413,28 +445,10 @@
                       (change)="captureInput($event, 'conflict', i, 'flaws', 'trait')">
                   </mat-form-field>
                 </h3>
-                <div class="flaw-dice-shell">
-                  <button mat-raised-button
-                    [ngClass]="{'selected-flaw-value': flaw.value === '' || !flaw.value || flaw.value === '1d4!'}"
-                    (click)="captureInput({target: {value: '1d4!'}}, 'conflict', i, 'flaws', 'value')">d4! (-2
-                    points)</button>
-                  <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d6!'}"
-                    (click)="captureInput({target: {value: '1d6!'}}, 'conflict', i, 'flaws', 'value')">d6! (-3
-                    points)</button>
-                  <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d8!'}"
-                    (click)="captureInput({target: {value: '1d8!'}}, 'conflict', i, 'flaws', 'value')">d8! (-4
-                    points)</button>
-                  <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d10!'}"
-                    (click)="captureInput({target: {value: '1d10!'}}, 'conflict', i, 'flaws', 'value')">d10! (-5
-                    points)</button>
-                  <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d12!'}"
-                    (click)="captureInput({target: {value: '1d12!'}}, 'conflict', i, 'flaws', 'value')">d12! (-6
-                    points)</button>
-                  <button mat-raised-button [ngClass]="{'selected-flaw-value': flaw.value === '1d20!'}"
-                    (click)="captureInput({target: {value: '1d20!'}}, 'conflict', i, 'flaws', 'value')">d20! (-10
-                    points)</button>
-                </div>
-                <br>
+                <mat-form-field>
+                  <input placeholder="Rank (1 point)" matInput [value]="flaw.value"
+                    (change)="captureInput($event, 'conflict', i, 'flaws', 'value')">
+                </mat-form-field>
                 <section>
                   <mat-checkbox [checked]="flaw.allroles" (change)="checkAllRoles('flaws', i, $event.checked)">Add to
                     all Roles</mat-checkbox>

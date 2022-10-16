@@ -2,11 +2,11 @@ const { ConsoleReporter } = require('jasmine')
 const { promise } = require('protractor')
 const equipmentCtrl = require('./equipmentController')
 
-function formatNameWithCommas (name) {
+function formatNameWithCommas(name) {
   if (name.includes(',')) {
     let nameArray = name.split(', ')
     return `${nameArray[1]} ${nameArray[0]}`
-  } 
+  }
   return name
 }
 function displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
@@ -183,7 +183,7 @@ module.exports = {
                 if (ranges.length > 0) {
                   val.ranges = ranges[0]
                 } else {
-                  val.ranges = {increment: 0}
+                  val.ranges = { increment: 0 }
                 }
                 return ranges
               }))
@@ -279,42 +279,42 @@ module.exports = {
         beast.artistInfo = {}
         if (req.query.edit === 'true') {
           promiseArray.push(db.get.artist(id).then(result => {
-            beast.artistInfo = {... beast.artistInfo, ...result[0]}
+            beast.artistInfo = { ...beast.artistInfo, ...result[0] }
           }))
           promiseArray.push(db.get.allartists(id).then(result => {
-            beast.artistInfo = {... beast.artistInfo, allartists: [...result]}
+            beast.artistInfo = { ...beast.artistInfo, allartists: [...result] }
           }))
         } else {
           promiseArray.push(db.get.artist(id).then(result => {
-            beast.artistInfo = {... beast.artistInfo, ...result[0]}
+            beast.artistInfo = { ...beast.artistInfo, ...result[0] }
           }))
         }
 
         if (req.query.edit === 'true') {
           promiseArray.push(db.get.beastconflictedit(id).then(result => {
-            beast.conflict = { traits: [], devotions: [], flaws: [], passions: [] }
+            beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [] }
             result.forEach(val => {
               if (val.type === 't' || !val.type) {
-                beast.conflict.traits.push(val)
+                beast.conflict.convictions.push(val)
               } else if (val.type === 'd') {
                 beast.conflict.devotions.push(val)
               } else if (val.type === 'f') {
                 beast.conflict.flaws.push(val)
-              } else if (val.type === 'p') {
-                beast.conflict.passions.push(val)
+              } else if (val.type === 'h') {
+                beast.conflict.descriptions.push(val)
               }
             })
             return result
           }))
         } else {
           promiseArray.push(db.get.beastconflict(id).then(result => {
-            beast.conflict = { traits: [], devotions: [], flaws: [], passions: [] }
+            beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [] }
             result.forEach(val => {
               if (val.type === 't' || !val.type) {
-                if (beast.traitlimit && beast.conflict.traits.length < beast.traitlimit) {
-                  beast.conflict.traits.push(val)
+                if (beast.traitlimit && beast.conflict.convictions.length < beast.traitlimit) {
+                  beast.conflict.convictions.push(val)
                 } else if (!beast.traitlimit) {
-                  beast.conflict.traits.push(val)
+                  beast.conflict.convictions.push(val)
                 }
               } else if (val.type === 'd') {
                 if (beast.devotionlimit && beast.conflict.devotions.length < beast.devotionlimit) {
@@ -323,11 +323,13 @@ module.exports = {
                   beast.conflict.devotions.push(val)
                 }
               } else if (val.type === 'f') {
-                if (beast.flawlimit && beast.conflict.devotions.length < beast.flawlimit) {
+                if (beast.flawlimit && beast.conflict.flaws.length < beast.flawlimit) {
                   beast.conflict.flaws.push(val)
                 } else if (!beast.flawlimit) {
                   beast.conflict.flaws.push(val)
                 }
+              } else if (val.type === 'h') {
+                beast.conflict.descriptions.push(val)
               }
             })
             return result
@@ -461,7 +463,7 @@ module.exports = {
                 if (ranges.length > 0) {
                   val.ranges = ranges[0]
                 } else {
-                  val.ranges = {increment : 0}
+                  val.ranges = { increment: 0 }
                 }
                 return ranges
               }))

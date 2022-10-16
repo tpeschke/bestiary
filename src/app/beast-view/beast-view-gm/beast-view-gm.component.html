@@ -51,11 +51,22 @@
       </div>
 
       <div class="conflict-shell"
-        *ngIf="beast.conflict.traits.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0">
-        <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.traits.length > 0">
-          <h3>Traits</h3>
+        *ngIf="beast.conflict.convictions.length > 0 || beast.conflict.descriptions.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0">
+        <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.descriptions.length > 0">
+          <h3>Description</h3>
           <div class="divider white"></div>
-          <div *ngFor="let trait of beast.conflict.traits; let i = index">
+          <div *ngFor="let trait of beast.conflict.descriptions; let i = index">
+            <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
+              <h5>{{trait.trait | titlecase}}</h5>
+              <h5>{{trait.value}}</h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.convictions.length > 0">
+          <h3>Convictions</h3>
+          <div class="divider white"></div>
+          <div *ngFor="let trait of beast.conflict.convictions; let i = index">
             <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
               <h5>{{trait.trait | titlecase}}</h5>
               <h5>{{trait.value}}</h5>
@@ -80,7 +91,7 @@
           <div *ngFor="let trait of beast.conflict.flaws; let i = index">
             <div *ngIf="selectedRoleId === trait.socialroleid || trait.allroles" class="flex-row-opposite">
               <h5>{{trait.trait | titlecase}}</h5>
-              <h5>{{trait.value ? trait.value : '1d4!'}}</h5>
+              <h5>{{trait.value ? trait.value : '1'}}</h5>
             </div>
           </div>
         </div>
