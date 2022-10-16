@@ -67,7 +67,7 @@
           <h3>Devotions</h3>
           <div class="divider white"></div>
           <div *ngFor="let trait of beast.conflict.devotions; let i = index">
-            <div *ngIf="!beast.devotionlimit || i < beast.devotionlimit" class="flex-row-opposite">
+            <div *ngIf="selectedRoleId === trait.socialroleid || trait.allroles" class="flex-row-opposite">
               <h5>{{trait.trait | titlecase}}</h5>
               <h5>{{trait.value}}</h5>
             </div>
@@ -78,7 +78,7 @@
           <h3>Flaws</h3>
           <div class="divider white"></div>
           <div *ngFor="let trait of beast.conflict.flaws; let i = index">
-            <div *ngIf="!beast.flawlimit || i < beast.flawlimit" class="flex-row-opposite">
+            <div *ngIf="selectedRoleId === trait.socialroleid || trait.allroles" class="flex-row-opposite">
               <h5>{{trait.trait | titlecase}}</h5>
               <h5>{{trait.value ? trait.value : '1d4!'}}</h5>
             </div>
@@ -213,7 +213,8 @@
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
                       selectedRole.measure
-                      && square.addrolemods ? selectedRole.measure : 0) + square.measure + returnSizeMeasureModifier(square)}}
+                      && square.addrolemods ? selectedRole.measure : 0) + square.measure +
+                      returnSizeMeasureModifier(square)}}
                     </p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range :
                       selectedRole.ranges &&
