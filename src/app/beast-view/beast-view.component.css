@@ -2,7 +2,7 @@
     white-space: pre-line !important;
 }
 
-.set-role-shell {
+.unset-width {
     width: unset !important;
 }
 
@@ -847,7 +847,7 @@ thead th {
     margin-top: 15px;
 }
 
-.random-container i:hover {
+.random-container tr i:hover {
   color: red
 }
 

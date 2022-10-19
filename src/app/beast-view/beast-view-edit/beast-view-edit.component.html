@@ -166,7 +166,7 @@
   </div>
 
   <div class="combat-role-shell">
-    <div class="conflict-shell set-role-shell" *ngIf="beast.roles.length > 0">
+    <div class="conflict-shell unset-width" *ngIf="beast.roles.length > 0">
       <mat-form-field>
         <mat-label>Select Role</mat-label>
         <mat-select (selectionChange)="setRole($event)" #selectRole>
@@ -710,9 +710,9 @@
 
           <br>
           <br>
-          <div class="combat-shell">
+          <div class="combat-shell unset-width">
             <div *ngFor="let square of beast.combat; let i = index">
-              <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell">
+              <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell unset-width">
                 <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
                   [updateCombatPoints]="updateCombatPoints" [index]="i"
                   [roleVitality]="selectedRoleId ? beast.roleInfo[this.selectedRoleId].average : null"
@@ -787,7 +787,7 @@
                 <th>Weight</th>
                 <th></th>
               </tr>
-              <tr *ngFor="let temperament of encounter.temperament.temperament; let i = index">
+              <tr *ngFor="let temperament of encounter.temperament.temperament; let i = index" [ngClass]="{'noDisplay': temperament.deleted}">
                 <td matTooltip="{{temperament.tooltip}}">{{temperament.temperament}}</td>
                 <td>{{temperament.weight}}</td>
                 <td><i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fas fa-times-circle"></i>
@@ -827,7 +827,7 @@
                 <th># Appearing</th>
                 <th></th>
               </tr>
-              <tr *ngFor="let rank of encounter.rank.rank; let i = index">
+              <tr *ngFor="let rank of encounter.rank.rank; let i = index" [ngClass]="{'noDisplay': rank.deleted}">
                 <td>{{rank.rank}}</td>
                 <td>{{rank.weight}}</td>
                 <td>{{rank.othertypechance}}%</td>
@@ -900,7 +900,7 @@
               <thead>
                 <th colspan="2">Verb</th>
               </thead>
-              <tr *ngFor="let verb of encounter.verb.verb; let i = index">
+              <tr *ngFor="let verb of encounter.verb.verb; let i = index" [ngClass]="{'noDisplay': verb.deleted}">
                 <td>{{verb.verb}}</td>
                 <td><i (click)="removeEncounterItem(i, 'verb', 'verb')" class="fas fa-times-circle"></i></td>
               </tr>
@@ -932,7 +932,7 @@
               <thead>
                 <th colspan="2">Noun</th>
               </thead>
-              <tr *ngFor="let noun of encounter.noun.noun; let i = index">
+              <tr *ngFor="let noun of encounter.noun.noun; let i = index" [ngClass]="{'noDisplay': noun.deleted}">
                 <td>{{noun.noun}}</td>
                 <i (click)="removeEncounterItem(i, 'noun', 'noun')" class="fas fa-times-circle"></i>
               </tr>
@@ -969,7 +969,7 @@
                 <th>Weight</th>
                 <th></th>
               </tr>
-              <tr *ngFor="let sign of encounter.signs.signs; let i = index">
+              <tr *ngFor="let sign of encounter.signs.signs; let i = index" [ngClass]="{'noDisplay': sign.deleted}">
                 <td>{{sign.sign}}</td>
                 <td>{{sign.weight}}</td>
                 <td><i (click)="removeEncounterItem(i, 'signs', 'signs')" class="fas fa-times-circle"></i>

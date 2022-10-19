@@ -799,7 +799,7 @@ export class BeastViewEditComponent implements OnInit {
 
   setArtist(event) {
     let { artist, tooltip, link, id: artistid } = event.value
-    this.beast.artistInfo.id = artistid
+    this.beast.artistInfo.artistid = artistid
     this.beast.artistInfo.artist = artist
     this.beast.artistInfo.tooltip = tooltip
     this.beast.artistInfo.link = link

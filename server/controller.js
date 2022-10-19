@@ -672,7 +672,7 @@ let controllerObj = {
           }
         })
       }
-
+      
       let { id: dbid, artistid, artist, tooltip, link } = artistInfo;
       if (artist) {
         if (!dbid) {
@@ -685,7 +685,7 @@ let controllerObj = {
       }
 
       let { temperament, signs, rank, noun, verb } = encounter;
-      temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
+      temperament.temperament.forEach(({ temperament: temp, weight, temperamentid: tempid, beastid, tooltip, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
         } else if ((tempid && !beastid) || (tempid && beastid !== id)) {

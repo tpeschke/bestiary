@@ -24,14 +24,14 @@
         </div>
       </div>
 
-      <div class="role-shell conflict-shell set-role-shell" *ngIf="beast.roles.length > 0">
+      <div class="role-shell conflict-shell unset-width" *ngIf="beast.roles.length > 0">
         <h2>Role</h2>
         <mat-form-field>
           <mat-select (selectionChange)="setRole($event)">
-            <mat-option>
+            <mat-option matTooltip="{{(tooltipName(beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole))}}" matTooltipPosition="right">
               Generic
             </mat-option>
-            <mat-option *ngFor="let role of beast.roles" [value]="role.id">
+            <mat-option matTooltip="{{(tooltipName(role.role, role.secondaryrole, role.socialrole, role.skillrole))}}" matTooltipPosition="right" *ngFor="let role of beast.roles" [value]="role.id">
               {{role.name}}
             </mat-option>
           </mat-select>
@@ -50,7 +50,7 @@
             matTooltipClass="my-tooltip"></i></p>
       </div>
 
-      <div class="conflict-shell set-role-shell"
+      <div class="conflict-shell unset-width"
         *ngIf="beast.conflict.convictions.length > 0 || beast.conflict.descriptions.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0">
         <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.descriptions.length > 0">
           <h3>Description</h3>
