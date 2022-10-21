@@ -209,19 +209,22 @@ let controllerObj = {
           let baseSpd = 0
           let baseParry = 0
           let baseMeasure = 0
+          let spdbonus = 0
           if (roleToUse && weapon.addrolemods) {
             let roleInfo = roles.combatRoles.primary[roleToUse]
-
+            
             if (weapon.weapontype === 'm') {
               weapon.atk += roleInfo.atk
             } else {
               weapon.atk += roleInfo.rangedAtk
             }
-
+            
             weapon.def = roleInfo.def + +weapon.def
             weapon.parry += roleInfo.parry
             weapon.init += roleInfo.init
 
+            spdbonus = roleInfo.spdbonus
+            
             baseMeasure = roleInfo.measure
             baseSpd = roleInfo.spd
           }
@@ -235,7 +238,7 @@ let controllerObj = {
           if (weapon.selectedweapon) {
             weaponObj = equipmentCtrl.getWeapon(weapon.selectedweapon)
 
-            baseSpd = weaponObj.rec
+            baseSpd = weaponObj.rec + spdbonus
             baseParry = weaponObj.parry
 
             baseMeasure = weaponObj.measure

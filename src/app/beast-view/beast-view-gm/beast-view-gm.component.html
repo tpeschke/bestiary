@@ -203,9 +203,7 @@
                     alt="combat square">
                   <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png"
                     alt="combat square">
-                  <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : selectedRole.spd &&
-                    square.addrolemods ?
-                    selectedRole.spd : 0) + (square.selectedarmor ? square.armorInfo.rec : 0) + square.spd}}</p>
+                  <p class="spd">{{calculateRecovery(selectedRole.spdbonus, square.selectedweapon, square.weaponInfo, square.addrolemods, selectedRole.spd, square.spd, square.selectedarmor, square.armorInfo)}}</p>
                   <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk && square.addrolemods ?
                     selectedRole.atk : 0 :
                     selectedRole.rangedAtk && square.addrolemods ? selectedRole.rangedAtk : 0) + square.atk}}</p>
@@ -354,9 +352,7 @@
                   alt="combat square">
                 <img *ngIf="newWeaponInfo.weapontype !== 'm'" class="combat-image"
                   src="../../../../assets/rangedsquare.png" alt="combat square">
-                <p class="spd">{{(newSelectedWeapon ? newWeaponInfo.rec : selectedRole.spd && square.addrolemods
-                  ?
-                  selectedRole.spd : 0) + (newSelectedArmor ? newArmorInfo.rec : 0) + square.spd}}</p>
+                <p class="spd">{{calculateRecovery(selectedRole.spdbonus, newSelectedWeapon, newWeaponInfo, square.addrolemods, selectedRole.spd, square.spd, newSelectedArmor, newArmorInfo)}}</p>
                 <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk && square.addrolemods ? selectedRole.atk
                   : 0 :
                   selectedRole.rangedAtk && square.addrolemods ? selectedRole.rangedAtk : 0) + square.atk}}</p>

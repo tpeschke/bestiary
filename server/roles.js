@@ -4,6 +4,7 @@ module.exports = {
             'Artillery': {
                 strengths: ['Vitality', 'Ranged Damage', 'Ranged Attack', 'Ranged Penalties'],
                 weaknesses: ['/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Melee Attack', 'Recovery', 'Movement', 'Caution Threshold'],
+                spdbonus: 3,
                 vitality: 30,
                 fatigue: 'C',
                 def: 0,
@@ -54,6 +55,7 @@ module.exports = {
             'Brute': {
                 strengths: ['Vitality', 'Melee Damage', 'Melee Attack', 'Caution Threshold'],
                 weaknesses: ['Defense', 'Parry', 'Parry DR', 'Parry /DR', 'Ranged Damage', 'Ranged Attack', 'Recovery', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
+                spdbonus: 2,
                 vitality: 80,
                 fatigue: 'B',
                 def: -4,
@@ -114,6 +116,7 @@ module.exports = {
             'Defender': {
                 strengths: ['Defense', 'DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Stress Threshold', 'Caution Threshold'],
                 weaknesses: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
+                spdbonus: 0,
                 vitality: 40,
                 fatigue: 'C',
                 def: -3,
@@ -166,6 +169,7 @@ module.exports = {
             'Fencer': {
                 strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Stress Threshold'],
                 weaknesses: ['/DR', 'Melee Damage', 'Ranged Damage', 'Range Penalties'],
+                spdbonus: -3,
                 vitality: 30,
                 fatigue: 'C',
                 def: 0,
@@ -222,6 +226,7 @@ module.exports = {
             'Flanker': {
                 strengths: ['Melee Damage', 'Recovery', 'Movement', 'Mobility Skills'],
                 weaknesses: ['Defense', 'DR', '/DR', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Range Penalties', 'Caution Threshold'],
+                spdbonus: -1,
                 vitality: 30,
                 fatigue: 'C',
                 def: 0,
@@ -270,6 +275,7 @@ module.exports = {
             'Fodder': {
                 strengths: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Mobility Skills'],
                 weaknesses: ['Vitality', 'Fatigue', '/DR', 'DR', 'Parry', 'Parry DR', 'Parry /DR', 'Movement', 'Stress Threshold', 'Panic Threshold', 'Caution Threshold'],
+                spdbonus: 0,
                 vitality: 15,
                 fatigue: 'H',
                 def: -2,
@@ -309,6 +315,7 @@ module.exports = {
             'Shock': {
                 strengths: ['Fatigue', 'Melee Damage', 'Measure', 'Movement', 'Mobility Skills', 'Panic Threshold', 'Caution Threshold'],
                 weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Ranged Damage', 'Ranged Attack', 'Recovery', 'Range Penalties'],
+                spdbonus: 4,
                 vitality: 40,
                 fatigue: 'C',
                 def: -4,
@@ -369,6 +376,7 @@ module.exports = {
             'Skirmisher': {
                 strengths: ['Ranged Attack', 'Movement', 'Mobility Skills', 'Stress Threshold', 'Panic'],
                 weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Ranged Damage', 'Melee Attack', 'Caution Threshold'],
+                spdbonus: 0,
                 vitality: 30,
                 fatigue: 'C',
                 def: 0,

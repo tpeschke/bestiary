@@ -788,7 +788,7 @@
                 <th></th>
               </tr>
               <tr *ngFor="let temperament of encounter.temperament.temperament; let i = index" [ngClass]="{'noDisplay': temperament.deleted}">
-                <td matTooltip="{{temperament.tooltip}}">{{temperament.temperament}}</td>
+                <td matTooltip="{{temperament.tooltip}}" matTooltipPosition="right">{{temperament.temperament}}</td>
                 <td>{{temperament.weight}}</td>
                 <td><i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fas fa-times-circle"></i>
                 </td>
@@ -799,7 +799,7 @@
               <mat-form-field>
                 <mat-label>Select Temperament</mat-label>
                 <mat-select (selectionChange)="captureEncounter($event, 'temperament')">
-                  <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament" matTooltip="{{temperament.tooltip}}">
+                  <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament" matTooltip="{{temperament.tooltip}}" matTooltipPosition="right">
                     {{temperament.temperament}}
                   </mat-option>
                 </mat-select>
