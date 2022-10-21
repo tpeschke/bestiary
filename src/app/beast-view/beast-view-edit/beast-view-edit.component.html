@@ -837,13 +837,12 @@
                 <td><i (click)="removeEncounterItem(i, 'rank', 'rank')" class="fas fa-times-circle"></i></td>
               </tr>
             </table>
-            <h4 class="add-from-list">Add from List</h4>
             <div class="add-new-random">
               <mat-form-field>
                 <mat-label>Select Role</mat-label>
-                <mat-select (selectionChange)="captureEncounter($event, 'rank')">
-                  <mat-option *ngFor="let rank of encounter.rank.allRank" [value]="rank">
-                    {{rank.rank}}
+                <mat-select (selectionChange)="captureEncounter($event, 'rank', 'rank')">
+                  <mat-option *ngFor="let role of unusedRolesForEncounters" [value]="role">
+                    {{role}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -859,31 +858,6 @@
               </mat-form-field>
               <mat-form-field>
                 <input placeholder="Lair Distance as dice" matInput
-                  (change)="captureEncounterInput($event, 'rank', 'lair')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Number as dice" matInput (change)="captureEncounterInput($event, 'rank', 'number')">
-              </mat-form-field>
-            </div>
-            <h4>Add New</h4>
-            <div class="add-new-random">
-              <mat-form-field>
-                <input placeholder="Add Role" matInput [value]="rank.rank"
-                  (change)="captureEncounterInput($event, 'rank', 'rank')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Weight" matInput (change)="captureEncounterInputInt($event, 'rank', 'weight')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Other Type Chance" matInput
-                  (change)="captureEncounterInputInt($event, 'rank', 'othertypechance')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Decay Rate" matInput
-                  (change)="captureEncounterInputInt($event, 'rank', 'decayrate')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Lair Distance as dice" matInput [value]="rank.lair"
                   (change)="captureEncounterInput($event, 'rank', 'lair')">
               </mat-form-field>
               <mat-form-field>

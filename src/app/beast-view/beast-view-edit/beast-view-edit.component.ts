@@ -51,6 +51,7 @@ export class BeastViewEditComponent implements OnInit {
   public selectedSocialRole = {}
   public selectedSkillRole = {}
   public imageUrl = null;
+  public unusedRolesForEncounters = []
   public newRole = {
     name: null,
     role: null,
@@ -142,6 +143,7 @@ export class BeastViewEditComponent implements OnInit {
         this.beast.patreon = 20
         this.beastService.getEditEncounter(this.route.snapshot.params.templateId).subscribe(encounter => {
           this.encounter = encounter
+          this.getRolesForEncounters()
         })
       } else if (beast) {
         this.beast = beast
@@ -167,11 +169,13 @@ export class BeastViewEditComponent implements OnInit {
         }
         this.beastService.getEditEncounter(this.beast.id).subscribe(encounter => {
           this.encounter = encounter
+          this.getRolesForEncounters()
         })
         this.getImageUrl()
       } else {
         this.beastService.getEditEncounter(0).subscribe(encounter => {
           this.encounter = encounter
+          this.getRolesForEncounters()
         })
         this.beast = {
           name: '',
@@ -195,7 +199,7 @@ export class BeastViewEditComponent implements OnInit {
           panic: '',
           stress: 0,
           combat: [],
-          conflict: { descriptions: [], convictions: [], devotions: [], flaws: []},
+          conflict: { descriptions: [], convictions: [], devotions: [], flaws: [] },
           skills: [],
           movement: [],
           types: [],
@@ -608,7 +612,7 @@ export class BeastViewEditComponent implements OnInit {
         roleid: this.selectedRoleId
       })
     } else if (type === 'conflict') {
-      let traitType = secondType === 'descriptions' ? 'h' :  secondType.substring(0, 1);
+      let traitType = secondType === 'descriptions' ? 'h' : secondType.substring(0, 1);
       this.beast[type][secondType].push({
         trait: '',
         value: '',
@@ -732,6 +736,7 @@ export class BeastViewEditComponent implements OnInit {
         weight: null
       }
     } else if (type === 'rank') {
+      this.unusedRolesForEncounters = this.unusedRolesForEncounters.filter(role => !(this.rank.rank === role))
       this.rank = {
         rank: null,
         weight: null,
@@ -760,8 +765,9 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  captureEncounter({ value }, type) {
-    this[type] = value
+  captureEncounter({ value }, type, secondaryrole) {
+    // ADD ID AS WELL IF IT'S ALREADY IN DB
+    this[type][secondaryrole] = value
   }
 
   captureEncounterSecondary({ value }, type, index, secondaryType) {
@@ -786,11 +792,39 @@ export class BeastViewEditComponent implements OnInit {
     if (deleted.id) {
       this.encounter[type][subtype].push(deleted)
     }
+
+    if (deleted.rank === 'None') {
+      this.unusedRolesForEncounters.unshift('None')
+    } else {
+      for (let i = 0; i < this.beast.roles.length; i++) {
+        if (this.beast.roles[i].name === deleted.rank) {
+          this.unusedRolesForEncounters.push(deleted.rank)
+          i = this.beast.roles.length
+        }
+      }
+    }
+
     if (type === 'temperament' && deleted.id) {
       let cleanVersion = { ...deleted }
       cleanVersion.deleted = false
       this.encounter[type].allTemp.push(cleanVersion)
     }
+  }
+
+  getRolesForEncounters = () => {
+    this.unusedRolesForEncounters.push('None')
+    this.beast.roles.forEach(role => {
+      let addRole = true
+      for (let i = 0; i < this.encounter.rank.rank.length; i++) {
+        if (role.name === this.encounter.rank.rank[i].rank) {
+          addRole = false
+          i = this.encounter.rank.rank.length
+        }
+      }
+      if (addRole) {
+        this.unusedRolesForEncounters.push(role.name)
+      }
+    })
   }
 
   formatRelicAndEnchantedChange(chances) {
@@ -1679,7 +1713,7 @@ export class BeastViewEditComponent implements OnInit {
     })
 
     let oldRoleId = this.selectedRoleId
-    this.setRole({value: null})
+    this.setRole({ value: null })
     this.selectRole.value = null
     this.beast.roles = this.beast.roles.filter(role => role.id !== oldRoleId)
   }
