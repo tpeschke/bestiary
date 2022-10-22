@@ -765,9 +765,23 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  captureEncounter({ value }, type, secondaryrole) {
-    // ADD ID AS WELL IF IT'S ALREADY IN DB
-    this[type][secondaryrole] = value
+  captureEncounter({ value }, type, secondarytype) {
+    if (secondarytype) {
+      this[type][secondarytype] = value
+      if (type === 'rank') {
+        for (let i = 0; i < this.encounter.rank.allRank.length; i++) {
+          let rank = this.encounter.rank.allRank[i]
+          if (rank.rank === value) {
+            this[type].id = rank.id
+            i = this.encounter.rank.allRank.length
+          }
+        }
+      }
+    } else {
+      this[type] = value
+
+      console.log(this[type])
+    }
   }
 
   captureEncounterSecondary({ value }, type, index, secondaryType) {

@@ -385,11 +385,11 @@ let controllerObj = {
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted, temperamentid }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.temperament(beastid, tempid).catch(e => console.log('----------------------- add beast delete temp: ', e)))
-        } else if ((temperamentid && !beastid) || (temperamentid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.temperament(id, temperamentid, weight).catch(e => console.log('----------------------- add beast add temp: ', e)))
-        } else if (temperamentid && beastid) {
-          promiseArray.push(db.update.encounter.temperament(weight, beastid, temperamentid).catch(e => console.log('----------------------- add beast update temp: ', e)))
-        } else if (!temperamentid) {
+        } else if ((tempid && !beastid) || (tempid && beastid !== id)) {
+          promiseArray.push(db.add.encounter.temperament(id, tempid, weight).catch(e => console.log('----------------------- add beast add temp: ', e)))
+        } else if (tempid && beastid) {
+          promiseArray.push(db.update.encounter.temperament(weight, beastid, tempid).catch(e => console.log('----------------------- add beast update temp: ', e)))
+        } else if (!tempid) {
           db.add.encounter.allTemp(temp, tooltip).then(result => {
             promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight).catch(e => console.log('----------------------- add beast add temp with weight: ', e)))
           }).catch(e => console.log('----------------------- add beast all temp: ', e))
@@ -688,7 +688,7 @@ let controllerObj = {
       }
 
       let { temperament, signs, rank, noun, verb } = encounter;
-      temperament.temperament.forEach(({ temperament: temp, weight, temperamentid: tempid, beastid, tooltip, deleted }) => {
+      temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
         } else if ((tempid && !beastid) || (tempid && beastid !== id)) {
@@ -702,7 +702,7 @@ let controllerObj = {
         }
       })
 
-      signs.signs.forEach(({ sign, weight, signid, beastid, deleted }) => {
+      signs.signs.forEach(({ sign, weight, id: signid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.signs(beastid, signid).catch(e => console.log('----------------------- add beast delete sign: ', e)))
         } else if ((signid && !beastid) || (signid && beastid !== id)) {
