@@ -859,7 +859,9 @@ export class BeastViewGmComponent implements OnInit {
 
   displayName = (square) => {
     if (square.weapon !== '') {
-      if (square.damagetype && square.weapon.includes('(')) {
+      let first = square.weapon.indexOf("(")
+      let second = square.weapon.indexOf(")", first + 1)
+      if (square.damagetype && square.weapon.includes('(') && (second - first + 1) === 1) {
         return `${square.weapon.slice(0, -4)}`
       }
       return square.weapon

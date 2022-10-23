@@ -1,5 +1,3 @@
-const { ConsoleReporter } = require('jasmine')
-const { promise } = require('protractor')
 const equipmentCtrl = require('./equipmentController')
 
 function formatNameWithCommas(name) {

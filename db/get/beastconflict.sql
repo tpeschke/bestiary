@@ -1,5 +1,5 @@
 select id, value, beastid, type, socialroleid, allroles,
-REPLACE(trait, 'Any',  (SELECT trait FROM srdtraits
+REPLACE(trait, 'Any',  (SELECT conviction FROM srdconvictions s 
     ORDER BY random()+bbconflict.id LIMIT 1)) as trait
 from bbconflict  
 where beastid = $1 
