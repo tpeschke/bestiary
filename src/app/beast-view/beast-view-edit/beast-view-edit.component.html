@@ -655,7 +655,7 @@
             <div *ngIf="!selectedRoleId">
               <input matInput placeholder="Vitality (1 point / 10 Average Vitality)"
                 id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
-                [value]="beast.vitality" (change)="captureInput($event, 'vitality')">
+                [value]="beast.vitality ? beast.vitality : selectedRole.vitality" (change)="captureInput($event, 'vitality')">
             </div>
           </mat-form-field>
           <p>(Ave: {{averageVitality}})</p>
