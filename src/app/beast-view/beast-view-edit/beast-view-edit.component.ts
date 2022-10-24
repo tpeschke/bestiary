@@ -1613,7 +1613,7 @@ export class BeastViewEditComponent implements OnInit {
         let weapon = combat[i]
         if (weapon.roleid === this.selectedRoleId) {
           weaponFatigue = weapon.fatigue
-          weapon.selectedarmor = armor
+          armor = weapon.selectedarmor
           i = combat.length
         }
       }
