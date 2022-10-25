@@ -9,6 +9,9 @@ export class CalculatorService {
 
   calculateAverageOfDice(diceString) {
     let totalValue = 0
+    if (!diceString) {
+      return 0
+    }
     diceString
       .replace(/!| /g, '')
       .split('+')

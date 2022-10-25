@@ -459,7 +459,7 @@
           <div class="locationVitality">
             <div *ngFor="let location of beast.locationalvitality; let i = index">
               <div
-                *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueLocationalVitality ? null === location.roleid : selectedRoleId === location.roleid">
+                *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueLocationalVitality ? null === location.roleid : selectedRoleId === location.roleid || location.allroles">
                 <div class="flex-row-opposite">
                   <h3>{{location.location}} Vitality</h3>
                   <span class="vitality-flex">

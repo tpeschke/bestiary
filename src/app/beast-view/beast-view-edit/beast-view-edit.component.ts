@@ -327,6 +327,8 @@ export class BeastViewEditComponent implements OnInit {
     if (type === 'skills') {
       this.beast[type][index].allroles = checked
       this.calculateSkillPoints()
+    } else if (type === 'locationalvitality') {
+      this.beast.locationalvitality[index].allroles = checked
     } else {
       this.beast.conflict[type][index].allroles = checked
       this.calculateSocialPoints()

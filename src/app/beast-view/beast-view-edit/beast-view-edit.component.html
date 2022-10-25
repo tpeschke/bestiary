@@ -185,7 +185,7 @@
         <input matInput placeholder="Change Role Name" [value]="beast.roleInfo[selectedRoleId].name"
           (change)="captureRoleName($event)">
       </mat-form-field>
-      
+
       <button mat-raised-button (click)="deleteRole()" color="warn">Delete Role</button>
     </div>
 
@@ -338,11 +338,12 @@
                     (change)="captureInput($event, 'conflict', i, 'descriptions', 'value')">
                 </mat-form-field>
                 <section>
-                  <mat-checkbox [checked]="description.allroles" (change)="checkAllRoles('descriptions', i, $event.checked)">
+                  <mat-checkbox [checked]="description.allroles"
+                    (change)="checkAllRoles('descriptions', i, $event.checked)">
                     Add to all Roles</mat-checkbox>
                 </section>
-                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'descriptions')" color="warn"><i
-                    class="fa-solid fa-minus"></i></button>
+                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'descriptions')"
+                  color="warn"><i class="fa-solid fa-minus"></i></button>
               </div>
             </div>
           </div>
@@ -366,7 +367,8 @@
                   </mat-form-field>
                 </h3>
                 <section>
-                  <mat-checkbox [checked]="trait.trait === 'Any'" (change)="checkRandomizeTrait(i, $event.checked)">Make this a Random Conviction</mat-checkbox>
+                  <mat-checkbox [checked]="trait.trait === 'Any'" (change)="checkRandomizeTrait(i, $event.checked)">Make
+                    this a Random Conviction</mat-checkbox>
                 </section>
                 <br>
                 <mat-form-field>
@@ -374,7 +376,8 @@
                     (change)="captureInput($event, 'conflict', i, 'convictions', 'value')">
                 </mat-form-field>
                 <section>
-                  <mat-checkbox [checked]="trait.allroles" (change)="checkAllRoles('convictions', i, $event.checked)">Add to
+                  <mat-checkbox [checked]="trait.allroles" (change)="checkAllRoles('convictions', i, $event.checked)">
+                    Add to
                     all Roles</mat-checkbox>
                 </section>
                 <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'convictions')" color="warn"><i
@@ -650,12 +653,14 @@
               <input
                 id="{{selectedRole.strengths ? selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : '' : ''}}"
                 matInput placeholder="Vitality (1 point / 10 Average Vitality)"
-                [value]="beast.roleInfo[selectedRoleId].vitality ? beast.roleInfo[selectedRoleId].vitality : selectedRole.vitality ? selectedRole.vitality : null" (change)="captureRoleVitality($event)">
+                [value]="beast.roleInfo[selectedRoleId].vitality ? beast.roleInfo[selectedRoleId].vitality : selectedRole.vitality ? selectedRole.vitality : null"
+                (change)="captureRoleVitality($event)">
             </div>
             <div *ngIf="!selectedRoleId">
               <input matInput placeholder="Vitality (1 point / 10 Average Vitality)"
                 id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
-                [value]="beast.vitality ? beast.vitality : selectedRole.vitality ? selectedRole.vitality : null" (change)="captureInput($event, 'vitality')">
+                [value]="beast.vitality ? beast.vitality : selectedRole.vitality ? selectedRole.vitality : null"
+                (change)="captureInput($event, 'vitality')">
             </div>
           </mat-form-field>
           <p>(Ave: {{averageVitality}})</p>
@@ -691,7 +696,7 @@
 
           <div class="locational-shell">
             <div *ngFor="let location of beast.locationalvitality; let i = index" class="locational-id-shell"
-              [ngClass]="{'noDisplay': !location.deleted && !((selectedRoleId && selectedRoleId === location.roleid) || (!selectedRoleId && selectedRoleId === null))}">
+              [ngClass]="{'noDisplay': !(!location.deleted && (selectedRoleId === location.roleid || location.allroles))}">
               <mat-form-field>
                 <input placeholder="Location" matInput [value]="location.location"
                   (change)="captureInput($event, 'locationalvitality', i, 'location')">
@@ -701,6 +706,11 @@
                   (change)="captureInput($event, 'locationalvitality', i, 'vitality')">
               </mat-form-field>
               <p>(Ave: {{calculatorService.calculateAverageOfDice(location.vitality)}})</p>
+              <section>
+                <mat-checkbox [checked]="location.allroles"
+                  (change)="checkAllRoles('locationalvitality', i, $event.checked)">
+                  Add to all Roles</mat-checkbox>
+              </section>
               <button mat-raised-button (click)="removeNewSecondaryItem('locationalvitality', i)" color="warn"><i
                   class="fa-solid fa-minus"></i></button>
             </div>
@@ -787,7 +797,8 @@
                 <th>Weight</th>
                 <th></th>
               </tr>
-              <tr *ngFor="let temperament of encounter.temperament.temperament; let i = index" [ngClass]="{'noDisplay': temperament.deleted}">
+              <tr *ngFor="let temperament of encounter.temperament.temperament; let i = index"
+                [ngClass]="{'noDisplay': temperament.deleted}">
                 <td matTooltip="{{temperament.tooltip}}" matTooltipPosition="right">{{temperament.temperament}}</td>
                 <td>{{temperament.weight}}</td>
                 <td><i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fas fa-times-circle"></i>
@@ -798,7 +809,8 @@
               <mat-form-field>
                 <mat-label>Select Temperament</mat-label>
                 <mat-select (selectionChange)="captureEncounter($event, 'temperament')">
-                  <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament" matTooltip="{{temperament.tooltip}}" matTooltipPosition="right">
+                  <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament"
+                    matTooltip="{{temperament.tooltip}}" matTooltipPosition="right">
                     {{temperament.temperament}}
                   </mat-option>
                 </mat-select>
@@ -1831,7 +1843,8 @@
             </mat-form-field>
 
             <mat-form-field>
-              <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')" maxlength="40">
+              <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')"
+                maxlength="40">
             </mat-form-field>
           </div>
 

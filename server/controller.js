@@ -448,13 +448,13 @@ let controllerObj = {
         }
       })
 
-      locationalvitality.forEach(({ id: locationid, location, vitality, beastid, roleid }) => {
+      locationalvitality.forEach(({ id: locationid, location, vitality, beastid, roleid, allroles }) => {
         if (deleted) {
           promiseArray.push(db.delete.locationalvitality(beastid, locationid).catch(e => console.log('----------------------- add beast delete locational vitality: ', e)))
         } else if (locationid && beastid) {
-          promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid).catch(e => console.log('----------------------- add beast update locational vitality: ', e)))
+          promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid, allroles).catch(e => console.log('----------------------- add beast update locational vitality: ', e)))
         } else {
-          promiseArray.push(db.add.locationalvitality(beastid, locationid, vitality, roleid).catch(e => console.log('----------------------- add beast add locational vitality: ', e)))
+          promiseArray.push(db.add.locationalvitality(beastid, locationid, vitality, allroles, roleid).catch(e => console.log('----------------------- add beast add locational vitality: ', e)))
         }
       })
 
@@ -665,13 +665,13 @@ let controllerObj = {
       })
 
       if (locationalvitality.length > 0) {
-        locationalvitality.forEach(({ id: locationid, location, vitality, beastid, deleted, roleid }) => {
+        locationalvitality.forEach(({ id: locationid, location, vitality, beastid, deleted, roleid, allroles }) => {
           if (deleted) {
             promiseArray.push(db.delete.locationalvitality(locationid))
           } else if (locationid && beastid) {
-            promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid))
+            promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid, allroles))
           } else {
-            promiseArray.push(db.add.locationalvitality(id, location, vitality, roleid))
+            promiseArray.push(db.add.locationalvitality(id, location, vitality, allroles, roleid))
           }
         })
       }
