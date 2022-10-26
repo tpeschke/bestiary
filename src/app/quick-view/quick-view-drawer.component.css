@@ -435,6 +435,16 @@ strong {
     padding-top: 3px;
 }
 
+.add-to-quick-view {
+    position: relative;
+    padding-left: 10px;
+}
+
+.add-to-quick-view .fa-square-plus {
+    position: absolute;
+    left: 0px;
+}
+
 @media (max-width: 750px) {
     .quick-view-drawer {
         min-width: unset;

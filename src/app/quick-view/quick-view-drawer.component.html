@@ -1,5 +1,5 @@
 <div (click)="toggleQuickViewList()" class="open-quick-view-button">
-  <i *ngIf="!quickViewListIsOpen" class="fas fa-address-card"></i>
+  <i *ngIf="!quickViewListIsOpen" class="fa-solid fa-rectangle-list"></i>
   <i *ngIf="quickViewListIsOpen" class="fas fa-times-circle"></i>
 </div>
 
@@ -12,7 +12,7 @@
   <div *ngIf="quickViewService.quickViewArray.length === 0" class="quick-view-no-monsters-shell">
     <p>You current have no monsters in your quick view.</p>
     <p>Right click on a monster's icon in the catelog and select "add to quick view"</p>
-    <p>or hit the <i class="fas fa-plus"></i><i class="fas fa-address-card"></i> at the top of a monster's entry</p>
+    <p>or hit the <span class="add-to-quick-view"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></span> at the top of a monster's entry</p>
     <p>to add them.</p>
   </div>
 
