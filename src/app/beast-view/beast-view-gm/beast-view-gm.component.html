@@ -28,10 +28,13 @@
         <h2>Role</h2>
         <mat-form-field>
           <mat-select (selectionChange)="setRole($event)">
-            <mat-option matTooltip="{{(tooltipName(beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole))}}" matTooltipPosition="right">
+            <mat-option
+              matTooltip="{{(tooltipName(beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole))}}"
+              matTooltipPosition="right">
               Generic
             </mat-option>
-            <mat-option matTooltip="{{(tooltipName(role.role, role.secondaryrole, role.socialrole, role.skillrole))}}" matTooltipPosition="right" *ngFor="let role of beast.roles" [value]="role.id">
+            <mat-option matTooltip="{{(tooltipName(role.role, role.secondaryrole, role.socialrole, role.skillrole))}}"
+              matTooltipPosition="right" *ngFor="let role of beast.roles" [value]="role.id">
               {{role.name}}
             </mat-option>
           </mat-select>
@@ -133,15 +136,13 @@
             class="fas fa-info-circle icon-small blue"
             matTooltip="{{combatRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role].description}}"
             matTooltipClass="my-tooltip"></i></p>
-        <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
-            class="fas fa-plus"></i><i class="fas fa-address-card"></i></div>
+        <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></div>
       </div>
 
       <div *ngIf="beast.roles.length === 0 && (!selectedRoleId && !beast.role)">
         <div class="role-select extra-padding">
           <h3>Add to Quick View</h3>
-          <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
-              class="fas fa-plus"></i><i class="fas fa-address-card"></i></div>
+          <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></div>
         </div>
       </div>
 
@@ -203,7 +204,8 @@
                     alt="combat square">
                   <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png"
                     alt="combat square">
-                  <p class="spd">{{calculateRecovery(selectedRole.spdbonus, square.selectedweapon, square.weaponInfo, square.addrolemods, selectedRole.spd, square.spd, square.selectedarmor, square.armorInfo)}}</p>
+                  <p class="spd">{{calculateRecovery(selectedRole.spdbonus, square.selectedweapon, square.weaponInfo,
+                    square.addrolemods, selectedRole.spd, square.spd, square.selectedarmor, square.armorInfo)}}</p>
                   <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk && square.addrolemods ?
                     selectedRole.atk : 0 :
                     selectedRole.rangedAtk && square.addrolemods ? selectedRole.rangedAtk : 0) + square.atk}}</p>
@@ -352,7 +354,8 @@
                   alt="combat square">
                 <img *ngIf="newWeaponInfo.weapontype !== 'm'" class="combat-image"
                   src="../../../../assets/rangedsquare.png" alt="combat square">
-                <p class="spd">{{calculateRecovery(selectedRole.spdbonus, newSelectedWeapon, newWeaponInfo, square.addrolemods, selectedRole.spd, square.spd, newSelectedArmor, newArmorInfo)}}</p>
+                <p class="spd">{{calculateRecovery(selectedRole.spdbonus, newSelectedWeapon, newWeaponInfo,
+                  square.addrolemods, selectedRole.spd, square.spd, newSelectedArmor, newArmorInfo)}}</p>
                 <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk && square.addrolemods ? selectedRole.atk
                   : 0 :
                   selectedRole.rangedAtk && square.addrolemods ? selectedRole.rangedAtk : 0) + square.atk}}</p>

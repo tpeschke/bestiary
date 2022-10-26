@@ -52,7 +52,7 @@
         <div class="context-menu" *ngIf="isDisplayContextMenu"
           [ngStyle]="getRightClickMenuStyle()">
           <p (click)="openNewTab()">Open in New Tab</p>
-          <p (click)="addBeastToQuickView()">Add to Quick View <strong [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)"></strong></p>
+          <p (click)="addBeastToQuickView()"><span class="add-to-quick-view" matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></span> <strong [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)"></strong></p>
         </div>
       </div>
     </div>
@@ -66,13 +66,13 @@
         <div class="context-menu" *ngIf="isDisplayContextMenu"
           [ngStyle]="getRightClickMenuStyle()">
           <p (click)="openNewTab()">Open in New Tab</p>
-          <p *ngIf="targetRoles.length === 0" (click)="addBeastToQuickView()">Add <strong [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong> to Quick View</p>
-          <p *ngIf="targetRoles.length > 0" (click)="addBeastToQuickView()">Add Generic <strong [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong> to Quick View</p>
+          <p *ngIf="targetRoles.length === 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view" matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></span> <strong [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong></p>
+          <p *ngIf="targetRoles.length > 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view" matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></span> <strong [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong></p>
           <div *ngIf="targetRoles.length > 0">
             <div *ngFor="let role of targetRoles; let i = index">
-                <p class="roleIndent" (click)="addRoleToQuickView(i)"> - <strong [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)"></strong> to Quick View</p>
+                <p class="roleIndent" (click)="addRoleToQuickView(i)"> - <strong [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)"></strong></p>
             </div>
-            <p class="roleIndent" (click)="addRandomRoleToQuickView()"><i class="fa-solid fa-dice"></i> Add Random Role to Quick View</p>
+            <p matTooltip="Click to Add to a Random Role to Quick View" class="roleIndent" (click)="addRandomRoleToQuickView()">- <i class="fa-solid fa-dice"></i></p>
           </div>
         </div>
 

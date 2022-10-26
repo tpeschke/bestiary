@@ -11,7 +11,7 @@ h1 {
 }
 
 .roleIndent {
-  text-indent: 40px;
+  text-indent: 5px;
 }
 
 img {
@@ -92,6 +92,16 @@ img {
   .add-to-quick-view-shell:hover{
     background: lightgray;
   }
+
+  .add-to-quick-view {
+    position: relative;
+    padding-left: 9px;
+}
+
+.add-to-quick-view .fa-square-plus {
+    position: absolute;
+    left: 0
+}
 
   .context-menu {
     padding: 5px 0px;
