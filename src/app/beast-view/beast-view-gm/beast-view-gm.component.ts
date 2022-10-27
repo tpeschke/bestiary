@@ -120,7 +120,12 @@ export class BeastViewGmComponent implements OnInit {
       this.convertFatigue()
       this.convertPanic()
 
-      this.setRoleToDefault()
+      let roleParameter = this.router.url.split('/')[4]
+      if (roleParameter) {
+        this.setRoleViaParameter(roleParameter)
+      } else {
+        this.setRoleToDefault()
+      }
     })
   }
 
@@ -438,13 +443,24 @@ export class BeastViewGmComponent implements OnInit {
     }
   }
 
-  setRoleToDefault () {
+  setRoleToDefault() {
     if (!this.beast.defaultrole && this.beast.roles.length > 0) {
       this.beast.defaultrole = this.beast.roles[0].id
     }
 
     if (this.beast.defaultrole) {
-      this.setRole({value: this.beast.defaultrole})
+      this.setRole({ value: this.beast.defaultrole })
+    }
+  }
+
+  setRoleViaParameter(param) {
+    let uppercaseParam = param.toUpperCase()
+    console.log(param)
+    for (let i = 0; i < this.beast.roles.length; i++) {
+      let role = this.beast.roles[i]
+      if (role.name.replace(/\s|-/g, '').toUpperCase() === uppercaseParam || param === role.id) {
+        this.setRole({value: role.id})
+      }
     }
   }
 
