@@ -1011,26 +1011,67 @@ export class BeastViewEditComponent implements OnInit {
   addNewRole() {
     if ((this.newRole.role || this.newRole.socialrole || this.newRole.skillrole) && this.newRole.name) {
       let id = this.makeId()
+      if (this.beast.roles.length === 0) {
+        this.beast.defaultrole = id
+
+        this.beast.conflict.descriptions.forEach(val => {
+          if (!val.allroles) {
+            val.socialroleid = id
+          }
+        })
+        this.beast.conflict.convictions.forEach(val => {
+          if (!val.allroles) {
+            val.socialroleid = id
+          }
+        })
+        this.beast.conflict.devotions.forEach(val => {
+          if (!val.allroles) {
+            val.socialroleid = id
+          }
+        })
+        this.beast.conflict.flaws.forEach(val => {
+          if (!val.allroles) {
+            val.socialroleid = id
+          }
+        })
+
+        this.beast.skills.forEach(val => {
+          if (!val.allroles) {
+            val.skillroleid = id
+          }
+        })
+
+        this.beast.combat.forEach(val => {
+          if (!val.allroles) {
+            val.roleid = id
+          }
+        })
+        this.beast.locationalvitality.forEach(val => {
+          if (!val.allroles) {
+            val.roleid = id
+          }
+        })
+      }
       this.beast.roles.push({ id, ...this.newRole })
       this.beast.roleInfo[id] = {
         attack: null,
-        caution: null,
+        caution: this.beast.caution,
         combatpoints: 0,
         defense: null,
         hash: null,
         name: this.newRole.name,
-        panic: null,
+        panic: this.beast.panic,
         role: this.newRole.role,
         secondaryrole: this.newRole.secondaryrole,
         socialrole: this.newRole.socialrole,
-        socialpoints: 0,
+        socialpoints: this.beast.socialpoints,
         skillrole: this.newRole.skillrole,
-        skillpoints: 0,
-        stress: null,
+        skillpoints: this.beast.skillpoints,
+        stress: this.beast.stress,
         uniqueCombat: true,
         uniqueLocationalVitality: false,
         uniqueMovement: false,
-        vitality: null
+        vitality: this.beast.vitality
       }
       this.newRole = {
         name: null,
@@ -1038,6 +1079,10 @@ export class BeastViewEditComponent implements OnInit {
         secondaryrole: null,
         socialrole: null,
         skillrole: null
+      }
+
+      if (this.beast.roles.length === 1) {
+        this.setRole({value: id})
       }
       this.viewPanels.forEach(p => p.close());
       this.newRoleName.nativeElement.value = null
@@ -1746,5 +1791,44 @@ export class BeastViewEditComponent implements OnInit {
 
   updateDefaultRole = () => {
     this.beast.defaultrole = this.selectedRoleId
+  }
+
+  displayName(selectedRoleId) {
+    let roleInfo = this.beast.roleInfo[selectedRoleId]
+    , combatrole = roleInfo.role 
+    , secondarycombat = roleInfo.secondaryrole
+    , socialrole = roleInfo.socialrole
+    , skillrole = roleInfo.skillrole
+    let nameString = ''
+    let roles = false
+
+    if (combatrole || socialrole || skillrole) {
+      nameString += ' ['
+      roles = true
+    }
+    if (combatrole) {
+      nameString += `<img src="./assets/combaticon.svg" alt="combat role type" width="17" height="17" class="catalogicon">${combatrole}`
+      if (secondarycombat) {
+        nameString += `(${secondarycombat})`
+      }
+    }
+    if (socialrole) {
+      if (nameString.length > name.length + 3) {
+        nameString += '/'
+      }
+      nameString += `<img src="./assets/socialicon.svg" alt="combat role type" width="17" height="17" class="catalogicon">${socialrole}`
+    }
+    if (skillrole) {
+      if (nameString.length > name.length + 3) {
+        nameString += '/'
+      }
+      nameString += `<img src="./assets/skillicon.svg" alt="combat role type" width="17" height="17" class="catalogicon">${skillrole}`
+    }
+
+    if (roles) {
+      nameString += ']'
+    }
+
+    return nameString
   }
 }

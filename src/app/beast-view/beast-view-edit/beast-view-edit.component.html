@@ -176,6 +176,7 @@
         </mat-select>
       </mat-form-field>
 
+      <p [innerHTML]="displayName(selectedRoleId)"></p>
       <section>
         <mat-checkbox [checked]="selectedRoleId === beast.defaultrole" (change)="updateDefaultRole()">Default Role
         </mat-checkbox>
@@ -200,6 +201,9 @@
         </mat-expansion-panel-header>
 
         <div class="new-roll-shell">
+          <p *ngIf="beast.roles.length === 0" class="warning">This role will be your default. All Skills,
+            Characteristics, and Combat Info that you've filled out already will be transferred to this new role</p>
+
           <mat-form-field>
             <input #newRoleName placeholder="Role Name" matInput (change)="captureNewRole('name', $event)">
           </mat-form-field>
@@ -1528,116 +1532,118 @@
             </div>
           </div>
         </div>
-
-        <br />
-        <br />
-        <br />
-
-        <h2>Weird Reagents</h2>
-        <div class="divider"></div>
-        <div *ngFor="let regeant of beast.reagents; let i = index">
-          <div *ngIf="!regeant.deleted" class="reagent-single-shell">
-            <mat-form-field>
-              <input placeholder="Body Part" matInput [value]="regeant.name"
-                (change)="captureInput($event, 'reagents', i, 'name')">
-            </mat-form-field>
-            <mat-form-field>
-              <input placeholder="Spell" matInput [value]="regeant.spell"
-                (change)="captureInput($event, 'reagents', i, 'spell')">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Identification</mat-label>
-              <mat-select (selectionChange)="captureEncounterSecondary($event, 'reagents', i, 'difficulty')"
-                [value]="regeant.difficulty">
-                <mat-option value="Depends">
-                  Depends
-                </mat-option>
-                <mat-option value="n/a">
-                  n/a
-                </mat-option>
-                <mat-option value="0">
-                  0
-                </mat-option>
-                <mat-option value="d4!">
-                  d4!
-                </mat-option>
-                <mat-option value="d6!">
-                  d6!
-                </mat-option>
-                <mat-option value="d8!">
-                  d8!
-                </mat-option>
-                <mat-option value="d10!">
-                  d10!
-                </mat-option>
-                <mat-option value="d12!">
-                  d12!
-                </mat-option>
-                <mat-option value="d20!">
-                  d20!
-                </mat-option>
-                <mat-option value="d20!+d4!">
-                  d20!+d4!
-                </mat-option>
-                <mat-option value="5d20!">
-                  d20!+d4!
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Harvest</mat-label>
-              <mat-select (selectionChange)="captureEncounterSecondary($event, 'reagents', i, 'harvest')"
-                [value]="regeant.harvest">
-                <mat-option>
-                  Same as Harvest
-                </mat-option>
-                <mat-option value="Depends">
-                  Depends
-                </mat-option>
-                <mat-option value="n/a">
-                  n/a
-                </mat-option>
-                <mat-option value="0">
-                  0
-                </mat-option>
-                <mat-option value="d4!">
-                  d4!
-                </mat-option>
-                <mat-option value="d6!">
-                  d6!
-                </mat-option>
-                <mat-option value="d8!">
-                  d8!
-                </mat-option>
-                <mat-option value="d10!">
-                  d10!
-                </mat-option>
-                <mat-option value="d12!">
-                  d12!
-                </mat-option>
-                <mat-option value="d20!">
-                  d20!
-                </mat-option>
-                <mat-option value="d20!+d4!">
-                  d20!+d4!
-                </mat-option>
-                <mat-option value="5d20!">
-                  d20!+d4!
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <button mat-raised-button (click)="removeNewSecondaryItem('reagents', i)" color="warn"><i
-                class="fa-solid fa-minus"></i></button>
-          </div>
-        </div>
-
-        <button mat-raised-button (click)="addNewSecondaryItem('reagents')" color="accent"><i
-            class="fa-solid fa-plus"></i></button>
-
-        <!-- <h2>Special Harvest</h2> -->
       </div>
     </mat-tab>
-    <mat-tab label="Weirdshaping">
+    <mat-tab label="The Weird">
+      <h2>Weird Reagents</h2>
+      <div class="divider"></div>
+      <div *ngFor="let regeant of beast.reagents; let i = index">
+        <div *ngIf="!regeant.deleted" class="reagent-single-shell">
+          <mat-form-field>
+            <input placeholder="Body Part" matInput [value]="regeant.name"
+              (change)="captureInput($event, 'reagents', i, 'name')">
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Spell" matInput [value]="regeant.spell"
+              (change)="captureInput($event, 'reagents', i, 'spell')">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Identification</mat-label>
+            <mat-select (selectionChange)="captureEncounterSecondary($event, 'reagents', i, 'difficulty')"
+              [value]="regeant.difficulty">
+              <mat-option value="Depends">
+                Depends
+              </mat-option>
+              <mat-option value="n/a">
+                n/a
+              </mat-option>
+              <mat-option value="0">
+                0
+              </mat-option>
+              <mat-option value="d4!">
+                d4!
+              </mat-option>
+              <mat-option value="d6!">
+                d6!
+              </mat-option>
+              <mat-option value="d8!">
+                d8!
+              </mat-option>
+              <mat-option value="d10!">
+                d10!
+              </mat-option>
+              <mat-option value="d12!">
+                d12!
+              </mat-option>
+              <mat-option value="d20!">
+                d20!
+              </mat-option>
+              <mat-option value="d20!+d4!">
+                d20!+d4!
+              </mat-option>
+              <mat-option value="5d20!">
+                d20!+d4!
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Harvest</mat-label>
+            <mat-select (selectionChange)="captureEncounterSecondary($event, 'reagents', i, 'harvest')"
+              [value]="regeant.harvest">
+              <mat-option>
+                Same as Harvest
+              </mat-option>
+              <mat-option value="Depends">
+                Depends
+              </mat-option>
+              <mat-option value="n/a">
+                n/a
+              </mat-option>
+              <mat-option value="0">
+                0
+              </mat-option>
+              <mat-option value="d4!">
+                d4!
+              </mat-option>
+              <mat-option value="d6!">
+                d6!
+              </mat-option>
+              <mat-option value="d8!">
+                d8!
+              </mat-option>
+              <mat-option value="d10!">
+                d10!
+              </mat-option>
+              <mat-option value="d12!">
+                d12!
+              </mat-option>
+              <mat-option value="d20!">
+                d20!
+              </mat-option>
+              <mat-option value="d20!+d4!">
+                d20!+d4!
+              </mat-option>
+              <mat-option value="5d20!">
+                d20!+d4!
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button (click)="removeNewSecondaryItem('reagents', i)" color="warn"><i
+              class="fa-solid fa-minus"></i></button>
+        </div>
+      </div>
+
+      <button mat-raised-button (click)="addNewSecondaryItem('reagents')" color="accent"><i
+          class="fa-solid fa-plus"></i></button>
+
+      <!-- <h2>Special Harvest</h2> -->
+
+      <br>
+      <br>
+      <br>
+
+      <h2>Weirdshaping</h2>
+      <div class="divider"></div>
       <div class="tab-wrapper">
         <app-weird-shaping-edit [casting]="beast.casting" [spells]="beast.spells"
           [checkWeirdshapeType]="checkWeirdshapeType" [deleteSpell]="deleteSpell" [addNewSpell]="addNewSpell"

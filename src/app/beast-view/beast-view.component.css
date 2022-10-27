@@ -4,6 +4,11 @@
     align-items: center;
 }
 
+.warning {
+    margin: 5px 0;
+    color: #ab6f00;
+}
+
 ::ng-deep .mat-tooltip {
     white-space: pre-line !important;
 }
@@ -13,7 +18,7 @@
 }
 
 .select-width {
-    width: 75%;
+    width: 50%;
 }
 
 .tab-wrapper {
