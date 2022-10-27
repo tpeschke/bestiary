@@ -1237,7 +1237,7 @@ export class BeastViewGmComponent implements OnInit {
     textArea.style.top = '0';
     textArea.style.left = '0';
 
-    textArea.value = `${window.location.href};goDirectlyTo=true`;
+    textArea.value = `${window.location.href}/${this.selectedRoleId}`;
 
     document.body.appendChild(textArea);
     textArea.focus();
@@ -1246,9 +1246,9 @@ export class BeastViewGmComponent implements OnInit {
     try {
       var successful = document.execCommand('copy');
       var msg = successful ? 'successful' : 'unsuccessful';
-      this.beastService.handleMessage({ color: 'green', message: `${window.location.href};goDirectlyTo=true successfully copied` })
+      this.beastService.handleMessage({ color: 'green', message: `${window.location.href}/${this.selectedRoleId} successfully copied` })
     } catch (err) {
-      this.beastService.handleMessage({ color: 'red', message: `Unable to copy ${window.location.href};goDirectlyTo=true` })
+      this.beastService.handleMessage({ color: 'red', message: `Unable to copy ${window.location.href}/${this.selectedRoleId}` })
     }
 
     document.body.removeChild(textArea);
