@@ -1,9 +1,19 @@
+.flex-opposite {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 ::ng-deep .mat-tooltip {
     white-space: pre-line !important;
 }
 
 .unset-width {
     width: unset !important;
+}
+
+.select-width {
+    width: 75%;
 }
 
 .tab-wrapper {

@@ -119,6 +119,8 @@ export class BeastViewGmComponent implements OnInit {
 
       this.convertFatigue()
       this.convertPanic()
+
+      this.setRoleToDefault()
     })
   }
 
@@ -433,6 +435,16 @@ export class BeastViewGmComponent implements OnInit {
         return '0';
       default:
         return ' nothing'
+    }
+  }
+
+  setRoleToDefault () {
+    if (!this.beast.defaultrole && this.beast.roles.length > 0) {
+      this.beast.defaultrole = this.beast.roles[0].id
+    }
+
+    if (this.beast.defaultrole) {
+      this.setRole({value: this.beast.defaultrole})
     }
   }
 

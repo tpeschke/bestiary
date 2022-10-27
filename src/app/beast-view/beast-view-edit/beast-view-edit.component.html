@@ -166,18 +166,20 @@
   </div>
 
   <div class="combat-role-shell">
-    <div class="conflict-shell unset-width" *ngIf="beast.roles.length > 0">
-      <mat-form-field>
+    <div class="conflict-shell unset-width flex-opposite" *ngIf="beast.roles.length > 0">
+      <mat-form-field class="select-width">
         <mat-label>Select Role</mat-label>
-        <mat-select (selectionChange)="setRole($event)" #selectRole>
-          <mat-option>
-            Generic
-          </mat-option>
+        <mat-select (selectionChange)="setRole($event)" [(value)]="selectedRoleId">
           <mat-option *ngFor="let role of beast.roles" [value]="role.id">
             {{role.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <section>
+        <mat-checkbox [checked]="selectedRoleId === beast.defaultrole" (change)="updateDefaultRole()">Default Role
+        </mat-checkbox>
+      </section>
     </div>
 
     <div *ngIf="selectedRoleId" class="flex-row-opposite">

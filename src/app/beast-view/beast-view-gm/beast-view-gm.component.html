@@ -27,12 +27,7 @@
       <div class="role-shell conflict-shell unset-width" *ngIf="beast.roles.length > 0">
         <h2>Role</h2>
         <mat-form-field>
-          <mat-select (selectionChange)="setRole($event)">
-            <mat-option
-              matTooltip="{{(tooltipName(beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole))}}"
-              matTooltipPosition="right">
-              Generic
-            </mat-option>
+          <mat-select (selectionChange)="setRole($event)" [(value)]="selectedRoleId">
             <mat-option matTooltip="{{(tooltipName(role.role, role.secondaryrole, role.socialrole, role.skillrole))}}"
               matTooltipPosition="right" *ngFor="let role of beast.roles" [value]="role.id">
               {{role.name}}

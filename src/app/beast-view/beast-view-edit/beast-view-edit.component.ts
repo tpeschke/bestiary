@@ -18,7 +18,7 @@ export class BeastViewEditComponent implements OnInit {
   @ViewChild('artistName') artistName;
   @ViewChild('artistLink') artistLink;
   @ViewChild('artistTooltip') artistTooltip;
-  @ViewChild('selectRole') selectRole;
+  @ViewChild('roleSelect') roleSelect;
   @ViewChild('newCombatRoleSelect') newCombatRoleSelect: MatSelect;
   @ViewChild('newSecondaryRoleSelect') newSecondaryRoleSelect: MatSelect;
   @ViewChild('newConfRoleSelect') newConfRoleSelect: MatSelect;
@@ -233,6 +233,7 @@ export class BeastViewEditComponent implements OnInit {
         }
       })
 
+      this.setDefaultRole()
       this.calculateCombatPoints()
       this.calculateSocialPoints()
       this.calculateSkillPoints()
@@ -1730,7 +1731,20 @@ export class BeastViewEditComponent implements OnInit {
 
     let oldRoleId = this.selectedRoleId
     this.setRole({ value: null })
-    this.selectRole.value = null
+    this.roleSelect.value = null
     this.beast.roles = this.beast.roles.filter(role => role.id !== oldRoleId)
+  }
+
+  setDefaultRole = () => {
+    if (!this.beast.defaultrole && this.beast.roles.length > 0) {
+      this.beast.defaultrole = this.beast.roles[0].id
+    }
+    if (this.beast.defaultrole) {
+      this.setRole({value: this.beast.defaultrole})
+    }
+  }
+
+  updateDefaultRole = () => {
+    this.beast.defaultrole = this.selectedRoleId
   }
 }
