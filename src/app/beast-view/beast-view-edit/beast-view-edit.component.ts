@@ -1813,13 +1813,13 @@ export class BeastViewEditComponent implements OnInit {
       }
     }
     if (socialrole) {
-      if (nameString.length > name.length + 3) {
+      if (nameString.length > 3) {
         nameString += '/'
       }
       nameString += `<img src="./assets/socialicon.svg" alt="combat role type" width="17" height="17" class="catalogicon">${socialrole}`
     }
     if (skillrole) {
-      if (nameString.length > name.length + 3) {
+      if (nameString.length > 3) {
         nameString += '/'
       }
       nameString += `<img src="./assets/skillicon.svg" alt="combat role type" width="17" height="17" class="catalogicon">${skillrole}`
