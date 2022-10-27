@@ -3,6 +3,28 @@ h4 {
     font-weight: bold;
 }
 
+.role-shell mat-form-field {
+    width: 65%;
+}
+
+.role-shell h2 {
+    margin: 0
+}
+
+.copyURLButton {
+    border: none;
+    background: transparent;
+    margin: 0;
+    padding: 7px;
+    border-radius: 4px;
+    transition: .6s;
+}
+
+.copyURLButton:hover {
+    background: #ff5722;
+    color: white
+}
+
 .weaponName {
     width: 150px
 }

@@ -455,7 +455,6 @@ export class BeastViewGmComponent implements OnInit {
 
   setRoleViaParameter(param) {
     let uppercaseParam = param.toUpperCase()
-    console.log(param)
     for (let i = 0; i < this.beast.roles.length; i++) {
       let role = this.beast.roles[i]
       if (role.name.replace(/\s|-/g, '').toUpperCase() === uppercaseParam || param === role.id) {
@@ -1229,5 +1228,29 @@ export class BeastViewGmComponent implements OnInit {
     } else {
       return rolespeed + squarespd + armorInfo.rec
     }
+  }
+
+  getShortCutURL() {
+    let textArea = document.createElement("textarea");
+
+    textArea.style.position = 'fixed';
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+
+    textArea.value = `${window.location.href};goDirectlyTo=true`;
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      var successful = document.execCommand('copy');
+      var msg = successful ? 'successful' : 'unsuccessful';
+      this.beastService.handleMessage({ color: 'green', message: `${window.location.href};goDirectlyTo=true successfully copied` })
+    } catch (err) {
+      this.beastService.handleMessage({ color: 'red', message: `Unable to copy ${window.location.href};goDirectlyTo=true` })
+    }
+
+    document.body.removeChild(textArea);
   }
 }
