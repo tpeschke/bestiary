@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BeastService } from '../../util/services/beast.service';
 import { CalculatorService } from '../../util/services/calculator.service';
 import variables from '../../../local.js'
-import { MatDialog } from '@angular/material';
 import { Title, Meta } from "@angular/platform-browser";
 import lootTables from "../loot-tables.js"
 import { QuickViewService } from 'src/app/util/services/quick-view.service';
@@ -22,7 +21,6 @@ export class BeastViewGmComponent implements OnInit {
     private route: ActivatedRoute,
     private beastService: BeastService,
     private calculatorService: CalculatorService,
-    private dialog: MatDialog,
     public router: Router,
     public titleService: Title,
     public quickViewService: QuickViewService,
@@ -458,7 +456,7 @@ export class BeastViewGmComponent implements OnInit {
     for (let i = 0; i < this.beast.roles.length; i++) {
       let role = this.beast.roles[i]
       if (role.name.replace(/\s|-/g, '').toUpperCase() === uppercaseParam || param === role.id) {
-        this.setRole({value: role.id})
+        this.setRole({ value: role.id })
       }
     }
   }
@@ -1237,7 +1235,9 @@ export class BeastViewGmComponent implements OnInit {
     textArea.style.top = '0';
     textArea.style.left = '0';
 
-    textArea.value = `${window.location.href}/${this.selectedRoleId}`;
+    let urlArray = this.router.url.split('/')
+    let url = `${window.location.origin}/beast/${urlArray[2]}/gm/${this.selectedRoleId}`
+    textArea.value = url;
 
     document.body.appendChild(textArea);
     textArea.focus();
@@ -1246,9 +1246,9 @@ export class BeastViewGmComponent implements OnInit {
     try {
       var successful = document.execCommand('copy');
       var msg = successful ? 'successful' : 'unsuccessful';
-      this.beastService.handleMessage({ color: 'green', message: `${window.location.href}/${this.selectedRoleId} successfully copied` })
+      this.beastService.handleMessage({ color: 'green', message: `${url} successfully copied` })
     } catch (err) {
-      this.beastService.handleMessage({ color: 'red', message: `Unable to copy ${window.location.href}/${this.selectedRoleId}` })
+      this.beastService.handleMessage({ color: 'red', message: `Unable to copy ${url}` })
     }
 
     document.body.removeChild(textArea);
