@@ -132,6 +132,9 @@ export class CatalogComponent implements OnInit {
       nameString += ']'
     }
 
+    if (nameString === '') {
+      return ' Add to Quick View'
+    }
     return nameString
   }
 
