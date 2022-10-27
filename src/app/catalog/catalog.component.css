@@ -120,6 +120,25 @@ img {
     background-color: lightgray
   }
 
+  .L-line {
+    position: relative;
+    margin-right: 7px;
+  }
+
+  .L-line span {
+    position: absolute;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    width: 5px;
+    height: 23px;
+    top: -15px;
+  }
+
+  .drop-down-list:first-child .L-line span {
+    height: 19px;
+    top: -11px;
+  }
+
   @media (max-width: 699px) { 
     .img-shell {
       height: 200px;
