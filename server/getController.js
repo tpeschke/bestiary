@@ -413,6 +413,7 @@ module.exports = {
           return result
         }))
 
+
         promiseArray.push(db.get.beastroles(id).then(result => {
           beast.roles = result
           beast.roleInfo = {}

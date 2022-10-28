@@ -110,6 +110,7 @@ img {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    display: none;
   }
 
   .context-menu p {
@@ -118,6 +119,10 @@ img {
   }
   .context-menu p:hover {
     background-color: lightgray
+  }
+
+  .fa-dice {
+    margin-left: -4px;
   }
 
   .L-line {

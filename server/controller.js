@@ -129,7 +129,6 @@ let controllerObj = {
             }
             return result
           }))
-
         })
 
         Promise.all(finalArray).then(_ => {
@@ -370,8 +369,8 @@ let controllerObj = {
       skills.forEach(({ skill, rank, skillroleid, allroles }) => {
         promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid, allroles).then().catch(e => console.log('----------------------- add beast skills: ', e)))
       })
-      movement.forEach(({ stroll, walk, jog, run, sprint, type, roleid }) => {
-        promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid).then().catch(e => console.log('----------------------- add beast movement: ', e)))
+      movement.forEach(({ stroll, walk, jog, run, sprint, type, roleid, allroles }) => {
+        promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid, allroles).then().catch(e => console.log('----------------------- add beast movement: ', e)))
       })
       variants.forEach(({ variantid }) => {
         promiseArray.push(db.add.beastvariants(id, variantid).then().catch(e => console.log('----------------------- add beast varients 1: ', e)))
@@ -638,13 +637,13 @@ let controllerObj = {
         }
       })
       // update movement
-      movement.forEach(({ stroll, walk, jog, run, sprint, type, id: movementId, deleted, roleid }) => {
+      movement.forEach(({ stroll, walk, jog, run, sprint, type, id: movementId, deleted, roleid, allroles }) => {
         if (deleted) {
           promiseArray.push(db.delete.beastmovement(movementId).then())
         } else if (!movementId) {
-          promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid).then())
+          promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid, allroles).then())
         } else {
-          promiseArray.push(db.update.beastmovement(id, stroll, walk, jog, run, sprint, type, movementId, roleid).then())
+          promiseArray.push(db.update.beastmovement(id, stroll, walk, jog, run, sprint, type, movementId, roleid, allroles).then())
         }
       })
       // update variants
@@ -912,7 +911,35 @@ let controllerObj = {
   getUsersFavorites(req, res) {
     const db = req.app.get('db')
     if (req.user && req.user.id) {
-      db.get.favorites(req.user.id).then(result => res.send(result))
+      db.get.favorites(req.user.id).then(result => {
+        let finalArray = []
+
+        result = result.map(beast => {
+          finalArray.push(db.get.rolesforcatelog(beast.id).then(result => {
+            beast.roles = result
+            if (!beast.defaultrole && beast.roles.length > 0) {
+              beast.defaultrole = beast.roles[0].id
+            }
+            if (beast.defaultrole) {
+              for (let i = 0; i < beast.roles.length; i++) {
+                if (beast.roles[i].id === beast.defaultrole) {
+                  beast.role = beast.roles[i].role
+                  beast.secondaryrole = beast.roles[i].secondaryrole 
+                  beast.socialrole = beast.roles[i].socialrole
+                  beast.skillrole = beast.roles[i].skillrole
+                  i = beast.roles.length
+                }
+              }
+            }
+            return beast
+          }))
+          return beast
+        })
+
+        Promise.all(finalArray).then(_ => {
+          res.send(result)
+        })
+      })
     } else {
       res.send({ color: "red", message: "You Need to Log On to Favorite Monsters" })
     }

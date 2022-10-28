@@ -740,45 +740,55 @@
             <button mat-raised-button (click)="addNewSecondaryItem('combat')" color="accent">Add Weapon</button>
           </div>
 
+          <br>
+
+          <h2>Movement</h2>
           <div class="vitals-shell">
-            <h3 class="blue">Movement</h3>
-            <div *ngFor="let movementType of beast.movement; let i = index">
-              <div *ngIf="!movementType.deleted && selectedRoleId === movementType.roleid">
-                <div class="divider white"></div>
-                <h3>
-                  <mat-form-field>
-                    <input placeholder="Movement Type" matInput [value]="movementType.type"
-                      id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Movement') ? 'green' : selectedRole.weaknesses.includes('Movement') ? 'red' : ''}}"
-                      (change)="captureInput($event, 'movement', i, 'type')">
-                  </mat-form-field>
-                </h3>
-                <div class="divider white"></div>
+            <div *ngFor="let movementType of beast.movement; let i = index"
+              [ngClass]="{'noDisplay': !(!movementType.deleted && (selectedRoleId === movementType.roleid || movementType.allroles))}">
+              <div *ngIf="i > 0" class="divider white"></div>
+              <h3>
                 <mat-form-field>
-                  <input placeholder="Stroll/Crawl" matInput [value]="movementType.stroll"
-                    (change)="captureInput($event, 'movement', i, 'stroll')">
+                  <input placeholder="Movement Type" matInput [value]="movementType.type"
+                    id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Movement') ? 'green' : selectedRole.weaknesses.includes('Movement') ? 'red' : ''}}"
+                    (change)="captureInput($event, 'movement', i, 'type')">
                 </mat-form-field>
-                <mat-form-field>
-                  <input placeholder="Walk" matInput [value]="movementType.walk"
-                    (change)="captureInput($event, 'movement', i, 'walk')">
-                </mat-form-field>
-                <mat-form-field>
-                  <input placeholder="Jog" matInput [value]="movementType.jog"
-                    (change)="captureInput($event, 'movement', i, 'jog')">
-                </mat-form-field>
-                <mat-form-field>
-                  <input placeholder="Run" matInput [value]="movementType.run"
-                    (change)="captureInput($event, 'movement', i, 'run')">
-                </mat-form-field>
-                <mat-form-field>
-                  <input placeholder="Sprint" matInput [value]="movementType.sprint"
-                    (change)="captureInput($event, 'movement', i, 'sprint')">
-                </mat-form-field>
+              </h3>
+              <mat-form-field>
+                <input placeholder="Stroll/Crawl" matInput [value]="movementType.stroll"
+                  (change)="captureInput($event, 'movement', i, 'stroll')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Walk" matInput [value]="movementType.walk"
+                  (change)="captureInput($event, 'movement', i, 'walk')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Jog" matInput [value]="movementType.jog"
+                  (change)="captureInput($event, 'movement', i, 'jog')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Run" matInput [value]="movementType.run"
+                  (change)="captureInput($event, 'movement', i, 'run')">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="Sprint" matInput [value]="movementType.sprint"
+                  (change)="captureInput($event, 'movement', i, 'sprint')">
+              </mat-form-field>
+              <div class="flex-row-opposite">
+                <section>
+                  <mat-checkbox [checked]="movementType.allroles"
+                    (change)="checkAllRoles('movementType', i, $event.checked)">
+                    Add to all Roles</mat-checkbox>
+                </section>
                 <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="warn"><i
                     class="fa-solid fa-minus"></i></button>
               </div>
             </div>
-            <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">Add Movement</button>
           </div>
+          <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">Add Movement</button>
+
+          <br>
+          <br>
 
           <h2>Tactics & Strategy</h2>
           <div class="divider"></div>

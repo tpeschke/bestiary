@@ -5,6 +5,30 @@
     <h1>{{message}}</h1>
   </div>
 
+  <div class="context-menu" *ngIf="isDisplayContextMenu" [ngStyle]="getRightClickMenuStyle()">
+    <p (click)="openNewTab()">Open in New Tab</p>
+    <p *ngIf="targetRoles.length === 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view"
+        matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i
+          class="fa-solid fa-rectangle-list"></i></span> <strong
+        [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong>
+    </p>
+    <p *ngIf="targetRoles.length > 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view"
+        matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i
+          class="fa-solid fa-rectangle-list"></i></span> <strong
+        [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong>
+    </p>
+    <div *ngIf="targetRoles.length > 0">
+      <div *ngFor="let role of targetRoles; let i = index" class="drop-down-list">
+        <p class="roleIndent" (click)="addRoleToQuickView(i)"><span class="L-line"><span></span></span><strong
+            [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)"></strong>
+        </p>
+      </div>
+      <p matTooltip="Click to Add to a Random Role to Quick View" class="roleIndent"
+        (click)="addRandomRoleToQuickView()"><span class="L-line"><span></span></span><i class="fa-solid fa-dice"></i>
+      </p>
+    </div>
+  </div>
+
   <div *ngIf="favorites.length > 0" class="beastDiv">
     <div *ngFor="let beast of favorites">
       <div *ngIf="beastService.loggedIn !== 'owner' && beast.patreon < 4">
@@ -49,11 +73,6 @@
             <p class="beast-name">{{beast.name}}</p>
           </div>
         </button>
-        <div class="context-menu" *ngIf="isDisplayContextMenu"
-          [ngStyle]="getRightClickMenuStyle()">
-          <p (click)="openNewTab()">Open in New Tab</p>
-          <p (click)="addBeastToQuickView()"><span class="add-to-quick-view" matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></span> <strong [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)"></strong></p>
-        </div>
       </div>
     </div>
   </div>
@@ -63,25 +82,14 @@
     <mat-divider></mat-divider>
     <div class="beastDiv">
       <div *ngFor="let beast of category">
-        <div class="context-menu" *ngIf="isDisplayContextMenu"
-          [ngStyle]="getRightClickMenuStyle()">
-          <p (click)="openNewTab()">Open in New Tab</p>
-          <p *ngIf="targetRoles.length === 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view" matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></span> <strong [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong></p>
-          <p *ngIf="targetRoles.length > 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view" matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></span> <strong [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong></p>
-          <div *ngIf="targetRoles.length > 0">
-            <div *ngFor="let role of targetRoles; let i = index" class="drop-down-list">
-                <p class="roleIndent" (click)="addRoleToQuickView(i)"><span class="L-line"><span></span></span><strong [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)"></strong></p>
-            </div>
-            <p matTooltip="Click to Add to a Random Role to Quick View" class="roleIndent" (click)="addRandomRoleToQuickView()"><span class="L-line"><span></span></span><i class="fa-solid fa-dice"></i></p>
-          </div>
-        </div>
-
         <div *ngIf="beastService.loggedIn !== 'owner' && beast.patreon < 4" class="beast-outer-shell">
           <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton"
-            mat-button (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
+            mat-button
+            (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
             <div class="img-shell">
               <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
-                [src]="imageBase + beast.id  " [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
+                [src]="imageBase + beast.id  " [alt]="beast.name"
+                onerror="this.onerror=null;this.src='/assets/404.png';">
             </div>
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
@@ -98,7 +106,8 @@
             (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
             <div class="img-shell">
               <img [ngStyle]="beast.thumbnail ? {'object-position': beast.thumbnail} : {}" *ngIf="beast.id"
-                [src]="imageBase + beast.id  " [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
+                [src]="imageBase + beast.id  " [alt]="beast.name"
+                onerror="this.onerror=null;this.src='/assets/404.png';">
             </div>
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
@@ -108,10 +117,12 @@
             </div>
           </button>
           <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton"
-            mat-button (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
+            mat-button
+            (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
             <div class="img-shell">
               <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail :  'top'}" *ngIf="beast.id"
-                [src]="imageBase + beast.id  " [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
+                [src]="imageBase + beast.id  " [alt]="beast.name"
+                onerror="this.onerror=null;this.src='/assets/404.png';">
             </div>
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>

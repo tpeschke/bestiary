@@ -83,11 +83,26 @@ export class CatalogComponent implements OnInit {
   }
 
   getRightClickMenuStyle() {
+    let halfwayX = (window.innerWidth / 2)
+    , divideX = this.rightClickMenuPositionX - halfwayX
+    , toRight = divideX > 0
+    , xOffsetStyling = {right: null, left: null}
+    toRight ? xOffsetStyling.right = `${window.innerWidth - this.rightClickMenuPositionX - 5}px` : xOffsetStyling.left = `${this.rightClickMenuPositionX}px`
+
+
+    let halfwayY = (window.innerHeight / 2)
+    , divideY = this.rightClickMenuPositionY - halfwayY
+    , toBottom = divideY > 0
+    , yOffsetStyling = {bottom: null, top: null}
+    toBottom ? yOffsetStyling.bottom = `${window.innerHeight - this.rightClickMenuPositionY - 5}px` : yOffsetStyling.top = `${this.rightClickMenuPositionY}px`
+
     return {
       position: 'fixed',
-      left: `${this.rightClickMenuPositionX}px`,
-      top: `${this.rightClickMenuPositionY}px`,
-      zIndex: '99'
+      zIndex: '99',
+      boxShadow: '5px 5px 15px 5px rgba(0,0,0,0.32)',
+      display: 'unset',
+      ...xOffsetStyling,
+      ...yOffsetStyling
     }
   }
 

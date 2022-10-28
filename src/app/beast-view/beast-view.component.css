@@ -198,6 +198,10 @@ mat-toolbar {
     flex-direction: column;
 }
 
+.padding-without-flex {
+    padding: 10px 5px;
+}
+
 .flex-row-opposite {
     margin-top: 5px;
     display: flex;
@@ -378,7 +382,7 @@ mat-toolbar {
     background: rgba(211, 211, 211, 0.5);
     padding: 15px;
     border-radius: 4px;
-    margin: 10px 0;
+    margin: 5px 0 0;
 }
 
 .vitals-shell h3 {
@@ -782,7 +786,7 @@ a {
 }
 
 .extra-padding {
-    padding: 15px;
+    padding: 0px 15px;
 }
 
 .mutation-shell {

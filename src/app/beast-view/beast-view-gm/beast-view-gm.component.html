@@ -39,8 +39,10 @@
         class="copyURLButton"><i class="fas fa-link"></i></button>
       </div>
 
-      <h2>Confrontation</h2>
-      <div class="divider"></div>
+      <div *ngIf="(beast.conflict.convictions.length > 0 || beast.conflict.descriptions.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0) || beast.socialrole">
+        <h2>Confrontation</h2>
+        <div class="divider"></div>
+      </div>
       <div class="role-select"
         *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].socialrole) || (!selectedRoleId && beast.socialrole)">
         <h3>Confrontation Role Type </h3>
@@ -98,25 +100,23 @@
         </div>
       </div>
 
-      <h2>Skills</h2>
-      <div class="divider"></div>
+      <div *ngIf="beast.skills.length > 0 || beast.skillrole">
+        <h2>Skills</h2>
+        <div class="divider"></div>
+      </div>
       <div class="role-select"
         *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)">
         <h3>Skill Role Type </h3>
-        <p>
-          {{selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole}} <i
+        <p> {{selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole}} <i
             class="fas fa-info-circle icon-small blue"
             matTooltip="{{skillRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole].description}}"
             matTooltipClass="my-tooltip"></i></p>
       </div>
-      <div class="conflict-inner-shell box-padding" *ngIf="beast.skills.length > 0">
-        <div
-          *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)"
-          class="divider"></div>
+      <div class="conflict-shell unset-width" *ngIf="beast.skills.length > 0">
         <div *ngFor="let skill of beast.skills; let i = index">
           <div class="flex-row-opposite" *ngIf="selectedRoleId === skill.skillroleid || skill.allroles">
-            <h3>{{skill.skill}}</h3>
-            <h3>{{skill.rank}}</h3>
+            <h5>{{skill.skill}}</h5>
+            <h5>{{skill.rank}}</h5>
           </div>
         </div>
       </div>
@@ -548,10 +548,9 @@
             <h4>This Monster Can't Move</h4>
           </div>
           <div *ngFor="let movementType of beast.movement">
-            <div
-              *ngIf="selectedRoleId && !beast.roleInfo[selectedRoleId].uniqueMovement ? null === movementType.roleid : selectedRoleId === movementType.roleid">
+            <div *ngIf="selectedRoleId === movementType.roleid || movementType.allroles">
               <div class="divider white"></div>
-              <h4>{{movementType.type | titlecase}}</h4>
+              <h4>{{movementType.type ? movementType.type : 'Land' | titlecase}}</h4>
               <div class="divider white"></div>
               <div class="flex-row-opposite">
                 <h5>Stroll/Crawl</h5>
@@ -828,7 +827,7 @@
       </div>
 
       <div class="divider"></div>
-      <div class="flex-row-opposite">
+      <div class="flex-row-opposite padding-without-flex">
         <h3>Combat Hash</h3>
         <p *ngIf="selectedRoleId">{{beast.roleInfo[selectedRoleId].hash}}</p>
         <p *ngIf="!selectedRoleId">{{beast.hash}}</p>
