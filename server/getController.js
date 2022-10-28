@@ -330,6 +330,11 @@ module.exports = {
                 beast.conflict.descriptions.push(val)
               }
             })
+
+            beast.conflict.descriptions = beast.conflict.descriptions.sort((a, b) => +b.value - +a.value)
+            beast.conflict.convictions = beast.conflict.convictions.sort((a, b) => +b.value - +a.value)
+            beast.conflict.devotions = beast.conflict.devotions.sort((a, b) => +b.value - +a.value)
+            beast.conflict.flaws = beast.conflict.flaws.sort((a, b) => +b.value - +a.value)
             return result
           }))
         }

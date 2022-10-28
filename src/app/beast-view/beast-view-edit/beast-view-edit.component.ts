@@ -315,6 +315,14 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  checkRandomizeDescription = (index, checked) => {
+    if (checked) {
+      this.beast.conflict.descriptions[index].trait = 'Any'
+    } else {
+      this.beast.conflict.descriptions[index].trait = ''
+    }
+  }
+
   updateRolesObject(type, value) {
     for (let i = 0; i < this.beast.roles.length; i++) {
       if (this.beast.roles[i].id === this.selectedRoleId) {

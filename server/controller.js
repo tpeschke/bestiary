@@ -1137,7 +1137,7 @@ async function collectComplication(db, beastId) {
         console.log("RIVAL")
         console.log(result)
         let rival = result[0]
-        if (rival.name.includes(',')) {
+        if (rival.name && rival.name.includes(',')) {
           let splitname = rival.name.split(', ')
           rival.name = `${splitname[1]} ${splitname[0]}`
         }
