@@ -56,23 +56,6 @@ export class DisplayServiceService {
     }
   }
 
-  calculateRecoveryTest(spdbonus = 0, selectedweapon, weaponInfo = { rec: 0 }, addrolemods = true, rolespeed = 0, squarespd = 0, selectedarmor, armorInfo = { rec: 0 }) {
-    if (!addrolemods) {
-      spdbonus = 0
-      rolespeed = 0
-    }
-
-    if (!selectedarmor) {
-      armorInfo.rec = 0
-    }
-
-    if (selectedweapon) {
-      return weaponInfo.rec + +spdbonus + squarespd + armorInfo.rec
-    } else {
-      return rolespeed + squarespd + armorInfo.rec
-    }
-  }
-
   calculateAtk ({weapontype, addrolemods, atk}, roleinfo) {
     let roleAtk = weapontype === 'm' ? roleinfo.atk : roleinfo.rangedAtk
 

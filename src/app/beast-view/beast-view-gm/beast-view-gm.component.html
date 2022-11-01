@@ -166,10 +166,10 @@
                   <p class="def">{{displayService.evaluateDefense(square, selectedRole, beast.size)}}</p>
                   <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
-                    <p>{{displayDR(square.newDR, 'armor', square)}}</p>
-                    <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square)">
+                    <p>{{displayService.displayDR(square.newDR, 'armor', square, roleinfo, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                    <p class="shield_dr" *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
                       <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
-                        height="15">{{displayDR(square.newShieldDr, 'shield', square)}}
+                        height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
                     </p>
                   </div>
                   <div class="measure">
@@ -211,10 +211,10 @@
                   <p class="def">{{displayService.evaluateDefense(square, selectedRole, beast.size)}}</p>
                   <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
-                    <p>{{displayDR(square.newDR, 'armor', square)}}</p>
-                    <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square)">
+                    <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                    <p class="shield_dr" *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
                       <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
-                        height="15">{{displayDR(square.newShieldDr, 'shield', square)}}
+                        height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
                     </p>
                   </div>
                   <div class="measure">
@@ -360,10 +360,10 @@
                 <p class="fatigue">{{ newSelectedWeapon ? newWeaponInfo.type : square.selectedweapon ?
                   square.weaponInfo.type : square.damagetype }}</p>
                 <div class="dr">
-                  <p>{{displayDR(square.newDR, 'armor', square)}}</p>
-                  <p class="shield_dr" *ngIf="displayDR(square.newShieldDr, 'shield', square)">
+                  <p>{{displayService.displayDR(square.newDR, 'armor', square, roleinfo, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                  <p class="shield_dr" *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
                     <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
-                      height="15">{{displayDR(square.newShieldDr, 'shield', square)}}
+                      height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
                   </p>
                 </div>
                 <div class="measure">

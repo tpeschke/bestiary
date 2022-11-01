@@ -1,6 +1,6 @@
 <h3>
   <mat-form-field>
-    <input placeholder="Weapon Name (if blank, it will appears as '{{displayName()}}')" matInput [value]="square.weapon"
+    <input placeholder="Weapon Name (if blank, it will appears as '{{displayService.displayName(square)}}')" matInput [value]="square.weapon"
       (change)="captureInput($event, 'weapon')">
   </mat-form-field>
 </h3>
@@ -9,9 +9,9 @@
     <div class="square-shell">
       <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
       <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
-      <p class="spd">{{calculateRecovery(selectedRole.spdbonus, square.selectedweapon, square.weaponInfo, square.addrolemods, selectedRole.spd, square.spd, square.selectedarmor, square.armorInfo)}}</p>
-      <p class="atk">{{(square.weapontype === 'm' ? selectedRole.atk && square.addrolemods ? selectedRole.atk : 0 :
-        selectedRole.rangedAtk && square.addrolemods ? selectedRole.rangedAtk : 0) + square.atk}}</p>
+      <p class="spd">{{displayService.calculateRecovery(selectedRole.spdbonus, square.selectedweapon, square.weaponInfo,
+        square.addrolemods, selectedRole.spd, square.spd, square.selectedarmor, square.armorInfo)}}</p>
+      <p class="atk">{{displayService.calculateAtk(square, selectedRole)}}</p>
       <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init && square.addrolemods ?
         selectedRole.init : 0) + square.init}}</p>
       <p class="def">{{displayedDefense}}</p>
@@ -22,7 +22,7 @@
       </div>
       <div class="measure">
         <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : selectedRole.measure
-          && square.addrolemods ? selectedRole.measure : 0) + square.measure + returnSizeMeasureModifier()}}</p>
+          && square.addrolemods ? selectedRole.measure : 0) + square.measure + displayService.returnSizeMeasureModifier(beastSize, square.addsizemod)}}</p>
         <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges &&
           square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment}}ri <i
             class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
@@ -395,6 +395,6 @@
 <!-- --------------------------------------------------------------------------------------------------- -->
 <!-- --------------------------------------------------------------------------------------------------- -->
 <button mat-raised-button (click)="copyWeaponSquare(square)" color="accent"
-  matTooltip="Copy {{displayName() === '' ? 'weapon' : displayName()}}"><i class="fa-solid fa-clone"></i></button>
+  matTooltip="Copy {{displayService.displayName(square) === '' ? 'weapon' : displayService.displayName(square)}}"><i class="fa-solid fa-clone"></i></button>
 <button mat-raised-button (click)="removeNewSecondaryItem('combat', index)" color="warn"><i
     class="fa-solid fa-minus"></i></button>

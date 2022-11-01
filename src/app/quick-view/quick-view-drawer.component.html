@@ -291,7 +291,7 @@
                 <div class="square-shell">
                   <img *ngIf="newWeaponInfo.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <img *ngIf="newWeaponInfo.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
-                  <p class="spd">{{displayService.calculateRecoveryTest(roles[beast.role].spdbonus, newSelectedWeapon, newWeaponInfo,
+                  <p class="spd">{{displayService.calculateRecovery(roles[beast.role].spdbonus, newSelectedWeapon, newWeaponInfo,
                     square.addrolemods, roles[beast.role].spd, square.spd, newSelectedArmor, newArmorInfo)}}</p>
                   <p class="atk">{{displayService.calculateAtk(square, roles[beast.role])}}</p>
                   <p class="init">{{(newSelectedArmor ? newArmorInfo.init : roles[beast.role].init &&
