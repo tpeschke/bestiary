@@ -515,38 +515,11 @@
                 [value]="beast.stress" (change)="captureInput($event, 'stress')">
             </mat-form-field>
           </div>
-          <div *ngIf="selectedRoleId" class="long-field">
-            <mat-form-field>
-              <mat-label>Panic (+/-2 points per Cat Above/Below Breaking)</mat-label>
-              <mat-select [(value)]="'' + beast.roleInfo[selectedRoleId].panic"
-                (selectionChange)="captureSelect($event, 'panic')"
-                id="{{selectedRole.strengths ? selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : '' : ''}}">
-                <mat-option value="1">
-                  Always
-                </mat-option>
-                <mat-option value="2">
-                  Unsure
-                </mat-option>
-                <mat-option value="3">
-                  Nervous
-                </mat-option>
-                <mat-option value="4">
-                  Shaken
-                </mat-option>
-                <mat-option value="5">
-                  Breaking
-                </mat-option>
-                <mat-option value="7">
-                  Never
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
 
-          <div *ngIf="!selectedRoleId" class="long-field">
+          <div class="long-field">
             <mat-form-field>
               <mat-label>Panic (+/-2 points per Cat Above/Below Breaking)</mat-label>
-              <mat-select [(value)]="'' + beast.panic" (selectionChange)="captureSelect($event, 'panic')"
+              <mat-select [(value)]="displayPanic" (selectionChange)="capturePanic($event)"
                 id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
                 <mat-option value="1">
                   Always

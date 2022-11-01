@@ -9,6 +9,7 @@ import { QuickViewService } from 'src/app/util/services/quick-view.service';
 import { primaryTables, secondaryTables } from './firbolg-tables'
 import { demonIds, tables as demonTables } from './demon-tables'
 import roles from '../roles.js'
+import { DisplayServiceService } from 'src/app/util/services/displayService.service';
 
 @Component({
   selector: 'app-beast-view-gm',
@@ -24,7 +25,8 @@ export class BeastViewGmComponent implements OnInit {
     public router: Router,
     public titleService: Title,
     public quickViewService: QuickViewService,
-    public metaService: Meta
+    public metaService: Meta,
+    public displayService: DisplayServiceService
   ) { }
 
   public beast: any = {}
@@ -882,116 +884,6 @@ export class BeastViewGmComponent implements OnInit {
     return diceString + (square.hasspecialanddamage ? '*' : '')
   }
 
-  displayName = (square) => {
-    if (square.weapon !== '') {
-      let first = square.weapon.indexOf("(")
-      let second = square.weapon.indexOf(")", first + 1)
-      if (square.damagetype && square.weapon.includes('(') && (second - first + 1) === 1) {
-        return `${square.weapon.slice(0, -4)}`
-      }
-      return square.weapon
-    }
-    let { selectedweapon, selectedarmor, selectedshield } = square
-
-    if (selectedweapon && selectedweapon.includes('(')) {
-      selectedweapon = `${selectedweapon.slice(0, -4)}`
-    }
-
-    if (selectedweapon && selectedarmor && selectedshield) {
-      return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
-    } else if (selectedweapon && selectedarmor && !selectedshield) {
-      return `${selectedweapon} & ${selectedarmor}`
-    } else if (selectedweapon && !selectedarmor && selectedshield) {
-      return `${selectedweapon} & ${selectedshield}`
-    } else if (selectedweapon && !selectedarmor && !selectedshield) {
-      return `${selectedweapon}`
-    } else if (!selectedweapon && selectedarmor && selectedshield) {
-      return `${selectedarmor}, & ${selectedshield}`
-    } else if (!selectedweapon && selectedarmor && !selectedshield) {
-      return `${selectedarmor}`
-    } else if (!selectedweapon && !selectedarmor && selectedshield) {
-      return `${selectedshield}`
-    } else {
-      return ' '
-    }
-  }
-
-  evaluateDefense = (square) => {
-    let defMod = square.def
-    if (typeof (defMod) === 'string' && defMod.includes('+')) {
-      defMod = +defMod.replace('/+/gi', '')
-    }
-
-    let defBase = this.selectedRole.def && square.addrolemods ? this.selectedRole.def : 0
-    if (square.selectedshield) {
-      defBase += square.shieldInfo.def
-    }
-    if (square.selectedarmor) {
-      defBase += square.armorInfo.def
-    }
-    return defBase + +defMod + this.returnSizeDefenseModifier(square)
-  }
-
-  returnSizeMeasureModifier = (square) => {
-    if (!square.addsizemod) {
-      return 0
-    }
-    switch (this.beast.size) {
-      case "Fine":
-        return -4
-      case "Diminutive":
-        return -3
-      case "Tiny":
-        return -2
-      case "Small":
-        return -1
-      case "Medium":
-        return 0
-      case "Large":
-        return 1
-      case "Huge":
-        return 2
-      case "Giant":
-        return 3
-      case "Enormous":
-        return 4
-      case "Colossal":
-        return 5
-      default:
-        return 0
-    }
-  }
-
-  returnSizeDefenseModifier = (square) => {
-    if (!square.addsizemod) {
-      return 0
-    }
-    switch (this.beast.size) {
-      case "Fine":
-        return 12
-      case "Diminutive":
-        return 9
-      case "Tiny":
-        return 6
-      case "Small":
-        return 3
-      case "Medium":
-        return 0
-      case "Large":
-        return -3
-      case "Huge":
-        return -6
-      case "Giant":
-        return -9
-      case "Enormous":
-        return -12
-      case "Colossal":
-        return -15
-      default:
-        return 0
-    }
-  }
-
   toggleEquipmentSelection = (square) => {
     if (!square.showEquipmentSelection) {
       this.newSelectedWeapon = square.selectedweapon
@@ -1001,7 +893,7 @@ export class BeastViewGmComponent implements OnInit {
       this.newArmorInfo = square.armorInfo
       this.newSelectedShield = square.selectedshield
       this.newShieldInfo = square.shieldInfo
-      this.showAllEquipment = this.turnOnAllEquipment()
+      this.showAllEquipment = this.displayService.turnOnAllEquipment(this.beast.roleInfo, this.newSelectedWeapon, this.newSelectedArmor, this.newSelectedShield)
     } else if (square.showEquipmentSelection) {
       square.selectedweapon = this.newSelectedWeapon
 
@@ -1053,8 +945,6 @@ export class BeastViewGmComponent implements OnInit {
       square.selectedshield = this.newSelectedShield
       square.shieldInfo = this.newShieldInfo
     }
-    console.log(square)
-    console.log(this.beast.specialAbilities.generic)
     square.showEquipmentSelection = !square.showEquipmentSelection
   }
 
@@ -1088,44 +978,6 @@ export class BeastViewGmComponent implements OnInit {
       this.newSelectedShield = value
       this.newShieldInfo = this.equipmentObjects.shields[value]
     }
-  }
-
-  turnOnAllEquipment = () => {
-    let turnOnWeapons = true
-    let turnOnArmor = true
-    let turnOnShields = true
-    if (this.selectedRole.weapons || this.selectedRole.armor || this.selectedRole.shields) {
-      if (this.newSelectedWeapon) {
-        this.selectedRole.weapons.forEach(weaponCat => {
-          let result = weaponCat.items.includes(`${this.newSelectedWeapon} (${this.newWeaponInfo.type})`)
-          if (result) {
-            turnOnWeapons = false
-          }
-        })
-      }
-      if (this.newSelectedArmor) {
-        this.selectedRole.armor.forEach(armorCat => {
-          if (armorCat.items) {
-            let result = armorCat.items.includes(this.newSelectedArmor)
-            if (result) {
-              turnOnArmor = false
-            }
-          }
-        })
-      }
-      if (this.newSelectedShield) {
-        this.selectedRole.shields.forEach(shieldCat => {
-          if (shieldCat.items) {
-            let result = shieldCat.items.includes(this.newSelectedShield)
-            if (result) {
-              turnOnShields = false
-            }
-          }
-        })
-      }
-    }
-
-    return (turnOnWeapons && turnOnArmor && turnOnShields)
   }
 
   checkShowAllEquipment = (checked) => {
@@ -1209,23 +1061,6 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     return nameString
-  }
-
-  calculateRecovery(spdbonus = 0, selectedweapon, weaponInfo = { rec: 0 }, addrolemods = true, rolespeed = 0, squarespd = 0, selectedarmor, armorInfo = { rec: 0 }) {
-    if (!addrolemods) {
-      spdbonus = 0
-      rolespeed = 0
-    }
-
-    if (!selectedarmor) {
-      armorInfo.rec = 0
-    }
-
-    if (selectedweapon) {
-      return weaponInfo.rec + +spdbonus + squarespd + armorInfo.rec
-    } else {
-      return rolespeed + squarespd + armorInfo.rec
-    }
   }
 
   getShortCutURL() {

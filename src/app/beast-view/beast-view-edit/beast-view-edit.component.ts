@@ -44,6 +44,7 @@ export class BeastViewEditComponent implements OnInit {
   public averageVitality = null;
   public lootTables = lootTables;
   public displayFatigue = null;
+  public displayPanic = null;
   public fatigueAsVitality: any = '';
   public selectedRoleId = null;
   public filteredRoles = [];
@@ -227,6 +228,7 @@ export class BeastViewEditComponent implements OnInit {
       }
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
       this.determineBaseFatigue()
+      this.determineBasePanic()
       this.beast.roles.forEach(role => {
         if (role.vitality) {
           this.beast.roleInfo[role.id].average = this.calculatorService.rollDice(role.vitality)
@@ -344,6 +346,18 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  capturePanic(event) {
+    let panic = this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].panic ? this.beast.roleInfo[this.selectedRoleId].panic : this.beast.panic
+    this.getValueForPointChange('panic', +panic, event.value)
+    if (this.selectedRoleId) {
+      this.beast.roleInfo[this.selectedRoleId].panic = event.value
+    } else {
+      this.beast.panic = event.value
+    }
+    this.determineBasePanic()
+    this.updateRolesObject('panic', event.value)
+  }
+
   captureSelect(event, type, index, secondaryType) {
     if (secondaryType) {
       if (event.value === 'r' && !this.beast[type][index].ranges) {
@@ -352,17 +366,12 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type][index][secondaryType] = event.value;
     } else {
       this.getValueForPointChange(type, this.beast[type], event.value)
-      if (this.selectedRoleId && type === 'panic') {
-        this.beast.roleInfo[this.selectedRoleId][type] = event.value
-        this.updateRolesObject(type, event.value)
-      } else {
-        this.beast[type] = event.value
-        if (type === 'basefatigue') {
-          let oldFatigueValue = this.getFatigueValue(this.displayFatigue)
-            , newFatigueValue = event.value ? event.value : this.selectedRole ? this.selectedRole.fatigue : 'C'
-          this.updateCombatPoints(this.getFatigueValue(newFatigueValue) - (oldFatigueValue ? oldFatigueValue : 0));
-          this.determineBaseFatigue()
-        }
+      this.beast[type] = event.value
+      if (type === 'basefatigue') {
+        let oldFatigueValue = this.getFatigueValue(this.displayFatigue)
+          , newFatigueValue = event.value ? event.value : this.selectedRole ? this.selectedRole.fatigue : 'C'
+        this.updateCombatPoints(this.getFatigueValue(newFatigueValue) - (oldFatigueValue ? oldFatigueValue : 0));
+        this.determineBaseFatigue()
       }
     }
   }
@@ -379,7 +388,10 @@ export class BeastViewEditComponent implements OnInit {
     let valueChange;
     if (type !== 'convictions' && type !== 'descriptions' && type !== 'devotions' && type !== 'flaws' && type !== 'basefatigue') {
       if (type === 'panic') {
-        valueChange = this.getPanicValue(oldValue) - this.getPanicValue(newValue)
+        valueChange = (this.getPanicValue(oldValue) - this.getPanicValue(newValue))
+        console.log(valueChange)
+        this.updateSocialPanicAndStressPoints(valueChange)
+        this.updateSocialPoints(valueChange)
       } else if (type === 'vitality' && !this.selectedRoleId) {
         let oldValue = 0
         if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId] && this.beast.roleInfo[this.selectedRoleId].average) {
@@ -444,11 +456,11 @@ export class BeastViewEditComponent implements OnInit {
     panicValue = panicValue ? panicValue : 5
     switch (panicValue) {
       case 1:
-        return -2;
+        return -8;
       case 2:
-        return -2;
+        return -6;
       case 3:
-        return -2;
+        return -4;
       case 4:
         return -2;
       case 5:
@@ -1090,7 +1102,7 @@ export class BeastViewEditComponent implements OnInit {
       }
 
       if (this.beast.roles.length === 1) {
-        this.setRole({value: id})
+        this.setRole({ value: id })
       }
       this.viewPanels.forEach(p => p.close());
       this.newRoleName.nativeElement.value = null
@@ -1433,20 +1445,10 @@ export class BeastViewEditComponent implements OnInit {
 
   calculateSocialPoints = () => {
     let socialpoints = 0
-
+    
     socialpoints += Math.ceil(this.beast.stress / 5)
-
-    if (this.beast.panic === 1) {
-      socialpoints -= 8
-    } else if (this.beast.panic === 2) {
-      socialpoints -= 6
-    } else if (this.beast.panic === 3) {
-      socialpoints -= 4
-    } else if (this.beast.panic === 4) {
-      socialpoints -= 2
-    } else if (this.beast.panic === 7) {
-      socialpoints += 2
-    }
+    
+    socialpoints += this.getPanicValue(this.beast.panic)
 
     this.beast.conflict.devotions.forEach(trait => {
       if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
@@ -1481,17 +1483,7 @@ export class BeastViewEditComponent implements OnInit {
       let socialpoints = 0
 
       let panic = role.panic ? role.panic : this.beast.panic
-      if (panic === 1) {
-        socialpoints -= 8
-      } else if (panic === 2) {
-        socialpoints -= 6
-      } else if (panic === 3) {
-        socialpoints -= 4
-      } else if (panic === 4) {
-        socialpoints -= 2
-      } else if (panic === 7) {
-        socialpoints += 2
-      }
+      socialpoints += this.getPanicValue(panic)
 
       this.beast.conflict.devotions.forEach(trait => {
         if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
@@ -1530,17 +1522,7 @@ export class BeastViewEditComponent implements OnInit {
 
     skillpoints += Math.ceil(this.beast.stress / 5)
 
-    if (this.beast.panic === 1) {
-      skillpoints -= 8
-    } else if (this.beast.panic === 2) {
-      skillpoints -= 6
-    } else if (this.beast.panic === 3) {
-      skillpoints -= 4
-    } else if (this.beast.panic === 4) {
-      skillpoints -= 2
-    } else if (this.beast.panic === 7) {
-      skillpoints += 2
-    }
+    skillpoints += this.getPanicValue(this.beast.panic)
 
     this.beast.skills.forEach(skill => {
       if ((!skill.skillroleid || skill.allroles) && !skill.deleted) {
@@ -1554,17 +1536,7 @@ export class BeastViewEditComponent implements OnInit {
       let skillpoints = 0
 
       let panic = role.panic ? role.panic : this.beast.panic
-      if (panic === 1) {
-        skillpoints -= 8
-      } else if (panic === 2) {
-        skillpoints -= 6
-      } else if (panic === 3) {
-        skillpoints -= 4
-      } else if (panic === 4) {
-        skillpoints -= 2
-      } else if (panic === 7) {
-        skillpoints += 2
-      }
+      skillpoints += this.getPanicValue(panic)
 
       this.beast.skills.forEach(skill => {
         if ((skill.skillroleid === role.id || skill.allroles) && !skill.deleted) {
@@ -1590,6 +1562,14 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.roleInfo[this.selectedRoleId].socialpoints += value
     } else {
       this.beast.socialpoints += value
+    }
+  }
+
+  updateSocialPanicAndStressPoints = (value) => {
+    if (this.selectedRoleId) {
+      this.beast.roleInfo[this.selectedRoleId].skillpoints += value
+    } else {
+      this.beast.skillpoints += value
     }
   }
 
@@ -1677,6 +1657,14 @@ export class BeastViewEditComponent implements OnInit {
       this.displayFatigue = armor ? armor.fatigue : this.selectedRole ? this.selectedRole.fatigue : weaponFatigue ? weaponFatigue : 'C';
     }
     this.convertFatigue()
+  }
+
+  determineBasePanic = () => {
+    if (this.selectedRoleId) {
+      this.displayPanic = `${this.beast.roleInfo[this.selectedRoleId].panic}`
+    } else {
+      this.displayPanic = `${this.beast.panic}`
+    }
   }
 
   convertFatigue() {
@@ -1793,7 +1781,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.defaultrole = this.beast.roles[0].id
     }
     if (this.beast.defaultrole) {
-      this.setRole({value: this.beast.defaultrole})
+      this.setRole({ value: this.beast.defaultrole })
     }
   }
 
@@ -1803,10 +1791,10 @@ export class BeastViewEditComponent implements OnInit {
 
   displayName(selectedRoleId) {
     let roleInfo = this.beast.roleInfo[selectedRoleId]
-    , combatrole = roleInfo.role 
-    , secondarycombat = roleInfo.secondaryrole
-    , socialrole = roleInfo.socialrole
-    , skillrole = roleInfo.skillrole
+      , combatrole = roleInfo.role
+      , secondarycombat = roleInfo.secondaryrole
+      , socialrole = roleInfo.socialrole
+      , skillrole = roleInfo.skillrole
     let nameString = ''
     let roles = false
 
