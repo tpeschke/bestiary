@@ -123,8 +123,8 @@
                 <div *ngIf="!beast.role" class="square-shell">
                   <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
-                  <p class="spd">{{displayService.calculateRecovery(roles[beast.role].spdbonus, square.selectedweapon, square.weaponInfo,
-                    square.addrolemods, roles[beast.role].spd, square.spd, square.selectedarmor, square.armorInfo)}}</p>
+                  <p class="spd">{{displayService.calculateRecovery(beast.role ? roles[beast.role].spdbonus : 0, square.selectedweapon, square.weaponInfo,
+                    square.addrolemods, beast.role ? roles[beast.role].spd : 0, square.spd, square.selectedarmor, square.armorInfo)}}</p>
                   <p class="atk">{{square.atk}}</p>
                   <p class="init">{{(square.selectedarmor ? square.armorInfo.init : 0) + square.init}}</p>
                   <p class="def">{{displayService.evaluateDefense(square, roles[beast.role], beast.size)}}</p>
@@ -153,8 +153,8 @@
                 <div *ngIf="beast.role" class="square-shell">
                   <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
-                  <p class="spd">{{displayService.calculateRecovery(roles[beast.role].spdbonus, square.selectedweapon, square.weaponInfo,
-                    square.addrolemods, roles[beast.role].spd, square.spd, square.selectedarmor, square.armorInfo)}}</p>
+                  <p class="spd">{{displayService.calculateRecovery(beast.role ? roles[beast.role].spdbonus : 0, square.selectedweapon, square.weaponInfo,
+                    square.addrolemods, beast.role ? roles[beast.role].spd : 0, square.spd, square.selectedarmor, square.armorInfo)}}</p>
                   <p class="atk">{{displayService.calculateAtk(square, roles[beast.role])}}</p>
                   <p class="init">{{(square.selectedarmor ? square.armorInfo.init : roles[beast.role].init) + square.init}}
                   </p>
@@ -291,8 +291,8 @@
                 <div class="square-shell">
                   <img *ngIf="newWeaponInfo.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
                   <img *ngIf="newWeaponInfo.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
-                  <p class="spd">{{displayService.calculateRecovery(roles[beast.role].spdbonus, newSelectedWeapon, newWeaponInfo,
-                    square.addrolemods, roles[beast.role].spd, square.spd, newSelectedArmor, newArmorInfo)}}</p>
+                  <p class="spd">{{displayService.calculateRecovery(beast.role ? roles[beast.role].spdbonus : 0, newSelectedWeapon, newWeaponInfo,
+                    square.addrolemods, beast.role ? roles[beast.role].spd : 0, square.spd, newSelectedArmor, newArmorInfo)}}</p>
                   <p class="atk">{{displayService.calculateAtk(square, roles[beast.role])}}</p>
                   <p class="init">{{(newSelectedArmor ? newArmorInfo.init : roles[beast.role].init &&
                     square.addrolemods ?

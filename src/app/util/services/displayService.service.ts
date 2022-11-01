@@ -56,11 +56,10 @@ export class DisplayServiceService {
     }
   }
 
-  calculateAtk ({weapontype, addrolemods, atk}, roleinfo) {
-    let roleAtk = weapontype === 'm' ? roleinfo.atk : roleinfo.rangedAtk
-
-    if (!addrolemods) {
-      roleAtk = 0
+  calculateAtk ({weapontype, addrolemods, atk}, roleinfo: any = {}) {
+    let roleAtk = 0
+    if (addrolemods) {
+      roleAtk = weapontype === 'm' ? roleinfo.atk : roleinfo.rangedAtk
     }
 
     return roleAtk + atk
@@ -162,7 +161,7 @@ export class DisplayServiceService {
     }
   }
 
-  evaluateDefense = (square, roleinfo, size) => {
+  evaluateDefense = (square, roleinfo: any = {}, size) => {
     let defMod = square.def
     if (typeof (defMod) === 'string' && defMod.includes('+')) {
       defMod = +defMod.replace('/+/gi', '')
@@ -179,7 +178,7 @@ export class DisplayServiceService {
     return defBase + +defMod + this.returnSizeDefenseModifier(size, square.addsizemod)
   }
 
-  displayDR = (drObject, type, square, roleinfo, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield) => {
+  displayDR = (drObject, type, square, roleinfo: any = {}, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield) => {
     let { flat, slash } = drObject
 
     let equipmentModFlat = 0
@@ -192,7 +191,7 @@ export class DisplayServiceService {
       } else if (type === 'shield' && square.selectedshield) {
         equipmentModFlat = square.shieldInfo.dr.flat
         equipmentModSlash = square.shieldInfo.dr.slash
-      } else if (roleinfo && square.addrolemods) {
+      } else if (roleinfo.dr && square.addrolemods) {
         if (type === 'armor') {
           equipmentModFlat = roleinfo.dr.flat
           equipmentModSlash = roleinfo.dr.slash
