@@ -58,7 +58,7 @@ export class DisplayServiceService {
 
   calculateAtk ({weapontype, addrolemods, atk}, roleinfo: any = {}) {
     let roleAtk = 0
-    if (addrolemods) {
+    if (addrolemods && roleinfo.atk) {
       roleAtk = weapontype === 'm' ? roleinfo.atk : roleinfo.rangedAtk
     }
 
