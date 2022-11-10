@@ -32,6 +32,8 @@ export class BeastViewEditComponent implements OnInit {
     private calculatorService: CalculatorService,
   ) { }
 
+  objectKeys = Object.keys;
+
   public beast = null;
   public encounter = null;
   public loggedIn = this.beastService.loggedIn || false;
@@ -112,14 +114,10 @@ export class BeastViewEditComponent implements OnInit {
     link: null
   }
 
-  public combatRoles = ['Artillery', 'Brute', 'Defender', 'Fencer', 'Flanker', 'Fodder', 'Shock', 'Skirmisher']
-  public socialRoles = ['Corruptor', 'Defender', 'Enabler', 'Gaslighter', 'Fast-Talker', 'Feinter', 'Fodder', 'Opportunist', 'Sandbagger', 'Support', 'Striker']
-  public skillRoles = ['Antagonist', 'Conditional', 'Controller', 'Fodder', 'Hazard', 'Hunter', 'Lock', 'Prey', 'Trap']
-
   combatRolesInfo = roles.combatRoles.primary;
-  socialRolesInfo = roles.socialRoles;
+  combatRolesSecondaryInfo = roles.combatRoles.secondary
+  socialRolesInfo = roles.socialRoles.primary;
   skillRolesInfo = roles.skillRoles;
-  public combatRolesSecondary = ['Captain', 'Controller', 'Solo']
 
   public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Acrobatics', 'Escape Artist', 'Warfare', 'Rally']
   public socialSkills = ['Deception', 'Intuition', 'Perception', 'Leadership', 'Articulation', 'Performance', 'Language (All)', 'Language']
@@ -1507,7 +1505,7 @@ export class BeastViewEditComponent implements OnInit {
       })
 
       this.beast.skills.forEach(skill => {
-        if ((skill.skillroleid === role.id || skill.allroles) && this.socialRoles.includes(skill.skill) && !skill.deleted) {
+        if ((skill.skillroleid === role.id || skill.allroles) && this.socialSkills.includes(skill.skill) && !skill.deleted) {
           socialpoints += +skill.rank
         }
       })

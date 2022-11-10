@@ -142,75 +142,71 @@ export default {
         }
     ],
     socialRoles: {
-        'Fodder': {
-            strengths: 'None.',
-            weaknesses: 'All of them.',
-            skillList: [
-                {
-                    label: 'Preferred Choices',
-                    skillList: []
-                },
-                {
-                    label: 'Neutral Choices',
-                    skillList: []
-                },
-                {
-                    label: 'Not Preferred Choices',
-                    skillList: []
-                }
-            ],
-            description: "Confrontation Fodder are just not good at Confrontations and roll a d12! for all rules by default."
+        primary: {
+            'Fodder': {
+                strengths: 'None.',
+                weaknesses: 'All of them.',
+                description: "Confrontation Fodder are just not good at Confrontations and roll a d12! for all rules by default."
+            },
+            'Striker': {
+                strengths: ['Offensive', 'Many Characteristics'],
+                weaknesses: ['Defensive', 'Weak Characteristics'],
+                description: "Strikers have many Characteristics that are weak, with low Ranks."
+            },
+            'Defender': {
+                strengths: ['Defensive', 'Powerful Characteristics'],
+                weaknesses: ['Offensive', 'Few Characteristics'],
+                description: "Defenders have a high Stress Threshold but few Characteristics, which are mostly Devotions. However, what Characteristics they do have have very high Ranks."
+            },
+            'Support': {
+                strengths: ['Buffing Others', 'Debuffing Others'],
+                weaknesses: ['Being Alone'],
+                description: "Supports have lots of Descriptions and Devotions but no Convictions and all their Characteristics have low Ranks. They also have low Stress Thresholds."
+            },
+            'Corruptor': {
+                strengths: ['Stress Threshold', 'Flexible Characteristics'],
+                weaknesses: ['Weak Characteristics'],
+                description: "Corruptors have high or non-existent Stress Thresholds but very low Ranks and very few Characteristics."
+            },
+            'Gaslighter': {
+                strengths: ['Debuffing Others', 'Stress Threshold'],
+                weaknesses: ['Weak Characteristics', 'Few Characteristics'],
+                description: "Gaslighters have non-existent Characteristics but they also have a high Intuition which allows them to read their enemies and use their Characteristics."
+            },
+            'Enabler': {
+                strengths: ['Buffing Others', 'Using Enemids\ Characteristics Against Them'],
+                weaknesses: ['None'],
+                description: "Enablers are power for a price: enables can either buff their own team but also can buff the enemy only for the buff to come at a cost."
+            },
+            'Opportunist': {
+                strengths: ['Capitalzing on Weaknesses'],
+                weaknesses: ['None'],
+                description: "Opportunists have low Stress Thresholds but high Characteristics so they can win a single Check easily but don't do well in drawn out encounters."
+            },
+            'Know-It-All': {
+                description: 'Know-it-alls are Skill-based. They roll a d12! when using Characteristics on a Confrontation Check but a d20! when using a Skill for a Confrontation Check.'
+            },
+            'Dialectician': {
+                description: 'Dialecticians are Evidence-based. They receive some sort of bonus if they present Evidence during a Confrontation.'
+            }
         },
-        'Striker': {
-            strengths: ['Offensive', 'Many Characteristics'],
-            weaknesses: ['Defensive', 'Weak Characteristics'],
-            description: "A Strike has many Characteristics that are weak; this allows them to have a lot of avenues to convince others, looking for a soft spot, but unable to really fight off someone attacking them."
-        },
-        'Defender': {
-            strengths: ['Defensive', 'Powerful Characteristics'],
-            weaknesses: ['Offensive', 'Few Characteristics'],
-            description: "A Defender is stauch in their beliefs and often unmoveable but, because of this specialization, they're rarely able to actually go on the offensive to convince others."
-        },
-        'Support': {
-            strengths: ['Buffing Others', 'Debuffing Others'],
-            weaknesses: ['Being Alone'],
-            description: "Support is all about buffing their own team and debuffing the others; Giving bonuses to their friends and penalties to their enemies."
-        },
-        'Feinter': {
-            strengths: ['Longer Confrontations', 'Evidence', 'Using Enemies\ Characteristics Against Them'],
-            weaknesses: ['Shorter Confrontations'],
-            description: "A Feinter thrives in shorter Confrontations as they tend to wait until the enemy has got enough rope to hang themselves. Often they have powers that allow them to quickly glean their enemy's Characteristics."
-        },
-        'Fast-Talker': {
-            strengths: ['Shorter Confrontations', 'Powerful Characteristics', 'Ways to get points beyond Checks'],
-            weaknesses: ['Longer Confrontations'],
-            description: "Faster-Talkers are all about getting a lot of points really early so that they can override any remaining concerns you have without having to directly address them."
-        },
-        'Sandbagger': {
-            strengths: ['Longer Confrontations', 'Inflicting Stress'],
-            weaknesses: ['None'],
-            description: "Sandbaggers start off weak but gain more power the longer the Confrontation goes on, often relying on enemies underestimating them to stay in the back until they're ready to strike."
-        },
-        'Corruptor': {
-            strengths: ['Stress Threshold', 'Flexible Characteristics'],
-            weaknesses: ['Weak Characteristics'],
-            description: "A Corrupter is often weak but they're presistent, often wearing away at an enemy's Stress Threshold and, possibly, changing who they are."
-        },
-        'Gaslighter': {
-            strengths: ['Debuffing Others', 'Stress Threshold'],
-            weaknesses: ['Weak Characteristics', 'Few Characteristics'],
-            description: "Gaslighters are weak on their own but they debuff others can, with a high Stress Threshold, can simply out last others in a straigh up slugging match."
-        },
-        'Enabler': {
-            strengths: ['Buffing Others', 'Using Enemids\ Characteristics Against Them'],
-            weaknesses: ['None'],
-            description: "Enablers are power for a price: enables can either buff their own team but also can buff the enemy only for the buff to come at a cost."
-        },
-        'Opportunist': {
-            strengths: ['Capitalzing on Weaknesses'],
-            weaknesses: ['None'],
-            description: "An Opportunist waits for their enemy to become Fatigued or Stressed before pouncing; often they have abilities they make them more powerful when their enemy has those conditions."
-        },
+        secondary: {
+            'Feinter': {
+                strengths: ['Longer Confrontations', 'Evidence', 'Using Enemies\ Characteristics Against Them'],
+                weaknesses: ['Shorter Confrontations'],
+                description: "Feinters become as they lose the Confrontation. This can mean receiving a bonus the most Stress they have or the more points the enemy has."
+            },
+            'Fast-Talker': {
+                strengths: ['Shorter Confrontations', 'Powerful Characteristics', 'Ways to get points beyond Checks'],
+                weaknesses: ['Longer Confrontations'],
+                description: "Faster-Talkers are good at the start of the Confrontation but become weaker as it goes on. This usually means a large bonus that diminishes as the Confrontation goes on."
+            },
+            'Sandbagger': {
+                strengths: ['Longer Confrontations', 'Inflicting Stress'],
+                weaknesses: ['None'],
+                description: "Sandbaggers are good as the Confrontation drags on. This usually means a bonus that grows each Check or a threshold that, when met, gives them a huge bonus."
+            }
+        }
     },
     combatRoles: {
         primary: {
@@ -650,6 +646,17 @@ export default {
                 ],
                 armor: ['Gambeson', 'Leather'],
                 shields: ['Buckler'],
+            }
+        },
+        secondary: {
+            'Captain': {
+                description: 'Captain Description: Not Added Yet',
+            },
+            'Controller': {
+                description: 'Captain Description: Not Added Yet',
+            },
+            'Solo': {
+                description: 'Captain Description: Not Added Yet',
             }
         }
     }
