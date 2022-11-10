@@ -1029,7 +1029,7 @@ export class BeastViewGmComponent implements OnInit {
     }
   }
 
-  tooltipName(combatrole, secondarycombat, socialrole, skillrole) {
+  tooltipName(combatrole, secondarycombat, socialrole, socialsecondary, skillrole) {
     let nameString = ''
     let roles = false
 
@@ -1042,7 +1042,7 @@ export class BeastViewGmComponent implements OnInit {
     if (combatrole) {
       nameString += `${combatrole}`
       if (secondarycombat) {
-        nameString += `(${secondarycombat})`
+        nameString += ` (${secondarycombat})`
       }
     }
     if (socialrole) {
@@ -1050,6 +1050,9 @@ export class BeastViewGmComponent implements OnInit {
         nameString += '/'
       }
       nameString += `${socialrole}`
+      if (socialsecondary) {
+        nameString += ` (${socialsecondary})`
+      }
     }
     if (skillrole) {
       if (nameString.length > name.length + 3) {
