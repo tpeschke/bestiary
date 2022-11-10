@@ -650,13 +650,13 @@ export default {
         },
         secondary: {
             'Captain': {
-                description: 'Captain Description: Not Added Yet',
+                description: 'Captains are all about morale and buffing others. They work best when paired with other roles.',
             },
             'Controller': {
-                description: 'Captain Description: Not Added Yet',
+                description: 'Controllers are about movement: pushing and pulling others on the battlefield to get them into position.',
             },
             'Solo': {
-                description: 'Captain Description: Not Added Yet',
+                description: 'Solos fight alone against the party. They have special abilities that keep them dangerous and the fight interesting.',
             }
         }
     }

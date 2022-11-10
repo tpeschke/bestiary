@@ -49,7 +49,8 @@
         <p>
           {{selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole + (beast.roleInfo[selectedRoleId].socialsecondary ? ' [' + beast.roleInfo[selectedRoleId].socialsecondary + ']' : '' ) : beast.socialrole + (beast.socialsecondary ? ' [' + beast.socialsecondary + ']' : '' )}} <i
             class="fas fa-info-circle icon-small blue"
-            matTooltip="{{socialRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole].description}}"
+            matTooltip="{{socialRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole].description 
+              + (selectedRoleId && beast.roleInfo[selectedRoleId].socialsecondary ? '\n' + socialSecondaryInfo[beast.roleInfo[selectedRoleId].socialsecondary].description : beast.socialsecondary ? '\n' + socialSecondaryInfo[beast.socialsecondary].description : '')}}"
             matTooltipClass="my-tooltip"></i></p>
       </div>
 
@@ -132,7 +133,8 @@
           beast.roleInfo[selectedRoleId].secondaryrole + ']' :
           selectedRoleId ? '' : beast.secondaryrole ? '[' + beast.secondaryrole + ']' : ''}} <i
             class="fas fa-info-circle icon-small blue"
-            matTooltip="{{combatRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role].description}}"
+            matTooltip="{{combatRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role].description
+              + (selectedRoleId && beast.roleInfo[selectedRoleId].secondaryrole ? '\n' + combatSecondaryInfo[beast.roleInfo[selectedRoleId].secondaryrole].description : beast.secondaryrole ? '\n' + combatSecondaryInfo[beast.secondaryrole].description : '')}}"
             matTooltipClass="my-tooltip"></i></p>
         <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></div>
       </div>

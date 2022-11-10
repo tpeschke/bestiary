@@ -48,7 +48,9 @@ export class BeastViewGmComponent implements OnInit {
   public demonTables = demonTables
   public selectedRole: any = {}
   public combatRolesInfo = roles.combatRoles.primary
+  public combatSecondaryInfo = roles.combatRoles.secondary
   public socialRolesInfo = roles.socialRoles.primary
+  public socialSecondaryInfo = roles.socialRoles.secondary
   public skillRolesInfo = roles.skillRoles
   public displayedFatigue = null;
   public numberFatigue = null;

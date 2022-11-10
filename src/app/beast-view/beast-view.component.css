@@ -1,3 +1,7 @@
+strong {
+    font-weight: bold;
+}
+
 .flex-opposite {
     display: flex;
     justify-content: space-between;
