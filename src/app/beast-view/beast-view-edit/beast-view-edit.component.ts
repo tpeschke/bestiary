@@ -60,7 +60,8 @@ export class BeastViewEditComponent implements OnInit {
     role: null,
     secondaryrole: null,
     socialrole: null,
-    skillrole: null
+    skillrole: null,
+    socialsecondary: null
   };
   public deletedSpellList = null;
 
@@ -801,8 +802,6 @@ export class BeastViewEditComponent implements OnInit {
       }
     } else {
       this[type] = value
-
-      console.log(this[type])
     }
   }
 
@@ -1041,7 +1040,9 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   addNewRole() {
-    if ((this.newRole.role || this.newRole.socialrole || this.newRole.skillrole) && this.newRole.name) {
+    let isNewRoleFilledOut = (this.newRole.role || this.newRole.socialrole || this.newRole.skillrole)
+    let areRolesFilledOutAndAddingFirstRole = (this.beast.role || this.beast.socialrole || this.beast.skillrole) && this.beast.roles.length === 0
+    if ((isNewRoleFilledOut || areRolesFilledOutAndAddingFirstRole) && this.newRole.name) {
       let id = this.makeId()
       if (this.beast.roles.length === 0) {
         this.beast.defaultrole = id
@@ -1085,32 +1086,47 @@ export class BeastViewEditComponent implements OnInit {
         })
       }
       this.beast.roles.push({ id, ...this.newRole })
+      let rolesToAdd = {
+        role: this.newRole.role,
+        secondaryrole: this.newRole.secondaryrole,
+        socialrole: this.newRole.socialrole,
+        socialsecondary: this.newRole.socialsecondary,
+        skillrole: this.newRole.skillrole,
+      }
+      if (areRolesFilledOutAndAddingFirstRole) {
+        let { role, secondaryrole, socialrole, socialsecondary, skillrole } = this.beast
+        rolesToAdd = {
+          role: role ? role : this.newRole.role,
+          secondaryrole: secondaryrole ? secondaryrole : this.newRole.secondaryrole,
+          socialrole: socialrole ? socialrole : this.newRole.socialrole,
+          socialsecondary: socialsecondary ? socialsecondary : this.newRole.socialsecondary,
+          skillrole: skillrole ? skillrole : this.newRole.skillrole,
+        }
+      }
       this.beast.roleInfo[id] = {
         attack: null,
         caution: this.beast.caution,
-        combatpoints: 0,
+        combatpoints: this.beast.combatpoints,
         defense: null,
         hash: null,
         name: this.newRole.name,
         panic: this.beast.panic,
-        role: this.newRole.role,
-        secondaryrole: this.newRole.secondaryrole,
-        socialrole: this.newRole.socialrole,
         socialpoints: this.beast.socialpoints,
-        skillrole: this.newRole.skillrole,
         skillpoints: this.beast.skillpoints,
         stress: this.beast.stress,
         uniqueCombat: true,
         uniqueLocationalVitality: false,
         uniqueMovement: false,
-        vitality: this.beast.vitality
+        vitality: this.beast.vitality,
+        ...rolesToAdd
       }
       this.newRole = {
         name: null,
         role: null,
         secondaryrole: null,
         socialrole: null,
-        skillrole: null
+        skillrole: null,
+        socialsecondary: null
       }
 
       if (this.beast.roles.length === 1) {
