@@ -10,17 +10,17 @@
     <p *ngIf="targetRoles.length === 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view"
         matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i
           class="fa-solid fa-rectangle-list"></i></span> <strong
-        [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong>
+        [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole, targetSocialSecondary)"></strong>
     </p>
     <p *ngIf="targetRoles.length > 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view"
         matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i
           class="fa-solid fa-rectangle-list"></i></span> <strong
-        [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole)"></strong>
+        [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole, targetSocialSecondary)"></strong>
     </p>
     <div *ngIf="targetRoles.length > 0">
       <div *ngFor="let role of targetRoles; let i = index" class="drop-down-list">
         <p class="roleIndent" (click)="addRoleToQuickView(i)"><span class="L-line"><span></span></span><strong
-            [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole)"></strong>
+            [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole, role.socialsecondary)"></strong>
         </p>
       </div>
       <p matTooltip="Click to Add to a Random Role to Quick View" class="roleIndent"
@@ -33,7 +33,7 @@
     <div *ngFor="let beast of favorites">
       <div *ngIf="beastService.loggedIn !== 'owner' && beast.patreon < 4">
         <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton" mat-button
-          (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
+          (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
               [src]="imageBase + beast.id  " [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -48,7 +48,7 @@
       <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || beastService.loggedIn === 'owner'">
         <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
           [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
-          (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
+          (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
               [src]="imageBase + beast.id  " [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -61,7 +61,7 @@
           </div>
         </button>
         <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton" mat-button
-          (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
+          (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
               [src]="imageBase + beast.id  " [alt]="beast.name" onerror="this.onerror=null;this.src='/assets/404.png';">
@@ -85,7 +85,7 @@
         <div *ngIf="beastService.loggedIn !== 'owner' && beast.patreon < 4" class="beast-outer-shell">
           <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton"
             mat-button
-            (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
+            (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary); false">
             <div class="img-shell">
               <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
                 [src]="imageBase + beast.id  " [alt]="beast.name"
@@ -103,7 +103,7 @@
           class="beast-outer-shell">
           <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
             [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
-            (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
+            (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary); false">
             <div class="img-shell">
               <img [ngStyle]="beast.thumbnail ? {'object-position': beast.thumbnail} : {}" *ngIf="beast.id"
                 [src]="imageBase + beast.id  " [alt]="beast.name"
@@ -118,7 +118,7 @@
           </button>
           <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton"
             mat-button
-            (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole); false">
+            (contextmenu)="displayContextMenu($event, beast.id, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary); false">
             <div class="img-shell">
               <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail :  'top'}" *ngIf="beast.id"
                 [src]="imageBase + beast.id  " [alt]="beast.name"

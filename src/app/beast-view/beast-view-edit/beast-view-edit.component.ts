@@ -117,6 +117,7 @@ export class BeastViewEditComponent implements OnInit {
   combatRolesInfo = roles.combatRoles.primary;
   combatRolesSecondaryInfo = roles.combatRoles.secondary
   socialRolesInfo = roles.socialRoles.primary;
+  socialRolesSecondaryInfo = roles.socialRoles.secondary
   skillRolesInfo = roles.skillRoles;
 
   public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Acrobatics', 'Escape Artist', 'Warfare', 'Rally']
@@ -987,6 +988,19 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  setSocialSecondaryRoleType(event) {
+    if (this.selectedRoleId) {
+      for (let i = 0; i < this.beast.roles.length; i++) {
+        if (this.selectedRoleId === this.beast.roles[i].id) {
+          this.beast.roles[i].socialsecondary = event.value
+          i = this.beast.roles.length
+        }
+      }
+    } else {
+      this.beast.socialsecondary = event.value
+    }
+  }
+
   setSocialRoleType(event) {
     if (this.selectedRoleId) {
       for (let i = 0; i < this.beast.roles.length; i++) {
@@ -1792,6 +1806,7 @@ export class BeastViewEditComponent implements OnInit {
       , combatrole = roleInfo.role
       , secondarycombat = roleInfo.secondaryrole
       , socialrole = roleInfo.socialrole
+      , socialsecondary = roleInfo.socialsecondary
       , skillrole = roleInfo.skillrole
     let nameString = ''
     let roles = false
@@ -1803,7 +1818,7 @@ export class BeastViewEditComponent implements OnInit {
     if (combatrole) {
       nameString += `<img src="./assets/combaticon.svg" alt="combat role type" width="17" height="17" class="catalogicon">${combatrole}`
       if (secondarycombat) {
-        nameString += `(${secondarycombat})`
+        nameString += ` (${secondarycombat})`
       }
     }
     if (socialrole) {
@@ -1811,6 +1826,9 @@ export class BeastViewEditComponent implements OnInit {
         nameString += '/'
       }
       nameString += `<img src="./assets/socialicon.svg" alt="combat role type" width="17" height="17" class="catalogicon">${socialrole}`
+      if (socialsecondary) {
+        nameString += ` (${socialsecondary})`
+      }
     }
     if (skillrole) {
       if (nameString.length > 3) {

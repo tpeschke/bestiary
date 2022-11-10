@@ -35,6 +35,7 @@ export class CatalogComponent implements OnInit {
   targetSecondaryRole: string;
   targetSocialRole: string;
   targetSkillRole: string;
+  targetSocialSecondary: string;
 
   ngOnInit() {
     this.titleService.setTitle("Bestiary")
@@ -69,7 +70,7 @@ export class CatalogComponent implements OnInit {
     this.quickViewService.addToQuickViewArray(this.targetRoles[randomIndex].hash)
   }
 
-  displayContextMenu(event, beastid, hash, roles, role, secondaryrole, socialrole, skillrole) {
+  displayContextMenu(event, beastid, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary) {
     this.isDisplayContextMenu = true;
     this.rightClickMenuPositionX = event.clientX;
     this.rightClickMenuPositionY = event.clientY;
@@ -80,6 +81,7 @@ export class CatalogComponent implements OnInit {
     this.targetSecondaryRole = secondaryrole
     this.targetSocialRole = socialrole
     this.targetSkillRole = skillrole
+    this.targetSocialSecondary = socialsecondary
   }
 
   getRightClickMenuStyle() {
@@ -111,7 +113,7 @@ export class CatalogComponent implements OnInit {
     this.isDisplayContextMenu = false;
   }
 
-  displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
+  displayName(name, combatrole, secondarycombat, socialrole, skillrole, socialsecondary) {
     let nameString = ''
     let roles = false
 
@@ -127,7 +129,7 @@ export class CatalogComponent implements OnInit {
     if (combatrole) {
       nameString += `<img src="./assets/combaticon.svg" alt="combat role type" width="17" height="17" class="catalogicon">${combatrole}`
       if (secondarycombat) {
-        nameString += `(${secondarycombat})`
+        nameString += ` (${secondarycombat})`
       }
     }
     if (socialrole) {
@@ -135,6 +137,9 @@ export class CatalogComponent implements OnInit {
         nameString += '/'
       }
       nameString += `<img src="./assets/socialicon.svg" alt="combat role type" width="17" height="17" class="catalogicon">${socialrole}`
+      if (socialsecondary) {
+        nameString += ` (${socialsecondary})`
+      }
     }
     if (skillrole) {
       if (nameString.length > name.length + 3) {

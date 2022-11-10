@@ -47,7 +47,7 @@
         *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].socialrole) || (!selectedRoleId && beast.socialrole)">
         <h3>Confrontation Role Type </h3>
         <p>
-          {{selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole}} <i
+          {{selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole + (beast.roleInfo[selectedRoleId].socialsecondary ? ' [' + beast.roleInfo[selectedRoleId].socialsecondary + ']' : '' ) : beast.socialrole + (beast.socialsecondary ? ' [' + beast.socialsecondary + ']' : '' )}} <i
             class="fas fa-info-circle icon-small blue"
             matTooltip="{{socialRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole].description}}"
             matTooltipClass="my-tooltip"></i></p>

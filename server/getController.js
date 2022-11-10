@@ -7,7 +7,7 @@ function formatNameWithCommas(name) {
   }
   return name
 }
-function displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
+function displayName(name, combatrole, secondarycombat, socialrole, skillrole, socialsecondary) {
   let nameString = ''
   let roles = false
 
@@ -24,7 +24,7 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
   if (combatrole) {
     nameString += `${combatrole}`
     if (secondarycombat) {
-      nameString += `(${secondarycombat})`
+      nameString += ` (${secondarycombat})`
     }
   }
   if (socialrole) {
@@ -32,6 +32,9 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
       nameString += '/'
     }
     nameString += `${socialrole}`
+    if (socialsecondary) {
+      nameString += ` (${socialsecondary})`
+    }
   }
   if (skillrole) {
     if (nameString.length > name.length + 3) {
@@ -53,13 +56,13 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, size, basefatigue } = result[0]
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, size, basefatigue, basesocialsecondary, socialsecondary } = result[0]
       let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size, basefatigue }
       let isARole = rolehash === req.params.hash
 
       beast.name = formatNameWithCommas(beast.name)
       if (!isARole) {
-        beast.name = displayName(beast.name, baseroletype, basesecondaryrole, baseskillrole, basesocialrole)
+        beast.name = displayName(beast.name, baseroletype, basesecondaryrole, baseskillrole, basesocialrole, basesocialsecondary)
         beast.role = baseroletype
       }
 
@@ -68,7 +71,7 @@ module.exports = {
           beast.name = beast.name + " " + rolename
         }
         if (roletype) {
-          beast.name = displayName(beast.name, roletype, secondaryroletype, socialrole, skillrole)
+          beast.name = displayName(beast.name, roletype, secondaryroletype, socialrole, skillrole, socialsecondary)
         }
         if (rolevitality) {
           beast.vitality = rolevitality
@@ -188,7 +191,7 @@ module.exports = {
             }
           })
           Promise.all(finalPromise).then(actualFinal => {
-            res.send(beast)
+              res.send(beast)
           })
         })
       }
@@ -442,6 +445,7 @@ module.exports = {
               socialpoints: result[i].socialpoints,
               skillrole: result[i].skillrole,
               skillpoints: result[i].skillpoints,
+              socialsecondary: result[i].socialsecondary
             }
           }
           return result
