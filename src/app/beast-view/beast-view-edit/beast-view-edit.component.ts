@@ -340,6 +340,8 @@ export class BeastViewEditComponent implements OnInit {
       this.calculateSkillPoints()
     } else if (type === 'locationalvitality') {
       this.beast.locationalvitality[index].allroles = checked
+    } if (type === 'movement') {
+      this.beast.movement[index].allroles = checked
     } else {
       this.beast.conflict[type][index].allroles = checked
       this.calculateSocialPoints()
@@ -847,17 +849,16 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   getRolesForEncounters = () => {
-    this.unusedRolesForEncounters.push('None')
-    this.beast.roles.forEach(role => {
+    this.encounter.rank.rank.forEach(rank => {
       let addRole = true
-      for (let i = 0; i < this.encounter.rank.rank.length; i++) {
-        if (role.name === this.encounter.rank.rank[i].rank) {
+      for (let i = 0; i < this.beast.roles.length; i++) {
+        if (rank.rank === this.beast.roles[i].name) {
           addRole = false
-          i = this.encounter.rank.rank.length
+          i = this.beast.roles.length
         }
       }
-      if (addRole) {
-        this.unusedRolesForEncounters.push(role.name)
+      if (addRole && rank.rank !== 'None') {
+        this.unusedRolesForEncounters.push(rank.rank)
       }
     })
   }
