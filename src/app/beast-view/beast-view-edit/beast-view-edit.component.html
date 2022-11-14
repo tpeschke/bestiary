@@ -210,7 +210,9 @@
 
           <mat-form-field>
             <mat-label>Combat Role Type</mat-label>
-            <mat-select #newCombatRoleSelect (selectionChange)="captureNewRole('role', $event)" [disabled]="beast.roles.length === 0 && beast.role" [value]="beast.roles.length === 0 ? beast.role : null">
+            <mat-select #newCombatRoleSelect (selectionChange)="captureNewRole('role', $event)"
+              [disabled]="beast.roles.length === 0 && beast.role"
+              [value]="beast.roles.length === 0 ? beast.role : null">
               <mat-option>
                 None
               </mat-option>
@@ -222,7 +224,9 @@
 
           <mat-form-field>
             <mat-label>Combat Secondary Role Type</mat-label>
-            <mat-select #newSecondaryRoleSelect (selectionChange)="captureNewRole('secondaryrole', $event)" [disabled]="beast.roles.length === 0 && beast.secondaryrole" [value]="beast.roles.length === 0 ? beast.secondaryrole : null">
+            <mat-select #newSecondaryRoleSelect (selectionChange)="captureNewRole('secondaryrole', $event)"
+              [disabled]="beast.roles.length === 0 && beast.secondaryrole"
+              [value]="beast.roles.length === 0 ? beast.secondaryrole : null">
               <mat-option>
                 None
               </mat-option>
@@ -234,7 +238,9 @@
 
           <mat-form-field>
             <mat-label>Confrontation Role Type</mat-label>
-            <mat-select #newConfRoleSelect (selectionChange)="captureNewRole('socialrole', $event)" [disabled]="beast.roles.length === 0 && beast.socialrole" [value]="beast.roles.length === 0 ? beast.socialrole : null">
+            <mat-select #newConfRoleSelect (selectionChange)="captureNewRole('socialrole', $event)"
+              [disabled]="beast.roles.length === 0 && beast.socialrole"
+              [value]="beast.roles.length === 0 ? beast.socialrole : null">
               <mat-option>
                 None
               </mat-option>
@@ -246,7 +252,9 @@
 
           <mat-form-field>
             <mat-label>Confrontation Secondary Role Type</mat-label>
-            <mat-select #newConfRoleSelect (selectionChange)="captureNewRole('socialsecondary', $event)" [disabled]="beast.roles.length === 0 && beast.socialsecondary" [value]="beast.roles.length === 0 ? beast.socialsecondary : null">
+            <mat-select #newConfRoleSelect (selectionChange)="captureNewRole('socialsecondary', $event)"
+              [disabled]="beast.roles.length === 0 && beast.socialsecondary"
+              [value]="beast.roles.length === 0 ? beast.socialsecondary : null">
               <mat-option>
                 None
               </mat-option>
@@ -258,7 +266,9 @@
 
           <mat-form-field>
             <mat-label>Skill Role Type</mat-label>
-            <mat-select #newSkillRoleSelect (selectionChange)="captureNewRole('skillrole', $event)" [disabled]="beast.roles.length === 0 && beast.skillrole" [value]="beast.roles.length === 0 ? beast.skillrole : null">
+            <mat-select #newSkillRoleSelect (selectionChange)="captureNewRole('skillrole', $event)"
+              [disabled]="beast.roles.length === 0 && beast.skillrole"
+              [value]="beast.roles.length === 0 ? beast.skillrole : null">
               <mat-option>
                 None
               </mat-option>
@@ -268,7 +278,9 @@
             </mat-select>
           </mat-form-field>
 
-          <button mat-raised-button (click)="addNewRole()" color="accent" [disabled]="!(((newRole.role || newRole.socialrole || newRole.skillrole) || ((beast.role || beast.socialrole || beast.skillrole) && beast.roles.length === 0)) && newRole.name)">Add Role</button>
+          <button mat-raised-button (click)="addNewRole()" color="accent"
+            [disabled]="!(((newRole.role || newRole.socialrole || newRole.skillrole) || ((beast.role || beast.socialrole || beast.skillrole) && beast.roles.length === 0)) && newRole.name)">Add
+            Role</button>
         </div>
 
       </mat-expansion-panel>
@@ -352,6 +364,15 @@
           <p><strong>Description: </strong> {{selectedSocialRole.description}}</p>
         </div>
 
+        <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].socialsecondary">
+          <p class="top-margin"><strong>Secondary Description: </strong>
+            {{socialRolesSecondaryInfo[beast.roleInfo[selectedRoleId].socialsecondary].description}}</p>
+        </div>
+        <div *ngIf="!selectedRoleId && beast.socialsecondary">
+          <p class="top-margin"><strong>Secondary Description: </strong>
+            {{socialRolesSecondaryInfo[beast.socialsecondary].description}}</p>
+        </div>
+
         <div>
           <h2>Descriptions</h2>
           <div class="divider"></div>
@@ -368,7 +389,8 @@
                   </mat-form-field>
                 </h3>
                 <section>
-                  <mat-checkbox [checked]="description.trait === 'Any'" (change)="checkRandomizeDescription(i, $event.checked)">Make
+                  <mat-checkbox [checked]="description.trait === 'Any'"
+                    (change)="checkRandomizeDescription(i, $event.checked)">Make
                     this a Random Conviction</mat-checkbox>
                 </section>
                 <br>
@@ -658,6 +680,16 @@
           <div *ngIf="selectedRole.description">
             <p><strong>Description: </strong> {{selectedRole.description}}</p>
           </div>
+
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].secondaryrole">
+            <p class="top-margin"><strong>Secondary Description: </strong>
+              {{combatRolesSecondaryInfo[beast.roleInfo[selectedRoleId].secondaryrole].description}}</p>
+          </div>
+          <div *ngIf="!selectedRoleId && beast.secondaryrole">
+            <p class="top-margin"><strong>Secondary Description: </strong>
+              {{combatRolesSecondaryInfo[beast.secondaryrole].description}}</p>
+          </div>
+
           <br>
           <div class="divider"></div>
           <mat-form-field class="long-field">

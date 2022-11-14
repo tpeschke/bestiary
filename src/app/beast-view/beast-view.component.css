@@ -2,6 +2,10 @@ strong {
     font-weight: bold;
 }
 
+.top-margin {
+    margin-top: 5px;
+}
+
 .flex-opposite {
     display: flex;
     justify-content: space-between;

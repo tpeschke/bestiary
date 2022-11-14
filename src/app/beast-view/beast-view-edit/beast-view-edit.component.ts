@@ -977,6 +977,7 @@ export class BeastViewEditComponent implements OnInit {
 
   setSecondaryRoleType(event) {
     if (this.selectedRoleId) {
+      this.beast.roleInfo[this.selectedRoleId].secondaryrole = event.value
       for (let i = 0; i < this.beast.roles.length; i++) {
         if (this.selectedRoleId === this.beast.roles[i].id) {
           this.beast.roles[i].secondaryrole = event.value
@@ -990,6 +991,7 @@ export class BeastViewEditComponent implements OnInit {
 
   setSocialSecondaryRoleType(event) {
     if (this.selectedRoleId) {
+      this.beast.roleInfo[this.selectedRoleId].socialsecondary = event.value
       for (let i = 0; i < this.beast.roles.length; i++) {
         if (this.selectedRoleId === this.beast.roles[i].id) {
           this.beast.roles[i].socialsecondary = event.value
