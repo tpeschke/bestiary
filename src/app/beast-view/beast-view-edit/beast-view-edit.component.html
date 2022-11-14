@@ -268,7 +268,7 @@
             </mat-select>
           </mat-form-field>
 
-          <button mat-raised-button (click)="addNewRole()" color="accent">Add Role</button>
+          <button mat-raised-button (click)="addNewRole()" color="accent" [disabled]="!(((newRole.role || newRole.socialrole || newRole.skillrole) || ((beast.role || beast.socialrole || beast.skillrole) && beast.roles.length === 0)) && newRole.name)">Add Role</button>
         </div>
 
       </mat-expansion-panel>

@@ -1073,7 +1073,7 @@ export class BeastViewEditComponent implements OnInit {
         })
 
         this.beast.movement.forEach(val => {
-            val.socialroleid = id
+            val.roleid = id
         })
       }
       this.beast.roles.push({ id, ...this.newRole })
