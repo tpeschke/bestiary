@@ -1049,41 +1049,31 @@ export class BeastViewEditComponent implements OnInit {
         this.beast.defaultrole = id
 
         this.beast.conflict.descriptions.forEach(val => {
-          if (!val.allroles) {
             val.socialroleid = id
-          }
         })
         this.beast.conflict.convictions.forEach(val => {
-          if (!val.allroles) {
             val.socialroleid = id
-          }
         })
         this.beast.conflict.devotions.forEach(val => {
-          if (!val.allroles) {
             val.socialroleid = id
-          }
         })
         this.beast.conflict.flaws.forEach(val => {
-          if (!val.allroles) {
             val.socialroleid = id
-          }
         })
 
         this.beast.skills.forEach(val => {
-          if (!val.allroles) {
             val.skillroleid = id
-          }
         })
 
         this.beast.combat.forEach(val => {
-          if (!val.allroles) {
             val.roleid = id
-          }
         })
         this.beast.locationalvitality.forEach(val => {
-          if (!val.allroles) {
             val.roleid = id
-          }
+        })
+
+        this.beast.movement.forEach(val => {
+            val.socialroleid = id
         })
       }
       this.beast.roles.push({ id, ...this.newRole })
