@@ -853,6 +853,25 @@
       <div class="divider"></div>
       <div class="box-padding">
         <div class="flex-row-opposite">
+          <h3>
+            Size <i class="fas fa-info-circle icon-small blue"
+              matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This is factored into their Defense already."></i>
+          </h3>
+          <p>{{beast.size}}</p>
+        </div>
+        <div class="flex-row-opposite">
+          <h3>Senses</h3>
+          <p>{{beast.senses}}</p>
+        </div>
+        <h3>Environment</h3>
+        <div class="chip-shell">
+          <mat-chip-list>
+            <mat-chip (click)="navigateToSearch('environ', environ.environid)" *ngFor="let environ of beast.environ"
+              color="primary" selected>
+              {{environ.environid | environConverter}}</mat-chip>
+          </mat-chip-list>
+        </div>
+        <div class="flex-row-opposite">
           <h3>Combat Rating</h3>
           <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints}}</p>
         </div>
@@ -873,28 +892,9 @@
           <p>Deluxe <i class="fas fa-plus icon-blue"></i></p>
         </div>
         <div class="flex-row-opposite">
-          <h3>
-            Size <i class="fas fa-info-circle icon-small blue"
-              matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This is factored into their Defense already."></i>
-          </h3>
-          <p>{{beast.size}}</p>
-        </div>
-        <h3>Environment</h3>
-        <div class="chip-shell">
-          <mat-chip-list>
-            <mat-chip (click)="navigateToSearch('environ', environ.environid)" *ngFor="let environ of beast.environ"
-              color="primary" selected>
-              {{environ.environid | environConverter}}</mat-chip>
-          </mat-chip-list>
-        </div>
-        <div class="flex-row-opposite">
           <h3>Rarity</h3>
           <p>{{beast.rarity | rarityConverter}} <i class="fas fa-info-circle icon-small blue"
               matTooltip="+{{getRarityModifier(beast.rarity)}} to Monster Craft Checks"></i></p>
-        </div>
-        <div class="flex-row-opposite">
-          <h3>Senses</h3>
-          <p>{{beast.senses}}</p>
         </div>
         <div class="flex-row-opposite">
           <h3>Diet</h3>

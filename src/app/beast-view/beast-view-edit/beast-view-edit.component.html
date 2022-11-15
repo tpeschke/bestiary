@@ -1700,7 +1700,7 @@
           [checkWeirdshapeType]="checkWeirdshapeType"></app-weird-shaping-edit>
       </div>
     </mat-tab>
-    <mat-tab label="Misc Information">
+    <mat-tab label="General Information">
       <ng-template matTabContent>
         <div class="tab-wrapper">
           <h2>Type</h2>
@@ -1803,6 +1803,10 @@
               </mat-select>
             </mat-form-field>
 
+            <mat-form-field>
+              <input placeholder="Senses" matInput [value]="beast.senses" (change)="captureInput($event, 'senses')">
+            </mat-form-field>
+
             <h3>Environment</h3>
             <div class="chip-shell">
               <mat-chip-list>
@@ -1877,6 +1881,11 @@
             </div>
 
             <mat-form-field>
+              <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')"
+                maxlength="40">
+            </mat-form-field>
+
+            <mat-form-field>
               <mat-label>Rarity</mat-label>
               <mat-select [(value)]="'' + beast.rarity" (selectionChange)="captureSelect($event, 'rarity')">
                 <mat-option value="10">
@@ -1892,15 +1901,6 @@
                   Legendary
                 </mat-option>
               </mat-select>
-            </mat-form-field>
-
-            <mat-form-field>
-              <input placeholder="Senses" matInput [value]="beast.senses" (change)="captureInput($event, 'senses')">
-            </mat-form-field>
-
-            <mat-form-field>
-              <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')"
-                maxlength="40">
             </mat-form-field>
           </div>
 
