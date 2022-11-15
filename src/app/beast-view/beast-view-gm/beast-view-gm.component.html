@@ -872,6 +872,15 @@
           </mat-chip-list>
         </div>
         <div class="flex-row-opposite">
+          <h3>Diet</h3>
+          <p>{{beast.diet}}</p>
+        </div>
+        <div class="flex-row-opposite">
+          <h3>Rarity</h3>
+          <p>{{beast.rarity | rarityConverter}} <i class="fas fa-info-circle icon-small blue"
+              matTooltip="+{{getRarityModifier(beast.rarity)}} to Monster Craft Checks"></i></p>
+        </div>
+        <div class="flex-row-opposite">
           <h3>Combat Rating</h3>
           <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints}}</p>
         </div>
@@ -890,15 +899,6 @@
         <div class="flex-row-opposite" *ngIf="beast.patreon >= 2 && beast.patreon < 20">
           <h3>Access</h3>
           <p>Deluxe <i class="fas fa-plus icon-blue"></i></p>
-        </div>
-        <div class="flex-row-opposite">
-          <h3>Rarity</h3>
-          <p>{{beast.rarity | rarityConverter}} <i class="fas fa-info-circle icon-small blue"
-              matTooltip="+{{getRarityModifier(beast.rarity)}} to Monster Craft Checks"></i></p>
-        </div>
-        <div class="flex-row-opposite">
-          <h3>Diet</h3>
-          <p>{{beast.diet}}</p>
         </div>
       </div>
 
