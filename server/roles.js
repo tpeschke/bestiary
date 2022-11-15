@@ -166,7 +166,7 @@ module.exports = {
                 armor: ['Scale', 'Laminar (Banded Mail)', 'Full Plate'],
                 shields: ['Heater', 'Figure Eight', 'Kite'],
             },
-            'Fencer': {
+            'Duelist': {
                 strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Stress Threshold'],
                 weaknesses: ['/DR', 'Melee Damage', 'Ranged Damage', 'Range Penalties'],
                 spdbonus: -3,

@@ -162,7 +162,7 @@ getRoleName = (val) => {
         case 15:
             return 'Defender'
         case 16:
-            return 'Fencer'
+            return 'Duelist'
         case 17:
             return 'Flanker'
         case 18:

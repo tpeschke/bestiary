@@ -378,10 +378,10 @@ export default {
                 armor: ['Scale', 'Laminar (Banded Mail)', 'Full Plate'],
                 shields: ['Heater', 'Figure Eight', 'Kite'],
             },
-            'Fencer': {
+            'Duelist': {
                 strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Stress Threshold'],
                 weaknesses: ['/DR', 'Melee Damage', 'Ranged Damage', 'Range Penalties'],
-                description: "The fencer is particularly good at one-on-one fights due to their fast attack and high parry but they tend to suffer from being out numbered or out ranged.",
+                description: "The duelist is particularly good at one-on-one fights due to their fast attack and high parry but they tend to suffer from being out numbered or out ranged.",
                 spdbonus: -3,
                 vitality: 30,
                 fatigue: 'C',
