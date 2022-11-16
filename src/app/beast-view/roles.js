@@ -426,7 +426,7 @@ export default {
                     },
                     {
                         label: 'Swords',
-                        items: ['Estock', 'Longsword', 'Rapier']
+                        items: ['Estoc', 'Longsword', 'Rapier']
                     },
                     {
                         label: 'Trauma',

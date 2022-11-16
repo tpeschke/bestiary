@@ -1133,8 +1133,9 @@ async function collectComplication(db, beastId) {
     let complication = result[0]
     if (complication.id === 1) {
       //rival
+      console.log("RIVAL")
+      console.log(beastId)
       return db.get.complication.rival(beastId).then(result => {
-        console.log("RIVAL")
         console.log(result)
         let rival = result[0]
         if (rival.name && rival.name.includes(',')) {
