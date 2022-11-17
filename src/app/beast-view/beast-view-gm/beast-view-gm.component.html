@@ -139,7 +139,7 @@
         <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></div>
       </div>
 
-      <div *ngIf="beast.roles.length === 0 && (!selectedRoleId && !beast.role)">
+      <div *ngIf="(!selectedRoleId && !beast.role) || (selectedRoleId && !beast.roleInfo[selectedRoleId].role)">
         <div class="role-select extra-padding">
           <h3>Add to Quick View</h3>
           <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></div>

@@ -441,9 +441,11 @@ export class DisplayServiceService {
 
     if (basefatigue) {
       displayedFatigue = basefatigue;
-    } else {
+    } else if (combat.length > 0) {
       weaponFatigue = combat[0].fatigue
       armor = combat[0].selectedarmor
+    } else {
+      displayedFatigue = 'C'
     }
 
     if (isNaN(averageVitality)) {
