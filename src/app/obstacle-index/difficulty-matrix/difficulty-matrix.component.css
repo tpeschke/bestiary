@@ -31,10 +31,6 @@ h1 {
     top: -7px;
 }
 
-.table-shell {
-    overflow: scroll;
-}
-
 table {
     margin-top: 15px;
     font-size: 11px;
@@ -42,33 +38,30 @@ table {
 }
 
 th, td {
-    padding: 5px 2px
+    padding: 5px 10px
 }
 
 .rank-header {
     background: #795548;
     color: white;
-    padding: 5px
+    padding: 5px 10px
 }
 
-.difficulty-header {
-    background: #795548;
-    color: white;
-    padding: 80px 5px;
-    vertical-align: bottom;
-    text-align: center;
+tr td:first-child, tr th:first-child {
+    text-align: left;
 }
 
-.difficulty-header span {
-    -ms-writing-mode: tb-rl;
-    -webkit-writing-mode: vertical-rl;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    white-space: nowrap;
-}
-
-.odd {
+tr:nth-child(even) {
     background: lightgray;
+}
+
+.diff-mod-border {
+    border-left: 1px solid #795548;
+}
+
+.formula-header {
+    background-color: rgb(72, 72, 72);
+    color: whitesmoke
 }
 
 .Diffic {

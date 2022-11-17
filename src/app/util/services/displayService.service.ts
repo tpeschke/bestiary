@@ -223,7 +223,7 @@ export class DisplayServiceService {
     let drString = ''
 
     if (adjustedFlat && adjustedSlash) {
-      drString = `${adjustedSlash}/d+${adjustedFlat}`
+      drString = `${adjustedSlash}/d +${adjustedFlat}`
     } else if (adjustedFlat && !adjustedSlash) {
       drString = `${adjustedFlat}`
     } else if (!adjustedFlat && adjustedSlash) {
