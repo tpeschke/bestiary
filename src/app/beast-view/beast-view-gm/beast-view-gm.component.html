@@ -184,7 +184,7 @@
                         Between {{((square.ranges.increment) * 2) + 1}} ft and {{(square.ranges.increment) * 3}} ft, -4 atk penalty.
                         and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
-                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square)}}</p>
+                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square, selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
                   <p *ngIf="square.weapontype !== 'r'" class="parry">{{square.showmaxparry ? 'EUA' :
                     (square.selectedshield ? square.shieldInfo.parry :
@@ -234,7 +234,7 @@
                         Between {{(((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 2) + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 3}} ft, -4 atk penalty.
                         and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
-                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square)}}</p>
+                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square, selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
                   <p *ngIf="square.weapontype !== 'r'" class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">
                     {{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry :
@@ -383,7 +383,7 @@
                       Between {{(((newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 2) + 1}} ft and {{((newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 3}} ft, -4 atk penalty.
                       and so on." matTooltipClass="my-tooltip"></i></p>
                 </div>
-                <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayDamage(square)}}</p>
+                <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square, selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
                 <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
                 <p *ngIf="newWeaponInfo.weapontype !== 'r'" class="parry">{{square.showmaxparry ? 'EUA' :
                   (newSelectedShield ? newShieldInfo.parry :
@@ -502,12 +502,12 @@
           <div class="flex-row-opposite">
             <h3>Stress Threshold</h3>
             <p
-              *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0">
+              *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].stress !== 0) && beast.roleInfo[selectedRoleId].stress !== 0">
               {{beast.roleInfo[selectedRoleId].stress}}</p>
             <p
-              *ngIf="!selectedRoleId && beast.stress !== 0 || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && beast.stress !== 0)">
+              *ngIf="(!selectedRoleId && beast.stress !== 0) || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && beast.stress !== 0)">
               {{beast.stress}}</p>
-            <p *ngIf="!selectedRoleId && beast.stress === 0 || (selectedRoleId && beast.roleInfo[selectedRoleId].stress === 0)">N/A</p>
+            <p *ngIf="(!selectedRoleId && !beast.stress) || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress)">N/A</p>
           </div>
           <div
             *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
