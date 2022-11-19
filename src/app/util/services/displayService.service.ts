@@ -449,12 +449,12 @@ export class DisplayServiceService {
     }
 
     if (isNaN(averageVitality)) {
-      return 'N'
+      return 'Never'
     }
     let percentage = .00;
     switch (displayedFatigue) {
       case 'A':
-        return 'A'
+        return 'Always'
       case 'H':
         return 1
       case 'B':
@@ -467,7 +467,7 @@ export class DisplayServiceService {
         percentage = .75
         break;
       case 'N':
-        return 'N'
+        return 'Never'
       default:
         percentage = .75
     }
@@ -479,7 +479,7 @@ export class DisplayServiceService {
     let percentage = .00;
     switch (panic) {
       case 1:
-        return 'Always';
+        return 'A';
       case 2:
         return 1
       case 3:
@@ -492,7 +492,7 @@ export class DisplayServiceService {
         percentage = .75
         break;
       case 7:
-        return 'Never'
+        return 'N'
       default: panic
     }
 

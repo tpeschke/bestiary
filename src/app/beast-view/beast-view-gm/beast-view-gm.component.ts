@@ -507,26 +507,6 @@ export class BeastViewGmComponent implements OnInit {
       panic = this.beast.panic
     }
 
-    let percentage = .00;
-    switch (panic) {
-      case 1:
-        this.numberPanic = 'Always';
-      case 2:
-        this.numberPanic = 1
-      case 3:
-        percentage = .25
-        break;
-      case 4:
-        percentage = .5
-        break;
-      case 5:
-        percentage = .75
-        break;
-      case 7:
-        this.numberPanic = 'Never'
-      default: panic
-    }
-
     switch (panic) {
       case 1:
         this.displayedPanic = 'Always';
@@ -564,7 +544,7 @@ export class BeastViewGmComponent implements OnInit {
       this.numberFatigue = 'N'
     }
     switch (displayedFatigue) {
-      case 'A':
+      case 'Always':
         this.numberFatigue = 'A'
         break;
       case 'H':
@@ -579,7 +559,7 @@ export class BeastViewGmComponent implements OnInit {
       case 'C':
         this.numberFatigue = (vitality * .75).toFixed(0)
         break;
-      case 'N':
+      case 'Never':
         this.numberFatigue = 'N'
         break;
       default:
