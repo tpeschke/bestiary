@@ -449,7 +449,7 @@ export class DisplayServiceService {
     }
 
     if (isNaN(averageVitality)) {
-      return 'Never'
+      return 'C'
     }
     let percentage = .00;
     switch (displayedFatigue) {

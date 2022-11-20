@@ -121,7 +121,7 @@ export class BeastViewEditComponent implements OnInit {
   socialRolesSecondaryInfo = roles.socialRoles.secondary
   skillRolesInfo = roles.skillRoles;
 
-  public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Acrobatics', 'Escape Artist', 'Warfare', 'Rally']
+  public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Acrobatics', 'Escape Artist', 'Warfare', 'Rally', 'Athletics Skill Suite', 'Strategy Skill Suite']
   public socialSkills = ['Deception', 'Intuition', 'Perception', 'Leadership', 'Articulation', 'Performance', 'Language (All)', 'Language']
 
   ngOnInit() {
@@ -882,6 +882,9 @@ export class BeastViewEditComponent implements OnInit {
         this.unusedRolesForEncounters.push(rank.rank)
       }
     })
+    if (this.beast.roles.length === 0) {
+      this.unusedRolesForEncounters.push('None')
+    }
   }
 
   formatRelicAndEnchantedChange(chances) {

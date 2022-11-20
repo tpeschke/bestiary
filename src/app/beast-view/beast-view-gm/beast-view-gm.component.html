@@ -401,40 +401,14 @@
           <div class="flex-row-opposite">
             <h3>Vitality</h3>
             <span class="vitality-flex">
-              <p
-                *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
-                {{beast.roleInfo[selectedRoleId].average}}</p>
-              <p
-                *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(locationCheckboxes.mainVitality.average)">
-                {{locationCheckboxes.mainVitality.average}}</p>
-              <p class="vitality-flex-subtitle" *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
-                {{beast.roleInfo[selectedRoleId].vitality}}</p>
-              <p class="vitality-flex-subtitle" *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
-                {{beast.vitality}}</p>
+              <p>
+                {{displayedVitalityRoll === 0 ? 'N/A' : displayedVitalityRoll}}</p>
+              <p class="vitality-flex-subtitle" *ngIf="displayedVitalityRoll">
+                {{displayVitalityDice}}</p>
             </span>
           </div>
 
-          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].vitality">
-            <!-- <div class="checkboxShell">
-              <div *ngFor="let checkbox of beast.roleInfo[selectedRoleId].checkboxes; let i = index">
-                <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value" (change)="checkRoleCheckbox($event, i)"
-                  [(ngModel)]="checkbox.checked"></mat-checkbox>
-                <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
-              </div>
-            </div> -->
-            <div class="rolled-stats-shell">
-              <mat-form-field>
-                <input matInput>
-              </mat-form-field>
-              <p> / </p>
-              <p
-                matTooltip="This is the Fatigue Threshold based on the average Vitality and a Threshold of {{displayedFatigue}}">
-                ({{numberFatigue}}) </p>
-              <p> / </p>
-              <p> {{beast.roleInfo[selectedRoleId].rolled}} </p>
-            </div>
-          </div>
-          <div *ngIf="!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality">
+          <div>
             <!-- <div class="checkboxShell">
               <div *ngFor="let checkbox of locationCheckboxes.mainVitality.checkboxes; let i = index">
                 <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
@@ -442,7 +416,7 @@
                 <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
               </div>
             </div> -->
-            <div *ngIf="locationCheckboxes.mainVitality.rolled" class="rolled-stats-shell">
+            <div *ngIf="displayedVitalityRoll" class="rolled-stats-shell">
               <mat-form-field>
                 <input matInput>
               </mat-form-field>
@@ -451,7 +425,7 @@
                 matTooltip="This is the Fatigue Threshold based on the average Vitality and a Threshold of {{displayedFatigue}}">
                 ({{numberFatigue}}) </p>
               <p> / </p>
-              <p> {{locationCheckboxes.mainVitality.rolled}} </p>
+              <p> {{displayedVitalityRoll}} </p>
             </div>
           </div>
 
@@ -462,8 +436,8 @@
                 <div class="flex-row-opposite">
                   <h3>{{location.location}} Vitality</h3>
                   <span class="vitality-flex">
-                    <p *ngIf="isNumber(locationCheckboxes[location.id].average)">
-                      {{locationCheckboxes[location.id].average}}</p>
+                    <p *ngIf="isNumber(location.average)">
+                      {{location.average}}</p>
                     <p class="vitality-flex-subtitle">{{location.vitality}} </p>
                   </span>
                 </div>
@@ -478,20 +452,20 @@
                   <mat-form-field>
                     <input matInput>
                   </mat-form-field>
-                  <p> / {{locationCheckboxes[location.id].rolled}}</p>
+                  <p> / {{location.rolled}}</p>
                 </div>
                 <!-- </div> -->
               </div>
             </div>
           </div>
 
-          <div *ngIf="isNumber(trauma)" class="flex-row-opposite">
+          <div *ngIf="isNumber(trauma) && trauma !== 0" class="flex-row-opposite">
             <h3>Trauma Threshold</h3>
             <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">
               {{beast.roleInfo[selectedRoleId].trauma}}</p>
             <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">{{trauma}}</p>
           </div>
-          <div class="flex-row-opposite">
+          <div class="flex-row-opposite" *ngIf="displayedVitalityRoll">
             <h3>Fatigue</h3>
             <p [matTooltipDisabled]="numberFatigue === 'Always' || numberFatigue === 'Never'"
               matTooltip="Fatigue Based on Average Vitality: {{numberFatigue}}">{{displayedFatigue}}</p>

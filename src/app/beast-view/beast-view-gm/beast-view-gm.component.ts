@@ -56,6 +56,9 @@ export class BeastViewGmComponent implements OnInit {
   public numberFatigue = null;
   public displayedPanic = null;
   public numberPanic = null;
+  public displayVitalityAverage = null;
+  public displayVitalityDice = null;
+  public displayedVitalityRoll = null;
 
   public equipmentLists = { weapons: [], armor: [], shields: [] }
   public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
@@ -76,38 +79,6 @@ export class BeastViewGmComponent implements OnInit {
       // this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/preview.png" });
       this.getRandomEncounter()
 
-      this.locationCheckboxes.mainVitality = {
-        id: "mainVitality",
-        average: this.calculatorService.calculateAverageOfDice(this.beast.vitality),
-        rolled: this.calculatorService.rollDice(this.beast.vitality)
-      }
-      this.locationCheckboxes.mainVitality.checkboxes = this.createCheckboxArray(this.locationCheckboxes.mainVitality.average)
-
-      for (const role in this.beast.roleInfo) {
-        if (this.beast.roleInfo[role].vitality) {
-          this.beast.roleInfo[role].average = this.calculatorService.calculateAverageOfDice(this.beast.roleInfo[role].vitality)
-          this.beast.roleInfo[role].rolled = this.calculatorService.rollDice(this.beast.roleInfo[role].vitality)
-          this.beast.roleInfo[role].checkboxes = this.createCheckboxArray(this.beast.roleInfo[role].average)
-          this.beast.roleInfo[role].trauma = +(this.beast.roleInfo[role].average / 2).toFixed(0);
-        }
-      }
-
-      this.trauma = this.locationCheckboxes.mainVitality.average
-      let { locationalvitality } = this.beast
-      if (locationalvitality.length > 0) {
-        locationalvitality.forEach(({ location, vitality, id }) => {
-          this.locationCheckboxes[id] = {
-            location,
-            average: this.calculatorService.calculateAverageOfDice(vitality),
-            rolled: this.calculatorService.rollDice(vitality)
-          }
-          this.trauma = Math.max(this.trauma, this.locationCheckboxes[id].average)
-          this.locationCheckboxes[id].checkboxes = this.createCheckboxArray(this.locationCheckboxes[id].average)
-        })
-      }
-
-      this.trauma = +(this.trauma / 2).toFixed(0);
-
       this.getLairLoot()
 
       this.beastService.getEquipment().subscribe(res => {
@@ -119,10 +90,10 @@ export class BeastViewGmComponent implements OnInit {
         this.selectedRole = this.combatRolesInfo[this.beast.role]
       }
 
-      this.displayedFatigue = this.displayService.convertFatigue(this.beast)
-      this.getNumberFatigue(this.displayedFatigue);
       this.convertPanic()
-
+      this.setDisplayVitality()
+      this.setLocationalVitality()
+      
       let roleParameter = this.router.url.split('/')[4]
       if (roleParameter) {
         this.setRoleViaParameter(roleParameter)
@@ -130,6 +101,45 @@ export class BeastViewGmComponent implements OnInit {
         this.setRoleToDefault()
       }
     })
+  }
+
+  setLocationalVitality = () => {
+    if (this.beast.locationalvitality.length > 0) {
+      this.beast.locationalvitality = this.beast.locationalvitality.map(location => {
+        location.average = this.calculatorService.calculateAverageOfDice(location.vitality)
+        location.rolled = this.calculatorService.rollDice(location.vitality)
+        return location
+      })
+    }
+  }
+
+  setDisplayVitality = () => {
+    let vitality = null
+    let role = null
+
+    if (this.selectedRoleId) {
+      vitality = this.beast.roleInfo[this.selectedRoleId].vitality
+      role = this.beast.roleInfo[this.selectedRoleId].role
+    } else {
+      vitality = this.beast.vitality
+      role = this.beast.role
+    }
+
+    if (role && !vitality) {
+      vitality = this.combatRolesInfo[role].vitality
+    } else if (this.selectedRoleId && !role && !vitality && this.beast.vitality) {
+      vitality = this.beast.vitality
+    } else if (!role && !vitality) {
+      vitality = 0
+    }
+
+    this.displayVitalityAverage = this.calculatorService.calculateAverageOfDice(vitality)
+    this.displayVitalityDice = vitality
+    this.displayedVitalityRoll = this.calculatorService.rollDice(vitality)
+    this.trauma = +(this.displayVitalityAverage / 2).toFixed(0)
+
+    this.displayedFatigue = this.displayService.convertFatigue(this.beast)
+    this.getNumberFatigue(this.displayedFatigue);
   }
 
   setMonsterNumber = (event) => {
@@ -482,6 +492,8 @@ export class BeastViewGmComponent implements OnInit {
         this.selectedRole = {}
       }
     }
+    
+    this.setDisplayVitality()
     this.convertPanic()
   }
 
@@ -532,15 +544,7 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   getNumberFatigue(displayedFatigue) {
-    let vitality
-
-    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].average) {
-      vitality = this.beast.roleInfo[this.selectedRoleId].average
-    } else {
-      vitality = this.locationCheckboxes.mainVitality.average
-    }
-
-    if (isNaN(vitality)) {
+    if (isNaN(this.displayVitalityAverage)) {
       this.numberFatigue = 'N'
     }
     switch (displayedFatigue) {
@@ -551,19 +555,19 @@ export class BeastViewGmComponent implements OnInit {
         this.numberFatigue = 1
         break
       case 'B':
-        this.numberFatigue = (vitality * .25).toFixed(0)
+        this.numberFatigue = (this.displayVitalityAverage * .25).toFixed(0)
         break;
       case 'W':
-        this.numberFatigue = (vitality * .5).toFixed(0)
+        this.numberFatigue = (this.displayVitalityAverage * .5).toFixed(0)
         break;
       case 'C':
-        this.numberFatigue = (vitality * .75).toFixed(0)
+        this.numberFatigue = (this.displayVitalityAverage * .75).toFixed(0)
         break;
       case 'Never':
         this.numberFatigue = 'N'
         break;
       default:
-        this.numberFatigue = (vitality * .75).toFixed(0)
+        this.numberFatigue = (this.displayVitalityAverage * .75).toFixed(0)
     }
   }
 

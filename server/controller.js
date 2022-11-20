@@ -1136,20 +1136,23 @@ async function collectComplication(db, beastId) {
       console.log("RIVAL")
       console.log(beastId)
       return db.get.complication.rival(beastId).then(result => {
-        console.log(result)
-        let rival = result[0]
-        if (rival.name && rival.name.includes(',')) {
-          let splitname = rival.name.split(', ')
-          rival.name = `${splitname[1]} ${splitname[0]}`
-        }
-        if (!rival.plural) {
-          rival.plural = rival.name += 's'
-        }
-
-        return {
-          id: 1,
-          type: 'Rival',
-          rival: rival
+        if (result.length > 0) {
+          let rival = result[0]
+          if (rival.name && rival.name.includes(',')) {
+            let splitname = rival.name.split(', ')
+            rival.name = `${splitname[1]} ${splitname[0]}`
+          }
+          if (!rival.plural) {
+            rival.plural = rival.name += 's'
+          }
+  
+          return {
+            id: 1,
+            type: 'Rival',
+            rival: rival
+          }
+        } else {
+          return null
         }
       })
     } else if (complication.id === 2) {
