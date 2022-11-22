@@ -781,6 +781,7 @@
           <br>
 
           <h2>Movement</h2>
+          <p class="warning">Don't inlcude 'ft / sec'.</p>
           <div class="vitals-shell">
             <div *ngFor="let movementType of beast.movement; let i = index"
               [ngClass]="{'noDisplay': !(!movementType.deleted && (selectedRoleId === movementType.roleid || movementType.allroles))}">

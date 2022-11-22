@@ -525,24 +525,24 @@
               <h4>{{movementType.type ? movementType.type : 'Land' | titlecase}}</h4>
               <div class="divider white"></div>
               <div class="flex-row-opposite">
-                <h5>Stroll/Crawl</h5>
+                <h5 [ngClass]="{'strike-through': movementType.stroll === '0' || movementType.stroll === '0 ft / sec' }">Stroll/Crawl</h5>
                 <p>{{movementType.stroll}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
               <div class="flex-row-opposite">
-                <h5>Walk</h5>
-                <p>{{movementType.walk}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
+                <h5 [ngClass]="{'strike-through': movementType.walk === '0' || movementType.walk === '0 ft / sec' }">Walk</h5>
+                <p>{{movementType.walk === '0' || movementType.walk === '0 ft / sec' ? '' : movementType.walk}}{{movementType.walk !== '0' && movementType.walk !== '0 ft / sec' && !movementType.walk.includes('ft') ? ' ft / sec' : '' }}</p>
               </div>
               <div class="flex-row-opposite">
-                <h5>Jog</h5>
-                <p>{{movementType.jog}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
+                <h5 [ngClass]="{'strike-through': movementType.jog === '0' || movementType.jog === '0 ft / sec' }">Jog</h5>
+                <p>{{movementType.jog === '0' || movementType.jog === '0 ft / sec' ? '' : movementType.jog}}{{movementType.jog !== '0' && movementType.jog !== '0 ft / sec' && !movementType.jog.includes('ft') ? ' ft / sec' : '' }}</p>
               </div>
               <div class="flex-row-opposite">
-                <h5>Run</h5>
-                <p>{{movementType.run}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
+                <h5 [ngClass]="{'strike-through': movementType.run === '0' || movementType.run === '0 ft / sec' }">Run</h5>
+                <p>{{movementType.run === '0' || movementType.run === '0 ft / sec' ? '' : movementType.run}}{{!movementType.run === '0' && !movementType.run === '0 ft / sec' && !movementType.run.includes('ft') ? ' ft / sec' : '' }}</p>
               </div>
               <div class="flex-row-opposite">
-                <h5>Sprint</h5>
-                <p>{{movementType.sprint}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
+                <h5 [ngClass]="{'strike-through': movementType.sprint === '0' || movementType.sprint === '0 ft / sec' }">Sprint</h5>
+                <p>{{movementType.sprint === '0' || movementType.sprint === '0 ft / sec' ? '' : movementType.sprint}}{{!movementType.sprint === '0' && !movementType.sprint === '0 ft / sec' && !movementType.sprint.includes('ft') ? ' ft / sec' : '' }}</p>
               </div>
             </div>
           </div>
