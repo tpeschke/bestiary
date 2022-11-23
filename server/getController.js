@@ -56,7 +56,7 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, size, basefatigue, basesocialsecondary, socialsecondary } = result[0]
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize } = result[0]
       let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size, basefatigue }
       let isARole = rolehash === req.params.hash
 
@@ -87,6 +87,10 @@ module.exports = {
         }
         if (roletype) {
           beast.role = roletype
+        }
+
+        if (rolesize) {
+          beast.size = rolesize
         }
       }
 
@@ -445,7 +449,8 @@ module.exports = {
               socialpoints: result[i].socialpoints,
               skillrole: result[i].skillrole,
               skillpoints: result[i].skillpoints,
-              socialsecondary: result[i].socialsecondary
+              socialsecondary: result[i].socialsecondary,
+              size: result[i].size
             }
           }
           return result

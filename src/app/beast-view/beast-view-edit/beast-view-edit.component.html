@@ -178,7 +178,7 @@
 
       <p [innerHTML]="displayName(selectedRoleId)"></p>
       <section>
-        <mat-checkbox [checked]="selectedRoleId === beast.defaultrole" (change)="updateDefaultRole()">Default Role
+        <mat-checkbox [matTooltipDisabled]="!(selectedRoleId === beast.defaultrole)" [disabled]="selectedRoleId === beast.defaultrole" matTooltip="To set a new default, go to another Role" [checked]="selectedRoleId === beast.defaultrole" (change)="updateDefaultRole()">Default Role
         </mat-checkbox>
       </section>
     </div>
@@ -771,7 +771,7 @@
                   [updateCombatPoints]="updateCombatPoints" [index]="i"
                   [roleVitality]="selectedRoleId ? beast.roleInfo[this.selectedRoleId].average : null"
                   [mainVitality]="averageVitality" [removeNewSecondaryItem]="removeNewSecondaryItem"
-                  [copyWeaponSquare]="copyWeaponSquare" [beastSize]="beast.size">
+                  [copyWeaponSquare]="copyWeaponSquare" [beastSize]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size">
                 </app-weapon-square>
               </div>
             </div>
@@ -1768,41 +1768,45 @@
           <div class="divider"></div>
           <div class="box-padding">
 
-            <mat-form-field>
-              <mat-label>Size</mat-label>
-              <mat-select [value]="beast.size" (selectionChange)="captureSelect($event, 'size')">
-                <mat-option value="Fine">
-                  Fine
-                </mat-option>
-                <mat-option value="Diminutive">
-                  Diminutive
-                </mat-option>
-                <mat-option value="Tiny">
-                  Tiny
-                </mat-option>
-                <mat-option value="Small">
-                  Small
-                </mat-option>
-                <mat-option value="Medium">
-                  Medium
-                </mat-option>
-                <mat-option value="Large">
-                  Large
-                </mat-option>
-                <mat-option value="Huge">
-                  Huge
-                </mat-option>
-                <mat-option value="Giant">
-                  Giant
-                </mat-option>
-                <mat-option value="Enormous">
-                  Enormous
-                </mat-option>
-                <mat-option value="Colossal">
-                  Colossal
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div>
+              <mat-form-field>
+                <mat-label>Size</mat-label>
+                <mat-select [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size" (selectionChange)="captureSelectWithRoleConsideration($event, 'size')">
+                  <mat-option value="Fine">
+                    Fine
+                  </mat-option>
+                  <mat-option value="Diminutive">
+                    Diminutive
+                  </mat-option>
+                  <mat-option value="Tiny">
+                    Tiny
+                  </mat-option>
+                  <mat-option value="Small">
+                    Small
+                  </mat-option>
+                  <mat-option value="Medium">
+                    Medium
+                  </mat-option>
+                  <mat-option value="Large">
+                    Large
+                  </mat-option>
+                  <mat-option value="Huge">
+                    Huge
+                  </mat-option>
+                  <mat-option value="Giant">
+                    Giant
+                  </mat-option>
+                  <mat-option value="Enormous">
+                    Enormous
+                  </mat-option>
+                  <mat-option value="Colossal">
+                    Colossal
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-checkbox *ngIf="selectedRoleId" [matTooltipDisabled]="!(selectedRoleId && beast.roleInfo[selectedRoleId].size === beast.size)" matTooltip="To set a new default, go to another Role" [disabled]="selectedRoleId && beast.roleInfo[selectedRoleId].size === beast.size" [checked]="selectedRoleId && beast.roleInfo[selectedRoleId].size === beast.size" (change)="updateDefaultSize()">Default Size</mat-checkbox>
+            </div>
 
             <mat-form-field>
               <input placeholder="Senses" matInput [value]="beast.senses" (change)="captureInput($event, 'senses')">

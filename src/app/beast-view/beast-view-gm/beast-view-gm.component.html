@@ -165,7 +165,7 @@
                     square.armorInfo.rec : 0) + square.spd}}</p>
                   <p class="atk">{{square.atk}}</p>
                   <p class="init">{{(square.selectedarmor ? square.armorInfo.init : 0) + square.init}}</p>
-                  <p class="def">{{displayService.evaluateDefense(square, selectedRole, beast.size)}}</p>
+                  <p class="def">{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
                   <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
                     <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
@@ -176,7 +176,7 @@
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : 0) +
-                      square.measure + displayService.returnSizeMeasureModifier(beast.size, square.addsizemod)}}</p>
+                      square.measure + displayService.returnSizeMeasureModifier(selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size, square.addsizemod)}}</p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : 0) +
                       square.ranges.increment}}ri <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
                         Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
@@ -210,7 +210,7 @@
                   <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init &&
                     square.addrolemods ?
                     selectedRole.init : 0) + square.init}}</p>
-                  <p class="def">{{displayService.evaluateDefense(square, selectedRole, beast.size)}}</p>
+                  <p class="def">{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
                   <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
                     <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
@@ -223,7 +223,7 @@
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
                       selectedRole.measure
                       && square.addrolemods ? selectedRole.measure : 0) + square.measure +
-                      displayService.returnSizeMeasureModifier(beast.size, square)}}
+                      displayService.returnSizeMeasureModifier(selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size, square)}}
                     </p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range :
                       selectedRole.ranges &&
@@ -358,7 +358,7 @@
                 <p class="init">{{(newSelectedArmor ? newArmorInfo.init : selectedRole.init &&
                   square.addrolemods ?
                   selectedRole.init : 0) + square.init}}</p>
-                <p class="def">{{displayService.evaluateDefense(square, selectedRole, beast.size)}}</p>
+                <p class="def">{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
                 <p class="fatigue">{{ newSelectedWeapon ? newWeaponInfo.type : square.selectedweapon ?
                   square.weaponInfo.type : square.damagetype }}</p>
                 <div class="dr">
@@ -372,7 +372,7 @@
                   <p *ngIf="newWeaponInfo.weapontype !== 'r'">{{(newSelectedWeapon ? newWeaponInfo.measure :
                     selectedRole.measure
                     && square.addrolemods ? selectedRole.measure : 0) + square.measure +
-                    displayService.returnSizeMeasureModifier(beast.size, square.addsizemod)}}
+                    displayService.returnSizeMeasureModifier(selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size, square.addsizemod)}}
                   </p>
                   <p *ngIf="newWeaponInfo.weapontype === 'r'">{{(newSelectedWeapon ? newWeaponInfo.range :
                     selectedRole.ranges &&
@@ -831,7 +831,7 @@
             Size <i class="fas fa-info-circle icon-small blue"
               matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This is factored into their Defense already."></i>
           </h3>
-          <p>{{beast.size}}</p>
+          <p>{{selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size}}</p>
         </div>
         <div class="flex-row-opposite">
           <h3>Senses</h3>

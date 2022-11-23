@@ -358,7 +358,6 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.panic = event.value
     }
     this.determineBasePanic()
-    this.updateRolesObject('panic', event.value)
   }
 
   captureSelect(event, type, index, secondaryType) {
@@ -376,6 +375,15 @@ export class BeastViewEditComponent implements OnInit {
         this.updateCombatPoints(this.getFatigueValue(newFatigueValue) - (oldFatigueValue ? oldFatigueValue : 0));
         this.determineBaseFatigue()
       }
+    }
+  }
+
+  captureSelectWithRoleConsideration(event, type) {
+    if (this.selectedRoleId) {
+      this.beast.roleInfo[this.selectedRoleId][type] = event.value
+      this.updateRolesObject(type, event.value)
+    } else {
+      this.beast[type] = event.value
     }
   }
 
@@ -1135,6 +1143,7 @@ export class BeastViewEditComponent implements OnInit {
         uniqueLocationalVitality: false,
         uniqueMovement: false,
         vitality: this.beast.vitality,
+        size: this.beast.size,
         ...rolesToAdd
       }
       this.newRole = {
@@ -1705,7 +1714,6 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   determineBasePanic = () => {
-    console.log(this.selectedRoleId)
     if (this.selectedRoleId) {
       this.displayPanic = `${this.beast.roleInfo[this.selectedRoleId].panic}`
     } else {
@@ -1833,6 +1841,10 @@ export class BeastViewEditComponent implements OnInit {
 
   updateDefaultRole = () => {
     this.beast.defaultrole = this.selectedRoleId
+  }
+
+  updateDefaultSize = () => {
+    this.beast.size = this.beast.roleInfo[this.selectedRoleId].size
   }
 
   displayName(selectedRoleId) {

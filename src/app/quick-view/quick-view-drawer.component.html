@@ -330,7 +330,7 @@
             </div>
           </div>
 
-          <div *ngIf="!beast.sp_atk.includes('None') || beast.roleattack || beast.specialAbilities.length > 0">
+          <div *ngIf="(beast.sp_atk && !beast.sp_atk.includes('None')) || beast.roleattack || beast.specialAbilities.length > 0">
             <h2>Add. Attack Info</h2>
             <div class="divider"></div>
             <div *ngIf="!beast.sp_atk.includes('None')">
