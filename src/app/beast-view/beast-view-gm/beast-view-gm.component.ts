@@ -93,7 +93,7 @@ export class BeastViewGmComponent implements OnInit {
       this.convertPanic()
       this.setDisplayVitality()
       this.setLocationalVitality()
-      
+
       let roleParameter = this.router.url.split('/')[4]
       if (roleParameter) {
         this.setRoleViaParameter(roleParameter)
@@ -203,11 +203,13 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     if (scrolls.length > 0) {
-      for (let i = 0; i < scrolls.length * timesToRoll; i++) {
-        let power = rollDice(scrollPower[scrolls[i].power])
-          , number = rollDice(numberAppearing[scrolls[i].number])
-        if (number > 0) {
-          this.lairLoot.push(`${number} scroll${number > 1 ? 's' : ''} (${power} SP)`)
+      for (let y = 0; y < timesToRoll; y++) {
+        for (let i = 0; i < scrolls.length; i++) {
+          let power = rollDice(scrollPower[scrolls[i].power])
+            , number = rollDice(numberAppearing[scrolls[i].number])
+          if (number > 0) {
+            this.lairLoot.push(`${number} scroll${number > 1 ? 's' : ''} (${power} SP)`)
+          }
         }
       }
     }
@@ -232,12 +234,14 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     if (equipment.length > 0) {
-      for (let i = 0; i < equipment.length * timesToRoll; i++) {
-        let number = rollDice(numberAppearing[equipment[i].number])
-        for (let x = 0; x < number; x++) {
-          let value = rollDice(staticValues[equipment[i].value])
-          if (value > 0) {
-            this.lairLoot.push(`Item (~${value} sc)`)
+      for (let y = 0; y < timesToRoll; y++) {
+        for (let i = 0; i < equipment.length; i++) {
+          let number = rollDice(numberAppearing[equipment[i].number])
+          for (let x = 0; x < number; x++) {
+            let value = rollDice(staticValues[equipment[i].value])
+            if (value > 0) {
+              this.lairLoot.push(`Item (~${value} sc)`)
+            }
           }
         }
       }
@@ -492,7 +496,7 @@ export class BeastViewGmComponent implements OnInit {
         this.selectedRole = {}
       }
     }
-    
+
     this.setDisplayVitality()
     this.convertPanic()
   }
