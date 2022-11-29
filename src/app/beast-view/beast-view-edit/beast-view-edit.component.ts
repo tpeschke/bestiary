@@ -878,16 +878,16 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   getRolesForEncounters = () => {
-    this.encounter.rank.rank.forEach(rank => {
+    this.beast.roles.forEach(role => {
       let addRole = true
-      for (let i = 0; i < this.beast.roles.length; i++) {
-        if (rank.rank === this.beast.roles[i].name) {
+      for (let i = 0; i < this.encounter.rank.rank.length; i++) {
+        if (role.name === this.encounter.rank.rank) {
           addRole = false
-          i = this.beast.roles.length
+          i = this.encounter.rank.rank.length
         }
       }
-      if (addRole && rank.rank !== 'None') {
-        this.unusedRolesForEncounters.push(rank.rank)
+      if (addRole) {
+        this.unusedRolesForEncounters.push(role.name)
       }
     })
     if (this.beast.roles.length === 0) {
