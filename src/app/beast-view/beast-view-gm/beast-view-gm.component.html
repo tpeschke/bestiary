@@ -481,7 +481,7 @@
             <p
               *ngIf="(!selectedRoleId && beast.stress !== 0) || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && beast.stress !== 0)">
               {{beast.stress}}</p>
-            <p *ngIf="(!selectedRoleId && !beast.stress) || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress)">N/A</p>
+            <p *ngIf="(!selectedRoleId && !beast.stress) || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && !beast.stress)">N/A</p>
           </div>
           <div
             *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
