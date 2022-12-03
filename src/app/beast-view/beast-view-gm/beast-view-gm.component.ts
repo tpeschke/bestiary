@@ -593,7 +593,7 @@ export class BeastViewGmComponent implements OnInit {
       } else if (!this.selectedRoleId && !this.beast.specialAbilities.generic) {
         this.beast.specialAbilities.generic = []
       }
-
+      
       if (this.selectedRoleId) {
         if (square.weaponInfo.bonusLong) {
           this.beast.specialAbilities[this.selectedRoleId] = this.beast.specialAbilities[this.selectedRoleId].filter(bonus => bonus !== square.weaponInfo.bonusLong)

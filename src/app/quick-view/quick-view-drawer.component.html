@@ -115,7 +115,7 @@
             <div *ngFor="let square of beast.combat">
               <div class="combat-square" *ngIf="!square.showEquipmentSelection">
                 <h3 class="weaponName">{{displayService.displayName(square)}}<i
-                    *ngIf="square.selectedweapon || square.selectedarmor || square.selectedshield"
+                    *ngIf="(square.selectedweapon || square.selectedarmor || square.selectedshield) && !square.weapon"
                     (click)="toggleEquipmentSelection(square, beast, beastIndex)"
                     class="fa-solid fa-arrow-right-arrow-left swap-equipment" matTooltip="Click to swap out gear."
                     matTooltipClass="my-tooltip"></i> </h3>

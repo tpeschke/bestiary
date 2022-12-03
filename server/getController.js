@@ -155,10 +155,10 @@ module.exports = {
 
             weapon.parry = weapon.showmaxparry ? 'EUA' : weapon.parry
 
-            if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong) {
+            if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong && (!weapon.weapon || weapon.weapon.includes(equipmentInfo.weaponInfo.name))) {
               specialAbilities.push(equipmentInfo.weaponInfo.bonusLong)
             }
-            if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong) {
+            if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong && (!weapon.weapon || weapon.weapon.includes(equipmentInfo.shieldInfo.name))) {
               specialAbilities.push(equipmentInfo.shieldInfo.bonusLong)
             }
 
@@ -259,13 +259,14 @@ module.exports = {
             if (weapon.roleid) {
               role = weapon.roleid
             }
-            if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong) {
+
+            if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong && (!weapon.weapon || weapon.weapon.includes(equipmentInfo.weaponInfo.name))) {
               if (!specialAbilities[role]) {
                 specialAbilities[role] = []
               }
               specialAbilities[role].push(equipmentInfo.weaponInfo.bonusLong)
             }
-            if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong) {
+            if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong&& (!weapon.weapon || weapon.weapon.includes(equipmentInfo.shieldInfo.name))) {
               if (!specialAbilities[role]) {
                 specialAbilities[role] = []
               }
