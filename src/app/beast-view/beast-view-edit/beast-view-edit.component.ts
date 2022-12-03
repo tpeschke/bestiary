@@ -1825,14 +1825,19 @@ export class BeastViewEditComponent implements OnInit {
     })
 
     let oldRoleId = this.selectedRoleId
-    this.setRole({ value: null })
-    this.roleSelect.value = null
     this.beast.roles = this.beast.roles.filter(role => role.id !== oldRoleId)
+    if (this.beast.defaultrole === this.selectedRoleId) {
+      this.beast.defaultrole = null
+    }
+    this.setDefaultRole()
+    this.setRole({ value: this.beast.defaultrole})
   }
 
   setDefaultRole = () => {
     if (!this.beast.defaultrole && this.beast.roles.length > 0) {
       this.beast.defaultrole = this.beast.roles[0].id
+    } else if (this.beast.roles.length === 0) {
+      this.beast.defaultrole = null
     }
     if (this.beast.defaultrole) {
       this.setRole({ value: this.beast.defaultrole })
