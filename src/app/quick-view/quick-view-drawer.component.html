@@ -12,7 +12,8 @@
   <div *ngIf="quickViewService.quickViewArray.length === 0" class="quick-view-no-monsters-shell">
     <p>You current have no monsters in your quick view.</p>
     <p>Right click on a monster's icon in the catelog and select "add to quick view"</p>
-    <p>or hit the <span class="add-to-quick-view"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></span> at the top of a monster's entry</p>
+    <p>or hit the <span class="add-to-quick-view"><i class="fa-solid fa-square-plus"></i><i
+          class="fa-solid fa-rectangle-list"></i></span> at the top of a monster's entry</p>
     <p>to add them.</p>
   </div>
 
@@ -48,7 +49,8 @@
 
               <div *ngIf="beast.caution !== 0" class="flex-row-opposite">
                 <h3>Caution Threshold</h3>
-                <p>{{beast.caution < 0 ? 'Always' : !beast.caution ? 'Never' : beast.caution}} <i class="fas fa-info-circle icon-small blue"
+                <p>{{beast.caution < 0 ? 'Always' : !beast.caution ? 'Never' : beast.caution}} <i
+                    class="fas fa-info-circle icon-small blue"
                     matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable.">
                     </i></p>
               </div>
@@ -59,7 +61,8 @@
                   <mat-form-field>
                     <input matInput>
                   </mat-form-field>
-                  <p> / ({{displayService.convertFatigue(beast)}}) / {{vitalities.locationCheckboxes.mainVitality.rolled}}</p>
+                  <p> / ({{displayService.convertFatigue(beast)}}) /
+                    {{vitalities.locationCheckboxes.mainVitality.rolled}}</p>
                 </div>
               </div>
 
@@ -121,18 +124,32 @@
                     matTooltipClass="my-tooltip"></i> </h3>
 
                 <div *ngIf="!beast.role" class="square-shell">
-                  <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
-                  <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
-                  <p class="spd">{{displayService.calculateRecovery(beast.role ? roles[beast.role].spdbonus : 0, square.selectedweapon, square.weaponInfo,
-                    square.addrolemods, beast.role ? roles[beast.role].spd : 0, square.spd, square.selectedarmor, square.armorInfo)}}</p>
+                  <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png"
+                    alt="combat square">
+                  <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png"
+                    alt="combat square">
+                  <p class="spd">{{displayService.calculateRecovery(beast.role ? roles[beast.role].spdbonus : 0,
+                    square.selectedweapon, square.weaponInfo,
+                    square.addrolemods, beast.role ? roles[beast.role].spd : 0, square.spd, square.selectedarmor,
+                    square.armorInfo)}}</p>
                   <p class="atk">{{square.atk}}</p>
                   <p class="init">{{(square.selectedarmor ? square.armorInfo.init : 0) + square.init}}</p>
-                  <p class="def">{{displayService.evaluateDefense(square, roles[beast.role], beast.size)}}</p>
+                  <div class="def">
+                    <p>{{displayService.evaluateDefense(square, roles[beast.role], beast.size)}}</p>
+                    <p class="shield_cover" *ngIf="square.selectedshield">
+                      <i class="fa-solid fa-shield"></i> {{square.shieldInfo.cover}}
+                    </p>
+                  </div>
                   <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
-                    <p>{{displayService.displayDR(square.newDR, 'armor', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
-                    <p class="shield_dr" *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield) > 0">
-                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15" height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                    <p>{{displayService.displayDR(square.newDR, 'armor', square, roles[beast.role], newSelectedArmor,
+                      newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                    <p class="shield_dr"
+                      *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield) > 0">
+                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
+                        height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role],
+                      newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
+                    </p>
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : 0) +
@@ -144,30 +161,48 @@
                         Between {{((square.ranges.increment) * 2) + 1}} ft and {{(square.ranges.increment) * 3}} ft, -4 atk penalty.
                         and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
-                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square, roles[beast.role], newSelectedWeapon, newWeaponInfo)}}</p>
+                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square,
+                    roles[beast.role], newSelectedWeapon, newWeaponInfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p *ngIf="square.weapontype === 'm'" class="parry">{{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry :
+                  <p *ngIf="square.weapontype === 'm'" class="parry">{{square.showmaxparry ? 'EUA' :
+                    (square.selectedshield ? square.shieldInfo.parry :
                     square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : 0) + square.parry}}</p>
                 </div>
 
                 <div *ngIf="beast.role" class="square-shell">
-                  <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
-                  <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
-                  <p class="spd">{{displayService.calculateRecovery(beast.role ? roles[beast.role].spdbonus : 0, square.selectedweapon, square.weaponInfo,
-                    square.addrolemods, beast.role ? roles[beast.role].spd : 0, square.spd, square.selectedarmor, square.armorInfo)}}</p>
+                  <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png"
+                    alt="combat square">
+                  <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png"
+                    alt="combat square">
+                  <p class="spd">{{displayService.calculateRecovery(beast.role ? roles[beast.role].spdbonus : 0,
+                    square.selectedweapon, square.weaponInfo,
+                    square.addrolemods, beast.role ? roles[beast.role].spd : 0, square.spd, square.selectedarmor,
+                    square.armorInfo)}}</p>
                   <p class="atk">{{displayService.calculateAtk(square, roles[beast.role])}}</p>
-                  <p class="init">{{(square.selectedarmor ? square.armorInfo.init : roles[beast.role].init) + square.init}}
+                  <p class="init">{{(square.selectedarmor ? square.armorInfo.init : roles[beast.role].init) +
+                    square.init}}
                   </p>
-                  <p class="def">{{displayService.evaluateDefense(square, roles[beast.role], beast.size)}}</p>
+                  <div class="def">
+                    <p>{{displayService.evaluateDefense(square, roles[beast.role], beast.size)}}</p>
+                    <p class="shield_cover" *ngIf="square.selectedshield">
+                      <i class="fa-solid fa-shield"></i> {{square.shieldInfo.cover}}
+                    </p>
+                  </div>
                   <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
-                    <p>{{displayService.displayDR(square.newDR, 'armor', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
-                    <p class="shield_dr" *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield) > 0">
-                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15" height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                    <p>{{displayService.displayDR(square.newDR, 'armor', square, roles[beast.role], newSelectedArmor,
+                      newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                    <p class="shield_dr"
+                      *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield) > 0">
+                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
+                        height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role],
+                      newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
+                    </p>
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
-                      roles[beast.role].measure) + square.measure + displayService.returnSizeMeasureModifier(beast.size, square.addsizemod)}}</p>
+                      roles[beast.role].measure) + square.measure + displayService.returnSizeMeasureModifier(beast.size,
+                      square.addsizemod)}}</p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range :
                       roles[beast.role].ranges.increment) + square.ranges.increment}}ri <i
                         class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
@@ -176,9 +211,11 @@
                         Between {{(((square.selectedweapon ? square.weaponInfo.range : roles[beast.role].ranges.increment) + square.ranges.increment) * 2) + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : roles[beast.role].ranges.increment) + square.ranges.increment) * 3}} ft, -4 atk penalty.
                         and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
-                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square, roles[beast.role], newSelectedWeapon, newWeaponInfo)}}</p>
+                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square,
+                    roles[beast.role], newSelectedWeapon, newWeaponInfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p *ngIf="square.weapontype === 'm'" class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">{{square.showmaxparry ? 'EUA' :
+                  <p *ngIf="square.weapontype === 'm'" class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">
+                    {{square.showmaxparry ? 'EUA' :
                     (square.selectedshield ? square.shieldInfo.parry : square.selectedweapon &&
                     square.weaponInfo.parry ?
                     square.weaponInfo.parry : roles[beast.role].parry) + square.parry}}<i *ngIf="square.showmaxparry"
@@ -289,20 +326,36 @@
                 </div>
 
                 <div class="square-shell">
-                  <img *ngIf="newWeaponInfo.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
-                  <img *ngIf="newWeaponInfo.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png" alt="combat square">
-                  <p class="spd">{{displayService.calculateRecovery(beast.role ? roles[beast.role].spdbonus : 0, newSelectedWeapon, newWeaponInfo,
-                    square.addrolemods, beast.role ? roles[beast.role].spd : 0, square.spd, newSelectedArmor, newArmorInfo)}}</p>
+                  <img *ngIf="newWeaponInfo.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png"
+                    alt="combat square">
+                  <img *ngIf="newWeaponInfo.weapontype === 'r'" class="combat-image"
+                    src="../../../../assets/rangedsquare.png" alt="combat square">
+                  <p class="spd">{{displayService.calculateRecovery(beast.role ? roles[beast.role].spdbonus : 0,
+                    newSelectedWeapon, newWeaponInfo,
+                    square.addrolemods, beast.role ? roles[beast.role].spd : 0, square.spd, newSelectedArmor,
+                    newArmorInfo)}}</p>
                   <p class="atk">{{displayService.calculateAtk(square, roles[beast.role])}}</p>
                   <p class="init">{{(newSelectedArmor ? newArmorInfo.init : roles[beast.role].init &&
                     square.addrolemods ?
                     roles[beast.role].init : 0) + square.init}}</p>
-                  <p class="def">{{displayService.evaluateDefense(square, roles[beast.role], beast.size)}}</p>
-                  <p class="fatigue">{{ newSelectedWeapon ? newWeaponInfo.type : square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
+                  <div class="def">
+                    <p>{{displayService.evaluateDefense(square, roles[beast.role], beast.size)}}</p>
+                    <p class="shield_cover" *ngIf="newSelectedShield || square.selectedshield">
+                      <i class="fa-solid fa-shield"></i> {{newSelectedShield ? newShieldInfo.cover :
+                      square.shieldInfo.cover}}
+                    </p>
+                  </div>
+                  <p class="fatigue">{{ newSelectedWeapon ? newWeaponInfo.type : square.selectedweapon ?
+                    square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
-                    <p>{{displayService.displayDR(square.newDR, 'armor', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
-                    <p class="shield_dr" *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
-                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15" height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                    <p>{{displayService.displayDR(square.newDR, 'armor', square, roles[beast.role], newSelectedArmor,
+                      newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                    <p class="shield_dr"
+                      *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role], newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
+                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
+                        height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, roles[beast.role],
+                      newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
+                    </p>
                   </div>
                   <div class="measure">
                     <p *ngIf="newWeaponInfo.weapontype !== 'r'">{{(newSelectedWeapon ? newWeaponInfo.measure :
@@ -320,9 +373,11 @@
                         Between {{(((newSelectedWeapon ? newWeaponInfo.range : roles[beast.role].ranges && square.addrolemods ? roles[beast.role].ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 2) + 1}} ft and {{((newSelectedWeapon ? newWeaponInfo.range : roles[beast.role].ranges && square.addrolemods ? roles[beast.role].ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 3}} ft, -4 atk penalty.
                         and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
-                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square, roles[beast.role], newSelectedWeapon, newWeaponInfo)}}</p>
+                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square,
+                    roles[beast.role], newSelectedWeapon, newWeaponInfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p *ngIf="newWeaponInfo.weapontype === 'm'" class="parry">{{square.showmaxparry ? 'EUA' : (newSelectedShield? newShieldInfo.parry :
+                  <p *ngIf="newWeaponInfo.weapontype === 'm'" class="parry">{{square.showmaxparry ? 'EUA' :
+                    (newSelectedShield? newShieldInfo.parry :
                     newSelectedWeapon && newWeaponInfo.parry ? newWeaponInfo.parry : roles[beast.role].parry &&
                     square.addrolemods ? roles[beast.role].parry : 0) + square.parry}}</p>
                 </div>
@@ -330,7 +385,8 @@
             </div>
           </div>
 
-          <div *ngIf="(beast.sp_atk && !beast.sp_atk.includes('None')) || beast.roleattack || beast.specialAbilities.length > 0">
+          <div
+            *ngIf="(beast.sp_atk && !beast.sp_atk.includes('None')) || beast.roleattack || beast.specialAbilities.length > 0">
             <h2>Add. Attack Info</h2>
             <div class="divider"></div>
             <div *ngIf="!beast.sp_atk.includes('None')">

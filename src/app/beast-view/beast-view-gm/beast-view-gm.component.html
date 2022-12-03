@@ -28,18 +28,19 @@
         <h2>Role</h2>
         <mat-form-field>
           <mat-select (selectionChange)="setRole($event)" [(value)]="selectedRoleId">
-            <mat-option matTooltip="{{(tooltipName(role.role, role.secondaryrole, role.socialrole, role.socialsecondary, role.skillrole))}}"
+            <mat-option
+              matTooltip="{{(tooltipName(role.role, role.secondaryrole, role.socialrole, role.socialsecondary, role.skillrole))}}"
               matTooltipPosition="right" *ngFor="let role of beast.roles" [value]="role.id">
               {{role.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <button (click)="getShortCutURL()"
-        matTooltip="This creates a URL that will go directly to this Role"
-        class="copyURLButton"><i class="fas fa-link"></i></button>
+        <button (click)="getShortCutURL()" matTooltip="This creates a URL that will go directly to this Role"
+          class="copyURLButton"><i class="fas fa-link"></i></button>
       </div>
 
-      <div *ngIf="(beast.conflict.convictions.length > 0 || beast.conflict.descriptions.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0) || beast.socialrole">
+      <div
+        *ngIf="(beast.conflict.convictions.length > 0 || beast.conflict.descriptions.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0) || beast.socialrole">
         <h2>Confrontation</h2>
         <div class="divider"></div>
       </div>
@@ -47,7 +48,9 @@
         *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].socialrole) || (!selectedRoleId && beast.socialrole)">
         <h3>Confrontation Role Type </h3>
         <p>
-          {{selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole + (beast.roleInfo[selectedRoleId].socialsecondary ? ' [' + beast.roleInfo[selectedRoleId].socialsecondary + ']' : '' ) : beast.socialrole + (beast.socialsecondary ? ' [' + beast.socialsecondary + ']' : '' )}} <i
+          {{selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole + (beast.roleInfo[selectedRoleId].socialsecondary
+          ? ' [' + beast.roleInfo[selectedRoleId].socialsecondary + ']' : '' ) : beast.socialrole +
+          (beast.socialsecondary ? ' [' + beast.socialsecondary + ']' : '' )}} <i
             class="fas fa-info-circle icon-small blue"
             matTooltip="{{socialRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole].description 
               + (selectedRoleId && beast.roleInfo[selectedRoleId].socialsecondary ? '\n' + socialSecondaryInfo[beast.roleInfo[selectedRoleId].socialsecondary].description : beast.socialsecondary ? '\n' + socialSecondaryInfo[beast.socialsecondary].description : '')}}"
@@ -136,13 +139,15 @@
             matTooltip="{{combatRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role].description
               + (selectedRoleId && beast.roleInfo[selectedRoleId].secondaryrole ? '\n' + combatSecondaryInfo[beast.roleInfo[selectedRoleId].secondaryrole].description : beast.secondaryrole ? '\n' + combatSecondaryInfo[beast.secondaryrole].description : '')}}"
             matTooltipClass="my-tooltip"></i></p>
-        <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></div>
+        <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
+            class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></div>
       </div>
 
       <div *ngIf="(!selectedRoleId && !beast.role) || (selectedRoleId && !beast.roleInfo[selectedRoleId].role)">
         <div class="role-select extra-padding">
           <h3>Add to Quick View</h3>
-          <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></div>
+          <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView()"><i
+              class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></div>
         </div>
       </div>
 
@@ -165,18 +170,27 @@
                     square.armorInfo.rec : 0) + square.spd}}</p>
                   <p class="atk">{{square.atk}}</p>
                   <p class="init">{{(square.selectedarmor ? square.armorInfo.init : 0) + square.init}}</p>
-                  <p class="def">{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
+                  <div class="def">
+                    <p>{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ?
+                      beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
+                    <p class="shield_cover" *ngIf="square.selectedshield">
+                      <i class="fa-solid fa-shield"></i> {{square.shieldInfo.cover}}
+                    </p>
+                  </div>
                   <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
-                    <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
-                    <p class="shield_dr" *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
-                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
-                        height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
+                    <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor,
+                      newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                    <p class="shield_dr"
+                      *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
+                      <i class="fa-solid fa-shield"></i> {{displayService.displayDR(square.newShieldDr, 'shield',
+                      square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
                     </p>
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : 0) +
-                      square.measure + displayService.returnSizeMeasureModifier(selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size, square.addsizemod)}}</p>
+                      square.measure + displayService.returnSizeMeasureModifier(selectedRoleId ?
+                      beast.roleInfo[selectedRoleId].size : beast.size, square.addsizemod)}}</p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : 0) +
                       square.ranges.increment}}ri <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
                         Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
@@ -184,7 +198,8 @@
                         Between {{((square.ranges.increment) * 2) + 1}} ft and {{(square.ranges.increment) * 3}} ft, -4 atk penalty.
                         and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
-                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square, selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
+                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square,
+                    selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
                   <p *ngIf="square.weapontype !== 'r'" class="parry">{{square.showmaxparry ? 'EUA' :
                     (square.selectedshield ? square.shieldInfo.parry :
@@ -204,26 +219,36 @@
                     alt="combat square">
                   <img *ngIf="square.weapontype === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png"
                     alt="combat square">
-                  <p class="spd">{{displayService.calculateRecovery(selectedRole.spdbonus, square.selectedweapon, square.weaponInfo,
+                  <p class="spd">{{displayService.calculateRecovery(selectedRole.spdbonus, square.selectedweapon,
+                    square.weaponInfo,
                     square.addrolemods, selectedRole.spd, square.spd, square.selectedarmor, square.armorInfo)}}</p>
                   <p class="atk">{{displayService.calculateAtk(square, selectedRole)}}</p>
                   <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init &&
                     square.addrolemods ?
                     selectedRole.init : 0) + square.init}}</p>
-                  <p class="def">{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
+                  <div class="def">
+                    <p>{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ?
+                      beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
+                    <p class="shield_cover" *ngIf="square.selectedshield">
+                      <i class="fa-solid fa-shield"></i> {{square.shieldInfo.cover}}
+                    </p>
+                  </div>
                   <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
                   <div class="dr">
-                    <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
-                    <p class="shield_dr" *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
-                      <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
-                        height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
+                    <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor,
+                      newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                    <p class="shield_dr"
+                      *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
+                      <i class="fa-solid fa-shield"></i> {{displayService.displayDR(square.newShieldDr, 'shield',
+                      square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
                     </p>
                   </div>
                   <div class="measure">
                     <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
                       selectedRole.measure
                       && square.addrolemods ? selectedRole.measure : 0) + square.measure +
-                      displayService.returnSizeMeasureModifier(selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size, square)}}
+                      displayService.returnSizeMeasureModifier(selectedRoleId ? beast.roleInfo[selectedRoleId].size :
+                      beast.size, square)}}
                     </p>
                     <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range :
                       selectedRole.ranges &&
@@ -234,7 +259,8 @@
                         Between {{(((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 2) + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 3}} ft, -4 atk penalty.
                         and so on." matTooltipClass="my-tooltip"></i></p>
                   </div>
-                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square, selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
+                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square,
+                    selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
                   <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
                   <p *ngIf="square.weapontype !== 'r'" class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">
                     {{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry :
@@ -352,27 +378,37 @@
                   alt="combat square">
                 <img *ngIf="newWeaponInfo.weapontype !== 'm'" class="combat-image"
                   src="../../../../assets/rangedsquare.png" alt="combat square">
-                <p class="spd">{{displayService.calculateRecovery(selectedRole.spdbonus, newSelectedWeapon, newWeaponInfo,
+                <p class="spd">{{displayService.calculateRecovery(selectedRole.spdbonus, newSelectedWeapon,
+                  newWeaponInfo,
                   square.addrolemods, selectedRole.spd, square.spd, newSelectedArmor, newArmorInfo)}}</p>
                 <p class="atk">{{displayService.calculateAtk(square, selectedRole)}}</p>
                 <p class="init">{{(newSelectedArmor ? newArmorInfo.init : selectedRole.init &&
                   square.addrolemods ?
                   selectedRole.init : 0) + square.init}}</p>
-                <p class="def">{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
+                <div class="def">
+                  <p>{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ?
+                    beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
+                  <p class="shield_cover" *ngIf="newSelectedShield || square.selectedshield">
+                    <i class="fa-solid fa-shield"></i> {{newSelectedShield ? newShieldInfo.cover : square.shieldInfo.cover}}
+                  </p>
+                </div>
                 <p class="fatigue">{{ newSelectedWeapon ? newWeaponInfo.type : square.selectedweapon ?
                   square.weaponInfo.type : square.damagetype }}</p>
                 <div class="dr">
-                  <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
-                  <p class="shield_dr" *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
-                    <img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
-                      height="15">{{displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
+                  <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor,
+                    newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
+                  <p class="shield_dr"
+                    *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
+                    <i class="fa-solid fa-shield"></i> {{displayService.displayDR(square.newShieldDr, 'shield', square,
+                    selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
                   </p>
                 </div>
                 <div class="measure">
                   <p *ngIf="newWeaponInfo.weapontype !== 'r'">{{(newSelectedWeapon ? newWeaponInfo.measure :
                     selectedRole.measure
                     && square.addrolemods ? selectedRole.measure : 0) + square.measure +
-                    displayService.returnSizeMeasureModifier(selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size, square.addsizemod)}}
+                    displayService.returnSizeMeasureModifier(selectedRoleId ? beast.roleInfo[selectedRoleId].size :
+                    beast.size, square.addsizemod)}}
                   </p>
                   <p *ngIf="newWeaponInfo.weapontype === 'r'">{{(newSelectedWeapon ? newWeaponInfo.range :
                     selectedRole.ranges &&
@@ -383,7 +419,8 @@
                       Between {{(((newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 2) + 1}} ft and {{((newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 3}} ft, -4 atk penalty.
                       and so on." matTooltipClass="my-tooltip"></i></p>
                 </div>
-                <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square, selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
+                <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square,
+                  selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
                 <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
                 <p *ngIf="newWeaponInfo.weapontype !== 'r'" class="parry">{{square.showmaxparry ? 'EUA' :
                   (newSelectedShield ? newShieldInfo.parry :
@@ -481,7 +518,9 @@
             <p
               *ngIf="(!selectedRoleId && beast.stress !== 0) || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && beast.stress !== 0)">
               {{beast.stress}}</p>
-            <p *ngIf="(!selectedRoleId && !beast.stress) || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && !beast.stress)">N/A</p>
+            <p
+              *ngIf="(!selectedRoleId && !beast.stress) || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && !beast.stress)">
+              N/A</p>
           </div>
           <div
             *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
@@ -525,24 +564,39 @@
               <h4>{{movementType.type ? movementType.type : 'Land' | titlecase}}</h4>
               <div class="divider white"></div>
               <div class="flex-row-opposite">
-                <h5 [ngClass]="{'strike-through': movementType.stroll === '0' || movementType.stroll === '0 ft / sec' }">Stroll/Crawl</h5>
+                <h5
+                  [ngClass]="{'strike-through': movementType.stroll === '0' || movementType.stroll === '0 ft / sec' }">
+                  Stroll/Crawl</h5>
                 <p>{{movementType.stroll}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
               <div class="flex-row-opposite">
-                <h5 [ngClass]="{'strike-through': movementType.walk === '0' || movementType.walk === '0 ft / sec' }">Walk</h5>
-                <p>{{movementType.walk === '0' || movementType.walk === '0 ft / sec' ? '' : movementType.walk}}{{movementType.walk !== '0' && movementType.walk !== '0 ft / sec' && !movementType.walk.includes('ft') ? ' ft / sec' : '' }}</p>
+                <h5 [ngClass]="{'strike-through': movementType.walk === '0' || movementType.walk === '0 ft / sec' }">
+                  Walk</h5>
+                <p>{{movementType.walk === '0' || movementType.walk === '0 ft / sec' ? '' :
+                  movementType.walk}}{{movementType.walk !== '0' && movementType.walk !== '0 ft / sec' &&
+                  !movementType.walk.includes('ft') ? ' ft / sec' : '' }}</p>
               </div>
               <div class="flex-row-opposite">
-                <h5 [ngClass]="{'strike-through': movementType.jog === '0' || movementType.jog === '0 ft / sec' }">Jog</h5>
-                <p>{{movementType.jog === '0' || movementType.jog === '0 ft / sec' ? '' : movementType.jog}}{{movementType.jog !== '0' && movementType.jog !== '0 ft / sec' && !movementType.jog.includes('ft') ? ' ft / sec' : '' }}</p>
+                <h5 [ngClass]="{'strike-through': movementType.jog === '0' || movementType.jog === '0 ft / sec' }">Jog
+                </h5>
+                <p>{{movementType.jog === '0' || movementType.jog === '0 ft / sec' ? '' :
+                  movementType.jog}}{{movementType.jog !== '0' && movementType.jog !== '0 ft / sec' &&
+                  !movementType.jog.includes('ft') ? ' ft / sec' : '' }}</p>
               </div>
               <div class="flex-row-opposite">
-                <h5 [ngClass]="{'strike-through': movementType.run === '0' || movementType.run === '0 ft / sec' }">Run</h5>
-                <p>{{movementType.run === '0' || movementType.run === '0 ft / sec' ? '' : movementType.run}}{{movementType.run !== '0' && movementType.run !== '0 ft / sec' && !movementType.run.includes('ft') ? ' ft / sec' : '' }}</p>
+                <h5 [ngClass]="{'strike-through': movementType.run === '0' || movementType.run === '0 ft / sec' }">Run
+                </h5>
+                <p>{{movementType.run === '0' || movementType.run === '0 ft / sec' ? '' :
+                  movementType.run}}{{movementType.run !== '0' && movementType.run !== '0 ft / sec' &&
+                  !movementType.run.includes('ft') ? ' ft / sec' : '' }}</p>
               </div>
               <div class="flex-row-opposite">
-                <h5 [ngClass]="{'strike-through': movementType.sprint === '0' || movementType.sprint === '0 ft / sec' }">Sprint</h5>
-                <p>{{movementType.sprint === '0' || movementType.sprint === '0 ft / sec' ? '' : movementType.sprint}}{{movementType.sprint !== '0' && movementType.sprint !== '0 ft / sec' && !movementType.sprint.includes('ft') ? ' ft / sec' : '' }}</p>
+                <h5
+                  [ngClass]="{'strike-through': movementType.sprint === '0' || movementType.sprint === '0 ft / sec' }">
+                  Sprint</h5>
+                <p>{{movementType.sprint === '0' || movementType.sprint === '0 ft / sec' ? '' :
+                  movementType.sprint}}{{movementType.sprint !== '0' && movementType.sprint !== '0 ft / sec' &&
+                  !movementType.sprint.includes('ft') ? ' ft / sec' : '' }}</p>
               </div>
             </div>
           </div>
@@ -831,7 +885,8 @@
             Size <i class="fas fa-info-circle icon-small blue"
               matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This is factored into their Defense already."></i>
           </h3>
-          <p>{{selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size}}</p>
+          <p>{{selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size :
+            beast.size}}</p>
         </div>
         <div class="flex-row-opposite">
           <h3>Senses</h3>

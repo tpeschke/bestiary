@@ -303,9 +303,17 @@ mat-toolbar {
 .def {
     position: absolute;
     z-index: 1;
-    left: 30px;
-    top: 65px;
+    left: 15px;
+    top: 48px;
     font-size: 17px;
+    width: 44px;
+    height: 45px;
+    text-align: center;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-evenly;
 }
 
 .fatigue {
@@ -333,7 +341,7 @@ mat-toolbar {
     justify-content: space-evenly;
 }
 
-.shield_dr {
+.shield_dr, .shield_cover {
     border-top: 2px solid grey;
 }
 
