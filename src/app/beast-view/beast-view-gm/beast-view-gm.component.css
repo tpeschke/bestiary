@@ -33,6 +33,12 @@ h4 {
     font-size: 17px;
 }
 
+.orphan-p-tag {
+    text-indent: 25px;
+    padding: 10px 5px;
+    white-space: pre-wrap !important;
+}
+
 .weaponName {
     width: 150px
 }

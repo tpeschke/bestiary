@@ -275,6 +275,8 @@ let controllerObj = {
             baseParry = shieldObj.parry
 
             weapon.def += shieldObj.def
+
+            weapon.cover = shieldObj.cover
           }
 
           weapon.parry += baseParry
@@ -385,7 +387,7 @@ let controllerObj = {
 
       let { id: dbid, artistid, artist, tooltip, link } = artistInfo;
       if (artist) {
-        if (!dbid) {
+        if (!artistid) {
           promiseArray.push(db.add.allartists(artist, tooltip, link).then(result => {
             return promiseArray.push(db.add.artist(id, result[0].id).then(result => result))
           }))
@@ -691,7 +693,7 @@ let controllerObj = {
       
       let { id: dbid, artistid, artist, tooltip, link } = artistInfo;
       if (artist) {
-        if (!dbid) {
+        if (!artistid) {
           promiseArray.push(db.add.allartists(artist, tooltip, link).then(result => {
             return promiseArray.push(db.add.artist(id, result[0].id).then(result => result))
           }))
