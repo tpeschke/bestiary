@@ -80,6 +80,7 @@ module.exports = {
                 , queryLength = ids.length
 
             if (queryLength > 1) {
+// might have an intersection function from lodash
                 ids.forEach(innerIdArray => {
                     innerIdArray.forEach(val => {
                         if (!isNaN(idCountObj[val.id])) {
