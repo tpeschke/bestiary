@@ -132,6 +132,156 @@ export class BeastViewEditComponent implements OnInit {
         delete beast.id
         beast.name = beast.name + " Template"
         this.beast = beast
+
+        if (!this.beast.casting) {
+          this.beast.casting = {
+            augur: null,
+            wild: null,
+            vancian: null,
+            spellnumberdie: 'd4',
+            manifesting: null,
+            commanding: null,
+            bloodpact: null
+          }
+        }
+
+        let roleIdsDictionary = {}
+        this.beast.roles = this.beast.roles.map(role => {
+          const newId = this.makeId()
+          roleIdsDictionary[role.id] = newId
+
+          this.beast.roleInfo[newId] = this.beast.roleInfo[role.id]
+          delete this.beast.roleInfo[role.id]
+
+          if (this.beast.defaultrole === role.id) {
+            this.beast.defaultrole = newId
+            this.setRole({ value: this.beast.defaultrole })
+          }
+
+          role.id = newId
+          delete role.beastid
+          role.hash = null
+
+          return role
+        })
+
+        this.beast.artistInfo = { ...this.beast.artistInfo, artist: null, artistid: null, beastid: null, id: null, link: null, tooltip: null }
+
+        this.beast.combat = this.beast.combat.map(combat => {
+          if (combat.roleid) {
+            combat.roleid = roleIdsDictionary[combat.roleid]
+          }
+          delete combat.id
+          delete combat.beastid
+
+          return combat
+        })
+
+        this.beast.conflict.descriptions = this.beast.conflict.descriptions.map(socialObject => {
+          if (socialObject.socialroleid) {
+            socialObject.socialroleid = roleIdsDictionary[socialObject.socialroleid]
+          }
+          delete socialObject.id
+          delete socialObject.beastid
+          return socialObject
+        })
+
+        this.beast.conflict.convictions = this.beast.conflict.convictions.map(socialObject => {
+          if (socialObject.socialroleid) {
+            socialObject.socialroleid = roleIdsDictionary[socialObject.socialroleid]
+          }
+          delete socialObject.id
+          delete socialObject.beastid
+          return socialObject
+        })
+
+        this.beast.conflict.devotions = this.beast.conflict.devotions.map(socialObject => {
+          if (socialObject.socialroleid) {
+            socialObject.socialroleid = roleIdsDictionary[socialObject.socialroleid]
+          }
+          delete socialObject.id
+          delete socialObject.beastid
+          return socialObject
+        })
+
+        this.beast.conflict.flaws = this.beast.conflict.flaws.map(socialObject => {
+          if (socialObject.socialroleid) {
+            socialObject.socialroleid = roleIdsDictionary[socialObject.socialroleid]
+          }
+          delete socialObject.id
+          delete socialObject.beastid
+          return socialObject
+        })
+
+        this.beast.skills = this.beast.skills.map(skill => {
+          if (skill.skillroleid) {
+            skill.skillroleid = roleIdsDictionary[skill.skillroleid]
+          }
+          delete skill.id
+          delete skill.beastid
+          return skill
+        })
+
+        this.beast.reagents = this.beast.reagents.map(reagent => {
+          delete reagent.id
+          delete reagent.beastid
+          return reagent
+        })
+
+        this.beast.movement = this.beast.movement.map(movementObject => {
+          if (movementObject.roleid) {
+            movementObject.roleid = roleIdsDictionary[movementObject.roleid]
+          }
+          delete movementObject.id
+          delete movementObject.beastid
+          return movementObject
+        })
+
+        this.beast.loot = this.beast.loot.map(item => {
+          delete item.id
+          delete item.beastid
+          return item
+        })
+
+        delete this.beast.lairloot.id
+        delete this.beast.lairloot.beastid
+
+        this.beast.lairloot.traited = this.beast.lairloot.traited.map(item => {
+          delete item.id
+          delete item.beastid
+          return item
+        })
+
+        this.beast.lairloot.equipment = this.beast.lairloot.equipment.map(item => {
+          delete item.id
+          delete item.beastid
+          return item
+        })
+
+        this.beast.lairloot.scrolls = this.beast.lairloot.scrolls.map(item => {
+          delete item.id
+          delete item.beastid
+          return item
+        })
+
+        this.beast.lairloot.alms = this.beast.lairloot.alms.map(item => {
+          delete item.id
+          delete item.beastid
+          return item
+        })
+
+        delete this.beast.casting.id
+        delete this.beast.casting.beastid
+
+        this.beast.spells = this.beast.spells.map(spells => {
+          if (spells.roleid) {
+            spells.roleid = roleIdsDictionary[spells.roleid]
+          }
+          delete spells.id
+          delete spells.beastid
+          return spells
+        })
+        
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
         }
@@ -156,17 +306,6 @@ export class BeastViewEditComponent implements OnInit {
         }
         if (this.beast.skillrole) {
           this.selectedSkillRole = this.skillRolesInfo[this.beast.skillrole]
-        }
-        if (!this.beast.casting) {
-          this.beast.casting = {
-            augur: null,
-            wild: null,
-            vancian: null,
-            spellnumberdie: 'd4',
-            manifesting: null,
-            commanding: null,
-            bloodpact: null
-          }
         }
         this.beastService.getEditEncounter(this.beast.id).subscribe(encounter => {
           this.encounter = encounter
@@ -1083,31 +1222,31 @@ export class BeastViewEditComponent implements OnInit {
         this.beast.defaultrole = id
 
         this.beast.conflict.descriptions.forEach(val => {
-            val.socialroleid = id
+          val.socialroleid = id
         })
         this.beast.conflict.convictions.forEach(val => {
-            val.socialroleid = id
+          val.socialroleid = id
         })
         this.beast.conflict.devotions.forEach(val => {
-            val.socialroleid = id
+          val.socialroleid = id
         })
         this.beast.conflict.flaws.forEach(val => {
-            val.socialroleid = id
+          val.socialroleid = id
         })
 
         this.beast.skills.forEach(val => {
-            val.skillroleid = id
+          val.skillroleid = id
         })
 
         this.beast.combat.forEach(val => {
-            val.roleid = id
+          val.roleid = id
         })
         this.beast.locationalvitality.forEach(val => {
-            val.roleid = id
+          val.roleid = id
         })
 
         this.beast.movement.forEach(val => {
-            val.roleid = id
+          val.roleid = id
         })
       }
       this.beast.roles.push({ id, ...this.newRole })
@@ -1499,9 +1638,9 @@ export class BeastViewEditComponent implements OnInit {
 
   calculateSocialPoints = () => {
     let socialpoints = 0
-    
+
     socialpoints += Math.ceil(this.beast.stress / 5)
-    
+
     socialpoints += this.getPanicValue(this.beast.panic)
 
     this.beast.conflict.devotions.forEach(trait => {
@@ -1830,7 +1969,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.defaultrole = null
     }
     this.setDefaultRole()
-    this.setRole({ value: this.beast.defaultrole})
+    this.setRole({ value: this.beast.defaultrole })
   }
 
   setDefaultRole = () => {
