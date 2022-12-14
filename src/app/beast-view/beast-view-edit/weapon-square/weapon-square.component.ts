@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { int } from 'aws-sdk/clients/datapipeline';
 import { BeastService } from 'src/app/util/services/beast.service';
 import { DisplayServiceService } from 'src/app/util/services/displayService.service';
+import roles from '../../roles.js'
 
 @Component({
   selector: 'app-weapon-square',
@@ -20,6 +21,7 @@ export class WeaponSquareComponent implements OnInit {
   @Input() roleVitality: any;
   @Input() mainVitality: any
   @Input() beastSize: any;
+  @Input() secondaryRole: any;
 
   constructor(
     public beastService: BeastService,
@@ -34,6 +36,7 @@ export class WeaponSquareComponent implements OnInit {
   public equipmentLists = { weapons: [], armor: [], shields: [] }
   public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
   public showAllEquipment = false
+  public controllerWeapons = roles.combatRoles.secondary.Controller.weapons
 
   ngOnInit() {
     this.displayService.turnOnAllEquipment(this.selectedRole, null, null, null)

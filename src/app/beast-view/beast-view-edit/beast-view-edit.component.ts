@@ -1057,6 +1057,7 @@ export class BeastViewEditComponent implements OnInit {
   addNewArtist() {
     let { artist, tooltip, link } = this.artist
     this.beast.artistInfo.id = null
+    this.beast.artistInfo.artistid = null
     this.beast.artistInfo.artist = artist
     this.beast.artistInfo.tooltip = tooltip
     this.beast.artistInfo.link = link

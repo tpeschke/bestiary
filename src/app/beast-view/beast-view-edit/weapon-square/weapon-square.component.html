@@ -70,6 +70,13 @@
             <mat-label>Weapon Choices</mat-label>
             <mat-select [value]="square.selectedweapon" (selectionChange)="captureSelect($event, 'selectedweapon')">
               <mat-option>None</mat-option>
+              <div *ngIf="secondaryRole === 'Controller'">
+                <mat-optgroup *ngFor="let group of controllerWeapons" [label]="group.label">
+                  <mat-option *ngFor="let item of group.items" [value]="item">
+                    {{item}}
+                  </mat-option>
+                </mat-optgroup>
+              </div>
               <mat-optgroup *ngFor="let group of selectedRole.weapons" [label]="group.label">
                 <mat-option *ngFor="let item of group.items" [value]="item">
                   {{item}}

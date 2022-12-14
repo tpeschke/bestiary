@@ -178,7 +178,9 @@
 
       <p [innerHTML]="displayName(selectedRoleId)"></p>
       <section>
-        <mat-checkbox [matTooltipDisabled]="!(selectedRoleId === beast.defaultrole)" [disabled]="selectedRoleId === beast.defaultrole" matTooltip="To set a new default, go to another Role" [checked]="selectedRoleId === beast.defaultrole" (change)="updateDefaultRole()">Default Role
+        <mat-checkbox [matTooltipDisabled]="!(selectedRoleId === beast.defaultrole)"
+          [disabled]="selectedRoleId === beast.defaultrole" matTooltip="To set a new default, go to another Role"
+          [checked]="selectedRoleId === beast.defaultrole" (change)="updateDefaultRole()">Default Role
         </mat-checkbox>
       </section>
     </div>
@@ -771,7 +773,8 @@
                   [updateCombatPoints]="updateCombatPoints" [index]="i"
                   [roleVitality]="selectedRoleId ? beast.roleInfo[this.selectedRoleId].average : null"
                   [mainVitality]="averageVitality" [removeNewSecondaryItem]="removeNewSecondaryItem"
-                  [copyWeaponSquare]="copyWeaponSquare" [beastSize]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size">
+                  [copyWeaponSquare]="copyWeaponSquare"
+                  [beastSize]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size" [secondaryRole]="selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? beast.roleInfo[selectedRoleId].secondaryrole : selectedRoleId ? null : beast.secondaryrole">
                 </app-weapon-square>
               </div>
             </div>
@@ -1879,7 +1882,8 @@
             <div>
               <mat-form-field>
                 <mat-label>Size</mat-label>
-                <mat-select [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size" (selectionChange)="captureSelectWithRoleConsideration($event, 'size')">
+                <mat-select [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size"
+                  (selectionChange)="captureSelectWithRoleConsideration($event, 'size')">
                   <mat-option value="Fine">
                     Fine
                   </mat-option>
@@ -1913,7 +1917,12 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-checkbox *ngIf="selectedRoleId" [matTooltipDisabled]="!(selectedRoleId && beast.roleInfo[selectedRoleId].size === beast.size)" matTooltip="To set a new default, go to another Role" [disabled]="selectedRoleId && beast.roleInfo[selectedRoleId].size === beast.size" [checked]="selectedRoleId && beast.roleInfo[selectedRoleId].size === beast.size" (change)="updateDefaultSize()">Default Size</mat-checkbox>
+              <mat-checkbox *ngIf="selectedRoleId"
+                [matTooltipDisabled]="!(selectedRoleId && beast.roleInfo[selectedRoleId].size === beast.size)"
+                matTooltip="To set a new default, go to another Role"
+                [disabled]="selectedRoleId && beast.roleInfo[selectedRoleId].size === beast.size"
+                [checked]="selectedRoleId && beast.roleInfo[selectedRoleId].size === beast.size"
+                (change)="updateDefaultSize()">Default Size</mat-checkbox>
             </div>
 
             <mat-form-field>
@@ -2046,5 +2055,5 @@
   <br>
 
   <button (click)="saveChanges()" mat-raised-button color="primary">Save</button>
-  <button (click)="deleteThisBeast()" mat-raised-button color="warn" class="deleteButton">Delete</button>
+  <button (click)="deleteThisBeast()" mat-raised-button color="warn" class="deleteButton">Delete Monster</button>
 </mat-card>

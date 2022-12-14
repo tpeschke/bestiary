@@ -654,6 +654,12 @@ export default {
             },
             'Controller': {
                 description: 'Controllers are about movement: pushing and pulling others on the battlefield to get them into position.',
+                weapons: [
+                    {
+                    label: 'Controller Weapons',
+                    items: ['Ahlspiess', 'Military Fork', 'Brass Knuckles', 'Unarmed', 'Fire Lance', 'Hakenbuchse', 'Handgonne']
+                    },
+                ]
             },
             'Solo': {
                 description: 'Solos fight alone against the party. They have special abilities that keep them dangerous and the fight interesting.',
