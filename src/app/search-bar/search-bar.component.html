@@ -75,24 +75,6 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Subsystem Focus</mat-label>
-                <mat-select (selectionChange)="enterSearchSubsystem($event)">
-                    <mat-option value="1">
-                        Combat
-                    </mat-option>
-                    <mat-option value="2">
-                        Confrontation
-                    </mat-option>
-                    <mat-option value="3">
-                        Skill
-                    </mat-option>
-                    <mat-option>
-                        I Don't Care
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
             <div class="searchCheckboxes">
                 <mat-checkbox color='primary' (change)="searchByAnyAccess($event)">Anyone Can View?</mat-checkbox>
             </div>
