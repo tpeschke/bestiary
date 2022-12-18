@@ -224,7 +224,7 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="secondary-role-margin">
             <mat-label>Combat Secondary Role Type</mat-label>
             <mat-select #newSecondaryRoleSelect (selectionChange)="captureNewRole('secondaryrole', $event)"
               [disabled]="beast.roles.length === 0 && beast.secondaryrole"
@@ -252,7 +252,7 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="secondary-role-margin">
             <mat-label>Confrontation Secondary Role Type</mat-label>
             <mat-select #newConfRoleSelect (selectionChange)="captureNewRole('socialsecondary', $event)"
               [disabled]="beast.roles.length === 0 && beast.socialsecondary"

@@ -440,7 +440,7 @@ export class BeastViewEditComponent implements OnInit {
       newSecondaryObject[index][secondaryType][thirdType] = event.target.value
       this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     }
-    
+
     this.calculateCombatPoints()
     this.calculateSocialPoints()
     this.calculateSkillPoints()
@@ -813,35 +813,37 @@ export class BeastViewEditComponent implements OnInit {
     let id = this.route.snapshot.paramMap.get('id');
     this.beast.combat = this.beast.combat.map(weapon => {
 
-      if (weapon.newDR.flat && weapon.newDR.slash) {
-        weapon.dr = `${weapon.newDR.slash}/d+${weapon.newDR.flat}`
-      } else if (weapon.newDR.flat) {
-        weapon.dr = `${weapon.newDR.flat}`
-      } else if (weapon.newDR.slash) {
-        weapon.dr = `${weapon.newDR.slash}/d`
-      } else {
-        weapon.dr = null
-      }
-
-      if (weapon.newShieldDr.flat && weapon.newShieldDr.slash) {
-        weapon.shield_dr = `${weapon.newShieldDr.slash}/d+${weapon.newShieldDr.flat}`
-      } else if (weapon.newShieldDr.flat) {
-        weapon.shield_dr = `${weapon.newShieldDr.flat}`
-      } else if (weapon.newShieldDr.slash) {
-        weapon.shield_dr = `${weapon.newShieldDr.slash}/d`
-      } else {
-        weapon.shield_dr = null
-      }
-
       if (!weapon.deleted) {
-        weapon.damage = weapon.newDamage.dice.join(' +')
-        let modifier = weapon.newDamage.flat
-        if (modifier > 0) {
-          modifier = ` +${modifier}`
-        } else if (modifier === 0) {
-          modifier = ''
+        if (weapon.newDR.flat && weapon.newDR.slash) {
+          weapon.dr = `${weapon.newDR.slash}/d+${weapon.newDR.flat}`
+        } else if (weapon.newDR.flat) {
+          weapon.dr = `${weapon.newDR.flat}`
+        } else if (weapon.newDR.slash) {
+          weapon.dr = `${weapon.newDR.slash}/d`
+        } else {
+          weapon.dr = null
         }
-        weapon.damage += modifier
+
+        if (weapon.newShieldDr.flat && weapon.newShieldDr.slash) {
+          weapon.shield_dr = `${weapon.newShieldDr.slash}/d+${weapon.newShieldDr.flat}`
+        } else if (weapon.newShieldDr.flat) {
+          weapon.shield_dr = `${weapon.newShieldDr.flat}`
+        } else if (weapon.newShieldDr.slash) {
+          weapon.shield_dr = `${weapon.newShieldDr.slash}/d`
+        } else {
+          weapon.shield_dr = null
+        }
+
+        if (!weapon.deleted) {
+          weapon.damage = weapon.newDamage.dice.join(' +')
+          let modifier = weapon.newDamage.flat
+          if (modifier > 0) {
+            modifier = ` +${modifier}`
+          } else if (modifier === 0) {
+            modifier = ''
+          }
+          weapon.damage += modifier
+        }
       }
       return weapon
     })

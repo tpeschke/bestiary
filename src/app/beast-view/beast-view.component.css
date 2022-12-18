@@ -2,6 +2,11 @@ strong {
     font-weight: bold;
 }
 
+.secondary-role-margin {
+    margin-left: 15px;
+    margin-top: -10px;
+}
+
 .top-margin {
     margin-top: 5px;
 }
