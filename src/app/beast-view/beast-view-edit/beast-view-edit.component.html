@@ -770,7 +770,7 @@
             <div *ngFor="let square of beast.combat; let i = index">
               <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell unset-width">
                 <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
-                  [updateCombatPoints]="updateCombatPoints" [index]="i"
+                  [calculateCombatPoints]="calculateCombatPoints" [index]="i"
                   [roleVitality]="selectedRoleId ? beast.roleInfo[this.selectedRoleId].average : null"
                   [mainVitality]="averageVitality" [removeNewSecondaryItem]="removeNewSecondaryItem"
                   [copyWeaponSquare]="copyWeaponSquare"

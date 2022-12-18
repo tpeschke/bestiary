@@ -14,7 +14,7 @@ export class WeaponSquareComponent implements OnInit {
   @Input() square: any;
   @Input() selectedRole: any;
   @Input() selectedRoleId: string;
-  @Input() updateCombatPoints: Function;
+  @Input() calculateCombatPoints: Function;
   @Input() index: int;
   @Input() removeNewSecondaryItem: Function;
   @Input() copyWeaponSquare: Function;
@@ -218,7 +218,7 @@ export class WeaponSquareComponent implements OnInit {
         console.log('couldn\'t find ' + metricToCompare)
     }
 
-    this.updateCombatPoints(valueChange)
+    this.calculateCombatPoints()
   }
 
   returnPointValueForDamageSkills = () => {
@@ -257,7 +257,7 @@ export class WeaponSquareComponent implements OnInit {
             console.log('could\'t find ' + value + ' while adding damage dice')
         }
 
-        this.updateCombatPoints(valueToAdd)
+        this.calculateCombatPoints()
       } else if (primary === 'damage dice' && secondary === 'remove') {
         let valueToSubtract = 0
 
@@ -283,7 +283,7 @@ export class WeaponSquareComponent implements OnInit {
             console.log('could\'t find ' + value + ' while removing damage dice')
         }
 
-        this.updateCombatPoints(valueToSubtract)
+        this.calculateCombatPoints()
       }
     }
 
