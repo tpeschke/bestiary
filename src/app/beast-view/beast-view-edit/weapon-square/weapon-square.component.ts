@@ -114,27 +114,29 @@ export class WeaponSquareComponent implements OnInit {
     }
   }
 
-  addChip = (type) => {
+  addChip = (newDice) => {
     let diceAdd = false
       , { dice } = this.square.newDamage
 
-    this.updateNonIntCombatValues('damage dice', 'add', type)
+    this.updateNonIntCombatValues('damage dice', 'add', newDice)
     if (dice.length == 0) {
-      dice.push(`d${type}!`)
+      dice.push(`d${newDice}!`)
       diceAdd = true
     } else {
       for (let i = 0; i < dice.length; i++) {
         let positionType = dice[i].split('d')[1]
-        if (+positionType > +type) {
-          dice.splice(i - 1, 0, `d${type}!`);
+        positionType = positionType.slice(0, -1)
+        console.log(positionType, newDice)
+        if (+positionType > +newDice) {
+          dice.splice(i - 1, 0, `d${newDice}!`);
           diceAdd = true
           i = dice.length
-        } else if (positionType === type) {
+        } else if (positionType === newDice) {
           let number = dice[i].split('d')[0]
           if (number !== '') {
-            dice[i] = `${+number + 1}d${type}!`
+            dice[i] = `${+number + 1}d${newDice}!`
           } else {
-            dice[i] = `2d${type}!`
+            dice[i] = `2d${newDice}!`
           }
           diceAdd = true
           i = dice.length
@@ -143,7 +145,7 @@ export class WeaponSquareComponent implements OnInit {
     }
 
     if (!diceAdd) {
-      dice.push(`d${type}!`)
+      dice.push(`d${newDice}!`)
     }
 
     this.displayedDamage = this.displayService.displayDamage(this.square, this.selectedRole, null, null)
@@ -151,14 +153,15 @@ export class WeaponSquareComponent implements OnInit {
 
   removeChip = (type) => {
     let { dice } = this.square.newDamage
-
-    this.updateNonIntCombatValues('damage dice', 'remove', type)
+    , diceType = type.split('d')[1]
+    
+    this.updateNonIntCombatValues('damage dice', 'remove', diceType)
     for (let i = 0; i < dice.length; i++) {
       let positionType = dice[i].split('d')[1]
-      if (positionType === type + '!' || positionType === type) {
+      if (positionType === diceType + '!' || positionType === diceType || positionType + '!' === diceType) {
         let number = dice[i].split('d')[0]
         if (number !== '' && number !== '1') {
-          dice[i] = `${+number - 1}d${type}!`
+          dice[i] = `${+number - 1}d${diceType}`
         } else {
           dice.splice(i, 1)
         }
@@ -232,61 +235,8 @@ export class WeaponSquareComponent implements OnInit {
 
   updateNonIntCombatValues = (primary, secondary, value) => {
     if (primary !== 'weapontype') {
-      if (primary === 'damage dice' && secondary === 'add') {
-        let valueToAdd = 0
-
-        switch (+value) {
-          case 3:
-          case 4:
-            valueToAdd = 1
-            break;
-          case 6:
-          case 8:
-            valueToAdd = 2
-            break;
-          case 10:
-            valueToAdd = 3
-            break;
-          case 12:
-            valueToAdd = 4
-            break;
-          case 20:
-            valueToAdd = 6
-            break;
-          default:
-            console.log('could\'t find ' + value + ' while adding damage dice')
-        }
-
-        this.calculateCombatPoints()
-      } else if (primary === 'damage dice' && secondary === 'remove') {
-        let valueToSubtract = 0
-
-        switch (+value) {
-          case 3:
-          case 4:
-            valueToSubtract = -1
-            break;
-          case 6:
-          case 8:
-            valueToSubtract = -2
-            break;
-          case 10:
-            valueToSubtract = -3
-            break;
-          case 12:
-            valueToSubtract = -4
-            break;
-          case 20:
-            valueToSubtract = -6
-            break;
-          default:
-            console.log('could\'t find ' + value + ' while removing damage dice')
-        }
-
-        this.calculateCombatPoints()
-      }
+      this.calculateCombatPoints()
     }
-
   }
 
   checkCheckbox = (type, value) => {
@@ -337,8 +287,8 @@ export class WeaponSquareComponent implements OnInit {
         return diceString
       } else if (damagetype === 'P') {
         let d3s = null
-        , d4s = null
-        , d6s = null
+          , d4s = null
+          , d6s = null
         let d8s = Math.floor(this.square.damageskill / 4)
         let leftover = this.square.damageskill % 4
         if (leftover === 1) {
@@ -366,6 +316,6 @@ export class WeaponSquareComponent implements OnInit {
         return `+${this.square.damageskill}`
       }
     }
-    
+
   }
 }

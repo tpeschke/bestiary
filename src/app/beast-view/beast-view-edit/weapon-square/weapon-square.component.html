@@ -313,12 +313,12 @@
           <i class="fas fa-info-circle icon-small blue" matTooltip="This behaves like the Damage Advanced Skill"
             matTooltipClass="my-tooltip"></i>
         </div>
-        <div *ngIf="squareDamageArray.length > 0">
+        <div *ngIf="square.newDamage.dice.length > 0">
           <p class="p-subtitle">Click to remove 1 dice</p>
           <mat-chip-list>
-            <div *ngFor="let dice of squareDamageArray; let i = index">
-              <mat-chip (click)="removeChip(dice.type)" color="warn" selected>
-                {{dice.number}}d{{dice.type}}!
+            <div *ngFor="let dice of square.newDamage.dice; let i = index">
+              <mat-chip (click)="removeChip(dice)" color="warn" selected>
+                {{dice}}
               </mat-chip>
             </div>
           </mat-chip-list>
