@@ -434,7 +434,7 @@ export class DisplayServiceService {
     return diceString + (square.hasspecialanddamage ? '*' : '')
   }
 
-  convertFatigue({ combat, basefatigue, averageVitality, roleinfo }) {
+  convertFatigue({ combat, basefatigue, roleinfo }, averageVitality) {
     let armor = null;
     let weaponFatigue = null
     let displayedFatigue = armor ? armor.fatigue : roleinfo ? roleinfo.fatigue :  weaponFatigue ? weaponFatigue : 'C';

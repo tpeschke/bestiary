@@ -774,7 +774,8 @@
                   [roleVitality]="selectedRoleId ? beast.roleInfo[this.selectedRoleId].average : null"
                   [mainVitality]="averageVitality" [removeNewSecondaryItem]="removeNewSecondaryItem"
                   [copyWeaponSquare]="copyWeaponSquare"
-                  [beastSize]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size" [secondaryRole]="selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? beast.roleInfo[selectedRoleId].secondaryrole : selectedRoleId ? null : beast.secondaryrole">
+                  [beastSize]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size"
+                  [secondaryRole]="selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? beast.roleInfo[selectedRoleId].secondaryrole : selectedRoleId ? null : beast.secondaryrole">
                 </app-weapon-square>
               </div>
             </div>

@@ -1165,39 +1165,37 @@ export class BeastViewEditComponent implements OnInit {
   addNewRole() {
     let isNewRoleFilledOut = (this.newRole.role || this.newRole.socialrole || this.newRole.skillrole)
     let areRolesFilledOutAndAddingFirstRole = (this.beast.role || this.beast.socialrole || this.beast.skillrole) && this.beast.roles.length === 0
-    if ((isNewRoleFilledOut || areRolesFilledOutAndAddingFirstRole) && this.newRole.name) {
-      let id = this.makeId()
-      if (this.beast.roles.length === 0) {
-        this.beast.defaultrole = id
+    let id = this.makeId()
+    if ((isNewRoleFilledOut || areRolesFilledOutAndAddingFirstRole) && this.newRole.name && this.beast.roles.length === 0) {
+      this.beast.defaultrole = id
 
-        this.beast.conflict.descriptions.forEach(val => {
-          val.socialroleid = id
-        })
-        this.beast.conflict.convictions.forEach(val => {
-          val.socialroleid = id
-        })
-        this.beast.conflict.devotions.forEach(val => {
-          val.socialroleid = id
-        })
-        this.beast.conflict.flaws.forEach(val => {
-          val.socialroleid = id
-        })
+      this.beast.conflict.descriptions.forEach(val => {
+        val.socialroleid = id
+      })
+      this.beast.conflict.convictions.forEach(val => {
+        val.socialroleid = id
+      })
+      this.beast.conflict.devotions.forEach(val => {
+        val.socialroleid = id
+      })
+      this.beast.conflict.flaws.forEach(val => {
+        val.socialroleid = id
+      })
 
-        this.beast.skills.forEach(val => {
-          val.skillroleid = id
-        })
+      this.beast.skills.forEach(val => {
+        val.skillroleid = id
+      })
 
-        this.beast.combat.forEach(val => {
-          val.roleid = id
-        })
-        this.beast.locationalvitality.forEach(val => {
-          val.roleid = id
-        })
+      this.beast.combat.forEach(val => {
+        val.roleid = id
+      })
+      this.beast.locationalvitality.forEach(val => {
+        val.roleid = id
+      })
 
-        this.beast.movement.forEach(val => {
-          val.roleid = id
-        })
-      }
+      this.beast.movement.forEach(val => {
+        val.roleid = id
+      })
       this.beast.roles.push({ id, ...this.newRole })
       let rolesToAdd = {
         role: this.newRole.role,
@@ -1216,6 +1214,7 @@ export class BeastViewEditComponent implements OnInit {
           skillrole: skillrole ? skillrole : this.newRole.skillrole,
         }
       }
+
       this.beast.roleInfo[id] = {
         attack: null,
         caution: this.beast.caution,
@@ -1234,25 +1233,63 @@ export class BeastViewEditComponent implements OnInit {
         size: this.beast.size,
         ...rolesToAdd
       }
-      this.newRole = {
-        name: null,
-        role: null,
-        secondaryrole: null,
-        socialrole: null,
-        skillrole: null,
-        socialsecondary: null
+    } else if ((isNewRoleFilledOut || areRolesFilledOutAndAddingFirstRole) && this.newRole.name) {
+      this.beast.roles.push({ id, ...this.newRole })
+      let rolesToAdd = {
+        role: this.newRole.role,
+        secondaryrole: this.newRole.secondaryrole,
+        socialrole: this.newRole.socialrole,
+        socialsecondary: this.newRole.socialsecondary,
+        skillrole: this.newRole.skillrole,
+      }
+      if (areRolesFilledOutAndAddingFirstRole) {
+        let { role, secondaryrole, socialrole, socialsecondary, skillrole } = this.beast
+        rolesToAdd = {
+          role: role ? role : this.newRole.role,
+          secondaryrole: secondaryrole ? secondaryrole : this.newRole.secondaryrole,
+          socialrole: socialrole ? socialrole : this.newRole.socialrole,
+          socialsecondary: socialsecondary ? socialsecondary : this.newRole.socialsecondary,
+          skillrole: skillrole ? skillrole : this.newRole.skillrole,
+        }
       }
 
-      if (this.beast.roles.length === 1) {
-        this.setRole({ value: id })
+      this.beast.roleInfo[id] = {
+        attack: null,
+        caution: null,
+        combatpoints: 0,
+        defense: null,
+        hash: null,
+        name: this.newRole.name,
+        panic: null,
+        socialpoints: 0,
+        skillpoints: 0,
+        stress: null,
+        uniqueCombat: true,
+        uniqueLocationalVitality: false,
+        uniqueMovement: false,
+        vitality: null,
+        size: null,
+        ...rolesToAdd
       }
-      this.viewPanels.forEach(p => p.close());
-      this.newRoleName.nativeElement.value = null
-      this.newCombatRoleSelect.options.forEach((data) => data.deselect())
-      this.newSecondaryRoleSelect.options.forEach((data) => data.deselect())
-      this.newConfRoleSelect.options.forEach((data) => data.deselect())
-      this.newSkillRoleSelect.options.forEach((data) => data.deselect())
     }
+
+    this.newRole = {
+      name: null,
+      role: null,
+      secondaryrole: null,
+      socialrole: null,
+      skillrole: null,
+      socialsecondary: null
+    }
+    if (this.beast.roles.length > 0) {
+      this.setRole({ value: id })
+    }
+    this.viewPanels.forEach(p => p.close());
+    this.newRoleName.nativeElement.value = null
+    this.newCombatRoleSelect.options.forEach((data) => data.deselect())
+    this.newSecondaryRoleSelect.options.forEach((data) => data.deselect())
+    this.newConfRoleSelect.options.forEach((data) => data.deselect())
+    this.newSkillRoleSelect.options.forEach((data) => data.deselect())
   }
 
   captureRoleVitality(event) {

@@ -138,7 +138,7 @@ export class BeastViewGmComponent implements OnInit {
     this.displayedVitalityRoll = this.calculatorService.rollDice(vitality)
     this.trauma = +(this.displayVitalityAverage / 2).toFixed(0)
 
-    this.displayedFatigue = this.displayService.convertFatigue(this.beast)
+    this.displayedFatigue = this.displayService.convertFatigue(this.beast, this.displayVitalityAverage)
     this.getNumberFatigue(this.displayedFatigue);
   }
 
