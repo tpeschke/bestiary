@@ -389,7 +389,8 @@
                   <p>{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ?
                     beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
                   <p class="shield_cover" *ngIf="newSelectedShield || square.selectedshield">
-                    <i class="fa-solid fa-shield"></i> {{newSelectedShield ? newShieldInfo.cover : square.shieldInfo.cover}}
+                    <i class="fa-solid fa-shield"></i> {{newSelectedShield ? newShieldInfo.cover :
+                    square.shieldInfo.cover}}
                   </p>
                 </div>
                 <p class="fatigue">{{ newSelectedWeapon ? newWeaponInfo.type : square.selectedweapon ?
@@ -439,8 +440,8 @@
             <h3>Vitality</h3>
             <span class="vitality-flex">
               <p>
-                {{displayedVitalityRoll === 0 ? 'N/A' : displayedVitalityRoll}}</p>
-              <p class="vitality-flex-subtitle" *ngIf="displayedVitalityRoll">
+                {{displayVitalityAverage === 0 ? 'N/A' : displayVitalityAverage}}</p>
+              <p class="vitality-flex-subtitle" *ngIf="displayVitalityAverage">
                 {{displayVitalityDice}}</p>
             </span>
           </div>
@@ -498,9 +499,8 @@
 
           <div *ngIf="isNumber(trauma) && trauma !== 0" class="flex-row-opposite">
             <h3>Trauma Threshold</h3>
-            <p *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">
-              {{beast.roleInfo[selectedRoleId].trauma}}</p>
-            <p *ngIf="(!selectedRoleId || !beast.roleInfo[selectedRoleId].vitality) && isNumber(trauma)">{{trauma}}</p>
+            <p>
+              {{this.trauma}}</p>
           </div>
           <div class="flex-row-opposite" *ngIf="displayedVitalityRoll">
             <h3>Fatigue</h3>
@@ -624,7 +624,8 @@
           </div>
         </div>
         <div *ngIf="includesSwarm()">
-            <p class="orphan-p-tag">For more information on what 'Swarm Bonus' means, see 'Swarm' in the Types section.</p>
+          <p class="orphan-p-tag">For more information on what 'Swarm Bonus' means, see 'Swarm' in the Types section.
+          </p>
         </div>
       </div>
 

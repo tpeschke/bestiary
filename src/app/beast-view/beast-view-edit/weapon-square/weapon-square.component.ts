@@ -126,7 +126,6 @@ export class WeaponSquareComponent implements OnInit {
       for (let i = 0; i < dice.length; i++) {
         let positionType = dice[i].split('d')[1]
         positionType = positionType.slice(0, -1)
-        console.log(positionType, newDice)
         if (+positionType > +newDice) {
           dice.splice(i - 1, 0, `d${newDice}!`);
           diceAdd = true
@@ -154,7 +153,7 @@ export class WeaponSquareComponent implements OnInit {
   removeChip = (type) => {
     let { dice } = this.square.newDamage
     , diceType = type.split('d')[1]
-    
+
     this.updateNonIntCombatValues('damage dice', 'remove', diceType)
     for (let i = 0; i < dice.length; i++) {
       let positionType = dice[i].split('d')[1]
