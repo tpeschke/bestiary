@@ -298,6 +298,19 @@ export class BeastViewEditComponent implements OnInit {
         })
       } else if (beast) {
         this.beast = beast
+        
+        if (!this.beast.casting) {
+          this.beast.casting = {
+            augur: null,
+            wild: null,
+            vancian: null,
+            spellnumberdie: 'd4',
+            manifesting: null,
+            commanding: null,
+            bloodpact: null
+          }
+        }
+
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
         }
