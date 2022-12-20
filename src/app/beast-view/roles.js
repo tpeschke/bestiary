@@ -194,7 +194,7 @@ export default {
             'Feinter': {
                 strengths: ['Longer Confrontations', 'Evidence', 'Using Enemies\ Characteristics Against Them'],
                 weaknesses: ['Shorter Confrontations'],
-                description: "Feinters become as they lose the Confrontation. This can mean receiving a bonus the most Stress they have or the more points the enemy has."
+                description: "Feinters become stronger as they lose the Confrontation. This can mean receiving a bonus the most Stress they have or the more points the enemy has."
             },
             'Fast-Talker': {
                 strengths: ['Shorter Confrontations', 'Powerful Characteristics', 'Ways to get points beyond Checks'],
