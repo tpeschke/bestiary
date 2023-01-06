@@ -140,4 +140,8 @@ export class BeastService {
   getEquipment(): any {
     return this.http.get(`${local.endpointBase}/api/equipment`)
   }
+
+  getUniqueEquipment(equipmentArray): any {
+    return this.http.post(local.reliquaryEndpoint, equipmentArray)
+  }
 }

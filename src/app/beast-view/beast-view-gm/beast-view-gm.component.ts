@@ -215,6 +215,8 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     if (traited.length > 0) {
+      let equipmentToGetArray = []
+      let descriptions = []
       for (let y = 0; y < timesToRoll; y++) {
         for (let i = 0; i < traited.length; i++) {
           let traitChance = Math.floor(Math.random() * 101)
@@ -224,26 +226,40 @@ export class BeastViewGmComponent implements OnInit {
             if (traitChance <= table[x]) {
               let value = rollDice(valueOfItem)
               if (value > 0) {
-                this.lairLoot.push(`Item (~${value} sc) w/ ${traitDice[x]} Trait`)
+                descriptions.push(traitDice[x])
+                equipmentToGetArray.push(value)
               }
               x = table.length
             }
           }
         }
-      }
+      }     
+      if (equipmentToGetArray.length > 0) {
+        this.beastService.getUniqueEquipment({"budgets": equipmentToGetArray}).subscribe(result => {
+          for (let i = 0; i < result.length; i++) {
+            this.lairLoot.push(result[i] + ` It also has a total of ${descriptions[i]} in Descriptions`)
+          }
+        })
+      } 
     }
 
     if (equipment.length > 0) {
+      let equipmentToGetArray = []
       for (let y = 0; y < timesToRoll; y++) {
         for (let i = 0; i < equipment.length; i++) {
           let number = rollDice(numberAppearing[equipment[i].number])
           for (let x = 0; x < number; x++) {
             let value = rollDice(staticValues[equipment[i].value])
             if (value > 0) {
-              this.lairLoot.push(`Item (~${value} sc)`)
+              equipmentToGetArray.push(value)
             }
           }
         }
+      }
+      if (equipmentToGetArray.length > 0) {
+        this.beastService.getUniqueEquipment({"budgets": equipmentToGetArray}).subscribe(result => {
+          this.lairLoot = [...this.lairLoot, ...result]
+        })
       }
     }
 
