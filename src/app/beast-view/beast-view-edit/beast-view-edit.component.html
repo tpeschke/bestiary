@@ -341,6 +341,9 @@
             <mat-select
               [(value)]="selectedRoleId && beast.roleInfo[selectedRoleId].socialrole ? beast.roleInfo[selectedRoleId].socialrole : selectedRoleId ? null : beast.socialrole"
               (selectionChange)="setSocialRoleType($event)">
+              <mat-option>
+                No Role
+              </mat-option>
               <mat-option *ngFor="let role of objectKeys(socialRolesInfo)" [value]="role">
                 {{role}}
               </mat-option>
@@ -541,6 +544,9 @@
           <mat-select
             [(value)]="selectedRoleId && beast.roleInfo[selectedRoleId].skillrole ? beast.roleInfo[selectedRoleId].skillrole : selectedRoleId ? null : beast.skillrole"
             (selectionChange)="setSkillRoleType($event)">
+            <mat-option>
+              No Role
+            </mat-option>
             <mat-option *ngFor="let role of objectKeys(skillRolesInfo)" [value]="role">
               {{role}}
             </mat-option>
@@ -658,6 +664,9 @@
               <mat-select
                 [(value)]="selectedRoleId && beast.roleInfo[selectedRoleId].role ? beast.roleInfo[selectedRoleId].role : selectedRoleId ? null : beast.role"
                 (selectionChange)="setRoleType($event)">
+                <mat-option>
+                  No Role
+                </mat-option>
                 <mat-option *ngFor="let role of objectKeys(combatRolesInfo)" [value]="role">
                   {{role}}
                 </mat-option>

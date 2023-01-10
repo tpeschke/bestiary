@@ -46,7 +46,6 @@ export class ObstacleInnardsComponent implements OnInit {
   }
 
   copyLink(id) {
-    console.log(`Obstacle Id: ${id}`)
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';

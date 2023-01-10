@@ -565,38 +565,38 @@
               <div class="divider white"></div>
               <div class="flex-row-opposite">
                 <h5
-                  [ngClass]="{'strike-through': movementType.stroll === '0' || movementType.stroll === '0 ft / sec' }">
+                  [ngClass]="{'strike-through': movementType.stroll === '0' || movementType.stroll === '0 ft / sec' || movementType.stroll === 'n/a' || movementType.stroll === 'N/A' || !movementType.stroll }">
                   Stroll/Crawl</h5>
                 <p>{{movementType.stroll}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
               <div class="flex-row-opposite">
-                <h5 [ngClass]="{'strike-through': movementType.walk === '0' || movementType.walk === '0 ft / sec' }">
+                <h5 [ngClass]="{'strike-through': movementType.walk === '0' || movementType.walk === '0 ft / sec' || movementType.walk === 'n/a' || movementType.walk === 'N/A' || !movementType.walk }">
                   Walk</h5>
-                <p>{{movementType.walk === '0' || movementType.walk === '0 ft / sec' ? '' :
+                <p>{{movementType.walk === '0' || movementType.walk === '0 ft / sec' || movementType.walk === 'n/a' || movementType.walk === 'N/A' ? '' :
                   movementType.walk}}{{movementType.walk !== '0' && movementType.walk !== '0 ft / sec' &&
-                  !movementType.walk.includes('ft') ? ' ft / sec' : '' }}</p>
+                  !movementType.walk.includes('ft') && movementType.walk !== 'n/a' && movementType.walk !== 'N/A' ? ' ft / sec' : '' }}</p>
               </div>
               <div class="flex-row-opposite">
-                <h5 [ngClass]="{'strike-through': movementType.jog === '0' || movementType.jog === '0 ft / sec' }">Jog
+                <h5 [ngClass]="{'strike-through': movementType.jog === '0' || movementType.jog === '0 ft / sec' || movementType.jog === 'n/a' || movementType.jog === 'N/A' || !movementType.jog }">Jog
                 </h5>
-                <p>{{movementType.jog === '0' || movementType.jog === '0 ft / sec' ? '' :
+                <p>{{movementType.jog === '0' || movementType.jog === '0 ft / sec' || movementType.jog === 'n/a' || movementType.jog === 'N/A' ? '' :
                   movementType.jog}}{{movementType.jog !== '0' && movementType.jog !== '0 ft / sec' &&
-                  !movementType.jog.includes('ft') ? ' ft / sec' : '' }}</p>
+                  !movementType.jog.includes('ft') && movementType.jog !== 'n/a' && movementType.jog !== 'N/A' ? ' ft / sec' : '' }}</p>
               </div>
               <div class="flex-row-opposite">
-                <h5 [ngClass]="{'strike-through': movementType.run === '0' || movementType.run === '0 ft / sec' }">Run
+                <h5 [ngClass]="{'strike-through': movementType.run === '0' || movementType.run === '0 ft / sec' || movementType.run === 'n/a' || movementType.run === 'N/A' || !movementType.run }">Run
                 </h5>
-                <p>{{movementType.run === '0' || movementType.run === '0 ft / sec' ? '' :
+                <p>{{movementType.run === '0' || movementType.run === '0 ft / sec' || movementType.run === 'n/a' || movementType.run === 'N/A' ? '' :
                   movementType.run}}{{movementType.run !== '0' && movementType.run !== '0 ft / sec' &&
-                  !movementType.run.includes('ft') ? ' ft / sec' : '' }}</p>
+                  !movementType.run.includes('ft') && movementType.run !== 'n/a' && movementType.run !== 'N/A' ? ' ft / sec' : '' }}</p>
               </div>
               <div class="flex-row-opposite">
                 <h5
-                  [ngClass]="{'strike-through': movementType.sprint === '0' || movementType.sprint === '0 ft / sec' }">
+                  [ngClass]="{'strike-through': movementType.sprint === '0' || movementType.sprint === '0 ft / sec' || movementType.sprint === 'n/a' || movementType.sprint === 'N/A' || !movementType.sprint  }">
                   Sprint</h5>
-                <p>{{movementType.sprint === '0' || movementType.sprint === '0 ft / sec' ? '' :
+                <p>{{movementType.sprint === '0' || movementType.sprint === '0 ft / sec' || movementType.sprint === 'n/a' || movementType.sprint === 'N/A' ? '' :
                   movementType.sprint}}{{movementType.sprint !== '0' && movementType.sprint !== '0 ft / sec' &&
-                  !movementType.sprint.includes('ft') ? ' ft / sec' : '' }}</p>
+                  !movementType.sprint.includes('ft') && movementType.sprint !== 'n/a' && movementType.sprint !== 'N/A' ? ' ft / sec' : '' }}</p>
               </div>
             </div>
           </div>
