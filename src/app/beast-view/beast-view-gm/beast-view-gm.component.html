@@ -738,9 +738,8 @@
         *ngIf="encounter !== 'loading' && encounter.temperament && encounter.rank">
         <div *ngIf="encounter.sign" class="flex-shell-with-table">
           <div class="flex-row-opposite">
-            <h3>Sign <i class="fas fa-info-circle icon-small blue"
-                matTooltip="A sign is something that hints of the monster before the players actually interact with it.
-              You can use them on a 'Close Call' result or as a way to warn your players about an encounter before it happens."></i></h3>
+            <h3>Sign  <i class="fas fa-info-circle"
+              matTooltip="Signs are evidence of the monster's passing or evidence that the monster is near. They can be sights, sounds, leavings, victims, tracks, smells & vapors, environmental damage, and/or intentional markings."></i></h3>
             <p>{{encounter.sign.sign}} <i *ngIf="encounter.allSigns" (click)="toggleAllSigns()"
                 class="fa-solid fa-chevron-down blue {{isAllSignsTableShown ? 'upside-down' : ''}}"
                 matTooltip="{{isAllSignsTableShown ? 'Hide' : 'Show'}} all signs for this entry."></i></p>

@@ -124,7 +124,11 @@ module.exports = {
     },
     getRandomMonster: (req, res) => {
         const db = req.app.get('db')
-        db.get.search.randomMonster().then(data => {
+        let patreon = 0
+        if (req.user) {
+            patreon = req.user.patreon
+        }
+        db.get.search.randomMonster(patreon).then(data => {
             res.send(data[0])
         })
     }
