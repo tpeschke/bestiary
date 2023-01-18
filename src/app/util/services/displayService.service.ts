@@ -434,11 +434,45 @@ export class DisplayServiceService {
     return diceString + (square.hasspecialanddamage ? '*' : '')
   }
 
+  getLetterFatigue(beast, selectedRoleId, roles) {
+    let fatigue = 'C'
+    if (selectedRoleId && beast.roleInfo[selectedRoleId].fatigue) {
+      fatigue = beast.roleInfo[selectedRoleId].fatigue
+    } else if (selectedRoleId && roles.combatRoles.primary[beast.roleInfo[selectedRoleId].role].fatigue) {
+      fatigue = roles.combatRoles.primary[beast.roleInfo[selectedRoleId].role].fatigue
+    } else if (selectedRoleId && !beast.roleInfo[selectedRoleId].fatigue) {
+      fatigue = beast.fatigue
+    } 
+
+    return fatigue
+  }
+
+  getFullFatigueWord (fatigueLetter) {
+    switch (fatigueLetter) {
+      case 'A':
+        return 'Always'
+      case 'H':
+        return 'Hurt'
+      case 'B':
+        return 'Bloodied'
+        break;
+      case 'W':
+        return 'Wounded'
+        break;
+      case 'C':
+        return 'Critical'
+        break;
+      case 'N':
+        return 'Never'
+      default:
+        return 'Critical'
+    }
+  }
+
   convertFatigue({ combat, basefatigue, roleinfo }, averageVitality) {
     let armor = null;
     let weaponFatigue = null
     let displayedFatigue = armor ? armor.fatigue : roleinfo ? roleinfo.fatigue :  weaponFatigue ? weaponFatigue : 'C';
-
     if (basefatigue) {
       displayedFatigue = basefatigue;
     } else if (combat.length > 0) {

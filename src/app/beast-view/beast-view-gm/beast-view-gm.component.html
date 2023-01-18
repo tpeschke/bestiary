@@ -460,7 +460,7 @@
               </mat-form-field>
               <p> / </p>
               <p
-                matTooltip="This is the Fatigue Threshold based on the average Vitality and a Threshold of {{displayedFatigue}}">
+                matTooltip="This is the Fatigue Threshold based on the average Vitality and a Threshold of {{displayService.getFullFatigueWord(displayedFatigue)}}">
                 ({{numberFatigue}}) </p>
               <p> / </p>
               <p> {{displayedVitalityRoll}} </p>
@@ -505,7 +505,7 @@
           <div class="flex-row-opposite" *ngIf="displayedVitalityRoll">
             <h3>Fatigue</h3>
             <p [matTooltipDisabled]="numberFatigue === 'A' || numberFatigue === 'N'"
-              matTooltip="Fatigue Based on Average Vitality: {{numberFatigue}}">{{displayedFatigue}}</p>
+              matTooltip="Fatigue Based on Average Vitality: {{numberFatigue}}">{{displayService.getFullFatigueWord(displayedFatigue)}}</p>
           </div>
 
           <div class="divider white"></div>
@@ -738,7 +738,7 @@
         *ngIf="encounter !== 'loading' && encounter.temperament && encounter.rank">
         <div *ngIf="encounter.sign" class="flex-shell-with-table">
           <div class="flex-row-opposite">
-            <h3>Sign  <i class="fas fa-info-circle"
+            <h3>Sign  <i class="fas fa-info-circle small-font"
               matTooltip="Signs are evidence of the monster's passing or evidence that the monster is near. They can be sights, sounds, leavings, victims, tracks, smells & vapors, environmental damage, and/or intentional markings."></i></h3>
             <p>{{encounter.sign.sign}} <i *ngIf="encounter.allSigns" (click)="toggleAllSigns()"
                 class="fa-solid fa-chevron-down blue {{isAllSignsTableShown ? 'upside-down' : ''}}"
