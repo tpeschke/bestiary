@@ -486,47 +486,6 @@ export default {
                 armor: ['Gambeson', 'Leather'],
                 shields: []
             },
-            'Fodder': {
-                strengths: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Mobility Skills'],
-                weaknesses: ['Vitality', 'Fatigue', '/DR', 'DR', 'Parry', 'Parry DR', 'Parry /DR', 'Movement', 'Stress Threshold', 'Panic Threshold', 'Caution Threshold'],
-                description: "Fooder are good at dealing damage, both melee and ranged, making them versitile but they lack defenses, making them easier to dispatch.",
-                spdbonus: 0,
-                vitality: '1d10 + 10',
-                fatigue: "H",
-                def: -2,
-                dr: {
-                    flat: 0,
-                    slash: 0
-                },
-                parry: 0,
-                shield_dr: {
-                    flat: 0,
-                    slash: 0
-                },
-                damage: {
-                    dice: ['4d4!'],
-                    flat: 0
-                },
-                rangedDamage: {
-                    dice: ['3d4!'],
-                    flat: 0
-                },
-                atk: 0,
-                rangedAtk: 0,
-                spd: 13,
-                measure: 2,
-                ranges: {
-                    increment: 15
-                },
-                stressThreshold: 15,
-                panic: 1,
-                caution: 10,
-                init: 0,
-                damagebonus: -2,
-                weapons: [],
-                armor: ['Buff Coat'],
-                shields: ['Clothe'],
-            },
             'Shock': {
                 strengths: ['Fatigue', 'Melee Damage', 'Measure', 'Movement', 'Mobility Skills', 'Panic Threshold', 'Caution Threshold'],
                 weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Ranged Damage', 'Ranged Attack', 'Recovery', 'Range Penalties'],
@@ -649,6 +608,9 @@ export default {
             }
         },
         secondary: {
+            'Fodder': {
+                description: 'Fodder aren\'t fighters and don\'t do well on the battlefield. While they may mimic a role\'s strategies, they are weak, having half the expected Vitality.'
+            },
             'Captain': {
                 description: 'Captains are all about morale and buffing others. They work best when paired with other roles.',
             },

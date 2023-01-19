@@ -719,6 +719,7 @@
             </div>
           </mat-form-field>
           <p>(Ave: {{averageVitality}})</p>
+          <p *ngIf="(selectedRoleId && !beast.roleInfo[selectedRoleId].vitality && beast.roleInfo[selectedRoleId].secondaryrole === 'Fodder') || (!selectedRoleId && !beast.vitality && beast.secondaryrole === 'Fodder')" class="warning">This Vitality will be halved since this is the default Vitality for this Role and their Secondary is Fodder</p>
           <br>
           <mat-form-field class="fatigue-field">
             <mat-label>Fatigue Threshold (+/-4 points per Cat Above/Below Critical)</mat-label>
@@ -1016,7 +1017,8 @@
             <table class="first-column-left">
               <thead>
                 <th colspan="3">Signs <i class="fas fa-info-circle"
-                  matTooltip="Signs are evidence of the monster's passing or evidence that the monster is near. They can be sights, sounds, leavings, victims, tracks, smells & vapors, environmental damage, and/or intentional markings."></i></th>
+                    matTooltip="Signs are evidence of the monster's passing or evidence that the monster is near. They can be sights, sounds, leavings, victims, tracks, smells & vapors, environmental damage, and/or intentional markings."></i>
+                </th>
               </thead>
               <tr>
                 <th>Value</th>

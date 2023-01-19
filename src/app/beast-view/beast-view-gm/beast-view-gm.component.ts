@@ -59,6 +59,8 @@ export class BeastViewGmComponent implements OnInit {
   public displayVitalityAverage = null;
   public displayVitalityDice = null;
   public displayedVitalityRoll = null;
+  public isFodderSecondary = false;
+  public isDefaultVitality = false;
 
   public equipmentLists = { weapons: [], armor: [], shields: [] }
   public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
@@ -116,26 +118,41 @@ export class BeastViewGmComponent implements OnInit {
   setDisplayVitality = () => {
     let vitality = null
     let role = null
+    let secondaryrole = null
 
     if (this.selectedRoleId) {
       vitality = this.beast.roleInfo[this.selectedRoleId].vitality
       role = this.beast.roleInfo[this.selectedRoleId].role
+      secondaryrole = this.beast.roleInfo[this.selectedRoleId].secondaryrole
     } else {
       vitality = this.beast.vitality
       role = this.beast.role
+      secondaryrole = this.beast.secondaryrole
     }
 
     if (role && !vitality) {
+      this.isDefaultVitality = true
       vitality = this.combatRolesInfo[role].vitality
     } else if (this.selectedRoleId && !role && !vitality && this.beast.vitality) {
+      this.isDefaultVitality = false
       vitality = this.beast.vitality
     } else if (!role && !vitality) {
+      this.isDefaultVitality = false
       vitality = 0
     }
 
     this.displayVitalityAverage = this.calculatorService.calculateAverageOfDice(vitality)
+    if (secondaryrole === 'Fodder') {
+      this.isFodderSecondary = true
+      this.displayVitalityAverage = Math.ceil(this.displayVitalityAverage / 2)
+    } else {
+      this.isFodderSecondary = false
+    }
     this.displayVitalityDice = vitality
     this.displayedVitalityRoll = this.calculatorService.rollDice(vitality)
+    if (secondaryrole === 'Fodder') {
+      this.displayedVitalityRoll = Math.ceil(this.displayedVitalityRoll / 2)
+    }
     this.trauma = +(this.displayVitalityAverage / 2).toFixed(0)
 
     this.displayedFatigue = this.displayService.getLetterFatigue(this.beast, this.selectedRoleId, roles)
@@ -566,7 +583,7 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   getNumberFatigue(displayedFatigue) {
-    if (isNaN(this.displayVitalityAverage)) {
+    if (isNaN(this.displayedVitalityRoll)) {
       this.numberFatigue = 'N'
     }
     switch (displayedFatigue) {
@@ -577,19 +594,19 @@ export class BeastViewGmComponent implements OnInit {
         this.numberFatigue = 1
         break
       case 'B':
-        this.numberFatigue = (this.displayVitalityAverage * .25).toFixed(0)
+        this.numberFatigue = (this.displayedVitalityRoll * .25).toFixed(0)
         break;
       case 'W':
-        this.numberFatigue = (this.displayVitalityAverage * .5).toFixed(0)
+        this.numberFatigue = (this.displayedVitalityRoll * .5).toFixed(0)
         break;
       case 'C':
-        this.numberFatigue = (this.displayVitalityAverage * .75).toFixed(0)
+        this.numberFatigue = (this.displayedVitalityRoll * .75).toFixed(0)
         break;
       case 'Never':
         this.numberFatigue = 'N'
         break;
       default:
-        this.numberFatigue = (this.displayVitalityAverage * .75).toFixed(0)
+        this.numberFatigue = (this.displayedVitalityRoll * .75).toFixed(0)
     }
   }
 
