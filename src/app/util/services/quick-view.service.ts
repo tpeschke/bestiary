@@ -36,6 +36,10 @@ export class QuickViewService {
       rolled: this.calculatorService.rollDice(monster.vitality),
       average: this.calculatorService.calculateAverageOfDice(monster.vitality)
     }
+    if (monster.secondaryrole === 'Fodder') {
+      monster.locationCheckboxes.mainVitality.rolled = Math.ceil(monster.locationCheckboxes.mainVitality.rolled / 2)
+      monster.locationCheckboxes.mainVitality.average = Math.ceil(monster.locationCheckboxes.mainVitality.average / 2)
+    }
     monster.trauma = monster.locationCheckboxes.mainVitality.average
     monster.trauma = +(monster.trauma / 2).toFixed(0);
 

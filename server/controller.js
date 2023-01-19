@@ -120,7 +120,7 @@ let controllerObj = {
               for (let i = 0; i < beast.roles.length; i++) {
                 if (beast.roles[i].id === beast.defaultrole) {
                   beast.role = beast.roles[i].role
-                  beast.secondaryrole = beast.roles[i].secondaryrole 
+                  beast.secondaryrole = beast.roles[i].secondaryrole
                   beast.socialrole = beast.roles[i].socialrole
                   beast.skillrole = beast.roles[i].skillrole
                   i = beast.roles.length
@@ -157,28 +157,49 @@ let controllerObj = {
   getFromBestiary(req, res) {
     const db = req.app.get('db')
     db.get.beast_by_hash(req.params.hash).then(result => {
-      let { name, vitality, panic, stressthreshold, roletype, baseroletype, rolename, rolevitality, id: beastid, roleid, caution, rolepanic, rolestressthreshold, rolecaution, mainhash, rolehash } = result[0]
+      let { name, vitality, panic, stressthreshold, roletype, baseroletype, rolename, rolevitality, id: beastid, roleid, caution, rolepanic, rolestressthreshold, rolecaution, mainhash, rolehash, basesecondaryroletype, secondaryroletype } = result[0]
 
-      let beast = { name, vitality, panic, stressthreshold, hash: req.params.hash, caution, beastid, roleid, combat: [] }
+      let beast = { name, panic, stressthreshold, hash: req.params.hash, caution, beastid, roleid, combat: [] }
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
+      let secondaryRoleToUse = ''
 
       if (baseroletype) {
         roleToUse = baseroletype
-        beast.name = name + ` [${roleToUse}]`
+        secondaryRoleToUse = basesecondaryroletype
+        if (roleToUse !== '' && secondaryRoleToUse !== '') {
+          beast.name = name + ` [${roleToUse}(${secondaryRoleToUse})]`
+        } else if (roleToUse !== '') {
+          beast.name = name + ` [${roleToUse}]`
+        } else {
+          beast.name = name
+        }
+        beast.secondary = basesecondaryroletype
         beast.role = baseroletype
       }
 
       if (isARole) {
         roleToUse = roletype
+        secondaryRoleToUse = secondaryroletype
         if (rolename && rolename.toUpperCase() !== "NONE") {
           beast.name = name + " " + rolename
         }
         if (roletype) {
-          beast.name = beast.name + ` [${roletype}]`
+          if (roleToUse !== '' && secondaryRoleToUse !== '') {
+            beast.name = name + ` [${roleToUse}(${secondaryRoleToUse})]`
+          } else if (roleToUse !== '') {
+            beast.name = name + ` [${roleToUse}]`
+          } else {
+            beast.name = name
+          }
         }
+
         if (rolevitality) {
-          beast.vitality = rolevitality
+          if (secondaryRoleToUse === 'Fodder') {
+            beast.vitality = `(${rolevitality})/2`
+          } else {
+            beast.vitality = rolevitality
+          }
         }
         if (rolepanic) {
           beast.panic = rolepanic
@@ -195,6 +216,14 @@ let controllerObj = {
         if (roletype) {
           beast.role = roletype
         }
+      }
+      
+      if (!beast.vitality && secondaryRoleToUse === 'Fodder' && rolevitality) {
+        beast.vitality = `(${rolevitality})/2`
+      } else if (!beast.vitality && secondaryRoleToUse === 'Fodder') {
+        beast.vitality = `(${vitality})/2`
+      } else {
+        beast.vitality = vitality
       }
 
       if (!beast.stressthreshold) {
@@ -225,19 +254,19 @@ let controllerObj = {
           let spdbonus = 0
           if (roleToUse && weapon.addrolemods) {
             let roleInfo = roles.combatRoles.primary[roleToUse]
-            
+
             if (weapon.weapontype === 'm') {
               weapon.atk += roleInfo.atk
             } else {
               weapon.atk += roleInfo.rangedAtk
             }
-            
+
             weapon.def = roleInfo.def + +weapon.def
             weapon.parry += roleInfo.parry
             weapon.init += roleInfo.init
 
             spdbonus = roleInfo.spdbonus
-            
+
             baseMeasure = roleInfo.measure
             baseSpd = roleInfo.spd
           }
@@ -690,7 +719,7 @@ let controllerObj = {
           }
         })
       }
-      
+
       let { id: dbid, artistid, artist, tooltip, link } = artistInfo;
       if (artist) {
         if (!artistid) {
@@ -926,7 +955,7 @@ let controllerObj = {
               for (let i = 0; i < beast.roles.length; i++) {
                 if (beast.roles[i].id === beast.defaultrole) {
                   beast.role = beast.roles[i].role
-                  beast.secondaryrole = beast.roles[i].secondaryrole 
+                  beast.secondaryrole = beast.roles[i].secondaryrole
                   beast.socialrole = beast.roles[i].socialrole
                   beast.skillrole = beast.roles[i].skillrole
                   i = beast.roles.length
@@ -1147,7 +1176,7 @@ async function collectComplication(db, beastId) {
           if (!rival.plural) {
             rival.plural = rival.name += 's'
           }
-  
+
           return {
             id: 1,
             type: 'Rival',

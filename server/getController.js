@@ -64,6 +64,7 @@ module.exports = {
       if (!isARole) {
         beast.name = displayName(beast.name, baseroletype, basesecondaryrole, baseskillrole, basesocialrole, basesocialsecondary)
         beast.role = baseroletype
+        beast.secondaryrole = basesecondaryrole
       }
 
       if (isARole) {
@@ -87,6 +88,7 @@ module.exports = {
         }
         if (roletype) {
           beast.role = roletype
+          beast.secondaryrole = secondaryroletype
         }
 
         if (rolesize) {
