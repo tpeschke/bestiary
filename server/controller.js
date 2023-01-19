@@ -167,7 +167,7 @@ let controllerObj = {
       if (baseroletype) {
         roleToUse = baseroletype
         secondaryRoleToUse = basesecondaryroletype
-        if (roleToUse !== '' && secondaryRoleToUse !== '') {
+        if (roleToUse !== '' && secondaryRoleToUse) {
           beast.name = name + ` [${roleToUse}(${secondaryRoleToUse})]`
         } else if (roleToUse !== '') {
           beast.name = name + ` [${roleToUse}]`
@@ -185,7 +185,7 @@ let controllerObj = {
           beast.name = name + " " + rolename
         }
         if (roletype) {
-          if (roleToUse !== '' && secondaryRoleToUse !== '') {
+          if (roleToUse !== '' && secondaryRoleToUse) {
             beast.name = name + ` [${roleToUse}(${secondaryRoleToUse})]`
           } else if (roleToUse !== '') {
             beast.name = name + ` [${roleToUse}]`
