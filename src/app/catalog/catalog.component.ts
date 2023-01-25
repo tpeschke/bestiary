@@ -36,6 +36,7 @@ export class CatalogComponent implements OnInit {
   targetSocialRole: string;
   targetSkillRole: string;
   targetSocialSecondary: string;
+  targetDefaultRole: string
 
   ngOnInit() {
     this.titleService.setTitle("Bestiary")
@@ -58,7 +59,16 @@ export class CatalogComponent implements OnInit {
   }
 
   addBeastToQuickView() {
-    this.quickViewService.addToQuickViewArray(this.targetHash)
+    if (this.targetDefaultRole && this.targetRoles.length > 0) {
+      for (let i = 0; i < this.targetRoles.length; i++) {
+        if (this.targetRoles[i].id === this.targetDefaultRole) {
+          this.quickViewService.addToQuickViewArray(this.targetRoles[i].hash)
+          i == this.targetRoles.length
+        }
+      }
+    } else {
+      this.quickViewService.addToQuickViewArray(this.targetHash)
+    }
   }
 
   addRoleToQuickView(index) {
@@ -70,7 +80,7 @@ export class CatalogComponent implements OnInit {
     this.quickViewService.addToQuickViewArray(this.targetRoles[randomIndex].hash)
   }
 
-  displayContextMenu(event, beastid, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary) {
+  displayContextMenu(event, beastid, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary, defaultrole) {
     this.isDisplayContextMenu = true;
     this.rightClickMenuPositionX = event.clientX;
     this.rightClickMenuPositionY = event.clientY;
@@ -82,6 +92,7 @@ export class CatalogComponent implements OnInit {
     this.targetSocialRole = socialrole
     this.targetSkillRole = skillrole
     this.targetSocialSecondary = socialsecondary
+    this.targetDefaultRole = defaultrole
   }
 
   getRightClickMenuStyle() {
