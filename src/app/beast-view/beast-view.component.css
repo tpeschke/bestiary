@@ -2,6 +2,11 @@ strong {
     font-weight: bold;
 }
 
+.muted-explaination { 
+    margin: 5px 0;
+    color: grey;
+}
+
 .secondary-role-margin {
     margin-left: 15px;
     margin-top: -10px;

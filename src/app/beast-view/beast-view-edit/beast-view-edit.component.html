@@ -506,16 +506,22 @@
             <div *ngFor="let flaw of beast.conflict.flaws; let i = index"
               [ngClass]="{'noDisplay': !(!flaw.deleted && (selectedRoleId === flaw.socialroleid || flaw.allroles))}">
               <div class="conflict-shell edit-shell-box">
-                <h3>
+                <h3 *ngIf="flaw.trait !== 'Any'">
                   <mat-form-field>
                     <input placeholder="Flaw" matInput [value]="flaw.trait"
                       (change)="captureInput($event, 'conflict', i, 'flaws', 'trait')">
                   </mat-form-field>
                 </h3>
-                <mat-form-field>
+                <section>
+                  <mat-checkbox [checked]="flaw.trait === 'Any'"
+                    (change)="checkRandomizeFlaw(i, $event.checked)">Make
+                    this a Random Flaw</mat-checkbox>
+                </section>
+                <mat-form-field *ngIf="flaw.trait !== 'Any'">
                   <input placeholder="Rank (1 point)" matInput [value]="flaw.value"
                     (change)="captureInput($event, 'conflict', i, 'flaws', 'value')">
                 </mat-form-field>
+                <p *ngIf="flaw.trait === 'Any'" class="muted-explaination">This Flaw will be given a random Rank based on the Flaw</p>
                 <section>
                   <mat-checkbox [checked]="flaw.allroles" (change)="checkAllRoles('flaws', i, $event.checked)">Add to
                     all Roles</mat-checkbox>
