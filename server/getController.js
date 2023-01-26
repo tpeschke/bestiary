@@ -7,6 +7,18 @@ function formatNameWithCommas(name) {
   }
   return name
 }
+
+function sortOutAnyToTheBottom(a, b) {
+  if ((a.trait === 'Any' && b.trait === 'Any') || (a.trait !== 'Any' && b.trait !== 'Any')) {
+    return +b.value - +a.value
+  }
+  if (a.trait !== 'Any') {
+    return -1
+  } else {
+    return 1
+  }
+}
+
 function displayName(name, combatrole, secondarycombat, socialrole, skillrole, socialsecondary) {
   let nameString = ''
   let roles = false
@@ -344,7 +356,7 @@ module.exports = {
             beast.conflict.descriptions = beast.conflict.descriptions.sort((a, b) => +b.value - +a.value)
             beast.conflict.convictions = beast.conflict.convictions.sort((a, b) => +b.value - +a.value)
             beast.conflict.devotions = beast.conflict.devotions.sort((a, b) => +b.value - +a.value)
-            beast.conflict.flaws = beast.conflict.flaws.sort((a, b) => +b.value - +a.value)
+            beast.conflict.flaws = beast.conflict.flaws.sort(sortOutAnyToTheBottom)
             return result
           }))
         }

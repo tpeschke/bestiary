@@ -96,9 +96,16 @@
           <h3>Flaws</h3>
           <div class="divider white"></div>
           <div *ngFor="let trait of beast.conflict.flaws; let i = index">
-            <div *ngIf="selectedRoleId === trait.socialroleid || trait.allroles" class="flex-row-opposite">
+            <div *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait !== 'Any'" class="flex-row-opposite">
               <h5>{{trait.trait | titlecase}}</h5>
               <h5>{{trait.value ? trait.value : '1'}}</h5>
+            </div>
+            <div class="inline-loading" *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait === 'Any'">
+              <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+              </div>
             </div>
           </div>
         </div>
