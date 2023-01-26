@@ -76,8 +76,10 @@ export class BeastViewGmComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
+
+      this.handleAnyFlaws()
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
-      this.metaService.updateTag({ name: 'og:description', content: this.beast.name });
+      // this.metaService.updateTag({ name: 'og:description', content: this.beast.name });
       // this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/preview.png" });
       this.getRandomEncounter()
 
@@ -103,6 +105,52 @@ export class BeastViewGmComponent implements OnInit {
         this.setRoleToDefault()
       }
     })
+  }
+
+  handleAnyFlaws = () => {
+    let anyCount = 0
+    this.beast.conflict.flaws.forEach(flaw => flaw.trait === 'Any' ? anyCount++ : null)
+
+    if (anyCount) {
+      this.beastService.getAnyFlaws(anyCount).subscribe(result => {
+        this.beast.conflict.flaws.map(flaw => {
+          if (flaw.trait === 'Any') {
+            let rolledFlaw = result.shift().flaw
+            const severityAndRank = this.getFlawSeverityAndRank(rolledFlaw, flaw.value)
+            flaw.trait = `${rolledFlaw.flaw} [${severityAndRank.severity}]`
+            flaw.value = severityAndRank.rank
+          }
+          return flaw
+        })
+        this.beast.conflict.flaws = this.beast.conflict.flaws.sort((a, b) => +b.value - +a.value)
+      })
+    }
+  }
+
+  getFlawSeverityAndRank = (flaw, modifier) => {
+    if (flaw.cap === 'n/a') {
+      flaw.cap = 20
+    }
+    let severity = +Math.floor(Math.random() * Math.floor(flaw.cap)) + 1
+
+    if (modifier === '2') {
+      severity = Math.floor(severity / 3)
+    } else if (modifier === '3') {
+      if (severity > (flaw.cap / 2)) {
+        severity = severity - Math.ceil(severity / 3)
+      } else if (severity < (flaw.cap / 2)) {
+        severity = severity + Math.ceil(severity / 3)
+      }
+    } else if (modifier === '4') {
+      severity *= 2
+      if (severity > flaw.cap) {
+        severity = flaw.cap
+      }
+    }
+
+    const rank = Math.ceil(flaw.rank.base + (flaw.rank.per * severity))
+
+    return {severity, rank}
   }
 
   setLocationalVitality = () => {

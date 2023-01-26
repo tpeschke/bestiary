@@ -144,4 +144,9 @@ export class BeastService {
   getUniqueEquipment(equipmentArray): any {
     return this.http.post(local.reliquaryEndpoint, equipmentArray)
   }
+
+  getAnyFlaws(number) {
+    return this.http.get(local.srdBase + '/getRandomFlaw/' + number)
+  }
+
 }

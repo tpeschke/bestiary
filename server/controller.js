@@ -1137,7 +1137,7 @@ let controllerObj = {
     if (randomEncounter) {
       promiseArray.push(collectComplication(db, beastId).then(result => {
         let flatArray = []
-        if (result.length) {
+        if (result && result.length) {
           result.forEach(element => {
             if (element.length) {
               element.forEach(val => flatArray.push(val))
