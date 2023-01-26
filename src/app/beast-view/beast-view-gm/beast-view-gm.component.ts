@@ -117,7 +117,7 @@ export class BeastViewGmComponent implements OnInit {
           if (flaw.trait === 'Any') {
             let rolledFlaw = result.shift().flaw
             const severityAndRank = this.getFlawSeverityAndRank(rolledFlaw, flaw.value)
-            flaw.trait = `${rolledFlaw.flaw} [${severityAndRank.severity}]`
+            flaw.trait = `${rolledFlaw.flaw} (${severityAndRank.severity})`
             flaw.value = severityAndRank.rank
           }
           return flaw
