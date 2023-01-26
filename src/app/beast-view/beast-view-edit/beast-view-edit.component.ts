@@ -298,7 +298,7 @@ export class BeastViewEditComponent implements OnInit {
         })
       } else if (beast) {
         this.beast = beast
-        
+
         if (!this.beast.casting) {
           this.beast.casting = {
             augur: null,
@@ -479,9 +479,17 @@ export class BeastViewEditComponent implements OnInit {
   checkRandomizeFlaw = (index, checked) => {
     if (checked) {
       this.beast.conflict.flaws[index].trait = 'Any'
+      if (+this.beast.conflict.flaws[index].value > 4) {
+        this.beast.conflict.flaws[index].value = '1'
+      }
     } else {
       this.beast.conflict.flaws[index].trait = ''
     }
+  }
+
+  setRankSeverityRank = (index, value) => {
+    this.beast.conflict.flaws[index].value = value
+    console.log(this.beast.conflict.flaws)
   }
 
   updateRolesObject(type, value) {

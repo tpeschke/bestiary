@@ -12,6 +12,19 @@ strong {
     margin-top: -10px;
 }
 
+.flaw-severity-buttons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flaw-severity-buttons button {
+    margin: 0 5px 5px 0;
+}
+
+.flaw-severity-range {
+    margin: 5px 0;
+}
+
 .top-margin {
     margin-top: 5px;
 }
@@ -961,6 +974,11 @@ mat-form-field.fatigue-field {
 
 #red {
     background: rgb(248, 134, 134)
+}
+
+#gray-blue {
+    background: #607d8b;
+    color: whitesmoke;
 }
 
 .attack-and-defense-shell {
