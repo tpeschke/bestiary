@@ -112,7 +112,7 @@ export class BeastViewGmComponent implements OnInit {
     this.beast.conflict.flaws.forEach(flaw => flaw.trait === 'Any' ? anyCount++ : null)
 
     if (anyCount) {
-      this.beastService.getAnyFlaws(anyCount).subscribe(result => {
+      this.beastService.getAnyFlaws(anyCount).subscribe((result: any[]) => {
         this.beast.conflict.flaws.map(flaw => {
           if (flaw.trait === 'Any') {
             let rolledFlaw = result.shift().flaw
