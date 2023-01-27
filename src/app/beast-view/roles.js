@@ -252,7 +252,7 @@ export default {
                 weapons: [
                     {
                         label: 'Ranged',
-                        items: ['Bellybow', 'Crossbow', 'Latchet Crossbow', 'Longbow', 'Warbow']
+                        items: ['Bellybow (P)', 'Crossbow (P)', 'Latchet Crossbow (P)', 'Longbow (P)', 'Warbow (P)']
                     },
                     {
                         label: 'Sidearms',
@@ -302,11 +302,11 @@ export default {
                 weapons: [
                     {
                         label: 'Axes',
-                        items: ['Bardiche', 'Battle Axe']
+                        items: ['Bardiche (S)', 'Battle Axe (S)']
                     },
                     {
                         label: 'Polearms',
-                        items: ['Ranseur', 'War-scythe']
+                        items: ['Ranseur (P)', 'War-scythe (P)']
                     },
                     {
                         label: 'Sidearms',
@@ -314,11 +314,11 @@ export default {
                     },
                     {
                         label: 'Swords',
-                        items: ['Zweihander']
+                        items: ['Zweihander (S)']
                     },
                     {
                         label: 'Trauma',
-                        items: ['Club', 'Mace', 'Maul', 'War Flail', 'War Hammer']
+                        items: ['Club (C)', 'Mace (C)', 'Maul (C)', 'War Flail (C)', 'War Hammer (C)']
                     }
                 ],
                 armor: ['Chainmail', 'Plated Mail'],
@@ -364,15 +364,15 @@ export default {
                 weapons: [
                     {
                         label: 'Polearms',
-                        items: ['Bill', 'Guisarme', 'Pike']
+                        items: ['Bill (S)', 'Guisarme (P)', 'Pike (P)']
                     },
                     {
                         label: 'Sidearms',
-                        items: ['Dagger (P)', 'Dagger (S)', 'Dusack']
+                        items: ['Dagger (P)', 'Dagger (S)', 'Dusack (S)']
                     },
                     {
                         label: 'Swords',
-                        items: ['Arming Sword', 'Court Sword', 'Messer', 'Sabre', 'Schiavona']
+                        items: ['Arming Sword (S)', 'Court Sword (P)', 'Messer (S)', 'Sabre (S)', 'Schiavona (S)']
                     }
                 ],
                 armor: ['Scale', 'Laminar (Banded Mail)', 'Full Plate'],
@@ -418,19 +418,19 @@ export default {
                 weapons: [
                     {
                         label: 'Polearms',
-                        items: ['Halberd (S)', 'Halberd (P)', 'Planson', 'Short Spear', 'Voulge']
+                        items: ['Halberd (S)', 'Halberd (P)', 'Planson (P)', 'Short Spear (P)', 'Voulge (P)']
                     },
                     {
                         label: 'Sidearms',
-                        items: ['Dagger (P)', 'Dagger (S)', 'Scourge', 'Stiletto']
+                        items: ['Dagger (P)', 'Dagger (S)', 'Scourge (S)', 'Stiletto (P)']
                     },
                     {
                         label: 'Swords',
-                        items: ['Estoc', 'Longsword', 'Rapier']
+                        items: ['Estoc (P)', 'Longsword (S)', 'Rapier (P)']
                     },
                     {
                         label: 'Trauma',
-                        items: ['Goedenag', 'Quarterstaff', 'Rapier']
+                        items: ['Goedenag (P)', 'Quarterstaff (C)']
                     }
                 ],
                 armor: ['Gambeson', 'Leather'],
@@ -476,11 +476,11 @@ export default {
                 weapons: [
                     {
                         label: 'Sidearms',
-                        items: ['Cinquedea', 'Dagger (P)', 'Dagger (S)', 'Katzbalger']
+                        items: ['Cinquedea (S)', 'Dagger (P)', 'Dagger (S)', 'Katzbalger (S)']
                     },
                     {
                         label: 'Trauma',
-                        items: ['Bludgeon']
+                        items: ['Bludgeon (C)']
                     }
                 ],
                 armor: ['Gambeson', 'Leather'],
@@ -526,11 +526,11 @@ export default {
                 weapons: [
                     {
                         label: 'Axes',
-                        items: ['Horseman\'s pick', 'Lochaber Axe']
+                        items: ['Horseman\'s pick (P)', 'Lochaber Axe (S)']
                     },
                     {
                         label: 'Polearms',
-                        items: ['Glaive', 'Lance', 'Lucerne', 'Sovnya']
+                        items: ['Glaive (S)', 'Lance (P)', 'Lucerne (C)', 'Sovnya (S)']
                     },
                     {
                         label: 'Sidearms',
@@ -538,11 +538,11 @@ export default {
                     },
                     {
                         label: 'Swords',
-                        items: ['Executioner\'s Sword', 'Falchion', 'Koncerz']
+                        items: ['Executioner\'s Sword (S)', 'Falchion (S)', 'Koncerz (P)']
                     },
                     {
                         label: 'Trauma',
-                        items: ['Bec De Corbin', 'Great Hammer', 'Peasant\'s Flail']
+                        items: ['Bec De Corbin (C)', 'Great Hammer (C)', 'Peasant\'s Flail (C)']
                     }
                 ],
                 armor: ['Coat of Plates'],
@@ -588,7 +588,7 @@ export default {
                 weapons: [
                     {
                         label: 'Axes',
-                        items: ['Handaxe']
+                        items: ['Handaxe (S)']
                     },
                     {
                         label: 'Neutral Choices',
@@ -596,11 +596,11 @@ export default {
                     },
                     {
                         label: 'Ranged',
-                        items: ['Composite Bow', 'Javelin', 'Sling', 'Throwing Axe', 'Throwing Knife']
+                        items: ['Composite Bow (P)', 'Javelin (P)', 'Sling (C)', 'Throwing Axe (S)', 'Throwing Knife (P)']
                     },
                     {
                         label: 'Sidearms',
-                        items: ['Dagger (P)', 'Dagger (S)', 'Knife']
+                        items: ['Dagger (P)', 'Dagger (S)', 'Knife (S)']
                     }
                 ],
                 armor: ['Gambeson', 'Leather'],
@@ -618,8 +618,8 @@ export default {
                 description: 'Controllers are about movement: pushing and pulling others on the battlefield to get them into position.',
                 weapons: [
                     {
-                    label: 'Controller Weapons',
-                    items: ['Ahlspiess', 'Military Fork', 'Brass Knuckles', 'Unarmed', 'Fire Lance', 'Hakenbuchse', 'Handgonne']
+                        label: 'Controller Weapons',
+                        items: ['Ahlspiess (P)', 'Military Fork (P)', 'Brass Knuckles (C)', 'Unarmed (C)', 'Fire Lance (C)', 'Hakenbuchse (C)', 'Handgonne (C)']
                     },
                 ]
             },

@@ -330,6 +330,16 @@
     </div>
 
   </div>
+  
+  <br>
+
+  <h2>Tactics & Strategy</h2>
+  <div class="divider"></div>
+  <div>
+    <quill-editor [(ngModel)]="beast.tactics" (onContentChanged)="captureHTML($event, 'tactics')">
+    </quill-editor>
+  </div>
+
   <br>
 
   <mat-tab-group backgroundColor="warn">
@@ -396,7 +406,7 @@
                 <section>
                   <mat-checkbox [checked]="description.trait === 'Any'"
                     (change)="checkRandomizeDescription(i, $event.checked)">Make
-                    this a Random Conviction</mat-checkbox>
+                    this a Random Description</mat-checkbox>
                 </section>
                 <br>
                 <mat-form-field>
@@ -434,7 +444,7 @@
                 </h3>
                 <section>
                   <mat-checkbox [checked]="trait.trait === 'Any'" (change)="checkRandomizeTrait(i, $event.checked)">Make
-                    this a Random Conviction</mat-checkbox>gray
+                    this a Random Conviction</mat-checkbox>
                 </section>
                 <br>
                 <mat-form-field>
@@ -851,16 +861,6 @@
             </div>
           </div>
           <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">Add Movement</button>
-
-          <br>
-          <br>
-
-          <h2>Tactics & Strategy</h2>
-          <div class="divider"></div>
-          <div>
-            <quill-editor [(ngModel)]="beast.tactics" (onContentChanged)="captureHTML($event, 'tactics')">
-            </quill-editor>
-          </div>
         </div>
       </ng-template>
     </mat-tab>

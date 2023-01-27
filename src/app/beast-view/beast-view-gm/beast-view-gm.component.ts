@@ -150,7 +150,7 @@ export class BeastViewGmComponent implements OnInit {
 
     const rank = Math.ceil(flaw.rank.base + (flaw.rank.per * severity))
 
-    return {severity, rank}
+    return { severity, rank }
   }
 
   setLocationalVitality = () => {
@@ -298,14 +298,14 @@ export class BeastViewGmComponent implements OnInit {
             }
           }
         }
-      }     
+      }
       if (equipmentToGetArray.length > 0) {
-        this.beastService.getUniqueEquipment({"budgets": equipmentToGetArray}).subscribe(result => {
+        this.beastService.getUniqueEquipment({ "budgets": equipmentToGetArray }).subscribe(result => {
           for (let i = 0; i < result.length; i++) {
             this.lairLoot.push(result[i] + ` It also has a total of ${descriptions[i]} in Descriptions`)
           }
         })
-      } 
+      }
     }
 
     if (equipment.length > 0) {
@@ -322,7 +322,7 @@ export class BeastViewGmComponent implements OnInit {
         }
       }
       if (equipmentToGetArray.length > 0) {
-        this.beastService.getUniqueEquipment({"budgets": equipmentToGetArray}).subscribe(result => {
+        this.beastService.getUniqueEquipment({ "budgets": equipmentToGetArray }).subscribe(result => {
           this.lairLoot = [...this.lairLoot, ...result]
         })
       }
@@ -676,7 +676,7 @@ export class BeastViewGmComponent implements OnInit {
       } else if (!this.selectedRoleId && !this.beast.specialAbilities.generic) {
         this.beast.specialAbilities.generic = []
       }
-      
+
       if (this.selectedRoleId) {
         if (square.weaponInfo.bonusLong) {
           this.beast.specialAbilities[this.selectedRoleId] = this.beast.specialAbilities[this.selectedRoleId].filter(bonus => bonus !== square.weaponInfo.bonusLong)
@@ -874,5 +874,45 @@ export class BeastViewGmComponent implements OnInit {
       }
     })
     return includesSwarm
+  }
+
+  goToVariant(variantid) {
+    this.beast = {}
+    this.isAllSignsTableShown = false;
+    this.encounter = "loading";
+    this.loggedIn = this.beastService.loggedIn || false;
+    this.imageBase = variables.imageBase;
+    this.averageVitality = null
+    this.checkboxes = []
+    this.locationCheckboxes = {}
+    this.trauma = 0;
+    this.monsterNumber = null;
+    this.lairLoot = []
+    this.lairlootpresent = false
+    this.selectedRoleId = null;
+    this.primaryTables = primaryTables;
+    this.secondaryTables = secondaryTables;
+    this.demonIds = demonIds
+    this.demonTables = demonTables
+    this.selectedRole = {}
+    this.combatRolesInfo = roles.combatRoles.primary
+    this.combatSecondaryInfo = roles.combatRoles.secondary
+    this.socialRolesInfo = roles.socialRoles.primary
+    this.socialSecondaryInfo = roles.socialRoles.secondary
+    this.skillRolesInfo = roles.skillRoles
+    this.displayedFatigue = null;
+    this.numberFatigue = null;
+    this.displayedPanic = null;
+    this.numberPanic = null;
+    this.displayVitalityAverage = null;
+    this.displayVitalityDice = null;
+    this.displayedVitalityRoll = null;
+    this.isFodderSecondary = false;
+    this.isDefaultVitality = false;
+
+    this.equipmentLists = { weapons: [], armor: [], shields: [] }
+    this.equipmentObjects = { weapons: {}, armor: {}, shields: {} }
+    // [routerLink]="['/beast', variant.variantid, 'gm']"
+    this.router.navigate(['/beast', variantid, 'gm'])
   }
 }

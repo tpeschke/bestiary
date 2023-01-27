@@ -362,7 +362,7 @@ module.exports = {
         }
 
         promiseArray.push(db.get.beastskill(id).then(result => {
-          beast.skills = result
+          beast.skills = result.sort((a, b) => +b.rank - +a.rank)
           return result
         }))
 
