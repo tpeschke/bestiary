@@ -1225,7 +1225,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.movement.forEach(val => {
         val.roleid = id
       })
-      this.beast.roles.push({ id, ...this.newRole })
+
       let rolesToAdd = {
         role: this.newRole.role,
         secondaryrole: this.newRole.secondaryrole,
@@ -1262,8 +1262,9 @@ export class BeastViewEditComponent implements OnInit {
         size: this.beast.size,
         ...rolesToAdd
       }
+
+      this.beast.roles.push({ id, ...this.newRole, ...rolesToAdd })
     } else if ((isNewRoleFilledOut || areRolesFilledOutAndAddingFirstRole) && this.newRole.name) {
-      this.beast.roles.push({ id, ...this.newRole })
       let rolesToAdd = {
         role: this.newRole.role,
         secondaryrole: this.newRole.secondaryrole,
@@ -1300,6 +1301,8 @@ export class BeastViewEditComponent implements OnInit {
         size: null,
         ...rolesToAdd
       }
+      
+      this.beast.roles.push({ id, ...this.newRole, ...rolesToAdd })
     }
 
     this.newRole = {
