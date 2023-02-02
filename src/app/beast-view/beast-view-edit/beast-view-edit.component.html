@@ -254,7 +254,7 @@
 
           <mat-form-field class="secondary-role-margin">
             <mat-label>Confrontation Secondary Role Type</mat-label>
-            <mat-select #newConfRoleSelect (selectionChange)="captureNewRole('socialsecondary', $event)"
+            <mat-select #newSecondaryConfRoleSelect (selectionChange)="captureNewRole('socialsecondary', $event)"
               [disabled]="beast.roles.length === 0 && beast.socialsecondary"
               [value]="beast.roles.length === 0 ? beast.socialsecondary : null">
               <mat-option>
@@ -527,10 +527,17 @@
                     (change)="checkRandomizeFlaw(i, $event.checked)">Make
                     this a Random Flaw</mat-checkbox>
                 </section>
+
+                <mat-form-field *ngIf="flaw.trait !== 'Any'">
+                  <input placeholder="Severity" matInput [value]="flaw.severity"
+                    (change)="captureInput($event, 'conflict', i, 'flaws', 'severity')">
+                </mat-form-field>
+      
                 <mat-form-field *ngIf="flaw.trait !== 'Any'">
                   <input placeholder="Rank (1 point)" matInput [value]="flaw.value"
                     (change)="captureInput($event, 'conflict', i, 'flaws', 'value')">
                 </mat-form-field>
+
                 <p *ngIf="flaw.trait === 'Any'" class="flaw-severity-range">This Flaw Severity range:</p>
                 <div class="flaw-severity-buttons" *ngIf="flaw.trait === 'Any'">
                   <button id="{{flaw.value === '1' ? 'gray-blue' : ''}}" mat-raised-button (click)="setRankSeverityRank(i, '1')">Random</button>

@@ -23,6 +23,7 @@ export class BeastViewEditComponent implements OnInit {
   @ViewChild('newSecondaryRoleSelect') newSecondaryRoleSelect: MatSelect;
   @ViewChild('newConfRoleSelect') newConfRoleSelect: MatSelect;
   @ViewChild('newSkillRoleSelect') newSkillRoleSelect: MatSelect;
+  @ViewChild('newSecondaryConfRoleSelect') newSecondaryConfRoleSelect: MatSelect;
   imageObj: File;
 
   constructor(
@@ -764,7 +765,8 @@ export class BeastViewEditComponent implements OnInit {
         trait: '',
         value: '',
         type: traitType,
-        socialroleid: this.selectedRoleId
+        socialroleid: this.selectedRoleId,
+        severity: null
       })
     } else if (type === 'skills') {
       this.beast[type].push({
@@ -1322,6 +1324,7 @@ export class BeastViewEditComponent implements OnInit {
     this.newSecondaryRoleSelect.options.forEach((data) => data.deselect())
     this.newConfRoleSelect.options.forEach((data) => data.deselect())
     this.newSkillRoleSelect.options.forEach((data) => data.deselect())
+    this.newSecondaryConfRoleSelect.options.forEach((data) => data.deselect())
   }
 
   captureRoleVitality(event) {

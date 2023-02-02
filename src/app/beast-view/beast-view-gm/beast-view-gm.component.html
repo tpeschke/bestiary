@@ -107,7 +107,7 @@
             <div *ngFor="let trait of beast.conflict.flaws; let i = index">
               <div *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait !== 'Any'"
                 class="flex-row-opposite">
-                <h5>{{trait.trait | titlecase}}</h5>
+                <h5>{{trait.trait | titlecase}} {{trait.severity ? '(' + trait.severity + ')' : ''}}</h5>
                 <h5>{{trait.value ? trait.value : '1'}}</h5>
               </div>
               <div class="inline-loading"
@@ -473,7 +473,7 @@
               </span>
             </div>
 
-            <div>
+            <div *ngIf="displayVitalityAverage">
               <!-- <div class="checkboxShell">
                 <div *ngFor="let checkbox of locationCheckboxes.mainVitality.checkboxes; let i = index">
                   <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
@@ -529,7 +529,7 @@
               <p>
                 {{this.trauma}}</p>
             </div>
-            <div class="flex-row-opposite" *ngIf="displayedVitalityRoll">
+            <div class="flex-row-opposite" *ngIf="displayVitalityAverage">
               <h3>Fatigue</h3>
               <p [matTooltipDisabled]="numberFatigue === 'A' || numberFatigue === 'N'"
                 matTooltip="Fatigue Based on Average Vitality: {{numberFatigue}}">
@@ -933,7 +933,7 @@
         <div class="divider"></div>
         <div class="box-padding">
           <div class="flex-row-opposite">
-            <h3>
+            <h3 *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size">
               Size <i class="fas fa-info-circle icon-small blue"
                 matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This is factored into their Defense already."></i>
             </h3>

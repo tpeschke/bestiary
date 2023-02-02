@@ -394,8 +394,8 @@ let controllerObj = {
       })
       let newConflict = []
       Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
-      newConflict.forEach(({ trait, value, type, socialroleid, allroles }) => {
-        promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles).then().catch(e => console.log('----------------------- add beast conflict: ', e)))
+      newConflict.forEach(({ trait, value, type, socialroleid, allroles, severity }) => {
+        promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles, severity).then().catch(e => console.log('----------------------- add beast conflict: ', e)))
       })
       skills.forEach(({ skill, rank, skillroleid, allroles }) => {
         promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid, allroles).then().catch(e => console.log('----------------------- add beast skills: ', e)))
@@ -648,13 +648,13 @@ let controllerObj = {
       // update conflict
       let newConflict = []
       Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
-      newConflict.forEach(({ trait, value, type, id: conflictId, deleted, socialroleid, allroles }) => {
+      newConflict.forEach(({ trait, value, type, id: conflictId, deleted, socialroleid, allroles, severity }) => {
         if (deleted) {
           promiseArray.push(db.delete.beastconflict(conflictId).then())
         } else if (!conflictId) {
-          promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles).then())
+          promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles, severity).then())
         } else {
-          promiseArray.push(db.update.beastconflict(id, trait, value, type, conflictId, socialroleid, allroles).then())
+          promiseArray.push(db.update.beastconflict(id, trait, value, type, conflictId, socialroleid, allroles, severity).then())
         }
       })
       // update skills

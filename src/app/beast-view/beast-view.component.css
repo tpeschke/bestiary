@@ -867,6 +867,7 @@ th, td {
 table tr th {
     background: #4b4b4b;
     color: white;
+    font-size: 12px;
 }
 
 thead th {
@@ -875,6 +876,7 @@ thead th {
     position: sticky;
     font-family: "ancient";
     letter-spacing: 2px;
+    font-size: 14px;
 }
 
 .first-left tr td:first-child, .first-left tr th:first-child {
