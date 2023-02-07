@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import tooltips from '../rudiment-tooltips.js'
 
 @Component({
@@ -9,6 +9,7 @@ import tooltips from '../rudiment-tooltips.js'
 export class WeirdShapingDisplayComponent implements OnInit {
   @Input() casting = null;
   @Input() spells = null;
+  @Input() selectedRoleId: string
 
   constructor() { }
 
@@ -16,6 +17,8 @@ export class WeirdShapingDisplayComponent implements OnInit {
   public selectedCast = ''
   public isHowToDisplayed = false
   public tooltips = null
+
+  public showWeirdshaping = false;
 
   ngOnInit() {
     this.tooltips = tooltips
@@ -40,6 +43,12 @@ export class WeirdShapingDisplayComponent implements OnInit {
         this.castingSelect.push('Wild Magic')
       }
       this.selectedCast = this.castingSelect[0]
+    }
+  }
+
+  ngOnChanges(param1) {
+    if (param1.selectedRoleId.currentValue !== param1.selectedRoleId.previousValue ) {
+      this.showWeirdshaping = this.castingSelect.length > 0 && this.spells.length > 0 && this.spells.filter(e => e.roleid === this.selectedRoleId || e.allroles).length > 0
     }
   }
 

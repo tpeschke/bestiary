@@ -1367,6 +1367,10 @@ export class BeastViewEditComponent implements OnInit {
     this.beast.casting[type] = e.checked
   }
 
+  addToAllRoles = (index, e) => {
+    this.beast.spells[index].allroles = e.checked
+  }
+
   captureSpellDie = (e) => {
     this.beast.casting.spellnumberdie = e.target.value
   }
@@ -1392,7 +1396,9 @@ export class BeastViewEditComponent implements OnInit {
       shape: null,
       range: null,
       interval: null,
-      effect: null
+      effect: null,
+      allroles: null,
+      roleid: this.selectedRoleId
     })
   }
 

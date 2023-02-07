@@ -1,21 +1,28 @@
 <div class="box-padding">
   <div class="checkbox-shell">
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('augur', $event)" [(ngModel)]="casting.augur">Augur</mat-checkbox>
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('bloodpact', $event)" [(ngModel)]="casting.bloodpact">Blood Pact</mat-checkbox>
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('commanding', $event)" [(ngModel)]="casting.commanding">Commanding</mat-checkbox>
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('manifesting', $event)" [(ngModel)]="casting.manifesting">Manifesting</mat-checkbox>
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('vancian', $event)" [(ngModel)]="casting.vancian">Vancian</mat-checkbox>
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('wild', $event)" [(ngModel)]="casting.wild">Wild Magic</mat-checkbox>
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('augur', $event)" [(ngModel)]="casting.augur">Augur
+    </mat-checkbox>
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('bloodpact', $event)" [(ngModel)]="casting.bloodpact">
+      Blood Pact</mat-checkbox>
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('commanding', $event)" [(ngModel)]="casting.commanding">
+      Commanding</mat-checkbox>
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('manifesting', $event)"
+      [(ngModel)]="casting.manifesting">Manifesting</mat-checkbox>
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('vancian', $event)" [(ngModel)]="casting.vancian">
+      Vancian</mat-checkbox>
+    <mat-checkbox color='primary' (change)="checkWeirdshapeType('wild', $event)" [(ngModel)]="casting.wild">Wild Magic
+    </mat-checkbox>
   </div>
 
   <div *ngIf="casting.vancian" class="box-padding">
     <mat-form-field>
-      <input matInput placeholder="Spell Number Die (XdY)" [value]="casting.spellnumberdie" (change)="captureSpellDie($event)">
+      <input matInput placeholder="Spell Number Die (XdY)" [value]="casting.spellnumberdie"
+        (change)="captureSpellDie($event)">
     </mat-form-field>
   </div>
 
-  <div  class="spell-shell">
-    <div class="spell-card" *ngFor="let spell of spells; let i = index">
+  <div class="spell-shell">
+    <div class="spell-card" *ngFor="let spell of spells; let i = index" [ngClass]="{'noDisplay': !(!spell.deleted && (selectedRoleId === spell.roleid || spell.allroles))}">
       <mat-card>
         <mat-form-field>
           <input matInput placeholder="Name" [value]="spell.name" (change)="captureSpellInput($event, i, 'name')">
@@ -30,6 +37,9 @@
               <mat-option value="Touch">
                 Touch
               </mat-option>
+              <mat-option value="Burst">
+                Burst
+              </mat-option>
               <mat-option value="Near">
                 Near
               </mat-option>
@@ -38,9 +48,8 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          
-          <i class="fas fa-info-circle icon-small blue"
-          matTooltip="{{tooltips.origin[spell.origin]}}
+
+          <i class="fas fa-info-circle icon-small blue" matTooltip="{{tooltips.origin[spell.origin]}}
 
           This tool tip will update as you selected different Origins"></i>
         </div>
@@ -57,6 +66,9 @@
               <mat-option value="Cone">
                 Cone
               </mat-option>
+              <mat-option value="Personal">
+                Personal
+              </mat-option>
               <mat-option value="Salvo">
                 Salvo
               </mat-option>
@@ -72,9 +84,8 @@
             </mat-select>
           </mat-form-field>
 
-                    
-          <i class="fas fa-info-circle icon-small blue"
-          matTooltip="{{tooltips.shape[spell.shape]}}
+
+          <i class="fas fa-info-circle icon-small blue" matTooltip="{{tooltips.shape[spell.shape]}}
           
           This tool tip will update as you selected different Shapes"></i>
         </div>
@@ -82,11 +93,15 @@
           <input matInput placeholder="Range" [value]="spell.range" (change)="captureSpellInput($event, i, 'range')">
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Interval" [value]="spell.interval" (change)="captureSpellInput($event, i, 'interval')">
+          <input matInput placeholder="Interval" [value]="spell.interval"
+            (change)="captureSpellInput($event, i, 'interval')">
         </mat-form-field>
 
         <quill-editor [(ngModel)]="spell.effect" (onContentChanged)="captureSpellHTML($event, i)"></quill-editor>
 
+        <mat-checkbox color='primary' (change)="addToAllRoles(i, $event)" [(ngModel)]="spell.allroles">Add to All Roles</mat-checkbox>
+
+        <br/>
         <i (click)="deleteSpell(i)" class="fas fa-minus-circle"></i>
       </mat-card>
     </div>

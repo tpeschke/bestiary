@@ -1114,7 +1114,7 @@
       </div>
     </div>
 
-    <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells"></app-weird-shaping-display>
+    <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells" [selectedRoleId]="selectedRoleId"></app-weird-shaping-display>
 
     <div *ngIf="beast.challenges.length > 0">
       <h2>Skill Challenge{{beast.challenges.length > 1 ? 's' : ''}}</h2>

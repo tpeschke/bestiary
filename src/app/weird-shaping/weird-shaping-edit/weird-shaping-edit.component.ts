@@ -16,6 +16,8 @@ export class WeirdShapingEditComponent implements OnInit {
   @Input() captureSpellHTML: Function;
   @Input() addNewSpell: Function;
   @Input() deleteSpell: Function;
+  @Input() addToAllRoles: Function;
+  @Input() selectedRoleId: string;
 
   constructor() { }
 

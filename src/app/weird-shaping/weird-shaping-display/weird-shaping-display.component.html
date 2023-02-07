@@ -1,4 +1,4 @@
-<div *ngIf="castingSelect.length > 0 && spells.length > 0">
+<div *ngIf="showWeirdshaping">
   <h2>Weirdshaping</h2>
   <div class='divider'></div>
 
@@ -109,27 +109,27 @@
     <div class='divider'></div>
 
     <div class="spell-shell">
-      <div class="spell-card" *ngFor="let spell of spells">
+      <div class="spell-card" *ngFor="let spell of spells" [ngClass]="{'noDisplay': !(!spell.deleted && (selectedRoleId === spell.roleid || spell.allroles))}">
         <mat-card>
           <h3>{{spell.name}}</h3>
           <div class="divider white"></div>
           <div class="flex-row-opposite">
-            <h3>Origin</h3>
+            <h4>Origin</h4>
             <p>{{spell.origin}} <i class="fas fa-info-circle icon-small blue" matTooltip="{{tooltips.origin[spell.origin]}}"></i></p>
           </div>
           <div class="flex-row-opposite">
-            <h3>Shape</h3>
+            <h4>Shape</h4>
             <p>{{spell.shape}} <i class="fas fa-info-circle icon-small blue" matTooltip="{{tooltips.shape[spell.shape]}}"></i></p>
           </div>
           <div class="flex-row-opposite">
-            <h3>Range</h3>
+            <h4>Range</h4>
             <p>{{spell.range}}</p>
           </div>
           <div class="flex-row-opposite">
-            <h3>Interval</h3>
+            <h4>Interval</h4>
             <p>{{spell.interval}}</p>
           </div>
-          <h3 class="margin-top">Effect</h3>
+          <h4 class="margin-top">Effect</h4>
           <quill-view-html [content]="spell.effect"></quill-view-html>
         </mat-card>
       </div>
