@@ -275,7 +275,7 @@ let controllerObj = {
           newWeaponInfo.shield_dr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash, 'shield', roleToUse, weapon.selectedshield, weapon.addrolemods)
 
           weapon.damage = processDamage(weapon.damage, weapon.isspecial, weapon.hasspecialanddamage)
-          newWeaponInfo.damage = displayDamage(weapon, roleToUse, weapon.addrolemods)
+          newWeaponInfo.damage = displayDamage(weapon, roleToUse, weapon.addrolemods, weapon.dontaddroledamage)
 
           if (weapon.selectedweapon) {
             weaponObj = equipmentCtrl.getWeapon(weapon.selectedweapon)
@@ -1379,13 +1379,13 @@ function processDamage(damageString, isSpecial, hasSpecialAndDamage) {
   return newDamage
 }
 
-function displayDamage(weapon, roleToUse, addrolemods) {
+function displayDamage(weapon, roleToUse, addrolemods, dontaddroledamage) {
   if (weapon.damage.isSpecial) {
     return "*See Attack Info"
   }
 
   let roleDamage = null
-  if (!weapon.selectedweapon && roleToUse && addrolemods) {
+  if (!weapon.selectedweapon && roleToUse && addrolemods && !dontaddroledamage) {
     if (weapon.weapontype === 'm') {
       roleDamage = roles.combatRoles.primary[roleToUse].damage
     } else {

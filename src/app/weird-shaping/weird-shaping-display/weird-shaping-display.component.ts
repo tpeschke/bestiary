@@ -43,12 +43,18 @@ export class WeirdShapingDisplayComponent implements OnInit {
         this.castingSelect.push('Wild Magic')
       }
       this.selectedCast = this.castingSelect[0]
+
+      if (!this.selectedRoleId) {
+        this.showWeirdshaping = this.castingSelect.length > 0 && this.spells.length > 0
+      }
     }
   }
 
   ngOnChanges(param1) {
-    if (param1.selectedRoleId.currentValue !== param1.selectedRoleId.previousValue ) {
+    if (param1.selectedRoleId.currentValue && param1.selectedRoleId.currentValue !== param1.selectedRoleId.previousValue ) {
       this.showWeirdshaping = this.castingSelect.length > 0 && this.spells.length > 0 && this.spells.filter(e => e.roleid === this.selectedRoleId || e.allroles).length > 0
+    } else if (!param1.selectedRoleId.currentValue) {
+      this.showWeirdshaping = this.castingSelect.length > 0 && this.spells.length > 0
     }
   }
 
