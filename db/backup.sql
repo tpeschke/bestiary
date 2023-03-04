@@ -354,3 +354,25 @@ create table bbbeastartist (
     beastid int,
     artistid int
 );
+
+create table bbroleweights (
+    id serial primary key,
+    beastid int,
+    labelid int,
+    role varchar(150),
+    weight int
+)
+
+create table bbencounternumbers (
+    id serial primary key,
+    beastid int,
+    numbers varchar(150),
+    miles varchar(150)
+)
+
+create table bbencounterlabels (
+    id serial primary key,
+    beastid int,
+    label varchar(150),
+    weight int
+)

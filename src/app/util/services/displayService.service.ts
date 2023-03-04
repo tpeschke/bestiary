@@ -9,9 +9,6 @@ export class DisplayServiceService {
 
   displayName(square) {
     if (square.weapon !== '') {
-      if (square.damagetype && !square.weapon.includes('(')) {
-        return `${square.weapon} (${square.damagetype})`
-      }
       return square.weapon
     }
     let { selectedweapon, selectedarmor, selectedshield } = square
