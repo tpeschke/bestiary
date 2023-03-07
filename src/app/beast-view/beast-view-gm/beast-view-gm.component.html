@@ -770,9 +770,9 @@
           </div>
         </div>
 
-        <h2>Habitat/Society</h2>
-        <div class="divider"></div>
-        <div>
+        <h2 *ngIf="beast.habitat">Habitat/Society</h2>
+        <div *ngIf="beast.habitat" class="divider"></div>
+        <div *ngIf="beast.habitat">
           <quill-view-html [content]="beast.habitat"></quill-view-html>
         </div>
 
@@ -901,7 +901,7 @@
 
         <div class="box-padding encounterShell"
           *ngIf="encounter !== 'loading' && (!encounter.temperament || !encounter.rank)">
-          <p>This Monster Currently Has No Random Encounter Information.</p>
+          <p class="text-indent">This Monster Currently Has No Random Encounter Information.</p>
         </div>
 
         <div class="divider"></div>
@@ -940,19 +940,19 @@
             <p>{{selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size :
               beast.size}}</p>
           </div>
-          <div class="flex-row-opposite">
+          <div class="flex-row-opposite" *ngIf="beast.senses">
             <h3>Senses</h3>
             <p>{{beast.senses}}</p>
           </div>
-          <h3>Environment</h3>
-          <div class="chip-shell">
+          <h3 *ngIf="beast.environ.length > 0">Environment</h3>
+          <div *ngIf="beast.environ.length > 0" class="chip-shell">
             <mat-chip-list>
               <mat-chip (click)="navigateToSearch('environ', environ.environid)" *ngFor="let environ of beast.environ"
                 color="primary" selected>
                 {{environ.environid | environConverter}}</mat-chip>
             </mat-chip-list>
           </div>
-          <div class="flex-row-opposite">
+          <div class="flex-row-opposite" *ngIf="beast.diet">
             <h3>Diet</h3>
             <p>{{beast.diet}}</p>
           </div>
@@ -1003,7 +1003,7 @@
 
         <div *ngIf="beast.loot.length == 0 && (!beast.lootnotes || beast.lootnotes.length == 0)"
           class="box-padding margin-bottom">
-          <p>This creature carries nothing else of value.</p>
+          <p class="text-indent">This creature carries nothing else of value.</p>
         </div>
 
         <h3>Lair Loot <i class="fas fa-info-circle icon-small blue"
@@ -1019,7 +1019,7 @@
           </li>
         </ul>
         <div *ngIf="lairLoot.length == 0" class="box-padding">
-          <p>This creature has no loot at their lair.</p>
+          <p class="text-indent">This creature has no loot at their lair.</p>
         </div>
 
         <div *ngIf="lairlootpresent" class="loot-regenerate-shell">
@@ -1078,7 +1078,7 @@
           </mat-accordion>
         </div>
         <div *ngIf="beast.reagents.length == 0" class="box-padding">
-          <p>This creature has no harvestable reagents.</p>
+          <p class="text-align">This creature has no harvestable reagents.</p>
         </div>
 
         <h2>Variants</h2>
@@ -1103,7 +1103,7 @@
         </div>
 
         <div *ngIf="!beast.meta || beast.meta.length == 0" class="box-padding">
-          <p>This creature currently has no meta notes</p>
+          <p class="text-align">This creature currently has no meta notes</p>
         </div>
 
         <h2>Personal Notes</h2>

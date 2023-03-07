@@ -35,6 +35,8 @@ export class TypeConverterPipe implements PipeTransform {
         return 'Spirit';
       case 14:
         return 'Eldritch';
+      case 15:
+        return 'Template';
       default:
         return value;
     }

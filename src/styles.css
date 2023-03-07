@@ -307,3 +307,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .mat-checkbox-layout { white-space: normal !important; }
+
+.text-indent {
+  text-indent: 25px;
+
+}
