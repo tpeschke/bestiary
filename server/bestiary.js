@@ -131,7 +131,7 @@ massive(databaseCredentials).then(dbI => {
     app.set('db', dbI)
     app.listen(server, _ => {
         equipmentCtrl.processEquipment()
-        ctrl.collectCache(app, 0)
+        ctrl.collectCatelog(app)
         obstCtrl.collectCache(app, 0)
         console.log(`Sing to me a sweet song of forgetfulness and Ill die on your shore ${server}`)
     })

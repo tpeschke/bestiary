@@ -99,6 +99,40 @@ let controllerObj = {
     }
     return text;
   },
+  collectCatelog(app) {
+    const db = app.get('db')
+    db.get.catalogtemplates().then(result => {
+      let finalArray = []
+      if (result.length > 0) {
+        this.newCache.push(result)
+      }
+
+      result = result.map(beast => {
+        finalArray.push(db.get.rolesforcatelog(beast.id).then(result => {
+          beast.roles = result
+          if (!beast.defaultrole && beast.roles.length > 0) {
+            beast.defaultrole = beast.roles[0].id
+          }
+          if (beast.defaultrole) {
+            for (let i = 0; i < beast.roles.length; i++) {
+              if (beast.roles[i].id === beast.defaultrole) {
+                beast.role = beast.roles[i].role
+                beast.secondaryrole = beast.roles[i].secondaryrole
+                beast.socialrole = beast.roles[i].socialrole
+                beast.skillrole = beast.roles[i].skillrole
+                i = beast.roles.length
+              }
+            }
+          }
+          return result
+        }))
+      })
+
+      Promise.all(finalArray).then(_ => {
+        this.collectCache(app, 0)
+      })
+    })
+  },
   collectCache(app, index) {
     const db = app.get('db')
     let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -217,7 +251,7 @@ let controllerObj = {
           beast.role = roletype
         }
       }
-      
+
       if (!beast.vitality && secondaryRoleToUse === 'Fodder' && rolevitality) {
         beast.vitality = `(${rolevitality})/2`
       } else if (!beast.vitality && secondaryRoleToUse === 'Fodder') {
