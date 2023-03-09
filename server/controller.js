@@ -623,7 +623,7 @@ let controllerObj = {
       }).catch(e => console.log("beast challenges ~ ", e)))
 
       Promise.all(promiseArray).then(_ => {
-        controllerObj.collectCache(app, 0)
+        controllerObj.collectCatelog(app)
         res.send({ id })
       })
     }).catch(e => console.log('----------------------- add beast main add: ', e))
@@ -910,7 +910,7 @@ let controllerObj = {
 
 
       Promise.all(promiseArray).then(_ => {
-        controllerObj.collectCache(app, 0)
+        controllerObj.collectCatelog(app)
         res.send({ id })
       })
     })
@@ -944,7 +944,7 @@ let controllerObj = {
       // promiseArray.push(db.delete.combatranges(id, variantid).then())
 
       Promise.all(promiseArray).then(_ => {
-        controllerObj.collectCache(req.app, 0)
+        controllerObj.collectCatelog(req.app)
         res.send({ id })
       })
     })
