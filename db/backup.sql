@@ -359,7 +359,8 @@ create table bbroleweights (
     id serial primary key,
     beastid int,
     labelid int,
-    role varchar(150),
+    roleid int,
+    role varchar(150)
     weight int
 )
 

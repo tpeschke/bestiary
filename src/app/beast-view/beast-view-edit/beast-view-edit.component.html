@@ -330,7 +330,7 @@
     </div>
 
   </div>
-  
+
   <br>
 
   <h2>Tactics & Strategy</h2>
@@ -523,8 +523,7 @@
                   </mat-form-field>
                 </h3>
                 <section>
-                  <mat-checkbox [checked]="flaw.trait === 'Any'"
-                    (change)="checkRandomizeFlaw(i, $event.checked)">Make
+                  <mat-checkbox [checked]="flaw.trait === 'Any'" (change)="checkRandomizeFlaw(i, $event.checked)">Make
                     this a Random Flaw</mat-checkbox>
                 </section>
 
@@ -532,7 +531,7 @@
                   <input placeholder="Severity" matInput [value]="flaw.severity"
                     (change)="captureInput($event, 'conflict', i, 'flaws', 'severity')">
                 </mat-form-field>
-      
+
                 <mat-form-field *ngIf="flaw.trait !== 'Any'">
                   <input placeholder="Rank (1 point)" matInput [value]="flaw.value"
                     (change)="captureInput($event, 'conflict', i, 'flaws', 'value')">
@@ -540,10 +539,14 @@
 
                 <p *ngIf="flaw.trait === 'Any'" class="flaw-severity-range">This Flaw Severity range:</p>
                 <div class="flaw-severity-buttons" *ngIf="flaw.trait === 'Any'">
-                  <button id="{{flaw.value === '1' ? 'gray-blue' : ''}}" mat-raised-button (click)="setRankSeverityRank(i, '1')">Random</button>
-                  <button id="{{flaw.value === '2' ? 'gray-blue' : ''}}" mat-raised-button (click)="setRankSeverityRank(i, '2')">Low Severity</button>
-                  <button id="{{flaw.value === '3' ? 'gray-blue' : ''}}" mat-raised-button (click)="setRankSeverityRank(i, '3')">Mid Severity</button>
-                  <button id="{{flaw.value === '4' ? 'gray-blue' : ''}}" mat-raised-button (click)="setRankSeverityRank(i, '4')">High Severity</button>
+                  <button id="{{flaw.value === '1' ? 'gray-blue' : ''}}" mat-raised-button
+                    (click)="setRankSeverityRank(i, '1')">Random</button>
+                  <button id="{{flaw.value === '2' ? 'gray-blue' : ''}}" mat-raised-button
+                    (click)="setRankSeverityRank(i, '2')">Low Severity</button>
+                  <button id="{{flaw.value === '3' ? 'gray-blue' : ''}}" mat-raised-button
+                    (click)="setRankSeverityRank(i, '3')">Mid Severity</button>
+                  <button id="{{flaw.value === '4' ? 'gray-blue' : ''}}" mat-raised-button
+                    (click)="setRankSeverityRank(i, '4')">High Severity</button>
                 </div>
                 <section>
                   <mat-checkbox [checked]="flaw.allroles" (change)="checkAllRoles('flaws', i, $event.checked)">Add to
@@ -748,7 +751,9 @@
             </div>
           </mat-form-field>
           <p>(Ave: {{averageVitality}})</p>
-          <p *ngIf="(selectedRoleId && !beast.roleInfo[selectedRoleId].vitality && beast.roleInfo[selectedRoleId].secondaryrole === 'Fodder') || (!selectedRoleId && !beast.vitality && beast.secondaryrole === 'Fodder')" class="warning">This Vitality will be halved since this is the default Vitality for this Role and their Secondary is Fodder</p>
+          <p *ngIf="(selectedRoleId && !beast.roleInfo[selectedRoleId].vitality && beast.roleInfo[selectedRoleId].secondaryrole === 'Fodder') || (!selectedRoleId && !beast.vitality && beast.secondaryrole === 'Fodder')"
+            class="warning">This Vitality will be halved since this is the default Vitality for this Role and their
+            Secondary is Fodder</p>
           <br>
           <mat-form-field class="fatigue-field">
             <mat-label>Fatigue Threshold (+/-4 points per Cat Above/Below Critical)</mat-label>
@@ -904,7 +909,8 @@
                 </mat-select>
               </mat-form-field>
               <mat-form-field>
-                <input placeholder="Weight" matInput (change)="captureEncounterInput($event, 'temperament', 'weight')">
+                <input placeholder="Weight" matInput
+                  (change)="captureEncounterInputInt($event, 'temperament', 'weight')">
               </mat-form-field>
             </div>
             <button mat-raised-button (click)="addEncounterItem('temperament', 'temperament')" color="accent"
@@ -912,7 +918,94 @@
                 class="fa-solid fa-plus"></i></button>
           </div>
 
-          <div class="random-container double-wide-container">
+          <div class="random-container">
+            <table class="first-column-left">
+              <thead>
+                <th colspan="4">Number Appearing</th>
+              </thead>
+              <tr>
+                <th>Numbers</th>
+                <th>Miles from Lair</th>
+                <th>Weight</th>
+                <th></th>
+              </tr>
+              <tr *ngFor="let row of encounter.numbers; let i = index" [ngClass]="{'noDisplay': row.deleted}">
+                <td><input class="table-input" value="{{row.numbers}}"
+                    (change)="changeEncounterItem($event, 'numbers', 'numbers', i)"></td>
+                <td><input class="table-input" value="{{row.miles}}"
+                    (change)="changeEncounterItem($event, 'numbers', 'miles', i)"></td>
+                <td><input class="table-input" value="{{row.weight}}"
+                    (change)="changeEncounterItem($event, 'numbers', 'weight', i)"></td>
+                <td><i (click)="removeSingleEncounter(i, 'numbers')" class="fa-solid fa-trash"></i></td>
+              </tr>
+              <tr>
+                <td><input class="table-input-clearable" placeholder="Number in dice"
+                    (change)="captureEncounterInput($event, 'numbers', 'numbers')"></td>
+                <td><input class="table-input-clearable" placeholder="Miles in dice"
+                    (change)="captureEncounterInput($event, 'numbers', 'miles')"></td>
+                <td><input class="table-input-clearable" placeholder="Weight"
+                    (change)="captureEncounterInput($event, 'numbers', 'weight')"></td>
+                <td><i [ngClass]="{'disabled': !numbers.numbers || !numbers.weight || !numbers.miles}"
+                    (click)="addSingleEncounterItem('numbers')" class="fa-sharp fa-solid fa-square-plus"></i></td>
+              </tr>
+            </table>
+            
+          </div>
+
+          <div class="random-container">
+            <table class="first-column-left">
+              <thead>
+                <th colspan="4">Groups</th>
+              </thead>
+              <tr>
+                <th>Group</th>
+                <th>Role</th>
+                <th>Weight</th>
+                <th></th>
+              </tr>
+              <tbody class="table-subsection" *ngFor="let group of encounter.groups; let i = index"
+                [ngClass]="{'noDisplay': group.deleted}">
+                <tr>
+                  <td colspan="2"><input placeholder="Group Label" value="{{group.label}}" class="table-input"
+                      (change)="changeEncounterItem($event, 'groups', 'label', i)"></td>
+                  <td><input placeholder="Group Weight" value="{{group.weight}}" class="table-input"
+                      (change)="changeEncounterItem($event, 'groups', 'weight', i)"></td>
+                  <td><i (click)="removeSingleEncounter(i, 'groups')" class="fa-solid fa-trash"></i></td>
+                </tr>
+                <tr *ngFor="let row of group.weights; let rowi = index" [ngClass]="{'noDisplay': row.deleted}">
+                  <td> </td>
+                  <td><input placeholder="Role" value="{{row.role}}" class="table-input"
+                      (change)="changeEncounterItemInArray($event, 'groups', 'weights', i, rowi, 'role')"></td>
+                  <td><input placeholder="Weight" value="{{row.weight}}" class="table-input"
+                      (change)="changeEncounterItemInArray($event, 'groups', 'weights', i, rowi, 'weight')"></td>
+                  <td><i (click)="removeEncounterItemFromInnerArray('groups', i, 'weights', rowi)"
+                      class="fa-solid fa-trash"></i></td>
+                </tr>
+                <tr>
+                  <td> </td>
+                  <td><input placeholder="Role" class="table-input-clearable"
+                      (change)="captureEncounterInputAtIndex($event, 'weights', 'role', i)"></td>
+                  <td><input placeholder="Role Weight" class="table-input-clearable"
+                      (change)="captureEncounterInputAtIndex($event, 'weights', 'weight', i)"></td>
+                  <td><i [ngClass]="{'disabled': !weights[i] || !weights[i].role || !weights[i].weight}"
+                      (click)="addEncounterItemFromArray('groups','weights',  i)"
+                      class="fa-sharp fa-solid fa-square-plus"></i></td>
+                </tr>
+              </tbody>
+              <tbody class="table-subsection">
+                <tr>
+                  <td colspan="2"><input placeholder="Group Label" class="table-input-clearable"
+                      (change)="captureEncounterInput($event, 'groups', 'label')"></td>
+                  <td><input placeholder="Group Weight" class="table-input-clearable"
+                      (change)="captureEncounterInput($event, 'groups', 'weight')"></td>
+                  <td><i [ngClass]="{'disabled': !groups.label || !groups.weight}"
+                      (click)="addSingleEncounterItem('groups')" class="subheader-icon fa-sharp fa-solid fa-square-plus"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- <div class="random-container double-wide-container">
             <table class="first-column-left">
               <thead>
                 <th colspan="7">Roles</th>
@@ -966,7 +1059,7 @@
             <button mat-raised-button (click)="addEncounterItem('rank', 'rank')" color="accent"
               [disabled]="!rank.rank || !rank.weight || !rank.othertypechance || !rank.decayrate || !rank.lair || !rank.number || (rank.othertypechance > 0 && rank.decayrate <= 0)"><i
                 class="fa-solid fa-plus"></i></button>
-          </div>
+          </div> -->
 
           <div class="random-container">
             <table class="first-column-left">
@@ -1840,8 +1933,8 @@
         <app-weird-shaping-edit [casting]="beast.casting" [spells]="beast.spells"
           [checkWeirdshapeType]="checkWeirdshapeType" [deleteSpell]="deleteSpell" [addNewSpell]="addNewSpell"
           [captureSpellHTML]="captureSpellHTML" [captureSpellInput]="captureSpellInput"
-          [captureSpellSelect]="captureSpellSelect" [captureSpellDie]="captureSpellDie"
-          [addToAllRoles]="addToAllRoles" [selectedRoleId]="selectedRoleId"></app-weird-shaping-edit>
+          [captureSpellSelect]="captureSpellSelect" [captureSpellDie]="captureSpellDie" [addToAllRoles]="addToAllRoles"
+          [selectedRoleId]="selectedRoleId"></app-weird-shaping-edit>
       </div>
     </mat-tab>
     <mat-tab label="General Information">

@@ -116,6 +116,20 @@ export class BeastViewEditComponent implements OnInit {
     link: null
   }
 
+  public numbers = {
+    numbers: null,
+    miles: null,
+    weight: null
+  }
+
+  public groups = {
+    weight: null,
+    label: null,
+    weights: []
+  }
+
+  public weights = []
+
   combatRolesInfo = roles.combatRoles.primary;
   combatRolesSecondaryInfo = roles.combatRoles.secondary
   socialRolesInfo = roles.socialRoles.primary;
@@ -295,6 +309,7 @@ export class BeastViewEditComponent implements OnInit {
         this.beast.patreon = 20
         this.beastService.getEditEncounter(this.route.snapshot.params.templateId).subscribe(encounter => {
           this.encounter = encounter
+          this.getFakeEncounterTables()
           this.getRolesForEncounters()
         })
       } else if (beast) {
@@ -323,12 +338,14 @@ export class BeastViewEditComponent implements OnInit {
         }
         this.beastService.getEditEncounter(this.beast.id).subscribe(encounter => {
           this.encounter = encounter
+          this.getFakeEncounterTables()
           this.getRolesForEncounters()
         })
         this.getImageUrl()
       } else {
         this.beastService.getEditEncounter(0).subscribe(encounter => {
           this.encounter = encounter
+          this.getFakeEncounterTables()
           this.getRolesForEncounters()
         })
         this.beast = {
@@ -398,6 +415,57 @@ export class BeastViewEditComponent implements OnInit {
         behavior: 'smooth'
       })
     })
+  }
+
+  getFakeEncounterTables() {
+    this.encounter.numbers = [
+      {
+        beastid: 1,
+        weight: 2,
+        numbers: '1d10 * 4',
+        miles: 'd20'
+      }
+    ]
+
+    this.encounter.groups = [
+      {
+        beastid: 1,
+        labelid: 1,
+        weight: 10,
+        label: 'Forward Scouts',
+        weights: [
+          {
+            beastid: 1,
+            labelid: 1,
+            roleid: 1,
+            role: 'Ferdherz',
+            weight: 10
+          },
+          {
+            beastid: 1,
+            labelid: 1,
+            roleid: 2,
+            role: 'Sweinkopf',
+            weight: 5
+          },
+          {
+            beastid: 1,
+            labelid: 1,
+            roleid: 3,
+            role: 'Ziegehiten',
+            weight: 3
+          },
+          {
+            beastid: 1,
+            labelid: 1,
+            roleid: 4,
+            role: 'Braymann',
+            weight: 1
+          }
+        ]
+      }
+    ]
+
   }
 
   captureHTML(event, type) {
@@ -937,6 +1005,45 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  addSingleEncounterItem(type) {
+    this.encounter[type].push({ ...this[type] })
+
+    if (type === 'numbers') {
+      this.numbers = {
+        numbers: null,
+        miles: null,
+        weight: null
+      }
+    } else if (type === 'groups') {
+      this.groups = {
+        weight: null,
+        label: null,
+        weights: []
+      }
+    }
+
+    let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
+    for (let i = 0; i < inputs.length; ++i) {
+      if (inputs[i].className !== 'table-input') {
+        inputs[i].value = null
+      }
+    }
+  }
+
+  addEncounterItemFromArray (type, subtype, index) {
+    console.log(this.encounter, type)
+    this.encounter[type][index][subtype].push({ ...this[subtype][index]})
+
+    this[subtype][index] = null
+
+    let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
+    for (let i = 0; i < inputs.length; ++i) {
+      if (inputs[i].className !== 'table-input') {
+        inputs[i].value = null
+      }
+    }
+  }
+
   captureEncounter({ value }, type, secondarytype) {
     if (secondarytype) {
       this[type][secondarytype] = value
@@ -969,6 +1076,27 @@ export class BeastViewEditComponent implements OnInit {
     this[type][subtype] = event.target.value
   }
 
+  captureEncounterInputAtIndex(event, type, subtype, index) {
+    if (!this[type][index]) {
+      if (type === 'weights') {
+        this[type][index] = {
+          roleid: null,
+          role: null,
+          weight: null
+        }
+      }
+    }
+    this[type][index][subtype] = event.target.value
+  }
+
+  changeEncounterItem(event, type, subtype, index) {
+    this.encounter[type][index][subtype] = event.target.value
+  }
+
+  changeEncounterItemInArray(event, type, subtype, typeindex, subtypeindex, subsubtype) {
+    this.encounter[type][typeindex][subtype][subtypeindex][subsubtype] = event.target.value
+  }
+
   removeEncounterItem(index, type, subtype) {
     let deleted = this.encounter[type][subtype].splice(index, 1)[0]
     deleted.deleted = true
@@ -992,6 +1120,24 @@ export class BeastViewEditComponent implements OnInit {
       let cleanVersion = { ...deleted }
       cleanVersion.deleted = false
       this.encounter[type].allTemp.push(cleanVersion)
+    }
+  }
+
+  removeEncounterItemFromInnerArray (type, typeindex, subtype, subtypeindex) {
+    let deleted = this.encounter[type][typeindex][subtype].splice(subtypeindex, 1)[0]
+    deleted.deleted = true
+    delete deleted.weight;
+    if (deleted.id) {
+      this.encounter[type][typeindex][subtype].push(deleted)
+    }
+  }
+
+  removeSingleEncounter = (index, type) => {
+    let deleted = this.encounter[type].splice(index, 1)[0]
+    deleted.deleted = true
+    delete deleted.weight;
+    if (deleted.id) {
+      this.encounter[type].push(deleted)
     }
   }
 
@@ -1303,7 +1449,7 @@ export class BeastViewEditComponent implements OnInit {
         size: null,
         ...rolesToAdd
       }
-      
+
       this.beast.roles.push({ id, ...this.newRole, ...rolesToAdd })
     }
 

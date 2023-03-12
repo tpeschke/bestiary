@@ -993,6 +993,56 @@ mat-form-field.fatigue-field {
     width: 49%;
 }
 
+.table-input, .table-input-clearable {
+    border: none;
+    border-bottom: transparent;
+    transition: .6s;
+    width: 100%;
+    background-color: transparent;
+    color: black;
+}
+
+.table-input:hover, .table-input-clearable:hover {
+    border-bottom: 1px solid black;
+}
+
+.table-subsection tr:first-child {
+    background-color: #8b8b8b;
+    color: white;
+}
+
+.table-subsection tr:first-child input {
+    color: white;
+}
+
+.table-subsection tr:first-child input:hover {
+    border-bottom: 1px solid white;
+}
+
+.table-subsection tr:first-child input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgba(245, 245, 245, 0.85);
+}
+ 
+.table-subsection tr:first-child input :-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: rgba(245, 245, 245, 0.85);
+}
+  
+.table-subsection tr:first-child input ::-ms-input-placeholder { /* Microsoft Edge */
+  color: rgba(245, 245, 245, 0.85);
+}
+
+.disabled, .disabled:hover {
+    color: transparent !important
+}
+
+.fa-square-plus:hover {
+    color: #00a100 !important;
+}
+
+.subheader-icon:hover {
+    color: #00fd00 !important;
+}
+
 @media (max-width: 1295px) {
     .lairLoot li {
         width: 45%;
