@@ -1031,16 +1031,16 @@ mat-form-field.fatigue-field {
   color: rgba(245, 245, 245, 0.85);
 }
 
-.disabled, .disabled:hover {
-    color: transparent !important
-}
-
 .fa-square-plus:hover {
     color: #00a100 !important;
 }
 
 .subheader-icon:hover {
     color: #00fd00 !important;
+}
+
+.disabled, .disabled:hover {
+    color: transparent !important
 }
 
 @media (max-width: 1295px) {
