@@ -309,8 +309,6 @@ export class BeastViewEditComponent implements OnInit {
         this.beast.patreon = 20
         this.beastService.getEditEncounter(this.route.snapshot.params.templateId).subscribe(encounter => {
           this.encounter = encounter
-          this.getFakeEncounterTables()
-          this.getRolesForEncounters()
         })
       } else if (beast) {
         this.beast = beast
@@ -338,15 +336,11 @@ export class BeastViewEditComponent implements OnInit {
         }
         this.beastService.getEditEncounter(this.beast.id).subscribe(encounter => {
           this.encounter = encounter
-          this.getFakeEncounterTables()
-          this.getRolesForEncounters()
         })
         this.getImageUrl()
       } else {
         this.beastService.getEditEncounter(0).subscribe(encounter => {
           this.encounter = encounter
-          this.getFakeEncounterTables()
-          this.getRolesForEncounters()
         })
         this.beast = {
           name: '',
@@ -415,57 +409,6 @@ export class BeastViewEditComponent implements OnInit {
         behavior: 'smooth'
       })
     })
-  }
-
-  getFakeEncounterTables() {
-    this.encounter.numbers = [
-      {
-        beastid: 1,
-        weight: 2,
-        numbers: '1d10 * 4',
-        miles: 'd20'
-      }
-    ]
-
-    this.encounter.groups = [
-      {
-        beastid: 1,
-        labelid: 1,
-        weight: 10,
-        label: 'Forward Scouts',
-        weights: [
-          {
-            beastid: 1,
-            labelid: 1,
-            roleid: 1,
-            role: 'Ferdherz',
-            weight: 10
-          },
-          {
-            beastid: 1,
-            labelid: 1,
-            roleid: 2,
-            role: 'Sweinkopf',
-            weight: 5
-          },
-          {
-            beastid: 1,
-            labelid: 1,
-            roleid: 3,
-            role: 'Ziegehiten',
-            weight: 3
-          },
-          {
-            beastid: 1,
-            labelid: 1,
-            roleid: 4,
-            role: 'Braymann',
-            weight: 1
-          }
-        ]
-      }
-    ]
-
   }
 
   captureHTML(event, type) {
@@ -1138,24 +1081,6 @@ export class BeastViewEditComponent implements OnInit {
     delete deleted.weight;
     if (deleted.id) {
       this.encounter[type].push(deleted)
-    }
-  }
-
-  getRolesForEncounters = () => {
-    this.beast.roles.forEach(role => {
-      let addRole = true
-      for (let i = 0; i < this.encounter.rank.rank.length; i++) {
-        if (role.name === this.encounter.rank.rank) {
-          addRole = false
-          i = this.encounter.rank.rank.length
-        }
-      }
-      if (addRole) {
-        this.unusedRolesForEncounters.push(role.name)
-      }
-    })
-    if (this.beast.roles.length === 0) {
-      this.unusedRolesForEncounters.push('None')
     }
   }
 

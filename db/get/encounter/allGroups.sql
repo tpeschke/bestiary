@@ -1,0 +1,1 @@
+select * from bbencounterlabels where beastid = $1

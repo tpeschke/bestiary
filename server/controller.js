@@ -1030,13 +1030,39 @@ let controllerObj = {
       return result
     }))
 
-    promiseArray.push(db.get.encounter.allRank(beastid).then(result => {
-      encounterObject.rank.allRank = result
+    // promiseArray.push(db.get.encounter.allRank(beastid).then(result => {
+    //   encounterObject.rank.allRank = result
+    //   return result
+    // }))
+    // promiseArray.push(db.get.encounter.rank(beastid).then(result => {
+    //   encounterObject.rank.rank = result
+    //   return result
+    // }))
+    promiseArray.push(db.get.encounter.numbers(beastid).then(result => {
+      encounterObject.numbers = result
       return result
     }))
-    promiseArray.push(db.get.encounter.rank(beastid).then(result => {
-      encounterObject.rank.rank = result
-      return result
+
+    promiseArray.push(db.get.encounter.allGroups(beastid).then(result => {
+      if (result.length === 0) {
+        encounterObject.groups = result
+        return result
+      }
+
+      let groupArray = []
+      encounterObject.groups = []
+
+      result.forEach(group => {
+        groupArray.push(db.get.encounter.groupRoles(group.id).then(roles => {
+          group.weights = roles
+          encounterObject.groups.push(group)
+          return true
+        }))
+      })
+      
+      return Promise.all(groupArray).then(finalArray => {
+        return true
+      })
     }))
 
     promiseArray.push(db.get.encounter.verb(beastid).then(result => {
