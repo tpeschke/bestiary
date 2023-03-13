@@ -498,6 +498,16 @@ let controllerObj = {
         }
       })
 
+      numbers.forEach(({ id: numberid, beastid, deleted, numbers, miles }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.temperament(beastid, numberid).catch(e => console.log('----------------------- add beast delete numbers: ', e)))
+        } else if (numberid && beastid) {
+          promiseArray.push(db.update.encounter.temperament(beastid, numberid, numbers, miles).catch(e => console.log('----------------------- add beast update numbers: ', e)))
+        } else if (!numberid) {
+          promiseArray.push(db.add.encounter.allTemp(beastid, numbers, miles).catch(e => console.log('----------------------- add beast add numbers: ', e)))
+        }
+      })
+
       signs.signs.forEach(({ sign, weight, id: signid, beastid, deleted }) => {
         if (deleted) {
           promiseArray.push(db.delete.encounter.signs(beastid, signid).catch(e => console.log('----------------------- add beast delete sign: ', e)))
@@ -509,16 +519,6 @@ let controllerObj = {
           db.add.encounter.allSigns(sign).then(result => {
             promiseArray.push(db.add.encounter.sign(id, result[0].id, weight).catch(e => console.log('----------------------- add beast add sign with weight: ', e)))
           }).catch(e => console.log('----------------------- add beast all signs: ', e))
-        }
-      })
-
-      numbers.forEach(({ id: numberid, beastid, deleted, numbers, miles }) => {
-        if (deleted) {
-          promiseArray.push(db.delete.encounter.temperament(beastid, numberid).catch(e => console.log('----------------------- add beast delete numbers: ', e)))
-        } else if (numberid && beastid) {
-          promiseArray.push(db.update.encounter.temperament(beastid, numberid, numbers, miles).catch(e => console.log('----------------------- add beast update numbers: ', e)))
-        } else if (!numberid) {
-          promiseArray.push(db.add.encounter.allTemp(beastid, numbers, miles).catch(e => console.log('----------------------- add beast add numbers: ', e)))
         }
       })
 
@@ -797,6 +797,40 @@ let controllerObj = {
           db.add.encounter.allTemp(temp, tooltip).then(result => {
             promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight))
           })
+        }
+      })
+
+      groups.forEach(({ id: groupid, beastid, deleted, label, weights, weight }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.groups(beastid, groupid).then(_ => db.delete.groupRoles(beastid, groupid).catch(e => console.log('----------------------- add beast delete group roles: ', e)) ).catch(e => console.log('----------------------- add beast delete groups: ', e)))
+        } else if (groupid && beastid) {
+          promiseArray.push(db.update.encounter.groups(beastid, groupid, label, weights).then(_ => {
+            let groupPromises = []
+
+            weights.forEach(({ id: roleid, weight: roleweight, role}) => {
+              groupPromises.push(db.update.groupRoles(beastid, roleid, groupid, roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
+            })
+            return Promise.all(groupPromises)
+          }).catch(e => console.log('----------------------- add beast update group: ', e)))
+        } else if (!groupid) {
+          promiseArray.push(db.add.encounter.groups(beastid, label, weight).then(result => {
+            let groupPromises = []
+
+            weights.forEach(({ weight: roleweight, role}) => {
+              groupPromises.push(db.update.groupRoles(beastid, result[0].id, roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))
+            })
+            return Promise.all(groupPromises)
+          }).catch(e => console.log('----------------------- add beast add group: ', e)))
+        }
+      })
+
+      numbers.forEach(({ id: numberid, beastid, deleted, numbers, miles }) => {
+        if (deleted) {
+          promiseArray.push(db.delete.encounter.temperament(beastid, numberid).catch(e => console.log('----------------------- add beast delete numbers: ', e)))
+        } else if (numberid && beastid) {
+          promiseArray.push(db.update.encounter.temperament(beastid, numberid, numbers, miles).catch(e => console.log('----------------------- add beast update numbers: ', e)))
+        } else if (!numberid) {
+          promiseArray.push(db.add.encounter.allTemp(beastid, numbers, miles).catch(e => console.log('----------------------- add beast add numbers: ', e)))
         }
       })
 
