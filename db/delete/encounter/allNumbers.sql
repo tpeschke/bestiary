@@ -1,0 +1,1 @@
+delete from bbencounternumbers where beastid = $1
