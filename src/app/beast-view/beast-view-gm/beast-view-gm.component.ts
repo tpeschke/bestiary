@@ -440,29 +440,10 @@ export class BeastViewGmComponent implements OnInit {
   getRandomEncounter() {
     this.encounter = 'loading'
     this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
-      if (result.temperament && result.rank) {
-        let dedupedArray = []
-          , alreadyAddedRanks = []
-
-        result.rank.mainPlayers.forEach(player => {
-          let number = this.calculatorService.rollDice(player.number)
-          number = number > 0 ? number : 1
-          if (alreadyAddedRanks.indexOf(player.rank) === -1) {
-            player.number = number
-            dedupedArray.push(player)
-            alreadyAddedRanks.push(player.rank)
-          } else {
-            for (let i = 0; i < dedupedArray.length; i++) {
-              if (dedupedArray[i].rank === player.rank) {
-                dedupedArray[i].number += number
-              }
-            }
-          }
-        })
-        result.rank.mainPlayers = dedupedArray
-        let distance = this.calculatorService.rollDice(result.rank.lair)
-
+      if (result.temperament && result.main.monsterRoles.length > 0) {
+        let distance = 0
         if (result.complication) {
+
           result.complication.forEach(complication => {
             if (complication.id === 1) {
               if (complication.rival.number) {
@@ -489,7 +470,7 @@ export class BeastViewGmComponent implements OnInit {
           })
         }
 
-        result.rank.lair = distance > 0 ? distance : 0
+        result.main.milesFromLair = distance > 0 ? distance : result.main.milesFromLair
         result.timeOfDay = this.calculatorService.rollDice(12)
         let partOfDay = this.calculatorService.rollDice(2)
         result.timeOfDay += partOfDay === 1 ? " AM" : " PM";

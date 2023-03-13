@@ -781,7 +781,7 @@
         </h2>
         <div class="divider"></div>
         <div class="box-padding encounterShell"
-          *ngIf="encounter !== 'loading' && encounter.temperament && encounter.rank">
+          *ngIf="encounter !== 'loading' && encounter.temperament && encounter.main.monsterRoles">
           <div *ngIf="encounter.sign" class="flex-shell-with-table">
             <div class="flex-row-opposite">
               <h3>Sign <i class="fas fa-info-circle small-font"
@@ -809,18 +809,10 @@
             <div class="flex-row-together">
               <h3>Main Players</h3>
               <ul>
-                <li *ngFor="let player of encounter.rank.mainPlayers">{{player.number}} {{player.rank !== 'None' ?
-                  (player.number === 1 ? player.rank : player.rank + "s") : player.number === 1 ?
+                <li *ngFor="let player of encounter.main.monsterRoles | keyvalue">{{player.value}} {{player.key !== 'None' ?
+                  (player.value === 1 ? player.key : player.key + "s") : player.value === 1 ?
                   handleCommaInName(beast.name) :
                   beast.plural ? beast.plural : handleCommaInName(beast.name) + "s"}}</li>
-              </ul>
-            </div>
-            <div *ngIf="encounter.rank.otherPlayers.length > 0" class="flex-row-together">
-              <h3>Additional Player(s)</h3>
-              <ul>
-                <li *ngFor="let player of encounter.rank.otherPlayers">
-                  <a target="_blank" href="{{getUrl(player.id)}}">{{player.name}} {{player.rank}}</a>
-                </li>
               </ul>
             </div>
           </div>
@@ -849,11 +841,11 @@
           </div>
           <div class="flex-row-opposite">
             <h3>Home Base</h3>
-            <p>{{encounter.rank.lair}} Miles Away</p>
+            <p>{{encounter.main.milesFromLair}} Miles Away</p>
           </div>
         </div>
 
-        <div class="box-padding" *ngIf="encounter.complication && encounter.temperament && encounter.rank">
+        <div class="box-padding" *ngIf="encounter.complication && encounter.temperament && encounter.main.monsterRoles">
           <h3>Complication{{encounter.complication.length > 1 ? 's' : ''}}</h3>
           <div class="complicationsShell">
             <div class="complicationCard" *ngFor="let complication of encounter.complication">
@@ -887,7 +879,7 @@
           </div>
         </div>
 
-        <div *ngIf="encounter !== 'loading' && encounter.temperament && encounter.rank" class="regenerateButtonShell">
+        <div *ngIf="encounter !== 'loading' && encounter.temperament && encounter.main.monsterRoles" class="regenerateButtonShell">
           <button mat-raised-button (click)="getRandomEncounter()" color="warn"><i class="fas fa-redo"></i></button>
         </div>
 
@@ -900,7 +892,7 @@
         </div>
 
         <div class="box-padding encounterShell"
-          *ngIf="encounter !== 'loading' && (!encounter.temperament || !encounter.rank)">
+          *ngIf="encounter !== 'loading' && (!encounter.temperament || !encounter.main.monsterRoles)">
           <p class="text-indent">This Monster Currently Has No Random Encounter Information.</p>
         </div>
 
