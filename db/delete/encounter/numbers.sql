@@ -1,0 +1,1 @@
+delete from numbers where beastid = $1 and id = $2
