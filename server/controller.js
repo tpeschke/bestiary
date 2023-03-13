@@ -87,6 +87,61 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
   return nameString
 }
 
+function getRandomEncounter(label, numbers, weights) {
+  let rolesGoodToAdd = {}
+  let randomEncounterRoles = {}
+  weights.forEach(entry => {
+      rolesGoodToAdd[entry.role] = true
+  })
+
+  let roleLoopTimes = 1
+
+  let totalNumber = rollDice(numbers[0].numbers)
+  if (totalNumber < 1) { totalNumber = 1}
+
+  for (i = 1; i <= totalNumber; i++) {
+      const entry = weights[Math.floor(Math.random()*weights.length)];
+
+      if (randomEncounterRoles[entry.role] && rolesGoodToAdd[entry.role]) {
+          randomEncounterRoles[entry.role] += 1
+          if (randomEncounterRoles[entry.role] === (entry.weight * roleLoopTimes)) {
+              rolesGoodToAdd[entry.role] = false
+          }
+      } else if (!randomEncounterRoles[entry.role] && rolesGoodToAdd[entry.role]) {
+          randomEncounterRoles[entry.role] = 1
+          if (randomEncounterRoles[entry.role] === (entry.weight * roleLoopTimes)) {
+              rolesGoodToAdd[entry.role] = false
+          }
+      } else if (!rolesGoodToAdd[entry.role]) {
+          let allRolesFalse = true
+          for (key in rolesGoodToAdd) {
+              if (rolesGoodToAdd[key]) {
+                  allRolesFalse = false
+              }
+          }
+
+          if (allRolesFalse) {
+              for (key in rolesGoodToAdd) {
+                  rolesGoodToAdd[key] = true
+              }
+              roleLoopTimes++
+          } else {
+              --i
+          }
+      }
+  }
+
+  let milesFromLair = rollDice(numbers[0].miles)
+  if (milesFromLair < 1) { milesFromLair = 1}
+
+  return {
+      monsterRoles: randomEncounterRoles,
+      label,
+      milesFromLair,
+      totalNumber
+  }
+}
+
 let controllerObj = {
   catalogCache: [],
   newCache: [],
@@ -1088,14 +1143,6 @@ let controllerObj = {
       return result
     }))
 
-    // promiseArray.push(db.get.encounter.allRank(beastid).then(result => {
-    //   encounterObject.rank.allRank = result
-    //   return result
-    // }))
-    // promiseArray.push(db.get.encounter.rank(beastid).then(result => {
-    //   encounterObject.rank.rank = result
-    //   return result
-    // }))
     promiseArray.push(db.get.encounter.numbers(beastid).then(result => {
       encounterObject.numbers = result
       return result
@@ -1202,53 +1249,14 @@ let controllerObj = {
       return result
     }))
 
-    promiseArray.push(db.get.encounter.rankWeighted(beastId).then(result => {
-      let mainPlayers = result
-        , underlingNumber = 0
-        , otherPlayers = []
-
-      if (mainPlayers[0]) {
-        while (mainPlayers[0].othertypechance > 0) {
-          let percentRoll = Math.floor(Math.random() * 100) + 1
-          if (percentRoll <= mainPlayers[0].othertypechance) { ++underlingNumber }
-          mainPlayers[0].othertypechance -= mainPlayers[0].decayrate;
-        }
-
-        for (let i = 0; i < underlingNumber; i++) {
-          randomNumber = Math.floor(Math.random() * 31) + 1
-          if (randomNumber > 30) {
-            otherPlayers.push(db.get.otherplayers.any(beastId).then(result => result[0]))
-          } else if (randomNumber > 25) {
-            otherPlayers.push(db.get.otherplayers.type(beastId).then(result => result[0]))
-          } else {
-            otherPlayers.push(db.get.otherplayers.exact(beastId, mainPlayers[0].rankid).then(result => {
-              if (result[0]) {
-                mainPlayers.push(result[0])
-                return false
-              } else {
-                return db.get.otherplayers.type(beastId).then(result => result[0])
-              }
-            }))
-          }
-        }
-
-        return Promise.all(otherPlayers).then(finalOtherPlayers => {
-          let beastRank = {}
-          beastRank.mainPlayers = mainPlayers
-          beastRank.otherPlayers = finalOtherPlayers.filter(person => person).map(person => {
-            if (person.name.includes(',')) {
-              let splitname = person.name.split(', ')
-              person.name = `${splitname[1]} ${splitname[0]}`
-            }
-            return person
-          })
-          beastRank.lair = beastRank.mainPlayers[0].lair
-          encounterObject.rank = beastRank
-          return beastRank
+    promiseArray.push(db.get.encounter.numbersWeight(beastId).then(numbers => {
+      return db.get.encounter.groupsWeight(beastId).then(groups => {
+        const groupId = groups[0].id
+        return db.get.encounter.groupWeight(beastId, groupId).then(group => {
+          encounterObject.main = getRandomEncounter(groups[0].label, numbers, group)
+          return encounterObject.main
         })
-      } else {
-        return []
-      }
+      })
     }))
 
     let randomEncounter = Math.floor(Math.random() * 10) > 5
