@@ -549,11 +549,12 @@ let controllerObj = {
           promiseArray.push(db.add.encounter.groups(id, label, +weight).then(result => {
             let groupPromises = []
 
-            weights.forEach(({ weight: roleweight, role}) => {
+            groupid = result[0].id
+            weights.forEach(({ id: roleid, weight: roleweight, role}) => {
               if (roleid) {
-                groupPromises.push(db.update.encounter.groupRoles(beastid, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
+                groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
               } else {
-                groupPromises.push(db.add.encounter.groupRoles(beastid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))
+                groupPromises.push(db.add.encounter.groupRoles(id, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))
               }
             })
             return Promise.all(groupPromises)
@@ -872,9 +873,9 @@ let controllerObj = {
 
             weights.forEach(({ id: roleid, weight: roleweight, role}) => {
               if (roleid) {
-                groupPromises.push(db.update.encounter.groupRoles(beastid, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
+                groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
               } else {
-                groupPromises.push(db.add.encounter.groupRoles(beastid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))
+                groupPromises.push(db.add.encounter.groupRoles(id, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))
               }
             })
             return Promise.all(groupPromises)
@@ -882,12 +883,12 @@ let controllerObj = {
         } else if (!groupid) {
           promiseArray.push(db.add.encounter.groups(id, label, +weight).then(result => {
             let groupPromises = []
-
-            weights.forEach(({ weight: roleweight, role}) => {
+            groupid = result[0].id
+            weights.forEach(({ id: roleid, weight: roleweight, role}) => {
               if (roleid) {
-                groupPromises.push(db.update.encounter.groupRoles(beastid, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
+                groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
               } else {
-                groupPromises.push(db.add.encounter.groupRoles(beastid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))
+                groupPromises.push(db.add.encounter.groupRoles(id, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))
               }
             })
             return Promise.all(groupPromises)
@@ -1251,11 +1252,14 @@ let controllerObj = {
 
     promiseArray.push(db.get.encounter.numbersWeight(beastId).then(numbers => {
       return db.get.encounter.groupsWeight(beastId).then(groups => {
-        const groupId = groups[0].id
-        return db.get.encounter.groupWeight(beastId, groupId).then(group => {
-          encounterObject.main = getRandomEncounter(groups[0].label, numbers, group)
-          return encounterObject.main
-        })
+        if (groups.length > 0) {
+          const groupId = groups[0].id
+          return db.get.encounter.groupWeight(beastId, groupId).then(group => {
+            encounterObject.main = getRandomEncounter(groups[0].label, numbers, group)
+            return encounterObject.main
+          })
+        }
+        return groups
       })
     }))
 

@@ -440,7 +440,7 @@ export class BeastViewGmComponent implements OnInit {
   getRandomEncounter() {
     this.encounter = 'loading'
     this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
-      if (result.temperament && result.main.monsterRoles.length > 0) {
+      if (result.temperament && result.main) {
         let distance = 0
         if (result.complication) {
 
