@@ -877,6 +877,23 @@ export class BeastViewGmComponent implements OnInit {
     return 'A'
   }
 
+  createEncounterLabel (label, roles) {
+    const roleLength = Object.keys(roles).length
+    if (roleLength > 1) {
+      return `${this.aOrAn(label)} ${label} of`
+    } else {
+      let number = 0
+      for (let key in roles) {
+        number = roles[key]
+      }
+      if (number > 1) {
+        return `${this.aOrAn(label)} ${label} of`
+      } else {
+        return ``
+      }
+    }
+  }
+
   goToVariant(variantid) {
     this.beast = {}
     this.isAllSignsTableShown = false;

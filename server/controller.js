@@ -18,9 +18,6 @@ let rollDice = function (diceString) {
       }
       if (!isNaN(+val) || val === 'd' || val === "!") {
         val = val.replace(/!/i, "")
-        if (expressionValue === "") {
-          expressionValue = "1"
-        }
         expressionValue = expressionValue + val;
       }
 
@@ -91,54 +88,53 @@ function getRandomEncounter(label, numbers, weights) {
   let rolesGoodToAdd = {}
   let randomEncounterRoles = {}
   weights.forEach(entry => {
-      rolesGoodToAdd[entry.role] = true
+    rolesGoodToAdd[entry.role] = true
   })
 
   let roleLoopTimes = 1
-
   let totalNumber = rollDice(numbers[0].numbers)
-  if (totalNumber < 1) { totalNumber = 1}
+  if (totalNumber < 1) { totalNumber = 1 }
 
   for (i = 1; i <= totalNumber; i++) {
-      const entry = weights[Math.floor(Math.random()*weights.length)];
+    const entry = weights[Math.floor(Math.random() * weights.length)];
 
-      if (randomEncounterRoles[entry.role] && rolesGoodToAdd[entry.role]) {
-          randomEncounterRoles[entry.role] += 1
-          if (randomEncounterRoles[entry.role] === (entry.weight * roleLoopTimes)) {
-              rolesGoodToAdd[entry.role] = false
-          }
-      } else if (!randomEncounterRoles[entry.role] && rolesGoodToAdd[entry.role]) {
-          randomEncounterRoles[entry.role] = 1
-          if (randomEncounterRoles[entry.role] === (entry.weight * roleLoopTimes)) {
-              rolesGoodToAdd[entry.role] = false
-          }
-      } else if (!rolesGoodToAdd[entry.role]) {
-          let allRolesFalse = true
-          for (key in rolesGoodToAdd) {
-              if (rolesGoodToAdd[key]) {
-                  allRolesFalse = false
-              }
-          }
-
-          if (allRolesFalse) {
-              for (key in rolesGoodToAdd) {
-                  rolesGoodToAdd[key] = true
-              }
-              roleLoopTimes++
-          } else {
-              --i
-          }
+    if (randomEncounterRoles[entry.role] && rolesGoodToAdd[entry.role]) {
+      randomEncounterRoles[entry.role] += 1
+      if (randomEncounterRoles[entry.role] === (entry.weight * roleLoopTimes)) {
+        rolesGoodToAdd[entry.role] = false
       }
+    } else if (!randomEncounterRoles[entry.role] && rolesGoodToAdd[entry.role]) {
+      randomEncounterRoles[entry.role] = 1
+      if (randomEncounterRoles[entry.role] === (entry.weight * roleLoopTimes)) {
+        rolesGoodToAdd[entry.role] = false
+      }
+    } else if (!rolesGoodToAdd[entry.role]) {
+      let allRolesFalse = true
+      for (key in rolesGoodToAdd) {
+        if (rolesGoodToAdd[key]) {
+          allRolesFalse = false
+        }
+      }
+
+      if (allRolesFalse) {
+        for (let key in rolesGoodToAdd) {
+          rolesGoodToAdd[key] = true
+        }
+        roleLoopTimes++
+      } else {
+        --i
+      }
+    }
   }
 
   let milesFromLair = rollDice(numbers[0].miles)
-  if (milesFromLair < 1) { milesFromLair = 1}
+  if (milesFromLair < 1) { milesFromLair = 1 }
 
   return {
-      monsterRoles: randomEncounterRoles,
-      label,
-      milesFromLair,
-      totalNumber
+    monsterRoles: randomEncounterRoles,
+    label,
+    milesFromLair,
+    totalNumber
   }
 }
 
@@ -531,12 +527,12 @@ let controllerObj = {
 
       groups.forEach(({ id: groupid, beastid, deleted, label, weights, weight }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.groupRoles(beastid, groupid).catch(e => console.log('----------------------- add beast delete group roles: ', e)) ).catch(e => console.log('----------------------- add beast delete groups: ', e)))
+          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.groupRoles(beastid, groupid).catch(e => console.log('----------------------- add beast delete group roles: ', e))).catch(e => console.log('----------------------- add beast delete groups: ', e)))
         } else if (groupid && beastid) {
           promiseArray.push(db.update.encounter.groups(id, groupid, label, +weight).then(_ => {
             let groupPromises = []
 
-            weights.forEach(({ id: roleid, weight: roleweight, role}) => {
+            weights.forEach(({ id: roleid, weight: roleweight, role }) => {
               if (roleid) {
                 groupPromises.push(db.update.encounter.groupRoles(beastid, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
               } else {
@@ -550,7 +546,7 @@ let controllerObj = {
             let groupPromises = []
 
             groupid = result[0].id
-            weights.forEach(({ id: roleid, weight: roleweight, role}) => {
+            weights.forEach(({ id: roleid, weight: roleweight, role }) => {
               if (roleid) {
                 groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
               } else {
@@ -866,12 +862,12 @@ let controllerObj = {
 
       groups.forEach(({ id: groupid, beastid, deleted, label, weights, weight }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.groupRoles(beastid, groupid).catch(e => console.log('----------------------- add beast delete group roles: ', e)) ).catch(e => console.log('----------------------- add beast delete groups: ', e)))
+          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.groupRoles(beastid, groupid).catch(e => console.log('----------------------- add beast delete group roles: ', e))).catch(e => console.log('----------------------- add beast delete groups: ', e)))
         } else if (groupid && beastid) {
           promiseArray.push(db.update.encounter.groups(beastid, groupid, label, +weight).then(_ => {
             let groupPromises = []
 
-            weights.forEach(({ id: roleid, weight: roleweight, role}) => {
+            weights.forEach(({ id: roleid, weight: roleweight, role }) => {
               if (roleid) {
                 groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
               } else {
@@ -884,7 +880,7 @@ let controllerObj = {
           promiseArray.push(db.add.encounter.groups(id, label, +weight).then(result => {
             let groupPromises = []
             groupid = result[0].id
-            weights.forEach(({ id: roleid, weight: roleweight, role}) => {
+            weights.forEach(({ id: roleid, weight: roleweight, role }) => {
               if (roleid) {
                 groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
               } else {
@@ -1251,16 +1247,25 @@ let controllerObj = {
     }))
 
     promiseArray.push(db.get.encounter.numbersWeight(beastId).then(numbers => {
-      return db.get.encounter.groupsWeight(beastId).then(groups => {
-        if (groups.length > 0) {
-          const groupId = groups[0].id
-          return db.get.encounter.groupWeight(beastId, groupId).then(group => {
-            encounterObject.main = getRandomEncounter(groups[0].label, numbers, group)
+      if (numbers.length > 0) {
+        return db.get.encounter.groupsWeight(beastId).then(groups => {
+          if (groups.length > 0) {
+            const groupId = groups[0].id
+            return db.get.encounter.groupWeight(beastId, groupId).then(group => {
+              if (group.length > 0) {
+                encounterObject.main = getRandomEncounter(groups[0].label, numbers, group)
+                return encounterObject.main
+              }
+              encounterObject.main = getRandomEncounter(groups[0].label, numbers, [{ role: 'None', weight: 1 }])
+              return encounterObject.main
+            })
+          } else {
+            encounterObject.main = getRandomEncounter('Group', numbers, [{ role: 'None', weight: 1 }])
             return encounterObject.main
-          })
-        }
-        return groups
-      })
+          }
+        })
+      }
+      return true
     }))
 
     let randomEncounter = Math.floor(Math.random() * 10) > 5

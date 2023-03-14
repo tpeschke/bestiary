@@ -808,7 +808,7 @@
           <div class="playerShell">
             <div class="flex-row-together">
               <h3>Main Players</h3>
-              <p>{{aOrAn(encounter.main.label)}} {{encounter.main.label}} of 
+              <p>{{createEncounterLabel(encounter.main.label, encounter.main.monsterRoles)}} 
                 <span *ngFor="let player of encounter.main.monsterRoles | keyvalue; let i = index">{{getConnector(encounter.main.monsterRoles, i)}}{{player.value}} {{player.key !== 'None' ?
                   (player.value === 1 ? player.key : player.key + "s") : player.value === 1 ?
                   handleCommaInName(beast.name) :
