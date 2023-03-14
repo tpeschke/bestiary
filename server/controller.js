@@ -3,6 +3,9 @@ const roles = require('./roles')
 
 let rollDice = function (diceString) {
   if (typeof (diceString) === 'number') {
+    if (+diceString === 0) {
+      return 0
+    }
     return +Math.floor(Math.random() * Math.floor(diceString)) + 1
   } else {
     let diceExpressionArray = []
@@ -128,7 +131,7 @@ function getRandomEncounter(label, numbers, weights) {
   }
 
   let milesFromLair = rollDice(numbers[0].miles)
-  if (milesFromLair < 1) { milesFromLair = 1 }
+  if (milesFromLair < 0) { milesFromLair = 1 }
 
   return {
     monsterRoles: randomEncounterRoles,
