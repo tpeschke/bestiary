@@ -1,4 +1,3 @@
-select RANDOM() * Weight AS RandWeight, * from bbroleweights
+select * from bbroleweights
 where beastid = $1 and labelid = $2
-order by RandWeight desc
-limit 1;
+order by weight desc

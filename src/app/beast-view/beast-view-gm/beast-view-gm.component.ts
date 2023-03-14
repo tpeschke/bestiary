@@ -857,6 +857,26 @@ export class BeastViewGmComponent implements OnInit {
     return includesSwarm
   }
 
+  getConnector(object, index) {
+    const length = Object.keys(object).length
+
+    if (index === 0) {
+      return ' '
+    } else if (index < length - 1) {
+      return ', '
+    } else {
+      return ', and '
+    }
+  }
+
+  aOrAn(label) {
+    var vowels = ("aeioAEIO");
+    if (vowels.indexOf(label[0]) !== -1) {
+      return 'An'
+    }
+    return 'A'
+  }
+
   goToVariant(variantid) {
     this.beast = {}
     this.isAllSignsTableShown = false;

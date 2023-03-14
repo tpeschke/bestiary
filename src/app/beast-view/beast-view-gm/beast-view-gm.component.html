@@ -808,11 +808,11 @@
           <div class="playerShell">
             <div class="flex-row-together">
               <h3>Main Players</h3>
-              <p>A {{encounter.main.label}} of 
-                <span *ngFor="let player of encounter.main.monsterRoles | keyvalue">{{player.value}} {{player.key !== 'None' ?
+              <p>{{aOrAn(encounter.main.label)}} {{encounter.main.label}} of 
+                <span *ngFor="let player of encounter.main.monsterRoles | keyvalue; let i = index">{{getConnector(encounter.main.monsterRoles, i)}}{{player.value}} {{player.key !== 'None' ?
                   (player.value === 1 ? player.key : player.key + "s") : player.value === 1 ?
                   handleCommaInName(beast.name) :
-                  beast.plural ? beast.plural : handleCommaInName(beast.name) + "s"}} </span>
+                  beast.plural ? beast.plural : handleCommaInName(beast.name) + "s"}}</span>
               </p>
             </div>
           </div>
