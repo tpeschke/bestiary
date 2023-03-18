@@ -160,6 +160,25 @@
       <h3>Combat Metrics</h3>
       <div class="divider white"></div>
       <mat-form-field>
+        <mat-label>Damage Type</mat-label>
+        <mat-select [disabled]="square.selectedweapon"
+          [value]="square.selectedweapon ? square.weaponInfo.type : square.damagetype"
+          (selectionChange)="captureSelect($event, 'damagetype')">
+          <mat-option>
+            None
+          </mat-option>
+          <mat-option value="S">
+            Slashing
+          </mat-option>
+          <mat-option value="P">
+            Piercing
+          </mat-option>
+          <mat-option value="C">
+            Crushing
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
         <input
           id="{{selectedRole.strengths && selectedRole.strengths.includes('Recovery') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Recovery') ? 'red' : ''}}"
           placeholder="Recovery (2 points)" matInput [value]="square.spd" (change)="captureInputNumber($event, 'spd')">
@@ -203,25 +222,6 @@
           id="{{selectedRole.strengths && selectedRole.strengths.includes('Ranged Penalties') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Ranged Penalties') ? 'red' : ''}}"
           placeholder="Range Increment (1 point / 10 ft)" matInput [value]="square.ranges.increment"
           (change)="captureInputNumber($event, 'ranges', 'increment')">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Damage Type</mat-label>
-        <mat-select [disabled]="square.selectedweapon"
-          [value]="square.selectedweapon ? square.weaponInfo.type : square.damagetype"
-          (selectionChange)="captureSelect($event, 'damagetype')">
-          <mat-option>
-            None
-          </mat-option>
-          <mat-option value="S">
-            Slashing
-          </mat-option>
-          <mat-option value="P">
-            Piercing
-          </mat-option>
-          <mat-option value="C">
-            Crushing
-          </mat-option>
-        </mat-select>
       </mat-form-field>
     </div>
     <div>

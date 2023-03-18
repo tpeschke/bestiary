@@ -186,8 +186,6 @@ getRoleName = (val) => {
             return 'Controller'
         case 25:
             return 'Lock'
-        case 26:
-            return 'Conditional'
         case 27:
             return 'Antagonist'
         case 28:

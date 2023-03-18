@@ -82,12 +82,6 @@ export default {
             skillList: null,
             description: "Locks are those enemies that can only be beaten after a Skill Challenge. They're usually extremely powerful and/or invulnerable until after, at which point they become a pushover."
         },
-        'Conditional': {
-            strengths: 'Extremely dangerous.',
-            weaknesses: 'Only dangerous under specific circumstances.',
-            skillList: null,
-            description: "A Conditional enemy is one that is extremely powerful but only under certain conditions. Often they'll also have immunities that must be discovered to truly hurt them."
-        },
         'Antagonist': {
             strengths: 'Debuffs enemies and buffs their allies.',
             weaknesses: 'Only effective indirectly.',
