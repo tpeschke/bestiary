@@ -993,7 +993,7 @@
                   <td><i *ngIf="weights[i] && weights[i].role && weights[i].weight"
                       (click)="addEncounterItemFromArray('groups','weights',  i)"
                       class="fa-sharp fa-solid fa-square-plus"></i>
-                    <i *ngIf="!weights[i] && !weights[i].role && !weights[i].weight"
+                    <i *ngIf="!weights[i] || !weights[i].role && !weights[i].weight"
                       class="fa-sharp fa-solid fa-square-plus"></i>
                   </td>
                 </tr>

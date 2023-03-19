@@ -558,7 +558,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.roleInfo[this.selectedRoleId][type] = event.value
       this.updateRolesObject(type, event.value)
     } else if (type === 'fatigue') {
-      this.beast.fatigue = event.value
+      this.beast.basefatigue = event.value
     } else {
       this.beast[type] = event.value
     }

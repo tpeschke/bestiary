@@ -632,6 +632,7 @@ export class BeastViewGmComponent implements OnInit {
         this.numberFatigue = (this.displayedVitalityRoll * .75).toFixed(0)
         break;
       case 'Never':
+      case 'N':
         this.numberFatigue = 'N'
         break;
       default:
