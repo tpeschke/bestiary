@@ -460,11 +460,11 @@ let controllerObj = {
       let id = result[0].id
         , promiseArray = []
 
-      roles.forEach(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size }) => {
+      roles.forEach(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue }) => {
         if (!hash) {
           hash = controllerObj.createHash()
         }
-        promiseArray.push(db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size).catch(e => console.log('----------------------- add beast roles: ', e)))
+        promiseArray.push(db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue).catch(e => console.log('----------------------- add beast roles: ', e)))
       })
       types.forEach(val => {
         promiseArray.push(db.add.beasttype(id, val.typeid).then().catch(e => console.log('----------------------- add beast types: ', e)))
@@ -719,11 +719,11 @@ let controllerObj = {
       let promiseArray = []
 
       promiseArray.push(db.delete.roles([id, ['', ...roles.map(roles => roles.id)]]).then(_ => {
-        return roles.map(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size }) => {
+        return roles.map(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue }) => {
           if (!hash) {
             hash = controllerObj.createHash()
           }
-          return db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size).catch(e => console.log(e))
+          return db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue).catch(e => console.log(e))
         })
       }).catch(e => console.log("roles ~ ", e)))
       // update types

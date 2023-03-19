@@ -435,11 +435,11 @@ export class DisplayServiceService {
     let fatigue = 'C'
     if (selectedRoleId && beast.roleInfo[selectedRoleId].fatigue) {
       fatigue = beast.roleInfo[selectedRoleId].fatigue
+    } else if (selectedRoleId && !beast.roleInfo[selectedRoleId].fatigue) {
+      fatigue = beast.basefatigue
     } else if (selectedRoleId && roles.combatRoles.primary[beast.roleInfo[selectedRoleId].role].fatigue) {
       fatigue = roles.combatRoles.primary[beast.roleInfo[selectedRoleId].role].fatigue
-    } else if (selectedRoleId && !beast.roleInfo[selectedRoleId].fatigue) {
-      fatigue = beast.fatigue
-    } 
+    }
 
     return fatigue
   }

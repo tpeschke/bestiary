@@ -557,6 +557,8 @@ export class BeastViewEditComponent implements OnInit {
     if (this.selectedRoleId) {
       this.beast.roleInfo[this.selectedRoleId][type] = event.value
       this.updateRolesObject(type, event.value)
+    } else if (type === 'fatigue') {
+      this.beast.fatigue = event.value
     } else {
       this.beast[type] = event.value
     }
@@ -973,9 +975,8 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  addEncounterItemFromArray (type, subtype, index) {
-    console.log(this.encounter, type)
-    this.encounter[type][index][subtype].push({ ...this[subtype][index]})
+  addEncounterItemFromArray(type, subtype, index) {
+    this.encounter[type][index][subtype].push({ ...this[subtype][index] })
 
     this[subtype][index] = null
 
@@ -1066,7 +1067,7 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  removeEncounterItemFromInnerArray (type, typeindex, subtype, subtypeindex) {
+  removeEncounterItemFromInnerArray(type, typeindex, subtype, subtypeindex) {
     let deleted = this.encounter[type][typeindex][subtype].splice(subtypeindex, 1)[0]
     deleted.deleted = true
     delete deleted.weight;
@@ -1179,6 +1180,9 @@ export class BeastViewEditComponent implements OnInit {
         this.selectedSkillRole = {}
       }
     }
+
+    this.determineBaseFatigue()
+    this.determineBasePanic()
   }
 
   setRoleType(event) {
@@ -1877,13 +1881,15 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   determineBaseFatigue = () => {
-    let { combat, basefatigue } = this.beast
+    let { combat, basefatigue, roleInfo } = this.beast
     let armor = null;
     let weaponFatigue = null
 
-    if (basefatigue) {
+    if (this.selectedRoleId && roleInfo[this.selectedRoleId].fatigue) {
+      this.displayFatigue = roleInfo[this.selectedRoleId].fatigue
+    } else if (basefatigue) {
       this.displayFatigue = basefatigue;
-    } else {
+    } else if (combat.length > 0) {
       for (let i = 0; i < combat.length; i++) {
         let weapon = combat[i]
         if (weapon.roleid === this.selectedRoleId) {
@@ -1892,9 +1898,13 @@ export class BeastViewEditComponent implements OnInit {
           i = combat.length
         }
       }
-
-      this.displayFatigue = armor ? armor.fatigue : this.selectedRole ? this.selectedRole.fatigue : weaponFatigue ? weaponFatigue : 'C';
+      // this needs to set 
+    } else if (this.selectedRole) {
+      this.displayFatigue = this.selectedRole.fatigue
+    } else {
+      this.displayFatigue = 'C'
     }
+
     this.convertFatigue()
   }
 

@@ -444,6 +444,7 @@ module.exports = {
         promiseArray.push(db.get.beastroles(id).then(result => {
           beast.roles = result
           beast.roleInfo = {}
+          
           for (i = 0; i < result.length; i++) {
             beast.roleInfo[result[i].id] = {
               vitality: result[i].vitality,
@@ -465,7 +466,8 @@ module.exports = {
               skillrole: result[i].skillrole,
               skillpoints: result[i].skillpoints,
               socialsecondary: result[i].socialsecondary,
-              size: result[i].size
+              size: result[i].size,
+              fatigue: result[i].fatigue
             }
           }
           return result

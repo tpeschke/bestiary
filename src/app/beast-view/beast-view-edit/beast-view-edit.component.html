@@ -757,7 +757,7 @@
           <br>
           <mat-form-field class="fatigue-field">
             <mat-label>Fatigue Threshold (+/-4 points per Cat Above/Below Critical)</mat-label>
-            <mat-select [value]="displayFatigue" (selectionChange)="captureSelect($event, 'basefatigue')"
+            <mat-select [value]="displayFatigue" (selectionChange)="captureSelectWithRoleConsideration($event, 'fatigue')"
               id="{{selectedRole.strengths ? selectedRole.strengths.includes('Fatigue') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Fatigue') ? 'red' : '' : ''}}">
               <mat-option [value]="null">
                 Default to Role
