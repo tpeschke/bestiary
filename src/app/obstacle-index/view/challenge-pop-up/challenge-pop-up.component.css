@@ -33,6 +33,10 @@ p {
     color: #ff5722
 }
 
+.right-most-buttom {
+    float: right
+}
+
 .icon {
     position: absolute;
     left: -8px;

@@ -915,7 +915,7 @@
               </mat-expansion-panel-header>
 
               <quill-view-html [content]="type.description"></quill-view-html>
-              <button color="primary" mat-raised-button (click)="navigateToSearch('types', type.typeid)">See More
+              <button color="primary" class="right-most-buttom" mat-raised-button (click)="navigateToSearch('types', type.typeid)">See More
                 {{type.typeid | typeConverter}}s</button>
             </mat-expansion-panel>
           </mat-accordion>
@@ -948,7 +948,7 @@
             <h3>Diet</h3>
             <p>{{beast.diet}}</p>
           </div>
-          <div class="flex-row-opposite">
+          <div *ngIf="beast.rarity" class="flex-row-opposite">
             <h3>Rarity</h3>
             <p>{{beast.rarity | rarityConverter}} <i class="fas fa-info-circle icon-small blue"
                 matTooltip="+{{getRarityModifier(beast.rarity)}} to Monster Craft Checks"></i></p>
