@@ -672,6 +672,21 @@
         <br>
         <br>
 
+        <h2>Single Obstacles</h2>
+        <div class="divider"></div>
+        <mat-chip-list>
+          <div *ngFor="let obstacle of beast.obstacles; let i = index">
+            <mat-chip (click)="removeChip('obstacles', i)" color="warn" selected>
+              {{obstacle.obstacleid}}</mat-chip>
+          </div>
+        </mat-chip-list>
+        <mat-form-field>
+          <input matInput placeholder="Obstacle ID" [value]="newObstacleId" (change)="captureObstacle($event)">
+        </mat-form-field>
+        <br>
+        <button mat-raised-button color="accent" (click)="addObstacleById()">Add By ID</button>
+        <br>
+        <br>
         <h2>Skill Challenges</h2>
         <div class="divider"></div>
         <mat-chip-list>

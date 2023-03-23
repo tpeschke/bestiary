@@ -10,6 +10,8 @@ import { primaryTables, secondaryTables } from './firbolg-tables'
 import { demonIds, tables as demonTables } from './demon-tables'
 import roles from '../roles.js'
 import { DisplayServiceService } from 'src/app/util/services/displayService.service';
+import { MatDialog } from '@angular/material';
+import { ChallengePopUpComponent } from '../../obstacle-index/view/challenge-pop-up/challenge-pop-up.component'
 
 @Component({
   selector: 'app-beast-view-gm',
@@ -26,7 +28,8 @@ export class BeastViewGmComponent implements OnInit {
     public titleService: Title,
     public quickViewService: QuickViewService,
     public metaService: Meta,
-    public displayService: DisplayServiceService
+    public displayService: DisplayServiceService,
+    private dialog: MatDialog,
   ) { }
 
   public beast: any = {}
@@ -61,6 +64,8 @@ export class BeastViewGmComponent implements OnInit {
   public displayedVitalityRoll = null;
   public isFodderSecondary = false;
   public isDefaultVitality = false;
+
+  public selectedObstacleId = null;
 
   public equipmentLists = { weapons: [], armor: [], shields: [] }
   public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
@@ -858,6 +863,24 @@ export class BeastViewGmComponent implements OnInit {
     return includesSwarm
   }
 
+  selectObstacle(obstacleId) {
+    if (obstacleId === this.selectedObstacleId) {
+      this.selectedObstacleId = null
+    } else {
+      this.selectedObstacleId = obstacleId
+    }
+  }
+
+  goToEditBinded = this.goToEdit.bind(this)
+
+  goToEdit() {
+    this.router.navigate([`/obstacle/edit/${this.selectedObstacleId}`])
+  }
+
+  openChallenge(id) {
+    this.dialog.open(ChallengePopUpComponent, { panelClass: 'my-class', data: { id, beastEntry: 'true' } })
+  }
+
   getConnector(object, index) {
     const length = Object.keys(object).length
 
@@ -878,7 +901,7 @@ export class BeastViewGmComponent implements OnInit {
     return 'A'
   }
 
-  createEncounterLabel (label, roles) {
+  createEncounterLabel(label, roles) {
     const roleLength = Object.keys(roles).length
     if (roleLength > 1) {
       return `${this.aOrAn(label)} ${label} of`

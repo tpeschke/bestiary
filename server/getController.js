@@ -209,7 +209,7 @@ module.exports = {
             }
           })
           Promise.all(finalPromise).then(actualFinal => {
-              res.send(beast)
+            res.send(beast)
           })
         })
       }
@@ -280,7 +280,7 @@ module.exports = {
               }
               specialAbilities[role].push(equipmentInfo.weaponInfo.bonusLong)
             }
-            if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong&& (!weapon.weapon || weapon.weapon.includes(equipmentInfo.shieldInfo.name))) {
+            if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong && (!weapon.weapon || weapon.weapon.includes(equipmentInfo.shieldInfo.name))) {
               if (!specialAbilities[role]) {
                 specialAbilities[role] = []
               }
@@ -444,7 +444,7 @@ module.exports = {
         promiseArray.push(db.get.beastroles(id).then(result => {
           beast.roles = result
           beast.roleInfo = {}
-          
+
           for (i = 0; i < result.length; i++) {
             beast.roleInfo[result[i].id] = {
               vitality: result[i].vitality,
@@ -484,6 +484,16 @@ module.exports = {
         promiseArray.push(db.get.challenges(id).then(result => {
           beast.challenges = result
         }))
+
+        if (req.query.edit === 'true') {
+          promiseArray.push(db.get.obstacles_edit(id).then(result => {
+            beast.obstacles = result
+          }))
+        } else {
+          promiseArray.push(db.get.obstacles_view(id).then(result => {
+            beast.obstacles = result
+          }))
+        }
 
         Promise.all(promiseArray).then(finalArray => {
           finalPromise = [];

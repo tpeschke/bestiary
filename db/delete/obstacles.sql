@@ -1,0 +1,1 @@
+delete from bbbeastsingleobstacle where beastid = $1 and  Not (id = any($2))

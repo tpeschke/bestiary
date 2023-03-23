@@ -143,6 +143,27 @@
           </div>
         </div>
 
+        <h3 *ngIf="beast.obstacles.length > 0">Related Obstacles</h3>
+        <mat-chip-list>
+          <div *ngFor="let obstacle of beast.obstacles; let i = index">
+            <mat-chip (click)="selectObstacle(obstacle.obstacleid)" color="primary" selected>
+              {{obstacle.name}} <i class="fa-solid {{obstacle.obstacleid === selectedObstacleId ? 'fa-chevron-down' : 'fa-chevron-up'}}"></i> </mat-chip>
+          </div>
+        </mat-chip-list>
+
+        <div *ngIf="selectedObstacleId" class="view-obstacles">
+          <app-obstacle-innards [id]="selectedObstacleId" [goToEdit]="goToEditBinded"></app-obstacle-innards>
+        </div>
+
+        <br>
+        <h3 *ngIf="beast.challenges.length > 0">Related Skill Challenges</h3>
+        <mat-chip-list>
+          <div *ngFor="let challenge of beast.challenges; let i = index">
+            <mat-chip (click)="openChallenge(challenge.challengeid)" color="primary" selected>
+              {{challenge.name}} <i class="fa-solid fa-expand"></i></mat-chip>
+          </div>
+        </mat-chip-list>
+
         <h2>Combat</h2>
         <div class="divider"></div>
         <div class="role-select"
@@ -1107,15 +1128,6 @@
     </div>
 
     <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells" [selectedRoleId]="selectedRoleId"></app-weird-shaping-display>
-
-    <div *ngIf="beast.challenges.length > 0">
-      <h2>Skill Challenge{{beast.challenges.length > 1 ? 's' : ''}}</h2>
-      <div class="divider"></div>
-      <div *ngFor="let challenge of beast.challenges; let i = index">
-        <h3 *ngIf="i > 0" class="challenge-header">{{challenge.name}}</h3>
-        <app-challenge-pop-up [id]="challenge.challengeid" [beastEntry]="true"></app-challenge-pop-up>
-      </div>
-    </div>
 
     <button *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
       [routerLink]="['/beast', beast.id, 'edit']">Edit</button>

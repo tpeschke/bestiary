@@ -377,3 +377,10 @@ create table bbencounterlabels (
     label varchar(150),
     weight int
 )
+
+create table bbbeastsingleobstacle (
+    id serial primary key,
+    beastid int,
+    obstacleid int,
+    notes varchar(150)
+)

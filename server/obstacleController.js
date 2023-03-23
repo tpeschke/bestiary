@@ -103,7 +103,7 @@ let obstacleController = {
     },
     getObstacle: (req, res) => {
         const db = req.app.get('db')
-            , id = req.params.id
+            , id = +req.params.id
 
         if (id > 0) {
             db.get.obstacle.base(id).then(obstacle => {

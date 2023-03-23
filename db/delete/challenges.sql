@@ -1,1 +1,1 @@
-delete from bbskillbeast where id = $1 and id != ANY($2)
+delete from bbskillbeast where beastid = $1 and  Not (id = any($2))

@@ -7,7 +7,7 @@
 </div>
 
 <div *ngIf="challenge.name" class="pop-up">
-  <div *ngIf="!beastEntry" class="header-shell" color="accent">
+  <div class="header-shell" color="accent">
     <i class="fas fa-project-diagram icon"></i>
     <h1>{{challenge.name}}</h1>
   </div>
@@ -19,7 +19,7 @@
 
   <div class="mermaid-shell">
     <p class="subtitle">Click on any node to get the assocated Obstacle</p>
-    <div class="mermaid-inner-shell">
+    <div class="mermaid-inner-shell {{beastEntry ? 'beast-entry' : ''}}">
       <div #mermaid></div>
       <div *ngIf="viewObstacleId > 0" class="view-obstacles">
         <app-obstacle-innards [id]="viewObstacleId" [goToEdit]="goToEditBinded"></app-obstacle-innards>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Inject } from '@angular/core';
 import { BeastService } from 'src/app/util/services/beast.service';
 import { ObstacleService } from 'src/app/util/services/obstacle.service';
 import variables from '../../../../local.js'
@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import mermaid from "mermaid";
 import { ToastrService } from 'ngx-toastr';
 import { Title, Meta } from '@angular/platform-browser';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-challenge-pop-up',
@@ -20,6 +21,7 @@ export class ChallengePopUpComponent implements OnInit {
   @Input() beastEntry: boolean;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: {id: string, beastEntry: string},
     public obstacleService: ObstacleService,
     public beastService: BeastService,
     private router: Router,
@@ -36,6 +38,11 @@ export class ChallengePopUpComponent implements OnInit {
   public viewObstacleId = 0;
 
   ngOnInit() {
+    console.log(this.id, this.data)
+    if (!this.id) {
+      this.id = +this.data.id
+      this.beastEntry = this.data.beastEntry === 'true'
+    }
     this.obstacleService.getObstacle(this.id, 'challenge').subscribe(challenge => {
       this.challenge = challenge
       if (this.router.url.includes('obstacle')) {

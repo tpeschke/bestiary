@@ -44,6 +44,7 @@ export class BeastViewEditComponent implements OnInit {
   public uploader: any;
   public newVariantId = null;
   public newChallengeId = null;
+  public newObstacleId = null;
   public averageVitality = null;
   public lootTables = lootTables;
   public displayFatigue = null;
@@ -717,6 +718,10 @@ export class BeastViewEditComponent implements OnInit {
     this.newChallengeId = +event.target.value
   }
 
+  captureObstacle(event) {
+    this.newObstacleId = +event.target.value
+  }
+
   addById() {
     if (this.newVariantId) {
       this.beast.variants.push({ variantid: this.newVariantId })
@@ -728,6 +733,13 @@ export class BeastViewEditComponent implements OnInit {
     if (this.newChallengeId) {
       this.beast.challenges.push({ challengeid: this.newChallengeId })
       this.newChallengeId = null;
+    }
+  }
+
+  addObstacleById() {
+    if (this.newObstacleId) {
+      this.beast.obstacles.push({ obstacleid: this.newObstacleId })
+      this.newObstacleId = null;
     }
   }
 
