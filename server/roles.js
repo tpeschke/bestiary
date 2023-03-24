@@ -91,7 +91,7 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Axes',
-                        items: ['Bardiche', 'Battle Axe']
+                        items: ['Bardiche', 'Battle Axe', 'Dane Axe']
                     },
                     {
                         label: 'Polearms',
@@ -311,7 +311,7 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Axes',
-                        items: ['Horseman\'s pick', 'Lochaber Axe']
+                        items: ['Dane Axe', 'Horseman\'s pick', 'Lochaber Axe']
                     },
                     {
                         label: 'Polearms',

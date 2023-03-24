@@ -296,7 +296,7 @@ export default {
                 weapons: [
                     {
                         label: 'Axes',
-                        items: ['Bardiche (S)', 'Battle Axe (S)']
+                        items: ['Bardiche (S)', 'Battle Axe (S)', 'Dane Axe (S)']
                     },
                     {
                         label: 'Polearms',
@@ -520,7 +520,7 @@ export default {
                 weapons: [
                     {
                         label: 'Axes',
-                        items: ['Horseman\'s pick (P)', 'Lochaber Axe (S)']
+                        items: ['Dane Axe (S)', 'Horseman\'s pick (P)', 'Lochaber Axe (S)']
                     },
                     {
                         label: 'Polearms',

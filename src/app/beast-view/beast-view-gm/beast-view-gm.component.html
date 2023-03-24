@@ -66,8 +66,7 @@
               matTooltipClass="my-tooltip"></i></p>
         </div>
 
-        <div class="conflict-shell unset-width"
-          *ngIf="beast.conflict.convictions.length > 0 || beast.conflict.descriptions.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0">
+        <div class="conflict-shell unset-width" *ngIf="showCharacteristicsSection">
           <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.descriptions.length > 0">
             <h3>Description</h3>
             <div class="divider white"></div>
@@ -134,7 +133,7 @@
               matTooltip="{{skillRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole].description}}"
               matTooltipClass="my-tooltip"></i></p>
         </div>
-        <div class="conflict-shell unset-width" *ngIf="beast.skills.length > 0">
+        <div class="conflict-shell unset-width" *ngIf="showSkillSection">
           <div *ngFor="let skill of beast.skills; let i = index">
             <div class="flex-row-opposite" *ngIf="selectedRoleId === skill.skillroleid || skill.allroles">
               <h5>{{skill.skill}}</h5>
@@ -143,26 +142,28 @@
           </div>
         </div>
 
-        <h3 *ngIf="beast.obstacles.length > 0">Related Obstacles</h3>
-        <mat-chip-list>
-          <div *ngFor="let obstacle of beast.obstacles; let i = index">
-            <mat-chip (click)="selectObstacle(obstacle.obstacleid)" color="primary" selected>
-              {{obstacle.name}} <i class="fa-solid {{obstacle.obstacleid === selectedObstacleId ? 'fa-chevron-down' : 'fa-chevron-up'}}"></i> </mat-chip>
+        <div class="box-padding" *ngIf="beast.challenges.length > 0 || beast.obstacles.length > 0">
+          <h3 *ngIf="beast.obstacles.length > 0">Related Obstacles</h3>
+          <mat-chip-list *ngIf="beast.obstacles.length > 0">
+            <div *ngFor="let obstacle of beast.obstacles; let i = index">
+              <mat-chip (click)="selectObstacle(obstacle.obstacleid)" color="primary" selected>
+                {{obstacle.name}} <i class="fa-solid {{obstacle.obstacleid === selectedObstacleId ? 'fa-chevron-down' : 'fa-chevron-up'}}"></i> </mat-chip>
+            </div>
+          </mat-chip-list>
+  
+          <div *ngIf="selectedObstacleId" class="view-obstacles">
+            <app-obstacle-innards [id]="selectedObstacleId" [goToEdit]="goToEditBinded"></app-obstacle-innards>
           </div>
-        </mat-chip-list>
-
-        <div *ngIf="selectedObstacleId" class="view-obstacles">
-          <app-obstacle-innards [id]="selectedObstacleId" [goToEdit]="goToEditBinded"></app-obstacle-innards>
+  
+          <br *ngIf="beast.challenges.length > 0 && beast.obstacles.length > 0">
+          <h3 *ngIf="beast.challenges.length > 0">Related Skill Challenges</h3>
+          <mat-chip-list *ngIf="beast.challenges.length > 0">
+            <div *ngFor="let challenge of beast.challenges; let i = index">
+              <mat-chip (click)="openChallenge(challenge.challengeid)" color="primary" selected>
+                {{challenge.name}} <i class="fa-solid fa-expand"></i></mat-chip>
+            </div>
+          </mat-chip-list>
         </div>
-
-        <br>
-        <h3 *ngIf="beast.challenges.length > 0">Related Skill Challenges</h3>
-        <mat-chip-list>
-          <div *ngFor="let challenge of beast.challenges; let i = index">
-            <mat-chip (click)="openChallenge(challenge.challengeid)" color="primary" selected>
-              {{challenge.name}} <i class="fa-solid fa-expand"></i></mat-chip>
-          </div>
-        </mat-chip-list>
 
         <h2>Combat</h2>
         <div class="divider"></div>

@@ -78,6 +78,9 @@ export class BeastViewGmComponent implements OnInit {
   public newShieldInfo;
   public showAllEquipment;
 
+  public showSkillSection = true;
+  public showCharacteristicsSection = true
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
@@ -99,6 +102,8 @@ export class BeastViewGmComponent implements OnInit {
         this.selectedRole = this.combatRolesInfo[this.beast.role]
       }
 
+      this.determineIfSkillsShouldBeShown()
+      this.determineIfCharacteristicsShouldBeShown()
       this.convertPanic()
       this.setDisplayVitality()
       this.setLocationalVitality()
@@ -110,6 +115,66 @@ export class BeastViewGmComponent implements OnInit {
         this.setRoleToDefault()
       }
     })
+  }
+
+  determineIfSkillsShouldBeShown = () => {
+    if (!this.selectedRoleId) {
+      this.showSkillSection = this.beast.skills.length > 0
+    } else {
+      let showSkillSectionTemp = false
+
+      for (let i = 0; i < this.beast.skills.length; i++) {
+        if (this.beast.skills[i].skillroleid === this.selectedRoleId || this.beast.skills[i].allroles) {
+          showSkillSectionTemp = true
+           i = this.beast.skills.length
+        }
+      }
+      this.showSkillSection = showSkillSectionTemp
+    }
+  }
+
+  determineIfCharacteristicsShouldBeShown = () => {
+    if (!this.selectedRoleId) {
+      this.showCharacteristicsSection = this.beast.conflict.descriptions.length > 0 || this.beast.conflict.convictions.length > 0 || this.beast.conflict.devotions.length > 0 || this.beast.conflict.flaws.length > 0
+    } else {
+      let showCharacteristicsSectionTemp = false
+
+      for (let i = 0; i < this.beast.conflict.descriptions.length; i++) {
+        if (this.beast.conflict.descriptions[i].socialroleid === this.selectedRoleId || this.beast.conflict.descriptions[i].allroles) {
+          showCharacteristicsSectionTemp = true
+           i = this.beast.conflict.descriptions.length
+        }
+      }
+
+      if (!showCharacteristicsSectionTemp) {
+        for (let i = 0; i < this.beast.conflict.convictions.length; i++) {
+          if (this.beast.conflict.convictions[i].socialroleid === this.selectedRoleId || this.beast.conflict.convictions[i].allroles) {
+            showCharacteristicsSectionTemp = true
+             i = this.beast.conflict.convictions.length
+          }
+        }
+      }
+
+      if (!showCharacteristicsSectionTemp) {
+        for (let i = 0; i < this.beast.conflict.devotions.length; i++) {
+          if (this.beast.conflict.devotions[i].socialroleid === this.selectedRoleId || this.beast.conflict.devotions[i].allroles) {
+            showCharacteristicsSectionTemp = true
+             i = this.beast.conflict.devotions.length
+          }
+        }
+      }
+
+      if (!showCharacteristicsSectionTemp) {
+        for (let i = 0; i < this.beast.conflict.flaws.length; i++) {
+          if (this.beast.conflict.flaws[i].socialroleid === this.selectedRoleId || this.beast.conflict.flaws[i].allroles) {
+            showCharacteristicsSectionTemp = true
+             i = this.beast.conflict.flaws.length
+          }
+        }
+      }
+
+      this.showCharacteristicsSection = showCharacteristicsSectionTemp
+    }
   }
 
   handleAnyFlaws = () => {
@@ -563,6 +628,9 @@ export class BeastViewGmComponent implements OnInit {
         this.selectedRole = {}
       }
     }
+
+    this.determineIfSkillsShouldBeShown()
+    this.determineIfCharacteristicsShouldBeShown()
 
     this.displayedFatigue = this.displayService.getLetterFatigue(this.beast, this.selectedRoleId, roles)
     this.getNumberFatigue(this.displayedFatigue);
