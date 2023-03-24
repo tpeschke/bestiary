@@ -387,6 +387,7 @@ export class BeastViewEditComponent implements OnInit {
             bloodpact: null
           },
           challenges: [],
+          obstacles: [],
           artistInfo: {},
           plural: null
         }
