@@ -946,7 +946,7 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   openChallenge(id) {
-    this.dialog.open(ChallengePopUpComponent, { panelClass: 'my-class', data: { id, beastEntry: 'true' } })
+    this.dialog.open(ChallengePopUpComponent, { panelClass: 'my-class', data: { id } })
   }
 
   getConnector(object, index) {

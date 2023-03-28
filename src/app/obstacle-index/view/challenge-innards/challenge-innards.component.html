@@ -1,0 +1,44 @@
+<div *ngIf="!challenge.name">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
+
+<div *ngIf="challenge.name" class="pop-up">
+  <div class="header-shell" color="accent">
+    <i class="fas fa-project-diagram icon"></i>
+    <h1>{{challenge.name}}</h1>
+  </div>
+
+  <div *ngIf="challenge.notes">
+    <quill-view-html [content]="challenge.notes"></quill-view-html>
+    <div class="divider"></div>
+  </div>
+
+  <div class="mermaid-shell">
+    <p class="subtitle">Click on any node to get the assocated Obstacle</p>
+    <div class="mermaid-inner-shell">
+      <div #mermaid></div>
+      <div *ngIf="viewObstacleId > 0" class="view-obstacles">
+        <app-obstacle-innards [id]="viewObstacleId" [goToEdit]="goToEditBinded"></app-obstacle-innards>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="challenge.beasts.length > 0">
+    <h2>Related Beasts</h2>
+    <div class="divider"></div>
+    <div class="chip-shell">
+      <mat-chip-list>
+        <div *ngFor="let beast of challenge.beasts; let i = index">
+          <mat-chip color="accent" selected [routerLink]="['/beast', beast.beastid, 'player']">{{beast.name}}</mat-chip>
+        </div>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <button class="new-button right-most-buttom" *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
+    (click)="goToEditChallenge()">Edit</button>
+</div>

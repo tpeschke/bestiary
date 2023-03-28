@@ -151,10 +151,9 @@ let obstacleController = {
     deleteObstacle: (req, res) => {
         const db = req.app.get('db')
         let promiseArray = []
-            , id = req.params.id.split(',')
+            , id = req.params.id.split(',')[0]
 
-        
-        if (typeof id === 'string') {
+        if (!isNaN(+id)) {
             db.get.obstacle.stringid(id).then(stringid => {
                 stringid = stringid[0]
                 promiseArray.push(db.delete.obstacle.allpairs(stringid.stringid).then())

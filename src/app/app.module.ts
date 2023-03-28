@@ -67,6 +67,7 @@ import { ChallengeShellComponent } from './obstacle-index/view/challenge-shell/c
 import { ObstacleInnardsComponent } from './obstacle-index/view/obstacle-innards/obstacle-innards.component';
 import { WeaponSquareComponent } from './beast-view/beast-view-edit/weapon-square/weapon-square.component';
 import { SkillDisplayComponent } from './beast-view/beast-view-edit/skill-display/skill-display.component';
+import { ChallengeInnardsComponent } from './obstacle-index/view/challenge-innards/challenge-innards.component';
 
 const routes: Routes = [
   {
@@ -128,7 +129,8 @@ const routes: Routes = [
     ChallengeShellComponent,
     ObstacleInnardsComponent,
     WeaponSquareComponent,
-    SkillDisplayComponent
+    SkillDisplayComponent,
+    ChallengeInnardsComponent
   ],
   imports: [
     BrowserModule,

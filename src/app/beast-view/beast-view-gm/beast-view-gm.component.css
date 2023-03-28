@@ -71,11 +71,6 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     border: 1px solid lightgray;
 }
 
-.my-class .mat-dialog-container{
-    height: 100%;
-    min-width: 600%;
-}
-
 .swap-equipment-buttons {
     display: flex;
     justify-content: space-between;

@@ -1,2 +1,1 @@
-delete from obbase
-where id = $1
+delete from obbase where id = $1
