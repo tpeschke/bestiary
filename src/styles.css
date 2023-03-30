@@ -313,7 +313,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .my-class {
-  max-height: 90vh;
   max-width: 95%;
   overflow: auto;
 }

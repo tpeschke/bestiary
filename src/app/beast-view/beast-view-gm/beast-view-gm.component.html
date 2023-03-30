@@ -803,7 +803,7 @@
         </h2>
         <div class="divider"></div>
         <div class="box-padding encounterShell"
-          *ngIf="encounter !== 'loading' && encounter.temperament && encounter.main">
+          *ngIf="encounter !== 'loading' && encounter.main">
           <div *ngIf="encounter.sign" class="flex-shell-with-table">
             <div class="flex-row-opposite">
               <h3>Sign <i class="fas fa-info-circle small-font"
@@ -846,7 +846,7 @@
             <h3>Noun</h3>
             <p>{{encounter.noun}}</p>
           </div>
-          <div class="flex-row-opposite">
+          <div *ngIf="encounter.temperament" class="flex-row-opposite">
             <h3>Temperament</h3>
             <p id="temperamentPTag">{{encounter.temperament.temperament}} <i class="fas fa-info-circle icon-small blue"
                 matTooltip="{{encounter.temperament.tooltip}}"></i></p>
@@ -867,7 +867,7 @@
           </div>
         </div>
 
-        <div class="box-padding" *ngIf="encounter.complication && encounter.temperament && encounter.main">
+        <div class="box-padding" *ngIf="encounter.complication && encounter.main">
           <h3>Complication{{encounter.complication.length > 1 ? 's' : ''}}</h3>
           <div class="complicationsShell">
             <div class="complicationCard" *ngFor="let complication of encounter.complication">
@@ -901,7 +901,7 @@
           </div>
         </div>
 
-        <div *ngIf="encounter !== 'loading' && encounter.temperament && encounter.main" class="regenerateButtonShell">
+        <div *ngIf="encounter !== 'loading' && encounter.main" class="regenerateButtonShell">
           <button mat-raised-button (click)="getRandomEncounter()" color="warn"><i class="fas fa-redo"></i></button>
         </div>
 
@@ -914,7 +914,7 @@
         </div>
 
         <div class="box-padding encounterShell"
-          *ngIf="encounter !== 'loading' && (!encounter.temperament || !encounter.main)">
+          *ngIf="encounter !== 'loading' && !encounter.main">
           <p class="text-indent">This Monster Currently Has No Random Encounter Information.</p>
         </div>
 
