@@ -515,6 +515,10 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  checkTrauma(checked) {
+    this.beast.noTrauma = checked
+  }
+
   checkAllRoles = (type, index, checked) => {
     if (type === 'skills') {
       this.beast[type][index].allroles = checked

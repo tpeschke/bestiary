@@ -251,6 +251,7 @@ export class WeaponSquareComponent implements OnInit {
       this.displayedDamage = this.displayService.displayDamage(this.square, this.selectedRole, null, null)
     } if (type === 'addsizemod') {
       this.square[type] = value
+      this.displayedDefense = this.displayService.evaluateDefense(this.square, this.selectedRole, this.beastSize)
     } if (type === 'showmaxparry') {
       this.square[type] = value
     } else {

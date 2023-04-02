@@ -770,6 +770,9 @@
             class="warning">This Vitality will be halved since this is the default Vitality for this Role and their
             Secondary is Fodder</p>
           <br>
+          <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?</mat-checkbox>
+          <br>
+          <br>
           <mat-form-field class="fatigue-field">
             <mat-label>Fatigue Threshold (+/-4 points per Cat Above/Below Critical)</mat-label>
             <mat-select [value]="displayFatigue" (selectionChange)="captureSelectWithRoleConsideration($event, 'fatigue')"

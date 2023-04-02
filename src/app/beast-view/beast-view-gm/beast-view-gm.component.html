@@ -549,7 +549,7 @@
             <div *ngIf="isNumber(trauma) && trauma !== 0" class="flex-row-opposite">
               <h3>Trauma Threshold</h3>
               <p>
-                {{this.trauma}}</p>
+                {{beast.notrauma ? 'N/A' : this.trauma}}</p>
             </div>
             <div class="flex-row-opposite" *ngIf="displayVitalityAverage">
               <h3>Fatigue</h3>
