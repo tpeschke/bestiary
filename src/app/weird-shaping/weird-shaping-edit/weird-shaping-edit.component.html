@@ -22,11 +22,18 @@
   </div>
 
   <div class="spell-shell">
-    <div class="spell-card" *ngFor="let spell of spells; let i = index" [ngClass]="{'noDisplay': !(!spell.deleted && (selectedRoleId === spell.roleid || spell.allroles))}">
+    <div class="spell-card" *ngFor="let spell of spells; let i = index"
+      [ngClass]="{'noDisplay': !(!spell.deleted && (selectedRoleId === spell.roleid || spell.allroles))}">
       <mat-card>
         <mat-form-field>
           <input matInput placeholder="Name" [value]="spell.name" (change)="captureSpellInput($event, i, 'name')">
         </mat-form-field>
+        <div>
+          <mat-form-field>
+            <input placeholder="Resistance Type" matInput [value]="spell.resist"
+              (change)="captureSpellInput($event, i, 'resist')">
+          </mat-form-field>
+        </div>
         <div>
           <mat-form-field>
             <mat-label>Origin</mat-label>
@@ -99,9 +106,10 @@
 
         <quill-editor [(ngModel)]="spell.effect" (onContentChanged)="captureSpellHTML($event, i)"></quill-editor>
 
-        <mat-checkbox color='primary' (change)="addToAllRoles(i, $event)" [(ngModel)]="spell.allroles">Add to All Roles</mat-checkbox>
+        <mat-checkbox color='primary' (change)="addToAllRoles(i, $event)" [(ngModel)]="spell.allroles">Add to All Roles
+        </mat-checkbox>
 
-        <br/>
+        <br />
         <i (click)="deleteSpell(i)" class="fas fa-minus-circle"></i>
       </mat-card>
     </div>

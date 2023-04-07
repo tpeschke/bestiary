@@ -17,7 +17,7 @@ export default {
                     skillList: []
                 }
             ],
-            description: "Skill Fodder are just not good at Skill Challenges and roll a d12! for all rules by default."
+            description: "Skill Fodder are just not good at Skill Challenges and roll a d20! for all rules by default."
         },
         'Hunter': {
             strengths: 'Keeps distance, waiting for the perfect time to strike.',
@@ -140,7 +140,7 @@ export default {
             'Fodder': {
                 strengths: 'None.',
                 weaknesses: 'All of them.',
-                description: "Confrontation Fodder are just not good at Confrontations and roll a d12! for all rules by default."
+                description: "Confrontation Fodder are just not good at Confrontations and roll a d20! for all rules by default."
             },
             'Striker': {
                 strengths: ['Offensive', 'Many Characteristics'],

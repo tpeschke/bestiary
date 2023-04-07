@@ -680,11 +680,11 @@ let controllerObj = {
       }
 
       if (spells) {
-        spells.forEach(({ id: spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid }) => {
+        spells.forEach(({ id: spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist }) => {
           if (beastid) {
-            promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid).catch(e => console.log('----------------------- add beast update spell: ', e)))
+            promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist).catch(e => console.log('----------------------- add beast update spell: ', e)))
           } else {
-            promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id, allroles, roleid).catch(e => console.log('----------------------- add beast add spell: ', e)))
+            promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id, allroles, roleid, resist).catch(e => console.log('----------------------- add beast add spell: ', e)))
           }
         })
       }
@@ -1006,11 +1006,11 @@ let controllerObj = {
       } else {
         promiseArray.push(db.update.casting(null, null, null, 'd4', null, null, null, id))
       }
-      spells.forEach(({ id: spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid }) => {
+      spells.forEach(({ id: spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist }) => {
         if (beastid) {
-          promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid))
+          promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist))
         } else {
-          promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id, allroles, roleid))
+          promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id, allroles, roleid, resist))
         }
       })
       if (deletedSpellList) {
