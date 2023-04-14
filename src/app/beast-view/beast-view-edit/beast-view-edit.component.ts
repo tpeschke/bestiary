@@ -286,6 +286,34 @@ export class BeastViewEditComponent implements OnInit {
           return item
         })
 
+        
+        delete this.beast.carriedloot.id
+        delete this.beast.carriedloot.beastid
+
+        this.beast.carriedloot.traited = this.beast.carriedloot.traited.map(item => {
+          delete item.id
+          delete item.beastid
+          return item
+        })
+
+        this.beast.carriedloot.equipment = this.beast.carriedloot.equipment.map(item => {
+          delete item.id
+          delete item.beastid
+          return item
+        })
+
+        this.beast.carriedloot.scrolls = this.beast.carriedloot.scrolls.map(item => {
+          delete item.id
+          delete item.beastid
+          return item
+        })
+
+        this.beast.carriedloot.alms = this.beast.carriedloot.alms.map(item => {
+          delete item.id
+          delete item.beastid
+          return item
+        })
+
         delete this.beast.casting.id
         delete this.beast.casting.beastid
 
@@ -376,6 +404,7 @@ export class BeastViewEditComponent implements OnInit {
           reagents: [],
           locationalvitality: [],
           lairloot: {},
+          carriedloot: {},
           roles: [],
           casting: {
             augur: null,
@@ -620,16 +649,16 @@ export class BeastViewEditComponent implements OnInit {
     this.equipment[type] = event.value
   }
 
-  captureAddEquipment() {
-    this.beast.lairloot.equipment.push(this.equipment)
+  captureAddEquipment(type) {
+    this.beast[type].equipment.push(this.equipment)
     this.equipment = {
       number: null,
       value: null
     }
   }
 
-  removeEqupment(index) {
-    let { equipment } = this.beast.lairloot
+  removeEqupment(index, type) {
+    let { equipment } = this.beast[type]
     if (equipment[index].beastid) {
       equipment[index].deleted = true
     } else {
@@ -641,16 +670,16 @@ export class BeastViewEditComponent implements OnInit {
     this.traited[type] = event.value
   }
 
-  captureAddTraited() {
-    this.beast.lairloot.traited.push(this.traited)
+  captureAddTraited(type) {
+    this.beast[type].traited.push(this.traited)
     this.traited = {
       chancetable: null,
       value: null
     }
   }
 
-  removeTraited(index) {
-    let { traited } = this.beast.lairloot
+  removeTraited(index, type) {
+    let { traited } = this.beast[type]
     if (traited[index].beastid) {
       traited[index].deleted = true
     } else {
@@ -662,16 +691,16 @@ export class BeastViewEditComponent implements OnInit {
     this.scroll[type] = event.value
   }
 
-  captureAddScroll() {
-    this.beast.lairloot.scrolls.push(this.scroll)
+  captureAddScroll(type) {
+    this.beast[type].scrolls.push(this.scroll)
     this.scroll = {
       number: null,
       power: null
     }
   }
 
-  removeScroll(index) {
-    let { scrolls } = this.beast.lairloot
+  removeScroll(index, type) {
+    let { scrolls } = this.beast[type]
     if (scrolls[index].beastid) {
       scrolls[index].deleted = true
     } else {
@@ -683,16 +712,16 @@ export class BeastViewEditComponent implements OnInit {
     this.alm[type] = event.value
   }
 
-  captureAddAlm() {
-    this.beast.lairloot.alms.push(this.alm)
+  captureAddAlm(type) {
+    this.beast[type].alms.push(this.alm)
     this.alm = {
       number: null,
       favor: null
     }
   }
 
-  removeAlm(index) {
-    let { alms } = this.beast.lairloot
+  removeAlm(index, type) {
+    let { alms } = this.beast[type]
     if (alms[index].beastid) {
       alms[index].deleted = true
     } else {

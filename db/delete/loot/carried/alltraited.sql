@@ -1,0 +1,1 @@
+delete from bbcarriedlootequipment where beastid = $1

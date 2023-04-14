@@ -1006,6 +1006,17 @@
           </li>
         </ul>
 
+        <ul *ngIf="carriedLoot.length > 0" class="box-padding lairLoot">
+          <li *ngFor="let loot of carriedLoot">{{loot}}
+            <i *ngIf="loot.includes('alm script')" class="fas fa-info-circle icon-small blue"
+              matTooltip="Destroying this script awards the noted Favor that must immediately be spent. It can take you above your Max Favor."></i>
+            <i *ngIf="loot.includes('scroll')" class="fas fa-info-circle icon-small blue" matTooltip="Contains a spell with random Rudiments with Drain value about equal to SP noted. Cast as Runegalder although it requires a Weirdcarft Skill Check vs d20! to successfully cast.
+                          Scroll is destroyed on casting."></i>
+            <i *ngIf="loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
+              matTooltip="Use the sc price as the base price and then add the Trait on top."></i>
+          </li>
+        </ul>
+
         <div *ngIf="beast.lootnotes">
           <div *ngIf="beast.lootnotes.length > 0">
             <h3 *ngIf="beast.loot.length > 0" class="loot-notes-subtitle">Additional Notes</h3>
@@ -1015,7 +1026,7 @@
           </div>
         </div>
 
-        <div *ngIf="beast.loot.length == 0 && (!beast.lootnotes || beast.lootnotes.length == 0)"
+        <div *ngIf="beast.loot.length == 0 && (!beast.lootnotes || beast.lootnotes.length == 0) && carriedLoot.length === 0"
           class="box-padding margin-bottom">
           <p class="text-indent">This creature carries nothing else of value.</p>
         </div>
@@ -1039,11 +1050,11 @@
         <div *ngIf="lairlootpresent" class="loot-regenerate-shell">
           <div class="multi-loot">
             <p>I need loot for </p>
-            <input type="number" placeholder="1" (change)="setMonsterNumber($event)" (blur)="getLairLoot()" min="1"
+            <input type="number" placeholder="1" (change)="setMonsterNumber($event)" (blur)="getLoot()" min="1"
               max="25" />
             <p>monsters</p>
           </div>
-          <button color="primary" mat-raised-button (click)="getLairLoot()" color="warn"><i
+          <button color="primary" mat-raised-button (click)="getLoot()" color="warn"><i
               class="fas fa-redo"></i></button>
         </div>
 

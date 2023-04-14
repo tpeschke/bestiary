@@ -454,7 +454,7 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, noTrauma } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, noTrauma, carriedloot } = body
 
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, defaultrole, socialsecondary, noTrauma).then(result => {
       let id = result[0].id
@@ -621,19 +621,19 @@ let controllerObj = {
 
       let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms } = lairloot
       if (!beastid) {
-        promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted).catch(e => console.log('----------------------- add beast add loot basic ', e)))
+        promiseArray.push(db.add['loot\\lair'].basic(id, copper, silver, gold, potion, relic, enchanted).catch(e => console.log('----------------------- add beast add loot basic ', e)))
       } else {
-        promiseArray.push(db.update.loot.basic(beastid, copper, silver, gold, potion, relic, enchanted).catch(e => console.log('----------------------- add beast update loot basic: ', e)))
+        promiseArray.push(db.update['loot\\lair'].basic(beastid, copper, silver, gold, potion, relic, enchanted).catch(e => console.log('----------------------- add beast update loot basic: ', e)))
       }
 
       if (equipment) {
         equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.equipment(beastid, equipid).catch(e => console.log('----------------------- add beast delete equipment: ', e)))
+            promiseArray.push(db.delete['loot\\lair'].equipment(beastid, equipid).catch(e => console.log('----------------------- add beast delete equipment: ', e)))
           } else if (equipid && beastid) {
-            promiseArray.push(db.update.loot.equipment(equipid, value, number).catch(e => console.log('----------------------- add beast update equipment: ', e)))
+            promiseArray.push(db.update['loot\\lair'].equipment(equipid, value, number).catch(e => console.log('----------------------- add beast update equipment: ', e)))
           } else {
-            promiseArray.push(db.add.loot.equipment(id, value, number).catch(e => console.log('----------------------- add beast add equipment: ', e)))
+            promiseArray.push(db.add['loot\\lair'].equipment(id, value, number).catch(e => console.log('----------------------- add beast add equipment: ', e)))
           }
         })
       }
@@ -641,11 +641,11 @@ let controllerObj = {
       if (traited) {
         traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.traited(beastid, traitedid).catch(e => console.log('----------------------- add beast delete traited equipment: ', e)))
+            promiseArray.push(db.delete['loot\\lair'].traited(beastid, traitedid).catch(e => console.log('----------------------- add beast delete traited equipment: ', e)))
           } else if (traitedid && beastid) {
-            promiseArray.push(db.update.loot.traited(traitedid, value, chancetable).catch(e => console.log('----------------------- add beast update traited equipment: ', e)))
+            promiseArray.push(db.update['loot\\lair'].traited(traitedid, value, chancetable).catch(e => console.log('----------------------- add beast update traited equipment: ', e)))
           } else {
-            promiseArray.push(db.add.loot.traited(id, value, chancetable).catch(e => console.log('----------------------- add beast add traited equipment: ', e)))
+            promiseArray.push(db.add['loot\\lair'].traited(id, value, chancetable).catch(e => console.log('----------------------- add beast add traited equipment: ', e)))
           }
         })
       }
@@ -653,11 +653,11 @@ let controllerObj = {
       if (scrolls) {
         scrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.scrolls(beastid, scrollid).catch(e => console.log('----------------------- add beast delete scrolls: ', e)))
+            promiseArray.push(db.delete['loot\\lair'].scrolls(beastid, scrollid).catch(e => console.log('----------------------- add beast delete scrolls: ', e)))
           } else if (scrollid && beastid) {
-            promiseArray.push(db.update.loot.scrolls(scrollid, number, power).catch(e => console.log('----------------------- add beast update scrolls: ', e)))
+            promiseArray.push(db.update['loot\\lair'].scrolls(scrollid, number, power).catch(e => console.log('----------------------- add beast update scrolls: ', e)))
           } else {
-            promiseArray.push(db.add.loot.scrolls(id, number, power).catch(e => console.log('----------------------- add beast add scrolls: ', e)))
+            promiseArray.push(db.add['loot\\lair'].scrolls(id, number, power).catch(e => console.log('----------------------- add beast add scrolls: ', e)))
           }
         })
       }
@@ -665,11 +665,67 @@ let controllerObj = {
       if (alms) {
         alms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.alms(beastid, almid).catch(e => console.log('----------------------- add beast delete alms: ', e)))
+            promiseArray.push(db.delete['loot\\lair'].alms(beastid, almid).catch(e => console.log('----------------------- add beast delete alms: ', e)))
           } else if (almid && beastid) {
-            promiseArray.push(db.update.loot.alms(almid, number, favor).catch(e => console.log('----------------------- add beast update alms: ', e)))
+            promiseArray.push(db.update['loot\\lair'].alms(almid, number, favor).catch(e => console.log('----------------------- add beast update alms: ', e)))
           } else {
-            promiseArray.push(db.add.loot.alms(id, number, favor).catch(e => console.log('----------------------- add beast add alms: ', e)))
+            promiseArray.push(db.add['loot\\lair'].alms(id, number, favor).catch(e => console.log('----------------------- add beast add alms: ', e)))
+          }
+        })
+      }
+
+      
+      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms } = carriedloot
+      if (!cbeastid) {
+        promiseArray.push(db.add['loot\\carried'].basic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => console.log('----------------------- add beast add loot basic ', e)))
+      } else {
+        promiseArray.push(db.update['loot\\carried'].basic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => console.log('----------------------- add beast update loot basic: ', e)))
+      }
+
+      if (cequipment) {
+        cequipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
+          if (deleted) {
+            promiseArray.push(db.delete['loot\\carried'].equipment(cbeastid, equipid).catch(e => console.log('----------------------- add beast delete equipment: ', e)))
+          } else if (equipid && cbeastid) {
+            promiseArray.push(db.update['loot\\carried'].equipment(equipid, value, number).catch(e => console.log('----------------------- add beast update equipment: ', e)))
+          } else {
+            promiseArray.push(db.add['loot\\carried'].equipment(id, value, number).catch(e => console.log('----------------------- add beast add equipment: ', e)))
+          }
+        })
+      }
+
+      if (ctraited) {
+        ctraited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
+          if (deleted) {
+            promiseArray.push(db.delete['loot\\carried'].traited(cbeastid, traitedid).catch(e => console.log('----------------------- add beast delete traited equipment: ', e)))
+          } else if (traitedid && cbeastid) {
+            promiseArray.push(db.update['loot\\carried'].traited(traitedid, value, chancetable).catch(e => console.log('----------------------- add beast update traited equipment: ', e)))
+          } else {
+            promiseArray.push(db.add['loot\\carried'].traited(id, value, chancetable).catch(e => console.log('----------------------- add beast add traited equipment: ', e)))
+          }
+        })
+      }
+
+      if (cscrolls) {
+        cscrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
+          if (deleted) {
+            promiseArray.push(db.delete['loot\\carried'].scrolls(cbeastid, scrollid).catch(e => console.log('----------------------- add beast delete scrolls: ', e)))
+          } else if (scrollid && cbeastid) {
+            promiseArray.push(db.update['loot\\carried'].scrolls(scrollid, number, power).catch(e => console.log('----------------------- add beast update scrolls: ', e)))
+          } else {
+            promiseArray.push(db.add['loot\\carried'].scrolls(id, number, power).catch(e => console.log('----------------------- add beast add scrolls: ', e)))
+          }
+        })
+      }
+
+      if (calms) {
+        calms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
+          if (deleted) {
+            promiseArray.push(db.delete['loot\\carried'].alms(cbeastid, almid).catch(e => console.log('----------------------- add beast delete alms: ', e)))
+          } else if (almid && cbeastid) {
+            promiseArray.push(db.update['loot\\carried'].alms(almid, number, favor).catch(e => console.log('----------------------- add beast update alms: ', e)))
+          } else {
+            promiseArray.push(db.add['loot\\carried'].alms(id, number, favor).catch(e => console.log('----------------------- add beast add alms: ', e)))
           }
         })
       }
@@ -723,7 +779,7 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, noTrauma } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, noTrauma, carriedloot } = body
     // update beast
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, basefatigue, defaultrole, socialsecondary, noTrauma).then(result => {
       let promiseArray = []
@@ -955,48 +1011,96 @@ let controllerObj = {
 
       let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms } = lairloot
       if (!beastid) {
-        promiseArray.push(db.add.loot.basic(id, copper, silver, gold, potion, relic, enchanted))
+        promiseArray.push(db.add['loot\\lair'].basic(id, copper, silver, gold, potion, relic, enchanted))
       } else {
-        promiseArray.push(db.update.loot.basic(beastid, copper, silver, gold, potion, relic, enchanted))
+        promiseArray.push(db.update['loot\\lair'].basic(beastid, copper, silver, gold, potion, relic, enchanted))
       }
 
       equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.equipment(beastid, equipid))
+          promiseArray.push(db.delete['loot\\lair'].equipment(beastid, equipid))
         } else if (equipid && beastid) {
-          promiseArray.push(db.update.loot.equipment(equipid, value, number))
+          promiseArray.push(db.update['loot\\lair'].equipment(equipid, value, number))
         } else {
-          promiseArray.push(db.add.loot.equipment(id, value, number))
+          promiseArray.push(db.add['loot\\lair'].equipment(id, value, number))
         }
       })
 
       traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.traited(beastid, traitedid))
+          promiseArray.push(db.delete['loot\\lair'].traited(beastid, traitedid))
         } else if (traitedid && beastid) {
-          promiseArray.push(db.update.loot.traited(traitedid, value, chancetable))
+          promiseArray.push(db.update['loot\\lair'].traited(traitedid, value, chancetable))
         } else {
-          promiseArray.push(db.add.loot.traited(id, value, chancetable))
+          promiseArray.push(db.add['loot\\lair'].traited(id, value, chancetable))
         }
       })
 
       scrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.scrolls(beastid, scrollid))
+          promiseArray.push(db.delete['loot\\lair'].scrolls(beastid, scrollid))
         } else if (scrollid && beastid) {
-          promiseArray.push(db.update.loot.scrolls(scrollid, number, power))
+          promiseArray.push(db.update['loot\\lair'].scrolls(scrollid, number, power))
         } else {
-          promiseArray.push(db.add.loot.scrolls(id, number, power))
+          promiseArray.push(db.add['loot\\lair'].scrolls(id, number, power))
         }
       })
 
       alms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.alms(beastid, almid))
+          promiseArray.push(db.delete['loot\\lair'].alms(beastid, almid))
         } else if (almid && beastid) {
-          promiseArray.push(db.update.loot.alms(almid, number, favor))
+          promiseArray.push(db.update['loot\\lair'].alms(almid, number, favor))
         } else {
-          promiseArray.push(db.add.loot.alms(id, number, favor))
+          promiseArray.push(db.add['loot\\lair'].alms(id, number, favor))
+        }
+      })
+
+
+      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms } = carriedloot
+      if (!cbeastid) {
+        promiseArray.push(db.add['loot\\carried'].basic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted))
+      } else {
+        promiseArray.push(db.update['loot\\carried'].basic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted))
+      }
+
+      cequipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete['loot\\carried'].equipment(cbeastid, equipid))
+        } else if (equipid && cbeastid) {
+          promiseArray.push(db.update['loot\\carried'].equipment(equipid, value, number))
+        } else {
+          promiseArray.push(db.add['loot\\carried'].equipment(id, value, number))
+        }
+      })
+
+      ctraited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete['loot\\carried'].traited(cbeastid, traitedid))
+        } else if (traitedid && cbeastid) {
+          promiseArray.push(db.update['loot\\carried'].traited(traitedid, value, chancetable))
+        } else {
+          promiseArray.push(db.add['loot\\carried'].traited(id, value, chancetable))
+        }
+      })
+
+      cscrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete['loot\\carried'].scrolls(cbeastid, scrollid))
+        } else if (scrollid && cbeastid) {
+          promiseArray.push(db.update['loot\\carried'].scrolls(scrollid, number, power))
+        } else {
+          promiseArray.push(db.add['loot\\carried'].scrolls(id, number, power))
+        }
+      })
+
+      calms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
+        if (deleted) {
+          promiseArray.push(db.delete['loot\\carried'].alms(cbeastid, almid))
+        } else if (almid && cbeastid) {
+          promiseArray.push(db.update['loot\\carried'].alms(almid, number, favor))
+        } else {
+          promiseArray.push(db.add['loot\\carried'].alms(id, number, favor))
         }
       })
 
@@ -1068,11 +1172,16 @@ let controllerObj = {
       promiseArray.push(db.delete.encounter.allGroups(id).then())
       promiseArray.push(db.delete.encounter.allGroupRoles(id).then())
       promiseArray.push(db.delete.alllocationalvitality(id).then())
-      promiseArray.push(db.delete.loot.basic(id).then())
-      promiseArray.push(db.delete.loot.allequipment(id).then())
-      promiseArray.push(db.delete.loot.alltraited(id).then())
-      promiseArray.push(db.delete.loot.allscrolls(id).then())
-      promiseArray.push(db.delete.loot.allalms(id).then())
+      promiseArray.push(db.delete['loot\\lair'].basic(id).then())
+      promiseArray.push(db.delete['loot\\lair'].allequipment(id).then())
+      promiseArray.push(db.delete['loot\\lair'].alltraited(id).then())
+      promiseArray.push(db.delete['loot\\lair'].allscrolls(id).then())
+      promiseArray.push(db.delete['loot\\lair'].allalms(id).then())
+      promiseArray.push(db.delete['loot\\carried'].basic(id).then())
+      promiseArray.push(db.delete['loot\\carried'].allequipment(id).then())
+      promiseArray.push(db.delete['loot\\carried'].alltraited(id).then())
+      promiseArray.push(db.delete['loot\\carried'].allscrolls(id).then())
+      promiseArray.push(db.delete['loot\\carried'].allalms(id).then())
       // promiseArray.push(db.delete.beastvariants(id, variantid).then())
       // promiseArray.push(db.delete.combatranges(id, variantid).then())
 

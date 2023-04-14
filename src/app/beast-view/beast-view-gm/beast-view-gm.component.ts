@@ -44,6 +44,8 @@ export class BeastViewGmComponent implements OnInit {
   public monsterNumber = null;
   public lairLoot = []
   public lairlootpresent = false
+  public carriedLoot = []
+  public carriedlootpresent = false
   public selectedRoleId = null;
   public primaryTables = primaryTables;
   public secondaryTables = secondaryTables;
@@ -91,7 +93,7 @@ export class BeastViewGmComponent implements OnInit {
       // this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/preview.png" });
       this.getRandomEncounter()
 
-      this.getLairLoot()
+      this.getLoot()
 
       this.beastService.getEquipment().subscribe(res => {
         this.equipmentLists = res.lists
@@ -286,6 +288,11 @@ export class BeastViewGmComponent implements OnInit {
     this.monsterNumber = +event.target.value
   }
 
+  getLoot() {
+    this.getLairLoot()
+    this.getCarriedLoot()
+  }
+
   getLairLoot() {
     this.lairLoot = []
     let timesToRoll = this.monsterNumber ? this.monsterNumber : 1;
@@ -423,6 +430,147 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (goldNumber > 0) {
         this.lairLoot.push(goldNumber + " gc in coin")
+      }
+    }
+  }
+
+  getCarriedLoot() {
+    this.carriedLoot = []
+    let timesToRoll = this.monsterNumber ? this.monsterNumber : 1;
+    let { copper, silver, gold, relic, enchanted, potion, equipment, traited, scrolls, alms } = this.beast.carriedloot
+
+    this.carriedlootpresent = copper || silver || gold || relic || enchanted || potion || equipment.length > 0 || traited > 0 || scrolls > 0 || alms > 0
+    let { staticValues, numberAppearing, relicTable, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
+      , { rollDice } = this.calculatorService
+
+    if (relic) {
+      for (let i = 0; i < timesToRoll; i++) {
+        let relicChance = Math.floor(Math.random() * 101);
+        if (relicTable[relic].middling >= relicChance) {
+          this.carriedLoot.push("Middling Relic")
+        } else if (relicTable[relic].minor >= relicChance) {
+          this.carriedLoot.push("Minor Relic")
+        }
+      }
+    }
+
+    if (alms.length > 0) {
+      for (let i = 0; i < alms.length * timesToRoll; i++) {
+        let favor = rollDice(almsFavor[alms[i].favor])
+          , number = rollDice(numberAppearing[alms[i].number])
+        if (number > 0) {
+          this.carriedLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
+        }
+      }
+    }
+
+    if (enchanted) {
+      for (let i = 0; i < timesToRoll; i++) {
+        let enchantedChance = Math.floor(Math.random() * 101);
+        if (enchantedTable[enchanted].middling >= enchantedChance) {
+          this.carriedLoot.push("Middling Enchanted Item")
+        } else if (enchantedTable[enchanted].minor >= enchantedChance) {
+          this.carriedLoot.push("Minor Enchanted Item")
+        }
+      }
+    }
+
+    if (potion) {
+      let potionNumber = 0
+      for (let i = 0; i < timesToRoll; i++) {
+        potionNumber += rollDice(numberAppearing[potion])
+      }
+      if (potionNumber > 0) {
+        this.carriedLoot.push(`${potionNumber} potion${potionNumber > 1 ? 's' : ''}`)
+      }
+    }
+
+    if (scrolls.length > 0) {
+      for (let y = 0; y < timesToRoll; y++) {
+        for (let i = 0; i < scrolls.length; i++) {
+          let power = rollDice(scrollPower[scrolls[i].power])
+            , number = rollDice(numberAppearing[scrolls[i].number])
+          if (number > 0) {
+            this.carriedLoot.push(`${number} scroll${number > 1 ? 's' : ''} (${power} SP)`)
+          }
+        }
+      }
+    }
+
+    if (traited.length > 0) {
+      let equipmentToGetArray = []
+      let descriptions = []
+      for (let y = 0; y < timesToRoll; y++) {
+        for (let i = 0; i < traited.length; i++) {
+          let traitChance = Math.floor(Math.random() * 101)
+            , table = traitedChance[traited[i].chancetable]
+            , valueOfItem = staticValues[traited[i].value]
+          for (let x = 0; x < table.length; x++) {
+            if (traitChance <= table[x]) {
+              let value = rollDice(valueOfItem)
+              if (value > 0) {
+                descriptions.push(traitDice[x])
+                equipmentToGetArray.push(value)
+              }
+              x = table.length
+            }
+          }
+        }
+      }
+      if (equipmentToGetArray.length > 0) {
+        this.beastService.getUniqueEquipment({ "budgets": equipmentToGetArray }).subscribe(result => {
+          for (let i = 0; i < result.length; i++) {
+            this.carriedLoot.push(result[i] + ` It also has a total of ${descriptions[i]} in Descriptions`)
+          }
+        })
+      }
+    }
+
+    if (equipment.length > 0) {
+      let equipmentToGetArray = []
+      for (let y = 0; y < timesToRoll; y++) {
+        for (let i = 0; i < equipment.length; i++) {
+          let number = rollDice(numberAppearing[equipment[i].number])
+          for (let x = 0; x < number; x++) {
+            let value = rollDice(staticValues[equipment[i].value])
+            if (value > 0) {
+              equipmentToGetArray.push(value)
+            }
+          }
+        }
+      }
+      if (equipmentToGetArray.length > 0) {
+        this.beastService.getUniqueEquipment({ "budgets": equipmentToGetArray }).subscribe(result => {
+          this.carriedLoot = [...this.carriedLoot, ...result]
+        })
+      }
+    }
+
+    if (copper) {
+      let copperNumber = 0
+      for (let i = 0; i < timesToRoll; i++) {
+        copperNumber += rollDice(staticValues[copper]);
+      }
+      if (copperNumber > 0) {
+        this.carriedLoot.push(copperNumber + " cc in coin")
+      }
+    }
+    if (silver) {
+      let silverNumber = 0
+      for (let i = 0; i < timesToRoll; i++) {
+        silverNumber += rollDice(staticValues[silver]);
+      }
+      if (silverNumber > 0) {
+        this.carriedLoot.push(silverNumber + " sc in coin")
+      }
+    }
+    if (gold) {
+      let goldNumber = 0
+      for (let i = 0; i < timesToRoll; i++) {
+        goldNumber += rollDice(staticValues[gold]);
+      }
+      if (goldNumber > 0) {
+        this.carriedLoot.push(goldNumber + " gc in coin")
       }
     }
   }
@@ -999,6 +1147,8 @@ export class BeastViewGmComponent implements OnInit {
     this.monsterNumber = null;
     this.lairLoot = []
     this.lairlootpresent = false
+    this.carriedLoot = []
+    this.carriedlootpresent = false
     this.selectedRoleId = null;
     this.primaryTables = primaryTables;
     this.secondaryTables = secondaryTables;

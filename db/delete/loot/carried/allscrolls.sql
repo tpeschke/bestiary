@@ -1,0 +1,1 @@
+delete from bbcarriedlootscrolls where beastid = $1

@@ -384,3 +384,42 @@ create table bbbeastsingleobstacle (
     obstacleid int,
     notes varchar(150)
 )
+
+create table bbcarriedlootbasic (
+	id serial primary key,
+	beastid int,
+	copper varchar(2),
+	silver varchar(2),
+	gold varchar(2),
+	relic varchar(2),
+	enchanted varchar(2),
+	potion varchar(2)
+);
+
+create table bbcarriedlootequipment (
+	id serial primary key,
+	beastid int,
+	number varchar(2),
+	value varchar(2)
+);
+
+create table bbcarriedloottraited (
+	id serial primary key,
+	beastid int,
+	chanceTable varchar(2),
+	value varchar(2)
+);
+
+create table bbcarriedlootscrolls (
+	id serial primary key,
+	beastid int,
+	number varchar(2),
+	power varchar(2)
+);
+
+create table bbcarriedlootalms (
+	id serial primary key,
+	beastid int,
+	number varchar(2),
+	favor varchar(2)
+);

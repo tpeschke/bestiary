@@ -1,0 +1,1 @@
+delete from bbcarriedlootbasic where beastid = $1
