@@ -410,53 +410,52 @@ module.exports = {
           return result
         }))
 
-        console.log(db.get)
-        promiseArray.push(db.get['loot\\lair'].basic(id).then(result => {
+        promiseArray.push(db.get.loot.lairbasic(id).then(result => {
           beast.lairloot = { ...result[0], ...beast.lairloot }
           return result
         }))
 
-        promiseArray.push(db.get['loot\\lair'].alms(id).then(result => {
+        promiseArray.push(db.get.loot.lairalms(id).then(result => {
           beast.lairloot = { alms: result, ...beast.lairloot }
           return result
         }))
 
-        promiseArray.push(db.get['loot\\lair'].equipment(id).then(result => {
+        promiseArray.push(db.get.loot.lairequipment(id).then(result => {
           beast.lairloot = { equipment: result, ...beast.lairloot }
           return result
         }))
 
-        promiseArray.push(db.get['loot\\lair'].scrolls(id).then(result => {
+        promiseArray.push(db.get.loot.lairscrolls(id).then(result => {
           beast.lairloot = { scrolls: result, ...beast.lairloot }
           return result
         }))
 
-        promiseArray.push(db.get['loot\\lair'].traited(id).then(result => {
+        promiseArray.push(db.get.loot.lairtraited(id).then(result => {
           beast.lairloot = { traited: result, ...beast.lairloot }
           return result
         }))
 
-        promiseArray.push(db.get['loot\\carried'].basic(id).then(result => {
+        promiseArray.push(db.get.loot.carriedbasic(id).then(result => {
           beast.carriedloot = { ...result[0], ...beast.carriedloot }
           return result
         }))
 
-        promiseArray.push(db.get['loot\\carried'].alms(id).then(result => {
+        promiseArray.push(db.get.loot.carriedalms(id).then(result => {
           beast.carriedloot = { alms: result, ...beast.carriedloot }
           return result
         }))
 
-        promiseArray.push(db.get['loot\\carried'].equipment(id).then(result => {
+        promiseArray.push(db.get.loot.carriedequipment(id).then(result => {
           beast.carriedloot = { equipment: result, ...beast.carriedloot }
           return result
         }))
 
-        promiseArray.push(db.get['loot\\carried'].scrolls(id).then(result => {
+        promiseArray.push(db.get.loot.carriedscrolls(id).then(result => {
           beast.carriedloot = { scrolls: result, ...beast.carriedloot }
           return result
         }))
 
-        promiseArray.push(db.get['loot\\carried'].traited(id).then(result => {
+        promiseArray.push(db.get.loot.carriedtraited(id).then(result => {
           beast.carriedloot = { traited: result, ...beast.carriedloot }
           return result
         }))
