@@ -593,7 +593,7 @@
           <div *ngIf="selectedRoleId" class="long-field">
             <mat-form-field>
               <input
-                id="{{selectedRole.strengths ? selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : '' : ''}}"
+                id="{{selectedRole && selectedRole.strengths ? selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : '' : ''}}"
                 matInput placeholder="Stress Threshold (1 point / 5 Stress)"
                 [value]="beast.roleInfo[selectedRoleId].stress" (change)="captureInput($event, 'stress')">
             </mat-form-field>
@@ -601,7 +601,7 @@
           <div *ngIf="!selectedRoleId" class="long-field">
             <mat-form-field>
               <input matInput placeholder="Stress Threshold (1 point / 5 Stress)"
-                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
+                id="{{!selectedRole || !selectedRole.strengths ? '' : selectedRole.strengths.includes('Stress Threshold') ? 'green' : selectedRole.weaknesses.includes('Stress Threshold') ? 'red' : ''}}"
                 [value]="beast.stress" (change)="captureInput($event, 'stress')">
             </mat-form-field>
           </div>
@@ -610,7 +610,7 @@
             <mat-form-field>
               <mat-label>Panic (+/-2 points per Cat Above/Below Breaking)</mat-label>
               <mat-select [(value)]="displayPanic" (selectionChange)="capturePanic($event)"
-                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
+                id="{{!selectedRole || !selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
                 <mat-option value="1">
                   Always
                 </mat-option>
@@ -640,14 +640,14 @@
             <mat-form-field>
               <input matInput placeholder="Caution Threshold (1 point / 5)"
                 [value]="beast.roleInfo[selectedRoleId].caution"
-                id="{{selectedRole.strengths ? selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : '' : ''}}"
+                id="{{selectedRole && selectedRole.strengths ? selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : '' : ''}}"
                 (change)="captureInput($event, 'caution')">
             </mat-form-field>
           </div>
           <div *ngIf="!selectedRoleId">
             <mat-form-field>
               <input matInput placeholder="Caution Threshold (1 point / 5)" [value]="beast.caution"
-                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
+                id="{{!selectedRole || !selectedRole.strengths ? '' : selectedRole.strengths.includes('Caution Threshold') ? 'green' : selectedRole.weaknesses.includes('Caution Threshold') ? 'red' : ''}}"
                 (change)="captureInput($event, 'caution')">
             </mat-form-field>
           </div>
@@ -735,7 +735,7 @@
             </mat-form-field>
           </div>
 
-          <div *ngIf="selectedRole.description">
+          <div *ngIf="selectedRole && selectedRole.description">
             <p><strong>Description: </strong> {{selectedRole.description}}</p>
           </div>
 
@@ -753,15 +753,15 @@
           <mat-form-field class="long-field">
             <div *ngIf="selectedRoleId">
               <input
-                id="{{selectedRole.strengths ? selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : '' : ''}}"
+                id="{{selectedRole && selectedRole.strengths ? selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : '' : ''}}"
                 matInput placeholder="Vitality (1 point / 10 Average Vitality)"
-                [value]="beast.roleInfo[selectedRoleId].vitality ? beast.roleInfo[selectedRoleId].vitality : selectedRole.vitality ? selectedRole.vitality : null"
+                [value]="beast.roleInfo[selectedRoleId].vitality ? beast.roleInfo[selectedRoleId].vitality : selectedRole && selectedRole.vitality ? selectedRole.vitality : null"
                 (change)="captureRoleVitality($event)">
             </div>
             <div *ngIf="!selectedRoleId">
               <input matInput placeholder="Vitality (1 point / 10 Average Vitality)"
-                id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
-                [value]="beast.vitality ? beast.vitality : selectedRole.vitality ? selectedRole.vitality : null"
+                id="{{!selectedRole || !selectedRole.strengths ? '' : selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : ''}}"
+                [value]="beast.vitality ? beast.vitality : selectedRole && selectedRole.vitality ? selectedRole.vitality : null"
                 (change)="captureInput($event, 'vitality')">
             </div>
           </mat-form-field>
@@ -778,7 +778,7 @@
             <mat-label>Fatigue Threshold (+/-4 points per Cat Above/Below Critical)</mat-label>
             <mat-select [value]="displayFatigue"
               (selectionChange)="captureSelectWithRoleConsideration($event, 'fatigue')"
-              id="{{selectedRole.strengths ? selectedRole.strengths.includes('Fatigue') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Fatigue') ? 'red' : '' : ''}}">
+              id="{{selectedRole && selectedRole.strengths ? selectedRole.strengths.includes('Fatigue') ? 'green' : selectedRole.weaknesses && selectedRole.weaknesses.includes('Fatigue') ? 'red' : '' : ''}}">
               <mat-option [value]="null">
                 Default to Role
               </mat-option>
@@ -857,7 +857,7 @@
               <h3>
                 <mat-form-field>
                   <input placeholder="Movement Type" matInput [value]="movementType.type"
-                    id="{{!selectedRole.strengths ? '' : selectedRole.strengths.includes('Movement') ? 'green' : selectedRole.weaknesses.includes('Movement') ? 'red' : ''}}"
+                    id="{{!selectedRole || !selectedRole.strengths ? '' : selectedRole.strengths.includes('Movement') ? 'green' : selectedRole.weaknesses.includes('Movement') ? 'red' : ''}}"
                     (change)="captureInput($event, 'movement', i, 'type')">
                 </mat-form-field>
               </h3>
