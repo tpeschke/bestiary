@@ -135,6 +135,22 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     font-size: 12px;
 }
 
+.belief-display-view {
+    display: flex;
+    flex-direction: column;
+    padding: 0 2px 3px;
+}
+
+.belief-display-view p:nth-child(2) {
+    color: grey;
+    margin-top: 2px;
+    text-indent: 20px;
+}
+
+.fa-star-of-life {
+    font-size: 8px;
+}
+
 .black {
     color: black
 }

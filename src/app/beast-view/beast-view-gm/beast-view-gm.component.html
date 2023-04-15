@@ -147,14 +147,16 @@
           <mat-chip-list *ngIf="beast.obstacles.length > 0">
             <div *ngFor="let obstacle of beast.obstacles; let i = index">
               <mat-chip (click)="selectObstacle(obstacle.obstacleid)" color="primary" selected>
-                {{obstacle.name}} <i class="fa-solid {{obstacle.obstacleid === selectedObstacleId ? 'fa-chevron-down' : 'fa-chevron-up'}}"></i> </mat-chip>
+                {{obstacle.name}} <i
+                  class="fa-solid {{obstacle.obstacleid === selectedObstacleId ? 'fa-chevron-down' : 'fa-chevron-up'}}"></i>
+              </mat-chip>
             </div>
           </mat-chip-list>
-  
+
           <div *ngIf="selectedObstacleId" class="view-obstacles">
             <app-obstacle-innards [id]="selectedObstacleId" [goToEdit]="goToEditBinded"></app-obstacle-innards>
           </div>
-  
+
           <br *ngIf="beast.challenges.length > 0 && beast.obstacles.length > 0">
           <h3 *ngIf="beast.challenges.length > 0">Related Skill Challenges</h3>
           <mat-chip-list *ngIf="beast.challenges.length > 0">
@@ -792,6 +794,18 @@
           </div>
         </div>
 
+        <div *ngIf="beast.folklore.length > 0">
+          <h2>Common Folklore <i class="fas fa-info-circle small-font blue"
+            matTooltip="Common folklore is what people believe about the monster and what players will know without making a Check. The first line is the belief while the second line is the truth. The belief is almost always wrong in some way but almost always has a bit of truth as well."></i></h2>
+          <div class="divider"></div>
+          <div class="box-padding">
+            <div *ngFor="let lore of beast.folklore" class="belief-display-view">
+              <p><i class="fa-solid fa-star-of-life"></i> {{lore.belief}}</p>
+              <p>{{lore.truth}}</p>
+            </div>
+          </div>
+        </div>
+
         <h2 *ngIf="beast.habitat">Habitat/Society</h2>
         <div *ngIf="beast.habitat" class="divider"></div>
         <div *ngIf="beast.habitat">
@@ -802,8 +816,7 @@
             matTooltip="This gives you guidelines on generating a random encounter using this monster. The results are tailored to the monster and so will generally be indicative of its behavior."></i>
         </h2>
         <div class="divider"></div>
-        <div class="box-padding encounterShell"
-          *ngIf="encounter !== 'loading' && encounter.main">
+        <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && encounter.main">
           <div *ngIf="encounter.sign" class="flex-shell-with-table">
             <div class="flex-row-opposite">
               <h3>Sign <i class="fas fa-info-circle small-font"
@@ -830,8 +843,10 @@
           <div class="playerShell">
             <div class="flex-row-together">
               <h3>Main Players</h3>
-              <p>{{createEncounterLabel(encounter.main.label, encounter.main.monsterRoles)}} 
-                <span *ngFor="let player of encounter.main.monsterRoles | keyvalue; let i = index">{{getConnector(encounter.main.monsterRoles, i)}}{{player.value}} {{player.key !== 'None' ?
+              <p>{{createEncounterLabel(encounter.main.label, encounter.main.monsterRoles)}}
+                <span
+                  *ngFor="let player of encounter.main.monsterRoles | keyvalue; let i = index">{{getConnector(encounter.main.monsterRoles,
+                  i)}}{{player.value}} {{player.key !== 'None' ?
                   (player.value === 1 ? player.key : player.key + "s") : player.value === 1 ?
                   handleCommaInName(beast.name) :
                   beast.plural ? beast.plural : handleCommaInName(beast.name) + "s"}}</span>
@@ -913,8 +928,7 @@
           </div>
         </div>
 
-        <div class="box-padding encounterShell"
-          *ngIf="encounter !== 'loading' && !encounter.main">
+        <div class="box-padding encounterShell" *ngIf="encounter !== 'loading' && !encounter.main">
           <p class="text-indent">This Monster Currently Has No Random Encounter Information.</p>
         </div>
 
@@ -937,7 +951,8 @@
               </mat-expansion-panel-header>
 
               <quill-view-html [content]="type.description"></quill-view-html>
-              <button color="primary" class="right-most-buttom" mat-raised-button (click)="navigateToSearch('types', type.typeid)">See More
+              <button color="primary" class="right-most-buttom" mat-raised-button
+                (click)="navigateToSearch('types', type.typeid)">See More
                 {{type.typeid | typeConverter}}s</button>
             </mat-expansion-panel>
           </mat-accordion>
@@ -947,7 +962,8 @@
         <div class="divider"></div>
         <div class="box-padding">
           <div class="flex-row-opposite">
-            <h3 *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size">
+            <h3
+              *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size">
               Size <i class="fas fa-info-circle icon-small blue"
                 matTooltip="A creature receives +3 to melee & ranged attacks for each size over Medium or -3 for each size under. This is factored into their Defense already."></i>
             </h3>
@@ -1026,7 +1042,8 @@
           </div>
         </div>
 
-        <div *ngIf="beast.loot.length == 0 && (!beast.lootnotes || beast.lootnotes.length == 0) && carriedLoot.length === 0"
+        <div
+          *ngIf="beast.loot.length == 0 && (!beast.lootnotes || beast.lootnotes.length == 0) && carriedLoot.length === 0"
           class="box-padding margin-bottom">
           <p class="text-indent">This creature carries nothing else of value.</p>
         </div>
@@ -1139,7 +1156,8 @@
       </div>
     </div>
 
-    <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells" [selectedRoleId]="selectedRoleId"></app-weird-shaping-display>
+    <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells" [selectedRoleId]="selectedRoleId">
+    </app-weird-shaping-display>
 
     <button *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
       [routerLink]="['/beast', beast.id, 'edit']">Edit</button>

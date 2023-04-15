@@ -410,6 +410,11 @@ module.exports = {
           return result
         }))
 
+        promiseArray.push(db.get.folklore(id).then(result => {
+          beast.folklore = result
+          return result
+        }))
+
         promiseArray.push(db.get.loot.lairbasic(id).then(result => {
           beast.lairloot = { ...result[0], ...beast.lairloot }
           return result

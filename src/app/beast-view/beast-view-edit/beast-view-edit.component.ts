@@ -129,6 +129,11 @@ export class BeastViewEditComponent implements OnInit {
     weights: []
   }
 
+  public folklore = {
+    belief: null,
+    truth: null
+  }
+
   public weights = []
 
   combatRolesInfo = roles.combatRoles.primary;
@@ -143,6 +148,7 @@ export class BeastViewEditComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       let beast = data['beast']
+    
       if (this.route.snapshot.params.templateId) {
         beast.variants.push({ variantid: beast.id })
         delete beast.id
@@ -251,6 +257,12 @@ export class BeastViewEditComponent implements OnInit {
           delete movementObject.id
           delete movementObject.beastid
           return movementObject
+        })
+
+        this.beast.folklore = this.beast.folklore.map(item => {
+          delete item.id
+          delete item.beastid
+          return item
         })
 
         this.beast.loot = this.beast.loot.map(item => {
@@ -406,6 +418,7 @@ export class BeastViewEditComponent implements OnInit {
           lairloot: {},
           carriedloot: {},
           roles: [],
+          folklore: [],
           casting: {
             augur: null,
             wild: null,
@@ -2018,6 +2031,27 @@ export class BeastViewEditComponent implements OnInit {
         return 0;
       case 'N':
         return 4;
+    }
+  }
+
+  captureFolklore(type, index, event) {
+    this.beast.folklore[index][type] = event.target.value
+  }
+
+  deleteFolkloreEntry(index) {
+    this.beast.folklore.splice(index, 1)
+  }
+
+  captureNewFolklore(type, event) {
+    this.folklore[type] = event.target.value
+
+    if (this.folklore.belief && this.folklore.truth) {
+      this.beast.folklore.push(this.folklore)
+      event.target.value = null
+      this.folklore = {
+        belief: null,
+        truth: null
+      }
     }
   }
 

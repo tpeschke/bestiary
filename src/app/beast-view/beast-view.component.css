@@ -25,6 +25,31 @@ strong {
     margin: 5px 0;
 }
 
+.belief-display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.belief-display:nth-child(even) {
+    background: lightgray;
+}
+
+.belief-display mat-form-field {
+    width: 47%;
+    margin-right: 0;
+}
+
+.fa-trash {
+    transition: .6s;
+}
+
+.fa-trash:hover {
+    color: #ab6f00
+}
+
 .top-margin {
     margin-top: 5px;
 }

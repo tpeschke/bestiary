@@ -454,7 +454,7 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, noTrauma, carriedloot } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, noTrauma, carriedloot, folklore } = body
 
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, defaultrole, socialsecondary, noTrauma).then(result => {
       let id = result[0].id
@@ -761,6 +761,16 @@ let controllerObj = {
         })
       }).catch(e => console.log("beast obstacles ~ ", e)))
 
+      promiseArray.push(db.delete.folklore([id, [0, ...folklore.map(folklore => folklore.id)]]).then(_ => {
+        return folklore.map(({ id: uniqueid, belief, truth }) => {
+          if (!uniqueid) {
+            return db.add.folklore(id, belief, truth)
+          } else {
+            return db.update.folklore(uniqueid, id, belief, truth)
+          }
+        })
+      }).catch(e => console.log("beast folklore ~ ", e)))
+
       promiseArray.push(db.delete.challenges([id, [0, ...challenges.map(challenges => challenges.id)]]).then(_ => {
         return challenges.map(({ challengesid }) => {
           if (!uniqueid) {
@@ -779,7 +789,7 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, noTrauma, carriedloot } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, noTrauma, carriedloot, folklore } = body
     // update beast
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, basefatigue, defaultrole, socialsecondary, noTrauma).then(result => {
       let promiseArray = []
@@ -1133,6 +1143,16 @@ let controllerObj = {
         })
       }).catch(e => console.log("beast obstacles ~ ", e)))
 
+      promiseArray.push(db.delete.folklore([id, [0, ...folklore.map(folklore => folklore.id)]]).then(_ => {
+        return folklore.map(({ id: uniqueid, belief, truth }) => {
+          if (!uniqueid) {
+            return db.add.folklore(id, belief, truth)
+          } else {
+            return db.update.folklore(uniqueid, id, belief, truth)
+          }
+        })
+      }).catch(e => console.log("beast folklore ~ ", e)))
+
       promiseArray.push(db.delete.challenges([id, [0, ...challenges.map(challenges => challenges.id)]]).then(_ => {
         return challenges.map(({ id: uniqueid, challengeid }) => {
           if (!uniqueid) {
@@ -1182,6 +1202,7 @@ let controllerObj = {
       promiseArray.push(db.delete.loot.carriedalltraited(id).then())
       promiseArray.push(db.delete.loot.carriedallscrolls(id).then())
       promiseArray.push(db.delete.loot.carriedallalms(id).then())
+      promiseArray.push(db.delete.allfolklore(id).then())
       // promiseArray.push(db.delete.beastvariants(id, variantid).then())
       // promiseArray.push(db.delete.combatranges(id, variantid).then())
 

@@ -246,6 +246,7 @@ create table bblairlootscrolls (
 	number varchar(2),
 	power varchar(2)
 )
+
 create table bblairlootalms (
 	id serial primary key,
 	beastid int,
@@ -423,3 +424,10 @@ create table bbcarriedlootalms (
 	number varchar(2),
 	favor varchar(2)
 );
+
+create table bbfolklore (
+	id serial primary key,
+	beastid int,
+	belief varchar(500),
+	truth varchar(500)
+)

@@ -157,6 +157,32 @@
         <quill-editor [(ngModel)]="beast.ecology" (onContentChanged)="captureHTML($event, 'ecology')"></quill-editor>
       </div>
 
+      <h2>Common Folklore</h2>
+      <div class="divider"></div>
+      <div>
+        <div *ngFor="let lore of beast.folklore; let i = index" class="belief-display">
+          <mat-form-field>
+            <input matInput placeholder="Belief" [value]="lore.belief" max="500"
+              (change)="captureFolklore('belief', i, $event)">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Truth" [value]="lore.truth" max="500"
+              (change)="captureFolklore('truth', i, $event)">
+          </mat-form-field>
+          <i (click)="deleteFolkloreEntry(i)" class="fa-solid fa-trash"></i>
+        </div>
+        <div class="belief-display">
+          <mat-form-field>
+            <input matInput placeholder="Belief" [value]="folklore.belief" max="500"
+              (change)="captureNewFolklore('belief', $event)">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Truth" [value]="folklore.truth" max="500"
+              (change)="captureNewFolklore('truth', $event)">
+          </mat-form-field>
+        </div>
+      </div>
+
       <h2>Habitat/Society</h2>
       <div class="divider"></div>
       <div>

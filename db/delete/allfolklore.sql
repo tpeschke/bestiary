@@ -1,0 +1,1 @@
+delete from bbfolklore where beastid = $1
