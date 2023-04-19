@@ -1390,7 +1390,7 @@
                   <th>Power (SP)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let scroll of beast.carriedloot.scrolls; let i = index">
+                <tr *ngFor="let scroll of beast.carriedloot.scrolls; let i = index" [ngClass]="{'noDisplay': scroll.deleted }">
                   <td>{{lootTables.numberAppearing[scroll.number]}}</td>
                   <td>{{lootTables.scrollPower[scroll.power]}}</td>
                   <td><i (click)="removeScroll(i, 'carriedloot')" class="fas fa-times-circle"></i>
@@ -1471,7 +1471,7 @@
                   <th>Favor</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let alm of beast.carriedloot.alms; let i = index">
+                <tr *ngFor="let alm of beast.carriedloot.alms; let i = index" [ngClass]="{'noDisplay': alm.deleted }">
                   <td>{{lootTables.numberAppearing[alm.number]}}</td>
                   <td>{{lootTables.almsFavor[alm.favor]}}</td>
                   <td><i (click)="removeAlm(i, 'carriedloot')" class="fas fa-times-circle"></i>
@@ -1566,7 +1566,7 @@
                   <th>Number (sc)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let equipment of beast.carriedloot.equipment; let i = index">
+                <tr *ngFor="let equipment of beast.carriedloot.equipment; let i = index" [ngClass]="{'noDisplay': equipment.deleted }">
                   <td>{{lootTables.staticValues[equipment.value]}}</td>
                   <td>{{lootTables.numberAppearing[equipment.number]}}</td>
                   <td><i (click)="removeEqupment(i, 'carriedloot')" class="fas fa-times-circle"></i>
@@ -1665,7 +1665,7 @@
                   <th>Value (sc)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let traited of beast.carriedloot.traited; let i = index">
+                <tr *ngFor="let traited of beast.carriedloot.traited; let i = index" [ngClass]="{'noDisplay': traited.deleted }">
                   <td>{{lootTables.traitedChance[traited.chancetable]}}</td>
                   <td>{{lootTables.staticValues[traited.value]}}</td>
                   <td><i (click)="removeTraited(i, 'carriedloot')" class="fas fa-times-circle"></i>
@@ -2000,7 +2000,7 @@
                   <th>Power (SP)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let scroll of beast.lairloot.scrolls; let i = index">
+                <tr *ngFor="let scroll of beast.lairloot.scrolls; let i = index" [ngClass]="{'noDisplay': scroll.deleted }">
                   <td>{{lootTables.numberAppearing[scroll.number]}}</td>
                   <td>{{lootTables.scrollPower[scroll.power]}}</td>
                   <td><i (click)="removeScroll(i, 'lairloot')" class="fas fa-times-circle"></i>
@@ -2081,7 +2081,7 @@
                   <th>Favor</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let alm of beast.lairloot.alms; let i = index">
+                <tr *ngFor="let alm of beast.lairloot.alms; let i = index" [ngClass]="{'noDisplay': alm.deleted }">
                   <td>{{lootTables.numberAppearing[alm.number]}}</td>
                   <td>{{lootTables.almsFavor[alm.favor]}}</td>
                   <td><i (click)="removeAlm(i, 'lairloot')" class="fas fa-times-circle"></i>
@@ -2176,7 +2176,7 @@
                   <th>Number (sc)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let equipment of beast.lairloot.equipment; let i = index">
+                <tr *ngFor="let equipment of beast.lairloot.equipment; let i = index" [ngClass]="{'noDisplay': equipment.deleted }">
                   <td>{{lootTables.staticValues[equipment.value]}}</td>
                   <td>{{lootTables.numberAppearing[equipment.number]}}</td>
                   <td><i (click)="removeEqupment(i, 'lairloot')" class="fas fa-times-circle"></i>
@@ -2275,7 +2275,7 @@
                   <th>Value (sc)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let traited of beast.lairloot.traited; let i = index">
+                <tr *ngFor="let traited of beast.lairloot.traited; let i = index" [ngClass]="{'noDisplay': traited.deleted }">
                   <td>{{lootTables.traitedChance[traited.chancetable]}}</td>
                   <td>{{lootTables.staticValues[traited.value]}}</td>
                   <td><i (click)="removeTraited(i, 'lairloot')" class="fas fa-times-circle"></i>

@@ -713,11 +713,10 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   removeScroll(index, type) {
-    let { scrolls } = this.beast[type]
-    if (scrolls[index].beastid) {
-      scrolls[index].deleted = true
+    if (this.beast[type].scrolls[index].beastid) {
+      this.beast[type].scrolls[index].deleted = true
     } else {
-      scrolls.splice(index, 1)
+      this.beast[type].scrolls.splice(index, 1)
     }
   }
 
