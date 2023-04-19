@@ -37,8 +37,13 @@ export class CatalogComponent implements OnInit {
   targetSkillRole: string;
   targetSocialSecondary: string;
   targetDefaultRole: string
+  public loggedIn:boolean|string|number = false;
 
   ngOnInit() {
+    this.beastService.checkLogin().subscribe(result => {
+      this.beastService.loggedIn = result
+      this.loggedIn = result
+    })
     this.titleService.setTitle("Bestiary")
     this.metaService.updateTag( { name:'og:description', content: 'The Bestiary for the Bonfire TTRPG'});
     this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/TWRealFire.png"});

@@ -77,8 +77,8 @@
     </div>
   </div>
 
-  <div *ngFor="let category of beasts; let titleIndex = index">
-    <h2>{{titleIndex === 0 ? 'Templates' : category[0].name.substring(0,1)}} <i *ngIf="titleIndex === 0" class="fas fa-info-circle icon-small blue large" matTooltip="A template is the purist expression of a monster - a platonic version, if you will. It is, in fact, so pure that they do not exist in the game world. Templates monsters are baselines that you can use to improve monsters that are not in the Bestiary on the fly." matTooltipClass="my-tooltip"></i></h2>
+  <div *ngFor="let category of beasts; let titleIndex = index" [ngClass]="{'noDisplay': loggedIn && titleIndex === 1}">
+    <h2>{{titleIndex === 0 ? 'Templates' : titleIndex === 1 ? 'Public Entries' : category[0].name.substring(0,1)}} <i *ngIf="titleIndex === 0" class="fas fa-info-circle icon-small blue large" matTooltip="A template is the purist expression of a monster - a platonic version, if you will. It is, in fact, so pure that they do not exist in the game world. Templates monsters are baselines that you can use to improve monsters that are not in the Bestiary on the fly." matTooltipClass="my-tooltip"></i></h2>
     <mat-divider></mat-divider>
     <div class="beastDiv">
       <div *ngFor="let beast of category">
