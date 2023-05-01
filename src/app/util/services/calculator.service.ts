@@ -35,7 +35,7 @@ export class CalculatorService {
   }
 
   public rollDice = (diceString) => {
-    if (typeof (diceString) === 'number') {
+    if (typeof (+diceString) === 'number') {
       if (+diceString === 0) {
         return 0
       }

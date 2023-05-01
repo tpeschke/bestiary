@@ -113,7 +113,7 @@
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
               <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
-              <p class="beast-name">{{beast.name}}</p>
+              <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
             </div>
           </button>
           <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton"
