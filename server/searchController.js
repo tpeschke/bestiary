@@ -29,6 +29,9 @@ module.exports = {
                 case "access":
                     idArray.push(db.get.search.access(req.query.access).then())
                     break;
+                case "rarity":
+                    idArray.push(db.get.search.rarity(req.query.rarity).then())
+                    break;
                 case "subsystem":
                     if (req.query.subsystem !== "NaN") {
                         idArray.push(db.get.search.subsystem(req.query.subsystem).then())
@@ -80,7 +83,7 @@ module.exports = {
                 , queryLength = ids.length
 
             if (queryLength > 1) {
-// might have an intersection function from lodash
+                // might have an intersection function from lodash
                 ids.forEach(innerIdArray => {
                     innerIdArray.forEach(val => {
                         if (!isNaN(idCountObj[val.id])) {

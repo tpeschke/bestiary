@@ -48,31 +48,28 @@ export class SearchResultsComponent implements OnInit {
   }
 
   getRandom() {
-    let randomBeast: any = this.weight_random(this.beasts, 'rarity')
-    this.router.navigate(['/beast', randomBeast.id, 'gm']);
+    let { params } = this.currentRoute.snapshot
+    const rarity = this.getRarity();
+    this.adventureService.searchBeasts({...params, rarity}).subscribe(incomingBeasts => {
+      const randomIndex = Math.floor(Math.random() * incomingBeasts.length)
+      this.router.navigate(['/beast', incomingBeasts[randomIndex].id, 'gm']);
+    })
   }
 
-  weight_random(arr, weight_field) {
+  getRarity () {
+    const result = Math.floor(Math.random() * 40) + 1
 
-    if (arr == null || arr === undefined) {
-      return null;
+    if (result <= 27) {
+      return 10
+    } else if (result <= 36) {
+      return 5
+    } else if (result <= 39) {
+      return 3
+    } else if (result <= 40) {
+      return 1
+    } else {
+      console.log('error when getting rarity')
     }
-    const totals = [];
-    let total = 0;
-    for (let i = 0; i < arr.length; i++) {
-      total += arr[i][weight_field];
-      totals.push(total);
-    }
-    const rnd = Math.floor(Math.random() * total);
-    let selected = arr[0];
-    for (let i = 0; i < totals.length; i++) {
-      if (totals[i] > rnd) {
-        selected = arr[i];
-        break;
-      }
-    }
-    return selected;
-
   }
 
   getShortCutURL() {
