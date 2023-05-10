@@ -18,6 +18,7 @@ class QueryObject {
   environ?: any
   types?: any
   roles?: any
+  rarity?: any
 }
 @Component({
   selector: 'app-search-bar',
@@ -119,6 +120,16 @@ export class SearchBarComponent implements OnInit {
       this.router.navigate(['/search', { ...this.queryObject, size: e.value }]);
     } else if (e.value===undefined) {
       delete this.queryObject.size
+      this.router.navigate(['/search', { ...this.queryObject }]);
+    }
+  }
+
+  enterSearchRarity(e) {
+    if (e.value) {
+      this.queryObject = { ...this.queryObject, rarity: e.value }
+      this.router.navigate(['/search', { ...this.queryObject, rarity: e.value }]);
+    } else if (e.value===undefined) {
+      delete this.queryObject.rarity
       this.router.navigate(['/search', { ...this.queryObject }]);
     }
   }

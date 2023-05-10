@@ -75,6 +75,27 @@
                 </mat-select>
             </mat-form-field>
 
+            <mat-form-field>
+                <mat-label>Rarity</mat-label>
+                <mat-select (selectionChange)="enterSearchRarity($event)">
+                    <mat-option value="10">
+                        Common
+                    </mat-option>
+                    <mat-option value="5">
+                        Uncommon
+                    </mat-option>
+                    <mat-option value="3">
+                        Rare
+                    </mat-option>
+                    <mat-option value="1">
+                        Legendary
+                    </mat-option>
+                    <mat-option>
+                        I Don't Care
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
             <div class="searchCheckboxes">
                 <mat-checkbox color='primary' (change)="searchByAnyAccess($event)">Anyone Can View?</mat-checkbox>
             </div>
