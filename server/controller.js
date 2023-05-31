@@ -155,14 +155,14 @@ let controllerObj = {
   },
   collectCatelog(app) {
     const db = app.get('db')
-    db.get.catalogtemplates().then(result => {
+    db.get.catalogallview().then(result => {
       let finalArray = []
       if (result.length > 0) {
         this.newCache.push(result)
       }
 
       result = result.map(beast => {
-        finalArray.push(db.get.rolesforcatelog(beast.id).then(result => {
+        finalArray.push(db.get.rolesforcatalog(beast.id).then(result => {
           beast.roles = result
           if (!beast.defaultrole && beast.roles.length > 0) {
             beast.defaultrole = beast.roles[0].id
@@ -183,14 +183,14 @@ let controllerObj = {
       })
 
       Promise.all(finalArray).then(_ => {
-        db.get.catalogallview().then(result => {
+        db.get.catalogtemplates().then(result => {
           let finalArray = []
           if (result.length > 0) {
             this.newCache.push(result)
           }
 
           result = result.map(beast => {
-            finalArray.push(db.get.rolesforcatelog(beast.id).then(result => {
+            finalArray.push(db.get.rolesfortemplatecatalog(beast.id).then(result => {
               beast.roles = result
               if (!beast.defaultrole && beast.roles.length > 0) {
                 beast.defaultrole = beast.roles[0].id
@@ -229,7 +229,7 @@ let controllerObj = {
         }
 
         result = result.map(beast => {
-          finalArray.push(db.get.rolesforcatelog(beast.id).then(result => {
+          finalArray.push(db.get.rolesforcatalog(beast.id).then(result => {
             beast.roles = result
             if (!beast.defaultrole && beast.roles.length > 0) {
               beast.defaultrole = beast.roles[0].id
@@ -265,11 +265,7 @@ let controllerObj = {
       , id = +req.params.id
 
     db.get.playercanview(id).then(result => {
-      if (req.user && req.user.id) {
-        res.send({ canView: req.user.id === 1 || req.user.patreon >= 3 || result[0].canplayerview })
-      } else {
-        res.send({ canView: false })
-      }
+      res.send({ canView: (req.user && req.user.id === 1) || (req.user && req.user.patreon >= 3) || result[0].canplayerview })
     }).catch(e => console.log(e))
   },
   getFromBestiary(req, res) {
@@ -282,9 +278,19 @@ let controllerObj = {
       let roleToUse = ''
       let secondaryRoleToUse = ''
 
+      if (name.includes(',')) {
+        const nameArray = name.split(', ')
+        name = nameArray[1] + ' ' + nameArray[0]
+      }
+
       if (baseroletype) {
         roleToUse = baseroletype
         secondaryRoleToUse = basesecondaryroletype
+
+        if (rolename && rolename.toUpperCase() !== "NONE") {
+          name = name + " " + rolename
+        }
+
         if (roleToUse !== '' && secondaryRoleToUse) {
           beast.name = name + ` [${roleToUse}(${secondaryRoleToUse})]`
         } else if (roleToUse !== '') {
@@ -299,9 +305,7 @@ let controllerObj = {
       if (isARole) {
         roleToUse = roletype
         secondaryRoleToUse = secondaryroletype
-        if (rolename && rolename.toUpperCase() !== "NONE") {
-          beast.name = name + " " + rolename
-        }
+
         if (roletype) {
           if (roleToUse !== '' && secondaryRoleToUse) {
             beast.name = name + ` [${roleToUse}(${secondaryRoleToUse})]`
@@ -484,9 +488,9 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, noTrauma, carriedloot, folklore } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore } = body
 
-    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, defaultrole, socialsecondary, noTrauma).then(result => {
+    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, defaultrole, socialsecondary, notrauma).then(result => {
       let id = result[0].id
         , promiseArray = []
 
@@ -819,9 +823,9 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, noTrauma, carriedloot, folklore } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore } = body
     // update beast
-    db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, basefatigue, defaultrole, socialsecondary, noTrauma).then(result => {
+    db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, basefatigue, defaultrole, socialsecondary, notrauma).then(result => {
       let promiseArray = []
 
       promiseArray.push(db.delete.roles([id, ['', ...roles.map(roles => roles.id)]]).then(_ => {
@@ -1273,7 +1277,7 @@ let controllerObj = {
         let finalArray = []
 
         result = result.map(beast => {
-          finalArray.push(db.get.rolesforcatelog(beast.id).then(result => {
+          finalArray.push(db.get.rolesforcatalog(beast.id).then(result => {
             beast.roles = result
             if (!beast.defaultrole && beast.roles.length > 0) {
               beast.defaultrole = beast.roles[0].id
@@ -1560,6 +1564,7 @@ async function collectComplication(db, beastId) {
       }))
       return Promise.all(promiseArray).then(result => {
         let flatArray = []
+        console.log(result)
         if (result[0].length) {
           result[0].forEach(val => flatArray.push(val))
         } else {

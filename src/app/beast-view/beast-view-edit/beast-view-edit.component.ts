@@ -148,7 +148,7 @@ export class BeastViewEditComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       let beast = data['beast']
-    
+
       if (this.route.snapshot.params.templateId) {
         beast.variants.push({ variantid: beast.id })
         delete beast.id
@@ -558,7 +558,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   checkTrauma(checked) {
-    this.beast.noTrauma = checked
+    this.beast.notrauma = checked
   }
 
   checkAllRoles = (type, index, checked) => {

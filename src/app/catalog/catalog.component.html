@@ -41,7 +41,7 @@
           <div class="beast-name-shell">
             <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
             <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
-            <p class="beast-name">{{beast.name}}</p>
+            <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
           </div>
         </button>
       </div>
@@ -57,7 +57,7 @@
             <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
             <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
             <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
-            <p class="beast-name">{{beast.name}}</p>
+            <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
           </div>
         </button>
         <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton" mat-button
@@ -70,15 +70,15 @@
             <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
             <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
             <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
-            <p class="beast-name">{{beast.name}}</p>
+            <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
           </div>
         </button>
       </div>
     </div>
   </div>
 
-  <div *ngFor="let category of beasts; let titleIndex = index" [ngClass]="{'noDisplay': loggedIn && titleIndex === 1}">
-    <h2>{{titleIndex === 0 ? 'Templates' : titleIndex === 1 ? 'Free Entries' : category[0].name.substring(0,1)}} <i *ngIf="titleIndex === 0" class="fas fa-info-circle icon-small blue large" matTooltip="A template is the purist expression of a monster - a platonic version, if you will. It is, in fact, so pure that they do not exist in the game world. Templates monsters are baselines that you can use to improve monsters that are not in the Bestiary on the fly." matTooltipClass="my-tooltip"></i></h2>
+  <div *ngFor="let category of beasts; let titleIndex = index" [ngClass]="{'noDisplay': loggedIn && titleIndex === 0}">
+    <h2>{{titleIndex === 1 ? 'Templates' : titleIndex === 0 ? 'Free Entries' : category[0].name.substring(0,1)}} <i *ngIf="titleIndex === 1" class="fas fa-info-circle icon-small blue large" matTooltip="A template is the purist expression of a monster - a platonic version, if you will. It is, in fact, so pure that they do not exist in the game world. Templates monsters are baselines that you can use to improve monsters that are not in the Bestiary on the fly." matTooltipClass="my-tooltip"></i></h2>
     <mat-divider></mat-divider>
     <div class="beastDiv">
       <div *ngFor="let beast of category">
@@ -94,7 +94,7 @@
             <div class="beast-name-shell">
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
               <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
-              <p class="beast-name">{{beast.name}}</p>
+              <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
             </div>
           </button>
         </div>
@@ -128,7 +128,7 @@
               <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
               <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
               <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
-              <p class="beast-name">{{beast.name}}</p>
+              <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
             </div>
           </button>
         </div>

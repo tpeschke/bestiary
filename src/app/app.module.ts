@@ -46,6 +46,7 @@ import { CatalogResolverService } from './util/guards-resolvers/catalog-resolver
 import { ToastrModule } from 'ngx-toastr';
 
 import { NoPlayerAuthService } from './util/guards-resolvers/no-player-auth.service'
+import { NoNonOwnerService } from './util/guards-resolvers/no-non-owner-auth.service'
 import { NoGmAuthService } from './util/guards-resolvers/no-gm-auth.service';
 import { RarityConverterPipe } from './util/pipes/rarity-converter.pipe';
 import { QuickViewDrawerComponent } from './quick-view/quick-view-drawer.component';
@@ -89,7 +90,7 @@ const routes: Routes = [
     { path: 'beast/:id/gm', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: { beast: SingleBeastResolverService } },
     { path: 'beast/:id/gm/:role', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: { beast: SingleBeastResolverService } },
     { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: { beast: PlayerBeastResolverService } },
-    { path: 'beast/:id/edit', component: BeastViewEditComponent, resolve: { beast: SingleBeastResolverService } },
+    { path: 'beast/:id/edit', component: BeastViewEditComponent, canActivate: [NoNonOwnerService], resolve: { beast: SingleBeastResolverService } },
     { path: 'search', component: SearchResultsComponent },
     { path: '**', redirectTo: '' }
     ]
