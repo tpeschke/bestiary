@@ -18,7 +18,6 @@ export class NoNonOwnerService implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    console.log(this.beastService.loggedIn)
     if (!this.beastService.loggedIn) {
       return this.beastService.checkLogin()
         .pipe(

@@ -58,6 +58,7 @@ export default {
         b: "7+2d4",
         c: "9+3d4",
         d: "12+2d6",
+        e: "16+2d6",
     }, 
     almsFavor: {
         a: "d2",
