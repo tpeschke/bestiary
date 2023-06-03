@@ -419,6 +419,7 @@ export class BeastViewEditComponent implements OnInit {
           carriedloot: {},
           roles: [],
           folklore: [],
+          roleInfo: {},
           casting: {
             augur: null,
             wild: null,
@@ -1257,6 +1258,13 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.role = event.value
       this.selectedRole = this.combatRolesInfo[event.value]
     }
+
+    if (this.beast.role && !this.beast.vitality) {
+      this.averageVitality = this.calculatorService.calculateAverageOfDice(this.combatRolesInfo[event.value].vitality)
+    }
+
+    this.captureSelectWithRoleConsideration({value: this.combatRolesInfo[event.value].fatigue}, 'fatigue')
+    this.determineBaseFatigue()
   }
 
   setSecondaryRoleType(event) {
