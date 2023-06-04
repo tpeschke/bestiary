@@ -1,2 +1,2 @@
 delete from bbroleweights
-where beastid = $1 and labelid = $2
+where beastid = $1 and id = $2

@@ -1017,7 +1017,7 @@ let controllerObj = {
 
       signs.signs.forEach(({ sign, weight, id: signid, beastid, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.signs(beastid, signid).catch(e => console.log('----------------------- add beast delete sign: ', e)))
+          promiseArray.push(db.delete.encounter.sign(beastid, signid).catch(e => console.log('----------------------- add beast delete sign: ', e)))
         } else if ((signid && !beastid) || (signid && beastid !== id)) {
           promiseArray.push(db.add.encounter.sign(id, signid, weight).catch(e => console.log('----------------------- add beast add sign: ', e)))
         } else if (signid && beastid) {

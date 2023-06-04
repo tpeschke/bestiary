@@ -1,1 +1,1 @@
-delete from bbrankinfo where beastid = $1 and rankid = $2
+delete from bbrankinfo where beastid = $1 and id = $2

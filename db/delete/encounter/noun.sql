@@ -1,1 +1,1 @@
-delete from bbnouninfo where beastid = $1 and nounid = $2
+delete from bbnouninfo where beastid = $1 and id = $2
