@@ -143,6 +143,11 @@ export class BeastViewGmComponent implements OnInit {
     if (!this.selectedRoleId) {
       this.showCharacteristicsSection = this.beast.conflict.descriptions.length > 0 || this.beast.conflict.convictions.length > 0 || this.beast.conflict.devotions.length > 0 || this.beast.conflict.flaws.length > 0
     } else {
+      this.showDescriptions = false
+      this.showConvictions = false
+      this.showDevotions = false
+      this.showFlaws = false
+      
       for (let i = 0; i < this.beast.conflict.descriptions.length; i++) {
         if (this.beast.conflict.descriptions[i].socialroleid === this.selectedRoleId || this.beast.conflict.descriptions[i].allroles) {
           this.showDescriptions = true
