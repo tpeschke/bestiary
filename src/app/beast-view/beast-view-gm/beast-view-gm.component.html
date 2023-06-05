@@ -66,7 +66,7 @@
               matTooltipClass="my-tooltip"></i></p>
         </div>
 
-        <div class="conflict-shell unset-width" *ngIf="showCharacteristicsSection">
+        <div class="conflict-shell unset-width" *ngIf="showDescriptions">
           <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.descriptions.length > 0">
             <h3>Description</h3>
             <div class="divider white"></div>
@@ -78,7 +78,7 @@
             </div>
           </div>
 
-          <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.convictions.length > 0">
+          <div class="conflict-inner-shell box-padding" *ngIf="this.showConvictions">
             <h3>Convictions</h3>
             <div class="divider white"></div>
             <div *ngFor="let trait of beast.conflict.convictions; let i = index">
@@ -89,7 +89,7 @@
             </div>
           </div>
 
-          <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.devotions.length > 0">
+          <div class="conflict-inner-shell box-padding" *ngIf="this.showDevotions">
             <h3>Devotions</h3>
             <div class="divider white"></div>
             <div *ngFor="let trait of beast.conflict.devotions; let i = index">
@@ -100,7 +100,7 @@
             </div>
           </div>
 
-          <div class="conflict-inner-shell box-padding" *ngIf="beast.conflict.flaws.length > 0">
+          <div class="conflict-inner-shell box-padding" *ngIf="this.showFlaws">
             <h3>Flaws</h3>
             <div class="divider white"></div>
             <div *ngFor="let trait of beast.conflict.flaws; let i = index">

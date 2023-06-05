@@ -82,6 +82,10 @@ export class BeastViewGmComponent implements OnInit {
 
   public showSkillSection = true;
   public showCharacteristicsSection = true
+  public showDescriptions = false
+  public showConvictions = false
+  public showDevotions = false
+  public showFlaws = false
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -128,7 +132,7 @@ export class BeastViewGmComponent implements OnInit {
       for (let i = 0; i < this.beast.skills.length; i++) {
         if (this.beast.skills[i].skillroleid === this.selectedRoleId || this.beast.skills[i].allroles) {
           showSkillSectionTemp = true
-           i = this.beast.skills.length
+          i = this.beast.skills.length
         }
       }
       this.showSkillSection = showSkillSectionTemp
@@ -139,43 +143,41 @@ export class BeastViewGmComponent implements OnInit {
     if (!this.selectedRoleId) {
       this.showCharacteristicsSection = this.beast.conflict.descriptions.length > 0 || this.beast.conflict.convictions.length > 0 || this.beast.conflict.devotions.length > 0 || this.beast.conflict.flaws.length > 0
     } else {
-      let showCharacteristicsSectionTemp = false
-
       for (let i = 0; i < this.beast.conflict.descriptions.length; i++) {
         if (this.beast.conflict.descriptions[i].socialroleid === this.selectedRoleId || this.beast.conflict.descriptions[i].allroles) {
-          showCharacteristicsSectionTemp = true
-           i = this.beast.conflict.descriptions.length
+          this.showDescriptions = true
+          i = this.beast.conflict.descriptions.length
         }
       }
 
-      if (!showCharacteristicsSectionTemp) {
-        for (let i = 0; i < this.beast.conflict.convictions.length; i++) {
-          if (this.beast.conflict.convictions[i].socialroleid === this.selectedRoleId || this.beast.conflict.convictions[i].allroles) {
-            showCharacteristicsSectionTemp = true
-             i = this.beast.conflict.convictions.length
-          }
+      let showConvictionsTemp = false
+      for (let i = 0; i < this.beast.conflict.convictions.length; i++) {
+        if (this.beast.conflict.convictions[i].socialroleid === this.selectedRoleId || this.beast.conflict.convictions[i].allroles) {
+          this.showConvictions = true
+          i = this.beast.conflict.convictions.length
         }
       }
 
-      if (!showCharacteristicsSectionTemp) {
-        for (let i = 0; i < this.beast.conflict.devotions.length; i++) {
-          if (this.beast.conflict.devotions[i].socialroleid === this.selectedRoleId || this.beast.conflict.devotions[i].allroles) {
-            showCharacteristicsSectionTemp = true
-             i = this.beast.conflict.devotions.length
-          }
+      let showDevotionsTemp = false
+      for (let i = 0; i < this.beast.conflict.devotions.length; i++) {
+        if (this.beast.conflict.devotions[i].socialroleid === this.selectedRoleId || this.beast.conflict.devotions[i].allroles) {
+          this.showDevotions = true
+          i = this.beast.conflict.devotions.length
         }
       }
 
-      if (!showCharacteristicsSectionTemp) {
-        for (let i = 0; i < this.beast.conflict.flaws.length; i++) {
-          if (this.beast.conflict.flaws[i].socialroleid === this.selectedRoleId || this.beast.conflict.flaws[i].allroles) {
-            showCharacteristicsSectionTemp = true
-             i = this.beast.conflict.flaws.length
-          }
+
+      let showFlawsTemp = false
+      for (let i = 0; i < this.beast.conflict.flaws.length; i++) {
+        if (this.beast.conflict.flaws[i].socialroleid === this.selectedRoleId || this.beast.conflict.flaws[i].allroles) {
+          this.showFlaws = true
+          i = this.beast.conflict.flaws.length
         }
       }
 
-      this.showCharacteristicsSection = showCharacteristicsSectionTemp
+
+      this.showCharacteristicsSection = this.showDescriptions || this.showConvictions || this.showDevotions || this.showFlaws
+
     }
   }
 
