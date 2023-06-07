@@ -155,7 +155,6 @@ export class BeastViewGmComponent implements OnInit {
         }
       }
 
-      let showConvictionsTemp = false
       for (let i = 0; i < this.beast.conflict.convictions.length; i++) {
         if (this.beast.conflict.convictions[i].socialroleid === this.selectedRoleId || this.beast.conflict.convictions[i].allroles) {
           this.showConvictions = true
@@ -163,7 +162,6 @@ export class BeastViewGmComponent implements OnInit {
         }
       }
 
-      let showDevotionsTemp = false
       for (let i = 0; i < this.beast.conflict.devotions.length; i++) {
         if (this.beast.conflict.devotions[i].socialroleid === this.selectedRoleId || this.beast.conflict.devotions[i].allroles) {
           this.showDevotions = true
@@ -171,15 +169,12 @@ export class BeastViewGmComponent implements OnInit {
         }
       }
 
-
-      let showFlawsTemp = false
       for (let i = 0; i < this.beast.conflict.flaws.length; i++) {
         if (this.beast.conflict.flaws[i].socialroleid === this.selectedRoleId || this.beast.conflict.flaws[i].allroles) {
           this.showFlaws = true
           i = this.beast.conflict.flaws.length
         }
       }
-
 
       this.showCharacteristicsSection = this.showDescriptions || this.showConvictions || this.showDevotions || this.showFlaws
 
