@@ -141,7 +141,10 @@ export class BeastViewGmComponent implements OnInit {
 
   determineIfCharacteristicsShouldBeShown = () => {
     if (!this.selectedRoleId) {
-      this.showCharacteristicsSection = this.beast.conflict.descriptions.length > 0 || this.beast.conflict.convictions.length > 0 || this.beast.conflict.devotions.length > 0 || this.beast.conflict.flaws.length > 0
+      this.showDescriptions = this.beast.conflict.descriptions.length > 0
+      this.showConvictions = this.beast.conflict.convictions.length > 0 
+      this.showDevotions = this.beast.conflict.devotions.length > 0
+      this.showFlaws = this.beast.conflict.flaws.length > 0
     } else {
       this.showDescriptions = false
       this.showConvictions = false
@@ -176,9 +179,8 @@ export class BeastViewGmComponent implements OnInit {
         }
       }
 
-      this.showCharacteristicsSection = this.showDescriptions || this.showConvictions || this.showDevotions || this.showFlaws
-
     }
+    this.showCharacteristicsSection = this.showDescriptions || this.showConvictions || this.showDevotions || this.showFlaws
   }
 
   handleAnyFlaws = () => {
