@@ -1,6 +1,6 @@
 <h3>
   <mat-form-field>
-    <input placeholder="Weapon Name (if blank, it will appears as '{{square.selectedweapon}}')" matInput [value]="square.weapon"
+    <input placeholder="Weapon Name (if blank, it will appears as '{{displayNameIfBlank(square)}}')" matInput [value]="square.weapon"
       (change)="captureInput($event, 'weapon')">
   </mat-form-field>
 </h3>

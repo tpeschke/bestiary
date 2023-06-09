@@ -433,12 +433,14 @@ export class DisplayServiceService {
 
   getLetterFatigue(beast, selectedRoleId, roles) {
     let fatigue = 'C'
-    if (selectedRoleId && beast.roleInfo[selectedRoleId].fatigue) {
-      fatigue = beast.roleInfo[selectedRoleId].fatigue
-    } else if (beast.basefatigue) {
-      fatigue = beast.basefatigue
-    } else if (selectedRoleId && roles.combatRoles.primary[beast.roleInfo[selectedRoleId].role].fatigue) {
-      fatigue = roles.combatRoles.primary[beast.roleInfo[selectedRoleId].role].fatigue
+    if (beast.roleInfo.role) {
+      if (selectedRoleId && beast.roleInfo[selectedRoleId].fatigue) {
+        fatigue = beast.roleInfo[selectedRoleId].fatigue
+      } else if (beast.basefatigue) {
+        fatigue = beast.basefatigue
+      } else if (selectedRoleId && roles.combatRoles.primary[beast.roleInfo[selectedRoleId].role].fatigue) {
+        fatigue = roles.combatRoles.primary[beast.roleInfo[selectedRoleId].role].fatigue
+      }
     }
 
     return fatigue

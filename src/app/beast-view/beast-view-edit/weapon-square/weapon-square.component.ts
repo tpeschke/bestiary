@@ -264,6 +264,10 @@ export class WeaponSquareComponent implements OnInit {
     this.displayedShieldDR = this.displayService.displayDR(this.square.newShieldDr, 'shield', this.square, this.selectedRole, null, null, null, null)
   }
 
+  displayNameIfBlank = ({selectedweapon, selectedarmor, selectedshield}) => {
+    return this.displayService.displayName({weapon: '', selectedweapon, selectedarmor, selectedshield})
+  }
+
   addedDice() {
     let damagetype = this.square.selectedweapon ? this.square.weaponInfo.type : this.square.damagetype
     if (!this.square.damageskill) {
