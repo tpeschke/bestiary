@@ -87,6 +87,8 @@ export class BeastViewGmComponent implements OnInit {
   public showDevotions = false
   public showFlaws = false
 
+  public groupId = null
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
@@ -661,7 +663,7 @@ export class BeastViewGmComponent implements OnInit {
 
   getRandomEncounter() {
     this.encounter = 'loading'
-    this.beastService.getRandomEncounter(this.beast.id).subscribe((result: any) => {
+    this.beastService.getRandomEncounter(this.beast.id, this.groupId).subscribe((result: any) => {
       if (result.main) {
         let distance = 0
         if (result.complication) {
@@ -762,6 +764,11 @@ export class BeastViewGmComponent implements OnInit {
         this.setRole({ value: role.id })
       }
     }
+  }
+
+  setGroupParam (event) {
+    this.groupId = event.value
+    this.getRandomEncounter()
   }
 
   setRole(event) {

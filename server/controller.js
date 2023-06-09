@@ -1433,24 +1433,50 @@ let controllerObj = {
       return result
     }))
 
+    promiseArray.push(db.get.encounter.allGroups(beastId).then(result => {
+      if (result[0]) {
+        encounterObject.allGroups = result
+      }
+      return result
+    }))
+
     promiseArray.push(db.get.encounter.numbersWeight(beastId).then(numbers => {
       if (numbers.length > 0) {
-        return db.get.encounter.groupsWeight(beastId).then(groups => {
-          if (groups.length > 0) {
-            const groupId = groups[0].id
-            return db.get.encounter.groupWeight(beastId, groupId).then(group => {
-              if (group.length > 0) {
-                encounterObject.main = getRandomEncounter(groups[0].label, numbers, group)
+        if (+req.query.groupId) {
+          return db.get.encounter.groupById(beastId, +req.query.groupId).then(groups => {
+            if (groups.length > 0) {
+              const groupId = groups[0].id
+              return db.get.encounter.groupWeight(beastId, groupId).then(group => {
+                if (group.length > 0) {
+                  encounterObject.main = getRandomEncounter(groups[0].label, numbers, group)
+                  return encounterObject.main
+                }
+                encounterObject.main = getRandomEncounter(groups[0].label, numbers, [{ role: 'None', weight: 1 }])
                 return encounterObject.main
-              }
-              encounterObject.main = getRandomEncounter(groups[0].label, numbers, [{ role: 'None', weight: 1 }])
+              })
+            } else {
+              encounterObject.main = getRandomEncounter('Group', numbers, [{ role: 'None', weight: 1 }])
               return encounterObject.main
-            })
-          } else {
-            encounterObject.main = getRandomEncounter('Group', numbers, [{ role: 'None', weight: 1 }])
-            return encounterObject.main
-          }
-        })
+            }
+          })
+        } else {
+          return db.get.encounter.groupsWeight(beastId).then(groups => {
+            if (groups.length > 0) {
+              const groupId = groups[0].id
+              return db.get.encounter.groupWeight(beastId, groupId).then(group => {
+                if (group.length > 0) {
+                  encounterObject.main = getRandomEncounter(groups[0].label, numbers, group)
+                  return encounterObject.main
+                }
+                encounterObject.main = getRandomEncounter(groups[0].label, numbers, [{ role: 'None', weight: 1 }])
+                return encounterObject.main
+              })
+            } else {
+              encounterObject.main = getRandomEncounter('Group', numbers, [{ role: 'None', weight: 1 }])
+              return encounterObject.main
+            }
+          })
+        }
       }
       return true
     }))

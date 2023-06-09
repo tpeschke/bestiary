@@ -796,7 +796,8 @@
 
         <div *ngIf="beast.folklore.length > 0">
           <h2>Common Folklore <i class="fas fa-info-circle small-font blue"
-            matTooltip="Common folklore is what people believe about the monster and what players will know without making a Check. The first line is the belief while the second line is the truth. The belief is almost always wrong in some way but almost always has a bit of truth as well."></i></h2>
+              matTooltip="Common folklore is what people believe about the monster and what players will know without making a Check. The first line is the belief while the second line is the truth. The belief is almost always wrong in some way but almost always has a bit of truth as well."></i>
+          </h2>
           <div class="divider"></div>
           <div class="box-padding">
             <div *ngFor="let lore of beast.folklore" class="belief-display-view">
@@ -917,6 +918,19 @@
         </div>
 
         <div *ngIf="encounter !== 'loading' && encounter.main" class="regenerateButtonShell">
+          <div class="group-type-shell">
+            <mat-form-field>
+              <mat-label>Group Type</mat-label>
+              <mat-select  (selectionChange)="setGroupParam($event)" [(value)]="groupId">
+                <mat-option>
+                  No Preference
+                </mat-option>
+                <mat-option *ngFor="let group of encounter.allGroups" value="{{group.id}}">
+                  {{group.label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
           <button mat-raised-button (click)="getRandomEncounter()" color="warn"><i class="fas fa-redo"></i></button>
         </div>
 

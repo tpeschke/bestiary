@@ -715,13 +715,19 @@ a {
 .regenerateButtonShell {
     width: 100%;
     position: relative;
-    height: 40px;
+    height: 45px;
 }
 
 .regenerateButtonShell button {
     position: absolute;
     right: 0;
     margin: 0
+}
+
+.group-type-shell {
+    position: absolute;
+    right: 57px;
+    bottom: -18px;
 }
 
 .loot-regenerate-shell {
