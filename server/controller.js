@@ -1440,18 +1440,25 @@ let controllerObj = {
       return result
     }))
 
-    promiseArray.push(db.get.encounter.numbersWeight(beastId).then(numbers => {
-      if (numbers.length > 0) {
-        if (+req.query.groupId) {
-          return db.get.encounter.groupById(beastId, +req.query.groupId).then(groups => {
+    if (+req.query.groupId) {
+      promiseArray.push(db.get.encounter.numbers(beastId).then(numbers => {
+        if (numbers.length > 0) {
+          return db.get.encounter.allGroups(beastId).then(groups => {
             if (groups.length > 0) {
-              const groupId = groups[0].id
+              const groupId = +req.query.groupId
               return db.get.encounter.groupWeight(beastId, groupId).then(group => {
+                const groupIndex = groups.findIndex(e => e.id === groupId)
+
+                let number = numbers[groupIndex]
+                if (!number) {
+                  number = numbers[numbers.length - 1]
+                }
+                
                 if (group.length > 0) {
-                  encounterObject.main = getRandomEncounter(groups[0].label, numbers, group)
+                  encounterObject.main = getRandomEncounter(groups[groupIndex].label, [number], group)
                   return encounterObject.main
                 }
-                encounterObject.main = getRandomEncounter(groups[0].label, numbers, [{ role: 'None', weight: 1 }])
+                encounterObject.main = getRandomEncounter(groups[groupIndex].label, [number], [{ role: 'None', weight: 1 }])
                 return encounterObject.main
               })
             } else {
@@ -1459,7 +1466,12 @@ let controllerObj = {
               return encounterObject.main
             }
           })
-        } else {
+        }
+        return true
+      }))
+    } else {
+      promiseArray.push(db.get.encounter.numbersWeight(beastId).then(numbers => {
+        if (numbers.length > 0) {
           return db.get.encounter.groupsWeight(beastId).then(groups => {
             if (groups.length > 0) {
               const groupId = groups[0].id
@@ -1477,9 +1489,9 @@ let controllerObj = {
             }
           })
         }
-      }
-      return true
-    }))
+        return true
+      }))
+    }
 
     let randomEncounter = Math.floor(Math.random() * 10) > 5
     if (randomEncounter) {
