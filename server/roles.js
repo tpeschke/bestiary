@@ -4,8 +4,9 @@ module.exports = {
             'Artillery': {
                 strengths: ['Vitality', 'Ranged Damage', 'Ranged Attack', 'Ranged Penalties'],
                 weaknesses: ['/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Melee Attack', 'Recovery', 'Movement', 'Caution Threshold'],
+                description: "Artillery have high ranged attack and damage which means that they can threaten anyone on the battlefield, however, their low mobility and melee abilities means that they can often be charged down and taken out.",
                 spdbonus: 3,
-                vitality: 30,
+                vitality: '1d10 + 25',
                 fatigue: 'C',
                 def: 0,
                 dr: {
@@ -42,7 +43,7 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Ranged',
-                        items: ['Bellybow', 'Crossbow', 'Latchet Crossbow', 'Longbow', 'Warbow']
+                        items: ['Bellybow (P)', 'Crossbow (P)', 'Latchet Crossbow (P)', 'Longbow (P)', 'Warbow (P)']
                     },
                     {
                         label: 'Sidearms',
@@ -55,9 +56,10 @@ module.exports = {
             'Brute': {
                 strengths: ['Vitality', 'Melee Damage', 'Melee Attack', 'Caution Threshold'],
                 weaknesses: ['Defense', 'Parry', 'Parry DR', 'Parry /DR', 'Ranged Damage', 'Ranged Attack', 'Recovery', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
+                description: "Brutes are high damage and attack but low mobility making them moving threats. While easy to avoid, they'll punish any players who don't move so they can churn up the battlefield.",
                 spdbonus: 2,
-                vitality: 80,
-                fatigue: 'B',
+                vitality: '2d20 + 60',
+                fatigue: 'W',
                 def: -4,
                 dr: {
                     flat: 3,
@@ -91,11 +93,11 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Axes',
-                        items: ['Bardiche', 'Battle Axe', 'Dane Axe']
+                        items: ['Bardiche (S)', 'Battle Axe (S)', 'Dane Axe (S)']
                     },
                     {
                         label: 'Polearms',
-                        items: ['Ranseur', 'War-scythe']
+                        items: ['Ranseur (P)', 'War-scythe (P)']
                     },
                     {
                         label: 'Sidearms',
@@ -103,11 +105,11 @@ module.exports = {
                     },
                     {
                         label: 'Swords',
-                        items: ['Zweihander']
+                        items: ['Zweihander (S)']
                     },
                     {
                         label: 'Trauma',
-                        items: ['Club', 'Mace', 'Maul', 'War Flail', 'War Hammer']
+                        items: ['Club (C)', 'Mace (C)', 'Maul (C)', 'War Flail (C)', 'War Hammer (C)']
                     }
                 ],
                 armor: ['Chainmail', 'Plated Mail'],
@@ -116,8 +118,9 @@ module.exports = {
             'Defender': {
                 strengths: ['Defense', 'DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Stress Threshold', 'Caution Threshold'],
                 weaknesses: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
+                description: "Defenders defend. They're tanky: able to take a large amount of damage but they're unable to deal it out or effectively move around.",
                 spdbonus: 0,
-                vitality: 40,
+                vitality: '(1d10 *4) + 20',
                 fatigue: 'C',
                 def: -3,
                 dr: {
@@ -152,15 +155,15 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Polearms',
-                        items: ['Bill', 'Guisarme', 'Pike']
+                        items: ['Bill (S)', 'Guisarme (P)', 'Pike (P)']
                     },
                     {
                         label: 'Sidearms',
-                        items: ['Dagger (P)', 'Dagger (S)', 'Dusack']
+                        items: ['Dagger (P)', 'Dagger (S)', 'Dusack (S)']
                     },
                     {
                         label: 'Swords',
-                        items: ['Arming Sword', 'Court Sword', 'Messer', 'Sabre', 'Schiavona']
+                        items: ['Arming Sword (S)', 'Court Sword (P)', 'Messer (S)', 'Sabre (S)', 'Schiavona (S)']
                     }
                 ],
                 armor: ['Scale', 'Laminar (Banded Mail)', 'Full Plate'],
@@ -169,8 +172,9 @@ module.exports = {
             'Duelist': {
                 strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Stress Threshold'],
                 weaknesses: ['/DR', 'Melee Damage', 'Ranged Damage', 'Range Penalties'],
+                description: "The duelist is particularly good at one-on-one fights due to their fast attack and high parry but they tend to suffer from being out numbered or out ranged.",
                 spdbonus: -3,
-                vitality: 30,
+                vitality: '1d10 + 25',
                 fatigue: 'C',
                 def: 0,
                 dr: {
@@ -205,19 +209,19 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Polearms',
-                        items: ['Halberd (S)', 'Halberd (P)', 'Planson', 'Short Spear', 'Voulge']
+                        items: ['Halberd (S)', 'Halberd (P)', 'Planson (P)', 'Short Spear (P)', 'Voulge (P)']
                     },
                     {
                         label: 'Sidearms',
-                        items: ['Dagger (P)', 'Dagger (S)', 'Scourge', 'Stiletto']
+                        items: ['Dagger (P)', 'Dagger (S)', 'Scourge (S)', 'Stiletto (P)']
                     },
                     {
                         label: 'Swords',
-                        items: ['Estoc', 'Longsword', 'Rapier']
+                        items: ['Estoc (P)', 'Longsword (S)', 'Rapier (P)']
                     },
                     {
                         label: 'Trauma',
-                        items: ['Goedenag', 'Quarterstaff', 'Rapier']
+                        items: ['Goedenag (P)', 'Quarterstaff (C)']
                     }
                 ],
                 armor: ['Gambeson', 'Leather'],
@@ -226,8 +230,9 @@ module.exports = {
             'Flanker': {
                 strengths: ['Melee Damage', 'Recovery', 'Movement', 'Mobility Skills'],
                 weaknesses: ['Defense', 'DR', '/DR', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Range Penalties', 'Caution Threshold'],
+                description: "Flankers are mobile with high damge, however, their attack leaves something to be desired so they focus on getting around the opponent to attack from different angles.",
                 spdbonus: -1,
-                vitality: 30,
+                vitality: '1d10 + 25',
                 fatigue: 'C',
                 def: 0,
                 dr: {
@@ -262,11 +267,11 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Sidearms',
-                        items: ['Cinquedea', 'Dagger (P)', 'Dagger (S)', 'Katzbalger']
+                        items: ['Cinquedea (S)', 'Dagger (P)', 'Dagger (S)', 'Katzbalger (S)']
                     },
                     {
                         label: 'Trauma',
-                        items: ['Bludgeon']
+                        items: ['Bludgeon (C)']
                     }
                 ],
                 armor: ['Gambeson', 'Leather'],
@@ -275,9 +280,10 @@ module.exports = {
             'Shock': {
                 strengths: ['Fatigue', 'Melee Damage', 'Measure', 'Movement', 'Mobility Skills', 'Panic Threshold', 'Caution Threshold'],
                 weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Ranged Damage', 'Ranged Attack', 'Recovery', 'Range Penalties'],
+                description: 'First into combat and first to hit, shock monsters are great on the offensive but terrible in long, drawn out combats.',
                 spdbonus: 4,
-                vitality: 40,
-                fatigue: 'C',
+                vitality: '(1d10 * 4) + 20',
+                fatigue: "C",
                 def: -4,
                 dr: {
                     flat: 0,
@@ -311,11 +317,11 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Axes',
-                        items: ['Dane Axe', 'Horseman\'s pick', 'Lochaber Axe']
+                        items: ['Dane Axe (S)', 'Horseman\'s pick (P)', 'Lochaber Axe (S)']
                     },
                     {
                         label: 'Polearms',
-                        items: ['Glaive', 'Lance', 'Lucerne', 'Sovnya']
+                        items: ['Glaive (S)', 'Lance (P)', 'Lucerne (C)', 'Sovnya (S)']
                     },
                     {
                         label: 'Sidearms',
@@ -323,11 +329,11 @@ module.exports = {
                     },
                     {
                         label: 'Swords',
-                        items: ['Executioner\'s Sword', 'Falchion', 'Koncerz']
+                        items: ['Executioner\'s Sword (S)', 'Falchion (S)', 'Koncerz (P)']
                     },
                     {
                         label: 'Trauma',
-                        items: ['Bec De Corbin', 'Great Hammer', 'Peasant\'s Flail']
+                        items: ['Bec De Corbin (C)', 'Great Hammer (C)', 'Peasant\'s Flail (C)']
                     }
                 ],
                 armor: ['Coat of Plates'],
@@ -336,8 +342,9 @@ module.exports = {
             'Skirmisher': {
                 strengths: ['Ranged Attack', 'Movement', 'Mobility Skills', 'Stress Threshold', 'Panic'],
                 weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Ranged Damage', 'Melee Attack', 'Caution Threshold'],
+                description: 'Fast on their feet, the skirmisher focuses on hit-and-run tactics, although their focus on ranged combat makes them squishy in melee.',
                 spdbonus: 0,
-                vitality: 30,
+                vitality: '1d10 + 25',
                 fatigue: 'C',
                 def: 0,
                 dr: {
@@ -372,7 +379,7 @@ module.exports = {
                 weapons: [
                     {
                         label: 'Axes',
-                        items: ['Handaxe']
+                        items: ['Handaxe (S)']
                     },
                     {
                         label: 'Neutral Choices',
@@ -380,11 +387,11 @@ module.exports = {
                     },
                     {
                         label: 'Ranged',
-                        items: ['Composite Bow', 'Javelin', 'Sling', 'Throwing Axe', 'Throwing Knife']
+                        items: ['Composite Bow (P)', 'Javelin (P)', 'Sling (C)', 'Throwing Axe (S)', 'Throwing Knife (P)']
                     },
                     {
                         label: 'Sidearms',
-                        items: ['Dagger (P)', 'Dagger (S)', 'Knife']
+                        items: ['Dagger (P)', 'Dagger (S)', 'Knife (S)']
                     }
                 ],
                 armor: ['Gambeson', 'Leather'],

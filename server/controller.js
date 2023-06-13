@@ -277,6 +277,7 @@ let controllerObj = {
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
       let secondaryRoleToUse = ''
+      let vitalityToUse = '';
 
       if (name.includes(',')) {
         const nameArray = name.split(', ')
@@ -317,12 +318,9 @@ let controllerObj = {
         }
 
         if (rolevitality) {
-          if (secondaryRoleToUse === 'Fodder') {
-            beast.vitality = `(${rolevitality})/2`
-          } else {
-            beast.vitality = rolevitality
-          }
+          vitalityToUse = rolevitality
         }
+
         if (rolepanic) {
           beast.panic = rolepanic
         }
@@ -340,13 +338,17 @@ let controllerObj = {
         }
       }
 
-      if (!beast.vitality && secondaryRoleToUse === 'Fodder' && rolevitality) {
-        beast.vitality = `(${rolevitality})/2`
-      } else if (!beast.vitality && secondaryRoleToUse === 'Fodder') {
-        beast.vitality = `(${vitality})/2`
+      if (!vitalityToUse && vitalityToUse !== '' && vitality && vitality !== '') {
+        vitalityToUse = vitality
       } else {
-        beast.vitality = vitality
+        vitalityToUse = roles.combatRoles.primary[roleToUse].vitality
       }
+
+      if (secondaryRoleToUse === 'Fodder') {
+        vitalityToUse = `(${vitalityToUse})/2`
+      }
+
+      beast.vitality = vitalityToUse
 
       if (!beast.stressthreshold) {
         beast.panic = 7
@@ -1453,7 +1455,7 @@ let controllerObj = {
                 if (!number) {
                   number = numbers[numbers.length - 1]
                 }
-                
+
                 if (group.length > 0) {
                   encounterObject.main = getRandomEncounter(groups[groupIndex].label, [number], group)
                   return encounterObject.main
