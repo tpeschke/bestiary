@@ -271,9 +271,9 @@ let controllerObj = {
   getFromBestiary(req, res) {
     const db = req.app.get('db')
     db.get.beast_by_hash(req.params.hash).then(result => {
-      let { name, vitality, panic, stressthreshold, roletype, baseroletype, rolename, rolevitality, id: beastid, roleid, caution, rolepanic, rolestressthreshold, rolecaution, mainhash, rolehash, basesecondaryroletype, secondaryroletype } = result[0]
+      let { name, vitality, panic, stressthreshold, roletype, baseroletype, rolename, rolevitality, id: beastid, roleid, caution, rolepanic, rolestressthreshold, rolecaution, mainhash, rolehash, basesecondaryroletype, secondaryroletype, rolefatigue, basefatigue } = result[0]
 
-      let beast = { name, panic, stressthreshold, hash: req.params.hash, caution, beastid, roleid, combat: [] }
+      let beast = { name, panic, stressthreshold, hash: req.params.hash, caution, beastid, roleid, combat: [], fatigue: basefatigue }
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
       let secondaryRoleToUse = ''
@@ -317,6 +317,10 @@ let controllerObj = {
           }
         }
 
+        if (rolefatigue) {
+          beast.fatigue = rolefatigue
+        }
+
         if (rolevitality) {
           vitalityToUse = rolevitality
         }
@@ -352,6 +356,12 @@ let controllerObj = {
 
       if (!beast.stressthreshold) {
         beast.panic = 7
+      }
+
+      if (!beast.fatigue && roleToUse) {
+        beast.fatigue = roles.combatRoles.primary[roleToUse].fatigue
+      } else if (!beast.fatigue) {
+        beast.fatigue = "C"
       }
 
       let finalPromise = [];
