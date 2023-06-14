@@ -441,6 +441,10 @@ export class DisplayServiceService {
       } else if (selectedRoleId && roles.combatRoles.primary[beast.roleInfo[selectedRoleId].role].fatigue) {
         fatigue = roles.combatRoles.primary[beast.roleInfo[selectedRoleId].role].fatigue
       }
+    } else if (beast.basefatigue) {
+      fatigue = beast.basefatigue
+    } else if (beast.role) {
+      fatigue = roles.combatRoles.primary[beast.role].fatigue
     }
 
     return fatigue

@@ -1474,6 +1474,8 @@ export class BeastViewEditComponent implements OnInit {
         this.calculateCombatPoints()
         this.beast.roles[i].vitality = event.target.value
         this.beast.roles[i].average = this.calculatorService.calculateAverageOfDice(event.target.value)
+        this.beast.roleInfo[this.selectedRoleId].vitality = event.target.value
+        this.averageVitality = this.beast.roles[i].average
         i = this.beast.roles.length
       }
     }

@@ -781,7 +781,7 @@
               <input
                 id="{{selectedRole && selectedRole.strengths ? selectedRole.strengths.includes('Vitality') ? 'green' : selectedRole.weaknesses.includes('Vitality') ? 'red' : '' : ''}}"
                 matInput placeholder="Vitality (1 point / 10 Average Vitality)"
-                [value]="beast.roleInfo[selectedRoleId].vitality ? beast.roleInfo[selectedRoleId].vitality : selectedRole && selectedRole.vitality ? selectedRole.vitality : null"
+                [value]="beast.roleInfo[selectedRoleId].vitality ? beast.roleInfo[selectedRoleId].vitality : selectedRole && selectedRole.vitality ? selectedRole.vitality : beast.vitality"
                 (change)="captureRoleVitality($event)">
             </div>
             <div *ngIf="!selectedRoleId">
