@@ -320,11 +320,13 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     if (alms.length > 0) {
-      for (let i = 0; i < alms.length * timesToRoll; i++) {
-        let favor = rollDice(almsFavor[alms[i].favor])
-          , number = rollDice(numberAppearing[alms[i].number])
-        if (number > 0) {
-          this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
+      for (let i = 0; i < timesToRoll; i++) {
+        for (let x = 0; x < alms.length; x++) {
+          let favor = rollDice(almsFavor[alms[x].favor])
+            , number = rollDice(numberAppearing[alms[x].number])
+          if (number > 0) {
+            this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
+          }
         }
       }
     }
@@ -461,11 +463,13 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     if (alms.length > 0) {
-      for (let i = 0; i < alms.length * timesToRoll; i++) {
-        let favor = rollDice(almsFavor[alms[i].favor])
-          , number = rollDice(numberAppearing[alms[i].number])
-        if (number > 0) {
-          this.carriedLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
+      for (let i = 0; i < timesToRoll; i++) {
+        for (let x = 0; x < alms.length; x++) {
+          let favor = rollDice(almsFavor[alms[x].favor])
+            , number = rollDice(numberAppearing[alms[x].number])
+          if (number > 0) {
+            this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
+          }
         }
       }
     }
