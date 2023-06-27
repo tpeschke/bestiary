@@ -148,7 +148,6 @@ export class BeastViewEditComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       let beast = data['beast']
-
       if (this.route.snapshot.params.templateId) {
         beast.variants.push({ variantid: beast.id })
         delete beast.id
@@ -546,7 +545,6 @@ export class BeastViewEditComponent implements OnInit {
 
   setRankSeverityRank = (index, value) => {
     this.beast.conflict.flaws[index].value = value
-    console.log(this.beast.conflict.flaws)
   }
 
   updateRolesObject(type, value) {
@@ -944,6 +942,8 @@ export class BeastViewEditComponent implements OnInit {
             modifier = ` +${modifier}`
           } else if (modifier === 0) {
             modifier = ''
+          } else if (modifier < 0) {
+            modifier = ` ${modifier}`
           }
           weapon.damage += modifier
         }

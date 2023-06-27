@@ -713,22 +713,31 @@ export class BeastViewGmComponent implements OnInit {
       , price;
     if (isNaN(harvestAndDifficulty) && !difficulty.includes("!") || !difficulty.includes("d")) {
       if (difficulty === '0') {
-        price = 10
+        price = 5
       } else {
         price = difficulty;
       }
     } else if (isNaN(harvestAndDifficulty) && harvest !== 'n/a') {
-      price = justDifficulty * 10
+      price = justDifficulty * 5
     } else if (isNaN(harvestAndDifficulty) && harvest === 'n/a') {
-      price = this.calculatorService.calculateAverageOfDice(difficulty) * 10
+      price = this.calculatorService.calculateAverageOfDice(difficulty) * 5
     } else {
-      price = harvestAndDifficulty * 10
+      price = harvestAndDifficulty * 5
     }
 
     if (isNaN(price)) {
       return 'Priceless'
     }
-    return (price / (this.beast.rarity / 2)).toFixed(1) + 'sc'
+
+    const rarityMultipliers = {
+      1: 5,
+      2: 2,
+      3: 1,
+      5: .5,
+      10: .25
+    }
+
+    return (price * rarityMultipliers[this.beast.rarity]).toFixed(1) + 'sc'
   }
 
   getUrl(id) {

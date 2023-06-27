@@ -1,7 +1,7 @@
 mat-card {
     margin-bottom: 15px;
     display: flex;
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .results-card {
@@ -43,6 +43,17 @@ img {
 .extra-info-shell {
     display: flex;
     justify-content: space-between;
+}
+
+.intro-shell {
+    position: relative;
+}
+
+.div-intro-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
 }
 
 .header-shell {

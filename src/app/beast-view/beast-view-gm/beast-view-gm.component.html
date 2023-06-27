@@ -135,7 +135,8 @@
         </div>
         <div class="conflict-shell unset-width" *ngIf="showSkillSection">
           <div *ngFor="let skill of beast.skills; let i = index">
-            <div class="flex-row-opposite" *ngIf="selectedRoleId === skill.skillroleid || skill.allroles">
+            <div class="flex-row-opposite {{skill.skill.includes('Skill Suite') ? 'skill-suite' : '' }}"
+              *ngIf="selectedRoleId === skill.skillroleid || skill.allroles">
               <h5>{{skill.skill}}</h5>
               <h5>{{skill.rank}}</h5>
             </div>
@@ -918,10 +919,10 @@
         </div>
 
         <div *ngIf="encounter !== 'loading' && encounter.main" class="regenerateButtonShell">
-          <div class="group-type-shell">
+          <div class="group-type-shell" *ngIf="encounter.allGroups.length > 1">
             <mat-form-field>
               <mat-label>Group Type</mat-label>
-              <mat-select  (selectionChange)="setGroupParam($event)" [(value)]="groupId">
+              <mat-select (selectionChange)="setGroupParam($event)" [(value)]="groupId">
                 <mat-option>
                   No Preference
                 </mat-option>
@@ -1048,11 +1049,9 @@
         </ul>
 
         <div *ngIf="beast.lootnotes">
-          <div *ngIf="beast.lootnotes.length > 0">
-            <h3 *ngIf="beast.loot.length > 0" class="loot-notes-subtitle">Additional Notes</h3>
-            <div>
-              <quill-view-html [content]="beast.lootnotes"></quill-view-html>
-            </div>
+          <div *ngIf="beast.lootnotes">
+            <h3 *ngIf="beast.lootnotes" class="loot-notes-subtitle">Additional Notes</h3>
+            <quill-view-html [content]="beast.lootnotes"></quill-view-html>
           </div>
         </div>
 
@@ -1090,7 +1089,7 @@
         </div>
 
         <h2>
-          Weird Reagents <i class="fas fa-info-circle icon-small blue"
+          Weird Pleroma <i class="fas fa-info-circle icon-small blue"
             matTooltip="This represents body parts that can be harvested that you can then sacrifice for extra Spell Points for the listed spell or a bonus to the corresponding Weirdcraft Advanced Skill Check."></i>
         </h2>
         <div class="divider"></div>
@@ -1134,7 +1133,7 @@
           </mat-accordion>
         </div>
         <div *ngIf="beast.reagents.length == 0" class="box-padding">
-          <p class="text-align">This creature has no harvestable reagents.</p>
+          <p class="text-align">This creature has no harvestable pleroma.</p>
         </div>
 
         <h2>Variants</h2>

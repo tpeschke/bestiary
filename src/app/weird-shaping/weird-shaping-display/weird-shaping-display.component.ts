@@ -22,7 +22,7 @@ export class WeirdShapingDisplayComponent implements OnInit {
 
   ngOnInit() {
     this.tooltips = tooltips
-    
+
     if (this.casting) {
       if (this.casting.commanding) {
         this.castingSelect.push('Adamic Commanding')
@@ -46,6 +46,8 @@ export class WeirdShapingDisplayComponent implements OnInit {
 
       if (!this.selectedRoleId) {
         this.showWeirdshaping = this.castingSelect.length > 0 && this.spells.length > 0
+      } else {
+        this.showWeirdshaping = this.castingSelect.length > 0 && this.spells.length > 0 && this.spells.filter(e => e.roleid === this.selectedRoleId || e.allroles).length > 0
       }
     }
   }

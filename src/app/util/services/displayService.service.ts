@@ -433,7 +433,7 @@ export class DisplayServiceService {
 
   getLetterFatigue(beast, selectedRoleId, roles) {
     let fatigue = 'C'
-    if (beast.roleInfo.role) {
+    if (selectedRoleId) {
       if (selectedRoleId && beast.roleInfo[selectedRoleId].fatigue) {
         fatigue = beast.roleInfo[selectedRoleId].fatigue
       } else if (beast.basefatigue) {

@@ -591,7 +591,7 @@ function processDamage(damageString, isSpecial, hasSpecialAndDamage) {
   }
 
   let expressionValue = ""
-  damageString.replace(/\s/g, '').split('').forEach((val, i, array) => {
+  damageString.trim().replace(/\s/g, '').split('').forEach((val, i, array) => {
 
     if (i === array.length - 1) {
       expressionValue = expressionValue + val
@@ -599,10 +599,13 @@ function processDamage(damageString, isSpecial, hasSpecialAndDamage) {
     if (val === '-' || val === '+' || val === '*' || i === array.length - 1) {
       if (expressionValue.includes('d')) {
         newDamage.dice.push(expressionValue)
-      } else {
+        expressionValue = ""
+      } else if (expressionValue !== '') {
         newDamage.flat += +expressionValue
+        expressionValue = ""
+      } else {
+        expressionValue = expressionValue + val
       }
-      expressionValue = ""
     } else {
       expressionValue = expressionValue + val;
     }

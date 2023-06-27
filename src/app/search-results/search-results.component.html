@@ -38,7 +38,8 @@
         <div *ngIf="beast.intro" class="divider"></div>
 
         <div class="extra-info-shell">
-          <div *ngIf="beast.intro">
+          <div *ngIf="beast.intro" class="intro-shell">
+            <div class="div-intro-overlay"></div>
             <quill-view-html [content]="beast.intro"></quill-view-html>
           </div>
 

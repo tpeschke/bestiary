@@ -147,6 +147,10 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     text-indent: 20px;
 }
 
+.skill-suite {
+    font-weight: bold;
+}
+
 .fa-star-of-life {
     font-size: 8px;
 }
