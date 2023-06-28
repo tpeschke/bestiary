@@ -64,7 +64,6 @@ export class WeaponSquareComponent implements OnInit {
   }
 
   captureInputNumber = (event, primary, secondary) => {
-    this.updateCombatValue(primary, secondary, +event.target.value)
     if (secondary) {
       this.square[primary][secondary] = +event.target.value
       if (primary === 'newDamage' && secondary === 'flat') {
@@ -82,6 +81,7 @@ export class WeaponSquareComponent implements OnInit {
         this.displayedDamage = this.displayService.displayDamage(this.square, this.selectedRole, null, null)
       }
     }
+    this.calculateCombatPoints()
   }
 
   captureSelect(event, type) {
@@ -169,58 +169,6 @@ export class WeaponSquareComponent implements OnInit {
     }
 
     this.displayedDamage = this.displayService.displayDamage(this.square, this.selectedRole, null, null)
-  }
-
-  updateCombatValue = (primary, secondary, value) => {
-    let metricToCompare
-      , valueToCompare
-      , valueChange
-    if (secondary) {
-      metricToCompare = primary + ', ' + secondary
-      valueToCompare = value - this.square[primary][secondary]
-    } else {
-      metricToCompare = primary
-      valueToCompare = value - this.square[primary]
-    }
-
-    switch (metricToCompare) {
-      case 'atk':
-      case 'newDamage, flat':
-      case 'newDR, flat':
-      case 'def':
-        valueChange = valueToCompare
-        break;
-      case 'spd':
-        valueChange = valueToCompare * -2
-        break;
-      case 'measure':
-      case 'newShieldDr, slash':
-      case 'newShieldDr, flat':
-      case 'parry':
-        valueChange = valueToCompare * 2
-        break;
-      case 'newDR, slash':
-        valueChange = valueToCompare * 4
-        break;
-      case 'ranges, increment':
-        valueChange = Math.ceil(valueToCompare / 10)
-        break;
-      case 'damageskill':
-        let damagetype = this.square.selectedweapon ? this.square.weaponInfo.type : this.square.damagetype
-        if (damagetype === 'S') {
-          valueChange = Math.ceil(this.square.damageskill / 2)
-        } else if (damagetype === 'P') {
-          valueChange = Math.ceil(this.square.damageskill / 4) * 2
-        } else {
-          valueChange = this.square.damageskill
-        }
-        break;
-      default:
-        valueChange = 0
-        console.log('couldn\'t find ' + metricToCompare)
-    }
-
-    this.calculateCombatPoints()
   }
 
   returnPointValueForDamageSkills = () => {

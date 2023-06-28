@@ -1646,7 +1646,9 @@ export class BeastViewEditComponent implements OnInit {
       }
     })
 
+    console.log(combatpoints)
     this.beast.combatpoints = combatpoints
+    console.log(this.beast.combatpoints)
 
     //Roles
     this.beast.roles.forEach(role => {
@@ -1803,6 +1805,7 @@ export class BeastViewEditComponent implements OnInit {
 
       role.combatpoints = combatpoints
       this.beast.roleInfo[role.id].combatpoints = combatpoints
+      console.log(this.beast.roleInfo[role.id])
     })
   }
 

@@ -870,8 +870,11 @@ let controllerObj = {
           promiseArray.push(db.delete.beastcombat(weaponId).then())
         } else if (!weaponId) {
           promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid, newDamage.isSpecial, newDamage.hasSpecialAndDamage, selectedweapon, selectedarmor, selectedshield, addrolemods, dontaddroledamage, showmaxparry, damagetype, addsizemod, damageskill).then(result => {
-            if (weapontype === 'r') {
-              return db.add.combatranges(result.weaponid, +ranges.increment * 6).then()
+            const weaponId = result[0].id
+            if (weapontype === 'r' && ranges.id) {
+              promiseArray.push(db.update.combatranges(weaponId, +ranges.increment * 6).then())
+            } else if (weapontype === 'r') {
+              promiseArray.push(db.add.combatranges(weaponId, +ranges.increment * 6).then())
             }
             return true;
           }))
