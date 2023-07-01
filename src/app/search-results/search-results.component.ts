@@ -49,7 +49,12 @@ export class SearchResultsComponent implements OnInit {
 
   getRandom() {
     let { params } = this.currentRoute.snapshot
-    const rarity = this.getRarity();
+    let rarity
+    if (!params.rarity) {
+      rarity = this.getRarity();
+    } else {
+      rarity = params.rarity
+    }
     this.adventureService.searchBeasts({...params, rarity}).subscribe(incomingBeasts => {
       const randomIndex = Math.floor(Math.random() * incomingBeasts.length)
       this.router.navigate(['/beast', incomingBeasts[randomIndex].id, 'gm']);

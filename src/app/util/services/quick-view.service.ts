@@ -30,6 +30,10 @@ export class QuickViewService {
     })
   }
 
+  removeFromQuickView(index) {
+    this.quickViewArray.splice(index, 1)
+  }
+
   modifyVitality(monster) {
     monster.locationCheckboxes = { mainVitality: {} }
     monster.locationCheckboxes.mainVitality = {

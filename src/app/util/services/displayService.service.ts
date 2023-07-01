@@ -491,7 +491,7 @@ export class DisplayServiceService {
     let percentage = .00;
     switch (displayedFatigue) {
       case 'A':
-        return 'Always'
+        return 'A'
       case 'H':
         return 1
       case 'B':
@@ -504,7 +504,7 @@ export class DisplayServiceService {
         percentage = .75
         break;
       case 'N':
-        return 'Never'
+        return 'N'
       default:
         percentage = .75
     }

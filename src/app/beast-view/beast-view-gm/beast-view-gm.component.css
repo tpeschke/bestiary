@@ -159,6 +159,10 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     color: black
 }
 
+.alot-of-movement .vitals-shell {
+    width: 100% !important;
+}
+
 .artist-credits {
     text-align: center;
     color: grey;

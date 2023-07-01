@@ -400,7 +400,7 @@
             </div>
           </div>
 
-          <div *ngIf="!beast.sp_def.includes('None') || beast.roledefense">
+          <div *ngIf="beast.sp_def && !beast.sp_def.includes('None') || beast.roledefense">
             <h2>Add. Defense Info</h2>
             <div class="divider"></div>
             <div *ngIf="!beast.sp_def.includes('None')">
@@ -419,7 +419,7 @@
             </div>
             <div *ngFor="let movementType of beast.movement">
               <div class="divider white"></div>
-              <h3>{{movementType.type | titlecase}}</h3>
+              <h3>{{movementType.type ? movementType.type : 'Land' | titlecase}}</h3>
               <div class="divider white"></div>
               <div class="flex-row-opposite">
                 <h3>Stroll/Crawl</h3>
@@ -451,7 +451,7 @@
           </div>
 
           <div class="flex-row-opposite ">
-            <div></div>
+            <button mat-raised-button color="warn" (click)="quickViewService.removeFromQuickView(beastIndex)"><i class="fa-solid fa-minus"></i></button>
 
             <button mat-raised-button color="accent" (click)="goToEntry(beast.id)">Go to Entry</button>
           </div>

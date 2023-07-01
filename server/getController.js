@@ -1,4 +1,5 @@
-const equipmentCtrl = require('./equipmentController')
+const roles = require('./roles')
+    , equipmentCtrl = require('./equipmentController')
 
 function formatNameWithCommas(name) {
   if (name.includes(',')) {
@@ -68,45 +69,90 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize } = result[0]
-      let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size, basefatigue }
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue } = result[0]
+      let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue }
       let isARole = rolehash === req.params.hash
+      let roleToUse = ''
+      let secondaryRoleToUse = ''
+      let vitalityToUse = '';
 
-      beast.name = formatNameWithCommas(beast.name)
+      name = formatNameWithCommas(beast.name)
+
       if (!isARole) {
         beast.name = displayName(beast.name, baseroletype, basesecondaryrole, baseskillrole, basesocialrole, basesocialsecondary)
         beast.role = baseroletype
         beast.secondaryrole = basesecondaryrole
       }
 
-      if (isARole) {
+      if (baseroletype) {
+        roleToUse = baseroletype
+        secondaryRoleToUse = basesecondaryrole
+
         if (rolename && rolename.toUpperCase() !== "NONE") {
-          beast.name = beast.name + " " + rolename
+          name = name + " " + rolename
         }
+
+        if (roleToUse !== '' && secondaryRoleToUse) {
+          beast.name = name + ` [${roleToUse}(${secondaryRoleToUse})]`
+        } else if (roleToUse !== '') {
+          beast.name = name + ` [${roleToUse}]`
+        } else {
+          beast.name = name
+        }
+        beast.secondary = basesecondaryrole
+        beast.role = baseroletype
+      }
+
+      if (isARole) {
+        roleToUse = roletype
+        secondaryRoleToUse = secondaryroletype
+
         if (roletype) {
-          beast.name = displayName(beast.name, roletype, secondaryroletype, socialrole, skillrole, socialsecondary)
+          if (roleToUse !== '' && secondaryRoleToUse) {
+            beast.name = name + ` [${roleToUse}(${secondaryRoleToUse})]`
+          } else if (roleToUse !== '') {
+            beast.name = name + ` [${roleToUse}]`
+          } else {
+            beast.name = name
+          }
         }
+
+        if (rolefatigue) {
+          beast.fatigue = rolefatigue
+        }
+
         if (rolevitality) {
-          beast.vitality = rolevitality
+          vitalityToUse = rolevitality
         }
+
         if (rolepanic) {
           beast.panic = rolepanic
         }
         if (rolestress) {
-          beast.stress = rolestress
+          beast.stressthreshold = rolestress
+        }
+        if (!beast.stressthreshold) {
+          beast.panic = 7
         }
         if (rolecaution) {
           beast.caution = rolecaution
         }
         if (roletype) {
           beast.role = roletype
-          beast.secondaryrole = secondaryroletype
-        }
-
-        if (rolesize) {
-          beast.size = rolesize
         }
       }
+
+      if (!vitalityToUse && vitalityToUse !== '' && vitality && vitality !== '') {
+        vitalityToUse = vitality
+      } else {
+        vitalityToUse = roles.combatRoles.primary[roleToUse].vitality
+      }
+
+      if (secondaryRoleToUse === 'Fodder') {
+        vitalityToUse = `(${vitalityToUse})/2`
+      }
+
+      beast.vitality = vitalityToUse
 
       let promiseArray = []
         , patreonTestValue = -1;

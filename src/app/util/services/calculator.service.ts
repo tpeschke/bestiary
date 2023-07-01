@@ -45,7 +45,7 @@ export class CalculatorService {
       let expressionValue = ""
 
       diceString.replace(/\s/g, '').split('').forEach((val, i, array) => {
-        if (val === '-' || val === '+' || val === '*') {
+        if (val === '-' || val === '+' || val === '*' || val === '/') {
           diceExpressionArray.push(expressionValue)
           if (i !== array.length - 1) {
             diceExpressionArray.push(val)
