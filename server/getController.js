@@ -401,9 +401,9 @@ module.exports = {
 
             beast.conflict.descriptions = beast.conflict.descriptions.sort((a, b) => +b.value - +a.value)
             beast.conflict.convictions = beast.conflict.convictions.sort((a, b) => +b.value - +a.value)
-            beast.conflict.devotions = beast.conflict.devotions.sort((a, b) => +b.value - +a.value)
             beast.conflict.flaws = beast.conflict.flaws.sort(sortOutAnyToTheBottom)
-            return result
+
+            return  result
           }))
         }
 
@@ -585,7 +585,17 @@ module.exports = {
               }))
             }
           })
+
+          beast.conflict.devotions.forEach(val => {
+            if (val.trait.toUpperCase() === 'ANY') {
+              finalPromise.push(db.get.randomdevotion().then(result => {
+                val.trait = result[0].trait
+              }))
+            }
+          })
+
           Promise.all(finalPromise).then(actualFinal => {
+            beast.conflict.devotions = beast.conflict.devotions.sort(sortOutAnyToTheBottom)
             res.send(beast)
           })
         })

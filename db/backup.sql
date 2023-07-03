@@ -430,4 +430,20 @@ create table bbfolklore (
 	beastid int,
 	belief varchar(500),
 	truth varchar(500)
-)
+);
+
+create table bbrandomdevotion (
+	id serial primary key,
+	noun varchar(150),
+	verb varchar(150)
+);
+
+create table bbdevotionnouns (
+	id serial primary key,
+	noun varchar(150)
+);
+
+create table bbdevotionverbs (
+	id serial primary key,
+	verb varchar(150)
+);
