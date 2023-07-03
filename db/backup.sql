@@ -437,13 +437,3 @@ create table bbrandomdevotion (
 	noun varchar(150),
 	verb varchar(150)
 );
-
-create table bbdevotionnouns (
-	id serial primary key,
-	noun varchar(150)
-);
-
-create table bbdevotionverbs (
-	id serial primary key,
-	verb varchar(150)
-);

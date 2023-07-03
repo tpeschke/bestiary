@@ -586,13 +586,15 @@ module.exports = {
             }
           })
 
-          beast.conflict.devotions.forEach(val => {
-            if (val.trait.toUpperCase() === 'ANY') {
-              finalPromise.push(db.get.randomdevotion().then(result => {
-                val.trait = result[0].trait
-              }))
-            }
-          })
+          if (!req.query.edit === 'true') { 
+            beast.conflict.devotions.forEach(val => {
+              if (val.trait.toUpperCase() === 'ANY') {
+                finalPromise.push(db.get.randomdevotion().then(result => {
+                  val.trait = result[0].trait
+                }))
+              }
+            })
+          }
 
           Promise.all(finalPromise).then(actualFinal => {
             beast.conflict.devotions = beast.conflict.devotions.sort(sortOutAnyToTheBottom)
