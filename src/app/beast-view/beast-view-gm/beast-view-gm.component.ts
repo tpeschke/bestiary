@@ -277,6 +277,7 @@ export class BeastViewGmComponent implements OnInit {
     this.displayVitalityDice = vitality
     this.displayedVitalityRoll = this.calculatorService.rollDice(vitality)
     if (secondaryrole === 'Fodder') {
+      this.isFodderSecondary = true
       this.displayedVitalityRoll = Math.ceil(this.displayedVitalityRoll / 2)
     }
     this.trauma = +(this.displayVitalityAverage / 2).toFixed(0)

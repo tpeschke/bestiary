@@ -490,10 +490,10 @@
                 <p>
                   {{displayVitalityAverage === 0 ? 'N/A' : displayVitalityAverage}}</p>
                 <p class="vitality-flex-subtitle"
-                  *ngIf="(displayVitalityAverage && !isFodderSecondary) || (displayVitalityAverage && isFodderSecondary && !isDefaultVitality)">
+                  *ngIf="(displayVitalityAverage && !isFodderSecondary)">
                   {{displayVitalityDice}}</p>
                 <p class="vitality-flex-subtitle"
-                  *ngIf="displayVitalityAverage && isFodderSecondary && isDefaultVitality">
+                  *ngIf="displayVitalityAverage && isFodderSecondary">
                   ({{displayVitalityDice}}) / 2</p>
               </span>
             </div>

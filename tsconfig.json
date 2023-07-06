@@ -1,6 +1,10 @@
 {
   "compileOnSave": false,
+  "angularCompilerOptions": {
+    "disableTypeScriptVersionCheck": true,
+  },
   "compilerOptions": {
+    "skipLibCheck": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -17,6 +21,7 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "types": []
   }
 }

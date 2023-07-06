@@ -342,12 +342,12 @@ let controllerObj = {
         }
       }
 
-      if (!vitalityToUse && vitalityToUse !== '' && vitality && vitality !== '') {
+      if (vitality && vitality !== '') {
         vitalityToUse = vitality
-      } else {
+      } else if (!vitalityToUse && vitalityToUse !== '') {
         vitalityToUse = roles.combatRoles.primary[roleToUse].vitality
       }
-
+      
       if (secondaryRoleToUse === 'Fodder') {
         vitalityToUse = `(${vitalityToUse})/2`
       }

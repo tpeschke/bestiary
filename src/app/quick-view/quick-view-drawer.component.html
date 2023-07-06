@@ -423,23 +423,23 @@
               <div class="divider white"></div>
               <div class="flex-row-opposite">
                 <h3>Stroll/Crawl</h3>
-                <p>{{movementType.stroll}}</p>
+                <p>{{movementType.stroll}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
               <div class="flex-row-opposite">
                 <h3>Walk</h3>
-                <p>{{movementType.walk}}</p>
+                <p>{{movementType.walk}}{{movementType.walk.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
               <div class="flex-row-opposite">
                 <h3>Jog</h3>
-                <p>{{movementType.jog}}</p>
+                <p>{{movementType.jog}}{{movementType.jog.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
               <div class="flex-row-opposite">
                 <h3>Run</h3>
-                <p>{{movementType.run}}</p>
+                <p>{{movementType.run}}{{movementType.run.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
               <div class="flex-row-opposite">
                 <h3>Sprint</h3>
-                <p>{{movementType.sprint}}</p>
+                <p>{{movementType.sprint}}{{movementType.sprint.includes('ft') ? '' : ' ft / sec'}}</p>
               </div>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { evaluate } from 'mathjs'
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class CalculatorService {
       .forEach(val => {
         if (val.includes('d')) {
           if (val.includes('*')) {
-            val = val.replace(/\(|\)/gi, '').split('*')
+            val = val.split('*')
             let dice = val[0].split('d')
             dice[0] = val[1]
             totalValue += Math.round((+dice[0] + (+dice[1] * dice[0])) / 2)
@@ -45,7 +46,7 @@ export class CalculatorService {
       let expressionValue = ""
 
       diceString.replace(/\s/g, '').split('').forEach((val, i, array) => {
-        if (val === '-' || val === '+' || val === '*' || val === '/') {
+        if (val === '-' || val === '+' || val === '*' || val === '/' || val === '(' || val === ')') {
           diceExpressionArray.push(expressionValue)
           if (i !== array.length - 1) {
             diceExpressionArray.push(val)
@@ -56,7 +57,7 @@ export class CalculatorService {
           val = val.replace(/!/i, "")
           expressionValue = expressionValue + val;
         }
-
+        
         if (i === array.length - 1 && expressionValue !== '') {
           diceExpressionArray.push(expressionValue);
         }
@@ -75,8 +76,7 @@ export class CalculatorService {
           diceExpressionArray[index] = subtotal
         }
       }
-
-      return eval(diceExpressionArray.join(""))
+      return Math.ceil(evaluate(diceExpressionArray.join("")))
     }
   }
 }

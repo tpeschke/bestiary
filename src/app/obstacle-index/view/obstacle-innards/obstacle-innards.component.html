@@ -74,7 +74,7 @@
     (click)="goToEdit()"><i class="fa-solid fa-pen-to-square"></i></button>
     <div *ngIf="loggedIn !== 'owner'"></div>
 
-    <button class="new-button" mat-raised-button color="accent" matTooltip="Get Quick Link for Obstacle"
+    <button class="new-button" mat-raised-button color="accent" matTooltip="Get Quick Link for Obstacle (id: {{obstacle.id}})"
     (click)="copyLink(obstacle.id)"><i class="fa-solid fa-link"></i></button>
   </div>
 </div>
