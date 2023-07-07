@@ -49,6 +49,7 @@ export class BeastViewEditComponent implements OnInit {
   public lootTables = lootTables;
   public displayFatigue = null;
   public displayPanic = null;
+  public hiddenPanic = null;
   public fatigueAsVitality: any = '';
   public selectedRoleId = null;
   public filteredRoles = [];
@@ -493,12 +494,16 @@ export class BeastViewEditComponent implements OnInit {
         objectToModify = this.beast.roleInfo[this.selectedRoleId]
         this.beast.roleInfo[this.selectedRoleId] = Object.assign({}, objectToModify, { [type]: event.target.value })
         this.updateRolesObject(type, event.target.value)
+        this.determineBasePanic()
       } else {
         this.beast = Object.assign({}, objectToModify, { [type]: event.target.value })
       }
       if (type === 'vitality') {
         this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
         this.determineBaseFatigue();
+      }
+      if (type === 'stress') {
+        this.determineBasePanic()
       }
     } else if (secondaryType && !thirdType) {
       let newSecondaryObject = [...this.beast[type]]
@@ -1016,7 +1021,9 @@ export class BeastViewEditComponent implements OnInit {
 
     let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
     for (let i = 0; i < inputs.length; ++i) {
-      inputs[i].value = null
+      if (inputs[i].className === 'table-input-clearable') {
+        inputs[i].value = null
+      }
     }
   }
 
@@ -1039,7 +1046,7 @@ export class BeastViewEditComponent implements OnInit {
 
     let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
     for (let i = 0; i < inputs.length; ++i) {
-      if (inputs[i].className !== 'table-input') {
+      if (inputs[i].className === 'table-input-clearable') {
         inputs[i].value = null
       }
     }
@@ -1052,7 +1059,7 @@ export class BeastViewEditComponent implements OnInit {
 
     let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
     for (let i = 0; i < inputs.length; ++i) {
-      if (inputs[i].className !== 'table-input') {
+      if (inputs[i].className === 'table-input-clearable') {
         inputs[i].value = null
       }
     }
@@ -1117,7 +1124,7 @@ export class BeastViewEditComponent implements OnInit {
         }
       }
       if (addOption) {
-        this.captureEncounter({value}, type, type === 'signs' ? 'sign' : type)
+        this.captureEncounter({ value }, type, type === 'signs' ? 'sign' : type)
       }
     }
   }
@@ -1327,6 +1334,7 @@ export class BeastViewEditComponent implements OnInit {
 
     this.captureSelectWithRoleConsideration({ value: this.combatRolesInfo[event.value].fatigue }, 'fatigue')
     this.determineBaseFatigue()
+    this.determineBasePanic()
   }
 
   setSecondaryRoleType(event) {
@@ -1974,42 +1982,6 @@ export class BeastViewEditComponent implements OnInit {
     })
   }
 
-  convertPanic() {
-    let stress
-    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].stress) {
-      stress = this.beast.roleInfo[this.selectedRoleId].stress
-    } else if ((this.selectedRoleId && !this.beast.roleInfo[this.selectedRoleId].stress) || !this.selectedRoleId) {
-      stress = this.beast.stress
-    }
-    let panic
-    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].panic) {
-      panic = this.beast.roleInfo[this.selectedRoleId].panic
-    } else if ((this.selectedRoleId && !this.beast.roleInfo[this.selectedRoleId].panic) || !this.selectedRoleId) {
-      panic = this.beast.panic
-    }
-    let percentage = .00;
-    switch (panic) {
-      case 1:
-        return 'Always';
-      case 2:
-        return 1
-      case 3:
-        percentage = .25
-        break;
-      case 4:
-        percentage = .5
-        break;
-      case 5:
-        percentage = .75
-        break;
-      case 7:
-        return 'Never'
-      default: panic
-    }
-
-    return (stress * percentage).toFixed(0)
-  }
-
   determineBaseFatigue = () => {
     let { combat, basefatigue, roleInfo } = this.beast
     let armor = null;
@@ -2039,10 +2011,49 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   determineBasePanic = () => {
-    if (this.selectedRoleId) {
-      this.displayPanic = `${this.beast.roleInfo[this.selectedRoleId].panic}`
+    let stress
+    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].stress) {
+      stress = this.beast.roleInfo[this.selectedRoleId].stress
+    } else if ((this.selectedRoleId && !this.beast.roleInfo[this.selectedRoleId].stress) || !this.selectedRoleId) {
+      stress = this.beast.stress
+    }
+
+    let panic
+    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].panic) {
+      panic = this.beast.roleInfo[this.selectedRoleId].panic
+    } else if ((this.selectedRoleId && !this.beast.roleInfo[this.selectedRoleId].panic) || !this.selectedRoleId) {
+      panic = this.beast.panic
+    }
+    this.hiddenPanic = panic
+    let percentage: any = .00;
+
+    switch (+panic) {
+      case 1:
+        percentage = 'Always';
+        break;
+      case 2:
+        percentage = '1'
+        break;
+      case 3:
+        percentage = .25
+        break;
+      case 4:
+        percentage = .5
+        break;
+      case 5:
+        percentage = .75
+        break;
+      case 7:
+        percentage = 'Never'
+        break;
+      default:
+        percentage = .75
+    }
+
+    if (typeof percentage == 'string') {
+      this.displayPanic = percentage
     } else {
-      this.displayPanic = `${this.beast.panic}`
+      this.displayPanic = (stress * percentage).toFixed(0)
     }
   }
 

@@ -640,7 +640,7 @@
           <div class="long-field">
             <mat-form-field>
               <mat-label>Panic (+/-2 points per Cat Above/Below Breaking)</mat-label>
-              <mat-select [(value)]="displayPanic" (selectionChange)="capturePanic($event)"
+              <mat-select [(value)]="hiddenPanic" (selectionChange)="capturePanic($event)"
                 id="{{!selectedRole || !selectedRole.strengths ? '' : selectedRole.strengths.includes('Panic Threshold') ? 'green' : selectedRole.weaknesses.includes('Panic Threshold') ? 'red' : ''}}">
                 <mat-option value="1">
                   Always
@@ -664,7 +664,7 @@
             </mat-form-field>
           </div>
 
-          <p>Panic as Number: {{convertPanic()}}</p>
+          <p>Panic as Number: {{displayPanic}}</p>
           <br>
 
           <div *ngIf="selectedRoleId">
