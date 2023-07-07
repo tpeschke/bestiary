@@ -297,7 +297,7 @@ export class BeastViewEditComponent implements OnInit {
           return item
         })
 
-        
+
         delete this.beast.carriedloot.id
         delete this.beast.carriedloot.beastid
 
@@ -1058,7 +1058,17 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  captureEncounter({ value }, type, secondarytype) {
+  captureEncounterAutocomplete(event, type, secondarytype) {
+    const { value } = event.option
+    if (value.id || value.signid) {
+      this[type] = { ...value }
+    } else {
+      this.captureEncounter(event, type, secondarytype)
+    }
+  }
+
+  captureEncounter(event, type, secondarytype) {
+    const value = event.value ? event.value : event.option.value
     if (secondarytype) {
       this[type][secondarytype] = value
       if (type === 'rank') {
@@ -1073,6 +1083,47 @@ export class BeastViewEditComponent implements OnInit {
     } else {
       this[type] = value
     }
+  }
+
+  getDisplayTextTemp = (option) => {
+    return this.getDisplayText(option, 'temperament')
+  }
+
+  getDisplayTextVerb = (option) => {
+    return this.getDisplayText(option, 'verb')
+  }
+
+  getDisplayTextNoun = (option) => {
+    return this.getDisplayText(option, 'noun')
+  }
+
+  getDisplayTextSign = (option) => {
+    return this.getDisplayText(option, 'sign')
+  }
+
+  getDisplayText = (option, type) => {
+    return option[type]
+  }
+
+  addOption(event, type) {
+    const value = event.target.value
+    if (value) {
+      let addOption = true
+      const allType = `all${this.capitalizeFirstLetter(type)}`
+      for (let i = 0; i < this.encounter[type][allType].length; i++) {
+        const item = this.encounter[type][allType][i][type]
+        if (item === value) {
+          addOption = false
+        }
+      }
+      if (addOption) {
+        this.captureEncounter({value}, type, type === 'signs' ? 'sign' : type)
+      }
+    }
+  }
+
+  capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   captureEncounterSecondary({ value }, type, index, secondaryType) {
@@ -1274,7 +1325,7 @@ export class BeastViewEditComponent implements OnInit {
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.combatRolesInfo[event.value].vitality)
     }
 
-    this.captureSelectWithRoleConsideration({value: this.combatRolesInfo[event.value].fatigue}, 'fatigue')
+    this.captureSelectWithRoleConsideration({ value: this.combatRolesInfo[event.value].fatigue }, 'fatigue')
     this.determineBaseFatigue()
   }
 

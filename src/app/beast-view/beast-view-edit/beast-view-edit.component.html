@@ -445,7 +445,7 @@
                     Add to all Roles</mat-checkbox>
                 </section>
                 <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'descriptions')"
-                  color="warn"><i class="fa-solid fa-minus"></i></button>
+                  color="warn"><i class="fa-solid fa-trash"></i></button>
               </div>
             </div>
           </div>
@@ -483,7 +483,7 @@
                     all Roles</mat-checkbox>
                 </section>
                 <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'convictions')" color="warn"><i
-                    class="fa-solid fa-minus"></i></button>
+                    class="fa-solid fa-trash"></i></button>
               </div>
             </div>
           </div>
@@ -512,7 +512,8 @@
                   </mat-form-field>
                 </h3>
                 <section>
-                  <mat-checkbox [checked]="devotion.trait === 'Any'" (change)="checkRandomizeDevotion(i, $event.checked)">Make
+                  <mat-checkbox [checked]="devotion.trait === 'Any'"
+                    (change)="checkRandomizeDevotion(i, $event.checked)">Make
                     this a Random Devotion</mat-checkbox>
                 </section>
                 <mat-form-field>
@@ -524,7 +525,7 @@
                     Add to all Roles</mat-checkbox>
                 </section>
                 <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'devotions')" color="warn"><i
-                    class="fa-solid fa-minus"></i></button>
+                    class="fa-solid fa-trash"></i></button>
               </div>
             </div>
           </div>
@@ -583,7 +584,7 @@
                     all Roles</mat-checkbox>
                 </section>
                 <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'flaws')" color="warn"><i
-                    class="fa-solid fa-minus"></i></button>
+                    class="fa-solid fa-trash"></i></button>
               </div>
             </div>
           </div>
@@ -852,7 +853,7 @@
                   Add to all Roles</mat-checkbox>
               </section>
               <button mat-raised-button (click)="removeNewSecondaryItem('locationalvitality', i)" color="warn"><i
-                  class="fa-solid fa-minus"></i></button>
+                  class="fa-solid fa-trash"></i></button>
             </div>
           </div>
           <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">Add Locational
@@ -918,7 +919,7 @@
                     Add to all Roles</mat-checkbox>
                 </section>
                 <button mat-raised-button (click)="removeNewSecondaryItem('movement', i)" color="warn"><i
-                    class="fa-solid fa-minus"></i></button>
+                    class="fa-solid fa-trash"></i></button>
               </div>
             </div>
           </div>
@@ -944,28 +945,32 @@
                 [ngClass]="{'noDisplay': temperament.deleted}">
                 <td matTooltip="{{temperament.tooltip}}" matTooltipPosition="right">{{temperament.temperament}}</td>
                 <td>{{temperament.weight}}</td>
-                <td><i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fas fa-times-circle"></i>
+                <td><i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fa-solid fa-trash"></i>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input class="table-input" placeholder="Temperament" [matAutocomplete]="tempauto">
+                  <mat-autocomplete #tempauto="matAutocomplete" [displayWith]="getDisplayTextTemp"
+                    (optionSelected)="captureEncounterAutocomplete($event, 'temperament', 'temperament')">
+                    <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament"
+                      matTooltip="{{temperament.tooltip}}" matTooltipPosition="right">
+                      {{temperament.temperament}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </td>
+                <td><input class="table-input" placeholder="Weight"
+                    (change)="captureEncounterInput($event, 'temperament', 'weight')"></td>
+
+                <td><i *ngIf="temperament.temperament && temperament.weight"
+                    (click)="addEncounterItem('temperament', 'temperament')"
+                    class="fa-sharp fa-solid fa-square-plus"></i>
+                  <i *ngIf="!temperament.temperament && !temperament.weight"
+                    [ngClass]="{'disabled': !temperament.temperament || !temperament.weight}"
+                    class="fa-sharp fa-solid fa-square-plus"></i>
                 </td>
               </tr>
             </table>
-            <div class="add-new-random">
-              <mat-form-field>
-                <mat-label>Select Temperament</mat-label>
-                <mat-select (selectionChange)="captureEncounter($event, 'temperament')">
-                  <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament"
-                    matTooltip="{{temperament.tooltip}}" matTooltipPosition="right">
-                    {{temperament.temperament}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Weight" matInput
-                  (change)="captureEncounterInputInt($event, 'temperament', 'weight')">
-              </mat-form-field>
-            </div>
-            <button mat-raised-button (click)="addEncounterItem('temperament', 'temperament')" color="accent"
-              [disabled]="!temperament.temperament || !temperament.tooltip || !temperament.weight"><i
-                class="fa-solid fa-plus"></i></button>
           </div>
 
           <div class="random-container">
@@ -1073,29 +1078,28 @@
               </thead>
               <tr *ngFor="let verb of encounter.verb.verb; let i = index" [ngClass]="{'noDisplay': verb.deleted}">
                 <td>{{verb.verb}}</td>
-                <td><i (click)="removeEncounterItem(i, 'verb', 'verb')" class="fas fa-times-circle"></i></td>
+                <td><i (click)="removeEncounterItem(i, 'verb', 'verb')" class="fa-solid fa-trash"></i></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <input class="table-input-clearable" placeholder="Verb" [matAutocomplete]="verbauto"
+                    (blur)="addOption($event, 'verb')">
+                  <mat-autocomplete #verbauto="matAutocomplete" [displayWith]="getDisplayTextVerb"
+                    (optionSelected)="captureEncounterAutocomplete($event, 'verb', 'verb')">
+                    <mat-option *ngFor="let verb of encounter.verb.allVerb" [value]="verb">
+                      {{verb.verb}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </td>
+
+                <td><i *ngIf="verb.verb" (click)="addEncounterItem('verb', 'verb')"
+                    class="fa-sharp fa-solid fa-square-plus"></i>
+                  <i *ngIf="!verb.verb" [ngClass]="{'disabled': !verb.verb}"
+                    class="fa-sharp fa-solid fa-square-plus"></i>
+                </td>
               </tr>
             </table>
-            <h4 class="add-from-list">Add from List</h4>
-            <div class="add-new-random">
-              <mat-form-field>
-                <mat-label>Select Verb</mat-label>
-                <mat-select (selectionChange)="captureEncounter($event, 'verb')">
-                  <mat-option *ngFor="let verb of encounter.verb.allVerb" [value]="verb">
-                    {{verb.verb}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <h4>Add New</h4>
-            <div class="add-new-random">
-              <mat-form-field>
-                <input placeholder="Add Verb" matInput [value]="verb.verb"
-                  (change)="captureEncounterInput($event, 'verb', 'verb')">
-              </mat-form-field>
-            </div>
-            <button mat-raised-button (click)="addEncounterItem('verb', 'verb')" color="accent"
-              [disabled]="!verb.verb"><i class="fa-solid fa-plus"></i></button>
           </div>
 
           <div class="random-container">
@@ -1105,29 +1109,27 @@
               </thead>
               <tr *ngFor="let noun of encounter.noun.noun; let i = index" [ngClass]="{'noDisplay': noun.deleted}">
                 <td>{{noun.noun}}</td>
-                <i (click)="removeEncounterItem(i, 'noun', 'noun')" class="fas fa-times-circle"></i>
+                <i (click)="removeEncounterItem(i, 'noun', 'noun')" class="fa-solid fa-trash"></i>
+              </tr>
+              <tr>
+                <td>
+                  <input class="table-input-clearable" placeholder="Noun" [matAutocomplete]="nounauto"
+                    (blur)="addOption($event, 'noun')">
+                  <mat-autocomplete #nounauto="matAutocomplete" [displayWith]="getDisplayTextNoun"
+                    (optionSelected)="captureEncounterAutocomplete($event, 'noun', 'noun')">
+                    <mat-option *ngFor="let noun of encounter.noun.allNoun" [value]="noun">
+                      {{noun.noun}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </td>
+
+                <td><i *ngIf="noun.noun" (click)="addEncounterItem('noun', 'noun')"
+                    class="fa-sharp fa-solid fa-square-plus"></i>
+                  <i *ngIf="!noun.noun" [ngClass]="{'disabled': !noun.noun}"
+                    class="fa-sharp fa-solid fa-square-plus"></i>
+                </td>
               </tr>
             </table>
-            <h4 class="add-from-list">Add from List</h4>
-            <div class="add-new-random">
-              <mat-form-field>
-                <mat-label>Select Noun</mat-label>
-                <mat-select (selectionChange)="captureEncounter($event, 'noun')">
-                  <mat-option *ngFor="let noun of encounter.noun.allNoun" [value]="noun">
-                    {{noun.noun}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <h4>Add New</h4>
-            <div class="add-new-random">
-              <mat-form-field>
-                <input placeholder="Add Noun" matInput [value]="noun.noun"
-                  (change)="captureEncounterInput($event, 'noun', 'noun')">
-              </mat-form-field>
-            </div>
-            <button mat-raised-button (click)="addEncounterItem('noun', 'noun')" color="accent"
-              [disabled]="!noun.noun"><i class="fa-solid fa-plus"></i></button>
           </div>
 
           <div class="random-container">
@@ -1145,10 +1147,31 @@
               <tr *ngFor="let sign of encounter.signs.signs; let i = index" [ngClass]="{'noDisplay': sign.deleted}">
                 <td>{{sign.sign}}</td>
                 <td>{{sign.weight}}</td>
-                <td><i (click)="removeEncounterItem(i, 'signs', 'signs')" class="fas fa-times-circle"></i>
+                <td><i (click)="removeEncounterItem(i, 'signs', 'signs')" class="fa-solid fa-trash"></i>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input class="table-input-clearable" placeholder="Sign" [matAutocomplete]="signauto"
+                    (blur)="addOption($event, 'signs')">
+                  <mat-autocomplete #signauto="matAutocomplete" [displayWith]="getDisplayTextSign"
+                    (optionSelected)="captureEncounterAutocomplete($event, 'signs', 'sign')">
+                    <mat-option *ngFor="let sign of encounter.signs.allSigns" [value]="sign">
+                      {{sign.sign}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </td>
+                <td><input placeholder="Weight" matInput (change)="captureEncounterInput($event, 'signs', 'weight')">
+                </td>
+                <td><i *ngIf="signs.sign && signs.weight" (click)="addEncounterItem('signs', 'signs')"
+                    class="fa-sharp fa-solid fa-square-plus"></i>
+                  <i *ngIf="!signs.sign && !signs.weight" [ngClass]="{'disabled': !signs.sign || !signs.weight}"
+                    class="fa-sharp fa-solid fa-square-plus"></i>
                 </td>
               </tr>
             </table>
+
+            <!--             
             <h4 class="add-from-list">Add from List</h4>
             <div class="add-new-random">
               <mat-form-field>
@@ -1175,7 +1198,7 @@
               </mat-form-field>
             </div>
             <button mat-raised-button (click)="addEncounterItem('signs', 'signs')" color="accent"
-              [disabled]="!signs.sign || !signs.weight"><i class="fa-solid fa-plus"></i></button>
+              [disabled]="!signs.sign || !signs.weight"><i class="fa-solid fa-plus"></i></button> -->
           </div>
         </div>
       </div>
@@ -1199,7 +1222,7 @@
                   (change)="captureInput($event, 'loot', i, 'price')">
               </mat-form-field>
               <button mat-raised-button (click)="removeNewSecondaryItem('loot', i)" color="warn"><i
-                  class="fa-solid fa-minus"></i></button>
+                  class="fa-solid fa-trash"></i></button>
             </div>
           </div>
         </div>
@@ -1394,10 +1417,11 @@
                   <th>Power (SP)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let scroll of beast.carriedloot.scrolls; let i = index" [ngClass]="{'noDisplay': scroll.deleted }">
+                <tr *ngFor="let scroll of beast.carriedloot.scrolls; let i = index"
+                  [ngClass]="{'noDisplay': scroll.deleted }">
                   <td>{{lootTables.numberAppearing[scroll.number]}}</td>
                   <td>{{lootTables.scrollPower[scroll.power]}}</td>
-                  <td><i (click)="removeScroll(i, 'carriedloot')" class="fas fa-times-circle"></i>
+                  <td><i (click)="removeScroll(i, 'carriedloot')" class="fa-solid fa-trash"></i>
                   </td>
                 </tr>
               </table>
@@ -1478,7 +1502,7 @@
                 <tr *ngFor="let alm of beast.carriedloot.alms; let i = index" [ngClass]="{'noDisplay': alm.deleted }">
                   <td>{{lootTables.numberAppearing[alm.number]}}</td>
                   <td>{{lootTables.almsFavor[alm.favor]}}</td>
-                  <td><i (click)="removeAlm(i, 'carriedloot')" class="fas fa-times-circle"></i>
+                  <td><i (click)="removeAlm(i, 'carriedloot')" class="fa-solid fa-trash"></i>
                   </td>
                 </tr>
               </table>
@@ -1570,10 +1594,11 @@
                   <th>Number (sc)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let equipment of beast.carriedloot.equipment; let i = index" [ngClass]="{'noDisplay': equipment.deleted }">
+                <tr *ngFor="let equipment of beast.carriedloot.equipment; let i = index"
+                  [ngClass]="{'noDisplay': equipment.deleted }">
                   <td>{{lootTables.staticValues[equipment.value]}}</td>
                   <td>{{lootTables.numberAppearing[equipment.number]}}</td>
-                  <td><i (click)="removeEqupment(i, 'carriedloot')" class="fas fa-times-circle"></i>
+                  <td><i (click)="removeEqupment(i, 'carriedloot')" class="fa-solid fa-trash"></i>
                   </td>
                 </tr>
               </table>
@@ -1669,10 +1694,11 @@
                   <th>Value (sc)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let traited of beast.carriedloot.traited; let i = index" [ngClass]="{'noDisplay': traited.deleted }">
+                <tr *ngFor="let traited of beast.carriedloot.traited; let i = index"
+                  [ngClass]="{'noDisplay': traited.deleted }">
                   <td>{{lootTables.traitedChance[traited.chancetable]}}</td>
                   <td>{{lootTables.staticValues[traited.value]}}</td>
-                  <td><i (click)="removeTraited(i, 'carriedloot')" class="fas fa-times-circle"></i>
+                  <td><i (click)="removeTraited(i, 'carriedloot')" class="fa-solid fa-trash"></i>
                   </td>
                 </tr>
               </table>
@@ -2004,10 +2030,11 @@
                   <th>Power (SP)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let scroll of beast.lairloot.scrolls; let i = index" [ngClass]="{'noDisplay': scroll.deleted }">
+                <tr *ngFor="let scroll of beast.lairloot.scrolls; let i = index"
+                  [ngClass]="{'noDisplay': scroll.deleted }">
                   <td>{{lootTables.numberAppearing[scroll.number]}}</td>
                   <td>{{lootTables.scrollPower[scroll.power]}}</td>
-                  <td><i (click)="removeScroll(i, 'lairloot')" class="fas fa-times-circle"></i>
+                  <td><i (click)="removeScroll(i, 'lairloot')" class="fa-solid fa-trash"></i>
                   </td>
                 </tr>
               </table>
@@ -2088,7 +2115,7 @@
                 <tr *ngFor="let alm of beast.lairloot.alms; let i = index" [ngClass]="{'noDisplay': alm.deleted }">
                   <td>{{lootTables.numberAppearing[alm.number]}}</td>
                   <td>{{lootTables.almsFavor[alm.favor]}}</td>
-                  <td><i (click)="removeAlm(i, 'lairloot')" class="fas fa-times-circle"></i>
+                  <td><i (click)="removeAlm(i, 'lairloot')" class="fa-solid fa-trash"></i>
                   </td>
                 </tr>
               </table>
@@ -2180,10 +2207,11 @@
                   <th>Number (sc)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let equipment of beast.lairloot.equipment; let i = index" [ngClass]="{'noDisplay': equipment.deleted }">
+                <tr *ngFor="let equipment of beast.lairloot.equipment; let i = index"
+                  [ngClass]="{'noDisplay': equipment.deleted }">
                   <td>{{lootTables.staticValues[equipment.value]}}</td>
                   <td>{{lootTables.numberAppearing[equipment.number]}}</td>
-                  <td><i (click)="removeEqupment(i, 'lairloot')" class="fas fa-times-circle"></i>
+                  <td><i (click)="removeEqupment(i, 'lairloot')" class="fa-solid fa-trash"></i>
                   </td>
                 </tr>
               </table>
@@ -2279,10 +2307,11 @@
                   <th>Value (sc)</th>
                   <th></th>
                 </tr>
-                <tr *ngFor="let traited of beast.lairloot.traited; let i = index" [ngClass]="{'noDisplay': traited.deleted }">
+                <tr *ngFor="let traited of beast.lairloot.traited; let i = index"
+                  [ngClass]="{'noDisplay': traited.deleted }">
                   <td>{{lootTables.traitedChance[traited.chancetable]}}</td>
                   <td>{{lootTables.staticValues[traited.value]}}</td>
-                  <td><i (click)="removeTraited(i, 'lairloot')" class="fas fa-times-circle"></i>
+                  <td><i (click)="removeTraited(i, 'lairloot')" class="fa-solid fa-trash"></i>
                   </td>
                 </tr>
               </table>
@@ -2527,7 +2556,7 @@
             </mat-select>
           </mat-form-field>
           <button mat-raised-button (click)="removeNewSecondaryItem('reagents', i)" color="warn"><i
-              class="fa-solid fa-minus"></i></button>
+              class="fa-solid fa-trash"></i></button>
         </div>
       </div>
 

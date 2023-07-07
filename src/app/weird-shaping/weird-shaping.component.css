@@ -41,7 +41,7 @@ mat-card {
     justify-content: space-evenly;
 }
 
-.fa-minus-circle {
+.fa-minus-circle, .fa-trash {
     margin-top: 15px;
 }
 
@@ -53,7 +53,7 @@ mat-card {
     color: #607d8b;
 }
 
-.fa-minus-circle:hover {
+.fa-minus-circle:hover, .fa-trash:hover {
     color: #ab6f00
 }
 
