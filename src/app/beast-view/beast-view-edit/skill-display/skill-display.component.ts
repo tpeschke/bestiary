@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { startWith, map, tap } from 'rxjs/operators';
+import { startWith, map } from 'rxjs/operators';
 import roles from '../../roles.js'
 
 @Component({

@@ -950,16 +950,16 @@
               </tr>
               <tr>
                 <td>
-                  <input class="table-input" placeholder="Temperament" [matAutocomplete]="tempauto">
+                  <input class="table-input-clearable" placeholder="Temperament" [matAutocomplete]="tempauto" [formControl]="temperamentController">
                   <mat-autocomplete #tempauto="matAutocomplete" [displayWith]="getDisplayTextTemp"
                     (optionSelected)="captureEncounterAutocomplete($event, 'temperament', 'temperament')">
-                    <mat-option *ngFor="let temperament of encounter.temperament.allTemp" [value]="temperament"
+                    <mat-option *ngFor="let temperament of tempFiltered | async" [value]="temperament"
                       matTooltip="{{temperament.tooltip}}" matTooltipPosition="right">
                       {{temperament.temperament}}
                     </mat-option>
                   </mat-autocomplete>
                 </td>
-                <td><input class="table-input" placeholder="Weight"
+                <td><input class="table-input-clearable" placeholder="Weight"
                     (change)="captureEncounterInput($event, 'temperament', 'weight')"></td>
 
                 <td><i *ngIf="temperament.temperament && temperament.weight"
@@ -1083,11 +1083,11 @@
 
               <tr>
                 <td>
-                  <input class="table-input-clearable" placeholder="Verb" [matAutocomplete]="verbauto"
+                  <input class="table-input-clearable" placeholder="Verb" [matAutocomplete]="verbauto" [formControl]="verbController"
                     (blur)="addOption($event, 'verb')">
                   <mat-autocomplete #verbauto="matAutocomplete" [displayWith]="getDisplayTextVerb"
                     (optionSelected)="captureEncounterAutocomplete($event, 'verb', 'verb')">
-                    <mat-option *ngFor="let verb of encounter.verb.allVerb" [value]="verb">
+                    <mat-option *ngFor="let verb of verbFiltered | async" [value]="verb">
                       {{verb.verb}}
                     </mat-option>
                   </mat-autocomplete>
@@ -1113,11 +1113,11 @@
               </tr>
               <tr>
                 <td>
-                  <input class="table-input-clearable" placeholder="Noun" [matAutocomplete]="nounauto"
+                  <input class="table-input-clearable" placeholder="Noun" [matAutocomplete]="nounauto" [formControl]="nounController"
                     (blur)="addOption($event, 'noun')">
                   <mat-autocomplete #nounauto="matAutocomplete" [displayWith]="getDisplayTextNoun"
                     (optionSelected)="captureEncounterAutocomplete($event, 'noun', 'noun')">
-                    <mat-option *ngFor="let noun of encounter.noun.allNoun" [value]="noun">
+                    <mat-option *ngFor="let noun of nounFiltered | async" [value]="noun">
                       {{noun.noun}}
                     </mat-option>
                   </mat-autocomplete>
@@ -1152,11 +1152,11 @@
               </tr>
               <tr>
                 <td>
-                  <input class="table-input-clearable" placeholder="Sign" [matAutocomplete]="signauto"
+                  <input class="table-input-clearable" placeholder="Sign" [matAutocomplete]="signauto" [formControl]="signsController"
                     (blur)="addOption($event, 'signs')">
                   <mat-autocomplete #signauto="matAutocomplete" [displayWith]="getDisplayTextSign"
                     (optionSelected)="captureEncounterAutocomplete($event, 'signs', 'sign')">
-                    <mat-option *ngFor="let sign of encounter.signs.allSigns" [value]="sign">
+                    <mat-option *ngFor="let sign of signsFiltered | async" [value]="sign">
                       {{sign.sign}}
                     </mat-option>
                   </mat-autocomplete>

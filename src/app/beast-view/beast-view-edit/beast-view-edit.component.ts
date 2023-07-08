@@ -6,6 +6,9 @@ import { CalculatorService } from '../../util/services/calculator.service';
 import lootTables from "../loot-tables.js"
 import roles from '../roles.js'
 import { MatExpansionPanel, MatSelect } from '@angular/material';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-beast-view-edit',
@@ -145,6 +148,18 @@ export class BeastViewEditComponent implements OnInit {
 
   public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Acrobatics', 'Escape Artist', 'Warfare', 'Rally', 'Athletics Skill Suite', 'Strategy Skill Suite']
   public socialSkills = ['Deception', 'Intuition', 'Perception', 'Leadership', 'Articulation', 'Performance', 'Language (All)', 'Language']
+
+  public temperamentController = new FormControl('');
+  public tempFiltered: Observable<any[]>;
+
+  public verbController = new FormControl('');
+  public verbFiltered: Observable<any[]>;
+
+  public nounController = new FormControl('');
+  public nounFiltered: Observable<any[]>;
+
+  public signsController = new FormControl('');
+  public signsFiltered: Observable<any[]>;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -350,6 +365,7 @@ export class BeastViewEditComponent implements OnInit {
         this.beast.patreon = 20
         this.beastService.getEditEncounter(this.route.snapshot.params.templateId).subscribe(encounter => {
           this.encounter = encounter
+          this.bootUpEncounterAutoComplete()
         })
       } else if (beast) {
         this.beast = beast
@@ -377,11 +393,13 @@ export class BeastViewEditComponent implements OnInit {
         }
         this.beastService.getEditEncounter(this.beast.id).subscribe(encounter => {
           this.encounter = encounter
+          this.bootUpEncounterAutoComplete()
         })
         this.getImageUrl()
       } else {
         this.beastService.getEditEncounter(0).subscribe(encounter => {
           this.encounter = encounter
+          this.bootUpEncounterAutoComplete()
         })
         this.beast = {
           name: '',
@@ -448,12 +466,43 @@ export class BeastViewEditComponent implements OnInit {
       this.calculateCombatPoints()
       this.calculateSocialPoints()
       this.calculateSkillPoints()
+
       window.scrollTo({
         top: 0,
         left: 0,
         behavior: 'smooth'
       })
     })
+  }
+
+  bootUpEncounterAutoComplete() {
+    this.tempFiltered = this.temperamentController.valueChanges.pipe(
+      startWith(''),
+      map((value: string) => this._filter(value || '', this.encounter.temperament.allTemp, 'temperament')),
+    );
+    this.verbFiltered = this.verbController.valueChanges.pipe(
+      startWith(''),
+      map((value: string) => this._filter(value || '', this.encounter.verb.allVerb, 'verb')),
+    );
+    this.nounFiltered = this.nounController.valueChanges.pipe(
+      startWith(''),
+      map((value: string) => this._filter(value || '', this.encounter.noun.allNoun, 'noun')),
+    );
+    this.signsFiltered = this.signsController.valueChanges.pipe(
+      startWith(''),
+      map((value: string) => this._filter(value || '', this.encounter.signs.allSigns, 'sign')),
+    );
+  }
+
+  private _filter(value: any, encounterArray: any, type: string): string[] {
+    let filterValue: string
+    if (typeof value === 'string') {
+      filterValue = value.toLowerCase();
+    } else {
+      filterValue = value[type].toLowerCase();
+    }
+    return encounterArray.filter(option => {
+      return option[type].toLowerCase().includes(filterValue)});
   }
 
   captureHTML(event, type) {
@@ -1020,11 +1069,18 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
+    this.resetControllers ()
     for (let i = 0; i < inputs.length; ++i) {
       if (inputs[i].className === 'table-input-clearable') {
         inputs[i].value = null
       }
     }
+  }
+
+  resetControllers () {
+    this.temperamentController.reset()
+    this.verbController.reset()
+    this.nounController.reset()
   }
 
   addSingleEncounterItem(type) {
@@ -1045,6 +1101,7 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
+    this.resetControllers ()
     for (let i = 0; i < inputs.length; ++i) {
       if (inputs[i].className === 'table-input-clearable') {
         inputs[i].value = null
@@ -1058,6 +1115,7 @@ export class BeastViewEditComponent implements OnInit {
     this[subtype][index] = null
 
     let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
+    this.resetControllers ()
     for (let i = 0; i < inputs.length; ++i) {
       if (inputs[i].className === 'table-input-clearable') {
         inputs[i].value = null
@@ -1109,7 +1167,10 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   getDisplayText = (option, type) => {
-    return option[type]
+    if (option && option[type]) {
+      return option[type]
+    }
+    return ''
   }
 
   addOption(event, type) {
