@@ -41,6 +41,11 @@ mat-card {
     justify-content: space-evenly;
 }
 
+.weird-shaping-types-shell div {
+    display: flex;
+    flex-direction: column;
+}
+
 .fa-minus-circle, .fa-trash {
     margin-top: 15px;
 }

@@ -777,8 +777,8 @@ let controllerObj = {
       }
 
       if (casting) {
-        let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
-        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id).catch(e => console.log('----------------------- add beast casting: ', e)))
+        let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype } = casting
+        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype, id).catch(e => console.log('----------------------- add beast casting: ', e)))
       }
 
       if (spells) {
@@ -1164,10 +1164,10 @@ let controllerObj = {
       })
 
       if (casting.beastid) {
-        let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact } = casting
-        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, id))
+        let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype } = casting
+        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype, id))
       } else {
-        promiseArray.push(db.update.casting(null, null, null, 'd4', null, null, null, id))
+        promiseArray.push(db.update.casting(null, null, null, 'd4', null, null, null, null, id))
       }
       spells.forEach(({ id: spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist }) => {
         if (beastid) {

@@ -42,7 +42,7 @@ export class WeirdShapingDisplayComponent implements OnInit {
       if (this.casting.wild) {
         this.castingSelect.push('Wild Magic')
       }
-      this.selectedCast = this.castingSelect[0]
+      this.selectedCast =this.casting.defaulttype ? this.casting.defaulttype : this.castingSelect[Math.floor(Math.random()*this.castingSelect.length)]
 
       if (!this.selectedRoleId) {
         this.showWeirdshaping = this.castingSelect.length > 0 && this.spells.length > 0

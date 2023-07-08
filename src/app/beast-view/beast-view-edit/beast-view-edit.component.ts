@@ -1641,6 +1641,10 @@ export class BeastViewEditComponent implements OnInit {
     this.beast.casting[type] = e.checked
   }
 
+  changeDefaultType = (type) => {
+    this.beast.casting.defaulttype = type
+  }
+
   addToAllRoles = (index, e) => {
     this.beast.spells[index].allroles = e.checked
   }

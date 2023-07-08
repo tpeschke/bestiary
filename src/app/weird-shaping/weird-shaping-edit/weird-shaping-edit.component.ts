@@ -10,6 +10,7 @@ export class WeirdShapingEditComponent implements OnInit {
   @Input() casting = null;
   @Input() spells = null;
   @Input() checkWeirdshapeType: Function;
+  @Input() changeDefaultType: Function;
   @Input() captureSpellDie: Function;
   @Input() captureSpellSelect: Function;
   @Input() captureSpellInput: Function;

@@ -1,17 +1,42 @@
 <div class="box-padding">
-  <div class="checkbox-shell">
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('augur', $event)" [(ngModel)]="casting.augur">Augur
-    </mat-checkbox>
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('bloodpact', $event)" [(ngModel)]="casting.bloodpact">
-      Blood Pact</mat-checkbox>
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('commanding', $event)" [(ngModel)]="casting.commanding">
-      Commanding</mat-checkbox>
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('manifesting', $event)"
-      [(ngModel)]="casting.manifesting">Manifesting</mat-checkbox>
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('vancian', $event)" [(ngModel)]="casting.vancian">
-      Vancian</mat-checkbox>
-    <mat-checkbox color='primary' (change)="checkWeirdshapeType('wild', $event)" [(ngModel)]="casting.wild">Wild Magic
-    </mat-checkbox>
+  <div class="checkbox-shell weird-shaping-types-shell">
+    <div>
+      <mat-checkbox color='primary' (change)="checkWeirdshapeType('augur', $event)" [(ngModel)]="casting.augur">Augur
+      </mat-checkbox>
+      <mat-checkbox *ngIf="casting.augur" color='primary' (change)="changeDefaultType('Augur')" [checked]="casting.defaulttype === 'Augur'">
+        Default?</mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox color='primary' (change)="checkWeirdshapeType('bloodpact', $event)" [(ngModel)]="casting.bloodpact">
+        Blood Pact</mat-checkbox>
+      <mat-checkbox *ngIf="casting.bloodpact" color='primary' (change)="changeDefaultType('Blood Pact')" [checked]="casting.defaulttype === 'Blood Pact'">
+        Default?</mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox color='primary' (change)="checkWeirdshapeType('commanding', $event)"
+        [(ngModel)]="casting.commanding">
+        Commanding</mat-checkbox>
+        <mat-checkbox *ngIf="casting.commanding" color='primary' (change)="changeDefaultType('Adamic Commanding')" [checked]="casting.defaulttype === 'Adamic Commanding'">
+          Default?</mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox color='primary' (change)="checkWeirdshapeType('manifesting', $event)"
+        [(ngModel)]="casting.manifesting">Manifesting</mat-checkbox>
+        <mat-checkbox *ngIf="casting.manifesting" color='primary' (change)="changeDefaultType('Manifesting')" [checked]="casting.defaulttype === 'Manifesting'">
+          Default?</mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox color='primary' (change)="checkWeirdshapeType('vancian', $event)" [(ngModel)]="casting.vancian">
+        Vancian</mat-checkbox>
+        <mat-checkbox *ngIf="casting.vancian" color='primary' (change)="changeDefaultType('Vancian')" [checked]="casting.defaulttype === 'Vancian'">
+          Default?</mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox color='primary' (change)="checkWeirdshapeType('wild', $event)" [(ngModel)]="casting.wild">Wild Magic
+      </mat-checkbox>
+      <mat-checkbox *ngIf="casting.wild" color='primary' (change)="changeDefaultType('Wild Magic')" [checked]="casting.defaulttype === 'Wild Magic'">
+        Default?</mat-checkbox>
+    </div>
   </div>
 
   <div *ngIf="casting.vancian" class="box-padding">
