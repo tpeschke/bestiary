@@ -944,7 +944,8 @@
               <tr *ngFor="let temperament of encounter.temperament.temperament; let i = index"
                 [ngClass]="{'noDisplay': temperament.deleted}">
                 <td matTooltip="{{temperament.tooltip}}" matTooltipPosition="right">{{temperament.temperament}}</td>
-                <td>{{temperament.weight}}</td>
+                <td><input class="table-input" placeholder="Weight" value="{{temperament.weight}}"
+                  (change)="changeEncounterItemSubtype($event, 'temperament', 'weight', i)"></td>
                 <td><i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fa-solid fa-trash"></i>
                 </td>
               </tr>
@@ -1146,7 +1147,8 @@
               </tr>
               <tr *ngFor="let sign of encounter.signs.signs; let i = index" [ngClass]="{'noDisplay': sign.deleted}">
                 <td>{{sign.sign}}</td>
-                <td>{{sign.weight}}</td>
+                <td><input class="table-input" placeholder="Weight" value="{{sign.weight}}"
+                  (change)="changeEncounterItemSubtype($event, 'signs', 'weight', i)"></td>
                 <td><i (click)="removeEncounterItem(i, 'signs', 'signs')" class="fa-solid fa-trash"></i>
                 </td>
               </tr>
@@ -1161,7 +1163,7 @@
                     </mat-option>
                   </mat-autocomplete>
                 </td>
-                <td><input placeholder="Weight" matInput (change)="captureEncounterInput($event, 'signs', 'weight')">
+                <td><input placeholder="Weight" class="table-input-clearable" (change)="captureEncounterInput($event, 'signs', 'weight')">
                 </td>
                 <td><i *ngIf="signs.sign && signs.weight" (click)="addEncounterItem('signs', 'signs')"
                     class="fa-sharp fa-solid fa-square-plus"></i>

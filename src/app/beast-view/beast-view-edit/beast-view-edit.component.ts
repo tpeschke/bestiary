@@ -1069,7 +1069,7 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
-    this.resetControllers ()
+    this.resetControllers()
     for (let i = 0; i < inputs.length; ++i) {
       if (inputs[i].className === 'table-input-clearable') {
         inputs[i].value = null
@@ -1081,6 +1081,7 @@ export class BeastViewEditComponent implements OnInit {
     this.temperamentController.reset()
     this.verbController.reset()
     this.nounController.reset()
+    this.signsController.reset()
   }
 
   addSingleEncounterItem(type) {
@@ -1224,6 +1225,11 @@ export class BeastViewEditComponent implements OnInit {
 
   changeEncounterItem(event, type, subtype, index) {
     this.encounter[type][index][subtype] = event.target.value
+  }
+
+  changeEncounterItemSubtype(event, type, subtype, index) {
+    this.encounter[type][type][index][subtype] = event.target.value
+    console.log(this.encounter)
   }
 
   changeEncounterItemInArray(event, type, subtype, typeindex, subtypeindex, subsubtype) {
