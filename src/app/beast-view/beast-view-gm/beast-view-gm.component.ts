@@ -709,7 +709,7 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   handleReagentPrice(harvest, difficulty) {
-    if (harvest.toUpperCase() === 'N/A') {
+    if (!harvest || harvest.toUpperCase() === 'N/A') {
       harvest = 0
     } else if (!harvest) {
       harvest = difficulty
