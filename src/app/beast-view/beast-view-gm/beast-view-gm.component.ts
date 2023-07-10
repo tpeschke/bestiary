@@ -709,6 +709,12 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   handleReagentPrice(harvest, difficulty) {
+    if (harvest.toUpperCase() === 'N/A') {
+      harvest = 0
+    } else if (!harvest) {
+      harvest = difficulty
+    }
+    
     let harvestAndDifficulty = this.calculatorService.calculateAverageOfDice(harvest + "+" + difficulty)
       , justDifficulty = this.calculatorService.calculateAverageOfDice(difficulty + "+" + difficulty)
       , price;
