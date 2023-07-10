@@ -131,8 +131,8 @@ module.exports = {
         if (rolestress) {
           beast.stressthreshold = rolestress
         }
-        if (!beast.stressthreshold) {
-          beast.panic = 7
+        if (rolepanic) {
+          beast.panic = rolepanic
         }
         if (rolecaution) {
           beast.caution = rolecaution
@@ -142,9 +142,14 @@ module.exports = {
         }
       }
 
+      if (!beast.panic) {
+        beast.panic = 7
+      }
+
+      console.log(vitalityToUse)
       if (vitality && vitality !== '') {
         vitalityToUse = vitality
-      } else if (!vitalityToUse && vitalityToUse !== '') {
+      } else if (!vitalityToUse || vitalityToUse === '') {
         vitalityToUse = roles.combatRoles.primary[roleToUse].vitality
       }
 
