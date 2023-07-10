@@ -709,8 +709,11 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   handleReagentPrice(harvest, difficulty) {
-    if (!harvest || harvest.toUpperCase() === 'N/A') {
-      harvest = 0
+    if (!difficulty || difficulty.toUpperCase() === 'N/A') {
+      difficulty = '0'
+    } 
+    if (harvest && harvest.toUpperCase() === 'N/A') {
+      harvest = '0'
     } else if (!harvest) {
       harvest = difficulty
     }
@@ -732,7 +735,7 @@ export class BeastViewGmComponent implements OnInit {
       price = harvestAndDifficulty * 5
     }
 
-    if (isNaN(price)) {
+    if (harvest === '0' && difficulty === '0') {
       return 'Priceless'
     }
 
