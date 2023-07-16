@@ -61,6 +61,7 @@ export class BeastViewEditComponent implements OnInit {
   public selectedSkillRole = {}
   public imageUrl = null;
   public unusedRolesForEncounters = []
+  public allFlaws;
   public newRole = {
     name: null,
     role: null,
@@ -460,6 +461,18 @@ export class BeastViewEditComponent implements OnInit {
         }
       })
 
+      this.beastService.getFlaws().subscribe((results : any) => {
+        delete results.flawTables
+        let newAllFlaws = []
+        for (const key in results) {
+          newAllFlaws.push({
+            label: key.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()),
+            flaws: results[key]
+          })
+        }
+        this.allFlaws = newAllFlaws
+      })
+
       this.setDefaultRole()
       this.determineBaseFatigue()
       this.determineBasePanic()
@@ -473,6 +486,16 @@ export class BeastViewEditComponent implements OnInit {
         behavior: 'smooth'
       })
     })
+  }
+
+  _filterGroup = (value, groups, type) => {
+    if (value) {
+      return groups
+        .map(group => ({label: group.label, flaws: this._filter(value, group.flaws, type)}))
+        .filter(group => group.label.length > 0);
+    }
+
+    return groups;
   }
 
   bootUpEncounterAutoComplete() {
@@ -1229,7 +1252,6 @@ export class BeastViewEditComponent implements OnInit {
 
   changeEncounterItemSubtype(event, type, subtype, index) {
     this.encounter[type][type][index][subtype] = event.target.value
-    console.log(this.encounter)
   }
 
   changeEncounterItemInArray(event, type, subtype, typeindex, subtypeindex, subsubtype) {

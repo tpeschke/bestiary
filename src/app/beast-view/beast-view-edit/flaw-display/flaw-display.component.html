@@ -1,0 +1,47 @@
+<div class="conflict-shell edit-shell-box">
+  <h3 *ngIf="flaw.trait !== 'Any'">
+    <mat-form-field>
+      <input matInput placeholder="Flaw" [matAutocomplete]="flawauto" [formControl]="flawController"
+        (blur)="captureInput($event, 'conflict', i, 'flaws', 'trait')" [value]="flaw.trait">
+      <mat-autocomplete #flawauto="matAutocomplete">
+        <mat-optgroup *ngFor="let group of flawFiltered | async" [label]="group.label">
+          <mat-option *ngFor="let flaw of group.flaws" [value]="flaw.flaw">
+            {{flaw.flaw}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+    </mat-form-field>
+  </h3>
+  <section>
+    <mat-checkbox [checked]="flaw.trait === 'Any'" (change)="checkRandomizeFlaw(i, $event.checked)">Make
+      this a Random Flaw</mat-checkbox>
+  </section>
+
+  <mat-form-field *ngIf="flaw.trait !== 'Any'">
+    <input placeholder="Severity" matInput [value]="flaw.severity"
+      (change)="captureSeverity($event, 'conflict', i, 'flaws', 'severity')">
+  </mat-form-field>
+
+  <mat-form-field *ngIf="flaw.trait !== 'Any'">
+    <input [disabled]="fullInfo" placeholder="Rank (1 point)" matInput [value]="flaw.value"
+      (change)="captureInput($event, 'conflict', i, 'flaws', 'value')">
+  </mat-form-field>
+
+  <p *ngIf="flaw.trait === 'Any'" class="flaw-severity-range">This Flaw Severity range:</p>
+  <div class="flaw-severity-buttons" *ngIf="flaw.trait === 'Any'">
+    <button id="{{flaw.value === '1' ? 'gray-blue' : ''}}" mat-raised-button
+      (click)="setRankSeverityRank(i, '1')">Random</button>
+    <button id="{{flaw.value === '2' ? 'gray-blue' : ''}}" mat-raised-button
+      (click)="setRankSeverityRank(i, '2')">Low Severity</button>
+    <button id="{{flaw.value === '3' ? 'gray-blue' : ''}}" mat-raised-button
+      (click)="setRankSeverityRank(i, '3')">Mid Severity</button>
+    <button id="{{flaw.value === '4' ? 'gray-blue' : ''}}" mat-raised-button
+      (click)="setRankSeverityRank(i, '4')">High Severity</button>
+  </div>
+  <section>
+    <mat-checkbox [checked]="flaw.allroles" (change)="checkAllRoles('flaws', i, $event.checked)">Add to
+      all Roles</mat-checkbox>
+  </section>
+  <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'flaws')" color="warn"><i
+      class="fa-solid fa-trash"></i></button>
+</div>

@@ -25,7 +25,6 @@ export class SkillDisplayComponent implements OnInit {
   public skillList = roles.skillList
 
   allSkillControl: any;
-
   skillGroupOptions: Observable<any[]>;
 
   ngOnInit() {}

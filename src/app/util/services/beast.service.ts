@@ -149,4 +149,8 @@ export class BeastService {
     return this.http.get(local.srdBase + '/getRandomFlaw/' + number)
   }
 
+  getFlaws() {
+    return this.http.get(local.srdBase + '/getFlawTables')
+  }
+
 }
