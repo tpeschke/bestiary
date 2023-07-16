@@ -546,9 +546,9 @@
             <p *ngIf="beast.conflict.flaws.length === 0"><br>This monster has no Flaws<br></p>
             <div *ngFor="let flaw of beast.conflict.flaws; let i = index"
               [ngClass]="{'noDisplay': !(!flaw.deleted && (selectedRoleId === flaw.socialroleid || flaw.allroles))}">
-              <app-flaw-display [flaw]="flaw" [allFlaws]="allFlaws" [captureInput]="captureInput" [removeNewSecondaryItem]="removeNewSecondaryItem"
-                [i]="i" [checkAllRoles]="checkAllRoles" [_filterGroup]="_filterGroup"
-              ></app-flaw-display>
+              <app-flaw-display [flaw]="flaw" [allFlaws]="allFlaws" [captureInput]="captureInput"
+                [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [checkAllRoles]="checkAllRoles"
+                [_filterGroup]="_filterGroup"></app-flaw-display>
             </div>
           </div>
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent">Add Flaw</button>
@@ -893,7 +893,6 @@
     <mat-tab label="Random Encounters">
       <div class="tab-wrapper" id="random-encounter-tab">
         <div *ngIf="encounter" class="random-encounters">
-          <!-- <div class="temperamentList" *ngIf="!rank.deleted"> -->
           <div class="random-container">
             <table class="first-column-left">
               <thead>
@@ -1198,8 +1197,7 @@
         <br />
         <h3 class="loot-notes-subtitle">Loot Notes</h3>
         <div>
-          <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')">
-          </quill-editor>
+          <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')"></quill-editor>
         </div>
         <br />
 

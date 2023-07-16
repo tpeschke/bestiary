@@ -545,7 +545,7 @@ mat-toolbar {
     min-width: 150px;
 }
 
-.ranged-shell div {
+.ranged-shell  {
     display: flex;
     justify-content: space-evenly;
     margin: 0;
