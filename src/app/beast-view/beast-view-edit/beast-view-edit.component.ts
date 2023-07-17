@@ -162,6 +162,9 @@ export class BeastViewEditComponent implements OnInit {
   public signsController = new FormControl('');
   public signsFiltered: Observable<any[]>;
 
+  public artistController = new FormControl('');
+  public artistFiltered: Observable<any[]>;
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       let beast = data['beast']
@@ -473,6 +476,8 @@ export class BeastViewEditComponent implements OnInit {
         this.allFlaws = newAllFlaws
       })
 
+      this.bootUpAutoCompletes()
+
       this.setDefaultRole()
       this.determineBaseFatigue()
       this.determineBasePanic()
@@ -496,6 +501,14 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     return groups;
+  }
+
+  bootUpAutoCompletes() {
+    this.artistFiltered = this.artistController.valueChanges.pipe(
+      startWith(''),
+      map((value: string) => this._filter(value || '', this.beast.artistInfo.allartists, 'artist')),
+    );
+    this.artistController.setValue(this.beast.artistInfo)
   }
 
   bootUpEncounterAutoComplete() {
@@ -989,6 +1002,7 @@ export class BeastViewEditComponent implements OnInit {
   onImagePicked(event: Event): void {
     const FILE = (event.target as HTMLInputElement).files[0];
     this.imageObj = FILE;
+    this.onImageUpload()
   }
 
   onImageUpload() {
@@ -1199,6 +1213,10 @@ export class BeastViewEditComponent implements OnInit {
     return ''
   }
 
+  getDisplayTextArtist = (option) => {
+    return option.artist
+  }
+
   addOption(event, type) {
     const value = event.target.value
     if (value) {
@@ -1309,7 +1327,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   setArtist(event) {
-    let { artist, tooltip, link, id: artistid } = event.value
+    let { artist, tooltip, link, id: artistid } = event.option.value
     this.beast.artistInfo.artistid = artistid
     this.beast.artistInfo.artist = artist
     this.beast.artistInfo.tooltip = tooltip

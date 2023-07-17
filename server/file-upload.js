@@ -16,7 +16,7 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         cb(null, true);
     } else {
-        cb(new Error('Wrong file type, only upload JPEG and/or PNG !'),
+        cb(new Error('Wrong file type, only upload JPEG and/or PNG'),
             false);
     }
 };

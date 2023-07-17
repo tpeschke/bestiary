@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 import local from '../../../local';
 import { Router } from '@angular/router';
@@ -39,6 +39,11 @@ export class BeastService {
     }
   }
 
+  handleError = (error: HttpErrorResponse) => {
+    this.toastr.error(`Error: ${error.statusText}`)
+    return throwError(() => new Error(`${error.statusText}`));
+  }
+
   checkLogin() {
     return this.http.get(local.endpointBase + '/api/auth/me').pipe(
       map((result: User) => {
@@ -53,10 +58,11 @@ export class BeastService {
     )
   }
 
-  imageUpload(imageForm: FormData, id: number) {
+  imageUpload = (imageForm: FormData, id: number) => {
     this.toastr.warning('', `image uploading`)
     return this.http.post(local.endpointBase + '/api/v1/upload/' + id, imageForm)
       .pipe(
+        catchError(this.handleError),
         tap(result => this.handleMessage({ color: 'green', message: 'image finished uploading' }))
       );
   }

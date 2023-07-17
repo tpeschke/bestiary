@@ -55,9 +55,12 @@
       </div>
 
       <div class="margin-spacing" *ngIf="beast.id">
-        <input (change)="onImagePicked($event)" placeholder="Upload Image" type="file" />
-        <button mat-button-raised color="accent" (click)="onImageUpload()">Upload Image</button>
+        <label mat-raised-button color="accent" for="file-upload" class="custom-file-upload">
+          <i class="fa fa-cloud-upload"></i> Upload Image
+        </label>
+        <input id="file-upload" type="file" (change)="onImagePicked($event)"/>
       </div>
+
       <br>
       <div class="thumbnailShell" *ngIf="beast.id">
         <mat-form-field>
@@ -101,14 +104,14 @@
       </div>
 
       <div *ngIf="beast.id">
-        <p>Artist: {{beast.artistInfo.artist}}</p>
         <mat-form-field>
-          <mat-label>Select Artist</mat-label>
-          <mat-select (selectionChange)="setArtist($event)">
-            <mat-option *ngFor="let artist of beast.artistInfo.allartists" [value]="artist">
+          <input placeholder="Artist" matInput [matAutocomplete]="artistauto" [formControl]="artistController">
+          <mat-autocomplete #artistauto="matAutocomplete" [displayWith]="getDisplayTextArtist"
+            (optionSelected)="setArtist($event)">
+            <mat-option *ngFor="let artist of artistFiltered | async" [value]="artist">
               {{artist.artist}}
             </mat-option>
-          </mat-select>
+          </mat-autocomplete>
         </mat-form-field>
       </div>
 
@@ -546,8 +549,9 @@
             <p *ngIf="beast.conflict.flaws.length === 0"><br>This monster has no Flaws<br></p>
             <div *ngFor="let flaw of beast.conflict.flaws; let i = index"
               [ngClass]="{'noDisplay': !(!flaw.deleted && (selectedRoleId === flaw.socialroleid || flaw.allroles))}">
-              <app-flaw-display [flaw]="flaw" [allFlaws]="allFlaws" [captureInput]="captureInput" [checkRandomizeFlaw]="checkRandomizeFlaw"
-                [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [checkAllRoles]="checkAllRoles" [setRankSeverityRank]="setRankSeverityRank "
+              <app-flaw-display [flaw]="flaw" [allFlaws]="allFlaws" [captureInput]="captureInput"
+                [checkRandomizeFlaw]="checkRandomizeFlaw" [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i"
+                [checkAllRoles]="checkAllRoles" [setRankSeverityRank]="setRankSeverityRank "
                 [_filterGroup]="_filterGroup"></app-flaw-display>
             </div>
           </div>
@@ -1197,7 +1201,8 @@
         <br />
         <h3 class="loot-notes-subtitle">Loot Notes</h3>
         <div>
-          <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')"></quill-editor>
+          <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')">
+          </quill-editor>
         </div>
         <br />
 
