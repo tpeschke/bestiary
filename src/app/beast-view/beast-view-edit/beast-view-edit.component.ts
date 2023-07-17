@@ -529,8 +529,8 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureHTML(event, type) {
-    console.log(type)
-    console.log(event)
+    // console.log(type)
+    // console.log(event)
     if (type.includes('role')) {
       for (let i = 0; i < this.beast.roles.length; i++) {
         if (this.beast.roles[i].id === this.selectedRoleId) {

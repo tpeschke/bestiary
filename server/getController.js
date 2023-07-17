@@ -591,7 +591,7 @@ module.exports = {
             }
           })
 
-          if (!req.query.edit === 'true') { 
+          if (req.query.edit !== 'true') { 
             beast.conflict.devotions.forEach(val => {
               if (val.trait.toUpperCase() === 'ANY') {
                 finalPromise.push(db.get.randomdevotion().then(result => {

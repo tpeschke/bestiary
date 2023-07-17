@@ -17,6 +17,8 @@ export class FlawDisplayComponent implements OnInit {
   @Input() i: any;
   @Input() checkAllRoles: Function;
   @Input() _filterGroup: Function;
+  @Input() checkRandomizeFlaw: Function;
+  @Input() setRankSeverityRank: Function;
 
   constructor() { }
 

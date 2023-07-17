@@ -546,8 +546,8 @@
             <p *ngIf="beast.conflict.flaws.length === 0"><br>This monster has no Flaws<br></p>
             <div *ngFor="let flaw of beast.conflict.flaws; let i = index"
               [ngClass]="{'noDisplay': !(!flaw.deleted && (selectedRoleId === flaw.socialroleid || flaw.allroles))}">
-              <app-flaw-display [flaw]="flaw" [allFlaws]="allFlaws" [captureInput]="captureInput"
-                [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [checkAllRoles]="checkAllRoles"
+              <app-flaw-display [flaw]="flaw" [allFlaws]="allFlaws" [captureInput]="captureInput" [checkRandomizeFlaw]="checkRandomizeFlaw"
+                [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [checkAllRoles]="checkAllRoles" [setRankSeverityRank]="setRankSeverityRank "
                 [_filterGroup]="_filterGroup"></app-flaw-display>
             </div>
           </div>

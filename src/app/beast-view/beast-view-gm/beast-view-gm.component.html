@@ -48,7 +48,7 @@
         </div>
 
         <div
-          *ngIf="(beast.conflict.convictions.length > 0 || beast.conflict.descriptions.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0) || beast.socialrole">
+          *ngIf="(beast.conflict.convictions.length > 0 || beast.conflict.descriptions.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0) || (selectedRoleId && beast.roleInfo[selectedRoleId].socialrole) || (!selectedRoleId && beast.socialrole)">
           <h2>Confrontation</h2>
           <div class="divider"></div>
         </div>
@@ -121,7 +121,7 @@
           </div>
         </div>
 
-        <div *ngIf="beast.skills.length > 0 || beast.skillrole">
+        <div *ngIf="beast.skills.length > 0 || (selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)">
           <h2>Skills</h2>
           <div class="divider"></div>
         </div>
