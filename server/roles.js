@@ -221,7 +221,7 @@ module.exports = {
                     },
                     {
                         label: 'Trauma',
-                        items: ['Goedenag (P)', 'Quarterstaff (C)']
+                        items: ['Goedendag (P)', 'Quarterstaff (C)']
                     }
                 ],
                 armor: ['Gambeson', 'Leather'],
