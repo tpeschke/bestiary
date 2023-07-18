@@ -464,7 +464,7 @@ export class BeastViewEditComponent implements OnInit {
         }
       })
 
-      this.beastService.getFlaws().subscribe((results : any) => {
+      this.beastService.getFlaws().subscribe((results: any) => {
         delete results.flawTables
         let newAllFlaws = []
         for (const key in results) {
@@ -496,7 +496,7 @@ export class BeastViewEditComponent implements OnInit {
   _filterGroup = (value, groups, type) => {
     if (value) {
       return groups
-        .map(group => ({label: group.label, flaws: this._filter(value, group.flaws, type)}))
+        .map(group => ({ label: group.label, flaws: this._filter(value, group.flaws, type) }))
         .filter(group => group.label.length > 0);
     }
 
@@ -538,7 +538,8 @@ export class BeastViewEditComponent implements OnInit {
       filterValue = value[type].toLowerCase();
     }
     return encounterArray.filter(option => {
-      return option[type].toLowerCase().includes(filterValue)});
+      return option[type].toLowerCase().includes(filterValue)
+    });
   }
 
   captureHTML(event, type) {
@@ -1116,7 +1117,7 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  resetControllers () {
+  resetControllers() {
     this.temperamentController.reset()
     this.verbController.reset()
     this.nounController.reset()
@@ -1141,7 +1142,7 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
-    this.resetControllers ()
+    this.resetControllers()
     for (let i = 0; i < inputs.length; ++i) {
       if (inputs[i].className === 'table-input-clearable') {
         inputs[i].value = null
@@ -1155,7 +1156,7 @@ export class BeastViewEditComponent implements OnInit {
     this[subtype][index] = null
 
     let inputs = document.getElementById('random-encounter-tab').getElementsByTagName('input');
-    this.resetControllers ()
+    this.resetControllers()
     for (let i = 0; i < inputs.length; ++i) {
       if (inputs[i].className === 'table-input-clearable') {
         inputs[i].value = null
@@ -1741,8 +1742,22 @@ export class BeastViewEditComponent implements OnInit {
   calculateCombatPoints = () => {
     //Base
     let combatpoints = 0
-    combatpoints += Math.ceil(this.averageVitality / 10)
-    combatpoints += Math.ceil(this.beast.stress / 5)
+
+    let vitalityToUse = this.beast.vitality
+    if (!vitalityToUse && this.beast.role) {
+      vitalityToUse = roles.combatRoles.primary[this.beast.role].vitality
+      if (this.beast.secondaryrole && this.beast.secondaryrole === 'Fodder') {
+        vitalityToUse = `(${vitalityToUse})/2`
+      }
+    } else if (!vitalityToUse) {
+      vitalityToUse = 0
+    }
+    vitalityToUse = this.calculatorService.calculateAverageOfDice(vitalityToUse)
+    combatpoints += Math.ceil(vitalityToUse / 10)
+
+    if (this.beast.stress) {
+      combatpoints += Math.ceil(this.beast.stress / 5)
+    }
 
     if (this.beast.panic === 1) {
       combatpoints -= 2
@@ -1799,6 +1814,7 @@ export class BeastViewEditComponent implements OnInit {
         } else {
           combatpoints += damageskill
         }
+
         newDamage.dice.forEach(damage => {
           let pointValue
           let damageArray = damage.split('d')
@@ -1834,11 +1850,19 @@ export class BeastViewEditComponent implements OnInit {
     //Roles
     this.beast.roles.forEach(role => {
       let combatpoints = 0
-      if (role.averageVitality) {
-        combatpoints += Math.ceil(role.averageVitality / 10)
-      } else {
-        combatpoints += Math.ceil(this.averageVitality / 10)
+      let vitalityToUse = role.vitality
+
+      if (!vitalityToUse && role.role) {
+        vitalityToUse = roles.combatRoles.primary[role.role].vitality
+        if (role.secondaryrole && role.secondaryrole === 'Fodder') {
+          vitalityToUse = `(${vitalityToUse})/2`
+        }
+      } else if (!vitalityToUse) {
+        vitalityToUse = 0
       }
+      vitalityToUse = this.calculatorService.calculateAverageOfDice(vitalityToUse)
+
+      combatpoints += Math.ceil(vitalityToUse / 10)
       if (role.stress) {
         combatpoints += Math.ceil(role.stress / 5)
       } else {
