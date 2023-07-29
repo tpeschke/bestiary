@@ -1,0 +1,37 @@
+thead {
+    background: #607d8b;
+    color: whitesmoke;
+    text-align: center;
+    font-family: 'know';
+}
+
+thead tr td {
+    background: #4b4b4b
+}
+
+tbody tr th {
+    background: gray;
+    color: whitesmoke;
+    font-family: 'know';
+}
+
+tbody tr:nth-child(odd) {
+    background: lightgray
+}
+
+tbody tr td {
+    text-align: center;
+}
+
+tbody tr td:first-child {
+    text-align: left;
+}
+
+th, td {
+    min-width: 100px;
+    padding: 2px 5px;
+}
+
+.justify-right {
+    padding-left: 25px;
+}

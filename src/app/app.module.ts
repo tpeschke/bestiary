@@ -70,6 +70,7 @@ import { WeaponSquareComponent } from './beast-view/beast-view-edit/weapon-squar
 import { SkillDisplayComponent } from './beast-view/beast-view-edit/skill-display/skill-display.component';
 import { FlawDisplayComponent } from './beast-view/beast-view-edit/flaw-display/flaw-display.component';
 import { ChallengeInnardsComponent } from './obstacle-index/view/challenge-innards/challenge-innards.component';
+import { CombatInfoComponent } from './beast-view/beast-view-edit/combat-info/combat-info.component';
 
 const routes: Routes = [
   {
@@ -131,6 +132,7 @@ const routes: Routes = [
     ChallengeShellComponent,
     ObstacleInnardsComponent,
     WeaponSquareComponent,
+    CombatInfoComponent,
     SkillDisplayComponent,
     FlawDisplayComponent,
     ChallengeInnardsComponent
