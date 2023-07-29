@@ -35,3 +35,7 @@ th, td {
 .justify-right {
     padding-left: 25px;
 }
+
+.checkmark-role-background ::ng-deep .mat-checkbox-background {
+    background-color: #79554899 !important;
+}

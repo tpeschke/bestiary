@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import roles from '../../roles.js'
 
 @Component({
   selector: 'app-combat-info',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CombatInfoComponent implements OnInit {
   public points = 0
-  public combatstats = {
+  public primaryRole = 'Artillery'
+  public combatStats = {
     weaponSmallSlashing: null,
     weaponSmallCrushing: null,
     weaponSmallPiercing: null,
@@ -15,12 +17,43 @@ export class CombatInfoComponent implements OnInit {
     andCrushing: null,
     flanks: null,
     rangedDefense: null,
-    all: null
+    all: null,
+    allAround: null,
+    armorAndShields: null,
+    unarmored: null,
+    attack: null,
+    caution: null,
+    fatigue: null,
+    initiative: null,
+    measure: null,
+    panic: null,
+    rangeDistance: null,
+    recovery: null
   }
 
   constructor() { }
 
+  public roleInfo = null;
+
   ngOnInit() {
+    if (this.primaryRole) {
+      this.roleInfo = roles.combatRoles.primary[this.primaryRole].combatStats
+    }
+  }
+
+  checkCombatStat = (stat, value, event) => {
+    if (!value) {
+      event.source._checked = false
+    }
+    if (this.combatStats[stat] === value) {
+      event.source._checked = false
+      this.combatStats[stat] = null
+    } else if (this.roleInfo[stat] === value || (value === 'none' && !this.roleInfo[stat])) {
+      event.source._checked = true
+      this.combatStats[stat] = null
+    } else {
+      this.combatStats[stat] = value
+    }
   }
 
   public scalingAndBases = {
