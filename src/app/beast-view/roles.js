@@ -210,6 +210,7 @@ export default {
                 description: "Artillery have high ranged attack and damage which means that they can threaten anyone on the battlefield, however, their low mobility and melee abilities means that they can often be charged down and taken out.",
                 combatStats: {
                     damage: 'majSt',
+                    preferreddamage: 'piercingweapons',
                     weaponsmallslashing: null,
                     weaponsmallcrushing: null,
                     weaponsmallpiercing: 'majSt',

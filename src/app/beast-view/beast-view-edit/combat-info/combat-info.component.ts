@@ -10,6 +10,9 @@ export class CombatInfoComponent implements OnInit {
   public points = 0
   public primaryRole = 'Artillery'
   public combatStats = {
+    piercingweapons: null,
+    slashingweapons: null,
+    crushingweapons: null,
     weaponsmallslashing: null,
     weaponssmalcrushing: null,
     weaponssmallpiercing: null,
@@ -35,10 +38,135 @@ export class CombatInfoComponent implements OnInit {
   constructor() { }
 
   public roleInfo = null;
+  
+  public attackStats = [
+    {
+      label: 'All Around',
+      stat: 'piercingweapons',
+      tooltip: 'Piercing'
+    },
+    {
+      label: 'Armor & Shields',
+      stat: 'crushingweapons',
+      tooltip: 'Crushing'
+    },
+    {
+      label: 'Unarmored',
+      stat: 'slashingweapons',
+      tooltip: 'Slashing'
+    },
+  ]
+  public defenseStats = [
+    {
+      label: 'All',
+      stat: 'all',
+      tooltip: 'Defense'
+    },
+    {
+      label: 'Large Weapons',
+      stat: 'largeweapons',
+      tooltip: 'Vitality'
+    },
+    {
+      label: 'Ranged Defenses',
+      stat: 'rangeddefence',
+      tooltip: 'Cover'
+    },
+    {
+      label: 'Weapons, Small, Piercing',
+      stat: 'weaponssmallpiercing',
+      tooltip: 'Parry'
+    },
+    {
+      label: '& Slashing',
+      stat: 'andslashing',
+      tooltip: 'Parry /DR'
+    },
+    {
+      label: '& Crushing',
+      stat: 'andcrushing',
+      tooltip: 'Parry DR'
+    },
+    {
+      label: 'Flanks',
+      stat: 'flanks',
+      tooltip: null
+    },
+    {
+      label: 'Weapons, Small, Crushing',
+      stat: 'weaponssmalcrushing',
+      tooltip: 'DR'
+    },
+    {
+      label: 'Weapons, Small, Slashing',
+      stat: 'weaponsmallslashing',
+      tooltip: '/DR'
+    }
+  ]
+  public otherStats = [
+    {
+      label: 'Attack',
+      stat: 'attack'
+    },
+    {
+      label: 'Caution',
+      stat: 'caution'
+    },
+    {
+      label: 'Fatigue',
+      stat: 'fatigue'
+    },
+    {
+      label: 'Initiative',
+      stat: 'initiative'
+    },
+    {
+      label: 'Measure',
+      stat: 'measure'
+    },
+    {
+      label: 'Panic',
+      stat: 'panic'
+    },
+    {
+      label: 'Range, Distance',
+      stat: 'rangedistance'
+    },
+    {
+      label: 'Recovery',
+      stat: 'recovery'
+    }
+  ]
 
   ngOnInit() {
     if (this.primaryRole) {
       this.roleInfo = roles.combatRoles.primary[this.primaryRole].combatStats
+    }
+  }
+
+  checkAttackStat = (stat, value, event) => {
+    if (!value) {
+      event.source._checked = false
+    }
+    if (this.combatStats[stat] === value) {
+      event.source._checked = false
+      this.combatStats[stat] = null
+    } else if (this.roleInfo.damage === value || (value === 'none' && !this.roleInfo.damage)) {
+      event.source._checked = true
+      this.combatStats[stat] = null
+    } else {
+      this.combatStats[stat] = value
+    }
+
+    if (stat === 'piercingweapons') {
+      this.combatStats.slashingweapons = null
+      this.combatStats.crushingweapons = null
+    } else if (stat === 'slashingweapons') {
+      this.combatStats.piercingweapons = null
+      this.combatStats.crushingweapons = null
+    } else if (stat === 'crushingweapons') {
+      this.combatStats.slashingweapons = null
+      this.combatStats.piercingweapons = null
     }
   }
 
