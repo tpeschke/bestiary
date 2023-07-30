@@ -10,16 +10,16 @@ export class CombatInfoComponent implements OnInit {
   public points = 0
   public primaryRole = 'Artillery'
   public combatStats = {
-    weaponSmallSlashing: null,
-    weaponSmallCrushing: null,
-    weaponSmallPiercing: null,
-    andSlashing: null,
-    andCrushing: null,
+    weaponsmallslashing: null,
+    weaponssmalcrushing: null,
+    weaponssmallpiercing: null,
+    andslashing: null,
+    andcrushing: null,
     flanks: null,
-    rangedDefense: null,
+    rangeddefence: null,
     all: null,
-    allAround: null,
-    armorAndShields: null,
+    allaround: null,
+    armorandshields: null,
     unarmored: null,
     attack: null,
     caution: null,
@@ -27,8 +27,9 @@ export class CombatInfoComponent implements OnInit {
     initiative: null,
     measure: null,
     panic: null,
-    rangeDistance: null,
-    recovery: null
+    rangedistance: null,
+    recovery: null,
+    largeweapons: null
   }
 
   constructor() { }
