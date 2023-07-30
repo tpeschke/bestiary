@@ -41,7 +41,7 @@ export class CombatInfoComponent implements OnInit {
     }
   }
 
-  checkCombatStat = (stat, value, event) => {
+  checkOtherStat = (stat, value, event) => {
     if (!value) {
       event.source._checked = false
     }
