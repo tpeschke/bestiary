@@ -71,12 +71,17 @@ export class CombatInfoComponent implements OnChanges {
     },
     {
       label: 'Ranged Defenses',
-      stat: 'rangeddefence',
+      stat: 'rangeddefense',
       tooltip: 'Cover'
     },
     {
+      label: 'Weapons, Small, Crushing',
+      stat: 'weaponsmallcrushing',
+      tooltip: 'DR'
+    },
+    {
       label: 'Weapons, Small, Piercing',
-      stat: 'weaponssmallpiercing',
+      stat: 'weaponsmallpiercing',
       tooltip: 'Parry'
     },
     {
@@ -93,11 +98,6 @@ export class CombatInfoComponent implements OnChanges {
       label: 'Flanks',
       stat: 'flanks',
       tooltip: null
-    },
-    {
-      label: 'Weapons, Small, Crushing',
-      stat: 'weaponssmalcrushing',
-      tooltip: 'DR'
     },
     {
       label: 'Weapons, Small, Slashing',
@@ -188,45 +188,13 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   public scalingAndBases = {
-    weaponSmallSlashing: {
-      scaling: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: -2,
-        majorWk: -4
-      },
-      bonus: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majorWk: .25
-      }
-    },
-    weaponSmallCrushing: {
-      scaling: {
-        majSt: 3,
-        minSt: 2,
-        none: 0,
-        minWk: -1,
-        majorWk: -3
-      },
-      bonus: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majorWk: .25
-      }
-    },
-    weaponSmallPiercing: {
+    piercingweapons: {
       scaling: {
         majSt: 6,
-        minSt: 3,
-        none: 0,
-        minWk: -3,
-        majorWk: -6
+        minSt: 5,
+        none: 4,
+        minWk: 3,
+        majorWk: 2
       },
       bonus: {
         majSt: 2,
@@ -236,29 +204,13 @@ export class CombatInfoComponent implements OnChanges {
         majorWk: .25
       }
     },
-    andSlashing: {
+    slashingweapons: {
       scaling: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: -1,
-        majorWk: -2
-      },
-      bonus: {
-        majSt: 2,
-        minSt: 1,
-        none: 1,
-        minWk: .5,
-        majorWk: .25
-      }
-    },
-    andCrushing: {
-      scaling: {
-        majSt: 3,
-        minSt: 2,
-        none: 0,
-        minWk: -1,
-        majorWk: -2
+        majSt: 5,
+        minSt: 4,
+        none: 3,
+        minWk: 2,
+        majorWk: 1
       },
       bonus: {
         majSt: 2,
@@ -268,32 +220,16 @@ export class CombatInfoComponent implements OnChanges {
         majorWk: .25
       }
     },
-    flanks: {
+    crushingweapons: {
       scaling: {
-        majSt: 3,
-        minSt: 2,
-        none: 1,
-        minWk: -1,
-        majorWk: -2
+        majSt: 5,
+        minSt: 4,
+        none: 3,
+        minWk: 2,
+        majorWk: 1
       },
       bonus: {
-        majSt: .5,
-        minSt: .25,
-        none: .1,
-        minWk: .05,
-        majorWk: .01
-      }
-    },
-    rangedDefense: {
-      scaling: {
-        majSt: 6,
-        minSt: 3,
-        none: 0,
-        minWk: -3,
-        majorWk: -6
-      },
-      bonus: {
-        majSt: 3,
+        majSt: 2,
         minSt: 1,
         none: 0,
         minWk: .5,
@@ -309,13 +245,300 @@ export class CombatInfoComponent implements OnChanges {
         majorWk: -4
       },
       bonus: {
-        majSt: 1.25,
-        minSt: 1.1,
+        majSt: 1.1,
+        minSt: 1.05,
+        none: 0,
+        minWk: 1,
+        majorWk: .9
+      }
+    },
+    largeweapons: {
+      scaling: {
+        majSt: 50,
+        minSt: 35,
+        none: 25,
+        minWk: 20,
+        majorWk: 15
+      },
+      bonus: {
+        majSt: 15,
+        minSt: 10,
+        none: 0,
+        minWk: 5,
+        majorWk: 1
+      }
+    },
+    rangeddefense: {
+      scaling: {
+        majSt: 6,
+        minSt: 3,
+        none: 0,
+        minWk: -3,
+        majorWk: -6
+      },
+      bonus: {
+        majSt: 3,
+        minSt: 2,
         none: 0,
         minWk: 1,
         majorWk: .75
       }
+    },
+    weaponsmallcrushing: {
+      scaling: {
+        majSt: 3,
+        minSt: 2,
+        none: 0,
+        minWk: -1,
+        majorWk: -3
+      },
+      bonus: {
+        majSt: 2,
+        minSt: 1,
+        none: 0,
+        minWk: .5,
+        majorWk: .25
+      }
+    },
+    weaponsmallpiercing: {
+      scaling: {
+        majSt: 6,
+        minSt: 3,
+        none: 0,
+        minWk: -3,
+        majorWk: -6
+      },
+      bonus: {
+        majSt: 2,
+        minSt: 1,
+        none: 0,
+        minWk: .5,
+        majorWk: .25
+      }
+    },
+    andslashing: {
+      scaling: {
+        majSt: 3,
+        minSt: 2,
+        none: 1,
+        minWk: 0,
+        majorWk: -1
+      },
+      bonus: {
+        majSt: 2,
+        minSt: 1,
+        none: 0,
+        minWk: .5,
+        majorWk: .25
+      }
+    },
+    andcrushing: {
+      scaling: {
+        majSt: 2,
+        minSt: 1,
+        none: 0,
+        minWk: -1,
+        majorWk: -2
+      },
+      bonus: {
+        majSt: 2,
+        minSt: 1,
+        none: 0,
+        minWk: .5,
+        majorWk: .25
+      }
+    },
+    weaponsmallslashing: {
+      scaling: {
+        majSt: 2,
+        minSt: 1,
+        none: 0,
+        minWk: -2,
+        majorWk: -4
+      },
+      bonus: {
+        majSt: 2,
+        minSt: 1,
+        none: 0,
+        minWk: .5,
+        majorWk: .25
+      }
+    },
+    flanks: {
+      scaling: {
+        majSt: 2,
+        minSt: 1,
+        none: 0,
+        minWk: -1,
+        majorWk: -2
+      },
+      bonus: {
+        majSt: 1.5,
+        minSt: 1,
+        none: 0,
+        minWk: .5,
+        majorWk: .25
+      }
+    },
+    attack: {
+      scaling: {
+        majSt: 5,
+        minSt: 3,
+        none: 0,
+        minWk: -3,
+        majorWk: -5
+      },
+      bonus: {
+        majSt: 1.25,
+        minSt: 1,
+        none: 0,
+        minWk: .5,
+        majorWk: .33
+      }
+    },
+    caution: {
+      scaling: {
+        majSt: .5,
+        minSt: .35,
+        none: .25,
+        minWk: .1,
+        majorWk: 0
+      },
+      bonus: {
+        majSt: .15,
+        minSt: .1,
+        none: 0,
+        minWk: .05,
+        majorWk: .01
+      }
+    },
+    fatigue: {
+      scaling: {
+        majSt: .5,
+        minSt: .35,
+        none: .25,
+        minWk: .1,
+        majorWk: 0
+      },
+      bonus: {
+        majSt: .15,
+        minSt: .1,
+        none: 0,
+        minWk: .05,
+        majorWk: .01
+      }
+    },
+    initiative: {
+      scaling: {
+        majSt: -2,
+        minSt: -1,
+        none: 0,
+        minWk: 2,
+        majorWk: 4
+      },
+      bonus: {
+        majSt: 1.5,
+        minSt: 1.25,
+        none: 0,
+        minWk: .75,
+        majorWk: .5
+      }
+    },
+    measure: {
+      scaling: {
+        majSt: 5,
+        minSt: 4,
+        none: 3,
+        minWk: 2,
+        majorWk: 1
+      },
+      bonus: {
+        majSt: 1.1,
+        minSt: 1,
+        none: 0,
+        minWk: .75,
+        majorWk: .21
+      }
+    },
+    panic: {
+      scaling: {
+        majSt: .5,
+        minSt: .35,
+        none: .25,
+        minWk: .1,
+        majorWk: 0
+      },
+      bonus: {
+        majSt: .15,
+        minSt: .1,
+        none: 0,
+        minWk: .05,
+        majorWk: .01
+      }
+    },
+    rangedistance: {
+      scaling: {
+        majSt: 25,
+        minSt: 10,
+        none: 0,
+        minWk: -10,
+        majorWk: -25
+      },
+      bonus: {
+        majSt: 15,
+        minSt: 10,
+        none: 0,
+        minWk: 5,
+        majorWk: 1
+      }
+    },
+    recovery: {
+      scaling: {
+        d3: 2,
+        d4: 3,
+        d6: 4,
+        d8: 5
+      },
+      bonus: {
+        majSt: 2,
+        minSt: 1.5,
+        none: 0,
+        minWk: 1,
+        majorWk: .5
+      }
+    },
+    movement: {
+      scaling: {
+        majSt: 7.5,
+        minSt: 5,
+        none: 2.5,
+        minWk: 1,
+        majorWk: .5
+      },
+      bonus: {
+        majSt: 5,
+        minSt: 2.5,
+        none: 0,
+        minWk: 1,
+        majorWk: .5
+      }
+    },
+    mental: {
+      scaling: {
+        majSt: 50,
+        minSt: 35,
+        none: 25,
+        minWk: 20,
+        majorWk: 15
+      },
+      bonus: {
+        majSt: 15,
+        minSt: 10,
+        none: 0,
+        minWk: 5,
+        majorWk: 1
+      }
     }
-  }
+}
 
 }
