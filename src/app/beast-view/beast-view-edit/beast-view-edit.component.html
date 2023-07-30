@@ -829,7 +829,7 @@
           <br>
           <br>
           <div class="combat-shell unset-width">
-            <app-combat-info></app-combat-info>
+            <app-combat-info [primaryRole]="beast.roleInfo[selectedRoleId].role"></app-combat-info>
             <!-- <div *ngFor="let square of beast.combat; let i = index">
               <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell unset-width">
                 <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"

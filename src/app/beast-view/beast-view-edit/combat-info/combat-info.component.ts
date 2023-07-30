@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import roles from '../../roles.js'
 
 @Component({
@@ -6,9 +6,11 @@ import roles from '../../roles.js'
   templateUrl: './combat-info.component.html',
   styleUrls: ['./combat-info.component.css']
 })
-export class CombatInfoComponent implements OnInit {
+export class CombatInfoComponent implements OnChanges {
+  @Input() primaryRole: any;
+
   public points = 0
-  public primaryRole = 'Artillery'
+
   public combatStats = {
     piercingweapons: null,
     slashingweapons: null,
@@ -138,7 +140,7 @@ export class CombatInfoComponent implements OnInit {
     }
   ]
 
-  ngOnInit() {
+  ngOnChanges(changes) {
     if (this.primaryRole) {
       this.roleInfo = roles.combatRoles.primary[this.primaryRole].combatStats
     }
