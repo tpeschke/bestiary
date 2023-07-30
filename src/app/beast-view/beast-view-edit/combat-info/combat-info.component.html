@@ -53,7 +53,7 @@
             <mat-checkbox [ngClass]="!roleInfo.damage && roleInfo.preferreddamage === stat.stat ? 'checkmark-role-background' : ''"
               (change)="checkAttackStat(stat.stat, 'none', $event)"
               matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
-              [matTooltipDisabled]="roleInfo.damage !== 'none' || roleInfo.damage"
+              [matTooltipDisabled]="roleInfo.damage"
               [checked]="(!combatStats.piercingweapons && !combatStats.crushingweapons && !combatStats.slashingweapons && !roleInfo.damage) || (combatStats[stat.stat] === 'none')">
             </mat-checkbox>
           </td>
@@ -109,7 +109,7 @@
             <mat-checkbox [ngClass]="!roleInfo[stat.stat] ? 'checkmark-role-background' : ''"
               (change)="checkOtherStat(stat.stat, 'none', $event)"
               matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-              [matTooltipDisabled]="roleInfo[stat.stat] !== 'none' || roleInfo[stat.stat]"
+              [matTooltipDisabled]="roleInfo[stat.stat]"
               [checked]="(!combatStats[stat.stat] && !roleInfo[stat.stat]) || combatStats[stat.stat] === 'none'">
             </mat-checkbox>
           </td>
@@ -162,7 +162,7 @@
             <mat-checkbox [ngClass]="!roleInfo[stat.stat] ? 'checkmark-role-background' : ''"
               (change)="checkOtherStat(stat.stat, 'none', $event)"
               matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-              [matTooltipDisabled]="roleInfo[stat.stat] !== 'none' || roleInfo[stat.stat]"
+              [matTooltipDisabled]="roleInfo[stat.stat]"
               [checked]="(!combatStats[stat.stat] && !roleInfo[stat.stat]) || combatStats[stat.stat] === 'none'">
             </mat-checkbox>
           </td>
