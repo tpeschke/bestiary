@@ -335,6 +335,17 @@ export class CombatInfoComponent implements OnChanges {
     return modifiedStat
   }
 
+  getCover = () => {
+    const cover = this.getModifiedStats('rangeddefense')
+    const crouchedCover = cover * 1.5
+
+    if (crouchedCover >= 20) {
+      return `+${cover}(*)`
+    } else {
+      return `+${cover}(+${crouchedCover})`
+    }
+  }
+
   getBaseDR = () => {
     const slashDR = this.getModifiedStats('weaponsmallslashing')
     const staticDR = this.getModifiedStats('weaponsmallcrushing')

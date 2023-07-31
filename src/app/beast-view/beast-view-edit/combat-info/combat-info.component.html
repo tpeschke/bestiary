@@ -8,7 +8,10 @@
       <p class="spd">{{recovery}}</p>
       <p class="atk">{{getModifiedStats('attack')}}</p>
       <p class="init">{{getModifiedStats('initiative')}}</p>
-      <p class="def">{{getModifiedStats('all')}}</p>
+      <div class="def">
+        <p>{{getModifiedStats('all')}}</p>
+        <p class="shield_dr" >{{getCover()}}</p>
+      </div>
       <p class="fatigue">{{damageType}}</p>
       <div class="dr">
         <p>{{getBaseDR()}}</p>
