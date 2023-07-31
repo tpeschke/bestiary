@@ -335,14 +335,27 @@ export class CombatInfoComponent implements OnChanges {
     return modifiedStat
   }
 
-  getCover = () => {
-    const cover = this.getModifiedStats('rangeddefense')
-    const crouchedCover = cover * 1.5
+  getModifiedStatsMinZero = (stat) => {
+    const modifiedStat = this.getModifiedStats(stat)
+    if (modifiedStat > 0) {
+      return modifiedStat
+    }
+    return 0
+  }
 
-    if (crouchedCover >= 20) {
-      return `+${cover}(*)`
+  getCover = () => {
+    const cover = this.getModifiedStatsMinZero('rangeddefense')
+    
+    if (cover > 0) {
+      const crouchedCover = cover * 1.5
+  
+      if (crouchedCover >= 20) {
+        return `+${cover}(*)`
+      } else {
+        return `+${cover}(+${crouchedCover})`
+      }
     } else {
-      return `+${cover}(+${crouchedCover})`
+      return '+0'
     }
   }
 
@@ -368,7 +381,7 @@ export class CombatInfoComponent implements OnChanges {
     } else if (staticDR > 0) {
       return `${staticDR}`
     } else {
-      return ''
+      return 0
     }
   }
 
