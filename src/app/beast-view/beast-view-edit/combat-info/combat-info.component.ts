@@ -10,7 +10,6 @@ export class CombatInfoComponent implements OnChanges {
   @Input() primaryRole: any;
 
   public points = 0
-
   public combatStats = {
     piercingweapons: null,
     slashingweapons: null,
