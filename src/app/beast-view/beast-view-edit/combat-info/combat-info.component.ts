@@ -297,10 +297,6 @@ export class CombatInfoComponent implements OnChanges {
 
     if (this.combatStats.recovery) {
       scalingStrength = this.combatStats.recovery
-    } else if (this.combatStats.recovery) {
-      scalingStrength = this.combatStats.recovery
-    } else if (this.combatStats.recovery) {
-      scalingStrength = this.combatStats.recovery
     } else {
       scalingStrength = this.roleInfo.recovery
     }
@@ -321,10 +317,6 @@ export class CombatInfoComponent implements OnChanges {
     let modifiedStat;
 
     if (this.combatStats[stat]) {
-      scalingStrength = this.combatStats[stat]
-    } else if (this.combatStats[stat]) {
-      scalingStrength = this.combatStats[stat]
-    } else if (this.combatStats[stat]) {
       scalingStrength = this.combatStats[stat]
     } else {
       scalingStrength = this.roleInfo[stat]
