@@ -40,7 +40,11 @@ export class CombatInfoComponent implements OnChanges {
   constructor() { }
 
   public roleInfo = null;
-  
+  public damageType = ''
+  public damageString = ''
+  public baseRecovery = 0
+  public recovery = 0
+
   public attackStats = [
     {
       label: 'All Around',
@@ -144,6 +148,173 @@ export class CombatInfoComponent implements OnChanges {
     if (this.primaryRole) {
       this.roleInfo = roles.combatRoles.primary[this.primaryRole].combatStats
     }
+    this.setDamageDice()
+  }
+
+  getDamageScalingInfo = () => {
+    if (this.damageType === 'C') {
+      return this.scalingAndBases.crushingweapons
+    } else if (this.damageType === 'P') {
+      return this.scalingAndBases.piercingweapons
+    } else if (this.damageType === 'S') {
+      return this.scalingAndBases.slashingweapons
+    } 
+  }
+
+  setDamageDice() {
+    let scalingStrength;
+
+    if (this.combatStats.piercingweapons) {
+      scalingStrength = this.combatStats.piercingweapons
+      this.damageType = 'P'
+    } else if (this.combatStats.crushingweapons) {
+      scalingStrength = this.combatStats.crushingweapons
+      this.damageType = 'C'
+    } else if (this.combatStats.slashingweapons) {
+      scalingStrength = this.combatStats.slashingweapons
+      this.damageType = 'S'
+    } else {
+      scalingStrength = this.roleInfo.damage
+      if (this.roleInfo.preferreddamage === 'piercingweapons') {
+        this.damageType = 'P'
+      } else if (this.roleInfo.preferreddamage === 'crushingweapons') {
+        this.damageType = 'C'
+      } else if (this.roleInfo.preferreddamage === 'slashingweapons') {
+        this.damageType = 'S'
+      } else {
+        scalingStrength = null
+        this.damageType = ''
+      }
+    }
+
+    const scaling = this.getDamageScalingInfo();
+
+    let modifiedPoints
+    if (scalingStrength === 'noneWk') {
+      modifiedPoints = scaling.scaling.majWk
+    } else if (scalingStrength === 'none') {
+      modifiedPoints = scaling.scaling.none
+    } else {
+      modifiedPoints = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
+    }
+
+    if (modifiedPoints <= 0) {
+      modifiedPoints = 1
+    }
+
+    let crushingDamageMod = 0
+    let diceObject = {
+      d3s: 0,
+      d4s: 0,
+      d6s: 0,
+      d8s: 0,
+      d10s: 0,
+      d12s: 0,
+      d20s: 0,
+    }
+
+    if (this.damageType === 'S') {
+      diceObject.d4s += Math.floor(modifiedPoints / 2)
+      let leftover = modifiedPoints % 2
+      if (leftover === 1) {
+        diceObject.d3s += 1
+      }
+    } else if (this.damageType === 'P') {
+      diceObject.d8s += Math.floor(modifiedPoints / 4)
+      let leftover = modifiedPoints % 4
+      if (leftover === 1) {
+        diceObject.d3s += 1
+      } else if (leftover === 2) {
+        diceObject.d4s += 1
+      } else if (leftover === 3) {
+        diceObject.d6s += 1
+      }
+    } else {
+      diceObject.d20s += Math.floor(modifiedPoints / 7)
+      if (modifiedPoints === 1) {
+        diceObject.d4s += 1
+      } else if (modifiedPoints === 2) {
+        diceObject.d6s += 1
+      } else if (modifiedPoints === 3) {
+        diceObject.d8s += 1
+      } else if (modifiedPoints === 4) {
+        diceObject.d10s += 1
+      } else if (modifiedPoints === 5) {
+        diceObject.d12s += 1
+      } else if (modifiedPoints === 6) {
+        diceObject.d20s += 1
+      } else {
+        diceObject.d20s += 1
+        crushingDamageMod = modifiedPoints - 6
+      }
+    }
+
+    let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
+
+    let diceString = ''
+    let baseRecovery = 0
+
+    if (d3s > 0) {
+      diceString += `${d3s}d3!`
+      baseRecovery += d3s * this.scalingAndBases.recovery.base.d3
+    }
+    if (d4s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d4s}d4!`
+      baseRecovery += d4s * this.scalingAndBases.recovery.base.d4
+    }
+    if (d6s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d6s}d6!`
+      baseRecovery += d6s * this.scalingAndBases.recovery.base.d6
+    }
+    if (d8s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d8s}d8!`
+      baseRecovery += d8s * this.scalingAndBases.recovery.base.d8
+    }
+    if (d10s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d10s}d10!`
+      baseRecovery += d10s * this.scalingAndBases.recovery.base.d10
+    }
+    if (d12s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d12s}d12!`
+      baseRecovery += d12s * this.scalingAndBases.recovery.base.d12
+    }
+    if (d20s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
+      baseRecovery += d20s * this.scalingAndBases.recovery.base.d20
+    }
+
+    if (crushingDamageMod) {
+      diceString += ` +${crushingDamageMod}`
+    }
+
+    this.baseRecovery = baseRecovery
+    this.setModifiedRecovery()
+
+    this.damageString = diceString
+  }
+
+  setModifiedRecovery = () => {
+    let scalingStrength;
+
+    if (this.combatStats.recovery) {
+      scalingStrength = this.combatStats.recovery
+    } else if (this.combatStats.recovery) {
+      scalingStrength = this.combatStats.recovery
+    } else if (this.combatStats.recovery) {
+      scalingStrength = this.combatStats.recovery
+    } else {
+      scalingStrength = this.roleInfo.recovery
+    }
+
+    const scaling = this.scalingAndBases.recovery
+
+    if (scalingStrength === 'noneWk') {
+      this.recovery = Math.ceil(this.baseRecovery * scaling.scaling.majWk)
+    } else if (scalingStrength === 'none') {
+      this.recovery = Math.ceil(this.baseRecovery * scaling.scaling.none)
+    } else {
+      this.recovery =  Math.ceil((scaling.scaling[scalingStrength] * this.baseRecovery) - (scaling.bonus[scalingStrength] * this.points))
+    }
   }
 
   checkAttackStat = (stat, value, event) => {
@@ -153,7 +324,7 @@ export class CombatInfoComponent implements OnChanges {
     if (this.combatStats[stat] === value) {
       event.source._checked = false
       this.combatStats[stat] = null
-    } else if (this.roleInfo.damage === value || (value === 'none' && !this.roleInfo.damage)) {
+    } else if ((this.roleInfo.damage === value && this.roleInfo.preferreddamage === stat) || (value === 'none' && !this.roleInfo.damage)) {
       event.source._checked = true
       this.combatStats[stat] = null
     } else {
@@ -170,6 +341,8 @@ export class CombatInfoComponent implements OnChanges {
       this.combatStats.slashingweapons = null
       this.combatStats.piercingweapons = null
     }
+
+    this.setDamageDice()
   }
 
   checkOtherStat = (stat, value, event) => {
@@ -185,6 +358,10 @@ export class CombatInfoComponent implements OnChanges {
     } else {
       this.combatStats[stat] = value
     }
+
+    if (stat === 'recovery') {
+      this.setModifiedRecovery()
+    }
   }
 
   public scalingAndBases = {
@@ -194,14 +371,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 5,
         none: 4,
         minWk: 3,
-        majorWk: 2
+        majWk: 2
       },
       bonus: {
         majSt: 2,
         minSt: 1,
         none: 0,
         minWk: .5,
-        majorWk: .25
+        majWk: .25
       }
     },
     slashingweapons: {
@@ -210,14 +387,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 4,
         none: 3,
         minWk: 2,
-        majorWk: 1
+        majWk: 1
       },
       bonus: {
         majSt: 2,
         minSt: 1,
         none: 0,
         minWk: .5,
-        majorWk: .25
+        majWk: .25
       }
     },
     crushingweapons: {
@@ -226,14 +403,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 4,
         none: 3,
         minWk: 2,
-        majorWk: 1
+        majWk: 1
       },
       bonus: {
         majSt: 2,
         minSt: 1,
         none: 0,
         minWk: .5,
-        majorWk: .25
+        majWk: .25
       }
     },
     all: {
@@ -242,14 +419,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 2,
         none: 0,
         minWk: -2,
-        majorWk: -4
+        majWk: -4
       },
       bonus: {
         majSt: 1.1,
         minSt: 1.05,
         none: 0,
         minWk: 1,
-        majorWk: .9
+        majWk: .9
       }
     },
     largeweapons: {
@@ -258,14 +435,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 35,
         none: 25,
         minWk: 20,
-        majorWk: 15
+        majWk: 15
       },
       bonus: {
         majSt: 15,
         minSt: 10,
         none: 0,
         minWk: 5,
-        majorWk: 1
+        majWk: 1
       }
     },
     rangeddefense: {
@@ -274,14 +451,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 3,
         none: 0,
         minWk: -3,
-        majorWk: -6
+        majWk: -6
       },
       bonus: {
         majSt: 3,
         minSt: 2,
         none: 0,
         minWk: 1,
-        majorWk: .75
+        majWk: .75
       }
     },
     weaponsmallcrushing: {
@@ -290,14 +467,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 2,
         none: 0,
         minWk: -1,
-        majorWk: -3
+        majWk: -3
       },
       bonus: {
         majSt: 2,
         minSt: 1,
         none: 0,
         minWk: .5,
-        majorWk: .25
+        majWk: .25
       }
     },
     weaponsmallpiercing: {
@@ -306,14 +483,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 3,
         none: 0,
         minWk: -3,
-        majorWk: -6
+        majWk: -6
       },
       bonus: {
         majSt: 2,
         minSt: 1,
         none: 0,
         minWk: .5,
-        majorWk: .25
+        majWk: .25
       }
     },
     andslashing: {
@@ -322,14 +499,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 2,
         none: 1,
         minWk: 0,
-        majorWk: -1
+        majWk: -1
       },
       bonus: {
         majSt: 2,
         minSt: 1,
         none: 0,
         minWk: .5,
-        majorWk: .25
+        majWk: .25
       }
     },
     andcrushing: {
@@ -338,14 +515,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 1,
         none: 0,
         minWk: -1,
-        majorWk: -2
+        majWk: -2
       },
       bonus: {
         majSt: 2,
         minSt: 1,
         none: 0,
         minWk: .5,
-        majorWk: .25
+        majWk: .25
       }
     },
     weaponsmallslashing: {
@@ -354,14 +531,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 1,
         none: 0,
         minWk: -2,
-        majorWk: -4
+        majWk: -4
       },
       bonus: {
         majSt: 2,
         minSt: 1,
         none: 0,
         minWk: .5,
-        majorWk: .25
+        majWk: .25
       }
     },
     flanks: {
@@ -370,14 +547,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 1,
         none: 0,
         minWk: -1,
-        majorWk: -2
+        majWk: -2
       },
       bonus: {
         majSt: 1.5,
         minSt: 1,
         none: 0,
         minWk: .5,
-        majorWk: .25
+        majWk: .25
       }
     },
     attack: {
@@ -386,14 +563,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 3,
         none: 0,
         minWk: -3,
-        majorWk: -5
+        majWk: -5
       },
       bonus: {
         majSt: 1.25,
         minSt: 1,
         none: 0,
         minWk: .5,
-        majorWk: .33
+        majWk: .33
       }
     },
     caution: {
@@ -402,14 +579,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: .35,
         none: .25,
         minWk: .1,
-        majorWk: 0
+        majWk: 0
       },
       bonus: {
         majSt: .15,
         minSt: .1,
         none: 0,
         minWk: .05,
-        majorWk: .01
+        majWk: .01
       }
     },
     fatigue: {
@@ -418,14 +595,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: .35,
         none: .25,
         minWk: .1,
-        majorWk: 0
+        majWk: 0
       },
       bonus: {
         majSt: .15,
         minSt: .1,
         none: 0,
         minWk: .05,
-        majorWk: .01
+        majWk: .01
       }
     },
     initiative: {
@@ -434,14 +611,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: -1,
         none: 0,
         minWk: 2,
-        majorWk: 4
+        majWk: 4
       },
       bonus: {
         majSt: 1.5,
         minSt: 1.25,
         none: 0,
         minWk: .75,
-        majorWk: .5
+        majWk: .5
       }
     },
     measure: {
@@ -450,14 +627,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 4,
         none: 3,
         minWk: 2,
-        majorWk: 1
+        majWk: 1
       },
       bonus: {
         majSt: 1.1,
         minSt: 1,
         none: 0,
         minWk: .75,
-        majorWk: .21
+        majWk: .21
       }
     },
     panic: {
@@ -466,14 +643,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: .35,
         none: .25,
         minWk: .1,
-        majorWk: 0
+        majWk: 0
       },
       bonus: {
         majSt: .15,
         minSt: .1,
         none: 0,
         minWk: .05,
-        majorWk: .01
+        majWk: .01
       }
     },
     rangedistance: {
@@ -482,29 +659,39 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 10,
         none: 0,
         minWk: -10,
-        majorWk: -25
+        majWk: -25
       },
       bonus: {
         majSt: 15,
         minSt: 10,
         none: 0,
         minWk: 5,
-        majorWk: 1
+        majWk: 1
       }
     },
     recovery: {
-      scaling: {
+      base: {
         d3: 2,
         d4: 3,
         d6: 4,
-        d8: 5
+        d8: 5,
+        d10: 6,
+        d12: 7,
+        d20: 11,
+      },
+      scaling: {
+        majSt: .75,
+        minSt: .9,
+        none: 1,
+        minWk: 1.1,
+        majWk: 1.25
       },
       bonus: {
-        majSt: 2,
-        minSt: 1.5,
+        majSt: .5,
+        minSt: .25,
         none: 0,
-        minWk: 1,
-        majorWk: .5
+        minWk: .1,
+        majWk: .05
       }
     },
     movement: {
@@ -513,14 +700,14 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 5,
         none: 2.5,
         minWk: 1,
-        majorWk: .5
+        majWk: .5
       },
       bonus: {
         majSt: 5,
         minSt: 2.5,
         none: 0,
         minWk: 1,
-        majorWk: .5
+        majWk: .5
       }
     },
     mental: {
@@ -529,16 +716,16 @@ export class CombatInfoComponent implements OnChanges {
         minSt: 35,
         none: 25,
         minWk: 20,
-        majorWk: 15
+        majWk: 15
       },
       bonus: {
         majSt: 15,
         minSt: 10,
         none: 0,
         minWk: 5,
-        majorWk: 1
+        majWk: 1
       }
     }
-}
+  }
 
 }
