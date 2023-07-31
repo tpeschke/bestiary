@@ -37,5 +37,5 @@ th, td {
 }
 
 .checkmark-role-background ::ng-deep .mat-checkbox-background {
-    background-color: #79554899 !important;
+    background-color: rgba(128, 128, 128, 0.5) !important;
 }
