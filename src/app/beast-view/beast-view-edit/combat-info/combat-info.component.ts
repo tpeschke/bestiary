@@ -316,6 +316,33 @@ export class CombatInfoComponent implements OnChanges {
     }
   }
 
+  getModifiedStats = (stat) => {
+    let scalingStrength;
+    let modifiedStat;
+
+    if (this.combatStats[stat]) {
+      scalingStrength = this.combatStats[stat]
+    } else if (this.combatStats[stat]) {
+      scalingStrength = this.combatStats[stat]
+    } else if (this.combatStats[stat]) {
+      scalingStrength = this.combatStats[stat]
+    } else {
+      scalingStrength = this.roleInfo[stat]
+    }
+
+    const scaling = this.scalingAndBases[stat]
+
+    if (scalingStrength === 'noneWk') {
+      modifiedStat = scaling.scaling.majWk
+    } else if (scalingStrength === 'none') {
+      modifiedStat = scaling.scaling.none
+    } else {
+      modifiedStat =  Math.ceil(scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points))
+    }
+
+    return modifiedStat
+  }
+
   checkAttackStat = (stat, value, event) => {
     if (!value) {
       event.source._checked = false
