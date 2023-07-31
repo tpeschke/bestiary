@@ -1,6 +1,25 @@
-<div>
+<h3>
+  Weapon Name
+</h3>
+<div class="combat-stat-shell">
   <div>
-
+    <div class="square-shell">
+      <img class="combat-image" src="../../../../assets/square.png" alt="combat square">
+      <p class="spd">{{recovery}}</p>
+      <p class="atk">{{getModifiedStats('attack')}}</p>
+      <p class="init">{{getModifiedStats('initiative')}}</p>
+      <p class="def">{{getModifiedStats('all')}}</p>
+      <p class="fatigue">{{damageType}}</p>
+      <div class="dr">
+        <p>{{getBaseDR()}}</p>
+        <p class="shield_dr" ><img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15" height="15">{{getParryDR()}}</p>
+      </div>
+      <div class="measure">
+        <p>{{getModifiedStats('measure')}}</p>
+      </div>
+      <p class="damage">{{damageString}}</p>
+      <p class="parry">{{getModifiedStats('weaponsmallpiercing')}}</p>
+    </div>
   </div>
   <div>
     <table>

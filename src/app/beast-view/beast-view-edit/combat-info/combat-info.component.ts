@@ -4,7 +4,7 @@ import roles from '../../roles.js'
 @Component({
   selector: 'app-combat-info',
   templateUrl: './combat-info.component.html',
-  styleUrls: ['./combat-info.component.css']
+  styleUrls: ['../../beast-view.component.css', './combat-info.component.css']
 })
 export class CombatInfoComponent implements OnChanges {
   @Input() primaryRole: any;
@@ -15,8 +15,8 @@ export class CombatInfoComponent implements OnChanges {
     slashingweapons: null,
     crushingweapons: null,
     weaponsmallslashing: null,
-    weaponssmalcrushing: null,
-    weaponssmallpiercing: null,
+    weaponsmalcrushing: null,
+    weaponsmallpiercing: null,
     andslashing: null,
     andcrushing: null,
     flanks: null,
@@ -333,6 +333,32 @@ export class CombatInfoComponent implements OnChanges {
     }
 
     return modifiedStat
+  }
+
+  getBaseDR = () => {
+    const slashDR = this.getModifiedStats('weaponsmallslashing')
+    const staticDR = this.getModifiedStats('weaponsmallcrushing')
+
+    return this.getDR(slashDR, staticDR)
+  }
+
+  getParryDR = () => {
+    const slashDR = this.getModifiedStats('andslashing')
+    const staticDR = this.getModifiedStats('andcrushing')
+
+    return this.getDR(slashDR, staticDR)
+  }
+
+  getDR = (slashDR, staticDR) => {
+    if (slashDR > 0 && staticDR > 0) {
+      return `${slashDR}/d +${staticDR}`
+    } else if (slashDR > 0) {
+      return `${slashDR}/d`
+    } else if (staticDR > 0) {
+      return `${staticDR}`
+    } else {
+      return ''
+    }
   }
 
   checkAttackStat = (stat, value, event) => {

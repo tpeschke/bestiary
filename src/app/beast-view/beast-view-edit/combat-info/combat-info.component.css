@@ -1,3 +1,11 @@
+.combat-stat-shell {
+    display: flex;
+}
+
+.combat-stat-shell div:first-child {
+    margin-right: 15px;
+}
+
 thead {
     background: #607d8b;
     color: whitesmoke;
@@ -13,6 +21,7 @@ tbody tr th {
     background: gray;
     color: whitesmoke;
     font-family: 'know';
+    text-align: center;
 }
 
 tbody tr:nth-child(odd) {
@@ -24,7 +33,7 @@ tbody tr td {
 }
 
 tbody tr td:first-child {
-    text-align: left;
+    text-align: left !important;
 }
 
 th, td {
