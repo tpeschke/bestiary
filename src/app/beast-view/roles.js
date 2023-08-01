@@ -211,6 +211,7 @@ export default {
                 combatStats: {
                     damage: 'majSt',
                     preferreddamage: 'piercingweapons',
+                    weapontype: 'r',
                     weaponsmallslashing: 'majWk',
                     weaponsmallcrushing: 'majWk',
                     weaponsmallpiercing: 'majSt',
@@ -286,6 +287,7 @@ export default {
                 combatStats: {
                     damage: 'majSt',
                     preferreddamage: 'crushingweapons',
+                    weapontype: 'm',
                     weaponsmallslashing: 'majWk',
                     weaponsmallcrushing: 'majWk',
                     weaponsmallpiercing: 'majWk',
@@ -371,6 +373,7 @@ export default {
                 combatStats: {
                     damage: 'minSt',
                     preferreddamage: 'piercingweapons',
+                    weapontype: 'm',
                     all: 'majWk',
                     largeweapons: null,
                     rangeddefense: 'majSt',
@@ -448,6 +451,7 @@ export default {
                 combatStats: {
                     damage: 'minWk',
                     preferreddamage: 'slashingweapons',
+                    weapontype: 'm',
                     all: 'noneWk',
                     largeweapons: 'majWk',
                     rangeddefense: null,
@@ -529,6 +533,7 @@ export default {
                 combatStats: {
                     damage: null,
                     preferreddamage: null,
+                    weapontype: 'm',
                     all: null,
                     largeweapons: null,
                     rangeddefense: null,
@@ -602,6 +607,7 @@ export default {
                 combatStats: {
                     damage: 'majSt',
                     preferreddamage: 'slashingweapons',
+                    weapontype: 'm',
                     all: 'majWk',
                     largeweapons: 'minWk',
                     rangeddefense: 'majWk',
@@ -687,6 +693,7 @@ export default {
                 combatStats: {
                     damage: 'minWk',
                     preferreddamage: 'piercingweapons',
+                    weapontype: 'r',
                     all: 'minWk',
                     largeweapons: 'majWk',
                     rangeddefense: 'minSt',

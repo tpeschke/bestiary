@@ -11,6 +11,7 @@ export class CombatInfoComponent implements OnChanges {
 
   public points = 0
   public combatStats = {
+    weapontype: null,
     piercingweapons: null,
     slashingweapons: null,
     crushingweapons: null,
@@ -173,7 +174,7 @@ export class CombatInfoComponent implements OnChanges {
       return this.scalingAndBases.piercingweapons
     } else if (this.damageType === 'S') {
       return this.scalingAndBases.slashingweapons
-    } 
+    }
   }
 
   setDamageDice() {
@@ -324,7 +325,7 @@ export class CombatInfoComponent implements OnChanges {
     } else if (scalingStrength === 'none') {
       this.recovery = Math.ceil(this.baseRecovery * scaling.scaling.none)
     } else {
-      this.recovery =  Math.ceil((scaling.scaling[scalingStrength] * this.baseRecovery) - (scaling.bonus[scalingStrength] * this.points))
+      this.recovery = Math.ceil((scaling.scaling[scalingStrength] * this.baseRecovery) - (scaling.bonus[scalingStrength] * this.points))
     }
   }
 
@@ -345,7 +346,7 @@ export class CombatInfoComponent implements OnChanges {
     } else if (scalingStrength === 'none' || !scalingStrength) {
       modifiedStat = scaling.scaling.none
     } else {
-      modifiedStat =  scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
+      modifiedStat = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
     }
 
     return modifiedStat
@@ -365,10 +366,10 @@ export class CombatInfoComponent implements OnChanges {
 
   getCover = () => {
     const cover = this.getModifiedStatsMinZero('rangeddefense')
-    
+
     if (cover > 0) {
       const crouchedCover = cover * 1.5
-  
+
       if (crouchedCover >= 20) {
         return `+${cover}(*)`
       } else {
@@ -403,6 +404,13 @@ export class CombatInfoComponent implements OnChanges {
     } else {
       return 0
     }
+  }
+
+  getWeaponType = () => {
+    if (this.combatStats.weapontype) {
+      return this.combatStats.weapontype
+    }
+    return this.roleInfo.weapontype
   }
 
   checkAttackStat = (stat, value, event) => {
@@ -450,6 +458,10 @@ export class CombatInfoComponent implements OnChanges {
     if (stat === 'recovery') {
       this.setModifiedRecovery()
     }
+  }
+
+  captureSelect = (event, type) => {
+    this.combatStats[type] = event.value
   }
 
   public scalingAndBases = {
