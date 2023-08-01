@@ -43,6 +43,10 @@ export class CombatInfoComponent implements OnChanges {
   public damageString = ''
   public baseRecovery = 0
   public recovery = 0
+  public vitality = 0
+  public fatigue = 0
+  public stressThreshold = 0
+  public panic = 0
 
   public attackStats = [
     {
@@ -148,6 +152,18 @@ export class CombatInfoComponent implements OnChanges {
       this.roleInfo = roles.combatRoles.primary[this.primaryRole].combatStats
     }
     this.setDamageDice()
+    this.setVitalityAndStress()
+  }
+
+  setVitalityAndStress = () => {
+    this.vitality = this.getModifiedStats('largeweapons')
+    this.stressThreshold = this.getModifiedStats('mental')
+
+    const fatiguePercent = this.getModifiedStats('fatigue')
+    const panicPercent = this.getModifiedStats('panic')
+
+    this.fatigue = Math.ceil(this.vitality * fatiguePercent)
+    this.panic = Math.ceil(this.stressThreshold * panicPercent)
   }
 
   getDamageScalingInfo = () => {
@@ -326,13 +342,17 @@ export class CombatInfoComponent implements OnChanges {
 
     if (scalingStrength === 'noneWk') {
       modifiedStat = scaling.scaling.majWk
-    } else if (scalingStrength === 'none') {
+    } else if (scalingStrength === 'none' || !scalingStrength) {
       modifiedStat = scaling.scaling.none
     } else {
-      modifiedStat =  Math.ceil(scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points))
+      modifiedStat =  scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
     }
 
     return modifiedStat
+  }
+
+  getModifiedStatsRounded = (stat) => {
+    return Math.ceil(this.getModifiedStats(stat))
   }
 
   getModifiedStatsMinZero = (stat) => {

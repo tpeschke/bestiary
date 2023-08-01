@@ -1,9 +1,21 @@
+.vitals-shell-combat-stats {
+    margin-top: 10px;
+}
+
+.vitals-shell-combat-stats div {
+    margin-bottom: 10px;
+}
+
+.vitals-shell-combat-stats div p {
+    text-align: right;
+}
+
 .combat-stat-shell {
     display: flex;
 }
 
 .combat-stat-shell div:first-child {
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 thead {
