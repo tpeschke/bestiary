@@ -755,18 +755,18 @@ export class CombatInfoComponent implements OnChanges {
     },
     rangedistance: {
       scaling: {
-        majSt: 25,
-        minSt: 10,
-        none: 0,
-        minWk: -10,
-        majWk: -25
+        majSt: 200,
+        minSt: 100,
+        none: 50,
+        minWk: 25,
+        majWk: 10
       },
       bonus: {
-        majSt: 15,
-        minSt: 10,
+        majSt: 50,
+        minSt: 20,
         none: 0,
         minWk: 5,
-        majWk: 1
+        majWk: 2
       }
     },
     recovery: {
