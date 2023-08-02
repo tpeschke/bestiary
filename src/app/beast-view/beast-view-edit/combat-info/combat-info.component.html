@@ -25,21 +25,10 @@
       <p class="damage">{{damageString}}</p>
       <p *ngIf="getWeaponType() === 'm'" class="parry">{{getModifiedStatsMinZero('weaponsmallpiercing')}}</p>
     </div>
-
-    <div class="vitals-shell-combat-stats">
-      <div>
-        <strong>Vitality:</strong>
-        <p>/ {{fatigue}} / {{vitality}}</p>
-      </div>
-      <div>
-        <strong>Stress Threshold:</strong>
-        <p>/ {{panic}} / {{stressThreshold}}</p>
-      </div>
-    </div>
     
     <mat-form-field>
       <mat-label>Range Type</mat-label>
-      <mat-select [value]="combatStats.weapontype ? combatStats.weapontype : roleInfo.weapontype"
+      <mat-select [value]="getWeaponType()"
         (selectionChange)="captureSelect($event, 'weapontype')">
         <mat-option value="m">
           Melee

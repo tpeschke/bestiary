@@ -48,6 +48,7 @@ export class CombatInfoComponent implements OnChanges {
   public fatigue = 0
   public stressThreshold = 0
   public panic = 0
+  public weaponType = ''
 
   public attackStats = [
     {
@@ -149,11 +150,28 @@ export class CombatInfoComponent implements OnChanges {
   ]
 
   ngOnChanges(changes) {
-    if (this.primaryRole) {
-      this.roleInfo = roles.combatRoles.primary[this.primaryRole].combatStats
-    }
+    this.setRoleInfo()
     this.setDamageDice()
     this.setVitalityAndStress()
+  }
+
+  setRoleInfo = () => {
+    if (this.primaryRole) {
+      this.weaponType = roles.combatRoles.primary[this.primaryRole].weapontype
+      if (this.combatStats.weapontype) {
+        if (this.combatStats.weapontype === 'm') {
+          this.roleInfo = roles.combatRoles.primary[this.primaryRole].meleeCombatStats
+        } else if (this.combatStats.weapontype === 'r') {
+          this.roleInfo = roles.combatRoles.primary[this.primaryRole].rangedCombatStats
+        }
+      } else {
+        if (roles.combatRoles.primary[this.primaryRole].weapontype === 'm') {
+          this.roleInfo = roles.combatRoles.primary[this.primaryRole].meleeCombatStats
+        } else if (roles.combatRoles.primary[this.primaryRole].weapontype === 'r') {
+          this.roleInfo = roles.combatRoles.primary[this.primaryRole].rangedCombatStats
+        }
+      }
+    }
   }
 
   setVitalityAndStress = () => {
@@ -410,7 +428,7 @@ export class CombatInfoComponent implements OnChanges {
     if (this.combatStats.weapontype) {
       return this.combatStats.weapontype
     }
-    return this.roleInfo.weapontype
+    return this.weaponType
   }
 
   checkAttackStat = (stat, value, event) => {
@@ -462,6 +480,10 @@ export class CombatInfoComponent implements OnChanges {
 
   captureSelect = (event, type) => {
     this.combatStats[type] = event.value
+
+    if (type === 'weapontype') {
+      this.setRoleInfo()
+    }
   }
 
   public scalingAndBases = {
