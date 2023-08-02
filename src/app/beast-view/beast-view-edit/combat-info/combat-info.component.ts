@@ -8,34 +8,35 @@ import roles from '../../roles.js'
 })
 export class CombatInfoComponent implements OnChanges {
   @Input() primaryRole: any;
+  @Input() combatStats: any;
 
   public points = 0
-  public combatStats = {
-    weapontype: null,
-    piercingweapons: null,
-    slashingweapons: null,
-    crushingweapons: null,
-    weaponsmallslashing: null,
-    weaponsmalcrushing: null,
-    weaponsmallpiercing: null,
-    andslashing: null,
-    andcrushing: null,
-    flanks: null,
-    rangeddefence: null,
-    all: null,
-    allaround: null,
-    armorandshields: null,
-    unarmored: null,
-    attack: null,
-    caution: null,
-    fatigue: null,
-    initiative: null,
-    measure: null,
-    panic: null,
-    rangedistance: null,
-    recovery: null,
-    largeweapons: null
-  }
+  // public combatStats = {
+  //   weapontype: null,
+  //   piercingweapons: null,
+  //   slashingweapons: null,
+  //   crushingweapons: null,
+  //   weaponsmallslashing: null,
+  //   weaponsmalcrushing: null,
+  //   weaponsmallpiercing: null,
+  //   andslashing: null,
+  //   andcrushing: null,
+  //   flanks: null,
+  //   rangeddefence: null,
+  //   all: null,
+  //   allaround: null,
+  //   armorandshields: null,
+  //   unarmored: null,
+  //   attack: null,
+  //   caution: null,
+  //   fatigue: null,
+  //   initiative: null,
+  //   measure: null,
+  //   panic: null,
+  //   rangedistance: null,
+  //   recovery: null,
+  //   largeweapons: null
+  // }
 
   constructor() { }
 

@@ -60,3 +60,7 @@ th, td {
 .checkmark-role-background ::ng-deep .mat-checkbox-background {
     background-color: #a9a9a9 !important;
 }
+
+.square-shell {
+    background: whitesmoke;
+}

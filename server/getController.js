@@ -301,6 +301,8 @@ module.exports = {
           return result
         }))
 
+        beast.combatStatArray = []
+        
         promiseArray.push(db.get.beastcombat(id).then(result => {
           let specialAbilities = {}
           beast.combat = result.map(weapon => {
