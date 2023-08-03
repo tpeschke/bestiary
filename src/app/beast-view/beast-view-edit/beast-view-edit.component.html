@@ -831,7 +831,7 @@
           <div class="combat-shell unset-width">
             <div *ngFor="let square of beast.combatStatArray; let i = index">
               <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell unset-width">
-                <app-combat-info [primaryRole]="beast.roleInfo[selectedRoleId].role" [combatStats]="square"></app-combat-info>
+                <app-combat-info [primaryRole]="beast.roleInfo[selectedRoleId].role" [combatStats]="square" [points]="beast.combatpoints"></app-combat-info>
               </div>
             </div>
             <!-- <div *ngFor="let square of beast.combat; let i = index">

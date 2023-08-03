@@ -71,6 +71,7 @@ import { SkillDisplayComponent } from './beast-view/beast-view-edit/skill-displa
 import { FlawDisplayComponent } from './beast-view/beast-view-edit/flaw-display/flaw-display.component';
 import { ChallengeInnardsComponent } from './obstacle-index/view/challenge-innards/challenge-innards.component';
 import { CombatInfoComponent } from './beast-view/beast-view-edit/combat-info/combat-info.component';
+import { CombatStatsService } from './util/services/combatStats.service';
 
 const routes: Routes = [
   {
@@ -163,7 +164,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })
   ],
   entryComponents: [ObstaclePopUpComponent, DifficultyMatrixComponent, ChallengePopUpComponent],
-  providers: [BeastService, CalculatorService],
+  providers: [BeastService, CalculatorService, CombatStatsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

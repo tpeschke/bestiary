@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { CombatStatsService } from 'src/app/util/services/combatStats.service.js';
 import roles from '../../roles.js'
 
 @Component({
@@ -9,8 +10,8 @@ import roles from '../../roles.js'
 export class CombatInfoComponent implements OnChanges {
   @Input() primaryRole: any;
   @Input() combatStats: any;
+  @Input() points: any
 
-  public points = 0
   // public combatStats = {
   //   weapontype: null,
   //   piercingweapons: null,
@@ -38,7 +39,9 @@ export class CombatInfoComponent implements OnChanges {
   //   largeweapons: null
   // }
 
-  constructor() { }
+  constructor(
+    public combatStatsService: CombatStatsService
+  ) { }
 
   public roleInfo = null;
   public damageType = ''
@@ -175,25 +178,12 @@ export class CombatInfoComponent implements OnChanges {
     }
   }
 
-  setVitalityAndStress = () => {
-    this.vitality = this.getModifiedStats('largeweapons')
-    this.stressThreshold = this.getModifiedStats('mental')
-
-    const fatiguePercent = this.getModifiedStats('fatigue')
-    const panicPercent = this.getModifiedStats('panic')
-
-    this.fatigue = Math.ceil(this.vitality * fatiguePercent)
-    this.panic = Math.ceil(this.stressThreshold * panicPercent)
+  getModifiedStats = (stat) => {
+    return this.combatStatsService.getModifiedStatsRounded(stat, this.combatStats, this.roleInfo, this.points)
   }
 
-  getDamageScalingInfo = () => {
-    if (this.damageType === 'C') {
-      return this.scalingAndBases.crushingweapons
-    } else if (this.damageType === 'P') {
-      return this.scalingAndBases.piercingweapons
-    } else if (this.damageType === 'S') {
-      return this.scalingAndBases.slashingweapons
-    }
+  getModifiedStatsMinZero = (stat) => {
+    return this.combatStatsService.getModifiedStatsMinZero(stat, this.combatStats, this.roleInfo, this.points)
   }
 
   setDamageDice() {
@@ -222,7 +212,7 @@ export class CombatInfoComponent implements OnChanges {
       }
     }
 
-    const scaling = this.getDamageScalingInfo();
+    const scaling = this.combatStatsService.getDamageScalingInfo(this.damageType);
 
     let modifiedPoints
     if (scalingStrength === 'noneWk') {
@@ -291,31 +281,31 @@ export class CombatInfoComponent implements OnChanges {
 
     if (d3s > 0) {
       diceString += `${d3s}d3!`
-      baseRecovery += d3s * this.scalingAndBases.recovery.base.d3
+      baseRecovery += d3s * this.combatStatsService.getRecoveryFromDiceSize('d3')
     }
     if (d4s > 0) {
       diceString += ` ${diceString !== '' ? '+' : ''}${d4s}d4!`
-      baseRecovery += d4s * this.scalingAndBases.recovery.base.d4
+      baseRecovery += d4s * this.combatStatsService.getRecoveryFromDiceSize('d4')
     }
     if (d6s > 0) {
       diceString += ` ${diceString !== '' ? '+' : ''}${d6s}d6!`
-      baseRecovery += d6s * this.scalingAndBases.recovery.base.d6
+      baseRecovery += d6s * this.combatStatsService.getRecoveryFromDiceSize('d6')
     }
     if (d8s > 0) {
       diceString += ` ${diceString !== '' ? '+' : ''}${d8s}d8!`
-      baseRecovery += d8s * this.scalingAndBases.recovery.base.d8
+      baseRecovery += d8s * this.combatStatsService.getRecoveryFromDiceSize('d8')
     }
     if (d10s > 0) {
       diceString += ` ${diceString !== '' ? '+' : ''}${d10s}d10!`
-      baseRecovery += d10s * this.scalingAndBases.recovery.base.d10
+      baseRecovery += d10s * this.combatStatsService.getRecoveryFromDiceSize('d10')
     }
     if (d12s > 0) {
       diceString += ` ${diceString !== '' ? '+' : ''}${d12s}d12!`
-      baseRecovery += d12s * this.scalingAndBases.recovery.base.d12
+      baseRecovery += d12s * this.combatStatsService.getRecoveryFromDiceSize('d12')
     }
     if (d20s > 0) {
       diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
-      baseRecovery += d20s * this.scalingAndBases.recovery.base.d20
+      baseRecovery += d20s * this.combatStatsService.getRecoveryFromDiceSize('d20')
     }
 
     if (crushingDamageMod) {
@@ -328,6 +318,18 @@ export class CombatInfoComponent implements OnChanges {
     this.damageString = diceString
   }
 
+  setVitalityAndStress = () => {
+    this.vitality = this.combatStatsService.getModifiedStats('largeweapons', this.combatStats, this.roleInfo)
+    this.stressThreshold = this.combatStatsService.getModifiedStats('mental', this.combatStats, this.roleInfo)
+
+    const fatiguePercent = this.combatStatsService.getModifiedStats('fatigue', this.combatStats, this.roleInfo)
+    const panicPercent = this.combatStatsService.getModifiedStats('panic', this.combatStats, this.roleInfo)
+
+    this.fatigue = Math.ceil(this.vitality * fatiguePercent)
+    this.panic = Math.ceil(this.stressThreshold * panicPercent)
+  }
+
+
   setModifiedRecovery = () => {
     let scalingStrength;
 
@@ -337,7 +339,7 @@ export class CombatInfoComponent implements OnChanges {
       scalingStrength = this.roleInfo.recovery
     }
 
-    const scaling = this.scalingAndBases.recovery
+    const scaling = this.combatStatsService.getStatScaling('recovery')
 
     if (scalingStrength === 'noneWk') {
       this.recovery = Math.ceil(this.baseRecovery * scaling.scaling.majWk)
@@ -348,43 +350,8 @@ export class CombatInfoComponent implements OnChanges {
     }
   }
 
-  getModifiedStats = (stat) => {
-    let scalingStrength;
-    let modifiedStat;
-
-    if (this.combatStats[stat]) {
-      scalingStrength = this.combatStats[stat]
-    } else {
-      scalingStrength = this.roleInfo[stat]
-    }
-
-    const scaling = this.scalingAndBases[stat]
-
-    if (scalingStrength === 'noneWk') {
-      modifiedStat = scaling.scaling.majWk
-    } else if (scalingStrength === 'none' || !scalingStrength) {
-      modifiedStat = scaling.scaling.none
-    } else {
-      modifiedStat = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
-    }
-
-    return modifiedStat
-  }
-
-  getModifiedStatsRounded = (stat) => {
-    return Math.ceil(this.getModifiedStats(stat))
-  }
-
-  getModifiedStatsMinZero = (stat) => {
-    const modifiedStat = this.getModifiedStats(stat)
-    if (modifiedStat > 0) {
-      return modifiedStat
-    }
-    return 0
-  }
-
   getCover = () => {
-    const cover = this.getModifiedStatsMinZero('rangeddefense')
+    const cover = this.combatStatsService.getModifiedStatsMinZero('rangeddefense', this.combatStats, this.roleInfo)
 
     if (cover > 0) {
       const crouchedCover = cover * 1.5
@@ -400,15 +367,15 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   getBaseDR = () => {
-    const slashDR = this.getModifiedStats('weaponsmallslashing')
-    const staticDR = this.getModifiedStats('weaponsmallcrushing')
+    const slashDR = this.combatStatsService.getModifiedStats('weaponsmallslashing', this.combatStats, this.roleInfo)
+    const staticDR = this.combatStatsService.getModifiedStats('weaponsmallcrushing', this.combatStats, this.roleInfo)
 
     return this.getDR(slashDR, staticDR)
   }
 
   getParryDR = () => {
-    const slashDR = this.getModifiedStats('andslashing')
-    const staticDR = this.getModifiedStats('andcrushing')
+    const slashDR = this.combatStatsService.getModifiedStats('andslashing', this.combatStats, this.roleInfo)
+    const staticDR = this.combatStatsService.getModifiedStats('andcrushing', this.combatStats, this.roleInfo)
 
     return this.getDR(slashDR, staticDR)
   }
@@ -484,370 +451,6 @@ export class CombatInfoComponent implements OnChanges {
 
     if (type === 'weapontype') {
       this.setRoleInfo()
-    }
-  }
-
-  public scalingAndBases = {
-    piercingweapons: {
-      scaling: {
-        majSt: 6,
-        minSt: 5,
-        none: 4,
-        minWk: 3,
-        majWk: 2
-      },
-      bonus: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majWk: .25
-      }
-    },
-    slashingweapons: {
-      scaling: {
-        majSt: 5,
-        minSt: 4,
-        none: 3,
-        minWk: 2,
-        majWk: 1
-      },
-      bonus: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majWk: .25
-      }
-    },
-    crushingweapons: {
-      scaling: {
-        majSt: 5,
-        minSt: 4,
-        none: 3,
-        minWk: 2,
-        majWk: 1
-      },
-      bonus: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majWk: .25
-      }
-    },
-    all: {
-      scaling: {
-        majSt: 3,
-        minSt: 2,
-        none: 0,
-        minWk: -2,
-        majWk: -4
-      },
-      bonus: {
-        majSt: 1.1,
-        minSt: 1.05,
-        none: 0,
-        minWk: 1,
-        majWk: .9
-      }
-    },
-    largeweapons: {
-      scaling: {
-        majSt: 50,
-        minSt: 35,
-        none: 25,
-        minWk: 20,
-        majWk: 15
-      },
-      bonus: {
-        majSt: 15,
-        minSt: 10,
-        none: 0,
-        minWk: 5,
-        majWk: 1
-      }
-    },
-    rangeddefense: {
-      scaling: {
-        majSt: 6,
-        minSt: 3,
-        none: 0,
-        minWk: -3,
-        majWk: -6
-      },
-      bonus: {
-        majSt: 3,
-        minSt: 2,
-        none: 0,
-        minWk: 1,
-        majWk: .75
-      }
-    },
-    weaponsmallcrushing: {
-      scaling: {
-        majSt: 3,
-        minSt: 2,
-        none: 0,
-        minWk: -1,
-        majWk: -3
-      },
-      bonus: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majWk: .25
-      }
-    },
-    weaponsmallpiercing: {
-      scaling: {
-        majSt: 6,
-        minSt: 3,
-        none: 0,
-        minWk: -3,
-        majWk: -6
-      },
-      bonus: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majWk: .25
-      }
-    },
-    andslashing: {
-      scaling: {
-        majSt: 3,
-        minSt: 2,
-        none: 1,
-        minWk: 0,
-        majWk: -1
-      },
-      bonus: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majWk: .25
-      }
-    },
-    andcrushing: {
-      scaling: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: -1,
-        majWk: -2
-      },
-      bonus: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majWk: .25
-      }
-    },
-    weaponsmallslashing: {
-      scaling: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: -2,
-        majWk: -4
-      },
-      bonus: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majWk: .25
-      }
-    },
-    flanks: {
-      scaling: {
-        majSt: 2,
-        minSt: 1,
-        none: 0,
-        minWk: -1,
-        majWk: -2
-      },
-      bonus: {
-        majSt: 1.5,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majWk: .25
-      }
-    },
-    attack: {
-      scaling: {
-        majSt: 5,
-        minSt: 3,
-        none: 0,
-        minWk: -3,
-        majWk: -5
-      },
-      bonus: {
-        majSt: 1.25,
-        minSt: 1,
-        none: 0,
-        minWk: .5,
-        majWk: .33
-      }
-    },
-    caution: {
-      scaling: {
-        majSt: .5,
-        minSt: .35,
-        none: .25,
-        minWk: .1,
-        majWk: 0
-      },
-      bonus: {
-        majSt: .15,
-        minSt: .1,
-        none: 0,
-        minWk: .05,
-        majWk: .01
-      }
-    },
-    fatigue: {
-      scaling: {
-        majSt: .5,
-        minSt: .35,
-        none: .25,
-        minWk: .1,
-        majWk: 0
-      },
-      bonus: {
-        majSt: .15,
-        minSt: .1,
-        none: 0,
-        minWk: .05,
-        majWk: .01
-      }
-    },
-    initiative: {
-      scaling: {
-        majSt: -2,
-        minSt: -1,
-        none: 0,
-        minWk: 2,
-        majWk: 4
-      },
-      bonus: {
-        majSt: 1.5,
-        minSt: 1.25,
-        none: 0,
-        minWk: .75,
-        majWk: .5
-      }
-    },
-    measure: {
-      scaling: {
-        majSt: 5,
-        minSt: 4,
-        none: 3,
-        minWk: 2,
-        majWk: 1
-      },
-      bonus: {
-        majSt: 1.1,
-        minSt: 1,
-        none: 0,
-        minWk: .75,
-        majWk: .21
-      }
-    },
-    panic: {
-      scaling: {
-        majSt: .5,
-        minSt: .35,
-        none: .25,
-        minWk: .1,
-        majWk: 0
-      },
-      bonus: {
-        majSt: .15,
-        minSt: .1,
-        none: 0,
-        minWk: .05,
-        majWk: .01
-      }
-    },
-    rangedistance: {
-      scaling: {
-        majSt: 200,
-        minSt: 100,
-        none: 50,
-        minWk: 25,
-        majWk: 10
-      },
-      bonus: {
-        majSt: 50,
-        minSt: 20,
-        none: 0,
-        minWk: 5,
-        majWk: 2
-      }
-    },
-    recovery: {
-      base: {
-        d3: 2,
-        d4: 3,
-        d6: 4,
-        d8: 5,
-        d10: 6,
-        d12: 7,
-        d20: 11,
-      },
-      scaling: {
-        majSt: .75,
-        minSt: .9,
-        none: 1,
-        minWk: 1.1,
-        majWk: 1.25
-      },
-      bonus: {
-        majSt: .5,
-        minSt: .25,
-        none: 0,
-        minWk: .1,
-        majWk: .05
-      }
-    },
-    movement: {
-      scaling: {
-        majSt: 7.5,
-        minSt: 5,
-        none: 2.5,
-        minWk: 1,
-        majWk: .5
-      },
-      bonus: {
-        majSt: 5,
-        minSt: 2.5,
-        none: 0,
-        minWk: 1,
-        majWk: .5
-      }
-    },
-    mental: {
-      scaling: {
-        majSt: 50,
-        minSt: 35,
-        none: 25,
-        minWk: 20,
-        majWk: 15
-      },
-      bonus: {
-        majSt: 15,
-        minSt: 10,
-        none: 0,
-        minWk: 5,
-        majWk: 1
-      }
     }
   }
 

@@ -302,6 +302,7 @@ module.exports = {
         }))
 
         beast.combatStatArray = []
+        beast.combatpoints = 0
         
         promiseArray.push(db.get.beastcombat(id).then(result => {
           let specialAbilities = {}
