@@ -29,7 +29,6 @@ export class CombatInfoComponent implements OnChanges {
   //   armorandshields: null,
   //   unarmored: null,
   //   attack: null,
-  //   caution: null,
   //   fatigue: null,
   //   initiative: null,
   //   measure: null,
@@ -124,10 +123,6 @@ export class CombatInfoComponent implements OnChanges {
       stat: 'attack'
     },
     {
-      label: 'Caution',
-      stat: 'caution'
-    },
-    {
       label: 'Fatigue',
       stat: 'fatigue'
     },
@@ -138,10 +133,6 @@ export class CombatInfoComponent implements OnChanges {
     {
       label: 'Measure',
       stat: 'measure'
-    },
-    {
-      label: 'Panic',
-      stat: 'panic'
     },
     {
       label: 'Range, Distance',
@@ -329,7 +320,6 @@ export class CombatInfoComponent implements OnChanges {
     this.panic = Math.ceil(this.stressThreshold * panicPercent)
   }
 
-
   setModifiedRecovery = () => {
     let scalingStrength;
 
@@ -352,7 +342,6 @@ export class CombatInfoComponent implements OnChanges {
 
   getCover = () => {
     const cover = this.combatStatsService.getModifiedStatsMinZero('rangeddefense', this.combatStats, this.roleInfo, this.points)
-
     if (cover > 0) {
       const crouchedCover = cover * 1.5
 
@@ -367,15 +356,15 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   getBaseDR = () => {
-    const slashDR = this.combatStatsService.getModifiedStats('weaponsmallslashing', this.combatStats, this.roleInfo, this.points)
-    const staticDR = this.combatStatsService.getModifiedStats('weaponsmallcrushing', this.combatStats, this.roleInfo, this.points)
+    const slashDR = this.combatStatsService.getModifiedStatsRounded('weaponsmallslashing', this.combatStats, this.roleInfo, this.points)
+    const staticDR = this.combatStatsService.getModifiedStatsRounded('weaponsmallcrushing', this.combatStats, this.roleInfo, this.points)
 
     return this.getDR(slashDR, staticDR)
   }
 
   getParryDR = () => {
-    const slashDR = this.combatStatsService.getModifiedStats('andslashing', this.combatStats, this.roleInfo, this.points)
-    const staticDR = this.combatStatsService.getModifiedStats('andcrushing', this.combatStats, this.roleInfo, this.points)
+    const slashDR = this.combatStatsService.getModifiedStatsRounded('andslashing', this.combatStats, this.roleInfo, this.points)
+    const staticDR = this.combatStatsService.getModifiedStatsRounded('andcrushing', this.combatStats, this.roleInfo, this.points)
 
     return this.getDR(slashDR, staticDR)
   }

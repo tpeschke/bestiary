@@ -9,6 +9,7 @@ import { MatExpansionPanel, MatSelect } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { CombatStatsService } from 'src/app/util/services/combatStats.service';
 
 @Component({
   selector: 'app-beast-view-edit',
@@ -34,6 +35,7 @@ export class BeastViewEditComponent implements OnInit {
     private router: Router,
     private beastService: BeastService,
     private calculatorService: CalculatorService,
+    public combatStatsService: CombatStatsService
   ) { }
 
   objectKeys = Object.keys;
@@ -50,10 +52,18 @@ export class BeastViewEditComponent implements OnInit {
   public newObstacleId = null;
   public averageVitality = null;
   public lootTables = lootTables;
+
   public displayFatigue = null;
   public displayPanic = null;
   public hiddenPanic = null;
   public fatigueAsVitality: any = '';
+
+  public mental = {
+    stress: null,
+    panic: null,
+    caution: null
+  }
+
   public selectedRoleId = null;
   public filteredRoles = [];
   public selectedRole: any = {}
@@ -71,6 +81,22 @@ export class BeastViewEditComponent implements OnInit {
     socialsecondary: null
   };
   public deletedSpellList = null;
+
+  public mentalStats = [
+    {
+      label: 'Mental',
+      stat: 'mental',
+      tooltip: 'Stress Threshold'
+    },
+    {
+      label: 'Panic',
+      stat: 'panic',
+    },
+    {
+      label: 'Caution',
+      stat: 'caution',
+    },
+  ]
 
   public temperament = {
     temperament: null,
@@ -480,6 +506,8 @@ export class BeastViewEditComponent implements OnInit {
       this.bootUpAutoCompletes()
 
       this.setDefaultRole()
+      this.setStressAndPanic()
+
       this.determineBaseFatigue()
       this.determineBasePanic()
       this.calculateCombatPoints()
@@ -544,8 +572,6 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureHTML(event, type) {
-    // console.log(type)
-    // console.log(event)
     if (type.includes('role')) {
       for (let i = 0; i < this.beast.roles.length; i++) {
         if (this.beast.roles[i].id === this.selectedRoleId) {
@@ -1448,6 +1474,8 @@ export class BeastViewEditComponent implements OnInit {
       }
     }
 
+    this.setStressAndPanic()
+
     this.determineBaseFatigue()
     this.determineBasePanic()
   }
@@ -1472,6 +1500,9 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     this.captureSelectWithRoleConsideration({ value: this.combatRolesInfo[event.value].fatigue }, 'fatigue')
+    
+    this.setStressAndPanic()
+
     this.determineBaseFatigue()
     this.determineBasePanic()
   }
@@ -1874,7 +1905,7 @@ export class BeastViewEditComponent implements OnInit {
       }
     })
 
-    this.beast.combatpoints = combatpoints
+    // this.beast.combatpoints = combatpoints
 
     //Roles
     this.beast.roles.forEach(role => {
@@ -2037,8 +2068,8 @@ export class BeastViewEditComponent implements OnInit {
         })
       }
 
-      role.combatpoints = combatpoints
-      this.beast.roleInfo[role.id].combatpoints = combatpoints
+      // role.combatpoints = combatpoints
+      // this.beast.roleInfo[role.id].combatpoints = combatpoints
     })
   }
 
@@ -2176,6 +2207,15 @@ export class BeastViewEditComponent implements OnInit {
     this.convertFatigue()
   }
 
+  setStressAndPanic = () => {
+    const baseRoleInfo = roles.combatRoles.primary[this.beast.roleInfo[this.selectedRoleId].role].meleeCombatStats
+    this.mental.stress = this.combatStatsService.getModifiedStats('mental', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
+
+    const panic = this.combatStatsService.getModifiedStats('panic', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
+
+    this.mental.panic = Math.floor(panic * this.mental.stress)
+  }
+
   determineBasePanic = () => {
     let stress
     if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].stress) {
@@ -2301,6 +2341,23 @@ export class BeastViewEditComponent implements OnInit {
         truth: null
       }
     }
+  }
+
+  checkMentalStat = (stat, value, event) => {
+    if (!value) {
+      event.source._checked = false
+    }
+    if (this.beast.roleInfo[this.selectedRoleId][stat] === value) {
+      event.source._checked = false
+      this.beast.roleInfo[this.selectedRoleId][stat] = null
+    } else if (this.selectedRole[stat] === value || (value === 'none' && !this.selectedRole[stat])) {
+      event.source._checked = true
+      this.beast.roleInfo[this.selectedRoleId][stat] = null
+    } else {
+      this.beast.roleInfo[this.selectedRoleId][stat] = value
+    }
+
+    this.setStressAndPanic()
   }
 
   getImageUrl() {

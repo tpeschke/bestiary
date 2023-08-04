@@ -302,7 +302,6 @@ module.exports = {
         }))
 
         beast.combatStatArray = []
-        beast.combatpoints = 0
         
         promiseArray.push(db.get.beastcombat(id).then(result => {
           let specialAbilities = {}
@@ -542,16 +541,18 @@ module.exports = {
               attack: result[i].attack,
               defense: result[i].defense,
               combatpoints: result[i].combatpoints,
-              panic: result[i].panic,
               stress: result[i].stress,
-              caution: result[i].caution,
               socialrole: result[i].socialrole,
               socialpoints: result[i].socialpoints,
               skillrole: result[i].skillrole,
               skillpoints: result[i].skillpoints,
               socialsecondary: result[i].socialsecondary,
               size: result[i].size,
-              fatigue: result[i].fatigue
+              fatigue: result[i].fatigue,
+              mental: null,
+              combatpoints: 0,
+              panic: null,
+              caution: null
             }
           }
           return result

@@ -22,7 +22,6 @@ getModifiedStats = function (stat, combatStats, roleInfo, points)  {
   }
 
   const scaling = this.scalingAndBases[stat]
-
   if (scalingStrength === 'noneWk') {
     modifiedStat = scaling.scaling.majWk
   } else if (scalingStrength === 'none' || !scalingStrength) {
@@ -35,7 +34,7 @@ getModifiedStats = function (stat, combatStats, roleInfo, points)  {
 }
 
 getModifiedStatsRounded = function (stat, combatStats, roleInfo, points)  {
-  return Math.ceil(this.getModifiedStats(stat, combatStats, roleInfo, points))
+  return Math.floor(this.getModifiedStats(stat, combatStats, roleInfo, points))
 }
 
 getModifiedStatsMinZero = function (stat, combatStats, roleInfo, points)  {
