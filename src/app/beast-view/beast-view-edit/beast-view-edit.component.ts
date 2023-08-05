@@ -1589,6 +1589,10 @@ export class BeastViewEditComponent implements OnInit {
     } else {
       this.beast.secondaryrole = event.value
     }
+
+    if (event.value === 'Fodder' || event.value === 'Solo') {
+      this.setVitalityAndFatigue()
+    }
   }
 
   setSocialSecondaryRoleType(event) {
@@ -2251,6 +2255,14 @@ export class BeastViewEditComponent implements OnInit {
     const baseRoleInfo = roles.combatRoles.primary[this.beast.roleInfo[this.selectedRoleId].role].meleeCombatStats
     this.physical.largeweapons = this.combatStatsService.getModifiedStats('largeweapons', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
 
+    if (this.beast.roleInfo[this.selectedRoleId].secondaryrole) {
+      if (this.beast.roleInfo[this.selectedRoleId].secondaryrole === 'Fodder') {
+        this.physical.largeweapons = Math.floor(this.physical.largeweapons / 2)
+      } else if (this.beast.roleInfo[this.selectedRoleId].secondaryrole === 'Solo') {
+        this.physical.largeweapons *= 3
+      }
+    } 
+
     let fatigue = this.combatStatsService.getModifiedStats('fatigue', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
     if (fatigue > 1) {
       fatigue = 1
@@ -2331,10 +2343,10 @@ export class BeastViewEditComponent implements OnInit {
           this.physical.diceString = `d4 + ${sizeMod}`
         }
       } else {
-        this.physical.diceString = sizeMod
+        this.physical.diceString = this.physical.largeweapons
       }
     } else {
-      this.physical.diceString = sizeMod
+      this.physical.diceString = this.physical.largeweapons
     }
   }
 

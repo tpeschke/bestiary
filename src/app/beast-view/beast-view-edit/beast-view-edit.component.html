@@ -864,7 +864,7 @@
               <p><strong>Fatigue: </strong> {{physical.fatigue}}</p>
               <span class="vitality-span-tag">
                 <p><strong>Vitality: </strong> {{physical.largeweapons}}</p>
-                <p>({{physical.diceString}})</p>
+                <p>{{physical.diceString}}</p>
               </span>
               <p><strong>Caution: </strong> {{mental.caution}}</p>
             </div>
@@ -946,9 +946,6 @@
                 </tr>
               </tbody>
             </table>
-            <p *ngIf="(selectedRoleId && !beast.roleInfo[selectedRoleId].vitality && beast.roleInfo[selectedRoleId].secondaryrole === 'Fodder') || (!selectedRoleId && !beast.vitality && beast.secondaryrole === 'Fodder')"
-              class="warning">This Vitality will be halved since this is the default Vitality for this Role and their
-              Secondary is Fodder</p>
             <br>
             <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?
             </mat-checkbox>
@@ -1025,7 +1022,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let stat of movementStats">
-                    <td class="vitality-span-tag">{{stat.label}} <p>({{movementType.movementSpeeds[stat.speed]}} ft / sec)</p>
+                    <td class="vitality-span-tag">{{stat.label}} <p>{{movementType.movementSpeeds[stat.speed]}} ft / sec</p>
                     </td>
                     <td>
                       <mat-checkbox
