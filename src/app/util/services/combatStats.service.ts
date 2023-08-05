@@ -420,11 +420,11 @@ public scalingAndBases = {
       majWk: 1
     },
     bonus: {
-      majSt: 5,
-      minSt: 2.5,
+      majSt: .5,
+      minSt: .3,
       none: 0,
-      minWk: 2,
-      majWk: 1
+      minWk: .2,
+      majWk: .1
     }
   },
   mental: {

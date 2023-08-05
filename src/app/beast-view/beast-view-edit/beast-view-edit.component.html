@@ -811,6 +811,10 @@
     <mat-tab label="Combat">
       <ng-template matTabContent>
         <div class="tab-wrapper">
+          <mat-form-field>
+            <input placeholder="Combat Points" matInput [value]="beast.roleInfo[selectedRoleId].combatpoints"
+              (change)="captureBasicInput($event, 'combatpoints')">
+          </mat-form-field>
           <div>
             <mat-form-field>
               <mat-label>Change Role Type</mat-label>
@@ -1075,26 +1079,6 @@
                   </tr>
                 </tbody>
               </table>
-              <!-- <mat-form-field>
-                <input placeholder="Stroll/Crawl" matInput [value]="movementType.stroll"
-                  (change)="captureInput($event, 'movement', i, 'stroll')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Walk" matInput [value]="movementType.walk"
-                  (change)="captureInput($event, 'movement', i, 'walk')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Jog" matInput [value]="movementType.jog"
-                  (change)="captureInput($event, 'movement', i, 'jog')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Run" matInput [value]="movementType.run"
-                  (change)="captureInput($event, 'movement', i, 'run')">
-              </mat-form-field>
-              <mat-form-field>
-                <input placeholder="Sprint" matInput [value]="movementType.sprint"
-                  (change)="captureInput($event, 'movement', i, 'sprint')">
-              </mat-form-field> -->
               <div class="flex-row-opposite">
                 <section>
                   <mat-checkbox [checked]="movementType.allroles"

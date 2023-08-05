@@ -346,6 +346,11 @@ export class BeastViewEditComponent implements OnInit {
           if (movementObject.roleid) {
             movementObject.roleid = roleIdsDictionary[movementObject.roleid]
           }
+          let roleInfo;
+          if (movementObject.roleid) {
+            roleInfo = this.combatRolesInfo[this.beast.roleInfo[movementObject.roleid].role].meleeCombatStats
+          }
+          movementObject.movementSpeeds = this.calculateMovementSpeed(i, roleInfo, this.beast.roleInfo[movementObject.roleid].combatpoints)
           delete movementObject.id
           delete movementObject.beastid
           return movementObject
@@ -464,9 +469,9 @@ export class BeastViewEditComponent implements OnInit {
           if (val.roleid) {
             roleInfo = this.combatRolesInfo[this.beast.roleInfo[val.roleid].role].meleeCombatStats
           }
-          val.movementSpeeds = this.calculateMovementSpeed(i, roleInfo)
+          val.movementSpeeds = this.calculateMovementSpeed(i, roleInfo, this.beast.roleInfo[val.roleid].combatpoints)
           return val
-        }) 
+        })
 
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
@@ -649,6 +654,22 @@ export class BeastViewEditComponent implements OnInit {
       if (role.id === this.selectedRoleId) {
         role.name = event.target.value
       }
+    })
+  }
+
+  captureBasicInput = (event, type) => {
+    this.beast.roleInfo[this.selectedRoleId][type] = event.target.value
+
+    this.setVitalityAndFatigue()
+    this.setStressAndPanic()
+    this.setCaution()
+    this.beast.movement = this.beast.movement.map((val, i) => {
+      let roleInfo;
+      if (val.roleid) {
+        roleInfo = this.combatRolesInfo[this.beast.roleInfo[val.roleid].role].meleeCombatStats
+      }
+      val.movementSpeeds = this.calculateMovementSpeed(i, roleInfo, this.beast.roleInfo[val.roleid].combatpoints)
+      return val
     })
   }
 
@@ -1042,7 +1063,7 @@ export class BeastViewEditComponent implements OnInit {
         roleInfo = this.combatRolesInfo[this.beast.roleInfo[movement.roleid].role].meleeCombatStats
       }
       this.beast[type].push(movement)
-      this.beast.movement[this.beast.movement.length - 1].movementSpeeds = this.calculateMovementSpeed(this.beast.movement.length - 1, roleInfo)
+      this.beast.movement[this.beast.movement.length - 1].movementSpeeds = this.calculateMovementSpeed(this.beast.movement.length - 1, roleInfo, this.beast.roleInfo[movement.roleid].combatpoints)
     } else if (type === 'conflict') {
       let traitType = secondType === 'descriptions' ? 'h' : secondType.substring(0, 1);
       this.beast[type][secondType].push({
@@ -2219,8 +2240,10 @@ export class BeastViewEditComponent implements OnInit {
     const baseRoleInfo = roles.combatRoles.primary[this.beast.roleInfo[this.selectedRoleId].role].meleeCombatStats
     this.mental.stress = this.combatStatsService.getModifiedStats('mental', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
 
-    const panic = this.combatStatsService.getModifiedStats('panic', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
-
+    let panic = this.combatStatsService.getModifiedStats('panic', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
+    if (panic > 1) {
+      panic = 1
+    }
     this.mental.panic = Math.floor(panic * this.mental.stress)
   }
 
@@ -2228,8 +2251,10 @@ export class BeastViewEditComponent implements OnInit {
     const baseRoleInfo = roles.combatRoles.primary[this.beast.roleInfo[this.selectedRoleId].role].meleeCombatStats
     this.physical.largeweapons = this.combatStatsService.getModifiedStats('largeweapons', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
 
-    const fatigue = this.combatStatsService.getModifiedStats('fatigue', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
-
+    let fatigue = this.combatStatsService.getModifiedStats('fatigue', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
+    if (fatigue > 1) {
+      fatigue = 1
+    }
     this.physical.fatigue = Math.floor(fatigue * this.physical.largeweapons)
 
     this.deteremineVitalityDice()
@@ -2238,8 +2263,10 @@ export class BeastViewEditComponent implements OnInit {
 
   setCaution = () => {
     const baseRoleInfo = roles.combatRoles.primary[this.beast.roleInfo[this.selectedRoleId].role].meleeCombatStats
-    const caution = this.combatStatsService.getModifiedStats('caution', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
-
+    let caution = this.combatStatsService.getModifiedStats('caution', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
+    if (caution > 1) {
+      caution = 1
+    }
     this.mental.caution = Math.floor((this.mental.stress + this.physical.largeweapons) * caution)
   }
 
@@ -2423,10 +2450,10 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.movement[index][stat] = value
     }
 
-    this.beast.movement[index].movementSpeeds = this.calculateMovementSpeed(index, this.selectedRole.meleeCombatStats)
+    this.beast.movement[index].movementSpeeds = this.calculateMovementSpeed(index, this.selectedRole.meleeCombatStats, this.beast.roleInfo[this.selectedRoleId].combatpoints)
   }
 
-  calculateMovementSpeed = (index, roleInfo) => {
+  calculateMovementSpeed = (index, roleInfo, combatpoints) => {
     let movementSpeeds = {
       crawlspeed: 0,
       walkspeed: 0,
@@ -2435,11 +2462,11 @@ export class BeastViewEditComponent implements OnInit {
       sprintspeed: 0
     }
 
-    movementSpeeds.crawlspeed = this.combatStatsService.getMovementStats(this.beast.movement[index].crawlstrength, roleInfo, this.beast.combatpoints)
-    movementSpeeds.walkspeed = this.combatStatsService.getMovementStats(this.beast.movement[index].walkstrength, roleInfo, this.beast.combatpoints) + movementSpeeds.crawlspeed
-    movementSpeeds.jogspeed = this.combatStatsService.getMovementStats(this.beast.movement[index].jogstrength, roleInfo, this.beast.combatpoints) * 2 + movementSpeeds.walkspeed
-    movementSpeeds.runspeed = this.combatStatsService.getMovementStats(this.beast.movement[index].runstrength, roleInfo, this.beast.combatpoints) * 2 + movementSpeeds.jogspeed
-    movementSpeeds.sprintspeed = this.combatStatsService.getMovementStats(this.beast.movement[index].sprintstrength, roleInfo, this.beast.combatpoints) * 2 + movementSpeeds.runspeed
+    movementSpeeds.crawlspeed = this.combatStatsService.getMovementStats(this.beast.movement[index].crawlstrength, roleInfo, combatpoints)
+    movementSpeeds.walkspeed = this.combatStatsService.getMovementStats(this.beast.movement[index].walkstrength, roleInfo, combatpoints) + movementSpeeds.crawlspeed
+    movementSpeeds.jogspeed = this.combatStatsService.getMovementStats(this.beast.movement[index].jogstrength, roleInfo, combatpoints) * 2 + movementSpeeds.walkspeed
+    movementSpeeds.runspeed = this.combatStatsService.getMovementStats(this.beast.movement[index].runstrength, roleInfo, combatpoints) * 2 + movementSpeeds.jogspeed
+    movementSpeeds.sprintspeed = this.combatStatsService.getMovementStats(this.beast.movement[index].sprintstrength, roleInfo, combatpoints) * 2 + movementSpeeds.runspeed
     return movementSpeeds
   }
 
