@@ -63,6 +63,11 @@ export class BeastViewEditComponent implements OnInit {
     panic: null,
     caution: null
   }
+  public physical = {
+    largeweapons: null,
+    fatigue: null,
+    diceString: ''
+  }
 
   public selectedRoleId = null;
   public filteredRoles = [];
@@ -91,6 +96,20 @@ export class BeastViewEditComponent implements OnInit {
     {
       label: 'Panic',
       stat: 'panic',
+    },
+    {
+      label: 'Caution',
+      stat: 'caution',
+    },
+  ]
+  public physicalStats = [
+    {
+      label: 'Vitality',
+      stat: 'largeweapons',
+    },
+    {
+      label: 'Fatigue',
+      stat: 'fatigue',
     },
     {
       label: 'Caution',
@@ -507,6 +526,7 @@ export class BeastViewEditComponent implements OnInit {
 
       this.setDefaultRole()
       this.setStressAndPanic()
+      this.setVitalityAndFatigue()
 
       this.determineBaseFatigue()
       this.determineBasePanic()
@@ -1475,6 +1495,7 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     this.setStressAndPanic()
+    this.setVitalityAndFatigue()
 
     this.determineBaseFatigue()
     this.determineBasePanic()
@@ -1500,8 +1521,9 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     this.captureSelectWithRoleConsideration({ value: this.combatRolesInfo[event.value].fatigue }, 'fatigue')
-    
+
     this.setStressAndPanic()
+    this.setVitalityAndFatigue()
 
     this.determineBaseFatigue()
     this.determineBasePanic()
@@ -2216,6 +2238,85 @@ export class BeastViewEditComponent implements OnInit {
     this.mental.panic = Math.floor(panic * this.mental.stress)
   }
 
+  setVitalityAndFatigue = () => {
+    const baseRoleInfo = roles.combatRoles.primary[this.beast.roleInfo[this.selectedRoleId].role].meleeCombatStats
+    this.physical.largeweapons = this.combatStatsService.getModifiedStats('largeweapons', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
+
+    const fatigue = this.combatStatsService.getModifiedStats('fatigue', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
+
+    this.physical.fatigue = Math.floor(fatigue * this.physical.largeweapons)
+
+    this.deteremineVitalityDice()
+  }
+
+  deteremineVitalityDice = () => {
+    let size = this.beast.roleInfo[this.selectedRoleId].size
+    if (!size && this.beast.size) {
+      size = this.beast.size
+    } else {
+      size = 'Medium'
+    }
+    
+    const sizeDictionary = {
+      Fine: 1,
+      Diminutive: 5,
+      Tiny: 5,
+      Small: 10,
+      Medium: 15,
+      Large: 20,
+      Huge: 35,
+      Giant: 55,
+      Enormous: 90,
+      Colossal: 145
+    }
+
+    const sizeMod = sizeDictionary[size]
+    if (this.physical.largeweapons - sizeMod > 0) {
+      const remainder = this.physical.largeweapons - sizeMod
+      if (remainder % 10 === 0) {
+        if (remainder / 10 > 1) {
+          this.physical.diceString = `(d20 * ${remainder / 10}) + ${sizeMod}`
+        } else {
+          this.physical.diceString = `d20 + ${sizeMod}`
+        }
+      } else if (remainder % 6 === 0) {
+        if (remainder / 6 > 1) {
+          this.physical.diceString = `(d12 * ${remainder / 6}) + ${sizeMod}`
+        } else {
+          this.physical.diceString = `d12 + ${sizeMod}`
+        }
+      } else if (remainder % 5 === 0) {
+        if (remainder / 5 > 1) {
+          this.physical.diceString = `(d10 * ${remainder / 5}) + ${sizeMod}`
+        } else {
+          this.physical.diceString = `d10 + ${sizeMod}`
+        }
+      } else if (remainder % 4 === 0) {
+        if (remainder / 4 > 1) {
+          this.physical.diceString = `(d8 * ${remainder / 4}) + ${sizeMod}`
+        } else {
+          this.physical.diceString = `d8 + ${sizeMod}`
+        }
+      } else if (remainder % 3 === 0) {
+        if (remainder / 3 > 1) {
+          this.physical.diceString = `(d6 * ${remainder / 3}) + ${sizeMod}`
+        } else {
+          this.physical.diceString = `d6 + ${sizeMod}`
+        }
+      } else if (remainder % 2 === 0) {
+        if (remainder / 2 > 1) {
+          this.physical.diceString = `(d4 * ${remainder / 2}) + ${sizeMod}`
+        } else {
+          this.physical.diceString = `d4 + ${sizeMod}`
+        }
+      } else {
+        this.physical.diceString = sizeMod
+      }
+    } else {
+      this.physical.diceString = sizeMod
+    }
+  }
+
   determineBasePanic = () => {
     let stress
     if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].stress) {
@@ -2343,7 +2444,7 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  checkMentalStat = (stat, value, event) => {
+  checkStat = (stat, value, event) => {
     if (!value) {
       event.source._checked = false
     }
@@ -2358,6 +2459,7 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     this.setStressAndPanic()
+    this.setVitalityAndFatigue()
   }
 
   getImageUrl() {

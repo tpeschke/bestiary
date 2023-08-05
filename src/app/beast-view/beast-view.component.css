@@ -1132,6 +1132,16 @@ th, td {
     background-color: #a9a9a9 !important;
 }
 
+.vitality-span-tag {
+    display: flex;
+}
+
+.vitality-span-tag p:last-child {
+    margin-left: 5px;
+    color: gray;
+    font-size: 12px;
+}
+
 @media (max-width: 1295px) {
     .lairLoot li {
         width: 45%;

@@ -48,7 +48,6 @@ export class CombatInfoComponent implements OnChanges {
   public baseRecovery = 0
   public recovery = 0
   public vitality = 0
-  public fatigue = 0
   public stressThreshold = 0
   public panic = 0
   public weaponType = ''
@@ -121,10 +120,6 @@ export class CombatInfoComponent implements OnChanges {
     {
       label: 'Attack',
       stat: 'attack'
-    },
-    {
-      label: 'Fatigue',
-      stat: 'fatigue'
     },
     {
       label: 'Initiative',
@@ -307,17 +302,6 @@ export class CombatInfoComponent implements OnChanges {
     this.setModifiedRecovery()
 
     this.damageString = diceString
-  }
-
-  setVitalityAndStress = () => {
-    this.vitality = this.combatStatsService.getModifiedStats('largeweapons', this.combatStats, this.roleInfo, this.points)
-    this.stressThreshold = this.combatStatsService.getModifiedStats('mental', this.combatStats, this.roleInfo, this.points)
-
-    const fatiguePercent = this.combatStatsService.getModifiedStats('fatigue', this.combatStats, this.roleInfo, this.points)
-    const panicPercent = this.combatStatsService.getModifiedStats('panic', this.combatStats, this.roleInfo, this.points)
-
-    this.fatigue = Math.ceil(this.vitality * fatiguePercent)
-    this.panic = Math.ceil(this.stressThreshold * panicPercent)
   }
 
   setModifiedRecovery = () => {
