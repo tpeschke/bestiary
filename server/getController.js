@@ -178,6 +178,23 @@ module.exports = {
         res.send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
         promiseArray.push(db.get.beastmovement(beastid).then(result => {
+          result = result.map(val => {
+            const movementStrengths = {
+              crawlstrength: null,
+              walkstrength: null,
+              jogstrength: null,
+              runstrength: null,
+              sprintstrength: null
+            }
+            const movementSpeeds = {
+              crawlspeed: 0,
+              jogspeed: 0,
+              runspeed: 0,
+              sprintspeed: 0
+            }
+            val.movementSpeeds = movementSpeeds
+            return {...val, ...movementStrengths}
+          })
           if (isARole) {
             beast.movement = result.filter(movementType => movementType.roleid === roleid)
             if (beast.movement.length === 0) {
@@ -432,6 +449,23 @@ module.exports = {
         }
 
         promiseArray.push(db.get.beastmovement(id).then(result => {
+          result = result.map(val => {
+            const movementStrengths = {
+              crawlstrength: null,
+              walkstrength: null,
+              jogstrength: null,
+              runstrength: null,
+              sprintstrength: null
+            }
+            const movementSpeeds = {
+              crawlspeed: 0,
+              jogspeed: 0,
+              runspeed: 0,
+              sprintspeed: 0
+            }
+            val.movementSpeeds = movementSpeeds
+            return {...val, ...movementStrengths}
+          })
           beast.movement = result
           return result
         }))

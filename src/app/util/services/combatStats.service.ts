@@ -33,6 +33,28 @@ getModifiedStats = function (stat, combatStats, roleInfo, points)  {
   return modifiedStat
 }
 
+getMovementStats = function (stat, roleInfo, points) {
+  let scalingStrength;
+  let modifiedStat;
+
+  if (stat) {
+    scalingStrength = stat
+  } else {
+    scalingStrength = roleInfo.movement
+  }
+
+  const scaling = this.scalingAndBases.movement
+  if (scalingStrength === 'noneWk') {
+    modifiedStat = scaling.scaling.majWk
+  } else if (scalingStrength === 'none' || !scalingStrength) {
+    modifiedStat = scaling.scaling.none
+  } else {
+    modifiedStat = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * points)
+  }
+
+  return modifiedStat
+}
+
 getModifiedStatsRounded = function (stat, combatStats, roleInfo, points)  {
   return Math.floor(this.getModifiedStats(stat, combatStats, roleInfo, points))
 }
@@ -394,15 +416,15 @@ public scalingAndBases = {
       majSt: 7.5,
       minSt: 5,
       none: 2.5,
-      minWk: 1,
-      majWk: .5
+      minWk: 2,
+      majWk: 1
     },
     bonus: {
       majSt: 5,
       minSt: 2.5,
       none: 0,
-      minWk: 1,
-      majWk: .5
+      minWk: 2,
+      majWk: 1
     }
   },
   mental: {
