@@ -1509,8 +1509,6 @@ export class BeastViewEditComponent implements OnInit {
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.combatRolesInfo[event.value].vitality)
     }
 
-    this.captureSelectWithRoleConsideration({ value: this.combatRolesInfo[event.value].fatigue }, 'fatigue')
-
     this.setStressAndPanic()
     this.setVitalityAndFatigue()
   }
@@ -2192,6 +2190,14 @@ export class BeastViewEditComponent implements OnInit {
     this.physical.fatigue = Math.floor(fatigue * this.physical.largeweapons)
 
     this.deteremineVitalityDice()
+    this.setCaution()
+  }
+
+  setCaution = () => {
+    const baseRoleInfo = roles.combatRoles.primary[this.beast.roleInfo[this.selectedRoleId].role].meleeCombatStats
+    const caution = this.combatStatsService.getModifiedStats('caution', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
+
+    this.mental.caution = Math.floor((this.mental.stress + this.physical.largeweapons) * caution)
   }
 
   deteremineVitalityDice = () => {
@@ -2201,7 +2207,7 @@ export class BeastViewEditComponent implements OnInit {
     } else {
       size = 'Medium'
     }
-    
+
     const sizeDictionary = {
       Fine: 1,
       Diminutive: 5,

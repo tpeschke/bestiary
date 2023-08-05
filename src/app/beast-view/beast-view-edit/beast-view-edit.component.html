@@ -591,6 +591,7 @@
           <div *ngIf="selectedRoleId" class="long-field">
             <p><strong>Panic: </strong> {{mental.panic}}</p>
             <p><strong>Stress Threshold: </strong> {{mental.stress}}</p>
+            <p><strong>Caution: </strong> {{mental.caution}}</p>
           </div>
 
           <br>
@@ -772,6 +773,7 @@
             <div *ngIf="selectedRoleId" class="long-field">
               <p><strong>Fatigue: </strong> {{physical.fatigue}}</p>
               <span class="vitality-span-tag"><p><strong>Vitality: </strong> {{physical.largeweapons}}</p><p>({{physical.diceString}})</p></span>
+              <p><strong>Caution: </strong> {{mental.caution}}</p>
             </div>
             <br>
             <table>
