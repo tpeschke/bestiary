@@ -10,33 +10,9 @@ import roles from '../../roles.js'
 export class CombatInfoComponent implements OnChanges {
   @Input() primaryRole: any;
   @Input() combatStats: any;
-  @Input() points: any
-
-  // public combatStats = {
-  //   weapontype: null,
-  //   piercingweapons: null,
-  //   slashingweapons: null,
-  //   crushingweapons: null,
-  //   weaponsmallslashing: null,
-  //   weaponsmalcrushing: null,
-  //   weaponsmallpiercing: null,
-  //   andslashing: null,
-  //   andcrushing: null,
-  //   flanks: null,
-  //   rangeddefence: null,
-  //   all: null,
-  //   allaround: null,
-  //   armorandshields: null,
-  //   unarmored: null,
-  //   attack: null,
-  //   fatigue: null,
-  //   initiative: null,
-  //   measure: null,
-  //   panic: null,
-  //   rangedistance: null,
-  //   recovery: null,
-  //   largeweapons: null
-  // }
+  @Input() points: any;
+  @Input() physical: any;
+  @Input() physicalCallback: Function
 
   constructor(
     public combatStatsService: CombatStatsService
@@ -70,16 +46,6 @@ export class CombatInfoComponent implements OnChanges {
     },
   ]
   public defenseStats = [
-    {
-      label: 'All',
-      stat: 'all',
-      tooltip: 'Defense'
-    },
-    {
-      label: 'Large Weapons',
-      stat: 'largeweapons',
-      tooltip: 'Vitality'
-    },
     {
       label: 'Ranged Defenses',
       stat: 'rangeddefense',
@@ -142,7 +108,6 @@ export class CombatInfoComponent implements OnChanges {
   ngOnChanges(changes) {
     this.setRoleInfo()
     this.setDamageDice()
-    this.setVitalityAndStress()
   }
 
   setRoleInfo = () => {
@@ -417,6 +382,23 @@ export class CombatInfoComponent implements OnChanges {
     if (stat === 'recovery') {
       this.setModifiedRecovery()
     }
+  }
+
+  checkPhysicalStat = (stat, value, event) => {
+    if (!value) {
+      event.source._checked = false
+    }
+    if (this.physical[stat] === value) {
+      event.source._checked = false
+      this.physical[stat] = null
+    } else if (this.roleInfo[stat] === value || (value === 'none' && !this.roleInfo[stat])) {
+      event.source._checked = true
+      this.physical[stat] = null
+    } else {
+      this.physical[stat] = value
+    }
+
+    this.physicalCallback()
   }
 
   captureSelect = (event, type) => {

@@ -886,20 +886,9 @@
             <div *ngFor="let square of beast.combatStatArray; let i = index">
               <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell unset-width">
                 <app-combat-info [primaryRole]="beast.roleInfo[selectedRoleId].role" [combatStats]="square"
-                  [points]="beast.roleInfo[selectedRoleId].combatpoints"></app-combat-info>
+                  [points]="beast.roleInfo[selectedRoleId].combatpoints" [physical]="beast.roleInfo[selectedRoleId]" [physicalCallback]="setVitalityAndFatigue"></app-combat-info>
               </div>
             </div>
-            <!-- <div *ngFor="let square of beast.combat; let i = index">
-                <app-weapon-square [square]="square" [selectedRoleId]="selectedRoleId" [selectedRole]="selectedRole"
-                  [calculateCombatPoints]="calculateCombatPoints" [index]="i"
-                  [roleVitality]="selectedRoleId ? beast.roleInfo[this.selectedRoleId].average : null"
-                  [mainVitality]="averageVitality" [removeNewSecondaryItem]="removeNewSecondaryItem"
-                  [copyWeaponSquare]="copyWeaponSquare"
-                  [beastSize]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size"
-                  [secondaryRole]="selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ? beast.roleInfo[selectedRoleId].secondaryrole : selectedRoleId ? null : beast.secondaryrole">
-                </app-weapon-square>
-              </div>
-            </div> -->
             <button mat-raised-button (click)="addNewSecondaryItem('combatStatArray')" color="accent">Add
               Weapon</button>
           </div>
