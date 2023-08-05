@@ -138,6 +138,11 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   setDamageDice() {
+    if (this.combatStats.isSpecial === 'yes') {
+      this.damageString = '*'
+      return false
+    }
+
     let scalingStrength;
 
     if (this.combatStats.piercingweapons) {
@@ -265,6 +270,10 @@ export class CombatInfoComponent implements OnChanges {
 
     this.baseRecovery = baseRecovery
     this.setModifiedRecovery()
+
+    if (this.combatStats.isSpecial === 'kinda') {
+      diceString += '*'
+    }
 
     this.damageString = diceString
   }
@@ -399,6 +408,19 @@ export class CombatInfoComponent implements OnChanges {
     }
 
     this.physicalCallback()
+  }
+
+  checkBasicStat = (stat, value, event) => {
+    if (this.combatStats[stat] === value) {
+      event.source._checked = false
+      this.combatStats[stat] = null
+    } else {
+      this.combatStats[stat] = value
+    }
+
+    if (stat === 'isSpecial') {
+      this.setDamageDice()
+    }
   }
 
   captureSelect = (event, type) => {
