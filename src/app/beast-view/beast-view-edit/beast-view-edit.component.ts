@@ -1047,8 +1047,9 @@ export class BeastViewEditComponent implements OnInit {
         rangedistance: null,
         recovery: null,
         largeweapons: null,
-        isSpecial: null,
-        eua: false
+        isspecial: null,
+        eua: false,
+        addsizemod: true
       })
     } else if (type === 'movement') {
       let movement = {
@@ -1592,9 +1593,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.secondaryrole = event.value
     }
 
-    if (event.value === 'Fodder' || event.value === 'Solo') {
-      this.setVitalityAndFatigue()
-    }
+    this.setVitalityAndFatigue()
   }
 
   setSocialSecondaryRoleType(event) {

@@ -57,11 +57,6 @@ export class CombatInfoComponent implements OnChanges {
       stat: 'weaponsmallcrushing',
       tooltip: 'DR'
     },
-    // {
-    //   label: 'Weapons, Small, Piercing',
-    //   stat: 'weaponsmallpiercing',
-    //   tooltip: 'Parry'
-    // },
   ]
   public defenseStatsPartTwo = [
     {
@@ -142,6 +137,9 @@ export class CombatInfoComponent implements OnChanges {
 
   getModifiedStatWithSize = (stat) => {
     const modifiedStat = this.combatStatsService.getModifiedStatsRounded(stat, this.combatStats, this.roleInfo, this.points)
+    if (!this.combatStats.addsizemod) {
+      return modifiedStat
+    }
     const measureModDictionary = {
       Fine: -4,
       Diminutive: -3,

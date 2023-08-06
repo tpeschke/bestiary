@@ -25,9 +25,11 @@
         <p *ngIf="getWeaponType() === 'r'">{{getModifiedStatsMinZero('rangedistance')}}</p>
       </div>
       <p class="damage">{{damageString}}</p>
-      <p *ngIf="getWeaponType() === 'm'" class="parry">{{combatStats.eua ? 'EUA' : getModifiedStatsMinZero('weaponsmallpiercing')}}</p>
+      <p *ngIf="getWeaponType() === 'm'" class="parry">{{combatStats.eua ? 'EUA' :
+        getModifiedStatsMinZero('weaponsmallpiercing')}}</p>
     </div>
 
+    <br>
     <mat-form-field>
       <mat-label>Range Type</mat-label>
       <mat-select [value]="getWeaponType()" (selectionChange)="captureSelect($event, 'weapontype')">
@@ -39,6 +41,10 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <mat-checkbox
+      (change)="checkBasicStatOnOff('addsizemod', $event)"
+      [checked]="combatStats.addsizemod">Add Size Modifier</mat-checkbox>
   </div>
   <div>
     <table>
@@ -68,7 +74,7 @@
             Damage
           </th>
         </tr>
-        <tr *ngFor="let stat of attackStats" [ngClass]="{'noDisplay': combatStats.isSpecial === 'yes'}">
+        <tr *ngFor="let stat of attackStats" [ngClass]="{'noDisplay': combatStats.isspecial === 'yes'}">
           <td>{{stat.label}} <i *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue"
               matTooltip="{{stat.tooltip}}" matTooltipClass="my-tooltip"></i>
           </td>
@@ -127,19 +133,18 @@
           <td>Is a Special Attack?
           </td>
           <td colspan="2">
-            <mat-checkbox (change)="checkBasicStat('isSpecial', null, $event)"
-              [checked]="!combatStats.isSpecial">
+            <mat-checkbox (change)="checkBasicStat('isspecial', null, $event)" [checked]="!combatStats.isspecial">
               No
             </mat-checkbox>
           </td>
           <td colspan="2">
-            <mat-checkbox (change)="checkBasicStat('isSpecial', 'kinda', $event)"
-              [checked]="combatStats.isSpecial === 'kinda'">
+            <mat-checkbox (change)="checkBasicStat('isspecial', 'kinda', $event)"
+              [checked]="combatStats.isspecial === 'kinda'">
               Kinda</mat-checkbox>
           </td>
           <td colspan="2">
-            <mat-checkbox (change)="checkBasicStat('isSpecial', 'yes', $event)"
-              [checked]="combatStats.isSpecial === 'yes'">
+            <mat-checkbox (change)="checkBasicStat('isspecial', 'yes', $event)"
+              [checked]="combatStats.isspecial === 'yes'">
               Yes
             </mat-checkbox>
           </td>
@@ -246,9 +251,8 @@
           </td>
         </tr>
         <tr *ngFor="let stat of defenseStats">
-          <td>{{stat.label}} <i
-              *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue" matTooltip="{{stat.tooltip}}"
-              matTooltipClass="my-tooltip"></i>
+          <td>{{stat.label}} <i *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue"
+              matTooltip="{{stat.tooltip}}" matTooltipClass="my-tooltip"></i>
           </td>
           <td>
             <mat-checkbox [ngClass]="roleInfo[stat.stat] === 'majSt' ? 'checkmark-role-background' : ''"
@@ -346,13 +350,9 @@
 
         <tr>
           <td [ngClass]="{'justify-right': !combatStats.eua}">Parry Everything Except Unarmed Attacks <i
-            class="fas fa-info-circle icon-small blue" matTooltip="EUA"
-            matTooltipClass="my-tooltip"></i></td>
+              class="fas fa-info-circle icon-small blue" matTooltip="EUA" matTooltipClass="my-tooltip"></i></td>
           <td>
-            <mat-checkbox
-              (change)="checkBasicStatOnOff('eua', $event)"
-              [checked]="combatStats.eua"
-              ></mat-checkbox>
+            <mat-checkbox (change)="checkBasicStatOnOff('eua', $event)" [checked]="combatStats.eua"></mat-checkbox>
           </td>
           <td colspan="5"> </td>
         </tr>
