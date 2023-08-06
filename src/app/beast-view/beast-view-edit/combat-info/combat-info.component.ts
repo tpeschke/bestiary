@@ -88,18 +88,6 @@ export class CombatInfoComponent implements OnChanges {
     {
       label: 'Initiative',
       stat: 'initiative'
-    },
-    {
-      label: 'Measure',
-      stat: 'measure'
-    },
-    {
-      label: 'Range, Distance',
-      stat: 'rangedistance'
-    },
-    {
-      label: 'Recovery',
-      stat: 'recovery'
     }
   ]
 
