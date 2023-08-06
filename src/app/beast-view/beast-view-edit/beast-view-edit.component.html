@@ -980,7 +980,7 @@
               <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="conflict-shell unset-width">
                 <app-combat-info [primaryRole]="beast.roleInfo[selectedRoleId].role" [combatStats]="square"
                   [points]="beast.roleInfo[selectedRoleId].combatpoints" [physical]="beast.roleInfo[selectedRoleId]"
-                  [physicalCallback]="setVitalityAndFatigue"></app-combat-info>
+                  [physicalCallback]="setVitalityAndFatigue" [size]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size"></app-combat-info>
               </div>
             </div>
             <button mat-raised-button (click)="addNewSecondaryItem('combatStatArray')" color="accent">Add

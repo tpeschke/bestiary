@@ -1047,7 +1047,8 @@ export class BeastViewEditComponent implements OnInit {
         rangedistance: null,
         recovery: null,
         largeweapons: null,
-        isSpecial: null
+        isSpecial: null,
+        eua: false
       })
     } else if (type === 'movement') {
       let movement = {

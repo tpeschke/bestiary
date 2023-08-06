@@ -13,6 +13,7 @@ export class CombatInfoComponent implements OnChanges {
   @Input() points: any;
   @Input() physical: any;
   @Input() physicalCallback: Function
+  @Input() size: any = "Medium";
 
   constructor(
     public combatStatsService: CombatStatsService
@@ -56,11 +57,13 @@ export class CombatInfoComponent implements OnChanges {
       stat: 'weaponsmallcrushing',
       tooltip: 'DR'
     },
-    {
-      label: 'Weapons, Small, Piercing',
-      stat: 'weaponsmallpiercing',
-      tooltip: 'Parry'
-    },
+    // {
+    //   label: 'Weapons, Small, Piercing',
+    //   stat: 'weaponsmallpiercing',
+    //   tooltip: 'Parry'
+    // },
+  ]
+  public defenseStatsPartTwo = [
     {
       label: '& Slashing',
       stat: 'andslashing',
@@ -135,6 +138,41 @@ export class CombatInfoComponent implements OnChanges {
 
   getModifiedStatsMinZero = (stat) => {
     return this.combatStatsService.getModifiedStatsMinZero(stat, this.combatStats, this.roleInfo, this.points)
+  }
+
+  getModifiedStatWithSize = (stat) => {
+    const modifiedStat = this.combatStatsService.getModifiedStatsRounded(stat, this.combatStats, this.roleInfo, this.points)
+    const measureModDictionary = {
+      Fine: -4,
+      Diminutive: -3,
+      Tiny: -2,
+      Small: -1,
+      Medium: 0,
+      Large: 1,
+      Huge: 2,
+      Giant: 3,
+      Enormous: 4,
+      Colossal: 5
+    }
+    const defenseModDictionary = {
+      Fine: 12,
+      Diminutive: 9,
+      Tiny: 6,
+      Small: 3,
+      Medium: 0,
+      Large: -3,
+      Huge: -6,
+      Giant: -9,
+      Enormous: -12,
+      Colossal: -15
+    }
+
+    if (stat === 'all') {
+      return modifiedStat + defenseModDictionary[this.size]
+    }else if (stat === 'measure') {
+      return modifiedStat + measureModDictionary[this.size]
+    }
+    return modifiedStat
   }
 
   setDamageDice() {
@@ -421,6 +459,10 @@ export class CombatInfoComponent implements OnChanges {
     if (stat === 'isSpecial') {
       this.setDamageDice()
     }
+  }
+
+  checkBasicStatOnOff = (stat, event) => {
+    this.combatStats[stat] = event.checked
   }
 
   captureSelect = (event, type) => {

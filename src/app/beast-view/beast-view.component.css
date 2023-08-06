@@ -293,7 +293,7 @@ mat-toolbar {
 .combat-shell {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-end;
+    flex-direction: column;
 }
 
 .combat-square {
