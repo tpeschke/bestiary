@@ -947,8 +947,12 @@
               </tbody>
             </table>
             <br>
-            <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?
-            </mat-checkbox>
+            <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?</mat-checkbox>
+            <br>
+            <mat-form-field>
+              <input placeholder="Knock Back Threshold" matInput [value]="beast.roleInfo[selectedRoleId].knockback ? beast.roleInfo[selectedRoleId].knockback : beast.roleInfo[selectedRoleId].size ? sizeDictionary[beast.roleInfo[selectedRoleId].size] : 15"
+                (change)="captureBasicInput($event, 'knockback')">
+            </mat-form-field>
 
             <div class="locational-shell">
               <div *ngFor="let location of beast.locationalvitality; let i = index" class="locational-id-shell"

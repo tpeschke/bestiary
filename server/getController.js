@@ -586,7 +586,8 @@ module.exports = {
               mental: null,
               combatpoints: 0,
               panic: null,
-              caution: null
+              caution: null,
+              knockback: null,
             }
           }
           return result

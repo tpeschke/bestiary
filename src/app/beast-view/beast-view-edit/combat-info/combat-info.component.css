@@ -16,6 +16,8 @@
 
 .combat-stat-shell div:first-child {
     margin-right: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .square-shell {

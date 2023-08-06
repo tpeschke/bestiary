@@ -2283,6 +2283,19 @@ export class BeastViewEditComponent implements OnInit {
     this.mental.caution = Math.floor((this.mental.stress + this.physical.largeweapons) * caution)
   }
 
+  public sizeDictionary = {
+    Fine: 1,
+    Diminutive: 5,
+    Tiny: 5,
+    Small: 10,
+    Medium: 15,
+    Large: 20,
+    Huge: 35,
+    Giant: 55,
+    Enormous: 90,
+    Colossal: 145
+  }
+
   deteremineVitalityDice = () => {
     let size = this.beast.roleInfo[this.selectedRoleId].size
     if (!size && this.beast.size) {
@@ -2291,20 +2304,12 @@ export class BeastViewEditComponent implements OnInit {
       size = 'Medium'
     }
 
-    const sizeDictionary = {
-      Fine: 1,
-      Diminutive: 5,
-      Tiny: 5,
-      Small: 10,
-      Medium: 15,
-      Large: 20,
-      Huge: 35,
-      Giant: 55,
-      Enormous: 90,
-      Colossal: 145
+    let sizeMod
+    if (this.beast.roleInfo[this.selectedRoleId].knockback) {
+      sizeMod = this.beast.roleInfo[this.selectedRoleId].knockback
+    } else {
+      sizeMod = this.sizeDictionary[size]
     }
-
-    const sizeMod = sizeDictionary[size]
     if (this.physical.largeweapons - sizeMod > 0) {
       const remainder = this.physical.largeweapons - sizeMod
       if (remainder % 10 === 0) {
