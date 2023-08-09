@@ -176,6 +176,7 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   setDamageDice() {
+    console.log(this.combatStats.isspecial)
     if (this.combatStats.weapon) {
       this.setWeaponDamage()
     } else {
@@ -184,7 +185,7 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   setWeaponDamage() {
-    if (this.combatStats.isSpecial === 'yes') {
+    if (this.combatStats.isspecial === 'yes') {
       this.damageString = '*'
       return false
     }
@@ -276,7 +277,7 @@ export class CombatInfoComponent implements OnChanges {
     this.baseRecovery = this.equipmentObjects.weapons[this.combatStats.weapon].rec
     this.setModifiedRecovery()
 
-    if (this.combatStats.isSpecial === 'kinda') {
+    if (this.combatStats.isspecial === 'kinda') {
       diceString += '*'
     }
 
@@ -284,7 +285,7 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   setNoWeaponDamage() {
-    if (this.combatStats.isSpecial === 'yes') {
+    if (this.combatStats.isspecial === 'yes') {
       this.damageString = '*'
       return false
     }
@@ -416,7 +417,7 @@ export class CombatInfoComponent implements OnChanges {
     this.baseRecovery = baseRecovery
     this.setModifiedRecovery()
 
-    if (this.combatStats.isSpecial === 'kinda') {
+    if (this.combatStats.isspecial === 'kinda') {
       diceString += '*'
     }
 
@@ -567,7 +568,7 @@ export class CombatInfoComponent implements OnChanges {
       this.combatStats[stat] = value
     }
 
-    if (stat === 'isSpecial') {
+    if (stat === 'isspecial') {
       this.setDamageDice()
     }
   }
