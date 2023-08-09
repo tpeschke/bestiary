@@ -176,11 +176,24 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   setDamageDice() {
-    console.log(this.combatStats.isspecial)
     if (this.combatStats.weapon) {
       this.setWeaponDamage()
     } else {
       this.setNoWeaponDamage()
+    }
+  }
+
+  getWeaponScalingStrength () {
+    if (this.combatStats.piercingweapons) {
+      return this.combatStats.piercingweapons
+    } else if (this.combatStats.crushingweapons) {
+      return this.combatStats.crushingweapons
+    } else if (this.combatStats.slashingweapons) {
+      return this.combatStats.slashingweapons
+    } else if (this.roleInfo.damage) {
+      return this.roleInfo.damage
+    } else {
+      return null
     }
   }
 
@@ -190,19 +203,7 @@ export class CombatInfoComponent implements OnChanges {
       return false
     }
 
-    let scalingStrength;
-
-    if (this.combatStats.piercingweapons) {
-      scalingStrength = this.combatStats.piercingweapons
-    } else if (this.combatStats.crushingweapons) {
-      scalingStrength = this.combatStats.crushingweapons
-    } else if (this.combatStats.slashingweapons) {
-      scalingStrength = this.combatStats.slashingweapons
-    } else if (this.roleInfo.damage) {
-      scalingStrength = this.roleInfo.damage
-    } else {
-      scalingStrength = null
-    }
+    let scalingStrength = this.getWeaponScalingStrength()
 
     this.damageType = this.equipmentObjects.weapons[this.combatStats.weapon].type
 
@@ -493,6 +494,18 @@ export class CombatInfoComponent implements OnChanges {
       return this.combatStats.weapontype
     }
     return this.weaponType
+  }
+
+  checkWeaponStat = (value, event) => {
+    if (this.combatStats.piercingweapons) {
+      this.checkAttackStat('piercingweapons', value, event)
+    } else if (this.combatStats.crushingweapons) {
+      this.checkAttackStat('crushingweapons', value, event)
+    } else if (this.combatStats.slashingweapons) {
+      this.checkAttackStat('slashingweapons', value, event)
+    } else {
+      this.checkAttackStat(this.roleInfo.preferreddamage, value, event)
+    }
   }
 
   checkAttackStat = (stat, value, event) => {
