@@ -23,3 +23,7 @@
 .square-shell {
     background: whitesmoke;
 }
+
+.top-border {
+    border-top: 1px solid grey;
+}
