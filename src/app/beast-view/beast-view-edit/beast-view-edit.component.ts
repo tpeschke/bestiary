@@ -1049,7 +1049,10 @@ export class BeastViewEditComponent implements OnInit {
         largeweapons: null,
         isspecial: null,
         eua: false,
-        addsizemod: true
+        addsizemod: true,
+        weapon: null,
+        shield: null,
+        armor: null
       })
     } else if (type === 'movement') {
       let movement = {

@@ -130,6 +130,22 @@ public scalingAndBases = {
       majWk: .25
     }
   },
+  weapon: {
+    scaling: {
+      majSt: 2,
+      minSt: 1,
+      none: 0,
+      minWk: -1,
+      majWk: -2
+    },
+    bonus: {
+      majSt: 2,
+      minSt: 1,
+      none: 0,
+      minWk: .5,
+      majWk: .25
+    }
+  },
   all: {
     scaling: {
       majSt: 3,

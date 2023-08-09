@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { BeastService } from 'src/app/util/services/beast.service.js';
 import { CombatStatsService } from 'src/app/util/services/combatStats.service.js';
 import roles from '../../roles.js'
 
@@ -16,7 +17,8 @@ export class CombatInfoComponent implements OnChanges {
   @Input() size: any = "Medium";
 
   constructor(
-    public combatStatsService: CombatStatsService
+    public combatStatsService: CombatStatsService,
+    public beastService: BeastService
   ) { }
 
   public roleInfo = null;
@@ -28,6 +30,11 @@ export class CombatInfoComponent implements OnChanges {
   public stressThreshold = 0
   public panic = 0
   public weaponType = ''
+
+  public equipmentLists = { weapons: [], armor: [], shields: [] }
+  public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
+  public showAllEquipment = false
+  public controllerWeapons = roles.combatRoles.secondary.Controller.weapons
 
   public attackStats = [
     {
@@ -90,6 +97,13 @@ export class CombatInfoComponent implements OnChanges {
       stat: 'initiative'
     }
   ]
+
+  ngOnInit() {
+    this.beastService.getEquipment().subscribe(res => {
+      this.equipmentLists = res.lists
+      this.equipmentObjects = res.objects
+    })
+  }
 
   ngOnChanges(changes) {
     this.setRoleInfo()
@@ -155,13 +169,121 @@ export class CombatInfoComponent implements OnChanges {
 
     if (stat === 'all') {
       return modifiedStat + defenseModDictionary[this.size]
-    }else if (stat === 'measure') {
+    } else if (stat === 'measure') {
       return modifiedStat + measureModDictionary[this.size]
     }
     return modifiedStat
   }
 
   setDamageDice() {
+    if (this.combatStats.weapon) {
+      this.setWeaponDamage()
+    } else {
+      this.setNoWeaponDamage()
+    }
+  }
+
+  setWeaponDamage() {
+    if (this.combatStats.isSpecial === 'yes') {
+      this.damageString = '*'
+      return false
+    }
+
+    let scalingStrength;
+
+    if (this.combatStats.piercingweapons) {
+      scalingStrength = this.combatStats.piercingweapons
+    } else if (this.combatStats.crushingweapons) {
+      scalingStrength = this.combatStats.crushingweapons
+    } else if (this.combatStats.slashingweapons) {
+      scalingStrength = this.combatStats.slashingweapons
+    } else if (this.roleInfo.damage) {
+      scalingStrength = this.roleInfo.damage
+    } else {
+      scalingStrength = null
+    }
+
+    this.damageType = this.equipmentObjects.weapons[this.combatStats.weapon].type
+
+    const scaling = this.combatStatsService.getStatScaling('weapon')
+
+    let modifiedPoints
+    if (scalingStrength === 'noneWk') {
+      modifiedPoints = scaling.scaling.majWk
+    } else if (scalingStrength === 'none') {
+      modifiedPoints = scaling.scaling.none
+    } else {
+      modifiedPoints = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
+    }
+
+    if (modifiedPoints < 0) {
+      modifiedPoints = 1
+    }
+
+    let crushingDamageMod = 0
+    let diceObject = {...this.equipmentObjects.weapons[this.combatStats.weapon].damageObj}
+
+    if (this.damageType === 'S') {
+      diceObject.d4s += Math.floor(modifiedPoints / 2)
+      let leftover = modifiedPoints % 2
+      if (leftover === 1) {
+        diceObject.d3s += 1
+      }
+    } else if (this.damageType === 'P') {
+      diceObject.d8s += Math.floor(modifiedPoints / 4)
+      let leftover = modifiedPoints % 4
+      if (leftover === 1) {
+        diceObject.d3s += 1
+      } else if (leftover === 2) {
+        diceObject.d4s += 1
+      } else if (leftover === 3) {
+        diceObject.d6s += 1
+      }
+    } else {
+      crushingDamageMod = modifiedPoints
+    }
+
+    let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
+
+    let diceString = ''
+
+    if (d3s > 0) {
+      diceString += `${d3s}d3!`
+    }
+    if (d4s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d4s}d4!`
+    }
+    if (d6s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d6s}d6!`
+    }
+    if (d8s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d8s}d8!`
+    }
+    if (d10s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d10s}d10!`
+    }
+    if (d12s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d12s}d12!`
+    }
+    if (d20s > 0) {
+      diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
+    }
+
+    if (crushingDamageMod) {
+      diceString += ` +${crushingDamageMod}`
+    }
+
+    this.baseRecovery = this.equipmentObjects.weapons[this.combatStats.weapon].rec
+    this.setModifiedRecovery()
+
+    if (this.combatStats.isSpecial === 'kinda') {
+      diceString += '*'
+    }
+
+    this.damageString = diceString
+  }
+
+  setNoWeaponDamage() {
     if (this.combatStats.isSpecial === 'yes') {
       this.damageString = '*'
       return false
@@ -235,7 +357,6 @@ export class CombatInfoComponent implements OnChanges {
         diceObject.d6s += 1
       }
     } else {
-      diceObject.d20s += Math.floor(modifiedPoints / 7)
       if (modifiedPoints === 1) {
         diceObject.d4s += 1
       } else if (modifiedPoints === 2) {
@@ -364,6 +485,9 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   getWeaponType = () => {
+    if (this.combatStats.weapon) {
+      return this.weaponType = this.equipmentObjects.weapons[this.combatStats.weapon].range ? 'r' : 'm'
+    }
     if (this.combatStats.weapontype) {
       return this.combatStats.weapontype
     }
@@ -421,6 +545,7 @@ export class CombatInfoComponent implements OnChanges {
     if (!value) {
       event.source._checked = false
     }
+
     if (this.physical[stat] === value) {
       event.source._checked = false
       this.physical[stat] = null
@@ -456,6 +581,8 @@ export class CombatInfoComponent implements OnChanges {
 
     if (type === 'weapontype') {
       this.setRoleInfo()
+    } else if (type === 'weapon') {
+      this.setDamageDice()
     }
   }
 

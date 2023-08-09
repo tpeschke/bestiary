@@ -290,6 +290,10 @@ mat-toolbar {
     width: 40%;
 }
 
+.combat-info-shell-outer {
+    padding: 15px
+}
+
 .combat-shell {
     display: flex;
     flex-wrap: wrap;

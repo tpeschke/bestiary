@@ -40,7 +40,7 @@ let weaponsObj = {}
 
 module.exports = {
     getAllEquipment(req, res) {
-        res.send({lists: { weapons, shields, armor }, objects: {weapons: weaponsObj, shields: shieldsObj, armor: armorObj}})
+        res.send({ lists: { weapons, shields, armor }, objects: { weapons: weaponsObj, shields: shieldsObj, armor: armorObj } })
     },
     getWeapon(weaponName) {
         return weaponsObj[weaponName]
@@ -61,6 +61,7 @@ module.exports = {
                 weaponType.weapons.forEach(weapon => {
                     weaponTypeObj.items.push(`${weapon.name} (${weapon.type})`)
                     weapon.damage = processDamage(weapon.dam, weapon.bonus)
+                    weapon.damageObj = getDamageObject(weapon.damage.dice)
                     weaponsObj[`${weapon.name} (${weapon.type})`] = weapon
                     weaponsObj[`${weapon.name}`] = weapon
                 })
@@ -97,6 +98,68 @@ module.exports = {
             console.log('shields done collecting')
         })
     }
+}
+
+function getDamageObject(roleDamage) {
+    let diceObject = {
+        d3s: 0,
+        d4s: 0,
+        d6s: 0,
+        d8s: 0,
+        d10s: 0,
+        d12s: 0,
+        d20s: 0
+    }
+
+    roleDamage.forEach(dice => {
+        let index = dice.indexOf("d")
+            , substring = dice.substring(index)
+        if (substring.includes('20')) {
+            if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+                diceObject.d20s += +dice.substring(0, index)
+            } else {
+                ++diceObject.d20s
+            }
+        } else if (substring.includes('12')) {
+            if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+                diceObject.d12s += +dice.substring(0, index)
+            } else {
+                ++diceObject.d12s
+            }
+        } else if (substring.includes('10')) {
+            if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+                diceObject.d10s += +dice.substring(0, index)
+            } else {
+                ++diceObject.d10s
+            }
+        } else if (substring.includes('8')) {
+            if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+                diceObject.d8s += +dice.substring(0, index)
+            } else {
+                ++diceObject.d8s
+            }
+        } else if (substring.includes('6')) {
+            if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+                diceObject.d6s += +dice.substring(0, index)
+            } else {
+                ++diceObject.d6s
+            }
+        } else if (substring.includes('4')) {
+            if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+                diceObject.d4s += +dice.substring(0, index)
+            } else {
+                ++diceObject.d4s
+            }
+        } else if (substring.includes('3')) {
+            if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
+                diceObject.d3s += +dice.substring(0, index)
+            } else {
+                ++diceObject.d3s
+            }
+        }
+    })
+
+    return diceObject
 }
 
 function processDamage(damageString, bonus) {
