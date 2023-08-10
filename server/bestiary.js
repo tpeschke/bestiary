@@ -116,6 +116,7 @@ app.get('/api/equipment', equipmentCtrl.getAllEquipment)
 
 app.patch('/api/beasts/edit', ownerAuth, ctrl.editBeast)
 app.patch('/api/combatSquare', squareCtrl.getSquare)
+app.patch('/api/movement', squareCtrl.getMovement)
 
 app.post('/api/beasts/add', ownerAuth, ctrl.addBeast)
 app.post('/api/obstacles/add', ownerAuth, obstCtrl.add)

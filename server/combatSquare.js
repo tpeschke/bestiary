@@ -1,11 +1,55 @@
 const roles = require('./roles')
+const equipmentController = require('./equipmentController')
 
 const combatSquareController = {
     getSquare: (req, res) => {
-        let combatSquare = {}
-        // const roleInfo = 
-console.log(req.params)
+        const combatStats = req.body.combatStats
+        const points = req.body.points
+        const size = req.body.size
+
+        const weaponType = getWeaponType(combatStats, roles.combatRoles.primary[req.body.role])
+
+        let roleInfo;
+        if (weaponType === 'r') {
+            roleInfo = roles.combatRoles.primary[req.body.role].rangedCombatStats
+        } else {
+            roleInfo = roles.combatRoles.primary[req.body.role].meleeCombatStats
+        }
+        const damageAndRecovery = setDamageDice(combatStats, roleInfo, points)
+
+        let combatSquare = {
+            weaponType,
+            attack: getModifiedStats('attack', combatStats, roleInfo, points),
+            recovery: damageAndRecovery.recovery,
+            initiative: getModifiedStats('initiative', combatStats, roleInfo, points),
+            defense: getDefense(combatStats, roleInfo, points, size),
+            cover: getCover(combatStats, roleInfo, points),
+            damageType: damageAndRecovery.damageType,
+            dr: getBaseDR(combatStats, roleInfo, points),
+            shieldDr: getParryDR(combatStats, roleInfo, points),
+            measure: getModifiedMeasure(combatStats, roleInfo, points, size),
+            range: getModifiedWithWeapon('rangedistance', combatStats, roleInfo, 'range', points),
+            damage: damageAndRecovery.damageString,
+            parry: getModifiedStats('weaponsmallpiercing', combatStats, roleInfo, points),
+            weaponScaling: damageAndRecovery.weaponScaling
+        }
+
         res.send(combatSquare)
+    },
+    getMovement: (req, res) => {
+        const {points, movements, role} = req.body
+
+        const newMovements = movements.map(movement => {
+            const crawlspeed = getMovementStats(movement.crawlstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points)
+                , walkspeed = getMovementStats(movement.walkstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) + crawlspeed
+                , jogspeed = getMovementStats(movement.jogstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + walkspeed
+                , runspeed = getMovementStats(movement.runstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + jogspeed
+                , sprintspeed = getMovementStats(movement.sprintstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + runspeed
+
+            return {...movement, movementSpeeds: {crawlspeed, walkspeed, jogspeed, runspeed, sprintspeed}}
+        })
+
+        res.send(newMovements)
     }
 }
 
@@ -28,7 +72,7 @@ getModifiedStats = function (stat, combatStats, roleInfo, points) {
     return modifiedStat
 }
 
-getModifiedWithWeapon = (combatStatKey, combatStats, roleInfo, equipmentObjects, weaponKey, points) => {
+getModifiedWithWeapon = (combatStatKey, combatStats, roleInfo, weaponKey, points) => {
     let scalingStrength;
     let modifiedStat;
 
@@ -41,7 +85,7 @@ getModifiedWithWeapon = (combatStatKey, combatStats, roleInfo, equipmentObjects,
     const scaling = scalingAndBases[combatStatKey]
 
     if (combatStats.weapon) {
-        const equipmentStat = equipmentObjects.weapons[combatStats.weapon][weaponKey]
+        const equipmentStat = equipmentController.getWeapon(combatStats.weapon)[weaponKey]
         if (scalingStrength === 'noneWk') {
             modifiedStat = equipmentStat - (scaling.none - scaling.majWk)
         } else if (scalingStrength === 'none' || !scalingStrength) {
@@ -59,7 +103,7 @@ getModifiedWithWeapon = (combatStatKey, combatStats, roleInfo, equipmentObjects,
     return 0
 }
 
-getArmorOrShieldStat = (stat, ArmorOrShield, weaponKey, combatStats, roleInfo, equipmentObjects, points) => {
+getArmorOrShieldStat = (stat, ArmorOrShield, weaponKey, combatStats, roleInfo, points) => {
     let scalingStrength;
     let modifiedStat;
 
@@ -73,9 +117,9 @@ getArmorOrShieldStat = (stat, ArmorOrShield, weaponKey, combatStats, roleInfo, e
 
     let equipmentStat
     if (ArmorOrShield === 'armor') {
-        equipmentStat = equipmentObjects.armor[combatStats[ArmorOrShield]].dr[weaponKey]
+        equipmentStat = equipmentController.getArmor(combatStats[ArmorOrShield]).dr[weaponKey]
     } else {
-        equipmentStat = equipmentObjects.shields[combatStats[ArmorOrShield]].dr[weaponKey]
+        equipmentStat = equipmentController.getShield(combatStats[ArmorOrShield]).dr[weaponKey]
     }
 
     if (scalingStrength === 'noneWk') {
@@ -99,11 +143,11 @@ getModifiedStat = (scalingStrength, scaling, points) => {
     }
 }
 
-getMovementStats = function (stat, roleInfo, points) {
+getMovementStats = function (movementScale, roleInfo, points) {
     let scalingStrength;
 
-    if (stat) {
-        scalingStrength = stat
+    if (movementScale) {
+        scalingStrength = movementScale
     } else {
         scalingStrength = roleInfo.movement
     }
@@ -140,141 +184,142 @@ getRecoveryFromDiceSize = function (diceSize) {
     return scalingAndBases.recovery.base[diceSize]
 }
 
-getModifiedMeasure = () => {
+getModifiedMeasure = (combatStats, roleInfo, points, size) => {
     let scalingStrength;
     let modifiedStat;
 
-    if (this.combatStats.measure) {
-      scalingStrength = this.combatStats.measure
+    if (combatStats.measure) {
+        scalingStrength = combatStats.measure
     } else {
-      scalingStrength = this.roleInfo.measure
+        scalingStrength = roleInfo.measure
     }
 
-    const scaling = this.combatStatsService.getStatScaling('measure')
+    const scaling = getStatScaling('measure')
 
-    if (this.combatStats.weapon) {
-      const weaponMeasure = this.equipmentObjects.weapons[this.combatStats.weapon].measure
-      if (scalingStrength === 'noneWk') {
-        modifiedStat = weaponMeasure - (scaling.none - scaling.majWk)
-      } else if (scalingStrength === 'none' || !scalingStrength) {
-        modifiedStat = weaponMeasure
-      } else {
-        modifiedStat = weaponMeasure + (scaling.bonus[scalingStrength] * this.points)
-      }
+    if (combatStats.weapon) {
+        const weaponMeasure = equipmentController.getWeapon(combatStats.weapon).measure
+        if (scalingStrength === 'noneWk') {
+            modifiedStat = weaponMeasure - (scaling.none - scaling.majWk)
+        } else if (scalingStrength === 'none' || !scalingStrength) {
+            modifiedStat = weaponMeasure
+        } else {
+            modifiedStat = weaponMeasure + (scaling.bonus[scalingStrength] * points)
+        }
     } else {
-      modifiedStat = this.combatStatsService.getModifiedStat(scalingStrength, scaling, this.points)
+        modifiedStat = getModifiedStat(scalingStrength, scaling, points)
     }
 
     const measureModDictionary = {
-      Fine: -4,
-      Diminutive: -3,
-      Tiny: -2,
-      Small: -1,
-      Medium: 0,
-      Large: 1,
-      Huge: 2,
-      Giant: 3,
-      Enormous: 4,
-      Colossal: 5
+        Fine: -4,
+        Diminutive: -3,
+        Tiny: -2,
+        Small: -1,
+        Medium: 0,
+        Large: 1,
+        Huge: 2,
+        Giant: 3,
+        Enormous: 4,
+        Colossal: 5
     }
 
-    if (!this.combatStats.addsizemod) {
-      return modifiedStat
+    if (!combatStats.addsizemod) {
+        return modifiedStat
     }
-    return modifiedStat + measureModDictionary[this.size]
-  }
+    return modifiedStat + measureModDictionary[size]
+}
 
-  getDefense = () => {
-    const modifiedStat = this.combatStatsService.getModifiedStatsRounded('all', this.combatStats, this.roleInfo, this.points)
-    if (!this.combatStats.addsizemod) {
-      return modifiedStat
-    }
+getDefense = (combatStats, roleInfo, points, size) => {
+    const modifiedStat = getModifiedStatsRounded('all', combatStats, roleInfo, points)
 
     const defenseModDictionary = {
-      Fine: 12,
-      Diminutive: 9,
-      Tiny: 6,
-      Small: 3,
-      Medium: 0,
-      Large: -3,
-      Huge: -6,
-      Giant: -9,
-      Enormous: -12,
-      Colossal: -15
+        Fine: 12,
+        Diminutive: 9,
+        Tiny: 6,
+        Small: 3,
+        Medium: 0,
+        Large: -3,
+        Huge: -6,
+        Giant: -9,
+        Enormous: -12,
+        Colossal: -15
     }
 
     let equipmentMod = 0
-    if (this.combatStats.armor) {
-      equipmentMod += this.equipmentObjects.armor[this.combatStats.armor].def
+    if (combatStats.armor) {
+        equipmentMod += equipmentController.getArmor(combatStats.armor).def
     }
-    if (this.combatStats.shield) {
-      equipmentMod += this.equipmentObjects.shields[this.combatStats.shield].def
+    if (combatStats.shield) {
+        equipmentMod += equipmentController.getShield(combatStats.shield).def
     }
-    
-    return modifiedStat + defenseModDictionary[this.size] + equipmentMod
-  }
 
-  setDamageDice = () => {
-    if (this.combatStats.weapon) {
-      this.setWeaponDamage()
+    if (!combatStats.addsizemod) {
+        return modifiedStat + equipmentMod
+    }
+
+    return modifiedStat + defenseModDictionary[size] + equipmentMod
+}
+
+setDamageDice = (combatStats, roleInfo, points) => {
+    if (combatStats.weapon) {
+        return setWeaponDamage(combatStats, roleInfo, points)
     } else {
-      this.setNoWeaponDamage()
+        return setNoWeaponDamage(combatStats, roleInfo, points)
     }
-  }
+}
 
-  getWeaponScalingStrength = () => {
-    if (this.combatStats.piercingweapons) {
-      return this.combatStats.piercingweapons
-    } else if (this.combatStats.crushingweapons) {
-      return this.combatStats.crushingweapons
-    } else if (this.combatStats.slashingweapons) {
-      return this.combatStats.slashingweapons
-    } else if (this.roleInfo.damage) {
-      return this.roleInfo.damage
+getWeaponScalingStrength = (combatStats, roleInfo) => {
+    if (combatStats.piercingweapons) {
+        return combatStats.piercingweapons
+    } else if (combatStats.crushingweapons) {
+        return combatStats.crushingweapons
+    } else if (combatStats.slashingweapons) {
+        return combatStats.slashingweapons
+    } else if (roleInfo.damage) {
+        return roleInfo.damage
     } else {
-      return null
+        return null
     }
-  }
+}
 
-  setWeaponDamage = () => {
-    if (this.combatStats.isspecial === 'yes') {
-      this.damageString = '*'
-      return false
+setWeaponDamage = (combatStats, roleInfo, points) => {
+    if (combatStats.isspecial === 'yes') {
+        damageString = '*'
+        return false
     }
 
-    let scalingStrength = this.getWeaponScalingStrength()
+    let scalingStrength = getWeaponScalingStrength(combatStats, roleInfo)
 
-    this.damageType = this.equipmentObjects.weapons[this.combatStats.weapon].type
+    damageType = equipmentController.getWeapon(combatStats.weapon).type
 
-    const scaling = this.combatStatsService.getStatScaling('weapon')
+    const scaling = getStatScaling('weapon')
 
-    let modifiedPoints = this.combatStatsService.getModifiedStat(scalingStrength, scaling, this.points)
+    let modifiedPoints = getModifiedStat(scalingStrength, scaling, points)
 
     if (modifiedPoints < 0) {
-      modifiedPoints = 1
+        modifiedPoints = 1
     }
 
     let crushingDamageMod = 0
-    let diceObject = { ...this.equipmentObjects.weapons[this.combatStats.weapon].damageObj }
+    let diceObject = { ...equipmentController.getWeapon(combatStats.weapon).damageObj }
 
-    if (this.damageType === 'S') {
-      diceObject.d4s += Math.floor(modifiedPoints / 2)
-      let leftover = modifiedPoints % 2
-      if (leftover === 1) {
-        diceObject.d3s += 1
-      }
-    } else if (this.damageType === 'P') {
-      diceObject.d8s += Math.floor(modifiedPoints / 4)
-      let leftover = modifiedPoints % 4
-      if (leftover === 1) {
-        diceObject.d3s += 1
-      } else if (leftover === 2) {
-        diceObject.d4s += 1
-      } else if (leftover === 3) {
-        diceObject.d6s += 1
-      }
+    if (damageType === 'S') {
+        diceObject.d4s += Math.floor(modifiedPoints / 2)
+        let leftover = modifiedPoints % 2
+        if (leftover === 1) {
+            diceObject.d3s += 1
+        }
+    } else if (damageType === 'P') {
+        diceObject.d8s += Math.floor(modifiedPoints / 4)
+        let leftover = modifiedPoints % 4
+        if (leftover === 1) {
+            diceObject.d3s += 1
+        } else if (leftover === 2) {
+            diceObject.d4s += 1
+        } else if (leftover === 3) {
+            diceObject.d6s += 1
+        }
     } else {
-      crushingDamageMod = modifiedPoints
+        crushingDamageMod = modifiedPoints
     }
 
     let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
@@ -282,124 +327,126 @@ getModifiedMeasure = () => {
     let diceString = ''
 
     if (d3s > 0) {
-      diceString += `${d3s}d3!`
+        diceString += `${d3s}d3!`
     }
     if (d4s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d4s}d4!`
+        diceString += ` ${diceString !== '' ? '+' : ''}${d4s}d4!`
     }
     if (d6s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d6s}d6!`
+        diceString += ` ${diceString !== '' ? '+' : ''}${d6s}d6!`
     }
     if (d8s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d8s}d8!`
+        diceString += ` ${diceString !== '' ? '+' : ''}${d8s}d8!`
     }
     if (d10s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d10s}d10!`
+        diceString += ` ${diceString !== '' ? '+' : ''}${d10s}d10!`
     }
     if (d12s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d12s}d12!`
+        diceString += ` ${diceString !== '' ? '+' : ''}${d12s}d12!`
     }
     if (d20s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
+        diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
     }
 
     if (crushingDamageMod) {
-      diceString += ` +${crushingDamageMod}`
+        diceString += ` +${crushingDamageMod}`
     }
 
-    this.baseRecovery = this.equipmentObjects.weapons[this.combatStats.weapon].rec
-    this.setModifiedRecovery()
+    baseRecovery = equipmentController.getWeapon(combatStats.weapon).rec
+    const recovery = setModifiedRecovery(baseRecovery, combatStats, roleInfo, points)
 
-    if (this.combatStats.isspecial === 'kinda') {
-      diceString += '*'
+    if (combatStats.isspecial === 'kinda') {
+        diceString += '*'
     }
 
-    this.damageString = diceString
-  }
+    damageString = diceString
 
-  setNoWeaponDamage = () => {
-    if (this.combatStats.isspecial === 'yes') {
-      this.damageString = '*'
-      return false
+    return { damageString, recovery, damageType, weaponScaling: scalingStrength }
+}
+
+setNoWeaponDamage = (combatStats, roleInfo, points) => {
+    if (combatStats.isspecial === 'yes') {
+        damageString = '*'
+        return false
     }
 
     let scalingStrength;
 
-    if (this.combatStats.piercingweapons) {
-      scalingStrength = this.combatStats.piercingweapons
-      this.damageType = 'P'
-    } else if (this.combatStats.crushingweapons) {
-      scalingStrength = this.combatStats.crushingweapons
-      this.damageType = 'C'
-    } else if (this.combatStats.slashingweapons) {
-      scalingStrength = this.combatStats.slashingweapons
-      this.damageType = 'S'
+    if (combatStats.piercingweapons) {
+        scalingStrength = combatStats.piercingweapons
+        damageType = 'P'
+    } else if (combatStats.crushingweapons) {
+        scalingStrength = combatStats.crushingweapons
+        damageType = 'C'
+    } else if (combatStats.slashingweapons) {
+        scalingStrength = combatStats.slashingweapons
+        damageType = 'S'
     } else {
-      scalingStrength = this.roleInfo.damage
-      if (this.roleInfo.preferreddamage === 'piercingweapons') {
-        this.damageType = 'P'
-      } else if (this.roleInfo.preferreddamage === 'crushingweapons') {
-        this.damageType = 'C'
-      } else if (this.roleInfo.preferreddamage === 'slashingweapons') {
-        this.damageType = 'S'
-      } else {
-        scalingStrength = null
-        this.damageType = ''
-      }
+        scalingStrength = roleInfo.damage
+        if (roleInfo.preferreddamage === 'piercingweapons') {
+            damageType = 'P'
+        } else if (roleInfo.preferreddamage === 'crushingweapons') {
+            damageType = 'C'
+        } else if (roleInfo.preferreddamage === 'slashingweapons') {
+            damageType = 'S'
+        } else {
+            scalingStrength = null
+            damageType = ''
+        }
     }
 
-    const scaling = this.combatStatsService.getDamageScalingInfo(this.damageType);
+    const scaling = getDamageScalingInfo(damageType);
 
-    let modifiedPoints = this.combatStatsService.getModifiedStat(scalingStrength, scaling, this.points)
+    let modifiedPoints = getModifiedStat(scalingStrength, scaling, points)
 
     if (modifiedPoints <= 0) {
-      modifiedPoints = 1
+        modifiedPoints = 1
     }
 
     let crushingDamageMod = 0
     let diceObject = {
-      d3s: 0,
-      d4s: 0,
-      d6s: 0,
-      d8s: 0,
-      d10s: 0,
-      d12s: 0,
-      d20s: 0,
+        d3s: 0,
+        d4s: 0,
+        d6s: 0,
+        d8s: 0,
+        d10s: 0,
+        d12s: 0,
+        d20s: 0,
     }
 
-    if (this.damageType === 'S') {
-      diceObject.d4s += Math.floor(modifiedPoints / 2)
-      let leftover = modifiedPoints % 2
-      if (leftover === 1) {
-        diceObject.d3s += 1
-      }
-    } else if (this.damageType === 'P') {
-      diceObject.d8s += Math.floor(modifiedPoints / 4)
-      let leftover = modifiedPoints % 4
-      if (leftover === 1) {
-        diceObject.d3s += 1
-      } else if (leftover === 2) {
-        diceObject.d4s += 1
-      } else if (leftover === 3) {
-        diceObject.d6s += 1
-      }
+    if (damageType === 'S') {
+        diceObject.d4s += Math.floor(modifiedPoints / 2)
+        let leftover = modifiedPoints % 2
+        if (leftover === 1) {
+            diceObject.d3s += 1
+        }
+    } else if (damageType === 'P') {
+        diceObject.d8s += Math.floor(modifiedPoints / 4)
+        let leftover = modifiedPoints % 4
+        if (leftover === 1) {
+            diceObject.d3s += 1
+        } else if (leftover === 2) {
+            diceObject.d4s += 1
+        } else if (leftover === 3) {
+            diceObject.d6s += 1
+        }
     } else {
-      if (modifiedPoints === 1) {
-        diceObject.d4s += 1
-      } else if (modifiedPoints === 2) {
-        diceObject.d6s += 1
-      } else if (modifiedPoints === 3) {
-        diceObject.d8s += 1
-      } else if (modifiedPoints === 4) {
-        diceObject.d10s += 1
-      } else if (modifiedPoints === 5) {
-        diceObject.d12s += 1
-      } else if (modifiedPoints === 6) {
-        diceObject.d20s += 1
-      } else {
-        diceObject.d20s += 1
-        crushingDamageMod = modifiedPoints - 6
-      }
+        if (modifiedPoints === 1) {
+            diceObject.d4s += 1
+        } else if (modifiedPoints === 2) {
+            diceObject.d6s += 1
+        } else if (modifiedPoints === 3) {
+            diceObject.d8s += 1
+        } else if (modifiedPoints === 4) {
+            diceObject.d10s += 1
+        } else if (modifiedPoints === 5) {
+            diceObject.d12s += 1
+        } else if (modifiedPoints === 6) {
+            diceObject.d20s += 1
+        } else {
+            diceObject.d20s += 1
+            crushingDamageMod = modifiedPoints - 6
+        }
     }
 
     let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
@@ -408,131 +455,132 @@ getModifiedMeasure = () => {
     let baseRecovery = 0
 
     if (d3s > 0) {
-      diceString += `${d3s}d3!`
-      baseRecovery += d3s * this.combatStatsService.getRecoveryFromDiceSize('d3')
+        diceString += `${d3s}d3!`
+        baseRecovery += d3s * getRecoveryFromDiceSize('d3')
     }
     if (d4s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d4s}d4!`
-      baseRecovery += d4s * this.combatStatsService.getRecoveryFromDiceSize('d4')
+        diceString += ` ${diceString !== '' ? '+' : ''}${d4s}d4!`
+        baseRecovery += d4s * getRecoveryFromDiceSize('d4')
     }
     if (d6s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d6s}d6!`
-      baseRecovery += d6s * this.combatStatsService.getRecoveryFromDiceSize('d6')
+        diceString += ` ${diceString !== '' ? '+' : ''}${d6s}d6!`
+        baseRecovery += d6s * getRecoveryFromDiceSize('d6')
     }
     if (d8s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d8s}d8!`
-      baseRecovery += d8s * this.combatStatsService.getRecoveryFromDiceSize('d8')
+        diceString += ` ${diceString !== '' ? '+' : ''}${d8s}d8!`
+        baseRecovery += d8s * getRecoveryFromDiceSize('d8')
     }
     if (d10s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d10s}d10!`
-      baseRecovery += d10s * this.combatStatsService.getRecoveryFromDiceSize('d10')
+        diceString += ` ${diceString !== '' ? '+' : ''}${d10s}d10!`
+        baseRecovery += d10s * getRecoveryFromDiceSize('d10')
     }
     if (d12s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d12s}d12!`
-      baseRecovery += d12s * this.combatStatsService.getRecoveryFromDiceSize('d12')
+        diceString += ` ${diceString !== '' ? '+' : ''}${d12s}d12!`
+        baseRecovery += d12s * getRecoveryFromDiceSize('d12')
     }
     if (d20s > 0) {
-      diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
-      baseRecovery += d20s * this.combatStatsService.getRecoveryFromDiceSize('d20')
+        diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
+        baseRecovery += d20s * getRecoveryFromDiceSize('d20')
     }
 
     if (crushingDamageMod) {
-      diceString += ` +${crushingDamageMod}`
+        diceString += ` +${crushingDamageMod}`
     }
 
-    this.baseRecovery = baseRecovery
-    this.setModifiedRecovery()
+    baseRecovery = baseRecovery
+    const recovery = setModifiedRecovery(baseRecovery, combatStats, roleInfo, points)
 
-    if (this.combatStats.isspecial === 'kinda') {
-      diceString += '*'
+    if (combatStats.isspecial === 'kinda') {
+        diceString += '*'
     }
 
-    this.damageString = diceString
-  }
+    damageString = diceString
 
-  setModifiedRecovery = () => {
+    return { damageString, recovery, damageType }
+}
+
+setModifiedRecovery = (baseRecovery, combatStats, roleInfo, points) => {
     let scalingStrength;
 
-    if (this.combatStats.recovery) {
-      scalingStrength = this.combatStats.recovery
+    if (combatStats.recovery) {
+        scalingStrength = combatStats.recovery
     } else {
-      scalingStrength = this.roleInfo.recovery
+        scalingStrength = roleInfo.recovery
     }
 
-    const scaling = this.combatStatsService.getStatScaling('recovery')
-
+    const scaling = getStatScaling('recovery')
     if (scalingStrength === 'noneWk') {
-      this.recovery = Math.ceil(this.baseRecovery * scaling.scaling.majWk)
+        return Math.ceil(baseRecovery * scaling.scaling.majWk)
     } else if (scalingStrength === 'none') {
-      this.recovery = Math.ceil(this.baseRecovery * scaling.scaling.none)
+        return Math.ceil(baseRecovery * scaling.scaling.none)
     } else {
-      this.recovery = Math.ceil((scaling.scaling[scalingStrength] * this.baseRecovery) - (scaling.bonus[scalingStrength] * this.points))
+        return Math.ceil((scaling.scaling[scalingStrength] * baseRecovery) - (scaling.bonus[scalingStrength] * points))
     }
-  }
+}
 
-  getCover = () => {
-    const cover = this.combatStatsService.getModifiedStatsMinZero('rangeddefense', this.combatStats, this.roleInfo, this.points)
+getCover = (combatStats, roleInfo, points) => {
+    const cover = getModifiedStatsMinZero('rangeddefense', combatStats, roleInfo, points)
     if (cover > 0) {
-      const crouchedCover = cover * 1.5
+        const crouchedCover = cover * 1.5
 
-      if (crouchedCover >= 20) {
-        return `+${Math.floor(cover)}(*)`
-      } else {
-        return `+${Math.floor(cover)}(+${Math.floor(crouchedCover)})`
-      }
+        if (crouchedCover >= 20) {
+            return `+${Math.floor(cover)}(*)`
+        } else {
+            return `+${Math.floor(cover)}(+${Math.floor(crouchedCover)})`
+        }
     } else {
-      return '+0'
+        return '+0'
     }
-  }
+}
 
-  getBaseDR = () => {
-    if (this.equipmentLists.armor.length > 0 && this.combatStats.armor) {
-      const armorSlash = this.combatStatsService.getArmorOrShieldStat('weaponsmallslashing', 'armor', 'slash', this.combatStats, this.roleInfo, this.equipmentObjects, this.points)
-      const armorStatic = this.combatStatsService.getArmorOrShieldStat('weaponsmallcrushing', 'armor', 'flat', this.combatStats, this.roleInfo, this.equipmentObjects, this.points)
+getBaseDR = (combatStats, roleInfo, points) => {
+    if (combatStats.armor) {
+        const armorSlash = getArmorOrShieldStat('weaponsmallslashing', 'armor', 'slash', combatStats, roleInfo, points)
+        const armorStatic = getArmorOrShieldStat('weaponsmallcrushing', 'armor', 'flat', combatStats, roleInfo, points)
 
-      return this.getDRString(armorSlash, armorStatic)
+        return getDRString(armorSlash, armorStatic)
     }
-    const slashDR = this.combatStatsService.getModifiedStatsRounded('weaponsmallslashing', this.combatStats, this.roleInfo, this.points)
-    const staticDR = this.combatStatsService.getModifiedStatsRounded('weaponsmallcrushing', this.combatStats, this.roleInfo, this.points)
+    const slashDR = getModifiedStatsRounded('weaponsmallslashing', combatStats, roleInfo, points)
+    const staticDR = getModifiedStatsRounded('weaponsmallcrushing', combatStats, roleInfo, points)
 
-    return this.getDRString(slashDR, staticDR)
-  }
+    return getDRString(slashDR, staticDR)
+}
 
-  getParryDR = () => {
-    if (this.equipmentLists.shields.length > 0 && this.combatStats.shield) {
-      const shieldSlash = this.combatStatsService.getArmorOrShieldStat('andslashing', 'shield', 'slash', this.combatStats, this.roleInfo, this.equipmentObjects, this.points)
-      const shieldStatic = this.combatStatsService.getArmorOrShieldStat('andcrushing', 'shield', 'flat', this.combatStats, this.roleInfo, this.equipmentObjects, this.points)
+getParryDR = (combatStats, roleInfo, points) => {
+    if (combatStats.shield) {
+        const shieldSlash = getArmorOrShieldStat('andslashing', 'shield', 'slash', combatStats, roleInfo, points)
+        const shieldStatic = getArmorOrShieldStat('andcrushing', 'shield', 'flat', combatStats, roleInfo, points)
 
-      return this.getDRString(shieldSlash, shieldStatic)
+        return getDRString(shieldSlash, shieldStatic)
     }
 
-    const slashDR = this.combatStatsService.getModifiedStatsRounded('andslashing', this.combatStats, this.roleInfo, this.points)
-    const staticDR = this.combatStatsService.getModifiedStatsRounded('andcrushing', this.combatStats, this.roleInfo, this.points)
+    const slashDR = getModifiedStatsRounded('andslashing', combatStats, roleInfo, points)
+    const staticDR = getModifiedStatsRounded('andcrushing', combatStats, roleInfo, points)
 
-    return this.getDRString(slashDR, staticDR)
-  }
+    return getDRString(slashDR, staticDR)
+}
 
-  getDRString = (slashDR, staticDR) => {
+getDRString = (slashDR, staticDR) => {
     if (slashDR > 0 && staticDR > 0) {
-      return `${slashDR}/d +${staticDR}`
+        return `${slashDR}/d +${staticDR}`
     } else if (slashDR > 0) {
-      return `${slashDR}/d`
+        return `${slashDR}/d`
     } else if (staticDR > 0) {
-      return `${staticDR}`
+        return `${staticDR}`
     } else {
-      return 0
+        return 0
     }
-  }
+}
 
-  getWeaponType = () => {
-    if (this.combatStats.weapon) {
-      return this.weaponType = this.equipmentObjects.weapons[this.combatStats.weapon].range ? 'r' : 'm'
+getWeaponType = (combatStats, roleInfo) => {
+    if (combatStats.weapon) {
+        return equipmentController.getWeapon(combatStats.weapon).range ? 'r' : 'm'
     }
-    if (this.combatStats.weapontype) {
-      return this.combatStats.weapontype
+    if (combatStats.weapontype) {
+        return combatStats.weapontype
     }
-    return this.weaponType
-  }
+    return roleInfo.weapontype
+}
 
 const scalingAndBases = {
     piercingweapons: {

@@ -146,7 +146,6 @@ module.exports = {
         beast.panic = 7
       }
 
-      console.log(vitalityToUse)
       if (vitality && vitality !== '') {
         vitalityToUse = vitality
       } else if (!vitalityToUse || vitalityToUse === '') {

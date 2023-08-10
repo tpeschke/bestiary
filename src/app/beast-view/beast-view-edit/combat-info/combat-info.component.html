@@ -5,34 +5,34 @@
   <div class="combat-stat-shell">
     <div>
       <div class="square-shell">
-        <!-- <img *ngIf="getWeaponType() === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
-        <img *ngIf="getWeaponType() === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png"
-          alt="combat square"> -->
-        <p class="spd">1</p>
-        <p class="atk">1</p>
-        <p class="init">1</p>
+        <img *ngIf="combatSquare.weaponType === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
+        <img *ngIf="combatSquare.weaponType === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png"
+          alt="combat square">
+        <p class="spd">{{combatSquare.recovery}}</p>
+        <p class="atk">{{combatSquare.attack}}</p>
+        <p class="init">{{combatSquare.initiative}}</p>
         <div class="def">
-          <p>1</p>
-          <p class="shield_dr">1</p>
+          <p>{{combatSquare.defense}}</p>
+          <p class="shield_dr">{{combatSquare.cover}}</p>
         </div>
-        <p class="fatigue">1</p>
+        <p class="fatigue">{{combatSquare.damageType}}</p>
         <div class="dr">
-          <p>1</p>
+          <p>{{combatSquare.dr}}</p>
           <p class="shield_dr"><img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
-              height="15">1</p>
+              height="15">{{combatSquare.shieldDr}}</p>
         </div>
         <div class="measure">
-          <!-- <p *ngIf="getWeaponType() === 'm'">1</p>
-          <p *ngIf="getWeaponType() === 'r'">1</p> -->
+          <p *ngIf="combatSquare.weaponType === 'm'">{{combatSquare.measure}}</p>
+          <p *ngIf="combatSquare.weaponType === 'r'">{{combatSquare.range}}</p>
         </div>
-        <p class="damage">1</p>
-        <!-- <p *ngIf="getWeaponType() === 'm'" class="parry">{{combatStats.eua ? 'EUA' : 1}}</p> -->
+        <p class="damage">{{combatSquare.damage}}</p>
+        <p *ngIf="combatSquare.weaponType === 'm'" class="parry">{{combatStats.eua ? 'EUA' : combatSquare.parry}}</p>
       </div>
   
       <br>
-      <!-- <mat-form-field>
+      <mat-form-field>
         <mat-label>Range Type</mat-label>
-        <mat-select [disabled]="combatStats.weapon" [value]="getWeaponType()"
+        <mat-select [disabled]="combatStats.weapon" [value]="combatSquare.weaponType"
           (selectionChange)="captureSelect($event, 'weapontype')">
           <mat-option value="m">
             Melee
@@ -41,7 +41,7 @@
             Ranged
           </mat-option>
         </mat-select>
-      </mat-form-field> -->
+      </mat-form-field>
       
       <mat-checkbox (change)="checkBasicStatOnOff('addsizemod', $event)" [checked]="combatStats.addsizemod">Add Size
         Modifier</mat-checkbox>
@@ -174,7 +174,7 @@
             <td>
               <mat-checkbox [ngClass]="roleInfo.damage === 'majSt' ? 'checkmark-role-background' : ''"
                 (change)="checkWeaponStat('majSt', $event)"
-                [checked]="!getWeaponScalingStrength() ? roleInfo.damage === 'majSt' : getWeaponScalingStrength() === 'majSt'"
+                [checked]="!combatSquare.weaponScaling ? roleInfo.damage === 'majSt' : combatSquare.weaponScaling === 'majSt'"
                 matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo.damage !== 'majSt' ">
               </mat-checkbox>
@@ -182,7 +182,7 @@
             <td>
               <mat-checkbox [ngClass]="roleInfo.damage === 'minSt'  ? 'checkmark-role-background' : ''"
                 (change)="checkWeaponStat('minSt', $event)"
-                [checked]="!getWeaponScalingStrength() ? roleInfo.damage === 'minSt' : getWeaponScalingStrength() === 'minSt'"
+                [checked]="!combatSquare.weaponScaling ? roleInfo.damage === 'minSt' : combatSquare.weaponScaling === 'minSt'"
                 matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo.damage !== 'minSt'"></mat-checkbox>
             </td>
@@ -191,27 +191,27 @@
                 (change)="checkWeaponStat('none', $event)"
                 matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo.damage"
-                [checked]="(!getWeaponScalingStrength() && !roleInfo.damage) || (getWeaponScalingStrength() === 'none')">
+                [checked]="(!combatSquare.weaponScaling && !roleInfo.damage) || (combatSquare.weaponScaling === 'none')">
               </mat-checkbox>
             </td>
             <td>
               <mat-checkbox [ngClass]="roleInfo.damage === 'minWk'  ? 'checkmark-role-background' : ''"
                 (change)="checkWeaponStat('minWk', $event)"
-                [checked]="!getWeaponScalingStrength() ? roleInfo.damage === 'minWk' : getWeaponScalingStrength() === 'minWk'"
+                [checked]="!combatSquare.weaponScaling ? roleInfo.damage === 'minWk' : combatSquare.weaponScaling === 'minWk'"
                 matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo.damage !== 'minWk'"></mat-checkbox>
             </td>
             <td>
               <mat-checkbox [ngClass]="roleInfo.damage === 'majWk'  ? 'checkmark-role-background' : ''"
                 (change)="checkWeaponStat('majWk', $event)"
-                [checked]="!getWeaponScalingStrength() ? roleInfo.damage === 'majWk' : getWeaponScalingStrength() === 'majWk'"
+                [checked]="!combatSquare.weaponScaling ? roleInfo.damage === 'majWk' : combatSquare.weaponScaling === 'majWk'"
                 matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo.damage !== 'majWk'"></mat-checkbox>
             </td>
             <td>
               <mat-checkbox [ngClass]="roleInfo.damage === 'noneWk'  ? 'checkmark-role-background' : ''"
                 (change)="checkWeaponStat('noneWk', $event)"
-                [checked]="!getWeaponScalingStrength() ? roleInfo.damage === 'noneWk' : getWeaponScalingStrength() === 'noneWk'"
+                [checked]="!combatSquare.weaponScaling ? roleInfo.damage === 'noneWk' : combatSquare.weaponScaling === 'noneWk'"
                 matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo.damage !== 'noneWk'"></mat-checkbox>
             </td>
@@ -547,7 +547,7 @@
             </td>
           </tr>
   
-          <tr *ngIf="getWeaponType() === 'm'">
+          <tr *ngIf="combatSquare.weaponType === 'm'">
             <td>Measure
             </td>
             <td>
@@ -595,7 +595,7 @@
             </td>
           </tr>
   
-          <tr *ngIf="getWeaponType() !== 'm'">
+          <tr *ngIf="combatSquare.weaponType !== 'm'">
             <td>Range, Distance
             </td>
             <td>

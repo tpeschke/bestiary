@@ -1001,7 +1001,6 @@
               <h3>
                 <mat-form-field>
                   <input placeholder="Movement Type" matInput [value]="movementType.type"
-                    id="{{!selectedRole || !selectedRole.strengths ? '' : selectedRole.strengths.includes('Movement') ? 'green' : selectedRole.weaknesses.includes('Movement') ? 'red' : ''}}"
                     (change)="captureInput($event, 'movement', i, 'type')">
                 </mat-form-field>
               </h3>

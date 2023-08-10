@@ -107,8 +107,12 @@ export class CombatInfoComponent implements OnChanges {
 
   ngOnChanges(changes) {
     this.setRoleInfo()
-    this.beastService.getCombatSquare(this.combatStats, this.primaryRole).subscribe(res => {
-      // this.combatSquare = res
+    this.getCombatSquare()
+  }
+
+  getCombatSquare() {
+    this.beastService.getCombatSquare(this.combatStats, this.primaryRole, this.points, this.size).subscribe(res => {
+      this.combatSquare = res
     })
   }
 
@@ -141,6 +145,8 @@ export class CombatInfoComponent implements OnChanges {
     } else {
       this.checkAttackStat(this.roleInfo.preferreddamage, value, event)
     }
+    
+    this.getCombatSquare()
   }
 
   checkAttackStat = (stat, value, event) => {
@@ -167,8 +173,8 @@ export class CombatInfoComponent implements OnChanges {
       this.combatStats.slashingweapons = null
       this.combatStats.piercingweapons = null
     }
-
-    this.setDamageDice()
+    
+    this.getCombatSquare()
   }
 
   checkOtherStat = (stat, value, event) => {
@@ -185,9 +191,7 @@ export class CombatInfoComponent implements OnChanges {
       this.combatStats[stat] = value
     }
 
-    if (stat === 'recovery') {
-      this.setModifiedRecovery()
-    }
+    this.getCombatSquare()
   }
 
   checkPhysicalStat = (stat, value, event) => {
@@ -206,6 +210,7 @@ export class CombatInfoComponent implements OnChanges {
     }
 
     this.physicalCallback()
+    this.getCombatSquare()
   }
 
   checkBasicStat = (stat, value, event) => {
@@ -216,23 +221,19 @@ export class CombatInfoComponent implements OnChanges {
       this.combatStats[stat] = value
     }
 
-    if (stat === 'isspecial') {
-      this.setDamageDice()
-    }
+    this.getCombatSquare()
   }
 
   checkBasicStatOnOff = (stat, event) => {
     this.combatStats[stat] = event.checked
+    
+    this.getCombatSquare()
   }
 
   captureSelect = (event, type) => {
     this.combatStats[type] = event.value
 
-    if (type === 'weapontype') {
-      this.setRoleInfo()
-    } else if (type === 'weapon') {
-      this.setDamageDice()
-    }
+    this.getCombatSquare()
   }
 
 }
