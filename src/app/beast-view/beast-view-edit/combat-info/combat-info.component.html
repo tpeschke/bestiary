@@ -32,7 +32,8 @@
     <br>
     <mat-form-field>
       <mat-label>Range Type</mat-label>
-      <mat-select [disabled]="combatStats.weapon" [value]="getWeaponType()" (selectionChange)="captureSelect($event, 'weapontype')">
+      <mat-select [disabled]="combatStats.weapon" [value]="getWeaponType()"
+        (selectionChange)="captureSelect($event, 'weapontype')">
         <mat-option value="m">
           Melee
         </mat-option>
@@ -41,98 +42,47 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    
+    <mat-checkbox (change)="checkBasicStatOnOff('addsizemod', $event)" [checked]="combatStats.addsizemod">Add Size
+      Modifier</mat-checkbox>
 
-    <div>
-      <mat-form-field>
-        <mat-label>Weapon Choices</mat-label>
-        <mat-select [value]="combatStats.weapon" (selectionChange)="captureSelect($event, 'weapon')">
-          <mat-option>None</mat-option>
-          <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
-            <mat-option *ngFor="let item of group.items" [value]="item">
-              {{item}}
-            </mat-option>
-          </mat-optgroup>
-        </mat-select>
-      </mat-form-field>
-    </div>
+    <mat-form-field>
+      <mat-label>Weapon Choices</mat-label>
+      <mat-select [value]="combatStats.weapon" (selectionChange)="captureSelect($event, 'weapon')">
+        <mat-option>None</mat-option>
+        <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
+          <mat-option *ngFor="let item of group.items" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
 
-    <!-- <div class="equipment-choices">
-      <div *ngIf="!showAllEquipment && selectedRole.spd && selectedRole.weapons.length > 0">
-        <mat-form-field>
-          <mat-label>Weapon Choices</mat-label>
-          <mat-select [value]="square.selectedweapon" (selectionChange)="captureSelect($event, 'selectedweapon')">
-            <mat-option>None</mat-option>
-            <div *ngIf="secondaryRole === 'Controller'">
-              <mat-optgroup *ngFor="let group of controllerWeapons" [label]="group.label">
-                <mat-option *ngFor="let item of group.items" [value]="item">
-                  {{item}}
-                </mat-option>
-              </mat-optgroup>
-            </div>
-            <mat-optgroup *ngFor="let group of selectedRole.weapons" [label]="group.label">
-              <mat-option *ngFor="let item of group.items" [value]="item">
-                {{item}}
-              </mat-option>
-            </mat-optgroup>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      
+    <mat-form-field>
+      <mat-label>Armor Choices</mat-label>
+      <mat-select [value]="combatStats.armor" (selectionChange)="captureSelect($event, 'armor')">
+        <mat-option>None</mat-option>
+        <mat-optgroup *ngFor="let group of equipmentLists.armor" [label]="group.label">
+          <mat-option *ngFor="let item of group.items" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
 
-      <div *ngIf="!showAllEquipment && selectedRole.spd">
-        <mat-form-field *ngIf="selectedRole.armor && selectedRole.armor.length > 0">
-          <mat-label>Armor Choices</mat-label>
-          <mat-select [value]="square.selectedarmor" (selectionChange)="captureSelect($event, 'selectedarmor')">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let item of selectedRole.armor" [value]="item">
-              {{item}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div *ngIf="showAllEquipment || !selectedRole.spd">
-        <mat-form-field>
-          <mat-label>Armor Choices</mat-label>
-          <mat-select [value]="square.selectedarmor" (selectionChange)="captureSelect($event, 'selectedarmor')">
-            <mat-option>None</mat-option>
-            <mat-optgroup *ngFor="let group of equipmentLists.armor" [label]="group.label">
-              <mat-option *ngFor="let item of group.items" [value]="item">
-                {{item}}
-              </mat-option>
-            </mat-optgroup>
-          </mat-select>
-        </mat-form-field>
-      </div>
+    <mat-form-field>
+      <mat-label>Shield Choices</mat-label>
+      <mat-select [value]="combatStats.shield" (selectionChange)="captureSelect($event, 'shield')">
+        <mat-option>None</mat-option>
+        <mat-optgroup *ngFor="let group of equipmentLists.shields" [label]="group.label">
+          <mat-option *ngFor="let item of group.items" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
 
-      <div *ngIf="!showAllEquipment && selectedRole.spd">
-        <mat-form-field *ngIf="selectedRole.shields && selectedRole.shields.length > 0">
-          <mat-label>Shield Choices</mat-label>
-          <mat-select [value]="square.selectedshield" (selectionChange)="captureSelect($event, 'selectedshield')">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let item of selectedRole.shields" [value]="item">
-              {{item}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div *ngIf="showAllEquipment || !selectedRole.spd">
-        <mat-form-field>
-          <mat-label>Shield Choices</mat-label>
-          <mat-select [value]="square.selectedshield" (selectionChange)="captureSelect($event, 'selectedshield')">
-            <mat-option>None</mat-option>
-            <mat-optgroup *ngFor="let group of equipmentLists.shields" [label]="group.label">
-              <mat-option *ngFor="let item of group.items" [value]="item">
-                {{item}}
-              </mat-option>
-            </mat-optgroup>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div> -->
-
-    <mat-checkbox
-      (change)="checkBasicStatOnOff('addsizemod', $event)"
-      [checked]="combatStats.addsizemod">Add Size Modifier</mat-checkbox>
+    <mat-checkbox (change)="checkBasicStatOnOff('addsizemod', $event)" [checked]="combatStats.addsizemod">Show Me All Equipment</mat-checkbox>
   </div>
   <div>
     <table>
@@ -162,7 +112,8 @@
             Damage
           </th>
         </tr>
-        <tr *ngFor="let stat of attackStats" [ngClass]="{'noDisplay': combatStats.isspecial === 'yes' || combatStats.weapon}">
+        <tr *ngFor="let stat of attackStats"
+          [ngClass]="{'noDisplay': combatStats.isspecial === 'yes' || combatStats.weapon}">
           <td>{{stat.label}} <i *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue"
               matTooltip="{{stat.tooltip}}" matTooltipClass="my-tooltip"></i>
           </td>
@@ -217,12 +168,11 @@
               [matTooltipDisabled]="roleInfo.damage !== 'noneWk'"></mat-checkbox>
           </td>
         </tr>
-        
+
         <tr [ngClass]="{'noDisplay': combatStats.isspecial === 'yes' || !combatStats.weapon}">
           <td>Weapon</td>
           <td>
-            <mat-checkbox
-              [ngClass]="roleInfo.damage === 'majSt' ? 'checkmark-role-background' : ''"
+            <mat-checkbox [ngClass]="roleInfo.damage === 'majSt' ? 'checkmark-role-background' : ''"
               (change)="checkWeaponStat('majSt', $event)"
               [checked]="!getWeaponScalingStrength() ? roleInfo.damage === 'majSt' : getWeaponScalingStrength() === 'majSt'"
               matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
@@ -230,16 +180,14 @@
             </mat-checkbox>
           </td>
           <td>
-            <mat-checkbox
-              [ngClass]="roleInfo.damage === 'minSt'  ? 'checkmark-role-background' : ''"
+            <mat-checkbox [ngClass]="roleInfo.damage === 'minSt'  ? 'checkmark-role-background' : ''"
               (change)="checkWeaponStat('minSt', $event)"
               [checked]="!getWeaponScalingStrength() ? roleInfo.damage === 'minSt' : getWeaponScalingStrength() === 'minSt'"
               matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
               [matTooltipDisabled]="roleInfo.damage !== 'minSt'"></mat-checkbox>
           </td>
           <td>
-            <mat-checkbox
-              [ngClass]="!roleInfo.damage ? 'checkmark-role-background' : ''"
+            <mat-checkbox [ngClass]="!roleInfo.damage ? 'checkmark-role-background' : ''"
               (change)="checkWeaponStat('none', $event)"
               matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
               [matTooltipDisabled]="roleInfo.damage"
@@ -247,24 +195,21 @@
             </mat-checkbox>
           </td>
           <td>
-            <mat-checkbox
-              [ngClass]="roleInfo.damage === 'minWk'  ? 'checkmark-role-background' : ''"
+            <mat-checkbox [ngClass]="roleInfo.damage === 'minWk'  ? 'checkmark-role-background' : ''"
               (change)="checkWeaponStat('minWk', $event)"
               [checked]="!getWeaponScalingStrength() ? roleInfo.damage === 'minWk' : getWeaponScalingStrength() === 'minWk'"
               matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
               [matTooltipDisabled]="roleInfo.damage !== 'minWk'"></mat-checkbox>
           </td>
           <td>
-            <mat-checkbox
-              [ngClass]="roleInfo.damage === 'majWk'  ? 'checkmark-role-background' : ''"
+            <mat-checkbox [ngClass]="roleInfo.damage === 'majWk'  ? 'checkmark-role-background' : ''"
               (change)="checkWeaponStat('majWk', $event)"
               [checked]="!getWeaponScalingStrength() ? roleInfo.damage === 'majWk' : getWeaponScalingStrength() === 'majWk'"
               matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
               [matTooltipDisabled]="roleInfo.damage !== 'majWk'"></mat-checkbox>
           </td>
           <td>
-            <mat-checkbox
-              [ngClass]="roleInfo.damage === 'noneWk'  ? 'checkmark-role-background' : ''"
+            <mat-checkbox [ngClass]="roleInfo.damage === 'noneWk'  ? 'checkmark-role-background' : ''"
               (change)="checkWeaponStat('noneWk', $event)"
               [checked]="!getWeaponScalingStrength() ? roleInfo.damage === 'noneWk' : getWeaponScalingStrength() === 'noneWk'"
               matTooltip="This is the preferred damage and scale for their Role" matTooltipClass="my-tooltip"
@@ -649,7 +594,7 @@
               [matTooltipDisabled]="roleInfo.measure !== 'noneWk'"></mat-checkbox>
           </td>
         </tr>
-        
+
         <tr *ngIf="getWeaponType() !== 'm'">
           <td>Range, Distance
           </td>
@@ -697,7 +642,7 @@
               [matTooltipDisabled]="roleInfo.rangedistance !== 'noneWk'"></mat-checkbox>
           </td>
         </tr>
-        
+
         <tr>
           <td>Recovery
           </td>
