@@ -159,13 +159,7 @@ export class CombatInfoComponent implements OnChanges {
         modifiedStat = weaponMeasure + (scaling.bonus[scalingStrength] * this.points)
       }
     } else {
-      if (scalingStrength === 'noneWk') {
-        modifiedStat = scaling.scaling.majWk
-      } else if (scalingStrength === 'none' || !scalingStrength) {
-        modifiedStat = scaling.scaling.none
-      } else {
-        modifiedStat = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
-      }
+      modifiedStat = this.combatStatsService.getModifiedStat(scalingStrength, scaling, this.points)
     }
 
     const measureModDictionary = {
@@ -185,43 +179,6 @@ export class CombatInfoComponent implements OnChanges {
       return modifiedStat
     }
     return modifiedStat + measureModDictionary[this.size]
-  }
-
-  getModifiedWithWeapon = (combatStatKey, weaponKey) => {
-    let scalingStrength;
-    let modifiedStat;
-  
-    if (this.combatStats[combatStatKey]) {
-      scalingStrength = this.combatStats[combatStatKey]
-    } else {
-      scalingStrength = this.roleInfo[combatStatKey]
-    }
-  
-    const scaling = this.combatStatsService.getStatScaling(combatStatKey)
-
-    if (this.combatStats.weapon) {
-      const weaponStat = this.equipmentObjects.weapons[this.combatStats.weapon][weaponKey]
-      if (scalingStrength === 'noneWk') {
-        modifiedStat = weaponStat - (scaling.none - scaling.majWk)
-      } else if (scalingStrength === 'none' || !scalingStrength) {
-        modifiedStat = weaponStat
-      } else {
-        modifiedStat = weaponStat + (scaling.bonus[scalingStrength] * this.points)
-      }
-    } else {
-      if (scalingStrength === 'noneWk') {
-        modifiedStat = scaling.scaling.majWk
-      } else if (scalingStrength === 'none' || !scalingStrength) {
-        modifiedStat = scaling.scaling.none
-      } else {
-        modifiedStat = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
-      }
-    }
-
-    if (modifiedStat > 0) {
-      return Math.floor(modifiedStat)
-    }
-    return 0
   }
 
   getModifiedStatWithSize = (stat) => {
@@ -283,14 +240,7 @@ export class CombatInfoComponent implements OnChanges {
 
     const scaling = this.combatStatsService.getStatScaling('weapon')
 
-    let modifiedPoints
-    if (scalingStrength === 'noneWk') {
-      modifiedPoints = scaling.scaling.majWk
-    } else if (scalingStrength === 'none') {
-      modifiedPoints = scaling.scaling.none
-    } else {
-      modifiedPoints = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
-    }
+    let modifiedPoints = this.combatStatsService.getModifiedStat(scalingStrength, scaling, this.points)
 
     if (modifiedPoints < 0) {
       modifiedPoints = 1
@@ -392,14 +342,7 @@ export class CombatInfoComponent implements OnChanges {
 
     const scaling = this.combatStatsService.getDamageScalingInfo(this.damageType);
 
-    let modifiedPoints
-    if (scalingStrength === 'noneWk') {
-      modifiedPoints = scaling.scaling.majWk
-    } else if (scalingStrength === 'none') {
-      modifiedPoints = scaling.scaling.none
-    } else {
-      modifiedPoints = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
-    }
+    let modifiedPoints= this.combatStatsService.getModifiedStat(scalingStrength, scaling, this.points)
 
     if (modifiedPoints <= 0) {
       modifiedPoints = 1
@@ -525,9 +468,9 @@ export class CombatInfoComponent implements OnChanges {
       const crouchedCover = cover * 1.5
 
       if (crouchedCover >= 20) {
-        return `+${cover}(*)`
+        return `+${Math.floor(cover)}(*)`
       } else {
-        return `+${cover}(+${crouchedCover})`
+        return `+${Math.floor(cover)}(+${Math.floor(crouchedCover)})`
       }
     } else {
       return '+0'

@@ -13,7 +13,6 @@ getStatScaling = function (stat) {
 
 getModifiedStats = function (stat, combatStats, roleInfo, points)  {
   let scalingStrength;
-  let modifiedStat;
 
   if (combatStats[stat]) {
     scalingStrength = combatStats[stat]
@@ -22,20 +21,54 @@ getModifiedStats = function (stat, combatStats, roleInfo, points)  {
   }
 
   const scaling = this.scalingAndBases[stat]
-  if (scalingStrength === 'noneWk') {
-    modifiedStat = scaling.scaling.majWk
-  } else if (scalingStrength === 'none' || !scalingStrength) {
-    modifiedStat = scaling.scaling.none
-  } else {
-    modifiedStat = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * points)
-  }
+  const modifiedStat = this.getModifiedStat(scalingStrength, scaling, points)
 
   return modifiedStat
 }
 
-getMovementStats = function (stat, roleInfo, points) {
+getModifiedWithWeapon = (combatStatKey, combatStats, roleInfo, equipmentObjects, weaponKey, points) => {
   let scalingStrength;
   let modifiedStat;
+
+  if (combatStats[combatStatKey]) {
+    scalingStrength = combatStats[combatStatKey]
+  } else {
+    scalingStrength = roleInfo[combatStatKey]
+  }
+
+  const scaling = this.scalingAndBases[combatStatKey]
+
+  if (combatStats.weapon) {
+    const weaponStat = equipmentObjects.weapons[combatStats.weapon][weaponKey]
+    if (scalingStrength === 'noneWk') {
+      modifiedStat = weaponStat - (scaling.none - scaling.majWk)
+    } else if (scalingStrength === 'none' || !scalingStrength) {
+      modifiedStat = weaponStat
+    } else {
+      modifiedStat = weaponStat + (scaling.bonus[scalingStrength] * points)
+    }
+  } else {
+    modifiedStat = this.getModifiedStat(scalingStrength, scaling, points)
+  }
+
+  if (modifiedStat > 0) {
+    return Math.floor(modifiedStat)
+  }
+  return 0
+}
+
+getModifiedStat = (scalingStrength, scaling, points) => {
+  if (scalingStrength === 'noneWk') {
+    return scaling.scaling.majWk
+  } else if (scalingStrength === 'none' || !scalingStrength) {
+    return scaling.scaling.none
+  } else {
+    return scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * points)
+  }
+}
+
+getMovementStats = function (stat, roleInfo, points) {
+  let scalingStrength;
 
   if (stat) {
     scalingStrength = stat
@@ -44,13 +77,7 @@ getMovementStats = function (stat, roleInfo, points) {
   }
 
   const scaling = this.scalingAndBases.movement
-  if (scalingStrength === 'noneWk') {
-    modifiedStat = scaling.scaling.majWk
-  } else if (scalingStrength === 'none' || !scalingStrength) {
-    modifiedStat = scaling.scaling.none
-  } else {
-    modifiedStat = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * points)
-  }
+  const modifiedStat = this.getModifiedStat(scalingStrength, scaling, points)
 
   return modifiedStat
 }
