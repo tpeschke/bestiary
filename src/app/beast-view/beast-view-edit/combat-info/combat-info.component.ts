@@ -181,8 +181,8 @@ export class CombatInfoComponent implements OnChanges {
     return modifiedStat + measureModDictionary[this.size]
   }
 
-  getModifiedStatWithSize = (stat) => {
-    const modifiedStat = this.combatStatsService.getModifiedStatsRounded(stat, this.combatStats, this.roleInfo, this.points)
+  getDefense = () => {
+    const modifiedStat = this.combatStatsService.getModifiedStatsRounded('all', this.combatStats, this.roleInfo, this.points)
     if (!this.combatStats.addsizemod) {
       return modifiedStat
     }
@@ -200,10 +200,15 @@ export class CombatInfoComponent implements OnChanges {
       Colossal: -15
     }
 
-    if (stat === 'all') {
-      return modifiedStat + defenseModDictionary[this.size]
+    let equipmentMod = 0
+    if (this.combatStats.armor) {
+      equipmentMod += this.equipmentObjects.armor[this.combatStats.armor].def
     }
-    return modifiedStat
+    if (this.combatStats.shield) {
+      equipmentMod += this.equipmentObjects.shields[this.combatStats.shield].def
+    }
+    
+    return modifiedStat + defenseModDictionary[this.size] + equipmentMod
   }
 
   setDamageDice() {
