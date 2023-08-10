@@ -140,13 +140,13 @@ export class CombatInfoComponent implements OnChanges {
   getModifiedMeasure = () => {
     let scalingStrength;
     let modifiedStat;
-  
+
     if (this.combatStats.measure) {
       scalingStrength = this.combatStats.measure
     } else {
       scalingStrength = this.roleInfo.measure
     }
-  
+
     const scaling = this.combatStatsService.getStatScaling('measure')
 
     if (this.combatStats.weapon) {
@@ -174,7 +174,7 @@ export class CombatInfoComponent implements OnChanges {
       Enormous: 4,
       Colossal: 5
     }
-  
+
     if (!this.combatStats.addsizemod) {
       return modifiedStat
     }
@@ -214,7 +214,7 @@ export class CombatInfoComponent implements OnChanges {
     }
   }
 
-  getWeaponScalingStrength () {
+  getWeaponScalingStrength() {
     if (this.combatStats.piercingweapons) {
       return this.combatStats.piercingweapons
     } else if (this.combatStats.crushingweapons) {
@@ -247,7 +247,7 @@ export class CombatInfoComponent implements OnChanges {
     }
 
     let crushingDamageMod = 0
-    let diceObject = {...this.equipmentObjects.weapons[this.combatStats.weapon].damageObj}
+    let diceObject = { ...this.equipmentObjects.weapons[this.combatStats.weapon].damageObj }
 
     if (this.damageType === 'S') {
       diceObject.d4s += Math.floor(modifiedPoints / 2)
@@ -342,7 +342,7 @@ export class CombatInfoComponent implements OnChanges {
 
     const scaling = this.combatStatsService.getDamageScalingInfo(this.damageType);
 
-    let modifiedPoints= this.combatStatsService.getModifiedStat(scalingStrength, scaling, this.points)
+    let modifiedPoints = this.combatStatsService.getModifiedStat(scalingStrength, scaling, this.points)
 
     if (modifiedPoints <= 0) {
       modifiedPoints = 1
@@ -478,6 +478,12 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   getBaseDR = () => {
+    if (this.equipmentLists.armor.length > 0 && this.combatStats.armor) {
+      const armorSlash = this.combatStatsService.getArmorOrShieldStat('weaponsmallslashing', 'armor', 'slash', this.combatStats, this.roleInfo, this.equipmentObjects, this.points)
+      const armorStatic = this.combatStatsService.getArmorOrShieldStat('weaponsmallcrushing', 'armor', 'flat', this.combatStats, this.roleInfo, this.equipmentObjects, this.points)
+
+      return this.getDRString(armorSlash, armorStatic)
+    }
     const slashDR = this.combatStatsService.getModifiedStatsRounded('weaponsmallslashing', this.combatStats, this.roleInfo, this.points)
     const staticDR = this.combatStatsService.getModifiedStatsRounded('weaponsmallcrushing', this.combatStats, this.roleInfo, this.points)
 
@@ -485,6 +491,13 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   getParryDR = () => {
+    if (this.equipmentLists.shields.length > 0 && this.combatStats.shield) {
+      const shieldSlash = this.combatStatsService.getArmorOrShieldStat('andslashing', 'shield', 'slash', this.combatStats, this.roleInfo, this.equipmentObjects, this.points)
+      const shieldStatic = this.combatStatsService.getArmorOrShieldStat('andcrushing', 'shield', 'flat', this.combatStats, this.roleInfo, this.equipmentObjects, this.points)
+
+      return this.getDRString(shieldSlash, shieldStatic)
+    }
+
     const slashDR = this.combatStatsService.getModifiedStatsRounded('andslashing', this.combatStats, this.roleInfo, this.points)
     const staticDR = this.combatStatsService.getModifiedStatsRounded('andcrushing', this.combatStats, this.roleInfo, this.points)
 
