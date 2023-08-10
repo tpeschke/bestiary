@@ -147,6 +147,10 @@ export class BeastService {
     return this.http.get(`${local.endpointBase}/api/equipment`)
   }
 
+  getCombatSquare(combatStats, role): any {
+    return this.http.patch(local.endpointBase + '/api/combatSquare', {combatStats, role})
+  }
+
   getUniqueEquipment(equipmentArray): any {
     return this.http.post(local.reliquaryEndpoint, equipmentArray)
   }
