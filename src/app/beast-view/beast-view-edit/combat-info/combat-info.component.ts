@@ -481,17 +481,17 @@ export class CombatInfoComponent implements OnChanges {
     const slashDR = this.combatStatsService.getModifiedStatsRounded('weaponsmallslashing', this.combatStats, this.roleInfo, this.points)
     const staticDR = this.combatStatsService.getModifiedStatsRounded('weaponsmallcrushing', this.combatStats, this.roleInfo, this.points)
 
-    return this.getDR(slashDR, staticDR)
+    return this.getDRString(slashDR, staticDR)
   }
 
   getParryDR = () => {
     const slashDR = this.combatStatsService.getModifiedStatsRounded('andslashing', this.combatStats, this.roleInfo, this.points)
     const staticDR = this.combatStatsService.getModifiedStatsRounded('andcrushing', this.combatStats, this.roleInfo, this.points)
 
-    return this.getDR(slashDR, staticDR)
+    return this.getDRString(slashDR, staticDR)
   }
 
-  getDR = (slashDR, staticDR) => {
+  getDRString = (slashDR, staticDR) => {
     if (slashDR > 0 && staticDR > 0) {
       return `${slashDR}/d +${staticDR}`
     } else if (slashDR > 0) {
