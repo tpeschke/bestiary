@@ -137,11 +137,37 @@ export class CombatInfoComponent implements OnChanges {
     return this.combatStatsService.getModifiedStatsMinZero(stat, this.combatStats, this.roleInfo, this.points)
   }
 
-  getModifiedStatWithSize = (stat) => {
-    const modifiedStat = this.combatStatsService.getModifiedStatsRounded(stat, this.combatStats, this.roleInfo, this.points)
-    if (!this.combatStats.addsizemod) {
-      return modifiedStat
+  getModifiedMeasure = () => {
+    let scalingStrength;
+    let modifiedStat;
+  
+    if (this.combatStats.measure) {
+      scalingStrength = this.combatStats.measure
+    } else {
+      scalingStrength = this.roleInfo.measure
     }
+  
+    const scaling = this.combatStatsService.getStatScaling('measure')
+
+    if (this.combatStats.weapon) {
+      const weaponMeasure = this.equipmentObjects.weapons[this.combatStats.weapon].measure
+      if (scalingStrength === 'noneWk') {
+        modifiedStat = weaponMeasure - (scaling.none - scaling.majWk)
+      } else if (scalingStrength === 'none' || !scalingStrength) {
+        modifiedStat = weaponMeasure
+      } else {
+        modifiedStat = weaponMeasure + (scaling.bonus[scalingStrength] * this.points)
+      }
+    } else {
+      if (scalingStrength === 'noneWk') {
+        modifiedStat = scaling.scaling.majWk
+      } else if (scalingStrength === 'none' || !scalingStrength) {
+        modifiedStat = scaling.scaling.none
+      } else {
+        modifiedStat = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
+      }
+    }
+
     const measureModDictionary = {
       Fine: -4,
       Diminutive: -3,
@@ -154,6 +180,56 @@ export class CombatInfoComponent implements OnChanges {
       Enormous: 4,
       Colossal: 5
     }
+  
+    if (!this.combatStats.addsizemod) {
+      return modifiedStat
+    }
+    return modifiedStat + measureModDictionary[this.size]
+  }
+
+  getModifiedWithWeapon = (combatStatKey, weaponKey) => {
+    let scalingStrength;
+    let modifiedStat;
+  
+    if (this.combatStats[combatStatKey]) {
+      scalingStrength = this.combatStats[combatStatKey]
+    } else {
+      scalingStrength = this.roleInfo[combatStatKey]
+    }
+  
+    const scaling = this.combatStatsService.getStatScaling(combatStatKey)
+
+    if (this.combatStats.weapon) {
+      const weaponStat = this.equipmentObjects.weapons[this.combatStats.weapon][weaponKey]
+      if (scalingStrength === 'noneWk') {
+        modifiedStat = weaponStat - (scaling.none - scaling.majWk)
+      } else if (scalingStrength === 'none' || !scalingStrength) {
+        modifiedStat = weaponStat
+      } else {
+        modifiedStat = weaponStat + (scaling.bonus[scalingStrength] * this.points)
+      }
+    } else {
+      if (scalingStrength === 'noneWk') {
+        modifiedStat = scaling.scaling.majWk
+      } else if (scalingStrength === 'none' || !scalingStrength) {
+        modifiedStat = scaling.scaling.none
+      } else {
+        modifiedStat = scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * this.points)
+      }
+    }
+
+    if (modifiedStat > 0) {
+      return Math.floor(modifiedStat)
+    }
+    return 0
+  }
+
+  getModifiedStatWithSize = (stat) => {
+    const modifiedStat = this.combatStatsService.getModifiedStatsRounded(stat, this.combatStats, this.roleInfo, this.points)
+    if (!this.combatStats.addsizemod) {
+      return modifiedStat
+    }
+
     const defenseModDictionary = {
       Fine: 12,
       Diminutive: 9,
@@ -169,8 +245,6 @@ export class CombatInfoComponent implements OnChanges {
 
     if (stat === 'all') {
       return modifiedStat + defenseModDictionary[this.size]
-    } else if (stat === 'measure') {
-      return modifiedStat + measureModDictionary[this.size]
     }
     return modifiedStat
   }
