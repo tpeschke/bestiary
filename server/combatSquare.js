@@ -20,7 +20,7 @@ const combatSquareController = {
 
         let combatSquare = {
             weaponType,
-            attack: getModifiedStats('attack', combatStats, roleInfo, points),
+            attack: getModifiedStatsRounded('attack', combatStats, roleInfo, points),
             recovery: damageAndRecovery.recovery,
             initiative: getModifiedStats('initiative', combatStats, roleInfo, points) + initMod,
             defense: getDefense(combatStats, roleInfo, points, size),
@@ -33,7 +33,7 @@ const combatSquareController = {
             damage: damageAndRecovery.damageString,
             parry: getModifiedParry(combatStats, roleInfo, points),
             weaponScaling: damageAndRecovery.weaponScaling,
-            flanks: getModifiedStats('flanks', combatStats, roleInfo, points)
+            flanks: getFlanks(combatStats, roleInfo, points)
         }
 
         res.send(combatSquare)
@@ -62,7 +62,7 @@ const combatSquareController = {
         let damageString = deteremineVitalityDice(physical, sizeMod)
         let caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
 
-        res.send({mental: {...mental, caution}, physical: {...physical, damageString}})
+        res.send({ mental: { ...mental, caution }, physical: { ...physical, damageString } })
     },
 }
 
@@ -286,6 +286,37 @@ getRecoveryFromDiceSize = function (diceSize) {
     return scalingAndBases.recovery.base[diceSize]
 }
 
+getFlanks = (combatStats, roleInfo, points) => {
+    let scalingStrength;
+    let modifiedStat;
+
+    if (combatStats.flanks) {
+        scalingStrength = combatStats.flanks
+    } else {
+        scalingStrength = roleInfo.flanks
+    }
+
+    const scaling = getStatScaling('flanks')
+
+    if (combatStats.shield) {
+        const shieldFlanks = equipmentController.getShield(combatStats.shield).flanks
+        if (scalingStrength === 'noneWk') {
+            modifiedStat = shieldFlanks - (scaling.none - scaling.majWk)
+        } else if (scalingStrength === 'none' || !scalingStrength) {
+            modifiedStat = shieldFlanks
+        } else {
+            modifiedStat = shieldFlanks + (scaling.bonus[scalingStrength] * points)
+        }
+    } else {
+        modifiedStat = getModifiedStat(scalingStrength, scaling, points)
+    }
+
+    if (modifiedStat < 0) {
+        return modifiedStat
+    }
+    return 0
+}
+
 getModifiedMeasure = (combatStats, roleInfo, points, size) => {
     let scalingStrength;
     let modifiedStat;
@@ -339,7 +370,7 @@ getModifiedParry = (combatStats, roleInfo, points) => {
     } else {
         scalingStrength = roleInfo.weaponsmallpiercing
     }
-    
+
     const scaling = getStatScaling('weaponsmallpiercing')
     let modifiedParry = null;
     let baseParry = null;
@@ -365,7 +396,7 @@ getModifiedParry = (combatStats, roleInfo, points) => {
             modifiedParry = Math.ceil(baseParry - (scaling.bonus[scalingStrength] * points))
         }
     }
-    
+
     if (modifiedParry < 0) {
         return 0
     }
@@ -669,14 +700,59 @@ setModifiedRecovery = (baseRecovery, combatStats, roleInfo, points) => {
 }
 
 getCover = (combatStats, roleInfo, points) => {
-    const cover = getModifiedStatsMinZero('rangeddefense', combatStats, roleInfo, points)
-    if (cover > 0) {
-        const crouchedCover = cover * 1.5
+    let scalingStrength;
+
+    if (combatStats.rangeddefense) {
+        scalingStrength = combatStats.rangeddefense
+    } else {
+        scalingStrength = roleInfo.rangeddefense
+    }
+
+    const scaling = getStatScaling('rangeddefense')
+    let modifiedCover = null;
+    let baseCover = null;
+    let crouchingCover = null
+
+    if (combatStats.shield) {
+        let coverString = equipmentController.getShield(combatStats.shield).cover.slice(1)
+        coverString = coverString.slice(0, coverString.length - 1).split(' (+')
+        baseCover = +coverString[0]
+        crouchingCover = +coverString[1]
+    }
+    if (!baseCover || baseCover === 0) {
+        if (scalingStrength === 'noneWk') {
+            modifiedCover = scaling.scaling.majWk
+        } else if (scalingStrength === 'none') {
+            modifiedCover = scaling.scaling.none
+        } else {
+            modifiedCover = Math.ceil(scaling.scaling[scalingStrength] - (scaling.bonus[scalingStrength] * points))
+        }
+    } else {
+        if (scalingStrength === 'noneWk') {
+            modifiedCover = Math.ceil(baseCover + (scaling.scaling.none - scaling.scaling.majWk))
+            if (crouchingCover) {
+                crouchingCover = Math.ceil(crouchingCover + (scaling.scaling.none - scaling.scaling.majWk))
+            }
+        } else if (scalingStrength === 'none') {
+            modifiedCover = Math.ceil(baseCover + scaling.scaling.none)
+            if (crouchingCover) {
+                crouchingCover = Math.ceil(crouchingCover + scaling.scaling.none)
+            }
+        } else {
+            modifiedCover = Math.ceil(baseCover + (scaling.bonus[scalingStrength] * points))
+            if (crouchingCover) {
+                crouchingCover = Math.ceil(crouchingCover + (scaling.bonus[scalingStrength] * points))
+            }
+        }
+    }
+
+    if (modifiedCover > 0) {
+        const crouchedCover = crouchingCover ? crouchingCover : modifiedCover * 1.5
 
         if (crouchedCover >= 20) {
-            return `+${Math.floor(cover)}(*)`
+            return `+${Math.floor(modifiedCover)}(*)`
         } else {
-            return `+${Math.floor(cover)}(+${Math.floor(crouchedCover)})`
+            return `+${Math.floor(modifiedCover)}(+${Math.floor(crouchedCover)})`
         }
     } else {
         return '+0'

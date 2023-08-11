@@ -3,7 +3,7 @@
     <h4>Points</h4>
     <h5>Combat</h5>
     <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].combatpoints :
-      beast.combatpoints}}</p>
+      beast.combatpoints ? beast.combatpoints : 0}}</p>
 
     <h5>Confrontation</h5>
     <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints :
