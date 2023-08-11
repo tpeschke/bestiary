@@ -2419,6 +2419,10 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  removeCombatStatFromArray = (index) => {
+    this.beast.combatStatArray.splice(index, 1)
+  }
+
   updateDefaultRole = () => {
     this.beast.defaultrole = this.selectedRoleId
   }

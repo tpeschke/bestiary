@@ -985,7 +985,7 @@
                 <app-combat-info [primaryRole]="beast.roleInfo[selectedRoleId].role" [combatStats]="square"
                   [points]="beast.roleInfo[selectedRoleId].combatpoints" [physical]="beast.roleInfo[selectedRoleId]"
                   [physicalCallback]="setVitalityAndStress" [size]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size"
-                  [secondaryRole]="beast.roleInfo[selectedRoleId].secondaryrole"></app-combat-info>
+                  [secondaryRole]="beast.roleInfo[selectedRoleId].secondaryrole" [removeCallback]="removeCombatStatFromArray" [index]="i"></app-combat-info>
               </div>
             </div>
             <button mat-raised-button (click)="addNewSecondaryItem('combatStatArray')" color="accent"><i class="fa-solid fa-plus icon-medium"></i> Combat Square</button>

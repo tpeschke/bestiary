@@ -21,7 +21,7 @@ const combatSquareController = {
         let combatSquare = {
             weaponType,
             attack: getModifiedStatsRounded('attack', combatStats, roleInfo, points),
-            recovery: damageAndRecovery.recovery,
+            recovery: damageAndRecovery.recovery ? damageAndRecovery.recovery : getRecoveryForSpecial(combatStats, roleInfo, points),
             initiative: getModifiedStats('initiative', combatStats, roleInfo, points) + initMod,
             defense: getDefense(combatStats, roleInfo, points, size),
             cover: getCover(combatStats, roleInfo, points),
@@ -64,6 +64,10 @@ const combatSquareController = {
 
         res.send({ mental: { ...mental, caution }, physical: { ...physical, damageString } })
     },
+}
+
+getRecoveryForSpecial = (combatStats, roleInfo, points) => {
+    return setModifiedRecovery(10, combatStats, roleInfo, points)
 }
 
 getDefaultName = ({weapon, armor, shield}) => {

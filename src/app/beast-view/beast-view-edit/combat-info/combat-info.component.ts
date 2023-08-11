@@ -17,6 +17,8 @@ export class CombatInfoComponent implements OnChanges {
   @Input() points: any;
   @Input() physical: any;
   @Input() physicalCallback: Function
+  @Input() removeCallback: Function
+  @Input() index: any
   @Input() size: any = "Medium";
 
   weaponControl: any;
@@ -208,8 +210,8 @@ export class CombatInfoComponent implements OnChanges {
       let shieldOnRoleList = false
       let weaponOnRoleList = false
       if (this.combatStats.weapon) {
-        this.primaryRoles[this.primaryRole].weapon.forEach(weaponCat => {
-          weaponCat.forEach(weaponToCheck => {
+        this.primaryRoles[this.primaryRole].weapons.forEach(weaponCat => {
+          weaponCat.items.forEach(weaponToCheck => {
             if (weaponToCheck === this.combatStats.weapon) {
               weaponOnRoleList = true
             }
@@ -224,7 +226,7 @@ export class CombatInfoComponent implements OnChanges {
         })
       }
       if (this.combatStats.shield) {
-        this.primaryRoles[this.primaryRole].shield.forEach(shieldToCheck => {
+        this.primaryRoles[this.primaryRole].shields.forEach(shieldToCheck => {
           if (shieldToCheck === this.combatStats.shield) {
             shieldOnRoleList = true
           }
