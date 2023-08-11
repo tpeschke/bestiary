@@ -37,7 +37,7 @@ const combatSquareController = {
         res.send(combatSquare)
     },
     getMovement: (req, res) => {
-        const {points, movements, role} = req.body
+        const { points, movements, role } = req.body
 
         const newMovements = movements.map(movement => {
             const crawlspeed = getMovementStats(movement.crawlstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points)
@@ -46,11 +46,108 @@ const combatSquareController = {
                 , runspeed = getMovementStats(movement.runstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + jogspeed
                 , sprintspeed = getMovementStats(movement.sprintstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + runspeed
 
-            return {...movement, movementSpeeds: {crawlspeed, walkspeed, jogspeed, runspeed, sprintspeed}}
+            return { ...movement, movementSpeeds: { crawlspeed, walkspeed, jogspeed, runspeed, sprintspeed } }
         })
 
         res.send(newMovements)
+    },
+    setVitalityAndStress: (req, res) => {
+        const { points, role, combatStats, secondaryrole, sizeMod } = req.body
+        const baseRoleInfo = roles.combatRoles.primary[role].meleeCombatStats
+
+        let mental = setStressAndPanic(combatStats, baseRoleInfo, points)
+        let physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole)
+        let damageString = deteremineVitalityDice(physical, sizeMod)
+        let caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
+
+        res.send({mental: {...mental, caution}, physical: {...physical, damageString}})
+    },
+}
+
+setStressAndPanic = (combatStats, baseRoleInfo, combatpoints) => {
+    let mental = { stress: 0, panic: 0 }
+    mental.stress = getModifiedStats('mental', combatStats, baseRoleInfo, combatpoints)
+    let panic = getModifiedStats('panic', combatStats, baseRoleInfo, combatpoints)
+    if (panic > 1) {
+        panic = 1
     }
+    mental.panic = Math.floor(panic * mental.stress)
+
+    return mental
+}
+setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole) => {
+    let physical = {}
+    physical.largeweapons = getModifiedStats('largeweapons', combatStats, baseRoleInfo, combatpoints)
+
+    if (secondaryrole) {
+        if (secondaryrole === 'Fodder') {
+            physical.largeweapons = Math.floor(physical.largeweapons / 2)
+        } else if (secondaryrole === 'Solo') {
+            physical.largeweapons *= 3
+        }
+    }
+
+    let fatigue = getModifiedStats('fatigue', combatStats, baseRoleInfo, combatpoints)
+    if (fatigue > 1) {
+        fatigue = 1
+    }
+    physical.fatigue = Math.floor(fatigue * physical.largeweapons)
+
+    return physical
+}
+setCaution = (combatStats, baseRoleInfo, combatpoints, mental, physical) => {
+    let caution = getModifiedStats('caution', combatStats, baseRoleInfo, combatpoints)
+    if (caution > 1) {
+        caution = 1
+    }
+    return Math.floor((mental.stress + physical.largeweapons) * caution)
+}
+deteremineVitalityDice = (physical, sizeMod) => {
+    if (physical.largeweapons - sizeMod > 0) {
+        const remainder = physical.largeweapons - sizeMod
+        if (remainder % 10 === 0) {
+            if (remainder / 10 > 1) {
+                physical.diceString = `(d20 * ${remainder / 10}) + ${sizeMod}`
+            } else {
+                physical.diceString = `d20 + ${sizeMod}`
+            }
+        } else if (remainder % 6 === 0) {
+            if (remainder / 6 > 1) {
+                physical.diceString = `(d12 * ${remainder / 6}) + ${sizeMod}`
+            } else {
+                physical.diceString = `d12 + ${sizeMod}`
+            }
+        } else if (remainder % 5 === 0) {
+            if (remainder / 5 > 1) {
+                physical.diceString = `(d10 * ${remainder / 5}) + ${sizeMod}`
+            } else {
+                physical.diceString = `d10 + ${sizeMod}`
+            }
+        } else if (remainder % 4 === 0) {
+            if (remainder / 4 > 1) {
+                physical.diceString = `(d8 * ${remainder / 4}) + ${sizeMod}`
+            } else {
+                physical.diceString = `d8 + ${sizeMod}`
+            }
+        } else if (remainder % 3 === 0) {
+            if (remainder / 3 > 1) {
+                physical.diceString = `(d6 * ${remainder / 3}) + ${sizeMod}`
+            } else {
+                physical.diceString = `d6 + ${sizeMod}`
+            }
+        } else if (remainder % 2 === 0) {
+            if (remainder / 2 > 1) {
+                physical.diceString = `(d4 * ${remainder / 2}) + ${sizeMod}`
+            } else {
+                physical.diceString = `d4 + ${sizeMod}`
+            }
+        } else {
+            physical.diceString = physical.largeweapons
+        }
+    } else {
+        physical.diceString = physical.largeweapons
+    }
+    return physical
 }
 
 getStatScaling = function (stat) {
@@ -59,13 +156,11 @@ getStatScaling = function (stat) {
 
 getModifiedStats = function (stat, combatStats, roleInfo, points) {
     let scalingStrength;
-
     if (combatStats[stat]) {
         scalingStrength = combatStats[stat]
     } else {
         scalingStrength = roleInfo[stat]
     }
-
     const scaling = scalingAndBases[stat]
     const modifiedStat = getModifiedStat(scalingStrength, scaling, points)
 

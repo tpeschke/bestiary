@@ -85,6 +85,19 @@ export class BeastViewEditComponent implements OnInit {
   };
   public deletedSpellList = null;
 
+  public sizeDictionary = {
+    Fine: 1,
+    Diminutive: 5,
+    Tiny: 5,
+    Small: 10,
+    Medium: 15,
+    Large: 20,
+    Huge: 35,
+    Giant: 55,
+    Enormous: 90,
+    Colossal: 145
+  }
+
   public mentalStats = [
     {
       label: 'Mental',
@@ -344,7 +357,7 @@ export class BeastViewEditComponent implements OnInit {
           if (movementObject.roleid) {
             movementObject.roleid = roleIdsDictionary[movementObject.roleid]
           }
-          movementObject.movementSpeeds = this.calculateMovementSpeed(i, this.beast.roleInfo[movementObject.roleid].combatpoints)
+          movementObject.movementSpeeds = this.calculateMovementSpeed(this.beast.roleInfo[movementObject.roleid].combatpoints)
           delete movementObject.id
           delete movementObject.beastid
           return movementObject
@@ -470,7 +483,7 @@ export class BeastViewEditComponent implements OnInit {
         }
 
         this.beast.movement = this.beast.movement.map((val, i) => {
-          val.movementSpeeds = this.calculateMovementSpeed(i, this.beast.roleInfo[val.roleid].combatpoints)
+          val.movementSpeeds = this.calculateMovementSpeed(this.beast.roleInfo[val.roleid].combatpoints)
           return val
         })
         this.beastService.getEditEncounter(this.beast.id).subscribe(encounter => {
@@ -558,8 +571,7 @@ export class BeastViewEditComponent implements OnInit {
       this.bootUpAutoCompletes()
 
       this.setDefaultRole()
-      this.setStressAndPanic()
-      this.setVitalityAndFatigue()
+      this.setVitalityAndStress()
 
       this.calculateCombatPoints()
       this.calculateSocialPoints()
@@ -651,10 +663,12 @@ export class BeastViewEditComponent implements OnInit {
   captureBasicInput = (event, type) => {
     this.beast.roleInfo[this.selectedRoleId][type] = event.target.value
 
-    this.setVitalityAndFatigue()
-    this.setStressAndPanic()
-    this.setCaution()
-    this.calculateMovementSpeed(this.beast.roleInfo[this.selectedRoleId].combatpoints)
+    if (type === 'knockback') {
+      this.setVitalityAndStress()
+    } else if (type === 'combatpoints') {
+      this.setVitalityAndStress()
+      this.calculateMovementSpeed(this.beast.roleInfo[this.selectedRoleId].combatpoints)
+    }
   }
 
   captureInputUnbound = (event, type, index, secondaryType, thirdType) => {
@@ -1047,7 +1061,7 @@ export class BeastViewEditComponent implements OnInit {
         sprint: 0,
         type: '',
         roleid: this.selectedRoleId,
-        movementSpeeds: {crawlspeed: 0, walkspeed: 0, jogspeed: 0, runspeed: 0, sprintspeed: 0}
+        movementSpeeds: { crawlspeed: 0, walkspeed: 0, jogspeed: 0, runspeed: 0, sprintspeed: 0 }
       }
       this.beast[type].push(movement)
       this.calculateMovementSpeed(this.beast.roleInfo[this.selectedRoleId].combatpoints)
@@ -1537,8 +1551,7 @@ export class BeastViewEditComponent implements OnInit {
       }
     }
 
-    this.setStressAndPanic()
-    this.setVitalityAndFatigue()
+    this.setVitalityAndStress()
   }
 
   setRoleType(event) {
@@ -1560,8 +1573,7 @@ export class BeastViewEditComponent implements OnInit {
       this.averageVitality = this.calculatorService.calculateAverageOfDice(this.combatRolesInfo[event.value].vitality)
     }
 
-    this.setStressAndPanic()
-    this.setVitalityAndFatigue()
+    this.setVitalityAndStress()
   }
 
   setSecondaryRoleType(event) {
@@ -1577,7 +1589,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.secondaryrole = event.value
     }
 
-    this.setVitalityAndFatigue()
+    this.setVitalityAndStress()
   }
 
   setSocialSecondaryRoleType(event) {
@@ -2225,121 +2237,6 @@ export class BeastViewEditComponent implements OnInit {
     })
   }
 
-  setStressAndPanic = () => {
-    const baseRoleInfo = roles.combatRoles.primary[this.beast.roleInfo[this.selectedRoleId].role].meleeCombatStats
-    // this.mental.stress = this.getModifiedStats('mental', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
-
-    // let panic = this.getModifiedStats('panic', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
-    // if (panic > 1) {
-    //   panic = 1
-    // }
-    // this.mental.panic = Math.floor(panic * this.mental.stress)
-  }
-
-  setVitalityAndFatigue = () => {
-    // const baseRoleInfo = roles.combatRoles.primary[this.beast.roleInfo[this.selectedRoleId].role].meleeCombatStats
-    // this.physical.largeweapons = this.getModifiedStats('largeweapons', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
-
-    // if (this.beast.roleInfo[this.selectedRoleId].secondaryrole) {
-    //   if (this.beast.roleInfo[this.selectedRoleId].secondaryrole === 'Fodder') {
-    //     this.physical.largeweapons = Math.floor(this.physical.largeweapons / 2)
-    //   } else if (this.beast.roleInfo[this.selectedRoleId].secondaryrole === 'Solo') {
-    //     this.physical.largeweapons *= 3
-    //   }
-    // } 
-
-    // let fatigue = this.getModifiedStats('fatigue', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
-    // if (fatigue > 1) {
-    //   fatigue = 1
-    // }
-    // this.physical.fatigue = Math.floor(fatigue * this.physical.largeweapons)
-
-    // this.deteremineVitalityDice()
-    // this.setCaution()
-  }
-
-  setCaution = () => {
-    //   const baseRoleInfo = roles.combatRoles.primary[this.beast.roleInfo[this.selectedRoleId].role].meleeCombatStats
-    //   let caution = this.getModifiedStats('caution', this.beast.roleInfo[this.selectedRoleId], baseRoleInfo, this.beast.roleInfo[this.selectedRoleId].combatpoints)
-    //   if (caution > 1) {
-    //     caution = 1
-    //   }
-    //   this.mental.caution = Math.floor((this.mental.stress + this.physical.largeweapons) * caution)
-  }
-
-  public sizeDictionary = {
-    Fine: 1,
-    Diminutive: 5,
-    Tiny: 5,
-    Small: 10,
-    Medium: 15,
-    Large: 20,
-    Huge: 35,
-    Giant: 55,
-    Enormous: 90,
-    Colossal: 145
-  }
-
-  deteremineVitalityDice = () => {
-    let size = this.beast.roleInfo[this.selectedRoleId].size
-    if (!size && this.beast.size) {
-      size = this.beast.size
-    } else {
-      size = 'Medium'
-    }
-
-    let sizeMod
-    if (this.beast.roleInfo[this.selectedRoleId].knockback) {
-      sizeMod = this.beast.roleInfo[this.selectedRoleId].knockback
-    } else {
-      sizeMod = this.sizeDictionary[size]
-    }
-    if (this.physical.largeweapons - sizeMod > 0) {
-      const remainder = this.physical.largeweapons - sizeMod
-      if (remainder % 10 === 0) {
-        if (remainder / 10 > 1) {
-          this.physical.diceString = `(d20 * ${remainder / 10}) + ${sizeMod}`
-        } else {
-          this.physical.diceString = `d20 + ${sizeMod}`
-        }
-      } else if (remainder % 6 === 0) {
-        if (remainder / 6 > 1) {
-          this.physical.diceString = `(d12 * ${remainder / 6}) + ${sizeMod}`
-        } else {
-          this.physical.diceString = `d12 + ${sizeMod}`
-        }
-      } else if (remainder % 5 === 0) {
-        if (remainder / 5 > 1) {
-          this.physical.diceString = `(d10 * ${remainder / 5}) + ${sizeMod}`
-        } else {
-          this.physical.diceString = `d10 + ${sizeMod}`
-        }
-      } else if (remainder % 4 === 0) {
-        if (remainder / 4 > 1) {
-          this.physical.diceString = `(d8 * ${remainder / 4}) + ${sizeMod}`
-        } else {
-          this.physical.diceString = `d8 + ${sizeMod}`
-        }
-      } else if (remainder % 3 === 0) {
-        if (remainder / 3 > 1) {
-          this.physical.diceString = `(d6 * ${remainder / 3}) + ${sizeMod}`
-        } else {
-          this.physical.diceString = `d6 + ${sizeMod}`
-        }
-      } else if (remainder % 2 === 0) {
-        if (remainder / 2 > 1) {
-          this.physical.diceString = `(d4 * ${remainder / 2}) + ${sizeMod}`
-        } else {
-          this.physical.diceString = `d4 + ${sizeMod}`
-        }
-      } else {
-        this.physical.diceString = this.physical.largeweapons
-      }
-    } else {
-      this.physical.diceString = this.physical.largeweapons
-    }
-  }
-
   convertFatigue() {
     if (isNaN(this.averageVitality)) {
       return ' '
@@ -2434,8 +2331,37 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.roleInfo[this.selectedRoleId][stat] = value
     }
 
-    this.setStressAndPanic()
-    this.setVitalityAndFatigue()
+    this.setVitalityAndStress()
+  }
+
+  setVitalityAndStress = () => {
+    let size
+    if (!this.beast.roleInfo[this.selectedRoleId].size) {
+    } else if (this.beast.size) {
+      size = this.beast.size
+    } else {
+      size = 'Medium'
+    }
+
+    let sizeMod
+    if (this.beast.roleInfo[this.selectedRoleId].knockback) {
+      sizeMod = this.beast.roleInfo[this.selectedRoleId].knockback
+    } else {
+      sizeMod = this.sizeDictionary[size]
+    }
+
+    const combatStats = {
+      panic: this.beast.roleInfo[this.selectedRoleId].panic,
+      mental: this.beast.roleInfo[this.selectedRoleId].mental,
+      caution: this.beast.roleInfo[this.selectedRoleId].caution,
+      largeweapons: this.beast.roleInfo[this.selectedRoleId].largeweapons,
+      fatigue: this.beast.roleInfo[this.selectedRoleId].fatigue
+    }
+
+    this.beastService.getVitalityAndStress(this.beast.roleInfo[this.selectedRoleId].combatpoints, this.beast.roleInfo[this.selectedRoleId].role, combatStats, this.beast.roleInfo[this.selectedRoleId].secondaryrole, sizeMod).subscribe(res => {
+      this.physical = res.physical
+      this.mental = res.mental
+    })
   }
 
   checkMovementStat = async (stat, value, event, index) => {

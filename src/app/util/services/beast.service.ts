@@ -155,6 +155,10 @@ export class BeastService {
     return this.http.patch(local.endpointBase + '/api/movement', {movements, role, points})
   }
 
+  getVitalityAndStress(points, role, combatStats, secondaryrole, sizeMod): any {
+    return this.http.patch(local.endpointBase + '/api/vitalityAndStress', {points, role, combatStats, secondaryrole, sizeMod})
+  }
+
   getUniqueEquipment(equipmentArray): any {
     return this.http.post(local.reliquaryEndpoint, equipmentArray)
   }
