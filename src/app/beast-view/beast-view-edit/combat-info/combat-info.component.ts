@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { BeastService } from 'src/app/util/services/beast.service.js';
 import roles from '../../roles.js'
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-combat-info',
@@ -15,6 +18,15 @@ export class CombatInfoComponent implements OnChanges {
   @Input() physical: any;
   @Input() physicalCallback: Function
   @Input() size: any = "Medium";
+
+  weaponControl: any;
+  weaponGroupOptions: Observable<any[]>;
+
+  armorControl: any;
+  armorGroupOptions: Observable<any[]>;
+
+  shieldControl: any;
+  shieldGroupOptions: Observable<any[]>;
 
   constructor(
     public beastService: BeastService
@@ -104,14 +116,90 @@ export class CombatInfoComponent implements OnChanges {
     this.beastService.getEquipment().subscribe(res => {
       this.equipmentLists = res.lists
       this.equipmentObjects = res.objects
+      this.bootUpAutoComplete()
     })
 
     this.checkShowAllEquipment()
   }
 
+  bootUpAutoComplete (){
+    this.weaponControl = new FormControl(this.equipmentLists.weapons);
+    this.weaponGroupOptions = this.weaponControl.valueChanges
+    .pipe(
+      startWith(''),
+      map((value: string) => {
+        let weaponList = this.primaryRole  && !this.showAllEquipment ? this.primaryRoles[this.primaryRole].weapons : this.equipmentLists.weapons
+        if (this.secondaryRole === 'Controller' && !this.showAllEquipment) {
+          weaponList = [...this.controllerWeapons, ...weaponList]
+        }
+        return this._filterGroup(value, weaponList)
+      })
+    );
+    this.armorControl = new FormControl(this.equipmentLists.weapons);
+    this.armorGroupOptions = this.armorControl.valueChanges
+    .pipe(
+      startWith(this.combatStats.armor || ''),
+      map((value: string) => {
+        if (this.primaryRole && !this.showAllEquipment) {
+          return [{label: 'Preferred Armor', items: this._filter(this.primaryRoles[this.primaryRole].armor || [], value)}]
+        } else {
+          return this._filterGroup(value, this.equipmentLists.armor)
+        }
+      })
+    );
+    this.shieldControl = new FormControl(this.equipmentLists.weapons);
+    this.shieldGroupOptions = this.shieldControl.valueChanges
+    .pipe(
+      startWith(this.combatStats.shield || ''),
+      map((value: string) => {
+        if (this.primaryRole && !this.showAllEquipment) {
+          return [{label: 'Preferred Shields', items: this._filter(this.primaryRoles[this.primaryRole].shields || [], value)}]
+        } else {
+          return this._filterGroup(value, this.equipmentLists.shields)
+        }
+      })
+    );
+  }
+
+  private _filterGroup(value: string, groups: any): any[] {
+    if (value) {
+      return groups
+        .map(group => ({label: group.label, items: this._filter(group.items || [], value)}))
+        .filter(group => group.items.length > 0);
+    }
+    return groups;
+  }
+
+  _filter = (opt: string[], value: string): string[] => {
+    const filterValue = value.toLowerCase();
+    return opt.filter(item => item.toLowerCase().includes(filterValue));
+  };
+
+  getDisplayTextWeapon = (option) => {
+    return this.getDisplayText(option, 'weapon')
+  }
+
+  getDisplayTextArmor = (option) => {
+    return this.getDisplayText(option, 'armor')
+  }
+
+  getDisplayTextShield = (option) => {
+    return this.getDisplayText(option, 'shield')
+  }
+
+  getDisplayText = (option, type) => {
+    if (option && option.item) {
+      return option.item
+    } else if (type) {
+      return this.combatStats[type]
+    }
+    return ''
+  }
+
   ngOnChanges(changes) {
     this.setRoleInfo()
     this.getCombatSquare()
+    this.bootUpAutoComplete()
   }
   
   checkShowAllEquipment = () => {
@@ -263,6 +351,10 @@ export class CombatInfoComponent implements OnChanges {
 
   checkComponentVariable = (stat, event) => {
     this[stat] = event.checked
+
+    if (stat === 'showAllEquipment') {
+      this.bootUpAutoComplete()
+    }
   }
 
   checkBasicStatOnOff = (stat, event) => {
@@ -271,8 +363,12 @@ export class CombatInfoComponent implements OnChanges {
     this.getCombatSquare()
   }
 
-  captureSelect = (event, type) => {
-    this.combatStats[type] = event.value
+  captureSelected = (event, type) => {
+    if (event.option.value) {
+      this.combatStats[type] = event.option.value
+    } else {
+      this.combatStats[type] = null
+    }
 
     this.getCombatSquare()
 
@@ -280,5 +376,4 @@ export class CombatInfoComponent implements OnChanges {
       this.physicalCallback()
     }
   }
-
 }
