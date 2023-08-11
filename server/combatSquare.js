@@ -41,15 +41,14 @@ const combatSquareController = {
     },
     getMovement: (req, res) => {
         const { points, movements, role } = req.body
-
         const newMovements = movements.map(movement => {
-            const crawlspeed = getMovementStats(movement.crawlstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points)
-                , walkspeed = getMovementStats(movement.walkstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) + crawlspeed
-                , jogspeed = getMovementStats(movement.jogstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + walkspeed
-                , runspeed = getMovementStats(movement.runstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + jogspeed
-                , sprintspeed = getMovementStats(movement.sprintstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + runspeed
+            const strollspeed = Math.ceil(getMovementStats(movement.strollstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points))
+                , walkspeed = Math.ceil(getMovementStats(movement.walkstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) + strollspeed)
+                , jogspeed = Math.ceil(getMovementStats(movement.jogstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + walkspeed)
+                , runspeed = Math.ceil(getMovementStats(movement.runstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + jogspeed)
+                , sprintspeed = Math.ceil(getMovementStats(movement.sprintstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + runspeed)
 
-            return { ...movement, movementSpeeds: { crawlspeed, walkspeed, jogspeed, runspeed, sprintspeed } }
+            return { ...movement, movementSpeeds: { strollspeed, walkspeed, jogspeed, runspeed, sprintspeed } }
         })
 
         res.send(newMovements)
@@ -272,11 +271,10 @@ getModifiedStat = (scalingStrength, scaling, points) => {
 
 getMovementStats = function (movementScale, roleInfo, points) {
     let scalingStrength;
-
     if (movementScale) {
         scalingStrength = movementScale
     } else {
-        scalingStrength = roleInfo.movement
+        scalingStrength = roleInfo
     }
 
     const scaling = scalingAndBases.movement

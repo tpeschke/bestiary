@@ -1,0 +1,1 @@
+select * from bbcombatstats b where beastid = $1

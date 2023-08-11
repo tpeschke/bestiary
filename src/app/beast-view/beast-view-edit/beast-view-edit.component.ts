@@ -131,8 +131,8 @@ export class BeastViewEditComponent implements OnInit {
   public movementStats = [
     {
       label: 'Crawl',
-      stat: 'crawlstrength',
-      speed: 'crawlspeed',
+      stat: 'strollstrength',
+      speed: 'strollspeed',
     },
     {
       label: 'Walk',
@@ -549,13 +549,7 @@ export class BeastViewEditComponent implements OnInit {
           plural: null
         }
       }
-      this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
-      this.beast.roles.forEach(role => {
-        if (role.vitality) {
-          this.beast.roleInfo[role.id].average = this.calculatorService.rollDice(role.vitality)
-        }
-      })
-
+      
       this.beastService.getFlaws().subscribe((results: any) => {
         delete results.flawTables
         let newAllFlaws = []
@@ -1061,7 +1055,7 @@ export class BeastViewEditComponent implements OnInit {
         sprint: 0,
         type: '',
         roleid: this.selectedRoleId,
-        movementSpeeds: { crawlspeed: 0, walkspeed: 0, jogspeed: 0, runspeed: 0, sprintspeed: 0 }
+        movementSpeeds: { strollspeed: 0, walkspeed: 0, jogspeed: 0, runspeed: 0, sprintspeed: 0 }
       }
       this.beast[type].push(movement)
       this.calculateMovementSpeed(this.beast.roleInfo[this.selectedRoleId].combatpoints)
@@ -1149,49 +1143,21 @@ export class BeastViewEditComponent implements OnInit {
 
   saveChanges() {
     let id = this.route.snapshot.paramMap.get('id');
-    this.beast.combat = this.beast.combat.map(weapon => {
-
-      if (!weapon.deleted) {
-        if (weapon.newDR.flat && weapon.newDR.slash) {
-          weapon.dr = `${weapon.newDR.slash}/d+${weapon.newDR.flat}`
-        } else if (weapon.newDR.flat) {
-          weapon.dr = `${weapon.newDR.flat}`
-        } else if (weapon.newDR.slash) {
-          weapon.dr = `${weapon.newDR.slash}/d`
-        } else {
-          weapon.dr = null
-        }
-
-        if (weapon.newShieldDr.flat && weapon.newShieldDr.slash) {
-          weapon.shield_dr = `${weapon.newShieldDr.slash}/d+${weapon.newShieldDr.flat}`
-        } else if (weapon.newShieldDr.flat) {
-          weapon.shield_dr = `${weapon.newShieldDr.flat}`
-        } else if (weapon.newShieldDr.slash) {
-          weapon.shield_dr = `${weapon.newShieldDr.slash}/d`
-        } else {
-          weapon.shield_dr = null
-        }
-
-        if (!weapon.deleted) {
-          weapon.damage = weapon.newDamage.dice.join(' +')
-          let modifier = weapon.newDamage.flat
-          if (modifier > 0) {
-            modifier = ` +${modifier}`
-          } else if (modifier === 0) {
-            modifier = ''
-          } else if (modifier < 0) {
-            modifier = ` ${modifier}`
-          }
-          weapon.damage += modifier
-        }
-      }
-      return weapon
+    
+    this.beast.roles = this.beast.roles.map(role => {
+      const roleInfo = this.beast.roleInfo[role.id]
+      role.caution = roleInfo.caution
+      role.fatigue = roleInfo.fatigue
+      role.largeweapons = roleInfo.largeweapons
+      role.mental = roleInfo.mental
+      role.panic = roleInfo.panic
+      return role
     })
+
     this.beast.encounter = this.encounter
     if (this.deletedSpellList) {
       this.beast.deletedSpellList = this.deletedSpellList
     }
-    this.calculateCombatPoints()
     this.calculateSocialPoints()
     this.calculateSkillPoints()
     if (+id) {

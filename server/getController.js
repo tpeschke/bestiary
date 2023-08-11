@@ -177,23 +177,7 @@ module.exports = {
         res.send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
         promiseArray.push(db.get.beastmovement(beastid).then(result => {
-          result = result.map(val => {
-            const movementStrengths = {
-              crawlstrength: null,
-              walkstrength: null,
-              jogstrength: null,
-              runstrength: null,
-              sprintstrength: null
-            }
-            const movementSpeeds = {
-              crawlspeed: 0,
-              jogspeed: 0,
-              runspeed: 0,
-              sprintspeed: 0
-            }
-            val.movementSpeeds = movementSpeeds
-            return {...val, ...movementStrengths}
-          })
+          console.log(result)
           if (isARole) {
             beast.movement = result.filter(movementType => movementType.roleid === roleid)
             if (beast.movement.length === 0) {
@@ -317,7 +301,10 @@ module.exports = {
           return result
         }))
 
-        beast.combatStatArray = []
+        promiseArray.push(db.get.combatStatArray(id).then(result => {
+          beast.combatStatArray = result
+          return result
+        }))
         
         promiseArray.push(db.get.beastcombat(id).then(result => {
           let specialAbilities = {}
@@ -448,23 +435,6 @@ module.exports = {
         }
 
         promiseArray.push(db.get.beastmovement(id).then(result => {
-          result = result.map(val => {
-            const movementStrengths = {
-              crawlstrength: null,
-              walkstrength: null,
-              jogstrength: null,
-              runstrength: null,
-              sprintstrength: null
-            }
-            const movementSpeeds = {
-              crawlspeed: 0,
-              jogspeed: 0,
-              runspeed: 0,
-              sprintspeed: 0
-            }
-            val.movementSpeeds = movementSpeeds
-            return {...val, ...movementStrengths}
-          })
           beast.movement = result
           return result
         }))
@@ -581,12 +551,12 @@ module.exports = {
               skillpoints: result[i].skillpoints,
               socialsecondary: result[i].socialsecondary,
               size: result[i].size,
-              fatigue: result[i].fatigue,
-              mental: null,
-              combatpoints: 0,
-              panic: null,
-              caution: null,
-              knockback: null,
+              fatigue: result[i].fatiguestrength,
+              mental: result[i].mental,
+              panic: result[i].panicstrength,
+              caution: result[i].cautionstrength,
+              knockback: result[i].knockback,
+              largeweapons: result[i].largeweapons,
             }
           }
           return result
