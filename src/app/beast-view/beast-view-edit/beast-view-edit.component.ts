@@ -2302,7 +2302,7 @@ export class BeastViewEditComponent implements OnInit {
 
   setVitalityAndStress = () => {
     let size
-    if (!this.beast.roleInfo[this.selectedRoleId].size) {
+    if (this.beast.roleInfo[this.selectedRoleId] && !this.beast.roleInfo[this.selectedRoleId].size) {
     } else if (this.beast.size) {
       size = this.beast.size
     } else {
@@ -2310,21 +2310,25 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     let sizeMod
-    if (this.beast.roleInfo[this.selectedRoleId].knockback) {
+    if (this.beast.roleInfo[this.selectedRoleId] && this.beast.roleInfo[this.selectedRoleId].knockback) {
       sizeMod = this.beast.roleInfo[this.selectedRoleId].knockback
     } else {
       sizeMod = this.sizeDictionary[size]
     }
 
     const combatStats = {
-      panic: this.beast.roleInfo[this.selectedRoleId].panic,
-      mental: this.beast.roleInfo[this.selectedRoleId].mental,
-      caution: this.beast.roleInfo[this.selectedRoleId].caution,
-      largeweapons: this.beast.roleInfo[this.selectedRoleId].largeweapons,
-      fatigue: this.beast.roleInfo[this.selectedRoleId].fatigue
+      panic: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].panic : null ,
+      mental: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].mental : null ,
+      caution: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].caution : null ,
+      largeweapons: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].largeweapons : null ,
+      fatigue: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].fatigue : null
     }
 
-    this.beastService.getVitalityAndStress(this.beast.roleInfo[this.selectedRoleId].combatpoints, this.beast.roleInfo[this.selectedRoleId].role, combatStats, this.beast.roleInfo[this.selectedRoleId].secondaryrole, sizeMod, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(res => {
+    const combatpoints = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints
+    const role = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].role : this.beast.role
+    const secondaryrole = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].secondaryrole : this.beast.secondaryrole
+
+    this.beastService.getVitalityAndStress(combatpoints, role, combatStats, secondaryrole, sizeMod, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(res => {
       this.physical = res.physical
       this.mental = res.mental
     })

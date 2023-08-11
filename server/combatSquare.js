@@ -1,6 +1,30 @@
 const roles = require('./roles')
 const equipmentController = require('./equipmentController')
 
+const noRole = {
+    damage: null,
+    preferreddamage: 'slashingweapons',
+    alldefense: null,
+    largeweapons: null,
+    rangeddefense: null,
+    weaponsmallcrushing: null,
+    weaponsmallpiercing: null,
+    andslashing: null,
+    andcrushing: null,
+    weaponsmallslashing: null,
+    flanks: null,
+    attack: null,
+    caution: null,
+    fatigue: null,
+    initiative: null,
+    measure: null,
+    panic: null,
+    rangedistance: null,
+    recovery: null,
+    movement: null,
+    mental: null
+}
+
 const combatSquareController = {
     getSquare: (req, res) => {
         const combatStats = req.body.combatStats
@@ -9,11 +33,13 @@ const combatSquareController = {
 
         const weaponType = getWeaponType(combatStats, roles.combatRoles.primary[req.body.role])
 
-        let roleInfo;
-        if (weaponType === 'r') {
-            roleInfo = roles.combatRoles.primary[req.body.role].rangedCombatStats
-        } else {
-            roleInfo = roles.combatRoles.primary[req.body.role].meleeCombatStats
+        let roleInfo = noRole;
+        if (req.body.role) {
+            if (weaponType === 'r') {
+                roleInfo = roles.combatRoles.primary[req.body.role].rangedCombatStats
+            } else {
+                roleInfo = roles.combatRoles.primary[req.body.role].meleeCombatStats
+            }
         }
         const damageAndRecovery = setDamageDice(combatStats, roleInfo, points)
         const initMod = combatStats.armor ? equipmentController.getArmor(combatStats.armor).init : 0
@@ -55,7 +81,7 @@ const combatSquareController = {
     },
     setVitalityAndStress: (req, res) => {
         const { points, role, combatStats, secondaryrole, sizeMod, armor, shield } = req.body
-        const baseRoleInfo = roles.combatRoles.primary[role].meleeCombatStats
+        const baseRoleInfo = role ? roles.combatRoles.primary[role].meleeCombatStats : noRole
 
         let mental = setStressAndPanic(combatStats, baseRoleInfo, points)
         let physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield)
@@ -70,7 +96,7 @@ getRecoveryForSpecial = (combatStats, roleInfo, points) => {
     return setModifiedRecovery(10, combatStats, roleInfo, points)
 }
 
-getDefaultName = ({weapon, armor, shield}) => {
+getDefaultName = ({ weapon, armor, shield }) => {
     if (weapon && weapon.includes('(')) {
         weapon = `${weapon.slice(0, -4)}`
     }
@@ -832,7 +858,10 @@ getWeaponType = (combatStats, roleInfo) => {
     if (combatStats.weapontype) {
         return combatStats.weapontype
     }
-    return roleInfo.weapontype
+    if (roleInfo) {
+        return roleInfo.weapontype
+    }
+    return 'm'
 }
 
 const scalingAndBases = {

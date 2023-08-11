@@ -452,51 +452,51 @@
                 </td>
                 <td>
                   <mat-checkbox
-                    [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'majSt' ? 'checkmark-role-background' : ''"
+                    [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majSt' ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'majSt', $event)"
-                    [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'majSt' : beast.roleInfo[selectedRoleId][stat.stat] === 'majSt'"
+                    [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majSt' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'majSt'"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'majSt'"></mat-checkbox>
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'majSt'"></mat-checkbox>
                 </td>
                 <td>
                   <mat-checkbox
-                    [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'minSt' ? 'checkmark-role-background' : ''"
+                    [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minSt' ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'minSt', $event)"
-                    [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'minSt' : beast.roleInfo[selectedRoleId][stat.stat] === 'minSt'"
+                    [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minSt' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'minSt'"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'minSt'"></mat-checkbox>
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'minSt'"></mat-checkbox>
                 </td>
                 <td>
-                  <mat-checkbox [ngClass]="!selectedRole.meleeCombatStats[stat.stat] ? 'checkmark-role-background' : ''"
+                  <mat-checkbox [ngClass]="selectedRole && selectedRole.meleeCombatStats && !selectedRole.meleeCombatStats[stat.stat] ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'none', $event)"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat]"
-                    [checked]="(!beast.roleInfo[selectedRoleId][stat.stat] && !selectedRole.meleeCombatStats[stat.stat]) || beast.roleInfo[selectedRoleId][stat.stat] === 'none'">
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat]"
+                    [checked]="(beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] && !selectedRole.meleeCombatStats[stat.stat]) || beast.roleInfo[selectedRoleId] &&  beast.roleInfo[selectedRoleId][stat.stat] === 'none'">
                   </mat-checkbox>
                 </td>
                 <td>
                   <mat-checkbox
-                    [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'minWk' ? 'checkmark-role-background' : ''"
+                    [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minWk' ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'minWk', $event)"
-                    [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'minWk' : beast.roleInfo[selectedRoleId][stat.stat] === 'minWk'"
+                    [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minWk' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'minWk'"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'minWk'"></mat-checkbox>
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'minWk'"></mat-checkbox>
                 </td>
                 <td>
                   <mat-checkbox
-                    [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'majWk' ? 'checkmark-role-background' : ''"
+                    [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majWk' ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'majWk', $event)"
-                    [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'majWk' : beast.roleInfo[selectedRoleId][stat.stat] === 'majWk'"
+                    [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majWk' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'majWk'"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'majWk'"></mat-checkbox>
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'majWk'"></mat-checkbox>
                 </td>
                 <td>
                   <mat-checkbox
-                    [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'noneWk' ? 'checkmark-role-background' : ''"
+                    [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'noneWk' ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'noneWk', $event)"
-                    [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'noneWk' : beast.roleInfo[selectedRoleId][stat.stat] === 'noneWk'"
+                    [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'noneWk' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'noneWk'"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'noneWk'"></mat-checkbox>
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'noneWk'"></mat-checkbox>
                 </td>
               </tr>
             </tbody>
@@ -708,51 +708,51 @@
                 </td>
                 <td>
                   <mat-checkbox
-                    [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'majSt' ? 'checkmark-role-background' : ''"
+                    [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majSt' ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'majSt', $event)"
-                    [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'majSt' : beast.roleInfo[selectedRoleId][stat.stat] === 'majSt'"
+                    [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majSt' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'majSt'"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'majSt'"></mat-checkbox>
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'majSt'"></mat-checkbox>
                 </td>
                 <td>
                   <mat-checkbox
-                    [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'minSt' ? 'checkmark-role-background' : ''"
+                    [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minSt' ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'minSt', $event)"
-                    [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'minSt' : beast.roleInfo[selectedRoleId][stat.stat] === 'minSt'"
+                    [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minSt' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'minSt'"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'minSt'"></mat-checkbox>
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'minSt'"></mat-checkbox>
                 </td>
                 <td>
-                  <mat-checkbox [ngClass]="!selectedRole.meleeCombatStats[stat.stat] ? 'checkmark-role-background' : ''"
+                  <mat-checkbox [ngClass]="selectedRole && selectedRole.meleeCombatStats && !selectedRole.meleeCombatStats[stat.stat] ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'none', $event)"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat]"
-                    [checked]="(!beast.roleInfo[selectedRoleId][stat.stat] && !selectedRole.meleeCombatStats[stat.stat]) || beast.roleInfo[selectedRoleId][stat.stat] === 'none'">
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat]"
+                    [checked]="(beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] && !selectedRole.meleeCombatStats[stat.stat]) || beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'none'">
                   </mat-checkbox>
                 </td>
                 <td>
                   <mat-checkbox
-                    [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'minWk' ? 'checkmark-role-background' : ''"
+                    [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minWk' ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'minWk', $event)"
-                    [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'minWk' : beast.roleInfo[selectedRoleId][stat.stat] === 'minWk'"
+                    [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minWk' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'minWk'"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'minWk'"></mat-checkbox>
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'minWk'"></mat-checkbox>
                 </td>
                 <td>
                   <mat-checkbox
-                    [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'majWk' ? 'checkmark-role-background' : ''"
+                    [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majWk' ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'majWk', $event)"
-                    [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'majWk' : beast.roleInfo[selectedRoleId][stat.stat] === 'majWk'"
+                    [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majWk' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'majWk'"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'majWk'"></mat-checkbox>
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'majWk'"></mat-checkbox>
                 </td>
                 <td>
                   <mat-checkbox
-                    [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'noneWk' ? 'checkmark-role-background' : ''"
+                    [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'noneWk' ? 'checkmark-role-background' : ''"
                     (change)="checkStat(stat.stat, 'noneWk', $event)"
-                    [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'noneWk' : beast.roleInfo[selectedRoleId][stat.stat] === 'noneWk'"
+                    [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'noneWk' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'noneWk'"
                     matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                    [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'noneWk'"></mat-checkbox>
+                    [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'noneWk'"></mat-checkbox>
                 </td>
               </tr>
             </tbody>
@@ -812,7 +812,7 @@
       <ng-template matTabContent>
         <div class="tab-wrapper">
           <mat-form-field>
-            <input placeholder="Combat Points" matInput [value]="beast.roleInfo[selectedRoleId].combatpoints"
+            <input placeholder="Combat Points" matInput [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints"
               (change)="captureBasicInput($event, 'combatpoints')">
           </mat-form-field>
           <div>
@@ -833,8 +833,7 @@
             <mat-form-field>
               <mat-label>Change Secondary Role Type</mat-label>
               <mat-select [(value)]="selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].secondaryrole ?
-              beast.roleInfo[selectedRoleId].secondaryrole :
-              selectedRoleId ? null : beast.secondaryrole" (selectionChange)="setSecondaryRoleType($event)">
+              beast.roleInfo[selectedRoleId].secondaryrole : selectedRoleId ? null : beast.secondaryrole" (selectionChange)="setSecondaryRoleType($event)">
                 <mat-option>
                   None
                 </mat-option>
@@ -896,52 +895,52 @@
                   </td>
                   <td>
                     <mat-checkbox
-                      [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'majSt' ? 'checkmark-role-background' : ''"
+                      [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majSt' ? 'checkmark-role-background' : ''"
                       (change)="checkStat(stat.stat, 'majSt', $event)"
-                      [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'majSt' : beast.roleInfo[selectedRoleId][stat.stat] === 'majSt'"
+                      [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majSt' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'majSt'"
                       matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                      [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'majSt'"></mat-checkbox>
+                      [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'majSt'"></mat-checkbox>
                   </td>
                   <td>
                     <mat-checkbox
-                      [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'minSt' ? 'checkmark-role-background' : ''"
+                      [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minSt' ? 'checkmark-role-background' : ''"
                       (change)="checkStat(stat.stat, 'minSt', $event)"
-                      [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'minSt' : beast.roleInfo[selectedRoleId][stat.stat] === 'minSt'"
+                      [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minSt' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'minSt'"
                       matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                      [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'minSt'"></mat-checkbox>
+                      [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'minSt'"></mat-checkbox>
                   </td>
                   <td>
                     <mat-checkbox
-                      [ngClass]="!selectedRole.meleeCombatStats[stat.stat] ? 'checkmark-role-background' : ''"
+                      [ngClass]="selectedRole.meleeCombatStats && !selectedRole.meleeCombatStats[stat.stat] ? 'checkmark-role-background' : ''"
                       (change)="checkStat(stat.stat, 'none', $event)"
                       matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                      [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat]"
-                      [checked]="(!beast.roleInfo[selectedRoleId][stat.stat] && !selectedRole.meleeCombatStats[stat.stat]) || beast.roleInfo[selectedRoleId][stat.stat] === 'none'">
+                      [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat]"
+                      [checked]="(beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] && !selectedRole.meleeCombatStats[stat.stat]) || beast.roleInfo[selectedRoleId] &&  beast.roleInfo[selectedRoleId][stat.stat] === 'none'">
                     </mat-checkbox>
                   </td>
                   <td>
                     <mat-checkbox
-                      [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'minWk' ? 'checkmark-role-background' : ''"
+                      [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minWk' ? 'checkmark-role-background' : ''"
                       (change)="checkStat(stat.stat, 'minWk', $event)"
-                      [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'minWk' : beast.roleInfo[selectedRoleId][stat.stat] === 'minWk'"
+                      [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'minWk' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'minWk'"
                       matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                      [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'minWk'"></mat-checkbox>
+                      [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'minWk'"></mat-checkbox>
                   </td>
                   <td>
                     <mat-checkbox
-                      [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'majWk' ? 'checkmark-role-background' : ''"
+                      [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majWk' ? 'checkmark-role-background' : ''"
                       (change)="checkStat(stat.stat, 'majWk', $event)"
-                      [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'majWk' : beast.roleInfo[selectedRoleId][stat.stat] === 'majWk'"
+                      [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'majWk' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'majWk'"
                       matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                      [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'majWk'"></mat-checkbox>
+                      [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'majWk'"></mat-checkbox>
                   </td>
                   <td>
                     <mat-checkbox
-                      [ngClass]="selectedRole.meleeCombatStats[stat.stat] === 'noneWk' ? 'checkmark-role-background' : ''"
+                      [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'noneWk' ? 'checkmark-role-background' : ''"
                       (change)="checkStat(stat.stat, 'noneWk', $event)"
-                      [checked]="!beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats[stat.stat] === 'noneWk' : beast.roleInfo[selectedRoleId][stat.stat] === 'noneWk'"
+                      [checked]="beast.roleInfo[selectedRoleId] && !beast.roleInfo[selectedRoleId][stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] === 'noneWk' : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId][stat.stat] === 'noneWk'"
                       matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                      [matTooltipDisabled]="selectedRole.meleeCombatStats[stat.stat] !== 'noneWk'"></mat-checkbox>
+                      [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats[stat.stat] !== 'noneWk'"></mat-checkbox>
                   </td>
                 </tr>
               </tbody>
@@ -950,7 +949,7 @@
             <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?</mat-checkbox>
             <br>
             <mat-form-field>
-              <input placeholder="Knock Back Threshold" matInput [value]="beast.roleInfo[selectedRoleId].knockback ? beast.roleInfo[selectedRoleId].knockback : beast.roleInfo[selectedRoleId].size ? sizeDictionary[beast.roleInfo[selectedRoleId].size] : 15"
+              <input placeholder="Knock Back Threshold" matInput [value]="beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].knockback ? beast.roleInfo[selectedRoleId].knockback : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].size ? sizeDictionary[beast.roleInfo[selectedRoleId].size] : 15"
                 (change)="captureBasicInput($event, 'knockback')">
             </mat-form-field>
 
@@ -982,10 +981,10 @@
           <div class="combat-shell unset-width">
             <div *ngFor="let square of beast.combatStatArray; let i = index">
               <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="combat-info-shell-outer unset-width">
-                <app-combat-info [primaryRole]="beast.roleInfo[selectedRoleId].role" [combatStats]="square"
-                  [points]="beast.roleInfo[selectedRoleId].combatpoints" [physical]="beast.roleInfo[selectedRoleId]"
+                <app-combat-info [primaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role" [combatStats]="square"
+                  [points]="selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints" [physical]="selectedRoleId ? beast.roleInfo[selectedRoleId] : beast"
                   [physicalCallback]="setVitalityAndStress" [size]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size"
-                  [secondaryRole]="beast.roleInfo[selectedRoleId].secondaryrole" [removeCallback]="removeCombatStatFromArray" [index]="i"></app-combat-info>
+                  [secondaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].secondaryrole : beast.secondaryrole" [removeCallback]="removeCombatStatFromArray" [index]="i"></app-combat-info>
               </div>
             </div>
             <button mat-raised-button (click)="addNewSecondaryItem('combatStatArray')" color="accent"><i class="fa-solid fa-plus icon-medium"></i> Combat Square</button>
