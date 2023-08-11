@@ -430,7 +430,7 @@ getModifiedParry = (combatStats, roleInfo, points) => {
 }
 
 getDefense = (combatStats, roleInfo, points, size) => {
-    const modifiedStat = getModifiedStatsRounded('all', combatStats, roleInfo, points)
+    const modifiedStat = getModifiedStatsRounded('alldefense', combatStats, roleInfo, points)
 
     const defenseModDictionary = {
         Fine: 12,
@@ -898,7 +898,7 @@ const scalingAndBases = {
             majWk: .25
         }
     },
-    all: {
+    alldefense: {
         scaling: {
             majSt: 3,
             minSt: 2,

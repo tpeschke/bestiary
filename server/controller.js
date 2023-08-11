@@ -500,7 +500,7 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray } = body
 
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, defaultrole, socialsecondary, notrauma).then(result => {
       let id = result[0].id
@@ -518,14 +518,23 @@ let controllerObj = {
       environ.forEach(val => {
         promiseArray.push(db.add.beastenviron(id, val.environid).then().catch(e => console.log('----------------------- add beast environ: ', e)))
       })
-      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, ranges, roleid, newDamage, selectedweapon, selectedarmor, selectedshield, addrolemods, dontaddroledamage, showmaxparry, damagetype, addsizemod, damageskill }) => {
-        promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid, newDamage ? newDamage.isSpecial : false, newDamage ? newDamage.hasSpecialAndDamage : false, selectedweapon, selectedarmor, selectedshield, addrolemods, dontaddroledamage, showmaxparry, damagetype, addsizemod, damageskill).then(result => {
-          if (weapontype === 'r') {
-            return db.add.combatranges(result[0].id, +ranges.increment * 6).then()
+      
+      promiseArray.push(db.delete.combatStats([id, [0, ...combatStatArray.map(combatStat => combatStat.id)]]).then(_ => {
+        return combatStatArray.map(({ id: uniqueid, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,
+          weaponsmallcrushing, weaponsmallpiercing, andslashing, andcrushing, flanks, rangeddefence, alldefense, allaround, armorandshields,
+          unarmored, attack, isspecial, eua, addsizemod, weapon, shield, armor, weaponname, rangeddefense }) => {
+          if (!uniqueid) {
+            return db.add.combatStats(id, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,
+              weaponsmallcrushing, weaponsmallpiercing, andslashing, andcrushing, flanks, rangeddefence, alldefense, allaround, armorandshields,
+              unarmored, attack, isspecial, eua, addsizemod, weapon, shield, armor, weaponname, rangeddefense)
+          } else {
+            return db.update.combatStats(uniqueid, id, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,
+              weaponsmallcrushing, weaponsmallpiercing, andslashing, andcrushing, flanks, rangeddefence, alldefense, allaround, armorandshields,
+              unarmored, attack, isspecial, eua, addsizemod, weapon, shield, armor, weaponname, rangeddefense)
           }
-          return true;
-        }).catch(e => console.log('----------------------- add beast combat: ', e)))
-      })
+        })
+      }).catch(e => console.log("add beast combat stats ~ ", e)))
+
       let newConflict = []
       Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
       newConflict.forEach(({ trait, value, type, socialroleid, allroles, severity }) => {
@@ -835,7 +844,7 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, combat, movement, conflict, skills, int, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, basefatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray } = body
     // update beast
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, vitality, +panic, +stress, +int, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, basefatigue, defaultrole, socialsecondary, notrauma).then(result => {
       let promiseArray = []
@@ -865,28 +874,21 @@ let controllerObj = {
         }
       })
       // update combat
-      combat.forEach(({ spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, id: weaponId, deleted, weapontype, ranges, roleid, newDamage, newDR, newShieldDR, selectedweapon, selectedarmor, selectedshield, addrolemods, dontaddroledamage, showmaxparry, damagetype, addsizemod, damageskill }) => {
-        if (deleted) {
-          promiseArray.push(db.delete.beastcombat(weaponId).then())
-        } else if (!weaponId) {
-          promiseArray.push(db.add.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weapontype, roleid, newDamage.isSpecial, newDamage.hasSpecialAndDamage, selectedweapon, selectedarmor, selectedshield, addrolemods, dontaddroledamage, showmaxparry, damagetype, addsizemod, damageskill).then(result => {
-            const weaponId = result[0].id
-            if (weapontype === 'r' && ranges.id) {
-              promiseArray.push(db.update.combatranges(weaponId, +ranges.increment * 6).then())
-            } else if (weapontype === 'r') {
-              promiseArray.push(db.add.combatranges(weaponId, +ranges.increment * 6).then())
-            }
-            return true;
-          }))
-        } else {
-          promiseArray.push(db.update.beastcombat(id, spd, atk, init, def, dr, shield_dr, measure, damage, parry, fatigue, weapon, weaponId, weapontype, roleid, newDamage.isSpecial, newDamage.hasSpecialAndDamage, selectedweapon, selectedarmor, selectedshield, addrolemods, dontaddroledamage, showmaxparry, damagetype, addsizemod, damageskill).then())
-          if (weapontype === 'r' && ranges.id) {
-            promiseArray.push(db.update.combatranges(weaponId, +ranges.increment * 6).then())
-          } else if (weapontype === 'r') {
-            promiseArray.push(db.add.combatranges(weaponId, +ranges.increment * 6).then())
+      promiseArray.push(db.delete.combatStats([id, [0, ...combatStatArray.map(combatStat => combatStat.id)]]).then(_ => {
+        return combatStatArray.map(({ id: uniqueid, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,
+          weaponsmallcrushing, weaponsmallpiercing, andslashing, andcrushing, flanks, rangeddefence, alldefense, allaround, armorandshields,
+          unarmored, attack, isspecial, eua, addsizemod, weapon, shield, armor, weaponname, rangeddefense }) => {
+          if (!uniqueid) {
+            return db.add.combatStats(id, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,
+              weaponsmallcrushing, weaponsmallpiercing, andslashing, andcrushing, flanks, rangeddefence, alldefense, allaround, armorandshields,
+              unarmored, attack, isspecial, eua, addsizemod, weapon, shield, armor, weaponname, rangeddefense)
+          } else {
+            return db.update.combatStats(uniqueid, id, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,
+              weaponsmallcrushing, weaponsmallpiercing, andslashing, andcrushing, flanks, rangeddefence, alldefense, allaround, armorandshields,
+              unarmored, attack, isspecial, eua, addsizemod, weapon, shield, armor, weaponname, rangeddefense)
           }
-        }
-      })
+        })
+      }).catch(e => console.log("beast combat stats ~ ", e)))
       // update conflict
       let newConflict = []
       Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])

@@ -437,3 +437,33 @@ create table bbrandomdevotion (
 	noun varchar(150),
 	verb varchar(150)
 );
+
+create table bbcombatstats (
+    id serial primary key,
+    beastid int,
+    roleid varchar(150), 
+    weapontype varchar(20), 
+    piercingweapons varchar(20), 
+    slashingweapons varchar(20), 
+    crushingweapons varchar(20), 
+    weaponsmallslashing varchar(20),
+    weaponsmallcrushing varchar(20), 
+    weaponsmallpiercing varchar(20), 
+    andslashing varchar(20), 
+    andcrushing varchar(20), 
+    flanks varchar(20), 
+    rangeddefence varchar(20), 
+    all varchar(20), 
+    allaround varchar(20), 
+    armorandshields varchar(20),
+    unarmored varchar(20), 
+    attack varchar(20), 
+    isspecial varchar(20), 
+    eua boolean, 
+    addsizemod boolean, 
+    weapon varchar(150), 
+    shield varchar(150), 
+    armor varchar(150), 
+    weaponname varchar(150), 
+    rangeddefense varchar(20)
+)
