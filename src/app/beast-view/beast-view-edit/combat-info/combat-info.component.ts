@@ -105,11 +105,34 @@ export class CombatInfoComponent implements OnChanges {
       this.equipmentLists = res.lists
       this.equipmentObjects = res.objects
     })
+
+    this.checkShowAllEquipment()
   }
 
   ngOnChanges(changes) {
     this.setRoleInfo()
     this.getCombatSquare()
+  }
+  
+  checkShowAllEquipment = () => {
+    if (this.primaryRole) {
+      let armorOnRoleList = false
+      if (this.combatStats.weapon) {
+        
+      }
+      if (this.combatStats.armor) {
+        this.primaryRoles[this.primaryRole].armor.forEach(armorToCheck => {
+          if (armorToCheck === this.combatStats.armor) {
+            armorOnRoleList = true
+          }
+        })
+      }
+      if (this.combatStats.shield) {
+  
+      }
+
+      this.showAllEquipment = this.combatStats.armor && !armorOnRoleList
+    }
   }
 
   getCombatSquare() {
@@ -224,6 +247,10 @@ export class CombatInfoComponent implements OnChanges {
     }
 
     this.getCombatSquare()
+  }
+
+  checkComponentVariable = (stat, event) => {
+    this[stat] = event.checked
   }
 
   checkBasicStatOnOff = (stat, event) => {

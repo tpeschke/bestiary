@@ -51,21 +51,21 @@
         <mat-label>Weapon Choices</mat-label>
         <mat-select [value]="combatStats.weapon" (selectionChange)="captureSelect($event, 'weapon')">
           <mat-option>None</mat-option>
-          <div *ngIf="secondaryRole === 'Controller'">
+          <div *ngIf="secondaryRole === 'Controller' && !showAllEquipment">
             <mat-optgroup *ngFor="let group of controllerWeapons" [label]="group.label">
               <mat-option *ngFor="let item of group.items" [value]="item">
                 {{item}}
               </mat-option>
             </mat-optgroup>
           </div>
-          <div *ngIf="primaryRole">
+          <div *ngIf="primaryRole && !showAllEquipment">
             <mat-optgroup *ngFor="let group of primaryRoles[primaryRole].weapons" [label]="group.label">
               <mat-option *ngFor="let item of group.items" [value]="item">
                 {{item}}
               </mat-option>
             </mat-optgroup>
           </div>
-          <div *ngIf="!primaryRole">
+          <div *ngIf="!primaryRole || showAllEquipment">
             <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
               <mat-option *ngFor="let item of group.items" [value]="item">
                 {{item}}
@@ -79,15 +79,17 @@
         <mat-label>Armor Choices</mat-label>
         <mat-select [value]="combatStats.armor" (selectionChange)="captureSelect($event, 'armor')">
           <mat-option>None</mat-option>
-          <div *ngIf="primaryRole">
+          <div *ngIf="primaryRole && !showAllEquipment">
             <mat-option *ngFor="let item of primaryRoles[primaryRole].armor" [value]="item">
               {{item}}
             </mat-option>
           </div>
-          <div *ngIf="!primaryRole">
-            <mat-option *ngFor="let item of equipmentLists.armor" [value]="item">
-              {{item}}
-            </mat-option>
+          <div *ngIf="!primaryRole || showAllEquipment">
+            <mat-optgroup *ngFor="let group of equipmentLists.armor" [label]="group.label">
+              <mat-option *ngFor="let item of group.items" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-optgroup>
           </div>
         </mat-select>
       </mat-form-field>
@@ -96,20 +98,23 @@
         <mat-label>Shield Choices</mat-label>
         <mat-select [value]="combatStats.shield" (selectionChange)="captureSelect($event, 'shield')">
           <mat-option>None</mat-option>
-          <div *ngIf="primaryRole">
+          <div *ngIf="primaryRole && !showAllEquipment">
             <mat-option *ngFor="let item of primaryRoles[primaryRole].shields" [value]="item">
               {{item}}
             </mat-option>
           </div>
-          <div *ngIf="!primaryRole">
-            <mat-option *ngFor="let item of equipmentLists.shields" [value]="item">
-              {{item}}
-            </mat-option>
+          <div *ngIf="!primaryRole || showAllEquipment">
+            <mat-optgroup *ngFor="let group of equipmentLists.shields" [label]="group.label">
+              <mat-option *ngFor="let item of group.items" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-optgroup>
           </div>
         </mat-select>
       </mat-form-field>
 
-      <mat-checkbox (change)="checkBasicStatOnOff('addsizemod', $event)" [checked]="combatStats.addsizemod">Show Me All
+      <mat-checkbox (change)="checkComponentVariable('showAllEquipment', $event)" [checked]="showAllEquipment">Show Me
+        All
         Equipment</mat-checkbox>
     </div>
     <div>

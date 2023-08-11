@@ -119,7 +119,7 @@
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <h3>Add a New Artist</h3>
+              <h3><i class="fa-solid fa-plus icon-medium"></i> New Artist</h3>
             </mat-panel-title>
           </mat-expansion-panel-header>
 
@@ -136,7 +136,7 @@
               <textarea #artistTooltip placeholder="Tooltop" matInput
                 (change)="captureNewArtist('tooltip', $event)"></textarea>
             </mat-form-field>
-            <button mat-raised-button (click)="addNewArtist()" color="accent">Add Artist</button>
+            <button mat-raised-button (click)="addNewArtist()" color="accent"><i class="fa-solid fa-plus icon-medium"></i> Artist</button>
           </div>
 
         </mat-expansion-panel>
@@ -227,7 +227,7 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <h3>Add a New Role</h3>
+            <h3><i class="fa-solid fa-plus icon-medium"></i> New Role</h3>
           </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -538,7 +538,7 @@
               </div>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'descriptions')" color="accent">Add
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'descriptions')" color="accent"><i class="fa-solid fa-plus icon-medium"></i>
             Description</button>
           <br />
           <br />
@@ -576,7 +576,7 @@
               </div>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'convictions')" color="accent">Add
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'convictions')" color="accent"><i class="fa-solid fa-plus icon-medium"></i>
             Conviction</button>
           <br *ngIf="beast.conflict.convictions.length > 0" />
           <br />
@@ -618,7 +618,7 @@
               </div>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent">Add
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent"><i class="fa-solid fa-plus icon-medium"></i>
             Devotion</button>
           <br *ngIf="beast.conflict.devotions.length > 0" />
           <br />
@@ -641,7 +641,7 @@
                 [_filterGroup]="_filterGroup"></app-flaw-display>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent">Add Flaw</button>
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent"><i class="fa-solid fa-plus icon-medium"></i> Flaw</button>
           <br *ngIf="beast.conflict.flaws.length > 0" />
           <br />
           <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.flaws.length > 0">
@@ -772,7 +772,7 @@
             </app-skill-display>
           </div>
         </div>
-        <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent">Add Skill</button>
+        <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent"><i class="fa-solid fa-plus icon-medium"></i> Skill</button>
 
         <br>
         <br>
@@ -790,7 +790,7 @@
           <input matInput placeholder="Obstacle ID" [value]="newObstacleId" (change)="captureObstacle($event)">
         </mat-form-field>
         <br>
-        <button mat-raised-button color="accent" (click)="addObstacleById()">Add By ID</button>
+        <button mat-raised-button color="accent" (click)="addObstacleById()"><i class="fa-solid fa-plus icon-medium"></i> By ID</button>
         <br>
         <br>
         <h2>Skill Challenges</h2>
@@ -805,7 +805,7 @@
           <input matInput placeholder="Challenge ID" [value]="newChallengeId" (change)="captureChallenge($event)">
         </mat-form-field>
         <br>
-        <button mat-raised-button color="accent" (click)="addChallengeById()">Add By ID</button>
+        <button mat-raised-button color="accent" (click)="addChallengeById()"><i class="fa-solid fa-plus icon-medium"></i> By ID</button>
       </div>
     </mat-tab>
     <mat-tab label="Combat">
@@ -975,7 +975,7 @@
                     class="fa-solid fa-trash"></i></button>
               </div>
             </div>
-            <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent">Add Locational
+            <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent"><i class="fa-solid fa-plus icon-medium"></i> Locational
               Vitality</button>
           </div>
 
@@ -988,7 +988,7 @@
                   [secondaryRole]="beast.roleInfo[selectedRoleId].secondaryrole"></app-combat-info>
               </div>
             </div>
-            <button mat-raised-button (click)="addNewSecondaryItem('combatStatArray')" color="accent">Add Combat Square</button>
+            <button mat-raised-button (click)="addNewSecondaryItem('combatStatArray')" color="accent"><i class="fa-solid fa-plus icon-medium"></i> Combat Square</button>
           </div>
 
           <br>
@@ -1090,7 +1090,7 @@
               </div>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent">Add Movement</button>
+          <button mat-raised-button (click)="addNewSecondaryItem('movement')" color="accent"><i class="fa-solid fa-plus icon-medium"></i> Movement</button>
         </div>
       </ng-template>
     </mat-tab>
@@ -1397,7 +1397,7 @@
               </div>
             </div>
           </div>
-          <button mat-raised-button (click)="addNewSecondaryItem('loot')" color="accent">Add Loot</button>
+          <button mat-raised-button (click)="addNewSecondaryItem('loot')" color="accent"><i class="fa-solid fa-plus icon-medium"></i> Loot</button>
           <br />
           <br />
           <h3 class="loot-notes-subtitle">Loot Notes</h3>
@@ -2820,7 +2820,7 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-raised-button color="accent" (click)="addChip('types')">Add Type</button>
+            <button mat-raised-button color="accent" (click)="addChip('types')"><i class="fa-solid fa-plus icon-medium"></i> Type</button>
           </div>
           <!-- list of types that link to search with that type as a parameter -->
 
@@ -2948,7 +2948,7 @@
                 </mat-select>
               </mat-form-field>
               <br>
-              <button mat-raised-button color="accent" (click)="addChip('environ')">Add Environment</button>
+              <button mat-raised-button color="accent" (click)="addChip('environ')"><i class="fa-solid fa-plus icon-medium"></i> Environment</button>
             </div>
 
             <mat-form-field>
@@ -2987,7 +2987,7 @@
             <input matInput placeholder="Monster ID" [value]="newVariantId" (change)="captureID($event)">
           </mat-form-field>
           <br>
-          <button mat-raised-button color="accent" (click)="addById()">Add By ID</button>
+          <button mat-raised-button color="accent" (click)="addById()"><i class="fa-solid fa-plus icon-medium"></i> By ID</button>
         </div>
 
         <h2>Meta Notes</h2>

@@ -251,6 +251,10 @@ table {
   font-size: 9px;
 }
 
+.icon-medium {
+  font-size: 14px;
+}
+
 .icon-blue {
   color: #607d8b;
   font-size: 15px
