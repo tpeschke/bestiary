@@ -16,12 +16,13 @@ const combatSquareController = {
             roleInfo = roles.combatRoles.primary[req.body.role].meleeCombatStats
         }
         const damageAndRecovery = setDamageDice(combatStats, roleInfo, points)
+        const initMod = combatStats.armor ? equipmentController.getArmor(combatStats.armor).init : 0
 
         let combatSquare = {
             weaponType,
             attack: getModifiedStats('attack', combatStats, roleInfo, points),
             recovery: damageAndRecovery.recovery,
-            initiative: getModifiedStats('initiative', combatStats, roleInfo, points),
+            initiative: getModifiedStats('initiative', combatStats, roleInfo, points) + initMod,
             defense: getDefense(combatStats, roleInfo, points, size),
             cover: getCover(combatStats, roleInfo, points),
             damageType: damageAndRecovery.damageType,
@@ -30,8 +31,9 @@ const combatSquareController = {
             measure: getModifiedMeasure(combatStats, roleInfo, points, size),
             range: getModifiedWithWeapon('rangedistance', combatStats, roleInfo, 'range', points),
             damage: damageAndRecovery.damageString,
-            parry: getModifiedStats('weaponsmallpiercing', combatStats, roleInfo, points),
-            weaponScaling: damageAndRecovery.weaponScaling
+            parry: getModifiedParry(combatStats, roleInfo, points),
+            weaponScaling: damageAndRecovery.weaponScaling,
+            flanks: getModifiedStats('flanks', combatStats, roleInfo, points)
         }
 
         res.send(combatSquare)
@@ -52,11 +54,11 @@ const combatSquareController = {
         res.send(newMovements)
     },
     setVitalityAndStress: (req, res) => {
-        const { points, role, combatStats, secondaryrole, sizeMod } = req.body
+        const { points, role, combatStats, secondaryrole, sizeMod, armor, shield } = req.body
         const baseRoleInfo = roles.combatRoles.primary[role].meleeCombatStats
 
         let mental = setStressAndPanic(combatStats, baseRoleInfo, points)
-        let physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole)
+        let physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield)
         let damageString = deteremineVitalityDice(physical, sizeMod)
         let caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
 
@@ -75,10 +77,9 @@ setStressAndPanic = (combatStats, baseRoleInfo, combatpoints) => {
 
     return mental
 }
-setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole) => {
+setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole, armor, shield) => {
     let physical = {}
     physical.largeweapons = getModifiedStats('largeweapons', combatStats, baseRoleInfo, combatpoints)
-
     if (secondaryrole) {
         if (secondaryrole === 'Fodder') {
             physical.largeweapons = Math.floor(physical.largeweapons / 2)
@@ -88,6 +89,12 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole)
     }
 
     let fatigue = getModifiedStats('fatigue', combatStats, baseRoleInfo, combatpoints)
+    if (armor) {
+        fatigue += (equipmentController.getArmor(armor).fatigue * -.25)
+    }
+    if (shield) {
+        fatigue += (equipmentController.getShield(shield).fatigue * -.25)
+    }
     if (fatigue > 1) {
         fatigue = 1
     }
@@ -182,7 +189,7 @@ getModifiedWithWeapon = (combatStatKey, combatStats, roleInfo, weaponKey, points
     if (combatStats.weapon) {
         const equipmentStat = equipmentController.getWeapon(combatStats.weapon)[weaponKey]
         if (scalingStrength === 'noneWk') {
-            modifiedStat = equipmentStat - (scaling.none - scaling.majWk)
+            modifiedStat = equipmentStat - (scaling.scaling.none - scaling.scaling.majWk)
         } else if (scalingStrength === 'none' || !scalingStrength) {
             modifiedStat = equipmentStat
         } else {
@@ -323,6 +330,49 @@ getModifiedMeasure = (combatStats, roleInfo, points, size) => {
     return modifiedStat + measureModDictionary[size]
 }
 
+getModifiedParry = (combatStats, roleInfo, points) => {
+
+    let scalingStrength;
+
+    if (combatStats.weaponsmallpiercing) {
+        scalingStrength = combatStats.weaponsmallpiercing
+    } else {
+        scalingStrength = roleInfo.weaponsmallpiercing
+    }
+    
+    const scaling = getStatScaling('weaponsmallpiercing')
+    let modifiedParry = null;
+    let baseParry = null;
+    if (combatStats.shield) {
+        baseParry = equipmentController.getShield(combatStats.shield).parry
+    } else if (combatStats.weapon) {
+        baseParry = equipmentController.getWeapon(combatStats.weapon).parry
+    }
+    if (!baseParry || baseParry === 0) {
+        if (scalingStrength === 'noneWk') {
+            modifiedParry = scaling.scaling.majWk
+        } else if (scalingStrength === 'none') {
+            modifiedParry = scaling.scaling.none
+        } else {
+            modifiedParry = Math.ceil(scaling.scaling[scalingStrength] - (scaling.bonus[scalingStrength] * points))
+        }
+    } else {
+        if (scalingStrength === 'noneWk') {
+            modifiedParry = Math.ceil(baseParry - (scaling.scaling.none - scaling.scaling.majWk))
+        } else if (scalingStrength === 'none') {
+            modifiedParry = Math.ceil(baseParry - scaling.scaling.none)
+        } else {
+            modifiedParry = Math.ceil(baseParry - (scaling.bonus[scalingStrength] * points))
+        }
+    }
+    
+    if (modifiedParry < 0) {
+        return 0
+    }
+    return modifiedParry
+
+}
+
 getDefense = (combatStats, roleInfo, points, size) => {
     const modifiedStat = getModifiedStatsRounded('all', combatStats, roleInfo, points)
 
@@ -447,7 +497,13 @@ setWeaponDamage = (combatStats, roleInfo, points) => {
         diceString += ` +${crushingDamageMod}`
     }
 
-    baseRecovery = equipmentController.getWeapon(combatStats.weapon).rec
+    baseRecovery = 0
+    if (combatStats.weapon) {
+        baseRecovery += equipmentController.getWeapon(combatStats.weapon).rec
+    }
+    if (combatStats.armor) {
+        baseRecovery += equipmentController.getArmor(combatStats.armor).rec
+    }
     const recovery = setModifiedRecovery(baseRecovery, combatStats, roleInfo, points)
 
     if (combatStats.isspecial === 'kinda') {
@@ -547,7 +603,7 @@ setNoWeaponDamage = (combatStats, roleInfo, points) => {
     let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
 
     let diceString = ''
-    let baseRecovery = 0
+    let baseRecovery = combatStats.armor ? equipmentController.getArmor(combatStats.armor).rec : 0
 
     if (d3s > 0) {
         diceString += `${d3s}d3!`
@@ -582,7 +638,6 @@ setNoWeaponDamage = (combatStats, roleInfo, points) => {
         diceString += ` +${crushingDamageMod}`
     }
 
-    baseRecovery = baseRecovery
     const recovery = setModifiedRecovery(baseRecovery, combatStats, roleInfo, points)
 
     if (combatStats.isspecial === 'kinda') {

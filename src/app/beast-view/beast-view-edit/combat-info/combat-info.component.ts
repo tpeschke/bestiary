@@ -234,6 +234,10 @@ export class CombatInfoComponent implements OnChanges {
     this.combatStats[type] = event.value
 
     this.getCombatSquare()
+
+    if (type === 'armor' || type === 'shield') {
+      this.physicalCallback()
+    }
   }
 
 }

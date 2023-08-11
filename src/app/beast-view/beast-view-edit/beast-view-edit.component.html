@@ -984,7 +984,7 @@
               <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="combat-info-shell-outer unset-width">
                 <app-combat-info [primaryRole]="beast.roleInfo[selectedRoleId].role" [combatStats]="square"
                   [points]="beast.roleInfo[selectedRoleId].combatpoints" [physical]="beast.roleInfo[selectedRoleId]"
-                  [physicalCallback]="setVitalityAndFatigue" [size]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size"
+                  [physicalCallback]="setVitalityAndStress" [size]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size"
                   ></app-combat-info>
               </div>
             </div>

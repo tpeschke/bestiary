@@ -2358,7 +2358,7 @@ export class BeastViewEditComponent implements OnInit {
       fatigue: this.beast.roleInfo[this.selectedRoleId].fatigue
     }
 
-    this.beastService.getVitalityAndStress(this.beast.roleInfo[this.selectedRoleId].combatpoints, this.beast.roleInfo[this.selectedRoleId].role, combatStats, this.beast.roleInfo[this.selectedRoleId].secondaryrole, sizeMod).subscribe(res => {
+    this.beastService.getVitalityAndStress(this.beast.roleInfo[this.selectedRoleId].combatpoints, this.beast.roleInfo[this.selectedRoleId].role, combatStats, this.beast.roleInfo[this.selectedRoleId].secondaryrole, sizeMod, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(res => {
       this.physical = res.physical
       this.mental = res.mental
     })
