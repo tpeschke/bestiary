@@ -5,7 +5,8 @@
   <div class="combat-stat-shell">
     <div>
       <div class="square-shell">
-        <img *ngIf="combatSquare.weaponType === 'm'" class="combat-image" src="../../../../assets/square.png" alt="combat square">
+        <img *ngIf="combatSquare.weaponType === 'm'" class="combat-image" src="../../../../assets/square.png"
+          alt="combat square">
         <img *ngIf="combatSquare.weaponType === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png"
           alt="combat square">
         <p class="spd">{{combatSquare.recovery}}</p>
@@ -28,7 +29,7 @@
         <p class="damage">{{combatSquare.damage}}</p>
         <p *ngIf="combatSquare.weaponType === 'm'" class="parry">{{combatStats.eua ? 'EUA' : combatSquare.parry}}</p>
       </div>
-  
+
       <br>
       <mat-form-field>
         <mat-label>Range Type</mat-label>
@@ -42,54 +43,81 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      
+
       <mat-checkbox (change)="checkBasicStatOnOff('addsizemod', $event)" [checked]="combatStats.addsizemod">Add Size
         Modifier</mat-checkbox>
-  
+
       <mat-form-field>
         <mat-label>Weapon Choices</mat-label>
         <mat-select [value]="combatStats.weapon" (selectionChange)="captureSelect($event, 'weapon')">
           <mat-option>None</mat-option>
-          <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
-            <mat-option *ngFor="let item of group.items" [value]="item">
-              {{item}}
-            </mat-option>
-          </mat-optgroup>
+          <div *ngIf="secondaryRole === 'Controller'">
+            <mat-optgroup *ngFor="let group of controllerWeapons" [label]="group.label">
+              <mat-option *ngFor="let item of group.items" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-optgroup>
+          </div>
+          <div *ngIf="primaryRole">
+            <mat-optgroup *ngFor="let group of primaryRoles[primaryRole].weapons" [label]="group.label">
+              <mat-option *ngFor="let item of group.items" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-optgroup>
+          </div>
+          <div *ngIf="!primaryRole">
+            <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
+              <mat-option *ngFor="let item of group.items" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-optgroup>
+          </div>
         </mat-select>
       </mat-form-field>
-  
+
       <mat-form-field>
         <mat-label>Armor Choices</mat-label>
         <mat-select [value]="combatStats.armor" (selectionChange)="captureSelect($event, 'armor')">
           <mat-option>None</mat-option>
-          <mat-optgroup *ngFor="let group of equipmentLists.armor" [label]="group.label">
-            <mat-option *ngFor="let item of group.items" [value]="item">
+          <div *ngIf="primaryRole">
+            <mat-option *ngFor="let item of primaryRoles[primaryRole].armor" [value]="item">
               {{item}}
             </mat-option>
-          </mat-optgroup>
+          </div>
+          <div *ngIf="!primaryRole">
+            <mat-option *ngFor="let item of equipmentLists.armor" [value]="item">
+              {{item}}
+            </mat-option>
+          </div>
         </mat-select>
       </mat-form-field>
-  
+
       <mat-form-field>
         <mat-label>Shield Choices</mat-label>
         <mat-select [value]="combatStats.shield" (selectionChange)="captureSelect($event, 'shield')">
           <mat-option>None</mat-option>
-          <mat-optgroup *ngFor="let group of equipmentLists.shields" [label]="group.label">
-            <mat-option *ngFor="let item of group.items" [value]="item">
+          <div *ngIf="primaryRole">
+            <mat-option *ngFor="let item of primaryRoles[primaryRole].shields" [value]="item">
               {{item}}
             </mat-option>
-          </mat-optgroup>
+          </div>
+          <div *ngIf="!primaryRole">
+            <mat-option *ngFor="let item of equipmentLists.shields" [value]="item">
+              {{item}}
+            </mat-option>
+          </div>
         </mat-select>
       </mat-form-field>
-  
-      <mat-checkbox (change)="checkBasicStatOnOff('addsizemod', $event)" [checked]="combatStats.addsizemod">Show Me All Equipment</mat-checkbox>
+
+      <mat-checkbox (change)="checkBasicStatOnOff('addsizemod', $event)" [checked]="combatStats.addsizemod">Show Me All
+        Equipment</mat-checkbox>
     </div>
     <div>
       <table>
         <thead>
           <tr>
             <th>
-  
+
             </th>
             <th colspan="6">
               Scaling
@@ -168,7 +196,7 @@
                 [matTooltipDisabled]="roleInfo.damage !== 'noneWk'"></mat-checkbox>
             </td>
           </tr>
-  
+
           <tr [ngClass]="{'noDisplay': combatStats.isspecial === 'yes' || !combatStats.weapon}">
             <td>Weapon</td>
             <td>
@@ -236,7 +264,7 @@
               </mat-checkbox>
             </td>
           </tr>
-  
+
           <tr>
             <th></th>
             <th colspan="6">
@@ -385,7 +413,7 @@
                 [matTooltipDisabled]="roleInfo[stat.stat] !== 'noneWk'"></mat-checkbox>
             </td>
           </tr>
-  
+
           <tr *ngIf="!combatStats.eua">
             <td>Weapons, Small, Piercing <i class="fas fa-info-circle icon-small blue" matTooltip="Parry"
                 matTooltipClass="my-tooltip"></i>
@@ -434,7 +462,7 @@
                 [matTooltipDisabled]="roleInfo.weaponsmallpiercing !== 'noneWk'"></mat-checkbox>
             </td>
           </tr>
-  
+
           <tr>
             <td colspan="2" [ngClass]="{'justify-right': !combatStats.eua}">Parry Everything Except Unarmed Attacks <i
                 class="fas fa-info-circle icon-small blue" matTooltip="EUA" matTooltipClass="my-tooltip"></i></td>
@@ -443,10 +471,10 @@
             </td>
             <td colspan="4"> </td>
           </tr>
-  
+
           <tr *ngFor="let stat of defenseStatsPartTwo">
-            <td [ngClass]="stat.label.includes('& ') || stat.label === 'Flanks' ? 'justify-right' : ''">{{stat.label}} <i
-                *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue" matTooltip="{{stat.tooltip}}"
+            <td [ngClass]="stat.label.includes('& ') || stat.label === 'Flanks' ? 'justify-right' : ''">{{stat.label}}
+              <i *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue" matTooltip="{{stat.tooltip}}"
                 matTooltipClass="my-tooltip"></i>
             </td>
             <td>
@@ -493,7 +521,7 @@
                 [matTooltipDisabled]="roleInfo[stat.stat] !== 'noneWk'"></mat-checkbox>
             </td>
           </tr>
-  
+
           <tr>
             <th></th>
             <th colspan="6">
@@ -546,7 +574,7 @@
                 [matTooltipDisabled]="roleInfo[stat.stat] !== 'noneWk'"></mat-checkbox>
             </td>
           </tr>
-  
+
           <tr *ngIf="combatSquare.weaponType === 'm'">
             <td>Measure
             </td>
@@ -594,7 +622,7 @@
                 [matTooltipDisabled]="roleInfo.measure !== 'noneWk'"></mat-checkbox>
             </td>
           </tr>
-  
+
           <tr *ngIf="combatSquare.weaponType !== 'm'">
             <td>Range, Distance
             </td>
@@ -642,7 +670,7 @@
                 [matTooltipDisabled]="roleInfo.rangedistance !== 'noneWk'"></mat-checkbox>
             </td>
           </tr>
-  
+
           <tr>
             <td>Recovery
             </td>

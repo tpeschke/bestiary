@@ -9,6 +9,7 @@ import roles from '../../roles.js'
 })
 export class CombatInfoComponent implements OnChanges {
   @Input() primaryRole: any;
+  @Input() secondaryRole: any;
   @Input() combatStats: any;
   @Input() points: any;
   @Input() physical: any;
@@ -35,6 +36,7 @@ export class CombatInfoComponent implements OnChanges {
   public equipmentObjects = { weapons: {}, armor: {}, shields: {} }
   public showAllEquipment = false
   public controllerWeapons = roles.combatRoles.secondary.Controller.weapons
+  public primaryRoles = roles.combatRoles.primary
 
   public attackStats = [
     {
