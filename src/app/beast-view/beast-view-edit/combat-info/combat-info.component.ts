@@ -376,4 +376,8 @@ export class CombatInfoComponent implements OnChanges {
       this.physicalCallback()
     }
   }
+
+  captureInput = (event, type) => {
+    this.combatStats[type] = event.target.value
+  }
 }

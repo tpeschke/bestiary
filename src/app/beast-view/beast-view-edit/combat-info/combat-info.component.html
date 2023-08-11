@@ -1,6 +1,6 @@
 <div *ngIf="combatSquare">
   <h3>
-    Weapon Name
+    <input (change)="captureInput($event, 'weaponname')" placeholder="Weapon Name (if blank it will appear as '{{combatSquare.defaultweaponname}}')" matInput [value]="combatStats.weaponname">
   </h3>
   <div class="combat-stat-shell">
     <div>

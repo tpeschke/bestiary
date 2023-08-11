@@ -33,7 +33,8 @@ const combatSquareController = {
             damage: damageAndRecovery.damageString,
             parry: getModifiedParry(combatStats, roleInfo, points),
             weaponScaling: damageAndRecovery.weaponScaling,
-            flanks: getFlanks(combatStats, roleInfo, points)
+            flanks: getFlanks(combatStats, roleInfo, points),
+            defaultweaponname: getDefaultName(combatStats)
         }
 
         res.send(combatSquare)
@@ -64,6 +65,30 @@ const combatSquareController = {
 
         res.send({ mental: { ...mental, caution }, physical: { ...physical, damageString } })
     },
+}
+
+getDefaultName = ({weapon, armor, shield}) => {
+    if (weapon && weapon.includes('(')) {
+        weapon = `${weapon.slice(0, -4)}`
+    }
+
+    if (weapon && armor && shield) {
+        return `${weapon}, ${armor}, & ${shield}`
+    } else if (weapon && armor && !shield) {
+        return `${weapon} & ${armor}`
+    } else if (weapon && !armor && shield) {
+        return `${weapon} & ${shield}`
+    } else if (weapon && !armor && !shield) {
+        return `${weapon}`
+    } else if (!weapon && armor && shield) {
+        return `${armor}, & ${shield}`
+    } else if (!weapon && armor && !shield) {
+        return `${armor}`
+    } else if (!weapon && !armor && shield) {
+        return `${shield}`
+    } else {
+        return null
+    }
 }
 
 setStressAndPanic = (combatStats, baseRoleInfo, combatpoints) => {
