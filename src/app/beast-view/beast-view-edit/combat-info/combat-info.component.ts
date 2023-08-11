@@ -117,8 +117,16 @@ export class CombatInfoComponent implements OnChanges {
   checkShowAllEquipment = () => {
     if (this.primaryRole) {
       let armorOnRoleList = false
+      let shieldOnRoleList = false
+      let weaponOnRoleList = false
       if (this.combatStats.weapon) {
-        
+        this.primaryRoles[this.primaryRole].weapon.forEach(weaponCat => {
+          weaponCat.forEach(weaponToCheck => {
+            if (weaponToCheck === this.combatStats.weapon) {
+              weaponOnRoleList = true
+            }
+          })
+        })
       }
       if (this.combatStats.armor) {
         this.primaryRoles[this.primaryRole].armor.forEach(armorToCheck => {
@@ -128,10 +136,14 @@ export class CombatInfoComponent implements OnChanges {
         })
       }
       if (this.combatStats.shield) {
-  
+        this.primaryRoles[this.primaryRole].shield.forEach(shieldToCheck => {
+          if (shieldToCheck === this.combatStats.shield) {
+            shieldOnRoleList = true
+          }
+        })
       }
 
-      this.showAllEquipment = this.combatStats.armor && !armorOnRoleList
+      this.showAllEquipment = (this.combatStats.armor && !armorOnRoleList) || (this.combatStats.shield && !shieldOnRoleList) || (this.combatStats.weapon && !weaponOnRoleList) 
     }
   }
 
