@@ -357,7 +357,7 @@ export class BeastViewEditComponent implements OnInit {
           if (movementObject.roleid) {
             movementObject.roleid = roleIdsDictionary[movementObject.roleid]
           }
-          movementObject.movementSpeeds = this.calculateMovementSpeed(this.beast.roleInfo[movementObject.roleid].combatpoints)
+          movementObject.movementSpeeds = this.calculateMovementSpeed(this.beast.roleInfo[movementObject.roleid] ? this.beast.roleInfo[movementObject.roleid].combatpoints : this.beast.combatpoints)
           delete movementObject.id
           delete movementObject.beastid
           return movementObject
@@ -483,7 +483,7 @@ export class BeastViewEditComponent implements OnInit {
         }
 
         this.beast.movement = this.beast.movement.map((val, i) => {
-          val.movementSpeeds = this.calculateMovementSpeed(this.beast.roleInfo[val.roleid].combatpoints)
+          val.movementSpeeds = this.calculateMovementSpeed(this.beast.roleInfo[val.roleid] ? this.beast.roleInfo[val.roleid].combatpoints : this.beast.combatpoints)
           return val
         })
         this.beastService.getEditEncounter(this.beast.id).subscribe(encounter => {
@@ -661,7 +661,7 @@ export class BeastViewEditComponent implements OnInit {
       this.setVitalityAndStress()
     } else if (type === 'combatpoints') {
       this.setVitalityAndStress()
-      this.calculateMovementSpeed(this.beast.roleInfo[this.selectedRoleId].combatpoints)
+      this.calculateMovementSpeed(this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints)
     }
   }
 
@@ -1058,7 +1058,7 @@ export class BeastViewEditComponent implements OnInit {
         movementSpeeds: { strollspeed: 0, walkspeed: 0, jogspeed: 0, runspeed: 0, sprintspeed: 0 }
       }
       this.beast[type].push(movement)
-      this.calculateMovementSpeed(this.beast.roleInfo[this.selectedRoleId].combatpoints)
+      this.calculateMovementSpeed(this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints)
     } else if (type === 'conflict') {
       let traitType = secondType === 'descriptions' ? 'h' : secondType.substring(0, 1);
       this.beast[type][secondType].push({
@@ -2348,13 +2348,13 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.movement[index][stat] = value
     }
 
-    this.calculateMovementSpeed(this.beast.roleInfo[this.selectedRoleId].combatpoints)
+    this.calculateMovementSpeed(this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints)
   }
 
   calculateMovementSpeed = (combatpoints) => {
     let movements = [...this.beast.movement]
 
-    this.beastService.getMovement(movements, this.beast.roleInfo[this.selectedRoleId].role, combatpoints).subscribe(res => {
+    this.beastService.getMovement(movements, this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].role : this.beast.role, combatpoints).subscribe(res => {
       this.beast.movement = res
     })
   }
