@@ -1059,7 +1059,6 @@ export class BeastViewEditComponent implements OnInit {
         movementSpeeds: { strollspeed: 0, walkspeed: 0, jogspeed: 0, runspeed: 0, sprintspeed: 0 }
       }
       this.beast[type].push(movement)
-      console.log(this.beast.combatpoints)
       this.calculateMovementSpeed(this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints)
     } else if (type === 'conflict') {
       let traitType = secondType === 'descriptions' ? 'h' : secondType.substring(0, 1);
