@@ -655,7 +655,11 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureBasicInput = (event, type) => {
-    this.beast.roleInfo[this.selectedRoleId][type] = event.target.value
+    if (this.selectedRoleId) {
+      this.beast.roleInfo[this.selectedRoleId][type] = event.target.value
+    } else {
+      this.beast[type] = event.target.value
+    }
 
     if (type === 'knockback') {
       this.setVitalityAndStress()
@@ -1058,7 +1062,8 @@ export class BeastViewEditComponent implements OnInit {
         movementSpeeds: { strollspeed: 0, walkspeed: 0, jogspeed: 0, runspeed: 0, sprintspeed: 0 }
       }
       this.beast[type].push(movement)
-      this.calculateMovementSpeed(this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints)
+      console.log(this.beast.combatpoints)
+      this.calculateMovementSpeed(this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints)
     } else if (type === 'conflict') {
       let traitType = secondType === 'descriptions' ? 'h' : secondType.substring(0, 1);
       this.beast[type][secondType].push({
@@ -2287,14 +2292,27 @@ export class BeastViewEditComponent implements OnInit {
     if (!value) {
       event.source._checked = false
     }
-    if (this.beast.roleInfo[this.selectedRoleId][stat] === value) {
-      event.source._checked = false
-      this.beast.roleInfo[this.selectedRoleId][stat] = null
-    } else if (this.selectedRole[stat] === value || (value === 'none' && !this.selectedRole[stat])) {
-      event.source._checked = true
-      this.beast.roleInfo[this.selectedRoleId][stat] = null
+
+    if (this.selectedRoleId) {
+      if (this.beast.roleInfo[this.selectedRoleId][stat] === value) {
+        event.source._checked = false
+        this.beast.roleInfo[this.selectedRoleId][stat] = null
+      } else if (this.selectedRole[stat] === value || (value === 'none' && !this.selectedRole[stat])) {
+        event.source._checked = true
+        this.beast.roleInfo[this.selectedRoleId][stat] = null
+      } else {
+        this.beast.roleInfo[this.selectedRoleId][stat] = value
+      }
     } else {
-      this.beast.roleInfo[this.selectedRoleId][stat] = value
+      if (this.beast[stat] === value) {
+        event.source._checked = false
+        this.beast[stat] = null
+      } else if (this.beast[stat] === value || (value === 'none' && !this.beast[stat])) {
+        event.source._checked = true
+        this.beast[stat] = null
+      } else {
+        this.beast[stat] = value
+      }
     }
 
     this.setVitalityAndStress()
@@ -2310,8 +2328,10 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     let sizeMod
-    if (this.beast.roleInfo[this.selectedRoleId] && this.beast.roleInfo[this.selectedRoleId].knockback) {
+    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].knockback) {
       sizeMod = this.beast.roleInfo[this.selectedRoleId].knockback
+    } else if (this.beast.knockback) {
+      sizeMod = this.beast.knockback
     } else {
       sizeMod = this.sizeDictionary[size]
     }
@@ -2327,7 +2347,7 @@ export class BeastViewEditComponent implements OnInit {
     const combatpoints = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints
     const role = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].role : this.beast.role
     const secondaryrole = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].secondaryrole : this.beast.secondaryrole
-console.log(combatStats)
+
     this.beastService.getVitalityAndStress(combatpoints, role, combatStats, secondaryrole, sizeMod, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(res => {
       this.physical = res.physical
       this.mental = res.mental

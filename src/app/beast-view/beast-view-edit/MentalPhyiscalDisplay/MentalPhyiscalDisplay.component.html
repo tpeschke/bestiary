@@ -1,0 +1,81 @@
+<table>
+  <thead>
+    <tr>
+      <th>
+
+      </th>
+      <th colspan="6">
+        Scaling
+      </th>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Major Strength</td>
+      <td>Minor Strength</td>
+      <td>None</td>
+      <td>Minor Weakness</td>
+      <td>Major Weakness</td>
+      <td>None & Weak</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let stat of statInfo">
+      <td>{{stat.label}} <i *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue"
+          matTooltip="{{stat.tooltip}}" matTooltipClass="my-tooltip"></i>
+      </td>
+      <td>
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[stat.stat] === 'majSt' ? 'checkmark-role-background' : ''"
+          (change)="checkStat(stat.stat, 'majSt', $event)"
+          [checked]="!stats[stat.stat] ? roleInfo && roleInfo[stat.stat] === 'majSt' : stats[stat.stat] === 'majSt'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[stat.stat] !== 'majSt'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[stat.stat] === 'minSt' ? 'checkmark-role-background' : ''"
+          (change)="checkStat(stat.stat, 'minSt', $event)"
+          [checked]="!stats[stat.stat] ? roleInfo && roleInfo[stat.stat] === 'minSt' : stats[stat.stat] === 'minSt'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[stat.stat] !== 'minSt'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox [ngClass]="roleInfo && !roleInfo[stat.stat] ? 'checkmark-role-background' : ''"
+          (change)="checkStat(stat.stat, 'none', $event)"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[stat.stat]"
+          [checked]="!stats[stat.stat] ? roleInfo && (roleInfo[stat.stat] === 'none' || !roleInfo[stat.stat]) : stats[stat.stat] === 'none'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[stat.stat] === 'minWk' ? 'checkmark-role-background' : ''"
+          (change)="checkStat(stat.stat, 'minWk', $event)"
+          [checked]="!stats[stat.stat] ? roleInfo && roleInfo[stat.stat] === 'minWk' : stats[stat.stat] === 'minWk'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[stat.stat] !== 'minWk'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[stat.stat] === 'majWk' ? 'checkmark-role-background' : ''"
+          (change)="checkStat(stat.stat, 'majWk', $event)"
+          [checked]="!stats[stat.stat] ? roleInfo && roleInfo[stat.stat] === 'majWk' : stats[stat.stat] === 'majWk'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[stat.stat] !== 'majWk'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[stat.stat] === 'noneWk' ? 'checkmark-role-background' : ''"
+          (change)="checkStat(stat.stat, 'noneWk', $event)"
+          [checked]="!stats[stat.stat] ? roleInfo && roleInfo[stat.stat] === 'noneWk' : stats[stat.stat] === 'noneWk'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[stat.stat] !== 'noneWk'">
+        </mat-checkbox>
+      </td>
+    </tr>
+  </tbody>
+</table>
