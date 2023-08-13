@@ -2317,17 +2317,17 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     const combatStats = {
-      panic: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].panic : null ,
-      mental: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].mental : null ,
-      caution: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].caution : null ,
-      largeweapons: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].largeweapons : null ,
-      fatigue: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].fatigue : null
+      panic: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].panic : this.beast.panic ,
+      mental: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].mental : this.beast.mental ,
+      caution: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].caution : this.beast.caution ,
+      largeweapons: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].largeweapons : this.beast.largeweapons ,
+      fatigue: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].fatigue : this.beast.fatigue
     }
 
     const combatpoints = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints
     const role = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].role : this.beast.role
     const secondaryrole = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].secondaryrole : this.beast.secondaryrole
-
+console.log(combatStats)
     this.beastService.getVitalityAndStress(combatpoints, role, combatStats, secondaryrole, sizeMod, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(res => {
       this.physical = res.physical
       this.mental = res.mental

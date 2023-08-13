@@ -67,12 +67,18 @@ const combatSquareController = {
     },
     getMovement: (req, res) => {
         const { points, movements, role } = req.body
+        let roleInfo
+        if (role) {
+            roleInfo = roles.combatRoles.primary[role].meleeCombatStats.movement            
+        } else {
+            roleInfo = null
+        }
         const newMovements = movements.map(movement => {
-            const strollspeed = Math.ceil(getMovementStats(movement.strollstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points))
-                , walkspeed = Math.ceil(getMovementStats(movement.walkstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) + strollspeed)
-                , jogspeed = Math.ceil(getMovementStats(movement.jogstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + walkspeed)
-                , runspeed = Math.ceil(getMovementStats(movement.runstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + jogspeed)
-                , sprintspeed = Math.ceil(getMovementStats(movement.sprintstrength, roles.combatRoles.primary[role].meleeCombatStats.movement, points) * 2 + runspeed)
+            const strollspeed = Math.ceil(getMovementStats(movement.strollstrength, null, points))
+                , walkspeed = Math.ceil(getMovementStats(movement.walkstrength, null, points) + strollspeed)
+                , jogspeed = Math.ceil(getMovementStats(movement.jogstrength, null, points) * 2 + walkspeed)
+                , runspeed = Math.ceil(getMovementStats(movement.runstrength, null, points) * 2 + jogspeed)
+                , sprintspeed = Math.ceil(getMovementStats(movement.sprintstrength, null, points) * 2 + runspeed)
 
             return { ...movement, movementSpeeds: { strollspeed, walkspeed, jogspeed, runspeed, sprintspeed } }
         })

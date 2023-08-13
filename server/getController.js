@@ -276,6 +276,10 @@ module.exports = {
       let patreonTestValue = -1;
       let patreon = beast.patreon === 0 ? beast.patreon + 3 : beast.patreon
 
+      beast.panic = beast.panicstrength
+      beast.caution = beast.cautionstrength
+      beast.fatigue = beast.fatiguestrength
+
       if (beast.canplayerview) {
         patreonTestValue = 1000
       } else if (req.user) {
