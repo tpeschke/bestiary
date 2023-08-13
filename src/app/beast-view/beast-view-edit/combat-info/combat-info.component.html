@@ -34,7 +34,7 @@
       <mat-form-field>
         <mat-label>Range Type</mat-label>
         <mat-select [disabled]="combatStats.weapon" [value]="combatSquare.weaponType"
-          (selectionChange)="captureSelect($event, 'weapontype')">
+          (selectionChange)="captureSelected($event, 'weapontype')">
           <mat-option value="m">
             Melee
           </mat-option>

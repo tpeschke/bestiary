@@ -413,7 +413,7 @@ getModifiedMeasure = (combatStats, roleInfo, points, size) => {
         Enormous: 4,
         Colossal: 5
     }
-
+    
     if (!combatStats.addsizemod) {
         return modifiedStat
     }

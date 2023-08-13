@@ -366,7 +366,9 @@ export class CombatInfoComponent implements OnChanges {
   }
 
   captureSelected = (event, type) => {
-    if (event.option.value) {
+    if (event.value) {
+      this.combatStats[type] = event.value
+    } else if (event.option) {
       this.combatStats[type] = event.option.value
     } else {
       this.combatStats[type] = null

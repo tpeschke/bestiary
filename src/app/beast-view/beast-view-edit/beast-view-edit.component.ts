@@ -567,7 +567,6 @@ export class BeastViewEditComponent implements OnInit {
       this.setDefaultRole()
       this.setVitalityAndStress()
 
-      this.calculateCombatPoints()
       this.calculateSocialPoints()
       this.calculateSkillPoints()
 
@@ -697,7 +696,6 @@ export class BeastViewEditComponent implements OnInit {
       this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     }
 
-    this.calculateCombatPoints()
     this.calculateSocialPoints()
     this.calculateSkillPoints()
   }
@@ -791,7 +789,6 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type][index][secondaryType] = event.value;
     } else {
       this.beast[type] = event.value
-      this.calculateCombatPoints()
       this.calculateSocialPoints()
       this.calculateSkillPoints()
     }
@@ -1116,9 +1113,6 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type].push({ id: deleted[0].id, deleted: true })
     }
 
-    if (type === 'combat') {
-      this.calculateCombatPoints();
-    }
     if (type === 'conflict') {
       this.calculateSocialPoints()
     }
@@ -1770,7 +1764,6 @@ export class BeastViewEditComponent implements OnInit {
     delete weaponCopy.id
 
     this.beast.combat.push(weaponCopy)
-    this.calculateCombatPoints()
   }
   copyWeaponSquare = this.copyWeaponSquareUnbound.bind(this);
 
@@ -1826,280 +1819,6 @@ export class BeastViewEditComponent implements OnInit {
     if (deletedSpell[0].beastid) {
       this.deletedSpellList.push(deletedSpell[0].id)
     }
-  }
-
-  calculateCombatPoints = () => {
-    //Base
-    let combatpoints = 0
-
-    let vitalityToUse = this.beast.vitality
-    if (!vitalityToUse && this.beast.role) {
-      vitalityToUse = roles.combatRoles.primary[this.beast.role].vitality
-      if (this.beast.secondaryrole && this.beast.secondaryrole === 'Fodder') {
-        vitalityToUse = `(${vitalityToUse})/2`
-      }
-    } else if (!vitalityToUse) {
-      vitalityToUse = 0
-    }
-    vitalityToUse = this.calculatorService.calculateAverageOfDice(vitalityToUse)
-    combatpoints += Math.ceil(vitalityToUse / 10)
-
-    if (this.beast.stress) {
-      combatpoints += Math.ceil(this.beast.stress / 5)
-    }
-
-    if (this.beast.panic === 1) {
-      combatpoints -= 2
-    } else if (this.beast.panic === 2) {
-      combatpoints -= 2
-    } else if (this.beast.panic === 3) {
-      combatpoints -= 2
-    } else if (this.beast.panic === 4) {
-      combatpoints -= 2
-    } else if (this.beast.panic === 7) {
-      combatpoints += 2
-    }
-
-    this.beast.skills.forEach(skill => {
-      if (!skill.skillroleid && this.combatSkills.includes(skill.skill)) {
-        combatpoints += +skill.rank
-      }
-    })
-
-    let fatigueAddedIn = false;
-
-    this.beast.combat.forEach(weapon => {
-      if (weapon.roleid === null) {
-        let { def, newDR, parry, newShieldDr, newDamage, atk, rangedDamage, spd, measure, ranges, weapontype, fatigue, selectedweapon, damageskill, weaponInfo, damagetype } = weapon
-
-        if (!fatigueAddedIn) {
-          if (fatigue === 'N') {
-            combatpoints += 4
-          } else if (fatigue === 'W') {
-            combatpoints -= 4
-          } else if (fatigue === 'B') {
-            combatpoints -= 8
-          } else if (fatigue === 'H') {
-            combatpoints -= 12
-          } else if (fatigue === 'A') {
-            combatpoints -= 16
-          }
-          fatigueAddedIn = true;
-        }
-        // combatpoints += evaluateDefense(def)
-        combatpoints += newDR.flat
-        combatpoints += (newDR.slash * 4)
-        combatpoints += ((parry + newShieldDr.flat) / 2)
-        combatpoints += (newShieldDr.slash * 2)
-        combatpoints += (spd * 2) * -1
-        combatpoints += (measure * 2)
-        combatpoints += atk
-        combatpoints += newDamage.flat
-        let damageType = selectedweapon ? weaponInfo.type : damagetype
-        if (damageType === 'S') {
-          combatpoints += Math.ceil(damageskill / 2)
-        } else if (damageType === 'P') {
-          combatpoints += Math.ceil(damageskill / 4) * 2
-        } else {
-          combatpoints += damageskill
-        }
-
-        newDamage.dice.forEach(damage => {
-          let pointValue
-          let damageArray = damage.split('d')
-          let dice = damageArray[1]
-          if (dice.includes('!')) {
-            dice = dice.slice(0, -1)
-          }
-          let number = damageArray[0]
-          if (number === '') {
-            number = 1
-          }
-          if (dice == '3' || dice == '4') {
-            pointValue = +number
-          } else if (dice == '6' || dice == '8') {
-            pointValue = (+number * 2)
-          } else if (dice == '10') {
-            pointValue = (+number * 3)
-          } else if (dice == '12') {
-            pointValue = (+number * 4)
-          } else if (dice == '20') {
-            pointValue = (+number * 6)
-          }
-          combatpoints += pointValue
-        })
-        if (weapontype === 'r') {
-          combatpoints += Math.ceil(ranges.increment / 10)
-        }
-      }
-    })
-
-    // this.beast.combatpoints = combatpoints
-
-    //Roles
-    this.beast.roles.forEach(role => {
-      let combatpoints = 0
-      let vitalityToUse = role.vitality
-
-      if (!vitalityToUse && role.role) {
-        vitalityToUse = roles.combatRoles.primary[role.role].vitality
-        if (role.secondaryrole && role.secondaryrole === 'Fodder') {
-          vitalityToUse = `(${vitalityToUse})/2`
-        }
-      } else if (!vitalityToUse) {
-        vitalityToUse = 0
-      }
-      vitalityToUse = this.calculatorService.calculateAverageOfDice(vitalityToUse)
-
-      combatpoints += Math.ceil(vitalityToUse / 10)
-      if (role.stress) {
-        combatpoints += Math.ceil(role.stress / 5)
-      } else {
-        combatpoints += Math.ceil(this.beast.stress / 5)
-      }
-
-      this.beast.skills.forEach(skill => {
-        if (skill.skillroleid === role.id && this.combatSkills.includes(skill.skill)) {
-          combatpoints += +skill.rank
-        }
-      })
-
-      let panic = role.panic ? role.panic : this.beast.panic
-      if (panic === 1) {
-        combatpoints -= 8
-      } else if (panic === 2) {
-        combatpoints -= 6
-      } else if (panic === 3) {
-        combatpoints -= 4
-      } else if (panic === 4) {
-        combatpoints -= 2
-      } else if (panic === 7) {
-        combatpoints += 2
-      }
-
-      let weapons = this.beast.combat.filter(weapon => weapon.roleid === role.id)
-
-      let fatigueAddedIn = false;
-
-      if (weapons.length > 0) {
-        weapons.forEach(weapon => {
-          if (weapon.roleid === null) {
-            let { def, newDR, parry, newShieldDr, newDamage, atk, spd, measure, ranges, weapontype, fatigue } = weapon
-
-            if (!fatigueAddedIn) {
-              if (fatigue === 'N') {
-                combatpoints += 4
-              } else if (fatigue === 'W') {
-                combatpoints -= 4
-              } else if (fatigue === 'B') {
-                combatpoints -= 8
-              } else if (fatigue === 'H') {
-                combatpoints -= 12
-              } else if (fatigue === 'A') {
-                combatpoints -= 16
-              }
-              fatigueAddedIn = true
-            }
-            combatpoints += eval(def)
-            combatpoints += newDR.flat
-            combatpoints += (newDR.slash * 4)
-            combatpoints += ((parry + newShieldDr.flat) / 2)
-            combatpoints += (newShieldDr.slash * 2)
-            combatpoints += (spd * 2) * -2
-            combatpoints += (measure * 2)
-            combatpoints += atk
-            combatpoints += newDamage.flat
-            newDamage.dice.forEach(damage => {
-              let pointValue
-              let damageArray = damage.split('d')
-              let dice = damageArray[1]
-              if (dice.includes('!')) {
-                dice = dice.slice(0, -1)
-              }
-              let number = damageArray[0]
-              if (number === '') {
-                number = 1
-              }
-              if (dice == '3' || dice == '4') {
-                pointValue = +number
-              } else if (dice == '6' || dice == '8') {
-                pointValue = (+number * 2)
-              } else if (dice == '10') {
-                pointValue = (+number * 3)
-              } else if (dice == '12') {
-                pointValue = (+number * 4)
-              } else if (dice == '20') {
-                pointValue = (+number * 6)
-              }
-              combatpoints += pointValue
-            })
-            if (weapontype === 'r') {
-              combatpoints += Math.ceil(ranges.increment / 10)
-            }
-          }
-        })
-      } else {
-        this.beast.combat.forEach(weapon => {
-          if (weapon.roleid === null) {
-            let { def, newDR, parry, newShieldDr, newDamage, atk, spd, measure, ranges, weapontype, fatigue } = weapon
-
-            if (!fatigueAddedIn) {
-              if (fatigue === 'N') {
-                combatpoints += 4
-              } else if (fatigue === 'W') {
-                combatpoints -= 4
-              } else if (fatigue === 'B') {
-                combatpoints -= 8
-              } else if (fatigue === 'H') {
-                combatpoints -= 12
-              } else if (fatigue === 'A') {
-                combatpoints -= 16
-              }
-              fatigueAddedIn = true
-            }
-            // combatpoints += evaluateDefense(def)
-            combatpoints += newDR.flat
-            combatpoints += (newDR.slash * 4)
-            combatpoints += ((parry + newShieldDr.flat) / 2)
-            combatpoints += (newShieldDr.slash * 2)
-            combatpoints += (spd * 2) * -1
-            combatpoints += (measure * 2)
-            combatpoints += atk
-            combatpoints += newDamage.flat
-            newDamage.dice.forEach(damage => {
-              let pointValue
-              let damageArray = damage.split('d')
-              let dice = damageArray[1]
-              if (dice.includes('!')) {
-                dice = dice.slice(0, -1)
-              }
-              let number = damageArray[0]
-              if (number === '') {
-                number = 1
-              }
-              if (dice == '3' || dice == '4') {
-                pointValue = +number
-              } else if (dice == '6' || dice == '8') {
-                pointValue = (+number * 2)
-              } else if (dice == '10') {
-                pointValue = (+number * 3)
-              } else if (dice == '12') {
-                pointValue = (+number * 4)
-              } else if (dice == '20') {
-                pointValue = (+number * 6)
-              }
-              combatpoints += pointValue
-            })
-            if (weapontype === 'r') {
-              combatpoints += Math.ceil(ranges.increment / 10)
-            }
-          }
-        })
-      }
-
-      // role.combatpoints = combatpoints
-      // this.beast.roleInfo[role.id].combatpoints = combatpoints
-    })
   }
 
   calculateSocialPoints = () => {

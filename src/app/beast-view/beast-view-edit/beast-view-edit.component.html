@@ -790,7 +790,7 @@
                     [points]="selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints"
                     [physical]="selectedRoleId ? beast.roleInfo[selectedRoleId] : beast"
                     [physicalCallback]="setVitalityAndStress"
-                    [size]="selectedRoleId ? beast.roleInfo[selectedRoleId].size : beast.size"
+                    [size]="selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size ? beast.size : 'Medium'"
                     [secondaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].secondaryrole : beast.secondaryrole"
                     [removeCallback]="removeCombatStatFromArray" [index]="i"></app-combat-info>
                 </div>
