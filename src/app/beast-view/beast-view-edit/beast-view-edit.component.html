@@ -426,10 +426,10 @@
           </div>
 
           <br>
-          <app-MentalPhyiscalDisplay [statInfo]="mentalStats"
+          <app-mental-physical-display [statInfo]="mentalStats"
             [primaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role" [checkStat]="checkStat"
             [stats]="selectedRoleId ? beast.roleInfo[selectedRoleId] : beast">
-          </app-MentalPhyiscalDisplay>
+          </app-mental-physical-display>
         </div>
 
         <div>
@@ -614,10 +614,10 @@
           </div>
 
           <br>
-          <app-MentalPhyiscalDisplay [statInfo]="mentalStats"
+          <app-mental-physical-display [statInfo]="mentalStats"
             [primaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role" [checkStat]="checkStat"
             [stats]="selectedRoleId ? beast.roleInfo[selectedRoleId] : beast">
-          </app-MentalPhyiscalDisplay>
+          </app-mental-physical-display>
         </div>
 
         <h2>Skills</h2>
@@ -741,10 +741,10 @@
                 <p><strong>Caution: </strong> {{mental.caution}}</p>
               </div>
               <br>
-              <app-MentalPhyiscalDisplay [statInfo]="physicalStats"
+              <app-mental-physical-display [statInfo]="physicalStats"
                 [primaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role"
                 [checkStat]="checkStat" [stats]="selectedRoleId ? beast.roleInfo[selectedRoleId] : beast">
-              </app-MentalPhyiscalDisplay>
+              </app-mental-physical-display>
               <br>
               <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?
               </mat-checkbox>

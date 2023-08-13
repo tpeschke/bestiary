@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import roles from '../../roles.js'
 
 @Component({
-  selector: 'app-MentalPhyiscalDisplay',
-  templateUrl: './MentalPhyiscalDisplay.component.html',
-  styleUrls: ['../../beast-view.component.css', './MentalPhyiscalDisplay.component.css']
+  selector: 'app-mental-physical-display',
+  templateUrl: './mental-physical-display.component.html',
+  styleUrls: ['../../beast-view.component.css', './mental-physical-display.component.css']
 })
-export class MentalPhyiscalDisplayComponent implements OnInit {
+export class MentalPhysicalDisplayComponent implements OnInit {
   @Input() statInfo: any;
   @Input() stats: any
   @Input() primaryRole: any;

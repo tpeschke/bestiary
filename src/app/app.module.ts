@@ -66,12 +66,11 @@ import { EditHomeComponent } from './obstacle-index/edit/edit-home/edit-home.com
 import { ChallengePopUpComponent } from './obstacle-index/view/challenge-pop-up/challenge-pop-up.component';
 import { ChallengeShellComponent } from './obstacle-index/view/challenge-shell/challenge-shell.component';
 import { ObstacleInnardsComponent } from './obstacle-index/view/obstacle-innards/obstacle-innards.component';
-import { WeaponSquareComponent } from './beast-view/beast-view-edit/weapon-square/weapon-square.component';
 import { SkillDisplayComponent } from './beast-view/beast-view-edit/skill-display/skill-display.component';
 import { FlawDisplayComponent } from './beast-view/beast-view-edit/flaw-display/flaw-display.component';
 import { ChallengeInnardsComponent } from './obstacle-index/view/challenge-innards/challenge-innards.component';
 import { CombatInfoComponent } from './beast-view/beast-view-edit/combat-info/combat-info.component';
-import { MentalPhyiscalDisplayComponent } from './beast-view/beast-view-edit/MentalPhyiscalDisplay/MentalPhyiscalDisplay.component';
+import { MentalPhysicalDisplayComponent } from './beast-view/beast-view-edit/mental-physical-display/mental-physical-display.component';
 
 const routes: Routes = [
   {
@@ -132,9 +131,8 @@ const routes: Routes = [
     ChallengePopUpComponent,
     ChallengeShellComponent,
     ObstacleInnardsComponent,
-    WeaponSquareComponent,
     CombatInfoComponent,
-    MentalPhyiscalDisplayComponent,
+    MentalPhysicalDisplayComponent,
     SkillDisplayComponent,
     FlawDisplayComponent,
     ChallengeInnardsComponent
