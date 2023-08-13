@@ -1634,7 +1634,7 @@ export class BeastViewEditComponent implements OnInit {
         val.skillroleid = id
       })
 
-      this.beast.combat.forEach(val => {
+      this.beast.combatStatArray.forEach(val => {
         val.roleid = id
       })
       this.beast.locationalvitality.forEach(val => {
@@ -1679,6 +1679,9 @@ export class BeastViewEditComponent implements OnInit {
         uniqueMovement: false,
         vitality: this.beast.vitality,
         size: this.beast.size,
+        largeweapons: this.beast.largeweapons,
+        mental: this.beast.mental,
+        fatigue: this.beast.fatigue,
         ...rolesToAdd
       }
 
@@ -1718,6 +1721,9 @@ export class BeastViewEditComponent implements OnInit {
         uniqueMovement: false,
         vitality: null,
         size: null,
+        largeweapons: null,
+        mental: null,
+        fatigue: null,
         ...rolesToAdd
       }
 

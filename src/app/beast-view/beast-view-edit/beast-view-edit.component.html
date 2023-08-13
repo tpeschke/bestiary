@@ -311,8 +311,8 @@
           </mat-form-field>
 
           <button mat-raised-button (click)="addNewRole()" color="accent"
-            [disabled]="!(((newRole.role || newRole.socialrole || newRole.skillrole) || ((beast.role || beast.socialrole || beast.skillrole) && beast.roles.length === 0)) && newRole.name)">Add
-            Role</button>
+            [disabled]="!(((newRole.role || newRole.socialrole || newRole.skillrole) || ((beast.role || beast.socialrole || beast.skillrole) && beast.roles.length === 0)) && newRole.name)">
+            <i class="fa-solid fa-plus icon-medium"></i>  Role</button>
         </div>
 
       </mat-expansion-panel>
