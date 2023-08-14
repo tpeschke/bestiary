@@ -25,6 +25,19 @@ const noRole = {
     mental: null
 }
 
+const sizeDictionary = {
+    Fine: 1,
+    Diminutive: 5,
+    Tiny: 5,
+    Small: 10,
+    Medium: 15,
+    Large: 20,
+    Huge: 35,
+    Giant: 55,
+    Enormous: 90,
+    Colossal: 145
+  }
+
 const combatSquareController = {
     getSquare: (req, res) => {
         const combatStats = req.body.combatStats
@@ -67,12 +80,6 @@ const combatSquareController = {
     },
     getMovement: (req, res) => {
         const { points, movements, role } = req.body
-        let roleInfo
-        if (role) {
-            roleInfo = roles.combatRoles.primary[role].meleeCombatStats.movement            
-        } else {
-            roleInfo = null
-        }
         const newMovements = movements.map(movement => {
             const strollspeed = Math.ceil(getMovementStats(movement.strollstrength, null, points))
                 , walkspeed = Math.ceil(getMovementStats(movement.walkstrength, null, points) + strollspeed)
@@ -85,16 +92,28 @@ const combatSquareController = {
 
         res.send(newMovements)
     },
-    setVitalityAndStress: (req, res) => {
-        const { points, role, combatStats, secondaryrole, sizeMod, armor, shield } = req.body
+    setVitalityAndStressDirectly: (points, role, combatStats, secondaryrole, knockback, size, armor, shield) => {
         const baseRoleInfo = role ? roles.combatRoles.primary[role].meleeCombatStats : noRole
-
+    
+        let sizeMod
+        if (knockback) {
+            sizeMod = knockback
+        } else if (size) {
+            sizeMod = sizeDictionary[size]
+        } else {
+            sizeMod = sizeDictionary.Medium
+        }
+        
         let mental = setStressAndPanic(combatStats, baseRoleInfo, points)
         let physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield)
-        let damageString = deteremineVitalityDice(physical, sizeMod)
+        deteremineVitalityDice(physical, sizeMod)
         let caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
 
-        res.send({ mental: { ...mental, caution }, physical: { ...physical, damageString } })
+        return { mental: { ...mental, caution }, physical: { ...physical } }
+    },
+    setVitalityAndStress: (req, res) => {
+        const { points, role, combatStats, secondaryrole, knockback, size, armor, shield } = req.body
+        res.send(combatSquareController.setVitalityAndStressDirectly(points, role, combatStats, secondaryrole, knockback, size, armor, shield))
     },
 }
 

@@ -1,5 +1,6 @@
 const roles = require('./roles')
-    , equipmentCtrl = require('./equipmentController')
+  , equipmentCtrl = require('./equipmentController')
+  , combatSquareCtrl = require('./combatSquare')
 
 function formatNameWithCommas(name) {
   if (name.includes(',')) {
@@ -307,9 +308,12 @@ module.exports = {
 
         promiseArray.push(db.get.combatStatArray(id).then(result => {
           beast.combatStatArray = result
+
+          beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, beast.role, { panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons }, beast.secondary, null, beast.size ? beast.size : 'Medium', beast.combatStatArray[0].armor, beast.combatStatArray[0].shield)
+console.log(beast.phyiscalAndStress)
           return result
         }))
-        
+
         promiseArray.push(db.get.beastcombat(id).then(result => {
           let specialAbilities = {}
           beast.combat = result.map(weapon => {
@@ -417,7 +421,7 @@ module.exports = {
             beast.conflict.convictions = beast.conflict.convictions.sort((a, b) => +b.value - +a.value)
             beast.conflict.flaws = beast.conflict.flaws.sort(sortOutAnyToTheBottom)
 
-            return  result
+            return result
           }))
         }
 
@@ -603,7 +607,7 @@ module.exports = {
             }
           })
 
-          if (req.query.edit !== 'true') { 
+          if (req.query.edit !== 'true') {
             beast.conflict.devotions.forEach(val => {
               if (val.trait.toUpperCase() === 'ANY') {
                 finalPromise.push(db.get.randomdevotion().then(result => {

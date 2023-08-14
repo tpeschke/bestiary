@@ -2051,13 +2051,11 @@ export class BeastViewEditComponent implements OnInit {
       size = 'Medium'
     }
 
-    let sizeMod
+    let knockback
     if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].knockback) {
-      sizeMod = this.beast.roleInfo[this.selectedRoleId].knockback
+      knockback = this.beast.roleInfo[this.selectedRoleId].knockback
     } else if (this.beast.knockback) {
-      sizeMod = this.beast.knockback
-    } else {
-      sizeMod = this.sizeDictionary[size]
+      knockback = this.beast.knockback
     }
 
     const combatStats = {
@@ -2072,7 +2070,7 @@ export class BeastViewEditComponent implements OnInit {
     const role = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].role : this.beast.role
     const secondaryrole = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].secondaryrole : this.beast.secondaryrole
 
-    this.beastService.getVitalityAndStress(combatpoints, role, combatStats, secondaryrole, sizeMod, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(res => {
+    this.beastService.getVitalityAndStress(combatpoints, role, combatStats, secondaryrole, knockback, size, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(res => {
       this.physical = res.physical
       this.mental = res.mental
     })
