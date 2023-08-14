@@ -121,7 +121,8 @@
           </div>
         </div>
 
-        <div *ngIf="beast.skills.length > 0 || (selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)">
+        <div
+          *ngIf="beast.skills.length > 0 || (selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)">
           <h2>Skills</h2>
           <div class="divider"></div>
         </div>
@@ -194,290 +195,207 @@
           </div>
         </div>
 
-        <div class="combat-shell" *ngIf="beast.combat.length > 0">
+        <div class="combat-shell" *ngIf="beast.combatStatArray.length > 0">
           <div class="divider"></div>
-          <div *ngFor="let square of beast.combat">
-            <div *ngIf="selectedRoleId === square.roleid">
-              <div *ngIf="(!selectedRole.spd || !square.addrolemods) && !square.showEquipmentSelection">
-                <div class="combat-square">
-                  <h4 class="weaponName">{{displayService.displayName(square)}}<i
-                      *ngIf="(square.selectedweapon || square.selectedarmor || square.selectedshield) && !square.weapon"
-                      (click)="toggleEquipmentSelection(square)"
-                      class="fa-solid fa-arrow-right-arrow-left swap-equipment" matTooltip="Click to swap out gear."
-                      matTooltipClass="my-tooltip"></i></h4>
-                  <div class="square-shell">
-                    <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png"
-                      alt="combat square">
-                    <img *ngIf="square.weapontype === 'r'" class="combat-image"
-                      src="../../../../assets/rangedsquare.png" alt="combat square">
-                    <p class="spd">{{(square.selectedweapon ? square.weaponInfo.rec : 0) + (square.selectedarmor ?
-                      square.armorInfo.rec : 0) + square.spd}}</p>
-                    <p class="atk">{{square.atk}}</p>
-                    <p class="init">{{(square.selectedarmor ? square.armorInfo.init : 0) + square.init}}</p>
-                    <div class="def">
-                      <p>{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ?
-                        beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
-                      <p class="shield_cover" *ngIf="square.selectedshield">
-                        <i class="fa-solid fa-shield"></i> {{square.shieldInfo.cover}}
-                      </p>
-                    </div>
-                    <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
-                    <div class="dr">
-                      <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor,
-                        newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
-                      <p class="shield_dr"
-                        *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
-                        <i class="fa-solid fa-shield"></i> {{displayService.displayDR(square.newShieldDr, 'shield',
-                        square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
-                      </p>
-                    </div>
-                    <div class="measure">
-                      <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure : 0) +
-                        square.measure + displayService.returnSizeMeasureModifier(selectedRoleId ?
-                        beast.roleInfo[selectedRoleId].size : beast.size, square.addsizemod)}}</p>
-                      <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range : 0) +
-                        square.ranges.increment}}ri <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
-                          Between 5 ft and {{square.ranges.increment}} ft, -0 atk penalty. 
-                          Between {{square.ranges.increment + 1}} ft and {{(square.ranges.increment) * 2}} ft, -2 atk penalty.
-                          Between {{((square.ranges.increment) * 2) + 1}} ft and {{(square.ranges.increment) * 3}} ft, -4 atk penalty.
-                          and so on." matTooltipClass="my-tooltip"></i></p>
-                    </div>
-                    <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square,
-                      selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
-                    <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                    <p *ngIf="square.weapontype !== 'r'" class="parry">{{square.showmaxparry ? 'EUA' :
-                      (square.selectedshield ? square.shieldInfo.parry :
-                      square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : 0) + square.parry}}
-                    </p>
+          <div class="combat-square-shell">
+            <div *ngFor="let combatSquare of beast.combatStatArray">
+              <div *ngIf="selectedRoleId === combatSquare.roleid">
+                <h4 class="weaponName">{{combatSquare.weaponname ? combatSquare.weaponname :
+                  combatSquare.defaultweaponname}}<i
+                    *ngIf="(combatSquare.weapon || combatSquare.armor || combatSquare.shield) && !combatSquare.weapon"
+                    (click)="toggleEquipmentSelection(combatSquare)"
+                    class="fa-solid fa-arrow-right-arrow-left swap-equipment" matTooltip="Click to swap out gear."
+                    matTooltipClass="my-tooltip"></i></h4>
+                <div class="square-shell">
+                  <img *ngIf="combatSquare.weaponType === 'm'" class="combat-image" src="../../../../assets/square.png"
+                    alt="combat square">
+                  <img *ngIf="combatSquare.weaponType === 'r'" class="combat-image"
+                    src="../../../../assets/rangedsquare.png" alt="combat square">
+                  <p class="spd">{{combatSquare.recovery}}</p>
+                  <p class="atk">{{combatSquare.attack}}</p>
+                  <p class="init">{{combatSquare.initiative}}</p>
+                  <div class="def">
+                    <p>{{combatSquare.defense}}</p>
+                    <p class="shield_dr">{{combatSquare.cover}}</p>
                   </div>
+                  <p class="fatigue">{{combatSquare.damageType}}</p>
+                  <div class="dr">
+                    <p>{{combatSquare.dr}}</p>
+                    <p class="shield_dr"><img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
+                        height="15">{{combatSquare.shieldDr}}</p>
+                  </div>
+                  <div class="measure">
+                    <p *ngIf="combatSquare.weaponType === 'm'">{{combatSquare.measure}}</p>
+                    <p *ngIf="combatSquare.weaponType === 'r'">{{combatSquare.range}}</p>
+                  </div>
+                  <p class="damage">{{combatSquare.isspecial === 'yes' ? 'See Attack Info' : combatSquare.damage }}</p>
+                  <p *ngIf="combatSquare.weaponType === 'm'" class="parry">{{combatSquare.eua ? 'EUA' :
+                    combatSquare.parry}}</p>
                 </div>
-              </div>
 
-              <div *ngIf="selectedRole.spd && square.addrolemods && !square.showEquipmentSelection">
-                <div class="combat-square">
-                  <h4 class="weaponName">{{displayService.displayName(square)}}<i
-                      *ngIf="(square.selectedweapon || square.selectedarmor || square.selectedshield) && !square.weapon"
-                      (click)="toggleEquipmentSelection(square)"
-                      class="fa-solid fa-arrow-right-arrow-left swap-equipment" matTooltip="Click to swap out gear."
-                      matTooltipClass="my-tooltip"></i></h4>
+                <div *ngIf="combatSquare.showEquipmentSelection">
+                  <div>
+                    <div class="equipment-choices">
+                      <div *ngIf="!showAllEquipment && selectedRole.spd && selectedRole.weapons.length > 0">
+                        <mat-form-field>
+                          <mat-label>Weapon Choices</mat-label>
+                          <mat-select [value]="combatSquare.selectedweapon"
+                            (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
+                            <mat-option>None</mat-option>
+                            <mat-optgroup *ngFor="let group of selectedRole.weapons" [label]="group.label">
+                              <mat-option *ngFor="let item of group.items" [value]="item">
+                                {{item}}
+                              </mat-option>
+                            </mat-optgroup>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div *ngIf="showAllEquipment || !selectedRole.spd || !selectedRole.weapons.length > 0">
+                        <mat-form-field>
+                          <mat-label>Weapon Choices</mat-label>
+                          <mat-select [value]="combatSquare.selectedweapon"
+                            (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
+                            <mat-option>None</mat-option>
+                            <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
+                              <mat-option *ngFor="let item of group.items" [value]="item">
+                                {{item}}
+                              </mat-option>
+                            </mat-optgroup>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+                      <div *ngIf="!showAllEquipment && selectedRole.spd">
+                        <mat-form-field *ngIf="selectedRole.armor && selectedRole.armor.length > 0">
+                          <mat-label>Armor Choices</mat-label>
+                          <mat-select [value]="combatSquare.selectedarmor"
+                            (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let item of selectedRole.armor" [value]="item">
+                              {{item}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div *ngIf="showAllEquipment || !selectedRole.spd">
+                        <mat-form-field>
+                          <mat-label>Armor Choices</mat-label>
+                          <mat-select [value]="combatSquare.selectedarmor"
+                            (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
+                            <mat-option>None</mat-option>
+                            <mat-optgroup *ngFor="let group of equipmentLists.armor" [label]="group.label">
+                              <mat-option *ngFor="let item of group.items" [value]="item">
+                                {{item}}
+                              </mat-option>
+                            </mat-optgroup>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+                      <div *ngIf="!showAllEquipment && selectedRole.spd">
+                        <mat-form-field *ngIf="selectedRole.shields && selectedRole.shields.length > 0">
+                          <mat-label>Shield Choices</mat-label>
+                          <mat-select [value]="combatSquare.selectedshield"
+                            (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let item of selectedRole.shields" [value]="item">
+                              {{item}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div *ngIf="showAllEquipment || !selectedRole.spd">
+                        <mat-form-field>
+                          <mat-label>Shield Choices</mat-label>
+                          <mat-select [value]="combatSquare.selectedshield"
+                            (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
+                            <mat-option>None</mat-option>
+                            <mat-optgroup *ngFor="let group of equipmentLists.shields" [label]="group.label">
+                              <mat-option *ngFor="let item of group.items" [value]="item">
+                                {{item}}
+                              </mat-option>
+                            </mat-optgroup>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <section>
+                      <mat-checkbox [checked]="showAllEquipment" (change)="checkShowAllEquipment($event.checked)">Show
+                        me
+                        all weapons/armor/shields
+                      </mat-checkbox>
+                    </section>
+                    <div class="swap-equipment-buttons">
+                      <i (click)="backoutOfEquipmentSelection(combatSquare)"
+                        matTooltip="Go back without saving any changes" matTooltipClass="my-tooltip"
+                        class="fa-solid fa-delete-left orange"></i>
+                      <i (click)="toggleEquipmentSelection(combatSquare)" matTooltip="Save changes.
+                      Note: these changes only last until you move off of this page." matTooltipClass="my-tooltip"
+                        class="fa-solid fa-floppy-disk blue"></i>
+                    </div>
+                  </div>
+
                   <div class="square-shell">
-                    <img *ngIf="square.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png"
-                      alt="combat square">
-                    <img *ngIf="square.weapontype === 'r'" class="combat-image"
+                    <img *ngIf="newWeaponInfo.weapontype === 'm'" class="combat-image"
+                      src="../../../../assets/square.png" alt="combat square">
+                    <img *ngIf="newWeaponInfo.weapontype !== 'm'" class="combat-image"
                       src="../../../../assets/rangedsquare.png" alt="combat square">
-                    <p class="spd">{{displayService.calculateRecovery(selectedRole.spdbonus, square.selectedweapon,
-                      square.weaponInfo,
-                      square.addrolemods, selectedRole.spd, square.spd, square.selectedarmor, square.armorInfo)}}</p>
+                    <p class="spd">{{displayService.calculateRecovery(selectedRole.spdbonus, newSelectedWeapon,
+                      newWeaponInfo,
+                      square.addrolemods, selectedRole.spd, square.spd, newSelectedArmor, newArmorInfo)}}</p>
                     <p class="atk">{{displayService.calculateAtk(square, selectedRole)}}</p>
-                    <p class="init">{{(square.selectedarmor ? square.armorInfo.init : selectedRole.init &&
+                    <p class="init">{{(newSelectedArmor ? newArmorInfo.init : selectedRole.init &&
                       square.addrolemods ?
                       selectedRole.init : 0) + square.init}}</p>
                     <div class="def">
                       <p>{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ?
                         beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
-                      <p class="shield_cover" *ngIf="square.selectedshield">
-                        <i class="fa-solid fa-shield"></i> {{square.shieldInfo.cover}}
+                      <p class="shield_cover" *ngIf="newSelectedShield || square.selectedshield">
+                        <i class="fa-solid fa-shield"></i> {{newSelectedShield ? newShieldInfo.cover :
+                        square.shieldInfo.cover}}
                       </p>
                     </div>
-                    <p class="fatigue">{{ square.selectedweapon ? square.weaponInfo.type : square.damagetype }}</p>
+                    <p class="fatigue">{{ newSelectedWeapon ? newWeaponInfo.type : square.selectedweapon ?
+                      square.weaponInfo.type : square.damagetype }}</p>
                     <div class="dr">
                       <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor,
                         newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
                       <p class="shield_dr"
                         *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
                         <i class="fa-solid fa-shield"></i> {{displayService.displayDR(square.newShieldDr, 'shield',
-                        square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
+                        square,
+                        selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
                       </p>
                     </div>
                     <div class="measure">
-                      <p *ngIf="square.weapontype !== 'r'">{{(square.selectedweapon ? square.weaponInfo.measure :
+                      <p *ngIf="newWeaponInfo.weapontype !== 'r'">{{(newSelectedWeapon ? newWeaponInfo.measure :
                         selectedRole.measure
                         && square.addrolemods ? selectedRole.measure : 0) + square.measure +
                         displayService.returnSizeMeasureModifier(selectedRoleId ? beast.roleInfo[selectedRoleId].size :
-                        beast.size, square)}}
+                        beast.size, square.addsizemod)}}
                       </p>
-                      <p *ngIf="square.weapontype === 'r'">{{(square.selectedweapon ? square.weaponInfo.range :
+                      <p *ngIf="newWeaponInfo.weapontype === 'r'">{{(newSelectedWeapon ? newWeaponInfo.range :
                         selectedRole.ranges &&
-                        square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment}}ri <i
-                          class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
-                          Between 5 ft and {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment}} ft, -0 atk penalty. 
-                          Between {{(square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 2}} ft, -2 atk penalty.
-                          Between {{(((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 2) + 1}} ft and {{((square.selectedweapon ? square.weaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + square.ranges.increment) * 3}} ft, -4 atk penalty.
+                        square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ?
+                        square.ranges.increment
+                        :
+                        0)}}ri <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
+                          Between 5 ft and {{(newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)}} ft, -0 atk penalty. 
+                          Between {{(newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0) + 1}} ft and {{((newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 2}} ft, -2 atk penalty.
+                          Between {{(((newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 2) + 1}} ft and {{((newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 3}} ft, -4 atk penalty.
                           and so on." matTooltipClass="my-tooltip"></i></p>
                     </div>
                     <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square,
                       selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
                     <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                    <p *ngIf="square.weapontype !== 'r'" class="parry" [ngClass]="{'eua-parry': square.showmaxparry}">
-                      {{square.showmaxparry ? 'EUA' : (square.selectedshield ? square.shieldInfo.parry :
-                      square.selectedweapon && square.weaponInfo.parry ? square.weaponInfo.parry : selectedRole.parry &&
-                      square.addrolemods ? selectedRole.parry : 0) + square.parry}}<i *ngIf="square.showmaxparry"
-                        class="fas fa-info-circle icon-small blue"
-                        matTooltip="EUA means that every attack is parried except unarmed attacks"
-                        matTooltipClass="my-tooltip"></i></p>
+                    <p *ngIf="newWeaponInfo.weapontype !== 'r'" class="parry">{{square.showmaxparry ? 'EUA' :
+                      (newSelectedShield ? newShieldInfo.parry :
+                      newSelectedWeapon && newWeaponInfo.parry ? newWeaponInfo.parry : selectedRole.parry &&
+                      square.addrolemods ? selectedRole.parry : 0) + square.parry}}</p>
                   </div>
                 </div>
+
               </div>
-
-              <div *ngIf="square.showEquipmentSelection">
-                <div>
-                  <div class="equipment-choices">
-                    <div *ngIf="!showAllEquipment && selectedRole.spd && selectedRole.weapons.length > 0">
-                      <mat-form-field>
-                        <mat-label>Weapon Choices</mat-label>
-                        <mat-select [value]="square.selectedweapon"
-                          (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
-                          <mat-option>None</mat-option>
-                          <mat-optgroup *ngFor="let group of selectedRole.weapons" [label]="group.label">
-                            <mat-option *ngFor="let item of group.items" [value]="item">
-                              {{item}}
-                            </mat-option>
-                          </mat-optgroup>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                    <div *ngIf="showAllEquipment || !selectedRole.spd || !selectedRole.weapons.length > 0">
-                      <mat-form-field>
-                        <mat-label>Weapon Choices</mat-label>
-                        <mat-select [value]="square.selectedweapon"
-                          (selectionChange)="captureEquipmentChange($event, 'selectedweapon')">
-                          <mat-option>None</mat-option>
-                          <mat-optgroup *ngFor="let group of equipmentLists.weapons" [label]="group.label">
-                            <mat-option *ngFor="let item of group.items" [value]="item">
-                              {{item}}
-                            </mat-option>
-                          </mat-optgroup>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-
-                    <div *ngIf="!showAllEquipment && selectedRole.spd">
-                      <mat-form-field *ngIf="selectedRole.armor && selectedRole.armor.length > 0">
-                        <mat-label>Armor Choices</mat-label>
-                        <mat-select [value]="square.selectedarmor"
-                          (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
-                          <mat-option>None</mat-option>
-                          <mat-option *ngFor="let item of selectedRole.armor" [value]="item">
-                            {{item}}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                    <div *ngIf="showAllEquipment || !selectedRole.spd">
-                      <mat-form-field>
-                        <mat-label>Armor Choices</mat-label>
-                        <mat-select [value]="square.selectedarmor"
-                          (selectionChange)="captureEquipmentChange($event, 'selectedarmor')">
-                          <mat-option>None</mat-option>
-                          <mat-optgroup *ngFor="let group of equipmentLists.armor" [label]="group.label">
-                            <mat-option *ngFor="let item of group.items" [value]="item">
-                              {{item}}
-                            </mat-option>
-                          </mat-optgroup>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-
-                    <div *ngIf="!showAllEquipment && selectedRole.spd">
-                      <mat-form-field *ngIf="selectedRole.shields && selectedRole.shields.length > 0">
-                        <mat-label>Shield Choices</mat-label>
-                        <mat-select [value]="square.selectedshield"
-                          (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
-                          <mat-option>None</mat-option>
-                          <mat-option *ngFor="let item of selectedRole.shields" [value]="item">
-                            {{item}}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                    <div *ngIf="showAllEquipment || !selectedRole.spd">
-                      <mat-form-field>
-                        <mat-label>Shield Choices</mat-label>
-                        <mat-select [value]="square.selectedshield"
-                          (selectionChange)="captureEquipmentChange($event, 'selectedshield')">
-                          <mat-option>None</mat-option>
-                          <mat-optgroup *ngFor="let group of equipmentLists.shields" [label]="group.label">
-                            <mat-option *ngFor="let item of group.items" [value]="item">
-                              {{item}}
-                            </mat-option>
-                          </mat-optgroup>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                  </div>
-                  <section>
-                    <mat-checkbox [checked]="showAllEquipment" (change)="checkShowAllEquipment($event.checked)">Show me
-                      all weapons/armor/shields
-                    </mat-checkbox>
-                  </section>
-                  <div class="swap-equipment-buttons">
-                    <i (click)="backoutOfEquipmentSelection(square)" matTooltip="Go back without saving any changes"
-                      matTooltipClass="my-tooltip" class="fa-solid fa-delete-left orange"></i>
-                    <i (click)="toggleEquipmentSelection(square)" matTooltip="Save changes.
-                    Note: these changes only last until you move off of this page." matTooltipClass="my-tooltip"
-                      class="fa-solid fa-floppy-disk blue"></i>
-                  </div>
-                </div>
-
-                <div class="square-shell">
-                  <img *ngIf="newWeaponInfo.weapontype === 'm'" class="combat-image" src="../../../../assets/square.png"
-                    alt="combat square">
-                  <img *ngIf="newWeaponInfo.weapontype !== 'm'" class="combat-image"
-                    src="../../../../assets/rangedsquare.png" alt="combat square">
-                  <p class="spd">{{displayService.calculateRecovery(selectedRole.spdbonus, newSelectedWeapon,
-                    newWeaponInfo,
-                    square.addrolemods, selectedRole.spd, square.spd, newSelectedArmor, newArmorInfo)}}</p>
-                  <p class="atk">{{displayService.calculateAtk(square, selectedRole)}}</p>
-                  <p class="init">{{(newSelectedArmor ? newArmorInfo.init : selectedRole.init &&
-                    square.addrolemods ?
-                    selectedRole.init : 0) + square.init}}</p>
-                  <div class="def">
-                    <p>{{displayService.evaluateDefense(square, selectedRole, selectedRoleId ?
-                      beast.roleInfo[selectedRoleId].size : beast.size)}}</p>
-                    <p class="shield_cover" *ngIf="newSelectedShield || square.selectedshield">
-                      <i class="fa-solid fa-shield"></i> {{newSelectedShield ? newShieldInfo.cover :
-                      square.shieldInfo.cover}}
-                    </p>
-                  </div>
-                  <p class="fatigue">{{ newSelectedWeapon ? newWeaponInfo.type : square.selectedweapon ?
-                    square.weaponInfo.type : square.damagetype }}</p>
-                  <div class="dr">
-                    <p>{{displayService.displayDR(square.newDR, 'armor', square, selectedRole, newSelectedArmor,
-                      newArmorInfo, newShieldInfo, newSelectedShield)}}</p>
-                    <p class="shield_dr"
-                      *ngIf="displayService.displayDR(square.newShieldDr, 'shield', square, selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)">
-                      <i class="fa-solid fa-shield"></i> {{displayService.displayDR(square.newShieldDr, 'shield',
-                      square,
-                      selectedRole, newSelectedArmor, newArmorInfo, newShieldInfo, newSelectedShield)}}
-                    </p>
-                  </div>
-                  <div class="measure">
-                    <p *ngIf="newWeaponInfo.weapontype !== 'r'">{{(newSelectedWeapon ? newWeaponInfo.measure :
-                      selectedRole.measure
-                      && square.addrolemods ? selectedRole.measure : 0) + square.measure +
-                      displayService.returnSizeMeasureModifier(selectedRoleId ? beast.roleInfo[selectedRoleId].size :
-                      beast.size, square.addsizemod)}}
-                    </p>
-                    <p *ngIf="newWeaponInfo.weapontype === 'r'">{{(newSelectedWeapon ? newWeaponInfo.range :
-                      selectedRole.ranges &&
-                      square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment
-                      :
-                      0)}}ri <i class="fas fa-info-circle icon-small blue" matTooltip="Stands for Range Increment. 
-                        Between 5 ft and {{(newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)}} ft, -0 atk penalty. 
-                        Between {{(newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0) + 1}} ft and {{((newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 2}} ft, -2 atk penalty.
-                        Between {{(((newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 2) + 1}} ft and {{((newSelectedWeapon ? newWeaponInfo.range : selectedRole.ranges && square.addrolemods ? selectedRole.ranges.increment : 0) + (square.ranges ? square.ranges.increment : 0)) * 3}} ft, -4 atk penalty.
-                        and so on." matTooltipClass="my-tooltip"></i></p>
-                  </div>
-                  <p *ngIf="!square.newDamage.isSpecial" class="damage">{{displayService.displayDamage(square,
-                    selectedRole, newSelectedWeapon, newWeaponInfo)}}</p>
-                  <p *ngIf="square.newDamage.isSpecial" class="damage specialDamage">*See Attack Info Below</p>
-                  <p *ngIf="newWeaponInfo.weapontype !== 'r'" class="parry">{{square.showmaxparry ? 'EUA' :
-                    (newSelectedShield ? newShieldInfo.parry :
-                    newSelectedWeapon && newWeaponInfo.parry ? newWeaponInfo.parry : selectedRole.parry &&
-                    square.addrolemods ? selectedRole.parry : 0) + square.parry}}</p>
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
@@ -488,32 +406,19 @@
               <h3>Vitality</h3>
               <span class="vitality-flex">
                 <p>
-                  {{displayVitalityAverage === 0 ? 'N/A' : displayVitalityAverage}}</p>
-                <p class="vitality-flex-subtitle"
-                  *ngIf="(displayVitalityAverage && !isFodderSecondary)">
-                  {{displayVitalityDice}}</p>
-                <p class="vitality-flex-subtitle"
-                  *ngIf="displayVitalityAverage && isFodderSecondary">
-                  ({{displayVitalityDice}}) / 2</p>
+                  {{beast.phyiscalAndStress.physical.largeweapons}}</p>
+                <p class="vitality-flex-subtitle">{{beast.phyiscalAndStress.physical.diceString}}</p>
               </span>
             </div>
 
-            <div *ngIf="displayVitalityAverage">
-              <!-- <div class="checkboxShell">
-                <div *ngFor="let checkbox of locationCheckboxes.mainVitality.checkboxes; let i = index">
-                  <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
-                    (change)="checkCheckbox($event, i, 'mainVitality')" [(ngModel)]="checkbox.checked"></mat-checkbox>
-                  <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
-                </div>
-              </div> -->
+            <div>
               <div *ngIf="displayedVitalityRoll" class="rolled-stats-shell">
                 <mat-form-field>
                   <input matInput>
                 </mat-form-field>
                 <p> / </p>
-                <p
-                  matTooltip="This is the Fatigue Threshold based on the average Vitality and a Threshold of {{displayService.getFullFatigueWord(displayedFatigue)}}">
-                  ({{numberFatigue}}) </p>
+                <p matTooltip="This is the Fatigue Threshold based on the average Vitality">
+                  ({{beast.phyiscalAndStress.physical.fatigue}}) </p>
                 <p> / </p>
                 <p> {{displayedVitalityRoll}} </p>
               </div>
@@ -554,26 +459,16 @@
               <p>
                 {{beast.notrauma ? 'N/A' : this.trauma}}</p>
             </div>
-            <div class="flex-row-opposite" *ngIf="displayVitalityAverage">
-              <h3>Fatigue</h3>
-              <p [matTooltipDisabled]="numberFatigue === 'A' || numberFatigue === 'N'"
-                matTooltip="Fatigue Based on Average Vitality: {{numberFatigue}}">
-                {{displayService.getFullFatigueWord(displayedFatigue)}}</p>
-            </div>
 
             <div class="divider white"></div>
 
             <div class="flex-row-opposite">
               <h3>Stress Threshold</h3>
-              <p
-                *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].stress !== 0) && beast.roleInfo[selectedRoleId].stress !== 0">
-                {{beast.roleInfo[selectedRoleId].stress}}</p>
-              <p
-                *ngIf="(!selectedRoleId && beast.stress !== 0) || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && beast.stress !== 0)">
-                {{beast.stress}}</p>
-              <p
+              <p>
+                {{beast.phyiscalAndStress.mental.stress}}</p>
+              <!-- <p
                 *ngIf="(!selectedRoleId && !beast.stress) || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && !beast.stress)">
-                N/A</p>
+                N/A</p> -->
             </div>
             <div
               *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
@@ -582,27 +477,16 @@
                 <input matInput>
               </mat-form-field>
               <p> / </p>
-              <p
-                matTooltip="This is the Panic Threshold based on the Stress Threshold and a Panic of {{displayedPanic}}">
-                ({{numberPanic}}) </p>
+              <p matTooltip="This is the Panic Threshold based on the Stress Threshold.">
+                ({{beast.phyiscalAndStress.mental.panic}}) </p>
               <p> / </p>
-              <p> {{selectedRoleId && beast.roleInfo[selectedRoleId].stress ?
-                beast.roleInfo[selectedRoleId].stress : beast.stress}} </p>
-            </div>
-            <div
-              *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
-              class="flex-row-opposite">
-              <h3>Panic</h3>
-              <p [matTooltipDisabled]="displayedPanic === 'Always' || displayedPanic === 'Never'"
-                matTooltip="Panic Based on Stress Threshold: {{numberPanic}}">{{displayedPanic}}</p>
+              <p> {{beast.phyiscalAndStress.mental.stress}} </p>
             </div>
             <div class="flex-row-opposite">
               <h3>Caution Threshold</h3>
-              <p>{{selectedRoleId && beast.roleInfo[selectedRoleId].caution ? beast.roleInfo[selectedRoleId].caution :
-                beast.caution < 0 ? 'Always' : beast.caution===0 || !beast.caution ? 'Never' : beast.caution}} <i
-                  class="fas fa-info-circle icon-small blue"
+              <p>{{beast.phyiscalAndStress.mental.caution}} <i class="fas fa-info-circle icon-small blue"
                   matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable.">
-                  </i></p>
+                </i></p>
             </div>
           </div>
 
@@ -619,55 +503,42 @@
                 <div class="divider white"></div>
                 <div class="flex-row-opposite">
                   <h5
-                    [ngClass]="{'strike-through': movementType.stroll === '0' || movementType.stroll === '0 ft / sec' || movementType.stroll === 'n/a' || movementType.stroll === 'N/A' || !movementType.stroll }">
-                    Stroll/Crawl</h5>
-                  <p>{{movementType.stroll}}{{movementType.stroll.includes('ft') ? '' : ' ft / sec'}}</p>
+                    [ngClass]="{'strike-through': movementType.movementSpeeds.strollspeed === 0 || !movementType.movementSpeeds.strollspeed }">
+                    Stroll</h5>
+                  <p>{{movementType.movementSpeeds.strollspeed}} ft / sec</p>
                 </div>
                 <div class="flex-row-opposite">
                   <h5
-                    [ngClass]="{'strike-through': movementType.walk === '0' || movementType.walk === '0 ft / sec' || movementType.walk === 'n/a' || movementType.walk === 'N/A' || !movementType.walk }">
+                    [ngClass]="{'strike-through': movementType.movementSpeeds.walkspeed === 0 || !movementType.movementSpeeds.walkspeed }">
                     Walk</h5>
-                  <p>{{movementType.walk === '0' || movementType.walk === '0 ft / sec' || movementType.walk === 'n/a' ||
-                    movementType.walk === 'N/A' ? '' :
-                    movementType.walk}}{{movementType.walk !== '0' && movementType.walk !== '0 ft / sec' &&
-                    !movementType.walk.includes('ft') && movementType.walk !== 'n/a' && movementType.walk !== 'N/A' ? '
-                    ft
-                    / sec' : '' }}</p>
+                  <p>{{movementType.movementSpeeds.walkspeed === 0 || !movementType.movementSpeeds.walkspeed ? '' :
+                    movementType.movementSpeeds.walkspeed}} ft / sec</p>
                 </div>
                 <div class="flex-row-opposite">
                   <h5
-                    [ngClass]="{'strike-through': movementType.jog === '0' || movementType.jog === '0 ft / sec' || movementType.jog === 'n/a' || movementType.jog === 'N/A' || !movementType.jog }">
+                    [ngClass]="{'strike-through': movementType.movementSpeeds.jogspeed === 0 || !movementType.movementSpeeds.jogspeed }">
                     Jog
                   </h5>
-                  <p>{{movementType.jog === '0' || movementType.jog === '0 ft / sec' || movementType.jog === 'n/a' ||
-                    movementType.jog === 'N/A' ? '' :
-                    movementType.jog}}{{movementType.jog !== '0' && movementType.jog !== '0 ft / sec' &&
-                    !movementType.jog.includes('ft') && movementType.jog !== 'n/a' && movementType.jog !== 'N/A' ? ' ft
-                    /
-                    sec' : '' }}</p>
+                  <p>{{movementType.movementSpeeds.jogspeed === 0 ||
+                    !movementType.movementSpeeds.jogspeed ? '' :
+                    movementType.movementSpeeds.jogspeed}} ft / sec</p>
                 </div>
                 <div class="flex-row-opposite">
                   <h5
-                    [ngClass]="{'strike-through': movementType.run === '0' || movementType.run === '0 ft / sec' || movementType.run === 'n/a' || movementType.run === 'N/A' || !movementType.run }">
+                    [ngClass]="{'strike-through': movementType.movementSpeeds.runspeed === 0 || !movementType.movementSpeeds.runspeed }">
                     Run
                   </h5>
-                  <p>{{movementType.run === '0' || movementType.run === '0 ft / sec' || movementType.run === 'n/a' ||
-                    movementType.run === 'N/A' ? '' :
-                    movementType.run}}{{movementType.run !== '0' && movementType.run !== '0 ft / sec' &&
-                    !movementType.run.includes('ft') && movementType.run !== 'n/a' && movementType.run !== 'N/A' ? ' ft
-                    /
-                    sec' : '' }}</p>
+                  <p>{{movementType.movementSpeeds.runspeed === 0 ||
+                    !movementType.movementSpeeds.runspeed ? '' :
+                    movementType.movementSpeeds.runspeed}} ft / sec</p>
                 </div>
                 <div class="flex-row-opposite">
                   <h5
-                    [ngClass]="{'strike-through': movementType.sprint === '0' || movementType.sprint === '0 ft / sec' || movementType.sprint === 'n/a' || movementType.sprint === 'N/A' || !movementType.sprint  }">
+                    [ngClass]="{'strike-through': movementType.movementSpeeds.sprintspeed === 0 || !movementType.movementSpeeds.sprintspeed  }">
                     Sprint</h5>
-                  <p>{{movementType.sprint === '0' || movementType.sprint === '0 ft / sec' || movementType.sprint ===
-                    'n/a' || movementType.sprint === 'N/A' ? '' :
-                    movementType.sprint}}{{movementType.sprint !== '0' && movementType.sprint !== '0 ft / sec' &&
-                    !movementType.sprint.includes('ft') && movementType.sprint !== 'n/a' && movementType.sprint !==
-                    'N/A'
-                    ? ' ft / sec' : '' }}</p>
+                  <p>{{movementType.movementSpeeds.sprintspeed === 0 ||
+                    !movementType.movementSpeeds.sprintspeed ? '' :
+                    movementType.movementSpeeds.sprintspeed}} ft / sec</p>
                 </div>
               </div>
             </div>
@@ -1089,8 +960,7 @@
         </div>
 
         <h2>
-          Weird Pleroma <i class="fas fa-info-circle icon-small blue"
-            matTooltip="This represents body parts that can be harvested that you can then sacrifice for extra Spell Points for the listed spell or a bonus to the corresponding Weirdcraft Advanced Skill Check.
+          Weird Pleroma <i class="fas fa-info-circle icon-small blue" matTooltip="This represents body parts that can be harvested that you can then sacrifice for extra Spell Points for the listed spell or a bonus to the corresponding Weirdcraft Advanced Skill Check.
             The Size of pleroma is variable but, by default, is one size smaller than the monster so a Large monster will have Medium-sized pleroma.
             For every 2 Boons, the characters gain another pleroma, if applicable."></i>
         </h2>

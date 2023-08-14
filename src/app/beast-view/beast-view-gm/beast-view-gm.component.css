@@ -225,6 +225,13 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     text-indent: 25px;
 }
 
+.combat-square-shell {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
 @media (max-width: 1246px) {
     .vitals-and-movement-shell .vitals-shell {
         width: 100%;

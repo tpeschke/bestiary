@@ -151,8 +151,8 @@ export class BeastService {
     return this.http.patch(local.endpointBase + '/api/combatSquare', {combatStats, role, points, size})
   }
 
-  getMovement(movements, role, points): any {
-    return this.http.patch(local.endpointBase + '/api/movement', {movements, role, points})
+  getMovement(movements): any {
+    return this.http.patch(local.endpointBase + '/api/movement', {movements})
   }
 
   getVitalityAndStress(points, role, combatStats, secondaryrole, knockback, size, armor, shield): any {

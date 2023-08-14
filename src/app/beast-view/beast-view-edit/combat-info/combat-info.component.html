@@ -1,6 +1,8 @@
 <div *ngIf="combatSquare">
   <h3>
-    <input (change)="captureInput($event, 'weaponname')" placeholder="Weapon Name (if blank it will appear as '{{combatSquare.defaultweaponname}}')" matInput [value]="combatStats.weaponname">
+    <input (change)="captureInput($event, 'weaponname')"
+      placeholder="Weapon Name (if blank it will appear as '{{combatSquare.defaultweaponname}}')" matInput
+      [value]="combatStats.weaponname">
   </h3>
   <div class="combat-stat-shell">
     <div>
@@ -91,7 +93,7 @@
           </mat-optgroup>
         </mat-autocomplete>
       </mat-form-field>
-      
+
       <mat-checkbox (change)="checkComponentVariable('showAllEquipment', $event)" [checked]="showAllEquipment">Show Me
         All
         Equipment</mat-checkbox>
@@ -274,8 +276,9 @@
             </td>
             <td>
               <mat-checkbox [ngClass]="roleInfo && !roleInfo.alldefense ? 'checkmark-role-background' : ''"
-                (change)="checkOtherStat('alldefense', 'none', $event)" matTooltip="This is the preferred scale for their Role"
-                matTooltipClass="my-tooltip" [matTooltipDisabled]="roleInfo && roleInfo.alldefense"
+                (change)="checkOtherStat('alldefense', 'none', $event)"
+                matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                [matTooltipDisabled]="roleInfo && roleInfo.alldefense"
                 [checked]="(!combatStats.alldefense && roleInfo && !roleInfo.alldefense) || combatStats.alldefense === 'none'">
               </mat-checkbox>
             </td>
@@ -342,7 +345,8 @@
                 [matTooltipDisabled]="roleInfo && roleInfo.largeweapons !== 'majWk'"></mat-checkbox>
             </td>
             <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.largeweapons === 'noneWk' ? 'checkmark-role-background' : ''"
+              <mat-checkbox
+                [ngClass]="roleInfo && roleInfo.largeweapons === 'noneWk' ? 'checkmark-role-background' : ''"
                 (change)="checkPhysicalStat('largeweapons', 'noneWk', $event)"
                 [checked]="!physical.largeweapons ? roleInfo && roleInfo.largeweapons === 'noneWk' : physical.largeweapons === 'noneWk'"
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -403,14 +407,16 @@
                 matTooltipClass="my-tooltip"></i>
             </td>
             <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.weaponsmallpiercing === 'majSt' ? 'checkmark-role-background' : ''"
+              <mat-checkbox
+                [ngClass]="roleInfo && roleInfo.weaponsmallpiercing === 'majSt' ? 'checkmark-role-background' : ''"
                 (change)="checkOtherStat('weaponsmallpiercing', 'majSt', $event)"
                 [checked]="!combatStats.weaponsmallpiercing ? roleInfo &&  roleInfo.weaponsmallpiercing === 'majSt' : combatStats.weaponsmallpiercing === 'majSt'"
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo && roleInfo.weaponsmallpiercing !== 'majSt'"></mat-checkbox>
             </td>
             <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.weaponsmallpiercing === 'minSt' ? 'checkmark-role-background' : ''"
+              <mat-checkbox
+                [ngClass]="roleInfo && roleInfo.weaponsmallpiercing === 'minSt' ? 'checkmark-role-background' : ''"
                 (change)="checkOtherStat('weaponsmallpiercing', 'minSt', $event)"
                 [checked]="!combatStats.weaponsmallpiercing ? roleInfo &&  roleInfo.weaponsmallpiercing === 'minSt' : combatStats.weaponsmallpiercing === 'minSt'"
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -425,21 +431,24 @@
               </mat-checkbox>
             </td>
             <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.weaponsmallpiercing === 'minWk' ? 'checkmark-role-background' : ''"
+              <mat-checkbox
+                [ngClass]="roleInfo && roleInfo.weaponsmallpiercing === 'minWk' ? 'checkmark-role-background' : ''"
                 (change)="checkOtherStat('weaponsmallpiercing', 'minWk', $event)"
                 [checked]="!combatStats.weaponsmallpiercing ? roleInfo &&  roleInfo.weaponsmallpiercing === 'minWk' : combatStats.weaponsmallpiercing === 'minWk'"
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo && roleInfo.weaponsmallpiercing !== 'minWk'"></mat-checkbox>
             </td>
             <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.weaponsmallpiercing === 'majWk' ? 'checkmark-role-background' : ''"
+              <mat-checkbox
+                [ngClass]="roleInfo && roleInfo.weaponsmallpiercing === 'majWk' ? 'checkmark-role-background' : ''"
                 (change)="checkOtherStat('weaponsmallpiercing', 'majWk', $event)"
                 [checked]="!combatStats.weaponsmallpiercing ? roleInfo &&  roleInfo.weaponsmallpiercing === 'majWk' : combatStats.weaponsmallpiercing === 'majWk'"
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo && roleInfo.weaponsmallpiercing !== 'majWk'"></mat-checkbox>
             </td>
             <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.weaponsmallpiercing === 'noneWk' ? 'checkmark-role-background' : ''"
+              <mat-checkbox
+                [ngClass]="roleInfo && roleInfo.weaponsmallpiercing === 'noneWk' ? 'checkmark-role-background' : ''"
                 (change)="checkOtherStat('weaponsmallpiercing', 'noneWk', $event)"
                 [checked]="!combatStats.weaponsmallpiercing ? roleInfo &&  roleInfo.weaponsmallpiercing === 'noneWk' : combatStats.weaponsmallpiercing === 'noneWk'"
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -611,14 +620,16 @@
             <td>Range, Distance
             </td>
             <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.rangedistance === 'majSt' ? 'checkmark-role-background' : ''"
+              <mat-checkbox
+                [ngClass]="roleInfo && roleInfo.rangedistance === 'majSt' ? 'checkmark-role-background' : ''"
                 (change)="checkOtherStat('rangedistance', 'majSt', $event)"
                 [checked]="!combatStats.rangedistance ? roleInfo && roleInfo.rangedistance === 'majSt' : combatStats.rangedistance === 'majSt'"
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo && roleInfo.rangedistance !== 'majSt'"></mat-checkbox>
             </td>
             <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.rangedistance === 'minSt' ? 'checkmark-role-background' : ''"
+              <mat-checkbox
+                [ngClass]="roleInfo && roleInfo.rangedistance === 'minSt' ? 'checkmark-role-background' : ''"
                 (change)="checkOtherStat('rangedistance', 'minSt', $event)"
                 [checked]="!combatStats.rangedistance ? roleInfo && roleInfo.rangedistance === 'minSt' : combatStats.rangedistance === 'minSt'"
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -633,21 +644,24 @@
               </mat-checkbox>
             </td>
             <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.rangedistance === 'minWk' ? 'checkmark-role-background' : ''"
+              <mat-checkbox
+                [ngClass]="roleInfo && roleInfo.rangedistance === 'minWk' ? 'checkmark-role-background' : ''"
                 (change)="checkOtherStat('rangedistance', 'minWk', $event)"
                 [checked]="!combatStats.rangedistance ? roleInfo && roleInfo.rangedistance === 'minWk' : combatStats.rangedistance === 'minWk'"
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo && roleInfo.rangedistance !== 'minWk'"></mat-checkbox>
             </td>
             <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.rangedistance === 'majWk' ? 'checkmark-role-background' : ''"
+              <mat-checkbox
+                [ngClass]="roleInfo && roleInfo.rangedistance === 'majWk' ? 'checkmark-role-background' : ''"
                 (change)="checkOtherStat('rangedistance', 'majWk', $event)"
                 [checked]="!combatStats.rangedistance ? roleInfo && roleInfo.rangedistance === 'majWk' : combatStats.rangedistance === 'majWk'"
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo && roleInfo.rangedistance !== 'majWk'"></mat-checkbox>
             </td>
             <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.rangedistance === 'noneWk' ? 'checkmark-role-background' : ''"
+              <mat-checkbox
+                [ngClass]="roleInfo && roleInfo.rangedistance === 'noneWk' ? 'checkmark-role-background' : ''"
                 (change)="checkOtherStat('rangedistance', 'noneWk', $event)"
                 [checked]="!combatStats.rangedistance ? roleInfo && roleInfo.rangedistance === 'noneWk' : combatStats.rangedistance === 'noneWk'"
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -705,7 +719,7 @@
         </tbody>
       </table>
       <button class="trash-button" mat-raised-button (click)="removeCallback(index)" color="warn"><i
-        class="fa-solid fa-trash"></i></button>
+          class="fa-solid fa-trash"></i></button>
     </div>
   </div>
 </div>

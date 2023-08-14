@@ -144,7 +144,7 @@ export class BeastViewGmComponent implements OnInit {
   determineIfCharacteristicsShouldBeShown = () => {
     if (!this.selectedRoleId) {
       this.showDescriptions = this.beast.conflict.descriptions.length > 0
-      this.showConvictions = this.beast.conflict.convictions.length > 0 
+      this.showConvictions = this.beast.conflict.convictions.length > 0
       this.showDevotions = this.beast.conflict.devotions.length > 0
       this.showFlaws = this.beast.conflict.flaws.length > 0
     } else {
@@ -152,7 +152,7 @@ export class BeastViewGmComponent implements OnInit {
       this.showConvictions = false
       this.showDevotions = false
       this.showFlaws = false
-      
+
       for (let i = 0; i < this.beast.conflict.descriptions.length; i++) {
         if (this.beast.conflict.descriptions[i].socialroleid === this.selectedRoleId || this.beast.conflict.descriptions[i].allroles) {
           this.showDescriptions = true
@@ -242,48 +242,8 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   setDisplayVitality = () => {
-    let vitality = null
-    let role = null
-    let secondaryrole = null
-
-    if (this.selectedRoleId) {
-      vitality = this.beast.roleInfo[this.selectedRoleId].vitality
-      role = this.beast.roleInfo[this.selectedRoleId].role
-      secondaryrole = this.beast.roleInfo[this.selectedRoleId].secondaryrole
-    } else {
-      vitality = this.beast.vitality
-      role = this.beast.role
-      secondaryrole = this.beast.secondaryrole
-    }
-
-    if (role && !vitality) {
-      this.isDefaultVitality = true
-      vitality = this.combatRolesInfo[role].vitality
-    } else if (this.selectedRoleId && !role && !vitality && this.beast.vitality) {
-      this.isDefaultVitality = false
-      vitality = this.beast.vitality
-    } else if (!role && !vitality) {
-      this.isDefaultVitality = false
-      vitality = 0
-    }
-
-    this.displayVitalityAverage = this.calculatorService.calculateAverageOfDice(vitality)
-    if (secondaryrole === 'Fodder') {
-      this.isFodderSecondary = true
-      this.displayVitalityAverage = Math.ceil(this.displayVitalityAverage / 2)
-    } else {
-      this.isFodderSecondary = false
-    }
-    this.displayVitalityDice = vitality
-    this.displayedVitalityRoll = this.calculatorService.rollDice(vitality)
-    if (secondaryrole === 'Fodder') {
-      this.isFodderSecondary = true
-      this.displayedVitalityRoll = Math.ceil(this.displayedVitalityRoll / 2)
-    }
-    this.trauma = +(this.displayVitalityAverage / 2).toFixed(0)
-
-    this.displayedFatigue = this.displayService.getLetterFatigue(this.beast, this.selectedRoleId, roles)
-    this.getNumberFatigue(this.displayedFatigue);
+    this.displayedVitalityRoll = this.calculatorService.rollDice(this.beast.phyiscalAndStress.physical.diceString)
+    this.trauma = +(this.beast.phyiscalAndStress.physical.largeweapons / 2).toFixed(0)
   }
 
   setMonsterNumber = (event) => {
@@ -711,13 +671,13 @@ export class BeastViewGmComponent implements OnInit {
   handleReagentPrice(harvest, difficulty) {
     if (!difficulty || difficulty.toUpperCase() === 'N/A') {
       difficulty = '0'
-    } 
+    }
     if (harvest && harvest.toUpperCase() === 'N/A') {
       harvest = '0'
     } else if (!harvest) {
       harvest = difficulty
     }
-    
+
     let harvestAndDifficulty = this.calculatorService.calculateAverageOfDice(harvest + "+" + difficulty)
       , justDifficulty = this.calculatorService.calculateAverageOfDice(difficulty + "+" + difficulty)
       , price;
@@ -789,7 +749,7 @@ export class BeastViewGmComponent implements OnInit {
     }
   }
 
-  setGroupParam (event) {
+  setGroupParam(event) {
     this.groupId = event.value
     this.getRandomEncounter()
   }

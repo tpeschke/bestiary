@@ -36,22 +36,18 @@ const sizeDictionary = {
     Giant: 55,
     Enormous: 90,
     Colossal: 145
-  }
+}
 
 const combatSquareController = {
-    getSquare: (req, res) => {
-        const combatStats = req.body.combatStats
-        const points = req.body.points
-        const size = req.body.size
-
-        const weaponType = getWeaponType(combatStats, roles.combatRoles.primary[req.body.role])
+    getSquareDirectly: ({ combatStats, points, size, role }) => {
+        const weaponType = getWeaponType(combatStats, roles.combatRoles.primary[role])
 
         let roleInfo = noRole;
-        if (req.body.role) {
+        if (role) {
             if (weaponType === 'r') {
-                roleInfo = roles.combatRoles.primary[req.body.role].rangedCombatStats
+                roleInfo = roles.combatRoles.primary[role].rangedCombatStats
             } else {
-                roleInfo = roles.combatRoles.primary[req.body.role].meleeCombatStats
+                roleInfo = roles.combatRoles.primary[role].meleeCombatStats
             }
         }
         const damageAndRecovery = setDamageDice(combatStats, roleInfo, points)
@@ -76,25 +72,32 @@ const combatSquareController = {
             defaultweaponname: getDefaultName(combatStats)
         }
 
-        res.send(combatSquare)
+        return combatSquare
+    },
+    getSquare: (req, res) => {
+        res.send(combatSquareController.getSquareDirectly(req.body))
+    },
+    getMovementDirectly: ( movement ) => {
+        let roleInfo = noRole;
+        if (movement.role) {
+            roleInfo = roles.combatRoles.primary[movement.role].meleeCombatStats.movement
+        }
+        const {points} = movement
+        const strollspeed = Math.ceil(getMovementStats(movement.strollstrength, roleInfo, points))
+            , walkspeed = Math.ceil(getMovementStats(movement.walkstrength, roleInfo, points) + strollspeed)
+            , jogspeed = Math.ceil(getMovementStats(movement.jogstrength, roleInfo, points) * 2 + walkspeed)
+            , runspeed = Math.ceil(getMovementStats(movement.runstrength, roleInfo, points) * 2 + jogspeed)
+            , sprintspeed = Math.ceil(getMovementStats(movement.sprintstrength, roleInfo, points) * 2 + runspeed)
+        
+        return { ...movement, movementSpeeds: {strollspeed, walkspeed, jogspeed, runspeed, sprintspeed} }
     },
     getMovement: (req, res) => {
-        const { points, movements, role } = req.body
-        const newMovements = movements.map(movement => {
-            const strollspeed = Math.ceil(getMovementStats(movement.strollstrength, null, points))
-                , walkspeed = Math.ceil(getMovementStats(movement.walkstrength, null, points) + strollspeed)
-                , jogspeed = Math.ceil(getMovementStats(movement.jogstrength, null, points) * 2 + walkspeed)
-                , runspeed = Math.ceil(getMovementStats(movement.runstrength, null, points) * 2 + jogspeed)
-                , sprintspeed = Math.ceil(getMovementStats(movement.sprintstrength, null, points) * 2 + runspeed)
-
-            return { ...movement, movementSpeeds: { strollspeed, walkspeed, jogspeed, runspeed, sprintspeed } }
-        })
-
+        const newMovements = req.body.movements.map(movement => combatSquareController.getMovementDirectly(movement))
         res.send(newMovements)
     },
     setVitalityAndStressDirectly: (points, role, combatStats, secondaryrole, knockback, size, armor, shield) => {
         const baseRoleInfo = role ? roles.combatRoles.primary[role].meleeCombatStats : noRole
-    
+
         let sizeMod
         if (knockback) {
             sizeMod = knockback
@@ -103,7 +106,7 @@ const combatSquareController = {
         } else {
             sizeMod = sizeDictionary.Medium
         }
-        
+
         let mental = setStressAndPanic(combatStats, baseRoleInfo, points)
         let physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield)
         deteremineVitalityDice(physical, sizeMod)
@@ -432,7 +435,7 @@ getModifiedMeasure = (combatStats, roleInfo, points, size) => {
         Enormous: 4,
         Colossal: 5
     }
-    
+
     if (!combatStats.addsizemod) {
         return modifiedStat
     }
