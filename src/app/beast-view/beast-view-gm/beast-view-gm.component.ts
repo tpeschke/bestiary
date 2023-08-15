@@ -112,7 +112,6 @@ export class BeastViewGmComponent implements OnInit {
 
       this.determineIfSkillsShouldBeShown()
       this.determineIfCharacteristicsShouldBeShown()
-      this.convertPanic()
       this.setDisplayVitality()
       this.setLocationalVitality()
 
@@ -779,10 +778,7 @@ export class BeastViewGmComponent implements OnInit {
     this.determineIfSkillsShouldBeShown()
     this.determineIfCharacteristicsShouldBeShown()
 
-    this.displayedFatigue = this.displayService.getLetterFatigue(this.beast, this.selectedRoleId, roles)
-    this.getNumberFatigue(this.displayedFatigue);
     this.setDisplayVitality()
-    this.convertPanic()
   }
 
   addToQuickView() {
@@ -791,73 +787,6 @@ export class BeastViewGmComponent implements OnInit {
       hash = this.beast.roleInfo[this.selectedRoleId].hash
     }
     this.quickViewService.addToQuickViewArray(hash)
-  }
-
-  convertPanic() {
-    let stress
-    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].stress) {
-      stress = this.beast.roleInfo[this.selectedRoleId].stress
-    } else if ((this.selectedRoleId && !this.beast.roleInfo[this.selectedRoleId].stress) || !this.selectedRoleId) {
-      stress = this.beast.stress
-    }
-    let panic
-    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].panic) {
-      panic = this.beast.roleInfo[this.selectedRoleId].panic
-    } else if ((this.selectedRoleId && !this.beast.roleInfo[this.selectedRoleId].panic) || !this.selectedRoleId) {
-      panic = this.beast.panic
-    }
-
-    switch (panic) {
-      case 1:
-        this.displayedPanic = 'Always';
-        break;
-      case 2:
-        this.displayedPanic = 'Unsure';
-        break;
-      case 3:
-        this.displayedPanic = 'Nervous';
-        break;
-      case 4:
-        this.displayedPanic = 'Shaken';
-        break;
-      case 5:
-        this.displayedPanic = 'Breaking'
-        break;
-      case 7:
-        this.displayedPanic = 'Never'
-      default: panic
-    }
-
-    this.numberPanic = this.displayService.convertPanic(stress, panic)
-  }
-
-  getNumberFatigue(displayedFatigue) {
-    if (isNaN(this.displayedVitalityRoll)) {
-      this.numberFatigue = 'N'
-    }
-    switch (displayedFatigue) {
-      case 'Always':
-        this.numberFatigue = 'A'
-        break;
-      case 'H':
-        this.numberFatigue = 1
-        break
-      case 'B':
-        this.numberFatigue = (this.displayedVitalityRoll * .25).toFixed(0)
-        break;
-      case 'W':
-        this.numberFatigue = (this.displayedVitalityRoll * .5).toFixed(0)
-        break;
-      case 'C':
-        this.numberFatigue = (this.displayedVitalityRoll * .75).toFixed(0)
-        break;
-      case 'Never':
-      case 'N':
-        this.numberFatigue = 'N'
-        break;
-      default:
-        this.numberFatigue = (this.displayedVitalityRoll * .75).toFixed(0)
-    }
   }
 
   toggleEquipmentSelection = (square) => {
@@ -869,7 +798,7 @@ export class BeastViewGmComponent implements OnInit {
       this.newArmorInfo = square.armorInfo
       this.newSelectedShield = square.selectedshield
       this.newShieldInfo = square.shieldInfo
-      this.showAllEquipment = this.displayService.turnOnAllEquipment(this.beast.roleInfo, this.newSelectedWeapon, this.newSelectedArmor, this.newSelectedShield)
+      // this.showAllEquipment = this.displayService.turnOnAllEquipment(this.beast.roleInfo, this.newSelectedWeapon, this.newSelectedArmor, this.newSelectedShield)
     } else if (square.showEquipmentSelection) {
       square.selectedweapon = this.newSelectedWeapon
 

@@ -606,24 +606,6 @@ module.exports = {
             }
             return result
           }))
-          // promiseArray.push(db.get.beastcombat(id).then(result => {
-          //   let specialAbilities = {}
-          //   beast.combat = result.map(weapon => {
-          //     let newWeaponInfo = {
-          //       newDR: {}, newShieldDr: {}, newDR: {}, showEquipmentSelection: false
-          //     }
-          //     newWeaponInfo.newDR = processDR(weapon.dr, weapon.flat, weapon.slash)
-          //     newWeaponInfo.newShieldDr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash)
-          //     newWeaponInfo.newDamage = processDamage(weapon.damage, weapon.isspecial, weapon.hasspecialanddamage)
-
-          //     }
-          //     role = 'generic'
-          //     if (weapon.roleid) {
-          //       role = weapon.roleid
-          //     }
-
-          //   return result
-          // }))
 
           if (req.query.edit !== 'true') {
             beast.conflict.devotions.forEach(val => {
