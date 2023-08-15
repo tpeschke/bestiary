@@ -55,7 +55,7 @@ const combatSquareController = {
 
         let combatSquare = {
             weaponType,
-            attack: getModifiedStatsRounded('attack', combatStats, roleInfo, points),
+            attack: damageAndRecovery.recovery ? getModifiedStatsRounded('attack', combatStats, roleInfo, points) : '',
             recovery: damageAndRecovery.recovery ? damageAndRecovery.recovery : getRecoveryForSpecial(combatStats, roleInfo, points),
             initiative: getModifiedStatsRounded('initiative', combatStats, roleInfo, points) + initMod,
             defense: getDefense(combatStats, roleInfo, points, size),
@@ -63,7 +63,7 @@ const combatSquareController = {
             damageType: damageAndRecovery.damageType,
             dr: getBaseDR(combatStats, roleInfo, points),
             shieldDr: getParryDR(combatStats, roleInfo, points),
-            measure: getModifiedMeasure(combatStats, roleInfo, points, size),
+            measure: damageAndRecovery.recovery ? getModifiedMeasure(combatStats, roleInfo, points, size) : '',
             range: getModifiedWithWeapon('rangedistance', combatStats, roleInfo, 'range', points),
             damage: damageAndRecovery.damageString,
             parry: getModifiedParry(combatStats, roleInfo, points),
@@ -100,7 +100,7 @@ const combatSquareController = {
 
         let sizeMod
         if (knockback) {
-            sizeMod = knockback
+            sizeMod = +knockback
         } else if (size) {
             sizeMod = sizeDictionary[size]
         } else {
@@ -121,6 +121,9 @@ const combatSquareController = {
 }
 
 getRecoveryForSpecial = (combatStats, roleInfo, points) => {
+    if (combatStats.showonlydefenses) {
+        return ''
+    }
     return setModifiedRecovery(10, combatStats, roleInfo, points)
 }
 
@@ -231,12 +234,13 @@ deteremineVitalityDice = (physical, sizeMod) => {
                 physical.diceString = `d4 + ${sizeMod}`
             }
         } else {
-            physical.diceString = physical.largeweapons
+            physical.diceString = `${physical.largeweapons - sizeMod} + ${sizeMod}`
         }
     } else {
-        physical.diceString = physical.largeweapons
+        physical.largeweapons = sizeMod
+        physical.diceString = `0 + ${sizeMod}`
     }
-    return physical
+    return 'Something went wrong'
 }
 
 getStatScaling = function (stat) {
@@ -544,6 +548,11 @@ setWeaponDamage = (combatStats, roleInfo, points) => {
         return false
     }
 
+    if (combatStats.showonlydefenses) {
+        damageString = ''
+        return false
+    }
+
     let scalingStrength = getWeaponScalingStrength(combatStats, roleInfo)
 
     damageType = equipmentController.getWeapon(combatStats.weapon).type
@@ -630,6 +639,10 @@ setWeaponDamage = (combatStats, roleInfo, points) => {
 setNoWeaponDamage = (combatStats, roleInfo, points) => {
     if (combatStats.isspecial === 'yes') {
         damageString = '*'
+        return false
+    }
+    if (combatStats.showonlydefenses) {
+        damageString = ''
         return false
     }
 

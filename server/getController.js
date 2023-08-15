@@ -599,7 +599,7 @@ module.exports = {
                 shield = beast.combatStatArray[0].shield
               }
 
-              beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, beast.role, { panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons }, beast.secondary, null, beast.size ? beast.size : 'Medium', armor, shield)
+              beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, beast.role, { panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons }, beast.secondaryrole, null, beast.size ? beast.size : 'Medium', armor, shield)
               for (let role in beast.roleInfo) {
                 beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, beast.roleInfo[role].role, { panic: beast.roleInfo[role].panicstrength, caution: beast.roleInfo[role].cautionstrength, fatigue: beast.roleInfo[role].fatiguestrength, largeweapons: beast.roleInfo[role].largeweapons }, beast.roleInfo[role].secondary, null, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
               }

@@ -751,7 +751,7 @@
               <br>
               <mat-form-field>
                 <input placeholder="Knock Back Threshold" matInput
-                  [value]="beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].knockback ? beast.roleInfo[selectedRoleId].knockback : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].size ? sizeDictionary[beast.roleInfo[selectedRoleId].size] : 15"
+                  [value]="beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].knockback ? beast.roleInfo[selectedRoleId].knockback : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].size ? sizeDictionary[beast.roleInfo[selectedRoleId].size] : beast.knockback ? beast.knockback : sizeDictionary[beast.size] ? sizeDictionary[beast.size] : null"
                   (change)="captureBasicInput($event, 'knockback')">
               </mat-form-field>
 

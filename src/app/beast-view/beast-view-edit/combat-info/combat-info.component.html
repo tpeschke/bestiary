@@ -51,6 +51,8 @@
       <mat-checkbox (change)="checkBasicStatOnOff('addsizemod', $event)" [checked]="combatStats.addsizemod">Add Size
         Modifier</mat-checkbox>
 
+      <mat-checkbox (change)="checkBasicStatOnOff('showonlydefenses', $event)" [checked]="combatStats.showonlydefenses">Show Only Defenses</mat-checkbox>
+
       <mat-form-field>
         <input placeholder="Weapon" matInput [value]="combatStats.weapon" [matAutocomplete]="weaponGroup"
           [formControl]="weaponControl">

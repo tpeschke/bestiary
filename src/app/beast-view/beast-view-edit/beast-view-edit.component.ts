@@ -1039,6 +1039,7 @@ export class BeastViewEditComponent implements OnInit {
         rangedistance: null,
         recovery: null,
         isspecial: null,
+        showonlydefenses: false,
         eua: false,
         addsizemod: true,
         weapon: null,
@@ -1150,6 +1151,7 @@ export class BeastViewEditComponent implements OnInit {
       role.mental = roleInfo.mental
       role.panic = roleInfo.panic
       role.combatpoints = roleInfo.combatpoints
+      role.knockback = roleInfo.knockback
       return role
     })
 

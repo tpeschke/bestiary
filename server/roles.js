@@ -52,41 +52,6 @@ module.exports = {
                     mental: 'minWk',
                     largeweapons: 'minWk',
                 },
-                spdbonus: 3,
-                vitality: '1d10 + 25',
-                fatigue: 'C',
-                def: 0,
-                dr: {
-                    flat: 0,
-                    slash: 0
-                },
-                parry: 0,
-                shield_dr: {
-                    flat: 0,
-                    slash: 0
-                },
-                damage: {
-                    dice: ['2d4!'],
-                    flat: 0
-                },
-                rangedDamage: {
-                    dice: ['2d10!'],
-                    flat: 0
-                },
-                atk: 0,
-                rangedAtk: 5,
-                spd: 20,
-                measure: 1,
-                ranges: {
-                    increment: 100
-                },
-                stressThreshold: 30,
-                panic: 25,
-                caution: 10,
-                init: 0,
-                combatpointsmelee: 0,
-                combatpointsranged: 0,
-                damagebonus: 2,
                 weapons: [
                     {
                         label: 'Ranged',
@@ -151,39 +116,6 @@ module.exports = {
                     movement: 'majWk',
                     mental: 'minWk'
                 },
-                spdbonus: 2,
-                vitality: '2d20 + 60',
-                fatigue: 'W',
-                def: -4,
-                dr: {
-                    flat: 3,
-                    slash: 1
-                },
-                parry: 0,
-                shield_dr: {
-                    flat: 0,
-                    slash: 0
-                },
-                damage: {
-                    dice: ['3d8!'],
-                    flat: 0
-                },
-                rangedDamage: {
-                    dice: [],
-                    flat: 0
-                },
-                atk: 4,
-                rangedAtk: 0,
-                spd: 15,
-                measure: 2,
-                ranges: {
-                    increment: 0
-                },
-                stressThreshold: 30,
-                panic: 25,
-                caution: 20,
-                init: 0,
-                damagebonus: 1,
                 weapons: [
                     {
                         label: 'Axes',
@@ -260,39 +192,6 @@ module.exports = {
                     movement: 'minWk',
                     mental: null
                 },
-                spdbonus: 0,
-                vitality: '(1d10 *4) + 20',
-                fatigue: 'C',
-                def: -3,
-                dr: {
-                    flat: 2,
-                    slash: 2
-                },
-                parry: 7,
-                shield_dr: {
-                    flat: 2,
-                    slash: 2
-                },
-                damage: {
-                    dice: ['4d3!'],
-                    flat: 0
-                },
-                rangedDamage: {
-                    dice: [],
-                    flat: 0
-                },
-                atk: 0,
-                rangedAtk: 0,
-                spd: 12,
-                measure: 2,
-                ranges: {
-                    increment: 0
-                },
-                stressThreshold: 40,
-                panic: 50,
-                caution: 30,
-                init: 0,
-                damagebonus: -1,
                 weapons: [
                     {
                         label: 'Polearms',
@@ -361,39 +260,6 @@ module.exports = {
                     movement: null,
                     mental: null
                 },
-                spdbonus: -3,
-                vitality: '1d10 + 25',
-                fatigue: 'C',
-                def: 0,
-                dr: {
-                    flat: 3,
-                    slash: 0
-                },
-                parry: 4,
-                shield_dr: {
-                    flat: 0,
-                    slash: 2
-                },
-                damage: {
-                    dice: ['2d6!'],
-                    flat: 0
-                },
-                rangedDamage: {
-                    dice: [],
-                    flat: 0
-                },
-                atk: 1,
-                rangedAtk: 0,
-                spd: 5,
-                measure: 2,
-                ranges: {
-                    increment: 0
-                },
-                stressThreshold: 40,
-                panic: 50,
-                caution: 20,
-                init: 0,
-                damagebonus: 0,
                 weapons: [
                     {
                         label: 'Polearms',
@@ -466,39 +332,6 @@ module.exports = {
                     movement: null,
                     mental: null
                 },
-                spdbonus: -1,
-                vitality: '1d10 + 25',
-                fatigue: 'C',
-                def: 0,
-                dr: {
-                    flat: 0,
-                    slash: 0
-                },
-                parry: 0,
-                shield_dr: {
-                    flat: 0,
-                    slash: 0
-                },
-                damage: {
-                    dice: ['3d6!'],
-                    flat: 0
-                },
-                rangedDamage: {
-                    dice: [],
-                    flat: 0
-                },
-                atk: -2,
-                rangedAtk: 0,
-                spd: 7,
-                measure: 0,
-                ranges: {
-                    increment: 0
-                },
-                stressThreshold: 30,
-                panic: 25,
-                caution: 10,
-                init: 0,
-                damagebonus: 2,
                 weapons: [
                     {
                         label: 'Sidearms',
@@ -563,39 +396,6 @@ module.exports = {
                     movement: 'minSt',
                     mental: 'majWk'
                 },
-                spdbonus: 4,
-                vitality: '(1d10 * 4) + 20',
-                fatigue: "C",
-                def: -4,
-                dr: {
-                    flat: 0,
-                    slash: 0
-                },
-                parry: 0,
-                shield_dr: {
-                    flat: 0,
-                    slash: 0
-                },
-                damage: {
-                    dice: ['2d12!'],
-                    flat: 0
-                },
-                rangedDamage: {
-                    dice: [],
-                    flat: 0
-                },
-                atk: 2,
-                rangedAtk: 0,
-                spd: 20,
-                measure: 5.5,
-                ranges: {
-                    increment: 0
-                },
-                stressThreshold: 30,
-                panic: 25,
-                caution: 20,
-                init: 0,
-                damagebonus: 3,
                 weapons: [
                     {
                         label: 'Axes',
@@ -672,39 +472,6 @@ module.exports = {
                     movement: 'majSt',
                     mental: 'minSt'
                 },
-                spdbonus: 0,
-                vitality: '1d10 + 25',
-                fatigue: 'C',
-                def: 0,
-                dr: {
-                    flat: 0,
-                    slash: 0
-                },
-                parry: 0,
-                shield_dr: {
-                    flat: 0,
-                    slash: 0
-                },
-                damage: {
-                    dice: ['3d3!'],
-                    flat: 0
-                },
-                rangedDamage: {
-                    dice: ['4d3!'],
-                    flat: 0
-                },
-                atk: 0,
-                rangedAtk: 2,
-                spd: 11,
-                measure: 1,
-                ranges: {
-                    increment: 15
-                },
-                stressThreshold: 30,
-                panic: 25,
-                caution: 20,
-                init: 0,
-                damagebonus: 0,
                 weapons: [
                     {
                         label: 'Axes',
@@ -726,6 +493,6 @@ module.exports = {
                 armor: ['Gambeson', 'Leather'],
                 shields: ['Buckler'],
             }
-        }
+        },
     }
 }
