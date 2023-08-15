@@ -552,29 +552,60 @@ module.exports = {
             if (req.query.edit === 'true') {
               beast.combatStatArray = result
             } else {
+              let specialAbilities = {}
               beast.combatStatArray = result.map(combatSquare => {
                 const points = combatSquare.roleid ? beast.roleInfo[combatSquare.roleid].combatpoints : beast.combatpoints
                 const size = combatSquare.roleid && beast.roleInfo[combatSquare.roleid].size ? beast.roleInfo[combatSquare.roleid].size : beast.size ? beast.size : 'Medium'
                 const role = combatSquare.roleid ? beast.roleInfo[combatSquare.roleid].role : beast.role
                 let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points, size, role })
+
+                let equipmentInfo = {}
+                if (combatSquare.weapon) {
+                  equipmentInfo.weaponInfo = equipmentCtrl.getWeapon(combatSquare.weapon)
+                }
+                if (combatSquare.armor) {
+                  equipmentInfo.armorInfo = equipmentCtrl.getArmor(combatSquare.armor)
+                }
+                if (combatSquare.shield) {
+                  equipmentInfo.shieldInfo = equipmentCtrl.getShield(combatSquare.shield)
+                }
+
+                if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong && (!combatSquare.weapon || combatSquare.weapon.includes(equipmentInfo.weaponInfo.name))) {
+                  if (!specialAbilities[combatSquare.roleid]) {
+                    specialAbilities[combatSquare.roleid] = []
+                  }
+                  specialAbilities[combatSquare.roleid].push(equipmentInfo.weaponInfo.bonusLong)
+                }
+                if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong && (!combatSquare.shield || combatSquare.shield.includes(equipmentInfo.shieldInfo.name))) {
+                  if (!specialAbilities[combatSquare.roleid]) {
+                    specialAbilities[combatSquare.roleid] = []
+                  }
+                  specialAbilities[combatSquare.roleid].push(equipmentInfo.shieldInfo.bonusLong)
+                }
+
                 return { ...fullCombatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, weaponname: combatSquare.weaponname }
               })
-  
+
+              for (const key in specialAbilities) {
+                let deduped = specialAbilities[key].filter((c, index) => specialAbilities[key].indexOf(c) === index)
+                specialAbilities[key] = deduped
+              }
+              beast.specialAbilities = specialAbilities;
+
               let armor = null
-              , shield = null
+                , shield = null
               if (beast.combatStatArray[0]) {
                 armor = beast.combatStatArray[0].armor
                 shield = beast.combatStatArray[0].shield
               }
-  
+
               beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, beast.role, { panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons }, beast.secondary, null, beast.size ? beast.size : 'Medium', armor, shield)
               for (let role in beast.roleInfo) {
-                beast.roleInfo[role].phyiscalAndStress =  combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, beast.roleInfo[role].role, { panic: beast.roleInfo[role].panicstrength, caution: beast.roleInfo[role].cautionstrength, fatigue: beast.roleInfo[role].fatiguestrength, largeweapons: beast.roleInfo[role].largeweapons }, beast.roleInfo[role].secondary, null, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
+                beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, beast.roleInfo[role].role, { panic: beast.roleInfo[role].panicstrength, caution: beast.roleInfo[role].cautionstrength, fatigue: beast.roleInfo[role].fatiguestrength, largeweapons: beast.roleInfo[role].largeweapons }, beast.roleInfo[role].secondary, null, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
               }
             }
             return result
           }))
-          beast.specialAbilities = {}
           // promiseArray.push(db.get.beastcombat(id).then(result => {
           //   let specialAbilities = {}
           //   beast.combat = result.map(weapon => {
@@ -584,40 +615,13 @@ module.exports = {
           //     newWeaponInfo.newDR = processDR(weapon.dr, weapon.flat, weapon.slash)
           //     newWeaponInfo.newShieldDr = processDR(weapon.shield_dr, weapon.shieldflat, weapon.shieldslash)
           //     newWeaponInfo.newDamage = processDamage(weapon.damage, weapon.isspecial, weapon.hasspecialanddamage)
-          //     let equipmentInfo = {}
-          //     if (weapon.selectedweapon) {
-          //       equipmentInfo.weaponInfo = equipmentCtrl.getWeapon(weapon.selectedweapon)
-          //     }
-          //     if (weapon.selectedarmor) {
-          //       equipmentInfo.armorInfo = equipmentCtrl.getArmor(weapon.selectedarmor)
-          //     }
-          //     if (weapon.selectedshield) {
-          //       equipmentInfo.shieldInfo = equipmentCtrl.getShield(weapon.selectedshield)
+
           //     }
           //     role = 'generic'
           //     if (weapon.roleid) {
           //       role = weapon.roleid
           //     }
 
-          //     if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong && (!weapon.weapon || weapon.weapon.includes(equipmentInfo.weaponInfo.name))) {
-          //       if (!specialAbilities[role]) {
-          //         specialAbilities[role] = []
-          //       }
-          //       specialAbilities[role].push(equipmentInfo.weaponInfo.bonusLong)
-          //     }
-          //     if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong && (!weapon.weapon || weapon.weapon.includes(equipmentInfo.shieldInfo.name))) {
-          //       if (!specialAbilities[role]) {
-          //         specialAbilities[role] = []
-          //       }
-          //       specialAbilities[role].push(equipmentInfo.shieldInfo.bonusLong)
-          //     }
-          //     return { ...weapon, ...newWeaponInfo, ...equipmentInfo }
-          //   })
-          //   for (const key in specialAbilities) {
-          //     let deduped = specialAbilities[key].filter((c, index) => specialAbilities[key].indexOf(c) === index)
-          //     specialAbilities[key] = deduped
-          //   }
-          //   beast.specialAbilities = specialAbilities;
           //   return result
           // }))
 
