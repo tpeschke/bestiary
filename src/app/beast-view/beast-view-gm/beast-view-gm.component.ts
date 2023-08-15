@@ -242,8 +242,13 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   setDisplayVitality = () => {
-    this.displayedVitalityRoll = this.calculatorService.rollDice(this.beast.phyiscalAndStress.physical.diceString)
-    this.trauma = +(this.beast.phyiscalAndStress.physical.largeweapons / 2).toFixed(0)
+    if (this.selectedRoleId) {
+      this.displayedVitalityRoll = this.calculatorService.rollDice(this.beast.roleInfo[this.selectedRoleId].phyiscalAndStress.physical.diceString)
+      this.trauma = +(this.beast.roleInfo[this.selectedRoleId].phyiscalAndStress.physical.largeweapons / 2).toFixed(0)
+    } else {
+      this.displayedVitalityRoll = this.calculatorService.rollDice(this.beast.phyiscalAndStress.physical.diceString)
+      this.trauma = +(this.beast.phyiscalAndStress.physical.largeweapons / 2).toFixed(0)
+    }
   }
 
   setMonsterNumber = (event) => {

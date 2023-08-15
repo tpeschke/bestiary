@@ -520,7 +520,7 @@ let controllerObj = {
       environ.forEach(val => {
         promiseArray.push(db.add.beastenviron(id, val.environid).then().catch(e => console.log('----------------------- add beast environ: ', e)))
       })
-
+// COMBAT STAT ADD
       promiseArray.push(db.delete.combatStats([id, [0, ...combatStatArray.map(combatStat => combatStat.id)]]).then(_ => {
         return combatStatArray.map(({ id: uniqueid, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,
           weaponsmallcrushing, weaponsmallpiercing, andslashing, andcrushing, flanks, rangeddefence, alldefense, allaround, armorandshields,

@@ -1149,6 +1149,7 @@ export class BeastViewEditComponent implements OnInit {
       role.largeweapons = roleInfo.largeweapons
       role.mental = roleInfo.mental
       role.panic = roleInfo.panic
+      role.combatpoints = roleInfo.combatpoints
       return role
     })
 

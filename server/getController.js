@@ -549,15 +549,29 @@ module.exports = {
           }))
 
           finalPromise.push(db.get.combatStatArray(id).then(result => {
-            beast.combatStatArray = result.map(combatSquare => {
-              const points = combatSquare.roleid ? beast.roleInfo[combatSquare.roleid].combatpoints : beast.combatpoints
-              const size = combatSquare.roleid && beast.roleInfo[combatSquare.roleid].size ? beast.roleInfo[combatSquare.roleid].size : beast.size ? beast.size : 'Medium'
-              const role = combatSquare.roleid ? beast.roleInfo[combatSquare.roleid].role : beast.role
-              let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points, size, role })
-              return { ...fullCombatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, weaponname: combatSquare.weaponname }
-            })
-
-            beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, beast.role, { panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons }, beast.secondary, null, beast.size ? beast.size : 'Medium', beast.combatStatArray[0].armor, beast.combatStatArray[0].shield)
+            if (req.query.edit === 'true') {
+              beast.combatStatArray = result
+            } else {
+              beast.combatStatArray = result.map(combatSquare => {
+                const points = combatSquare.roleid ? beast.roleInfo[combatSquare.roleid].combatpoints : beast.combatpoints
+                const size = combatSquare.roleid && beast.roleInfo[combatSquare.roleid].size ? beast.roleInfo[combatSquare.roleid].size : beast.size ? beast.size : 'Medium'
+                const role = combatSquare.roleid ? beast.roleInfo[combatSquare.roleid].role : beast.role
+                let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points, size, role })
+                return { ...fullCombatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, weaponname: combatSquare.weaponname }
+              })
+  
+              let armor = null
+              , shield = null
+              if (beast.combatStatArray[0]) {
+                armor = beast.combatStatArray[0].armor
+                shield = beast.combatStatArray[0].shield
+              }
+  
+              beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, beast.role, { panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons }, beast.secondary, null, beast.size ? beast.size : 'Medium', armor, shield)
+              for (let role in beast.roleInfo) {
+                beast.roleInfo[role].phyiscalAndStress =  combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, beast.roleInfo[role].role, { panic: beast.roleInfo[role].panicstrength, caution: beast.roleInfo[role].cautionstrength, fatigue: beast.roleInfo[role].fatiguestrength, largeweapons: beast.roleInfo[role].largeweapons }, beast.roleInfo[role].secondary, null, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
+              }
+            }
             return result
           }))
           beast.specialAbilities = {}
