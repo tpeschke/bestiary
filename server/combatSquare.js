@@ -109,7 +109,12 @@ const combatSquareController = {
         let mental = setStressAndPanic(combatStats, baseRoleInfo, points)
         let physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield)
         deteremineVitalityDice(physical, sizeMod)
-        let caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
+        let caution
+        if (mental.stress === 'N' || physical.largeweapons === 'N') {
+            caution = 'N'
+        } else {
+            caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
+        }
 
         return { mental: { ...mental, caution }, physical: { ...physical } }
     },
@@ -155,9 +160,13 @@ setStressAndPanic = (combatStats, baseRoleInfo, combatpoints) => {
     mental.stress = getModifiedStats('mental', combatStats, baseRoleInfo, combatpoints)
     let panic = getModifiedStats('panic', combatStats, baseRoleInfo, combatpoints)
     if (panic > 1) {
-        panic = 1
+        panic = 1.1
     }
-    mental.panic = Math.floor(panic * mental.stress)
+    if (mental.stress === 'N' || panic === 'N') {
+        mental.panic = 'N'
+    } else {
+        mental.panic = Math.floor(panic * mental.stress)
+    }
 
     return mental
 }
@@ -173,21 +182,28 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole,
     }
 
     let fatigue = getModifiedStats('fatigue', combatStats, baseRoleInfo, combatpoints)
-    if (armor) {
-        fatigue += (equipmentController.getArmor(armor).fatigue * -.25)
+    if (fatigue !== 'N') {
+        if (armor) {
+            fatigue += (equipmentController.getArmor(armor).fatigue * -.25)
+        }
+        if (shield) {
+            fatigue += (equipmentController.getShield(shield).fatigue * -.25)
+        }
+        if (fatigue > 1) {
+            fatigue = 1
+        }
+        physical.fatigue = Math.floor(fatigue * physical.largeweapons)
+    } else {
+        physical.fatigue = fatigue
     }
-    if (shield) {
-        fatigue += (equipmentController.getShield(shield).fatigue * -.25)
-    }
-    if (fatigue > 1) {
-        fatigue = 1
-    }
-    physical.fatigue = Math.floor(fatigue * physical.largeweapons)
 
     return physical
 }
 setCaution = (combatStats, baseRoleInfo, combatpoints, mental, physical) => {
     let caution = getModifiedStats('caution', combatStats, baseRoleInfo, combatpoints)
+    if (caution === 'N') {
+        return caution
+    }
     if (caution > 1) {
         caution = 1
     }
@@ -235,6 +251,8 @@ deteremineVitalityDice = (physical, sizeMod) => {
         } else {
             physical.diceString = `${physical.largeweapons - sizeMod} + ${sizeMod}`
         }
+    } else if (physical.largeweapons === 'N') {
+        physical.diceString = `(KB: ${sizeMod})`
     } else {
         physical.largeweapons = sizeMod
         physical.diceString = `0 + ${sizeMod}`
@@ -321,7 +339,9 @@ getArmorOrShieldStat = (stat, ArmorOrShield, weaponKey, combatStats, roleInfo, p
 }
 
 getModifiedStat = (scalingStrength, scaling, points) => {
-    if (scalingStrength === 'noneWk') {
+    if (scalingStrength === 'x') {
+        return 'N'
+    } else if (scalingStrength === 'noneWk') {
         return scaling.scaling.majWk
     } else if (scalingStrength === 'none' || !scalingStrength) {
         return scaling.scaling.none
