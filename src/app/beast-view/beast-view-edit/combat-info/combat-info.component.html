@@ -1,8 +1,10 @@
 <div *ngIf="combatSquare">
   <h3>
-    <input (change)="captureInput($event, 'weaponname')"
-      placeholder="Weapon Name (if blank it will appear as '{{combatSquare.defaultweaponname}}')" matInput
-      [value]="combatStats.weaponname">
+    <mat-form-field>
+      <input (change)="captureInput($event, 'weaponname')"
+        placeholder="Weapon Name (if blank it will appear as '{{combatSquare.defaultweaponname}}')" matInput
+        [value]="combatStats.weaponname">
+    </mat-form-field>
   </h3>
   <div class="combat-stat-shell">
     <div>
