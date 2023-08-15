@@ -2021,7 +2021,7 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     if (this.selectedRoleId) {
-      const roleStat = this.selectedRoleId ? roles.combatRoles.primary[this.selectedRoleId].meleeCombatStats : null
+      const roleStat = this.selectedRoleId ? this.selectedRole.meleeCombatStats : null
       if (roleStat && roleStat[stat] === value) {
         event.source._checked = true
         this.beast.roleInfo[this.selectedRoleId][stat] = null
