@@ -2021,21 +2021,21 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     if (this.selectedRoleId) {
-      if (this.beast.roleInfo[this.selectedRoleId][stat] === value) {
-        event.source._checked = false
-        this.beast.roleInfo[this.selectedRoleId][stat] = null
-      } else if (this.selectedRole[stat] === value || (value === 'none' && !this.selectedRole[stat])) {
+      const roleStat = this.selectedRoleId ? roles.combatRoles.primary[this.selectedRoleId].meleeCombatStats : null
+      if (roleStat && roleStat[stat] === value) {
         event.source._checked = true
+        this.beast.roleInfo[this.selectedRoleId][stat] = null
+      } else if (this.selectedRole[stat] === value) {
         this.beast.roleInfo[this.selectedRoleId][stat] = null
       } else {
         this.beast.roleInfo[this.selectedRoleId][stat] = value
       }
     } else {
-      if (this.beast[stat] === value) {
-        event.source._checked = false
-        this.beast[stat] = null
-      } else if (this.beast[stat] === value || (value === 'none' && !this.beast[stat])) {
+      const roleStat = this.beast.role ? roles.combatRoles.primary[this.beast.role].meleeCombatStats : null
+      if (roleStat && roleStat[stat] === value) {
         event.source._checked = true
+        this.beast[stat] = null
+      } else if (this.beast[stat] === value) {
         this.beast[stat] = null
       } else {
         this.beast[stat] = value

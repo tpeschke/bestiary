@@ -109,12 +109,7 @@ const combatSquareController = {
         let mental = setStressAndPanic(combatStats, baseRoleInfo, points)
         let physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield)
         deteremineVitalityDice(physical, sizeMod)
-        let caution
-        if (mental.stress === 'N' || physical.largeweapons === 'N') {
-            caution = 'N'
-        } else {
-            caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
-        }
+        let caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
 
         return { mental: { ...mental, caution }, physical: { ...physical } }
     },
@@ -207,7 +202,9 @@ setCaution = (combatStats, baseRoleInfo, combatpoints, mental, physical) => {
     if (caution > 1) {
         caution = 1
     }
-    return Math.floor((mental.stress + physical.largeweapons) * caution)
+    const largeweapons = physical.largeweapons === 'N' ? 0 : physical.largeweapons
+    const stress = mental.stress === 'N' ? 0 : mental.stress
+    return Math.floor((stress + largeweapons) * caution)
 }
 deteremineVitalityDice = (physical, sizeMod) => {
     if (physical.largeweapons - sizeMod > 0) {
