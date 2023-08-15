@@ -83,13 +83,13 @@ const combatSquareController = {
             roleInfo = roles.combatRoles.primary[movement.role].meleeCombatStats.movement
         }
         const {points} = movement
-        const strollspeed = Math.ceil(getMovementStats(movement.strollstrength, roleInfo, points))
-            , walkspeed = Math.ceil(getMovementStats(movement.walkstrength, roleInfo, points) + strollspeed)
-            , jogspeed = Math.ceil(getMovementStats(movement.jogstrength, roleInfo, points) * 2 + walkspeed)
-            , runspeed = Math.ceil(getMovementStats(movement.runstrength, roleInfo, points) * 2 + jogspeed)
-            , sprintspeed = Math.ceil(getMovementStats(movement.sprintstrength, roleInfo, points) * 2 + runspeed)
+        let strollspeed = +getMovementStats(movement.strollstrength, roleInfo, points)
+            , walkspeed = +(getMovementStats(movement.walkstrength, roleInfo, points) + strollspeed)
+            , jogspeed = +(getMovementStats(movement.jogstrength, roleInfo, points) * 2 + walkspeed)
+            , runspeed = +(getMovementStats(movement.runstrength, roleInfo, points) * 2 + jogspeed)
+            , sprintspeed = +(getMovementStats(movement.sprintstrength, roleInfo, points) * 2 + runspeed)
         
-        return { ...movement, movementSpeeds: {strollspeed, walkspeed, jogspeed, runspeed, sprintspeed} }
+        return { ...movement, movementSpeeds: {strollspeed: roundToNearestTwoPointFive(strollspeed), walkspeed: roundToNearestTwoPointFive(walkspeed), jogspeed: roundToNearestTwoPointFive(jogspeed), runspeed: roundToNearestTwoPointFive(runspeed), sprintspeed: roundToNearestTwoPointFive(sprintspeed)} }
     },
     getMovement: (req, res) => {
         const newMovements = req.body.movements.map(movement => combatSquareController.getMovementDirectly(movement))
@@ -344,6 +344,10 @@ getMovementStats = function (movementScale, roleInfo, points) {
     return modifiedStat
 }
 
+roundToNearestTwoPointFive = (x) => {
+    return Math.ceil(x / 2.5) * 2.5
+}
+
 getModifiedStatsRounded = function (stat, combatStats, roleInfo, points) {
     return Math.floor(getModifiedStats(stat, combatStats, roleInfo, points))
 }
@@ -442,7 +446,7 @@ getModifiedMeasure = (combatStats, roleInfo, points, size) => {
     if (!combatStats.addsizemod) {
         return modifiedStat
     }
-    return modifiedStat + measureModDictionary[size]
+    return Math.floor(modifiedStat + measureModDictionary[size])
 }
 
 getModifiedParry = (combatStats, roleInfo, points) => {
@@ -927,8 +931,8 @@ const scalingAndBases = {
             majWk: 2
         },
         bonus: {
-            majSt: 2,
-            minSt: 1,
+            majSt: 1.5,
+            minSt: 1.25,
             none: 0,
             minWk: .5,
             majWk: .25
@@ -943,8 +947,8 @@ const scalingAndBases = {
             majWk: 1
         },
         bonus: {
-            majSt: 2,
-            minSt: 1,
+            majSt: 1.5,
+            minSt: 1.25,
             none: 0,
             minWk: .5,
             majWk: .25
@@ -959,8 +963,8 @@ const scalingAndBases = {
             majWk: 1
         },
         bonus: {
-            majSt: 2,
-            minSt: 1,
+            majSt: 1.5,
+            minSt: 1.25,
             none: 0,
             minWk: .5,
             majWk: .25
@@ -975,8 +979,8 @@ const scalingAndBases = {
             majWk: -2
         },
         bonus: {
-            majSt: 2,
-            minSt: 1,
+            majSt: 1.5,
+            minSt: 1.25,
             none: 0,
             minWk: .5,
             majWk: .25
@@ -1265,18 +1269,18 @@ const scalingAndBases = {
     },
     movement: {
         scaling: {
-            majSt: 7.5,
-            minSt: 5,
+            majSt: 3,
+            minSt: 2.5,
             none: 2.5,
             minWk: 2,
             majWk: 1
         },
         bonus: {
-            majSt: .5,
-            minSt: .3,
+            majSt: .075,
+            minSt: .05,
             none: 0,
-            minWk: .2,
-            majWk: .1
+            minWk: .025,
+            majWk: .01
         }
     },
     mental: {
