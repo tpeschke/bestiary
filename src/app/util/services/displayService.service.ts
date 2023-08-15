@@ -7,6 +7,10 @@ export class DisplayServiceService {
 
   constructor() { }
 
+  turnOnAllEquipment () {
+    
+  }
+
   returnSizeDefenseModifier (size, addsizemod) {
     if (!addsizemod) {
       return 0

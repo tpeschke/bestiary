@@ -97,7 +97,6 @@ const combatSquareController = {
     },
     setVitalityAndStressDirectly: (points, role, combatStats, secondaryrole, knockback, size, armor, shield) => {
         const baseRoleInfo = role ? roles.combatRoles.primary[role].meleeCombatStats : noRole
-
         let sizeMod
         if (knockback) {
             sizeMod = +knockback
