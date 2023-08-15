@@ -228,8 +228,11 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
 .combat-square-shell {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: flex-end;
+}
+
+.combat-square-shell div:first-child {
+    margin-right: 10px;
 }
 
 @media (max-width: 1246px) {
