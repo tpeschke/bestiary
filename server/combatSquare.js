@@ -244,7 +244,7 @@ setVitalityDieAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryro
         physical.diceString = `(KB: ${sizeMod})`
     }
 
-    physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatStats, armor, shield, physical.largeweapons)
+    physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatpoints, armor, shield, physical.largeweapons)
 
     return physical
 
@@ -259,8 +259,7 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole,
             physical.largeweapons *= 3
         }
     }
-
-    physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatStats, armor, shield, physical.largeweapons)
+    physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatpoints, armor, shield, physical.largeweapons)
 
     return physical
 }

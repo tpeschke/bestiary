@@ -242,10 +242,18 @@ export class BeastViewGmComponent implements OnInit {
 
   setDisplayVitality = () => {
     if (this.selectedRoleId) {
-      this.displayedVitalityRoll = this.calculatorService.rollDice(this.beast.roleInfo[this.selectedRoleId].phyiscalAndStress.physical.diceString)
+      let diceToRoll = this.beast.roleInfo[this.selectedRoleId].phyiscalAndStress.physical.diceString
+      if (diceToRoll.includes('(KB')) {
+        diceToRoll = diceToRoll.split('(')[0]
+      }
+      this.displayedVitalityRoll = this.calculatorService.rollDice(diceToRoll)
       this.trauma = +(this.beast.roleInfo[this.selectedRoleId].phyiscalAndStress.physical.largeweapons / 2).toFixed(0)
     } else {
-      this.displayedVitalityRoll = this.calculatorService.rollDice(this.beast.phyiscalAndStress.physical.diceString)
+      let diceToRoll = this.beast.phyiscalAndStress.physical.diceString
+      if (diceToRoll.includes('(KB')) {
+        diceToRoll = diceToRoll.split('(')[0]
+      }
+      this.displayedVitalityRoll = this.calculatorService.rollDice(diceToRoll)
       this.trauma = +(this.beast.phyiscalAndStress.physical.largeweapons / 2).toFixed(0)
     }
   }
