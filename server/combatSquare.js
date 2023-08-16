@@ -722,7 +722,7 @@ setWeaponDamage = (combatStats, roleInfo, points) => {
     }
 
     if (crushingDamageMod) {
-        diceString += ` +${crushingDamageMod}`
+        diceString += ` +${Math.ceil(crushingDamageMod)}`
     }
 
     baseRecovery = 0
