@@ -755,6 +755,16 @@ export class BeastViewEditComponent implements OnInit {
   checkTrauma(checked) {
     this.beast.notrauma = checked
   }
+  
+  checkCheckBox = (checked, type) => {
+    if (this.selectedRoleId) {
+      this.beast.roleInfo[this.selectedRoleId][type] = checked
+    } else {
+      this.beast[type] = checked
+    }
+
+    this.setVitalityAndStress()
+  }
 
   checkAllRoles = (type, index, checked) => {
     if (type === 'skills') {
@@ -1152,6 +1162,7 @@ export class BeastViewEditComponent implements OnInit {
       role.panic = roleInfo.panic
       role.combatpoints = roleInfo.combatpoints
       role.knockback = roleInfo.knockback
+      role.singledievitality = roleInfo.singledievitality
       return role
     })
 
@@ -2066,7 +2077,8 @@ export class BeastViewEditComponent implements OnInit {
       mental: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].mental : this.beast.mental ,
       caution: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].caution : this.beast.caution ,
       largeweapons: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].largeweapons : this.beast.largeweapons ,
-      fatigue: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].fatigue : this.beast.fatigue
+      fatigue: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].fatigue : this.beast.fatigue,
+      singledievitality: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].singledievitality : this.beast.singledievitality
     }
 
     const combatpoints = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints

@@ -77,19 +77,19 @@ const combatSquareController = {
     getSquare: (req, res) => {
         res.send(combatSquareController.getSquareDirectly(req.body))
     },
-    getMovementDirectly: ( movement ) => {
+    getMovementDirectly: (movement) => {
         let roleInfo = noRole;
         if (movement.role) {
             roleInfo = roles.combatRoles.primary[movement.role].meleeCombatStats.movement
         }
-        const {points} = movement
+        const { points } = movement
         let strollspeed = +getMovementStats(movement.strollstrength, roleInfo, points)
             , walkspeed = +(getMovementStats(movement.walkstrength, roleInfo, points) + strollspeed)
             , jogspeed = +(getMovementStats(movement.jogstrength, roleInfo, points) * 2 + walkspeed)
             , runspeed = +(getMovementStats(movement.runstrength, roleInfo, points) * 2 + jogspeed)
             , sprintspeed = +(getMovementStats(movement.sprintstrength, roleInfo, points) * 2 + runspeed)
-        
-        return { ...movement, movementSpeeds: {strollspeed: roundToNearestTwoPointFive(strollspeed), walkspeed: roundToNearestTwoPointFive(walkspeed), jogspeed: roundToNearestTwoPointFive(jogspeed), runspeed: roundToNearestTwoPointFive(runspeed), sprintspeed: roundToNearestTwoPointFive(sprintspeed)} }
+
+        return { ...movement, movementSpeeds: { strollspeed: roundToNearestTwoPointFive(strollspeed), walkspeed: roundToNearestTwoPointFive(walkspeed), jogspeed: roundToNearestTwoPointFive(jogspeed), runspeed: roundToNearestTwoPointFive(runspeed), sprintspeed: roundToNearestTwoPointFive(sprintspeed) } }
     },
     getMovement: (req, res) => {
         const newMovements = req.body.movements.map(movement => combatSquareController.getMovementDirectly(movement))
@@ -107,8 +107,13 @@ const combatSquareController = {
         }
 
         let mental = setStressAndPanic(combatStats, baseRoleInfo, points)
-        let physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield)
-        deteremineVitalityDice(physical, sizeMod)
+        let physical;
+        if (combatStats.singledievitality) {
+            physical = setVitalityDieAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield, sizeMod)
+        } else {
+            physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield)
+            deteremineVitalityDice(physical, sizeMod)
+        }
         let caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
 
         return { mental: { ...mental, caution }, physical: { ...physical } }
@@ -165,6 +170,85 @@ setStressAndPanic = (combatStats, baseRoleInfo, combatpoints) => {
 
     return mental
 }
+setVitalityDieAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole, armor, shield, sizeMod) => {
+    let physical = {}
+    const scaling = getStatScaling('singleDieVitality')
+    let numberOfIncreases = Math.floor(getModifiedStat(combatStats.largeweapons ? combatStats.largeweapons : baseRoleInfo.largeweapons, scaling, combatpoints))
+
+    if (!isNaN(numberOfIncreases)) {
+        if (secondaryrole) {
+            if (secondaryrole === 'Fodder') {
+                numberOfIncreases = Math.floor(numberOfIncreases / 2)
+            } else if (secondaryrole === 'Solo') {
+                numberOfIncreases *= 3
+            }
+        }
+    
+        let diceObject = {
+            d3s: 0,
+            d4s: 0,
+            d6s: 0,
+            d8s: 0,
+            d10s: 0,
+            d12s: 0,
+            d20s: 0,
+        }
+    
+        diceObject.d20s += Math.floor(numberOfIncreases / 6)
+        let leftover = numberOfIncreases % 6
+        if (leftover === 1) {
+            diceObject.d4s += 1
+        } else if (leftover === 2) {
+            diceObject.d6s += 1
+        } else if (leftover === 3) {
+            diceObject.d8s += 1
+        } else if (leftover === 4) {
+            diceObject.d10s += 1
+        } else if (leftover === 5) {
+            diceObject.d12s += 1
+        }
+    
+        let { d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
+        let diceString = ''
+        let average = 0
+    
+        if (d4s > 0) {
+            diceString += ` ${diceString !== '' ? '+' : ''}${d4s}d4!`
+            average += (2 * d4s)
+        }
+        if (d6s > 0) {
+            diceString += ` ${diceString !== '' ? '+' : ''}${d6s}d6!`
+            average += (3 * d6s)
+        }
+        if (d8s > 0) {
+            diceString += ` ${diceString !== '' ? '+' : ''}${d8s}d8!`
+            average += (4 * d8s)
+        }
+        if (d10s > 0) {
+            diceString += ` ${diceString !== '' ? '+' : ''}${d10s}d10!`
+            average += (5 * d10s)
+        }
+        if (d12s > 0) {
+            diceString += ` ${diceString !== '' ? '+' : ''}${d12s}d12!`
+            average += (6 * d12s)
+        }
+        if (d20s > 0) {
+            diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
+            average += (10 * d20s)
+        }
+    
+        physical.largeweapons = average
+        physical.diceString = `${diceString} (KB: ${sizeMod})`
+    } else {
+        physical.largeweapons = 'N'
+        physical.diceString = `(KB: ${sizeMod})`
+    }
+
+    physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatStats, armor, shield, physical.largeweapons)
+
+    return physical
+
+}
 setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole, armor, shield) => {
     let physical = {}
     physical.largeweapons = getModifiedStats('largeweapons', combatStats, baseRoleInfo, combatpoints)
@@ -176,6 +260,11 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole,
         }
     }
 
+    physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatStats, armor, shield, physical.largeweapons)
+
+    return physical
+}
+getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapons) => {
     let fatigue = getModifiedStats('fatigue', combatStats, baseRoleInfo, combatpoints)
     if (fatigue !== 'N') {
         if (armor) {
@@ -187,12 +276,10 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole,
         if (fatigue > 1) {
             fatigue = 1
         }
-        physical.fatigue = Math.floor(fatigue * physical.largeweapons)
+        return Math.floor(fatigue * largeweapons)
     } else {
-        physical.fatigue = fatigue
+        return fatigue
     }
-
-    return physical
 }
 setCaution = (combatStats, baseRoleInfo, combatpoints, mental, physical) => {
     let caution = getModifiedStats('caution', combatStats, baseRoleInfo, combatpoints)
@@ -1017,6 +1104,22 @@ const scalingAndBases = {
             none: 0,
             minWk: 1,
             majWk: .9
+        }
+    },
+    singleDieVitality: {
+        scaling: {
+            majSt: 5,
+            minSt: 4,
+            none: 3,
+            minWk: 2,
+            majWk: 1
+        },
+        bonus: {
+            majSt: 1.5,
+            minSt: 1,
+            none: 0,
+            minWk: .5,
+            majWk: .25
         }
     },
     largeweapons: {

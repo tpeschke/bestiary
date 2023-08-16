@@ -746,8 +746,12 @@
                 [checkStat]="checkStat" [stats]="selectedRoleId ? beast.roleInfo[selectedRoleId] : beast">
               </app-mental-physical-display>
               <br>
+              <mat-checkbox [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].singledievitality : beast.singledievitality" (change)="checkCheckBox($event.checked, 'singledievitality')">Single Die Vitality
+              </mat-checkbox>
+              <br>
               <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?
               </mat-checkbox>
+              <br>
               <br>
               <mat-form-field>
                 <input placeholder="Knock Back Threshold" matInput
