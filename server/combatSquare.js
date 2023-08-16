@@ -783,7 +783,6 @@ setNoWeaponDamage = (combatStats, roleInfo, points) => {
     const scaling = getDamageScalingInfo(damageType);
 
     let modifiedPoints = getModifiedStat(scalingStrength, scaling, points)
-
     if (modifiedPoints <= 0) {
         modifiedPoints = 1
     }
@@ -816,21 +815,19 @@ setNoWeaponDamage = (combatStats, roleInfo, points) => {
             diceObject.d6s += 1
         }
     } else {
-        if (modifiedPoints === 1) {
+        if (modifiedPoints < 2) {
             diceObject.d4s += 1
-        } else if (modifiedPoints === 2) {
+        } else if (modifiedPoints < 3) {
             diceObject.d6s += 1
-        } else if (modifiedPoints === 3) {
+        } else if (modifiedPoints < 4) {
             diceObject.d8s += 1
-        } else if (modifiedPoints === 4) {
+        } else if (modifiedPoints < 5) {
             diceObject.d10s += 1
-        } else if (modifiedPoints === 5) {
+        } else if (modifiedPoints < 6) {
             diceObject.d12s += 1
-        } else if (modifiedPoints === 6) {
-            diceObject.d20s += 1
         } else {
             diceObject.d20s += 1
-            crushingDamageMod = modifiedPoints - 6
+            crushingDamageMod = Math.floor(modifiedPoints) - 6
         }
     }
 
@@ -1309,11 +1306,11 @@ const scalingAndBases = {
             majWk: 4
         },
         bonus: {
-            majSt: 1.5,
-            minSt: 1.25,
+            majSt: -1.5,
+            minSt: -1.25,
             none: 0,
-            minWk: .75,
-            majWk: .5
+            minWk: -.75,
+            majWk: -.5
         }
     },
     measure: {

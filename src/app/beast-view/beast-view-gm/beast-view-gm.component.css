@@ -235,6 +235,10 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     margin-right: 10px;
 }
 
+.combat-square-margin {
+    margin-right: 10px;
+}
+
 @media (max-width: 1246px) {
     .vitals-and-movement-shell .vitals-shell {
         width: 100%;
