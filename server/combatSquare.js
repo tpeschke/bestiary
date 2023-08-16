@@ -161,6 +161,8 @@ setStressAndPanic = (combatStats, baseRoleInfo, combatpoints) => {
     let panic = getModifiedStats('panic', combatStats, baseRoleInfo, combatpoints)
     if (panic > 1) {
         panic = 1.1
+    } else if (panic < 0) {
+        panic = 0
     }
     if (mental.stress === 'N' || panic === 'N') {
         mental.panic = 'N'
@@ -1338,11 +1340,11 @@ const scalingAndBases = {
             majWk: 0
         },
         bonus: {
-            majSt: .15,
-            minSt: .1,
+            majSt: -.15,
+            minSt: -.1,
             none: 0,
-            minWk: .05,
-            majWk: .01
+            minWk: -.05,
+            majWk: -.01
         }
     },
     rangedistance: {
