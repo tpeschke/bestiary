@@ -55,7 +55,7 @@ const combatSquareController = {
 
         let combatSquare = {
             weaponType,
-            attack: damageAndRecovery.recovery ? getModifiedStatsRounded('attack', combatStats, roleInfo, points) : '',
+            attack: !combatStats.showonlydefenses ? getModifiedStatsRounded('attack', combatStats, roleInfo, points) : '',
             recovery: damageAndRecovery.recovery ? damageAndRecovery.recovery : getRecoveryForSpecial(combatStats, roleInfo, points),
             initiative: getModifiedStatsRounded('initiative', combatStats, roleInfo, points) + initMod,
             defense: getDefense(combatStats, roleInfo, points, size),

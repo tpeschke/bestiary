@@ -312,7 +312,7 @@
 
           <button mat-raised-button (click)="addNewRole()" color="accent"
             [disabled]="!(((newRole.role || newRole.socialrole || newRole.skillrole) || ((beast.role || beast.socialrole || beast.skillrole) && beast.roles.length === 0)) && newRole.name)">
-            <i class="fa-solid fa-plus icon-medium"></i>  Role</button>
+            <i class="fa-solid fa-plus icon-medium"></i> Role</button>
         </div>
 
       </mat-expansion-panel>
@@ -746,7 +746,9 @@
                 [checkStat]="checkStat" [stats]="selectedRoleId ? beast.roleInfo[selectedRoleId] : beast">
               </app-mental-physical-display>
               <br>
-              <mat-checkbox [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].singledievitality : beast.singledievitality" (change)="checkCheckBox($event.checked, 'singledievitality')">Single Die Vitality
+              <mat-checkbox
+                [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].singledievitality : beast.singledievitality"
+                (change)="checkCheckBox($event.checked, 'singledievitality')">Single Die Vitality
               </mat-checkbox>
               <br>
               <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?
@@ -821,7 +823,7 @@
                     <tr>
                       <th>
                       </th>
-                      <th colspan="6">
+                      <th colspan="7">
                         Scaling
                       </th>
                     </tr>
@@ -833,12 +835,12 @@
                       <td>Minor Weakness</td>
                       <td>Major Weakness</td>
                       <td>None & Weak</td>
+                      <td>Nothing</td>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let stat of movementStats">
-                      <td class="vitality-span-tag">{{stat.label}} <p>{{movementType.movementSpeeds[stat.speed]}} ft /
-                          sec</p>
+                      <td class="vitality-span-tag">{{stat.label}} <p>{{!movementType.movementSpeeds[stat.speed] ? '' : movementType.movementSpeeds[stat.speed] + ' ft / sec'}} </p>
                       </td>
                       <td>
                         <mat-checkbox
@@ -892,6 +894,15 @@
                           [checked]="!movementType[stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats.movement === 'noneWk' : movementType[stat.stat] === 'noneWk'"
                           matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
                           [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats.movement !== 'noneWk'">
+                        </mat-checkbox>
+                      </td>
+                      <td>
+                        <mat-checkbox
+                          [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats.movement === 'x' ? 'checkmark-role-background' : ''"
+                          (change)="checkMovementStat(stat.stat, 'x', $event, i)"
+                          [checked]="!movementType[stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats.movement === 'x' : movementType[stat.stat] === 'x'"
+                          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                          [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats.movement !== 'x'">
                         </mat-checkbox>
                       </td>
                     </tr>

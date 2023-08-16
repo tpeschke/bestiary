@@ -813,6 +813,10 @@ export class BeastViewEditComponent implements OnInit {
     } else {
       this.beast[type] = event.value
     }
+
+    if (type === 'size') {
+      this.setVitalityAndStress()
+    }
   }
 
   captureSelectForObject(event, type, secondaryType) {
@@ -2058,7 +2062,8 @@ export class BeastViewEditComponent implements OnInit {
 
   setVitalityAndStress = () => {
     let size
-    if (this.beast.roleInfo[this.selectedRoleId] && !this.beast.roleInfo[this.selectedRoleId].size) {
+    if (this.beast.roleInfo[this.selectedRoleId] && this.beast.roleInfo[this.selectedRoleId].size) {
+      size = this.beast.roleInfo[this.selectedRoleId].size
     } else if (this.beast.size) {
       size = this.beast.size
     } else {
