@@ -4,12 +4,13 @@
       <th>
 
       </th>
-      <th colspan="7">
+      <th colspan="8">
         Scaling
       </th>
     </tr>
     <tr>
       <td> </td>
+      <td>None but Major</td>
       <td>Major Strength</td>
       <td>Minor Strength</td>
       <td>None</td>
@@ -23,6 +24,15 @@
     <tr *ngFor="let stat of statInfo">
       <td>{{stat.label}} <i *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue"
           matTooltip="{{stat.tooltip}}" matTooltipClass="my-tooltip"></i>
+      </td>
+      <td>
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[stat.stat] === 'noneStr' ? 'checkmark-role-background' : ''"
+          (change)="checkStat(stat.stat, 'noneStr', $event)"
+          [checked]="!stats[stat.stat] ? roleInfo && roleInfo[stat.stat] === 'noneStr' : stats[stat.stat] === 'noneStr'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[stat.stat] !== 'noneStr'">
+        </mat-checkbox>
       </td>
       <td>
         <mat-checkbox

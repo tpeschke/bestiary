@@ -377,7 +377,9 @@ getModifiedWithWeapon = (combatStatKey, combatStats, roleInfo, weaponKey, points
 
     if (combatStats.weapon) {
         const equipmentStat = equipmentController.getWeapon(combatStats.weapon)[weaponKey]
-        if (scalingStrength === 'noneWk') {
+        if (scalingStrength === 'noneStr') {
+            modifiedStat = equipmentStat - (scaling.scaling.none - scaling.scaling.minWk)
+        } else if (scalingStrength === 'noneWk') {
             modifiedStat = equipmentStat - (scaling.scaling.none - scaling.scaling.majWk)
         } else if (scalingStrength === 'none' || !scalingStrength) {
             modifiedStat = equipmentStat
@@ -413,8 +415,10 @@ getArmorOrShieldStat = (stat, ArmorOrShield, weaponKey, combatStats, roleInfo, p
         equipmentStat = equipmentController.getShield(combatStats[ArmorOrShield]).dr[weaponKey]
     }
 
-    if (scalingStrength === 'noneWk') {
-        modifiedStat = equipmentStat - (scaling.none - scaling.majWk)
+    if (scalingStrength === 'noneStr') {
+        modifiedStat = equipmentStat - (scaling.scaling.none - scaling.scaling.minWk)
+    } else if (scalingStrength === 'noneWk') {
+        modifiedStat = equipmentStat - (scaling.none - scaling.scaling.majWk)
     } else if (scalingStrength === 'none' || !scalingStrength) {
         modifiedStat = equipmentStat
     } else {
@@ -427,7 +431,9 @@ getArmorOrShieldStat = (stat, ArmorOrShield, weaponKey, combatStats, roleInfo, p
 getModifiedStat = (scalingStrength, scaling, points) => {
     if (scalingStrength === 'x') {
         return 'N'
-    } else if (scalingStrength === 'noneWk') {
+    } else if (scalingStrength === 'noneStr') {
+        return scaling.scaling.majSt
+    } else  if (scalingStrength === 'noneWk') {
         return scaling.scaling.majWk
     } else if (scalingStrength === 'none' || !scalingStrength) {
         return scaling.scaling.none
@@ -494,8 +500,10 @@ getFlanks = (combatStats, roleInfo, points) => {
 
     if (combatStats.shield) {
         const shieldFlanks = equipmentController.getShield(combatStats.shield).flanks
-        if (scalingStrength === 'noneWk') {
-            modifiedStat = shieldFlanks - (scaling.none - scaling.majWk)
+        if (scalingStrength === 'noneStr') {
+            modifiedStat = shieldFlanks - (scaling.scaling.none - scaling.scaling.minWk)
+        } else if (scalingStrength === 'noneWk') {
+            modifiedStat = shieldFlanks - (scaling.scaling.none - scaling.scaling.majWk)
         } else if (scalingStrength === 'none' || !scalingStrength) {
             modifiedStat = shieldFlanks
         } else {
@@ -525,8 +533,10 @@ getModifiedMeasure = (combatStats, roleInfo, points, size) => {
 
     if (combatStats.weapon) {
         const weaponMeasure = equipmentController.getWeapon(combatStats.weapon).measure
-        if (scalingStrength === 'noneWk') {
-            modifiedStat = weaponMeasure - (scaling.none - scaling.majWk)
+        if (scalingStrength === 'noneStr') {
+            modifiedStat = weaponMeasure - (scaling.scaling.none - scaling.scaling.minWk)
+        } else if (scalingStrength === 'noneWk') {
+            modifiedStat = weaponMeasure - (scaling.scaling.none - scaling.scaling.majWk)
         } else if (scalingStrength === 'none' || !scalingStrength) {
             modifiedStat = weaponMeasure
         } else {
@@ -574,7 +584,9 @@ getModifiedParry = (combatStats, roleInfo, points) => {
         baseParry = equipmentController.getWeapon(combatStats.weapon).parry
     }
     if (!baseParry || baseParry === 0) {
-        if (scalingStrength === 'noneWk') {
+        if (scalingStrength === 'noneStr') {
+            modifiedParry = scaling.scaling.majSt
+        } else if (scalingStrength === 'noneWk') {
             modifiedParry = scaling.scaling.majWk
         } else if (scalingStrength === 'none') {
             modifiedParry = scaling.scaling.none
@@ -582,7 +594,9 @@ getModifiedParry = (combatStats, roleInfo, points) => {
             modifiedParry = Math.ceil(scaling.scaling[scalingStrength] - (scaling.bonus[scalingStrength] * points))
         }
     } else {
-        if (scalingStrength === 'noneWk') {
+        if (scalingStrength === 'noneStr') {
+            modifiedParry = Math.ceil(baseParry - (scaling.scaling.none - scaling.scaling.minWk))
+         } else if (scalingStrength === 'noneWk') {
             modifiedParry = Math.ceil(baseParry - (scaling.scaling.none - scaling.scaling.majWk))
         } else if (scalingStrength === 'none') {
             modifiedParry = Math.ceil(baseParry - scaling.scaling.none)
@@ -891,7 +905,9 @@ setModifiedRecovery = (baseRecovery, combatStats, roleInfo, points) => {
 
     const scaling = getStatScaling('recovery')
     let unadjustedRecovery = 0
-    if (scalingStrength === 'noneWk') {
+    if (scalingStrength === 'noneStr') { 
+        unadjustedRecovery = Math.ceil(baseRecovery * scaling.scaling.minWk)
+    } else if (scalingStrength === 'noneWk') {
         unadjustedRecovery = Math.ceil(baseRecovery * scaling.scaling.majWk)
     } else if (scalingStrength === 'none') {
         unadjustedRecovery = Math.ceil(baseRecovery * scaling.scaling.none)
@@ -933,7 +949,9 @@ getCover = (combatStats, roleInfo, points) => {
         crouchingCover = +coverString[1]
     }
     if (!baseCover || baseCover === 0) {
-        if (scalingStrength === 'noneWk') {
+        if (scalingStrength === 'noneStr') { 
+            modifiedCover = scaling.scaling.majSt
+         } else if (scalingStrength === 'noneWk') {
             modifiedCover = scaling.scaling.majWk
         } else if (scalingStrength === 'none') {
             modifiedCover = scaling.scaling.none
@@ -941,7 +959,12 @@ getCover = (combatStats, roleInfo, points) => {
             modifiedCover = Math.ceil(scaling.scaling[scalingStrength] - (scaling.bonus[scalingStrength] * points))
         }
     } else {
-        if (scalingStrength === 'noneWk') {
+        if (scalingStrength === 'noneStr') {
+            modifiedCover = Math.ceil(baseCover + (scaling.scaling.none - scaling.scaling.minSt))
+            if (crouchingCover) {
+                crouchingCover = Math.ceil(crouchingCover + (scaling.scaling.none - scaling.scaling.minSt))
+            }
+         } else if (scalingStrength === 'noneWk') {
             modifiedCover = Math.ceil(baseCover + (scaling.scaling.none - scaling.scaling.majWk))
             if (crouchingCover) {
                 crouchingCover = Math.ceil(crouchingCover + (scaling.scaling.none - scaling.scaling.majWk))
