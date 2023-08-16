@@ -255,7 +255,7 @@ setVitalityDieAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryro
 setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole, armor, shield) => {
     let physical = {}
     physical.largeweapons = getModifiedStats('largeweapons', combatStats, baseRoleInfo, combatpoints)
-    if (secondaryrole) {
+    if (secondaryrole && physical.largeweapons !== 'N') {
         if (secondaryrole === 'Fodder') {
             physical.largeweapons = Math.floor(physical.largeweapons / 2)
         } else if (secondaryrole === 'Solo') {
