@@ -63,7 +63,7 @@ const combatSquareController = {
             damageType: damageAndRecovery.damageType,
             dr: getBaseDR(combatStats, roleInfo, points),
             shieldDr: getParryDR(combatStats, roleInfo, points),
-            measure: damageAndRecovery.recovery ? getModifiedMeasure(combatStats, roleInfo, points, size) : '',
+            measure: !combatStats.showonlydefenses ? getModifiedMeasure(combatStats, roleInfo, points, size) : '',
             range: getModifiedWithWeapon('rangedistance', combatStats, roleInfo, 'range', points),
             damage: damageAndRecovery.damageString,
             parry: getModifiedParry(combatStats, roleInfo, points),
@@ -164,6 +164,7 @@ setStressAndPanic = (combatStats, baseRoleInfo, combatpoints) => {
     } else if (panic < 0) {
         panic = 0
     }
+
     if (mental.stress === 'N' || panic === 'N') {
         mental.panic = 'N'
     } else {
@@ -1003,11 +1004,11 @@ getParryDR = (combatStats, roleInfo, points) => {
 
 getDRString = (slashDR, staticDR) => {
     if (slashDR > 0 && staticDR > 0) {
-        return `${slashDR}/d +${staticDR}`
-    } else if (slashDR > 0) {
-        return `${slashDR}/d`
-    } else if (staticDR > 0) {
-        return `${staticDR}`
+        return `${Math.floor(slashDR)}/d +${Math.floor(staticDR)}`
+    } else if (Math.floor(slashDR) > 0) {
+        return `${Math.floor(slashDR)}/d`
+    } else if (Math.floor(staticDR) > 0) {
+        return `${Math.floor(staticDR)}`
     } else {
         return 0
     }
@@ -1340,11 +1341,11 @@ const scalingAndBases = {
             majWk: 0
         },
         bonus: {
-            majSt: -.15,
-            minSt: -.1,
+            majSt: .15,
+            minSt: .1,
             none: 0,
-            minWk: -.05,
-            majWk: -.01
+            minWk: .05,
+            majWk: .01
         }
     },
     rangedistance: {
