@@ -2036,7 +2036,7 @@ export class BeastViewEditComponent implements OnInit {
       if (roleStat && roleStat[stat] === value) {
         event.source._checked = true
         this.beast.roleInfo[this.selectedRoleId][stat] = null
-      } else if (this.selectedRole[stat] === value) {
+      } else if (this.beast.roleInfo[this.selectedRoleId][stat] === value) {
         this.beast.roleInfo[this.selectedRoleId][stat] = null
       } else {
         this.beast.roleInfo[this.selectedRoleId][stat] = value
