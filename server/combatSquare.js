@@ -895,36 +895,52 @@ setNoWeaponDamage = (combatStats, roleInfo, points) => {
 }
 
 setModifiedRecovery = (baseRecovery, combatStats, roleInfo, points) => {
-    let scalingStrength;
-
-    if (combatStats.recovery) {
-        scalingStrength = combatStats.recovery
+    if (!combatStats.swarmbonus) {
+        let scalingStrength;
+    
+        if (combatStats.recovery) {
+            scalingStrength = combatStats.recovery
+        } else {
+            scalingStrength = roleInfo.recovery
+        }
+    
+        const scaling = getStatScaling('recovery')
+        let unadjustedRecovery = 0
+        if (scalingStrength === 'noneStr') { 
+            unadjustedRecovery = Math.ceil(baseRecovery * scaling.scaling.minWk)
+        } else if (scalingStrength === 'noneWk') {
+            unadjustedRecovery = Math.ceil(baseRecovery * scaling.scaling.majWk)
+        } else if (scalingStrength === 'none') {
+            unadjustedRecovery = Math.ceil(baseRecovery * scaling.scaling.none)
+        } else {
+            unadjustedRecovery = Math.ceil((scaling.scaling[scalingStrength] * baseRecovery) - (scaling.bonus[scalingStrength] * points))
+        }
+    
+        if (unadjustedRecovery <= 10) {
+            return unadjustedRecovery
+        } else if (unadjustedRecovery <= 20) {
+            return unadjustedRecovery - 2
+        } else if (unadjustedRecovery <= 30) {
+            return unadjustedRecovery - 5
+        } else if (unadjustedRecovery <= 40) {
+            return unadjustedRecovery - 10
+        } else {
+            return unadjustedRecovery - (Math.ceil((unadjustedRecovery - 40) / 10) * 5)
+        }
     } else {
-        scalingStrength = roleInfo.recovery
-    }
-
-    const scaling = getStatScaling('recovery')
-    let unadjustedRecovery = 0
-    if (scalingStrength === 'noneStr') { 
-        unadjustedRecovery = Math.ceil(baseRecovery * scaling.scaling.minWk)
-    } else if (scalingStrength === 'noneWk') {
-        unadjustedRecovery = Math.ceil(baseRecovery * scaling.scaling.majWk)
-    } else if (scalingStrength === 'none') {
-        unadjustedRecovery = Math.ceil(baseRecovery * scaling.scaling.none)
-    } else {
-        unadjustedRecovery = Math.ceil((scaling.scaling[scalingStrength] * baseRecovery) - (scaling.bonus[scalingStrength] * points))
-    }
-
-    if (unadjustedRecovery <= 10) {
-        return unadjustedRecovery
-    } else if (unadjustedRecovery <= 20) {
-        return unadjustedRecovery - 2
-    } else if (unadjustedRecovery <= 30) {
-        return unadjustedRecovery - 5
-    } else if (unadjustedRecovery <= 40) {
-        return unadjustedRecovery - 10
-    } else {
-        return unadjustedRecovery - (Math.ceil((unadjustedRecovery - 40) / 10) * 5)
+        const scaling = getStatScaling('recovery')
+        const scalingStrength = combatStats.recovery
+        if (scalingStrength === 'x') {
+            return 'N'
+        } else if (scalingStrength === 'noneStr') {
+            return scaling.swarm.majSt
+        } else  if (scalingStrength === 'noneWk') {
+            return scaling.swarm.majWk
+        } else if (scalingStrength === 'none' || !scalingStrength) {
+            return scaling.swarm.none
+        } else {
+            return scaling.swarm[scalingStrength]
+        }
     }
 }
 
@@ -1393,6 +1409,13 @@ const scalingAndBases = {
             d10: 6,
             d12: 7,
             d20: 11,
+        },
+        swarm: {
+            majSt: -2,
+            minSt: -1,
+            none: 0,
+            minWk: 1,
+            majWk: 2
         },
         scaling: {
             majSt: .75,

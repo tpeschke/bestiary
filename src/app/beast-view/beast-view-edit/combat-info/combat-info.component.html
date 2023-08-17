@@ -53,6 +53,8 @@
 
       <mat-checkbox (change)="checkBasicStatOnOff('showonlydefenses', $event)" [checked]="combatStats.showonlydefenses">Show Only Defenses</mat-checkbox>
 
+      <mat-checkbox (change)="checkBasicStatOnOff('swarmbonus', $event)" [checked]="combatStats.swarmbonus">Swarm Bonus?</mat-checkbox>
+
       <mat-form-field>
         <input placeholder="Weapon" matInput [value]="combatStats.weapon" [matAutocomplete]="weaponGroup"
           [formControl]="weaponControl">
