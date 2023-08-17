@@ -823,12 +823,13 @@
                     <tr>
                       <th>
                       </th>
-                      <th colspan="7">
+                      <th colspan="8">
                         Scaling
                       </th>
                     </tr>
                     <tr>
                       <td> </td>
+                      <td>None but Major</td>
                       <td>Major Strength</td>
                       <td>Minor Strength</td>
                       <td>None</td>
@@ -841,6 +842,15 @@
                   <tbody>
                     <tr *ngFor="let stat of movementStats">
                       <td class="vitality-span-tag">{{stat.label}} <p>{{!movementType.movementSpeeds[stat.speed] ? '' : movementType.movementSpeeds[stat.speed] + ' ft / sec'}} </p>
+                      </td>
+                      <td>
+                        <mat-checkbox
+                          [ngClass]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats.movement === 'noneStr' ? 'checkmark-role-background' : ''"
+                          (change)="checkMovementStat(stat.stat, 'noneStr', $event, i)"
+                          [checked]="!movementType[stat.stat] ? selectedRole.meleeCombatStats && selectedRole.meleeCombatStats.movement === 'noneStr' : movementType[stat.stat] === 'noneStr'"
+                          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                          [matTooltipDisabled]="selectedRole.meleeCombatStats && selectedRole.meleeCombatStats.movement !== 'noneStr'">
+                        </mat-checkbox>
                       </td>
                       <td>
                         <mat-checkbox

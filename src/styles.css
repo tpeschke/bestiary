@@ -5,8 +5,8 @@
   src: url('./assets/jancient.ttf') format("truetype");
 }
 @font-face {
-  font-family: 'umbria';
-  src: url('./assets/Baldur.ttf') format("truetype");
+  font-family: 'Hamletornot';
+  src: url('./assets/Hamletornot.ttf') format("truetype");
 }
 
 html,
@@ -133,7 +133,8 @@ h2 {
   font-size: 20px;
   margin-top: 15px;
   font-weight: 600;
-  font-family: 'umbria';
+  font-family: 'Hamletornot';
+  letter-spacing: 3px;
 }
 h3 {
   font-size: 18px;

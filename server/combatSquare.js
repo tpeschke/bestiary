@@ -64,7 +64,7 @@ const combatSquareController = {
             dr: getBaseDR(combatStats, roleInfo, points),
             shieldDr: getParryDR(combatStats, roleInfo, points),
             measure: !combatStats.showonlydefenses ? getModifiedMeasure(combatStats, roleInfo, points, size) : '',
-            range: getModifiedWithWeapon('rangedistance', combatStats, roleInfo, 'range', points),
+            range: !combatStats.showonlydefenses ? getModifiedWithWeapon('rangedistance', combatStats, roleInfo, 'range', points) : '',
             damage: damageAndRecovery.damageString,
             parry: getModifiedParry(combatStats, roleInfo, points),
             weaponScaling: damageAndRecovery.weaponScaling,
@@ -359,7 +359,6 @@ getModifiedStats = function (stat, combatStats, roleInfo, points) {
     }
     const scaling = scalingAndBases[stat]
     const modifiedStat = getModifiedStat(scalingStrength, scaling, points)
-
     return modifiedStat
 }
 

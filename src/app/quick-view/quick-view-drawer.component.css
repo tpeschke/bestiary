@@ -309,7 +309,8 @@ h2 {
 
 .quick-view-title {
     color: #607d8b !important;
-    font-family: 'umbria';
+    font-family: 'Hamletornot';
+    letter-spacing: 3px;
 }
 
 .accordian-shell {

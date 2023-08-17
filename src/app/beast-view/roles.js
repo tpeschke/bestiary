@@ -610,7 +610,11 @@ export default {
                     },
                     {
                         label: 'Sidearms',
-                        items: ['Dagger (P)', 'Dagger (S)']
+                        items: ['Cinquedea (S)', 'Dagger (P)', 'Dagger (S)', 'Katzbalger (S)']
+                    },
+                    {
+                        label: 'Trauma',
+                        items: ['Bludgeon (C)']
                     },
                     {
                         label: 'Swords',
@@ -621,7 +625,7 @@ export default {
                         items: ['Bec De Corbin (C)', 'Great Hammer (C)', 'Peasant\'s Flail (C)']
                     }
                 ],
-                armor: ['Coat of Plates'],
+                armor: ['Gambeson', 'Leather', 'Coat of Plates'],
                 shields: []
             },
             'Skirmisher': {

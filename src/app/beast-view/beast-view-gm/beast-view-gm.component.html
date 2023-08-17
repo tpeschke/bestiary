@@ -405,8 +405,11 @@
               <h3>Vitality</h3>
               <span class="vitality-flex">
                 <p>
-                  {{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.largeweapons : beast.phyiscalAndStress.physical.largeweapons}}</p>
-                <p class="vitality-flex-subtitle">{{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.diceString : beast.phyiscalAndStress.physical.diceString}}</p>
+                  {{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.largeweapons :
+                  beast.phyiscalAndStress.physical.largeweapons}}</p>
+                <p class="vitality-flex-subtitle">{{selectedRoleId ?
+                  beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.diceString :
+                  beast.phyiscalAndStress.physical.diceString}}</p>
               </span>
             </div>
 
@@ -417,7 +420,8 @@
                 </mat-form-field>
                 <p> / </p>
                 <p matTooltip="This is the Fatigue Threshold based on the average Vitality">
-                  ({{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.fatigue : beast.phyiscalAndStress.physical.fatigue}}) </p>
+                  ({{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.fatigue :
+                  beast.phyiscalAndStress.physical.fatigue}}) </p>
                 <p> / </p>
                 <p> {{displayedVitalityRoll}} </p>
               </div>
@@ -456,7 +460,8 @@
             <div *ngIf="isNumber(trauma) && trauma !== 0" class="flex-row-opposite">
               <h3>Trauma Threshold</h3>
               <p>
-                {{selectedRoleId && beast.roleInfo[selectedRoleId].notrauma ? 'N/A' : beast.notrauma ? 'N/A' : this.trauma}}</p>
+                {{selectedRoleId && beast.roleInfo[selectedRoleId].notrauma ? 'N/A' : beast.notrauma ? 'N/A' :
+                this.trauma}}</p>
             </div>
 
             <div class="divider white"></div>
@@ -464,26 +469,25 @@
             <div class="flex-row-opposite">
               <h3>Stress Threshold</h3>
               <p>
-                {{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.stress : beast.phyiscalAndStress.mental.stress}}</p>
-              <!-- <p
-                *ngIf="(!selectedRoleId && !beast.stress) || (selectedRoleId && !beast.roleInfo[selectedRoleId].stress && !beast.stress)">
-                N/A</p> -->
+                {{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.stress :
+                beast.phyiscalAndStress.mental.stress}}</p>
             </div>
-            <div
-              *ngIf="((selectedRoleId && beast.roleInfo[selectedRoleId].stress) && beast.roleInfo[selectedRoleId].stress !== 0) || ((selectedRoleId && !beast.roleInfo[selectedRoleId].stress) && beast.stress !== 0) || !selectedRoleId && beast.stress !== 0"
-              class="rolled-stats-shell">
+            <div *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.stress !== 'N') || (!selectedRoleId && beast.phyiscalAndStress.mental.stress !== 'N')" class="rolled-stats-shell">
               <mat-form-field>
                 <input matInput>
               </mat-form-field>
               <p> / </p>
               <p matTooltip="This is the Panic Threshold based on the Stress Threshold.">
-                ({{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.panic : beast.phyiscalAndStress.mental.panic}}) </p>
+                ({{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.panic :
+                beast.phyiscalAndStress.mental.panic}}) </p>
               <p> / </p>
-              <p> {{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.stress : beast.phyiscalAndStress.mental.stress}} </p>
+              <p> {{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.stress :
+                beast.phyiscalAndStress.mental.stress}} </p>
             </div>
             <div class="flex-row-opposite">
               <h3>Caution Threshold</h3>
-              <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.caution : beast.phyiscalAndStress.mental.caution}} <i class="fas fa-info-circle icon-small blue"
+              <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.caution :
+                beast.phyiscalAndStress.mental.caution}} <i class="fas fa-info-circle icon-small blue"
                   matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable.">
                 </i></p>
             </div>
@@ -535,7 +539,7 @@
                   <h5
                     [ngClass]="{'strike-through': movementType.movementSpeeds.sprintspeed === 0 || !movementType.movementSpeeds.sprintspeed  }">
                     Sprint</h5>
-                  <p>{{movementType.movementSpeeds.sprintspeed === 0 || !movementType.movementSpeeds.sprintspeed 
+                  <p>{{movementType.movementSpeeds.sprintspeed === 0 || !movementType.movementSpeeds.sprintspeed
                     ? '' :
                     movementType.movementSpeeds.sprintspeed + ' ft / sec'}}</p>
                 </div>

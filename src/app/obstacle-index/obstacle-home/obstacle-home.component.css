@@ -9,7 +9,8 @@
 }
 
 .title {
-    font-family: 'umbria';
+    font-family: 'Hamletornot';
+    letter-spacing: 3px;
     font-weight: 500;
     font-size: 35px;
     cursor: pointer;
