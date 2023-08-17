@@ -916,15 +916,29 @@ setModifiedRecovery = (baseRecovery, combatStats, roleInfo, points) => {
         }
     
         if (unadjustedRecovery <= 10) {
-            return unadjustedRecovery
+            unadjustedRecovery = unadjustedRecovery
         } else if (unadjustedRecovery <= 20) {
-            return unadjustedRecovery - 2
+            unadjustedRecovery = unadjustedRecovery - 2
         } else if (unadjustedRecovery <= 30) {
-            return unadjustedRecovery - 5
+            unadjustedRecovery = unadjustedRecovery - 5
         } else if (unadjustedRecovery <= 40) {
-            return unadjustedRecovery - 10
+            unadjustedRecovery = unadjustedRecovery - 10
         } else {
-            return unadjustedRecovery - (Math.ceil((unadjustedRecovery - 40) / 10) * 5)
+            unadjustedRecovery = unadjustedRecovery - (Math.ceil((unadjustedRecovery - 40) / 10) * 5)
+        }
+
+        if (combatStats.weapon) {
+            const weaponInfo = equipmentController.getWeapon(combatStats.weapon)
+            const minSpeed = minSpeedDictionary[weaponInfo.type][weaponInfo.size]
+            if (unadjustedRecovery < minSpeed) {
+                return minSpeed
+            }
+            return unadjustedRecovery
+        } else {
+            if (unadjustedRecovery < 2) {
+                return 2
+            } 
+            return unadjustedRecovery
         }
     } else {
         const scaling = getStatScaling('recovery')
@@ -1060,6 +1074,24 @@ getWeaponType = (combatStats, roleInfo) => {
         return roleInfo.weapontype
     }
     return 'm'
+}
+
+const minSpeedDictionary = {
+    P: {
+        S: 2,
+        M: 2,
+        L: 2
+    },
+    S: {
+        S: 3,
+        M: 4,
+        L: 5
+    },
+    C: {
+        S: 4,
+        M: 5,
+        L: 6
+    }
 }
 
 const scalingAndBases = {
