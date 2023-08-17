@@ -94,6 +94,11 @@ img {
 h1 {
     font-family: 'Hamletornot';
     letter-spacing: 3px;
+    font-size: 35px;
+}
+
+h1 i {
+    font-size: 25px;
 }
 
 .add-to-quick-view {
