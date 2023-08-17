@@ -985,7 +985,7 @@ getCover = (combatStats, roleInfo, points) => {
         } else if (scalingStrength === 'none') {
             modifiedCover = scaling.scaling.none
         } else {
-            modifiedCover = Math.ceil(scaling.scaling[scalingStrength] - (scaling.bonus[scalingStrength] * points))
+            modifiedCover = Math.ceil(scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * points))
         }
     } else {
         if (scalingStrength === 'noneStr') {
