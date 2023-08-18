@@ -594,7 +594,7 @@ getModifiedParry = (combatStats, roleInfo, points) => {
         } else if (scalingStrength === 'none') {
             modifiedParry = scaling.scaling.none
         } else {
-            modifiedParry = Math.ceil(scaling.scaling[scalingStrength] - (scaling.bonus[scalingStrength] * points))
+            modifiedParry = Math.ceil(scaling.scaling[scalingStrength] + (scaling.bonus[scalingStrength] * points))
         }
     } else {
         if (scalingStrength === 'noneStr') {
@@ -604,7 +604,7 @@ getModifiedParry = (combatStats, roleInfo, points) => {
         } else if (scalingStrength === 'none') {
             modifiedParry = Math.ceil(baseParry - scaling.scaling.none)
         } else {
-            modifiedParry = Math.ceil(baseParry - (scaling.bonus[scalingStrength] * points))
+            modifiedParry = Math.ceil(baseParry + (scaling.bonus[scalingStrength] * points))
         }
     }
 
@@ -1236,8 +1236,8 @@ const scalingAndBases = {
             majWk: -3
         },
         bonus: {
-            majSt: 2,
-            minSt: 1,
+            majSt: 1,
+            minSt: .75,
             none: 0,
             minWk: .5,
             majWk: .25
@@ -1248,12 +1248,12 @@ const scalingAndBases = {
             majSt: 6,
             minSt: 3,
             none: 0,
-            minWk: -3,
-            majWk: -6
+            minWk: -0,
+            majWk: -3
         },
         bonus: {
-            majSt: 2,
-            minSt: 1,
+            majSt: 1,
+            minSt: .75,
             none: 0,
             minWk: .5,
             majWk: .25
@@ -1261,18 +1261,18 @@ const scalingAndBases = {
     },
     andslashing: {
         scaling: {
-            majSt: 3,
-            minSt: 2,
-            none: 1,
-            minWk: 0,
-            majWk: -1
-        },
-        bonus: {
             majSt: 2,
             minSt: 1,
             none: 0,
-            minWk: .5,
-            majWk: .25
+            minWk: -1,
+            majWk: -2
+        },
+        bonus: {
+            majSt: .75,
+            minSt: .5,
+            none: 0,
+            minWk: .2,
+            majWk: .1
         }
     },
     andcrushing: {
@@ -1284,8 +1284,8 @@ const scalingAndBases = {
             majWk: -2
         },
         bonus: {
-            majSt: 2,
-            minSt: 1,
+            majSt: 1,
+            minSt: .75,
             none: 0,
             minWk: .5,
             majWk: .25
@@ -1296,15 +1296,15 @@ const scalingAndBases = {
             majSt: 2,
             minSt: 1,
             none: 0,
-            minWk: -2,
-            majWk: -4
+            minWk: -1,
+            majWk: -2
         },
         bonus: {
-            majSt: 2,
-            minSt: 1,
+            majSt: .75,
+            minSt: .5,
             none: 0,
-            minWk: .5,
-            majWk: .25
+            minWk: .2,
+            majWk: .1
         }
     },
     flanks: {
@@ -1396,11 +1396,11 @@ const scalingAndBases = {
             majWk: 1
         },
         bonus: {
-            majSt: 1.1,
-            minSt: 1,
+            majSt: .75,
+            minSt: .5,
             none: 0,
-            minWk: .75,
-            majWk: .21
+            minWk: .25,
+            majWk: .1
         }
     },
     panic: {
