@@ -57,7 +57,7 @@ const combatSquareController = {
             weaponType,
             attack: !combatStats.showonlydefenses ? getModifiedStatsRounded('attack', combatStats, roleInfo, points) : '',
             recovery: damageAndRecovery.recovery ? damageAndRecovery.recovery : getRecoveryForSpecial(combatStats, roleInfo, points),
-            initiative: getModifiedStatsRounded('initiative', combatStats, roleInfo, points) + initMod,
+            initiative: !combatStats.showonlydefenses ? getModifiedStatsRounded('initiative', combatStats, roleInfo, points) + initMod : '',
             defense: getDefense(combatStats, roleInfo, points, size),
             cover: getCover(combatStats, roleInfo, points),
             damageType: damageAndRecovery.damageType,
@@ -297,7 +297,7 @@ setCaution = (combatStats, baseRoleInfo, combatpoints, mental, physical) => {
 }
 deteremineVitalityDice = (physical, sizeMod) => {
     if (physical.largeweapons - sizeMod > 0) {
-        const remainder = physical.largeweapons - sizeMod
+        const remainder = roundToNearestEvenNumber(physical.largeweapons - sizeMod)
         if (remainder % 10 === 0) {
             if (remainder / 10 > 1) {
                 physical.diceString = `(d20 * ${remainder / 10}) + ${sizeMod}`
@@ -457,6 +457,10 @@ getMovementStats = function (movementScale, roleInfo, points) {
 
 roundToNearestTwoPointFive = (x) => {
     return Math.ceil(x / 2.5) * 2.5
+}
+
+roundToNearestEvenNumber = (x) => {
+    return Math.round(x / 2) * 2
 }
 
 getModifiedStatsRounded = function (stat, combatStats, roleInfo, points) {

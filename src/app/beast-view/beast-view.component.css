@@ -101,6 +101,20 @@ h1 i {
     font-size: 25px;
 }
 
+h1 input, h1 input::placeholder, h1 input:focus {
+    font-size: 25px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid white;
+    margin-right: 15px;
+    color: whitesmoke;
+    outline: none;
+}
+
+h1 input::placeholder {
+    color: rgba(245, 245, 245, 0.50);
+}
+
 .add-to-quick-view {
     position: relative;
 }
@@ -857,7 +871,7 @@ input[type="file"] {
     color: whitesmoke;
     padding: 10px;
     border-radius: 5px;
-    font-family: 'know';
+    font-family: 'know'; letter-spacing: 1px;
     font-size: 17px;
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
@@ -1103,7 +1117,7 @@ thead {
     background: #607d8b;
     color: whitesmoke;
     text-align: center;
-    font-family: 'know';
+    font-family: 'know'; letter-spacing: 1px;
 }
 
 thead tr td {
@@ -1113,7 +1127,7 @@ thead tr td {
 tbody tr th {
     background: gray;
     color: whitesmoke;
-    font-family: 'know';
+    font-family: 'know'; letter-spacing: 1px;
     text-align: center;
 }
 

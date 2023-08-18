@@ -21,12 +21,8 @@
 
   <mat-toolbar color="warn" class="top-toolbar">
     <h1>
-      <mat-form-field>
-        <input matInput [value]="beast.name" (change)="captureInput($event, 'name')" placeholder="Name">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput [value]="beast.plural" (change)="captureInput($event, 'plural')" placeholder="Pluralized Name">
-      </mat-form-field>
+        <input [value]="beast.name" (change)="captureInput($event, 'name')" placeholder="Name">
+        <input [value]="beast.plural" (change)="captureInput($event, 'plural')" placeholder="Pluralized Name">
     </h1>
     <div>
       <mat-form-field>

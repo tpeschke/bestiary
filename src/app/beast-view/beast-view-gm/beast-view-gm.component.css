@@ -171,7 +171,7 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
 
 .artist-credits p {
     font-size: 16px;
-    font-family: 'know';
+    font-family: 'know'; letter-spacing: 1px;
 }
 
 .artist-credits i {

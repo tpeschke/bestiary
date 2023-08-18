@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @font-face {
-  font-family: 'know';
+  font-family: 'know'; letter-spacing: 1px;
   src: url('./assets/jancient.ttf') format("truetype");
 }
 @font-face {
@@ -142,11 +142,11 @@ h3 {
   font-weight: 600;
 }
 a {
-  font-family: 'know';
+  font-family: 'know'; letter-spacing: 1px;
   font-size: 20px;
 }
 .mat-button-wrapper {
-  font-family: 'know';
+  font-family: 'know'; letter-spacing: 1px;
   font-size: 17px;
 }
 p {
@@ -273,7 +273,7 @@ table {
 
 .ql-editor strong {
   font-weight: 600;
-  font-family: 'know';
+  font-family: 'know'; letter-spacing: 1px;
   font-size: 15px;
   letter-spacing: 2px;
 }

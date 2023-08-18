@@ -64,7 +64,7 @@ p {
 }
 
 strong {
-    font-family: 'know';
+    font-family: 'know'; letter-spacing: 1px;
     font-weight: bold;
     min-width: 125px;
 }

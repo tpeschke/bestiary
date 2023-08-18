@@ -304,7 +304,7 @@
 }
 
 h2 {
-    font-family: 'know';
+    font-family: 'know'; letter-spacing: 1px;
 }
 
 .quick-view-title {
@@ -320,7 +320,7 @@ h2 {
 
 strong {
     font-weight: bold;
-    font-family: 'know';
+    font-family: 'know'; letter-spacing: 1px;
 }
 
 .locationVitality div:first-child .flex-row-opposite {
