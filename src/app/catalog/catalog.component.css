@@ -44,7 +44,8 @@ img {
 .beast-name {
   font-family: 'know'; letter-spacing: 1px;
   font-size: 16px;    
-  padding: 5px 0 0 5px
+  padding: 5px 0 0 5px;
+  line-height: 25px;
 }
 
 .beast-name-shell {
