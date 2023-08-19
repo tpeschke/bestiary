@@ -91,6 +91,10 @@ img {
     border-radius: 5px;
 }
 
+.border-left {
+    border-left: 1px solid grey;
+}
+
 h1 {
     font-family: 'Hamletornot';
     letter-spacing: 2px;

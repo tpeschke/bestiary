@@ -430,6 +430,8 @@ getArmorOrShieldStat = (stat, ArmorOrShield, weaponKey, combatStats, roleInfo, p
 getModifiedStat = (scalingStrength, scaling, points) => {
     if (scalingStrength === 'x') {
         return 'N'
+    } else if (scalingStrength === 'one') {
+        return 1
     } else if (scalingStrength === 'noneStr') {
         return scaling.scaling.majSt
     } else  if (scalingStrength === 'noneWk') {
