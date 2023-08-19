@@ -773,7 +773,6 @@ setNoWeaponDamage = (combatStats, roleInfo, points) => {
     }
 
     let scalingStrength;
-
     if (combatStats.piercingweapons) {
         scalingStrength = combatStats.piercingweapons
         damageType = 'P'
@@ -1261,11 +1260,11 @@ const scalingAndBases = {
     },
     andslashing: {
         scaling: {
-            majSt: 2,
-            minSt: 1,
-            none: 0,
-            minWk: -1,
-            majWk: -2
+            majSt: 3,
+            minSt: 2,
+            none: 2,
+            minWk: 1,
+            majWk: 0
         },
         bonus: {
             majSt: .75,
@@ -1277,8 +1276,8 @@ const scalingAndBases = {
     },
     andcrushing: {
         scaling: {
-            majSt: 2,
-            minSt: 1,
+            majSt: 4,
+            minSt: 2,
             none: 0,
             minWk: -1,
             majWk: -2

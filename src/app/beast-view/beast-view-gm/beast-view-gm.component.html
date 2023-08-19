@@ -405,8 +405,7 @@
               <h3>Vitality</h3>
               <span class="vitality-flex">
                 <p>
-                  {{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.largeweapons :
-                  beast.phyiscalAndStress.physical.largeweapons}}</p>
+                  {{findWhatToDisplay('physical', 'largeweapons', 'N/A')}}</p>
                 <p class="vitality-flex-subtitle">{{selectedRoleId ?
                   beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.diceString :
                   beast.phyiscalAndStress.physical.diceString}}</p>
@@ -469,8 +468,7 @@
             <div class="flex-row-opposite">
               <h3>Stress Threshold</h3>
               <p>
-                {{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.stress :
-                beast.phyiscalAndStress.mental.stress}}</p>
+                {{findWhatToDisplay('mental', 'stress', 'N/A')}}</p>
             </div>
             <div *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.stress !== 'N') || (!selectedRoleId && beast.phyiscalAndStress.mental.stress !== 'N')" class="rolled-stats-shell">
               <mat-form-field>
@@ -486,8 +484,7 @@
             </div>
             <div class="flex-row-opposite">
               <h3>Caution Threshold</h3>
-              <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.caution :
-                beast.phyiscalAndStress.mental.caution}} <i class="fas fa-info-circle icon-small blue"
+              <p>{{findWhatToDisplay('mental', 'caution', 'Never')}} <i class="fas fa-info-circle icon-small blue"
                   matTooltip="If the monster's combine damage and Stress is over this number, they go on the defensive: slowly retreating if they can get away, falling back to a more defensive position if they can't, or simply switching to defensive strategies if unable.">
                 </i></p>
             </div>

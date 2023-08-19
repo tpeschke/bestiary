@@ -240,6 +240,14 @@ export class BeastViewGmComponent implements OnInit {
     }
   }
 
+  findWhatToDisplay = (object, key, toReturn = 'N/A') => {
+    const thisToDisplay = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].phyiscalAndStress[object][key] : this.beast.phyiscalAndStress[object][key]
+    if (thisToDisplay === 'N') {
+      return toReturn
+    }
+    return thisToDisplay
+  }
+
   setDisplayVitality = () => {
     if (this.selectedRoleId) {
       let diceToRoll = this.beast.roleInfo[this.selectedRoleId].phyiscalAndStress.physical.diceString
