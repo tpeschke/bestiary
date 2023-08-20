@@ -4,7 +4,7 @@ main.socialsecondary as basesocialsecondary, main.skillrole as baseskillrole, ma
 sp_atk, sp_def, r.attack as roleattack, r.defense as roledefense, main.vitality, r.vitality as rolevitality, main.panic, 
 r.panic as rolepanic, main.hash, main.stress, r.stress as rolestress, patreon, canplayerview, patreon, main.caution, 
 r.caution as rolecaution, r.hash as rolehash, main.size, r.size as rolesize, basefatigue, r.fatigue as rolefatigue,
-r.socialsecondary, main.combatpoints as mainpoints, r.combatpoints as rolepoints
+r.socialsecondary, main.combatpoints as mainpoints, r.combatpoints as rolepoints, notrauma
 from bbindividualbeast main
 left join bbroles r on main.id = r.beastid
 where main.hash = $1 or r.hash = $1

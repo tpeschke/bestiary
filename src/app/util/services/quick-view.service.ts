@@ -18,14 +18,13 @@ export class QuickViewService {
 
   addToQuickViewArray(hash) {
     this.beastService.getQuickView(hash).subscribe(results => {
-      results = this.modifyVitality(results)
+
       results.vitalityArray = []
-      results.vitalityArray.push({ locationCheckboxes: results.locationCheckboxes, label: "" })
-      results.averageVitality = results.vitalityArray[0].locationCheckboxes.mainVitality.average
       if (results.role) {
         results.roleinfo = this.combatRolesInfo[results.role]
       }
       this.quickViewArray.push(results)
+      this.addAnotherVitalityToBeast(this.quickViewArray.length - 1)
       this.beastService.handleMessage({ message: `${results.name} have been added to your quick view`, color: "green" })
     })
   }
@@ -34,32 +33,17 @@ export class QuickViewService {
     this.quickViewArray.splice(index, 1)
   }
 
-  modifyVitality(monster) {
-    monster.locationCheckboxes = { mainVitality: {} }
-
-    monster.locationCheckboxes.mainVitality = {
-      rolled: this.calculatorService.rollDice(monster.vitality),
-      average: this.calculatorService.calculateAverageOfDice(monster.vitality)
-    }
-    monster.trauma = monster.locationCheckboxes.mainVitality.average
-    monster.trauma = +(monster.trauma / 2).toFixed(0);
-
-    let { locationalvitality } = monster
-    if (locationalvitality.length > 0) {
-      locationalvitality.forEach(({ location, vitality }) => {
-        monster.locationCheckboxes[location] = {
-          rolled: this.calculatorService.rollDice(vitality)
-        }
-        monster.trauma = Math.max(monster.trauma, monster.locationCheckboxes[location].average)
-      })
-    }
-
-    return monster
-  }
-
   addAnotherVitalityToBeast(beastIndex) {
-    let newMonsterVitality = this.modifyVitality(this.quickViewArray[beastIndex])
-    this.quickViewArray[beastIndex].vitalityArray.push({ locationCheckboxes: newMonsterVitality.locationCheckboxes, label: "" })
+    let diceToRoll = this.quickViewArray[beastIndex].phyiscalAndStress.physical.diceString
+    if (diceToRoll.includes('(KB')) {
+      diceToRoll = diceToRoll.split('(')[0]
+    }
+    const vitality = this.calculatorService.rollDice(diceToRoll)
+    let trauma: any = +((this.quickViewArray[beastIndex].phyiscalAndStress.physical.largeweapons / 2).toFixed(0))
+    if (this.quickViewArray[beastIndex].notrauma) {
+      trauma = 'N/A'
+    }
+    this.quickViewArray[beastIndex].vitalityArray.push({ vitality, trauma, label: "" })
   }
 
   removeVitalityFromBeast(beastIndex, vitalityIndex) {

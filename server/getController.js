@@ -70,8 +70,8 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints } = result[0]
-      let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: rolepoints || rolepoints === 0 ? rolepoints : mainpoints }
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma } = result[0]
+      let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: rolepoints || rolepoints === 0 ? rolepoints : mainpoints, notrauma }
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
       let secondaryRoleToUse = ''
@@ -117,47 +117,10 @@ module.exports = {
             beast.name = name
           }
         }
-
-        if (rolefatigue) {
-          beast.fatigue = rolefatigue
-        }
-
-        if (rolevitality) {
-          vitalityToUse = rolevitality
-        }
-
-        if (rolepanic) {
-          beast.panic = rolepanic
-        }
-        if (rolestress) {
-          beast.stressthreshold = rolestress
-        }
-        if (rolepanic) {
-          beast.panic = rolepanic
-        }
-        if (rolecaution) {
-          beast.caution = rolecaution
-        }
         if (roletype) {
           beast.role = roletype
         }
       }
-
-      if (!beast.panic) {
-        beast.panic = 7
-      }
-
-      if (vitality && vitality !== '') {
-        vitalityToUse = vitality
-      } else if (!vitalityToUse || vitalityToUse === '') {
-        vitalityToUse = roles.combatRoles.primary[roleToUse].vitality
-      }
-
-      if (secondaryRoleToUse === 'Fodder') {
-        vitalityToUse = `(${vitalityToUse})/2`
-      }
-
-      beast.vitality = vitalityToUse
 
       let promiseArray = []
         , patreonTestValue = -1;
@@ -205,7 +168,6 @@ module.exports = {
           let specialAbilities = {}
           beast.combatStatArray = result.map(combatSquare => {
             let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points: beast.combatpoints, size: beast.size, role: roleToUse })
-
             let equipmentInfo = {}
             if (combatSquare.weapon) {
               equipmentInfo.weaponInfo = equipmentCtrl.getWeapon(combatSquare.weapon)
@@ -230,7 +192,7 @@ module.exports = {
               specialAbilities[combatSquare.roleid].push(equipmentInfo.shieldInfo.bonusLong)
             }
 
-            return { ...fullCombatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, weaponname: combatSquare.weaponname }
+            return { ...fullCombatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, weaponname: combatSquare.weaponname, weapon: combatSquare.weapon, armor: combatSquare.armor, shield: combatSquare.shield }
           })
 
           for (const key in specialAbilities) {
