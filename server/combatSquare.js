@@ -112,7 +112,7 @@ const combatSquareController = {
             physical = setVitalityDieAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield, sizeMod)
         } else {
             physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield)
-            deteremineVitalityDice(physical, sizeMod)
+            deteremineVitalityDice(physical, sizeMod, combatStats.noknockback)
         }
         let caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
 
@@ -186,7 +186,7 @@ setVitalityDieAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryro
                 numberOfIncreases *= 3
             }
         }
-    
+
         let diceObject = {
             d3s: 0,
             d4s: 0,
@@ -196,7 +196,7 @@ setVitalityDieAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryro
             d12s: 0,
             d20s: 0,
         }
-    
+
         diceObject.d20s += Math.floor(numberOfIncreases / 6)
         let leftover = numberOfIncreases % 6
         if (leftover === 1) {
@@ -210,11 +210,11 @@ setVitalityDieAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryro
         } else if (leftover === 5) {
             diceObject.d12s += 1
         }
-    
+
         let { d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
         let diceString = ''
         let average = 0
-    
+
         if (d4s > 0) {
             diceString += ` ${diceString !== '' ? '+' : ''}${d4s}d4!`
             average += (2 * d4s)
@@ -239,16 +239,19 @@ setVitalityDieAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryro
             diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
             average += (10 * d20s)
         }
-    
+
         physical.largeweapons = average
-        physical.diceString = `${diceString} (KB: ${sizeMod})`
+        let knockbackString = ''
+        if (!combatStats.noknockback) {
+            knockbackString = ` (KB: ${sizeMod})`
+        }
+        physical.diceString = `${diceString}${knockbackString}`
     } else {
         physical.largeweapons = 'N'
-        physical.diceString = `(KB: ${sizeMod})`
+        physical.diceString = !combatStats.noknockback ? `(KB: ${sizeMod})` : null
     }
 
     physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatpoints, armor, shield, physical.largeweapons)
-
     return physical
 
 }
@@ -256,19 +259,18 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole,
     let physical = {}
     physical.largeweapons = getModifiedStats('largeweapons', combatStats, baseRoleInfo, combatpoints)
     if (secondaryrole && physical.largeweapons !== 'N') {
-        if (secondaryrole === 'Fodder') {
+        if (secondaryrole === 'Fodder' && physical.largeweapons !== 1) {
             physical.largeweapons = Math.floor(physical.largeweapons / 2)
         } else if (secondaryrole === 'Solo') {
             physical.largeweapons *= 3
         }
     }
     physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatpoints, armor, shield, physical.largeweapons)
-
     return physical
 }
 getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapons) => {
     let fatigue = getModifiedStats('fatigue', combatStats, baseRoleInfo, combatpoints)
-    if (fatigue !== 'N') {
+    if (fatigue !== 'N' && largeweapons !== 'N') {
         if (armor) {
             fatigue += (equipmentController.getArmor(armor).fatigue * -.25)
         }
@@ -279,6 +281,8 @@ getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapo
             fatigue = 1
         }
         return Math.floor(fatigue * largeweapons)
+    } else if (largeweapons === 'N') {
+        return 'N'
     } else {
         return fatigue
     }
@@ -295,7 +299,7 @@ setCaution = (combatStats, baseRoleInfo, combatpoints, mental, physical) => {
     const stress = mental.stress === 'N' ? 0 : mental.stress
     return Math.floor((stress + largeweapons) * caution)
 }
-deteremineVitalityDice = (physical, sizeMod) => {
+deteremineVitalityDice = (physical, sizeMod, noknockback) => {
     if (physical.largeweapons - sizeMod > 0) {
         const remainder = roundToNearestEvenNumber(physical.largeweapons - sizeMod)
         if (remainder % 10 === 0) {
@@ -338,10 +342,20 @@ deteremineVitalityDice = (physical, sizeMod) => {
             physical.diceString = `${physical.largeweapons - sizeMod} + ${sizeMod}`
         }
     } else if (physical.largeweapons === 'N') {
-        physical.diceString = `(KB: ${sizeMod})`
+        physical.diceString = !noknockback ? `(KB: ${sizeMod})` : null
+    } else if (physical.largeweapons === 1) {
+        let knockbackString = ''
+        if (!noknockback) {
+            knockbackString = ` (KB: ${sizeMod})`
+        }
+        physical.diceString = `1${knockbackString}`
     } else {
         physical.largeweapons = sizeMod
-        physical.diceString = `0 + ${sizeMod}`
+        if (!noknockback) {
+            physical.diceString = `0 + ${sizeMod}`
+        } else {
+            physical.diceSize = `${sizeMod}`
+        }
     }
     return 'Something went wrong'
 }
@@ -434,7 +448,7 @@ getModifiedStat = (scalingStrength, scaling, points) => {
         return 1
     } else if (scalingStrength === 'noneStr') {
         return scaling.scaling.majSt
-    } else  if (scalingStrength === 'noneWk') {
+    } else if (scalingStrength === 'noneWk') {
         return scaling.scaling.majWk
     } else if (scalingStrength === 'none' || !scalingStrength) {
         return scaling.scaling.none
@@ -536,38 +550,53 @@ getModifiedMeasure = (combatStats, roleInfo, points, size) => {
 
     const scaling = getStatScaling('measure')
 
-    if (combatStats.weapon) {
-        const weaponMeasure = equipmentController.getWeapon(combatStats.weapon).measure
-        if (scalingStrength === 'noneStr') {
-            modifiedStat = weaponMeasure - (scaling.scaling.none - scaling.scaling.minWk)
-        } else if (scalingStrength === 'noneWk') {
-            modifiedStat = weaponMeasure - (scaling.scaling.none - scaling.scaling.majWk)
-        } else if (scalingStrength === 'none' || !scalingStrength) {
-            modifiedStat = weaponMeasure
+    if (!combatStats.swarmbonus) {
+        if (combatStats.weapon) {
+            const weaponMeasure = equipmentController.getWeapon(combatStats.weapon).measure
+            if (scalingStrength === 'noneStr') {
+                modifiedStat = weaponMeasure - (scaling.scaling.none - scaling.scaling.minWk)
+            } else if (scalingStrength === 'noneWk') {
+                modifiedStat = weaponMeasure - (scaling.scaling.none - scaling.scaling.majWk)
+            } else if (scalingStrength === 'none' || !scalingStrength) {
+                modifiedStat = weaponMeasure
+            } else {
+                modifiedStat = weaponMeasure + (scaling.bonus[scalingStrength] * points)
+            }
         } else {
-            modifiedStat = weaponMeasure + (scaling.bonus[scalingStrength] * points)
+            modifiedStat = getModifiedStat(scalingStrength, scaling, points)
         }
+    
+        const measureModDictionary = {
+            Fine: -4,
+            Diminutive: -3,
+            Tiny: -2,
+            Small: -1,
+            Medium: 0,
+            Large: 1,
+            Huge: 2,
+            Giant: 3,
+            Enormous: 4,
+            Colossal: 5
+        }
+    
+        if (!combatStats.addsizemod) {
+            return modifiedStat
+        }
+        return Math.floor(modifiedStat + measureModDictionary[size])
+
     } else {
-        modifiedStat = getModifiedStat(scalingStrength, scaling, points)
+        if (scalingStrength === 'x') {
+            return 'N'
+        } else if (scalingStrength === 'noneStr') {
+            return scaling.swarm.majSt
+        } else if (scalingStrength === 'noneWk') {
+            return scaling.swarm.majWk
+        } else if (scalingStrength === 'none' || !scalingStrength) {
+            return scaling.swarm.none
+        } else {
+            return scaling.swarm[scalingStrength]
+        }
     }
-
-    const measureModDictionary = {
-        Fine: -4,
-        Diminutive: -3,
-        Tiny: -2,
-        Small: -1,
-        Medium: 0,
-        Large: 1,
-        Huge: 2,
-        Giant: 3,
-        Enormous: 4,
-        Colossal: 5
-    }
-
-    if (!combatStats.addsizemod) {
-        return modifiedStat
-    }
-    return Math.floor(modifiedStat + measureModDictionary[size])
 }
 
 getModifiedParry = (combatStats, roleInfo, points) => {
@@ -601,7 +630,7 @@ getModifiedParry = (combatStats, roleInfo, points) => {
     } else {
         if (scalingStrength === 'noneStr') {
             modifiedParry = Math.ceil(baseParry - (scaling.scaling.none - scaling.scaling.minWk))
-         } else if (scalingStrength === 'noneWk') {
+        } else if (scalingStrength === 'noneWk') {
             modifiedParry = Math.ceil(baseParry - (scaling.scaling.none - scaling.scaling.majWk))
         } else if (scalingStrength === 'none') {
             modifiedParry = Math.ceil(baseParry - scaling.scaling.none)
@@ -901,16 +930,16 @@ setNoWeaponDamage = (combatStats, roleInfo, points) => {
 setModifiedRecovery = (baseRecovery, combatStats, roleInfo, points) => {
     if (!combatStats.swarmbonus) {
         let scalingStrength;
-    
+
         if (combatStats.recovery) {
             scalingStrength = combatStats.recovery
         } else {
             scalingStrength = roleInfo.recovery
         }
-    
+
         const scaling = getStatScaling('recovery')
         let unadjustedRecovery = 0
-        if (scalingStrength === 'noneStr') { 
+        if (scalingStrength === 'noneStr') {
             unadjustedRecovery = Math.ceil(baseRecovery * scaling.scaling.minWk)
         } else if (scalingStrength === 'noneWk') {
             unadjustedRecovery = Math.ceil(baseRecovery * scaling.scaling.majWk)
@@ -919,7 +948,7 @@ setModifiedRecovery = (baseRecovery, combatStats, roleInfo, points) => {
         } else {
             unadjustedRecovery = Math.ceil((scaling.scaling[scalingStrength] * baseRecovery) - (scaling.bonus[scalingStrength] * points))
         }
-    
+
         if (unadjustedRecovery <= 10) {
             unadjustedRecovery = unadjustedRecovery
         } else if (unadjustedRecovery <= 20) {
@@ -942,7 +971,7 @@ setModifiedRecovery = (baseRecovery, combatStats, roleInfo, points) => {
         } else {
             if (unadjustedRecovery < 2) {
                 return 2
-            } 
+            }
             return unadjustedRecovery
         }
     } else {
@@ -952,7 +981,7 @@ setModifiedRecovery = (baseRecovery, combatStats, roleInfo, points) => {
             return 'N'
         } else if (scalingStrength === 'noneStr') {
             return scaling.swarm.majSt
-        } else  if (scalingStrength === 'noneWk') {
+        } else if (scalingStrength === 'noneWk') {
             return scaling.swarm.majWk
         } else if (scalingStrength === 'none' || !scalingStrength) {
             return scaling.swarm.none
@@ -983,9 +1012,9 @@ getCover = (combatStats, roleInfo, points) => {
         crouchingCover = +coverString[1]
     }
     if (!baseCover || baseCover === 0) {
-        if (scalingStrength === 'noneStr') { 
+        if (scalingStrength === 'noneStr') {
             modifiedCover = scaling.scaling.majSt
-         } else if (scalingStrength === 'noneWk') {
+        } else if (scalingStrength === 'noneWk') {
             modifiedCover = scaling.scaling.majWk
         } else if (scalingStrength === 'none') {
             modifiedCover = scaling.scaling.none
@@ -998,7 +1027,7 @@ getCover = (combatStats, roleInfo, points) => {
             if (crouchingCover) {
                 crouchingCover = Math.ceil(crouchingCover + (scaling.scaling.none - scaling.scaling.minSt))
             }
-         } else if (scalingStrength === 'noneWk') {
+        } else if (scalingStrength === 'noneWk') {
             modifiedCover = Math.ceil(baseCover + (scaling.scaling.none - scaling.scaling.majWk))
             if (crouchingCover) {
                 crouchingCover = Math.ceil(crouchingCover + (scaling.scaling.none - scaling.scaling.majWk))
@@ -1395,6 +1424,13 @@ const scalingAndBases = {
             none: 3,
             minWk: 2,
             majWk: 1
+        },
+        swarm: {
+            majSt: 2,
+            minSt: 1,
+            none: 0,
+            minWk: -1,
+            majWk: -2
         },
         bonus: {
             majSt: .75,

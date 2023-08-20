@@ -750,8 +750,11 @@
               <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?
               </mat-checkbox>
               <br>
-              <br>
-              <mat-form-field>
+              <mat-checkbox [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback" (change)="checkCheckBox($event.checked, 'noknockback')">Immune to Knockbacks?
+              </mat-checkbox>
+              <br *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
+              <br *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
+              <mat-form-field *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
                 <input placeholder="Knock Back Threshold" matInput
                   [value]="beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].knockback ? beast.roleInfo[selectedRoleId].knockback : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].size ? sizeDictionary[beast.roleInfo[selectedRoleId].size] : beast.knockback ? beast.knockback : sizeDictionary[beast.size] ? sizeDictionary[beast.size] : null"
                   (change)="captureBasicInput($event, 'knockback')">

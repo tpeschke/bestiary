@@ -361,7 +361,9 @@ export class CombatInfoComponent implements OnChanges {
 
   checkBasicStatOnOff = (stat, event) => {
     this.combatStats[stat] = event.checked
-    
+    if (stat === 'swarmbonus') {
+      this.combatStats.addsizemod = !event.checked
+    }
     this.getCombatSquare()
   }
 
@@ -372,6 +374,12 @@ export class CombatInfoComponent implements OnChanges {
       this.combatStats[type] = event.option.value
     } else {
       this.combatStats[type] = null
+    }
+
+    if (type === 'weapon' && this.combatStats.measure !== 'none') {
+      this.checkOtherStat('measure', 'none', event)
+    } else if (type === 'weapon' && !event.option.value) {
+      this.checkOtherStat('measure', null, event)
     }
 
     this.getCombatSquare()
