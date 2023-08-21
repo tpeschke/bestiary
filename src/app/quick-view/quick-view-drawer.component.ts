@@ -82,7 +82,7 @@ export class QuickViewDrawerComponent implements OnInit {
       this.newArmorInfo = square.armorInfo
       this.newSelectedShield = square.selectedshield
       this.newShieldInfo = square.shieldInfo
-      this.showAllEquipment = this.displayService.turnOnAllEquipment(beast.roleinfo, this.newSelectedWeapon, this.newSelectedArmor, this.newSelectedShield)
+      // this.showAllEquipment = this.displayService.turnOnAllEquipment(beast.roleinfo, this.newSelectedWeapon, this.newSelectedArmor, this.newSelectedShield)
     } else if (square.showEquipmentSelection) {
       square.selectedweapon = this.newSelectedWeapon
 
