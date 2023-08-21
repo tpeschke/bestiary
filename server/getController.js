@@ -70,12 +70,11 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma } = result[0]
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons } = result[0]
       let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: rolepoints || rolepoints === 0 ? rolepoints : mainpoints, notrauma }
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
       let secondaryRoleToUse = ''
-      let vitalityToUse = '';
 
       name = formatNameWithCommas(beast.name)
 
@@ -83,6 +82,14 @@ module.exports = {
         beast.name = displayName(beast.name, baseroletype, basesecondaryrole, baseskillrole, basesocialrole, basesocialsecondary)
         beast.role = baseroletype
         beast.secondaryrole = basesecondaryrole
+        beast.singledievitality = mainsingledievitality
+        beast.knockback = mainknockback
+        beast.panicstrength = mainpanicstrength
+        beast.cautionstrength = maincautionstrength
+        beast.fatiguestrength = mainfatiguestrength
+        beast.stressstrength = mainstressstrength
+        beast.mental = mainmental
+        beast.largeweapons = mainlargeweapons
       }
 
       if (baseroletype) {
@@ -107,6 +114,15 @@ module.exports = {
       if (isARole) {
         roleToUse = roletype
         secondaryRoleToUse = secondaryroletype
+        
+        beast.singledievitality = rolesingledievitality
+        beast.knockback = roleknockback
+        beast.panicstrength = rolepanicstrength
+        beast.cautionstrength = rolecautionstrength
+        beast.fatiguestrength = rolefatiguestrength
+        beast.stressstrength = rolestressstrength
+        beast.mental = rolemental
+        beast.largeweapons = rolelargeweapons
 
         if (roletype) {
           if (roleToUse !== '' && secondaryRoleToUse) {
@@ -207,6 +223,7 @@ module.exports = {
             armor = beast.combatStatArray[0].armor
             shield = beast.combatStatArray[0].shield
           }
+
           beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, beast.role, { mental: beast.mental, panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons, singledievitality: beast.singledievitality, noknockback: beast.noknockback }, beast.secondaryrole, beast.knockback, beast.size ? beast.size : 'Medium', armor, shield)
           for (let role in beast.roleInfo) {
             beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, beast.roleInfo[role].role, { mental: beast.roleInfo[role].mental, panic: beast.roleInfo[role].panic, caution: beast.roleInfo[role].caution, fatigue: beast.roleInfo[role].fatigue, largeweapons: beast.roleInfo[role].largeweapons, singledievitality: beast.roleInfo[role].singledievitality, noknockback: beast.roleInfo[role].noknockback }, beast.roleInfo[role].secondaryrole, beast.roleInfo[role].knockback, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)

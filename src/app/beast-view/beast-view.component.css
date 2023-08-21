@@ -135,7 +135,7 @@ h1 input::placeholder {
 
 .add-to-quick-view:hover i {
     cursor: pointer;
-    color: #ffd740;
+    color: #ffd740 !important;
 }
 
 .combat-image {

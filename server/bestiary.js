@@ -94,7 +94,7 @@ app.get('/api/obstacles/single/:id', obstCtrl.get)
 app.get('/api/encounter/edit/:beastid', ctrl.getEditEncounter)
 app.get('/api/encounter/:beastid', ctrl.getRandomEncounter)
 
-app.get('/api/combat/:hash', ctrl.getFromBestiary)
+app.get('/api/combat/:hash', getCtrl.getQuickView)
 
 app.post('/api/beast/player', ctrl.addPlayerNotes)
 app.post('/api/favorite', ctrl.addFavorite)
