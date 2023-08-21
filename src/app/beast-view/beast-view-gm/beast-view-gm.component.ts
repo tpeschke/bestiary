@@ -37,7 +37,6 @@ export class BeastViewGmComponent implements OnInit {
   public encounter: any = "loading";
   public loggedIn = this.beastService.loggedIn || false;
   public imageBase = variables.imageBase;
-  public averageVitality = null
   public checkboxes = []
   public locationCheckboxes: any = {}
   public trauma = 0;
@@ -57,15 +56,7 @@ export class BeastViewGmComponent implements OnInit {
   public socialRolesInfo = roles.socialRoles.primary
   public socialSecondaryInfo = roles.socialRoles.secondary
   public skillRolesInfo = roles.skillRoles
-  public displayedFatigue = null;
-  public numberFatigue = null;
-  public displayedPanic = null;
-  public numberPanic = null;
-  public displayVitalityAverage = null;
-  public displayVitalityDice = null;
-  public displayedVitalityRoll = null;
-  public isFodderSecondary = false;
-  public isDefaultVitality = false;
+  public displayedVitalityRoll = null
 
   public selectedObstacleId = null;
 
@@ -566,64 +557,6 @@ export class BeastViewGmComponent implements OnInit {
     }
   }
 
-  createCheckboxArray(vitality) {
-    let checkboxArray = []
-
-    let bloodied = Math.floor(vitality * .25)
-      , wounded = Math.floor(vitality * .5)
-      , critical = Math.floor(vitality * .75)
-
-    for (let i = 0; i < vitality; i++) {
-      switch (i) {
-        case bloodied:
-          checkboxArray.push({ value: 'B' })
-          break;
-        case wounded:
-          checkboxArray.push({ value: 'W' })
-          break;
-        case critical:
-          checkboxArray.push({ value: 'C' })
-          break;
-        default:
-          break;
-      }
-      checkboxArray.push({ checked: false })
-    }
-    return checkboxArray
-  }
-
-  checkCheckbox(event, index, id) {
-    this.locationCheckboxes[id].checkboxes = this.locationCheckboxes[id].checkboxes.map((box, i) => {
-      if (box.value) {
-        return box
-      } else {
-        if (i === 0 && index === 0) {
-          return { checked: event.checked }
-        } else if (i <= index) {
-          return { checked: true }
-        } else {
-          return { checked: false }
-        }
-      }
-    })
-  }
-
-  checkRoleCheckbox(event, index) {
-    this.beast.roleInfo[this.selectedRoleId].checkboxes = this.beast.roleInfo[this.selectedRoleId].checkboxes.map((box, i) => {
-      if (box.value) {
-        return box
-      } else {
-        if (i === 0 && index === 0) {
-          return { checked: event.checked }
-        } else if (i <= index) {
-          return { checked: true }
-        } else {
-          return { checked: false }
-        }
-      }
-    })
-  }
-
   navigateToSearch(type, search) {
     this.router.navigate(['/search', { [type]: search }]);
   }
@@ -1084,7 +1017,6 @@ export class BeastViewGmComponent implements OnInit {
     this.encounter = "loading";
     this.loggedIn = this.beastService.loggedIn || false;
     this.imageBase = variables.imageBase;
-    this.averageVitality = null
     this.checkboxes = []
     this.locationCheckboxes = {}
     this.trauma = 0;
@@ -1104,15 +1036,7 @@ export class BeastViewGmComponent implements OnInit {
     this.socialRolesInfo = roles.socialRoles.primary
     this.socialSecondaryInfo = roles.socialRoles.secondary
     this.skillRolesInfo = roles.skillRoles
-    this.displayedFatigue = null;
-    this.numberFatigue = null;
-    this.displayedPanic = null;
-    this.numberPanic = null;
-    this.displayVitalityAverage = null;
-    this.displayVitalityDice = null;
     this.displayedVitalityRoll = null;
-    this.isFodderSecondary = false;
-    this.isDefaultVitality = false;
 
     this.equipmentLists = { weapons: [], armor: [], shields: [] }
     this.equipmentObjects = { weapons: {}, armor: {}, shields: {} }

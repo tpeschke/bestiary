@@ -48,13 +48,7 @@ export class BeastViewEditComponent implements OnInit {
   public newVariantId = null;
   public newChallengeId = null;
   public newObstacleId = null;
-  public averageVitality = null;
   public lootTables = lootTables;
-
-  public displayFatigue = null;
-  public displayPanic = null;
-  public hiddenPanic = null;
-  public fatigueAsVitality: any = '';
 
   public mental = {
     stress: null,
@@ -676,16 +670,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     } else if (!secondaryType) {
       let objectToModify = { ...this.beast }
-      if (this.selectedRoleId && (type === 'stress' || type === 'caution')) {
-        objectToModify = this.beast.roleInfo[this.selectedRoleId]
-        this.beast.roleInfo[this.selectedRoleId] = Object.assign({}, objectToModify, { [type]: event.target.value })
-        this.updateRolesObject(type, event.target.value)
-      } else {
-        this.beast = Object.assign({}, objectToModify, { [type]: event.target.value })
-      }
-      if (type === 'vitality') {
-        this.averageVitality = this.calculatorService.calculateAverageOfDice(this.beast.vitality)
-      }
+      this.beast = Object.assign({}, objectToModify, { [type]: event.target.value })
     } else if (secondaryType && !thirdType) {
       let newSecondaryObject = [...this.beast[type]]
       newSecondaryObject[index][secondaryType] = event.target.value
@@ -780,17 +765,6 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  capturePanic(event) {
-    this.calculateSocialPoints()
-    this.calculateSkillPoints()
-    if (this.selectedRoleId) {
-      this.beast.roleInfo[this.selectedRoleId].panic = event.value
-      this.updateRolesObject('panic', event.value)
-    } else {
-      this.beast.panic = event.value
-    }
-  }
-
   captureSelect(event, type, index, secondaryType) {
     if (secondaryType) {
       if (event.value === 'r' && !this.beast[type][index].ranges) {
@@ -842,26 +816,6 @@ export class BeastViewEditComponent implements OnInit {
         return 10
       default:
         return 2
-    }
-  }
-
-  getPanicValue = (panicValue) => {
-    panicValue = panicValue ? panicValue : 5
-    switch (panicValue) {
-      case 1:
-        return -8;
-      case 2:
-        return -6;
-      case 3:
-        return -4;
-      case 4:
-        return -2;
-      case 5:
-        return 0;
-      case 7:
-        return 2;
-      default:
-        return 0
     }
   }
 
@@ -997,37 +951,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   addNewSecondaryItem(type, secondType) {
-    if (type === 'combat') {
-      this.beast[type].push({
-        weapon: '',
-        spd: 0,
-        atk: 0,
-        init: 0,
-        def: 0,
-        Fatigue: "C",
-        newDR: {
-          flat: 0,
-          slash: 0
-        },
-        newShieldDr: {
-          flat: 0,
-          slash: 0
-        },
-        measure: 0,
-        addrolemods: true,
-        newDamage: {
-          dice: [],
-          flat: 0,
-          isSpecial: false,
-          hasSpecialAndDamage: false
-        },
-        parry: 0,
-        weapontype: 'm',
-        roleid: this.selectedRoleId,
-        damageskill: 0,
-        addsizemod: true
-      })
-    } else if (type === 'combatStatArray') {
+    if (type === 'combatStatArray') {
       this.beast[type].push({
         roleid: this.selectedRoleId,
         weapontype: null,
@@ -1552,10 +1476,6 @@ export class BeastViewEditComponent implements OnInit {
       this.selectedRole = this.combatRolesInfo[event.value]
     }
 
-    if (this.beast.role && !this.beast.vitality) {
-      this.averageVitality = this.calculatorService.calculateAverageOfDice(this.combatRolesInfo[event.value].vitality)
-    }
-
     this.setVitalityAndStress()
   }
 
@@ -1850,8 +1770,6 @@ export class BeastViewEditComponent implements OnInit {
 
     socialpoints += Math.ceil(this.beast.stress / 5)
 
-    socialpoints += this.getPanicValue(this.beast.panic)
-
     this.beast.conflict.devotions.forEach(trait => {
       if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
         socialpoints += +trait.value
@@ -1885,7 +1803,6 @@ export class BeastViewEditComponent implements OnInit {
       let socialpoints = 0
 
       let panic = role.panic ? role.panic : this.beast.panic
-      socialpoints += this.getPanicValue(panic)
 
       this.beast.conflict.devotions.forEach(trait => {
         if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
@@ -1924,8 +1841,6 @@ export class BeastViewEditComponent implements OnInit {
 
     skillpoints += Math.ceil(this.beast.stress / 5)
 
-    skillpoints += this.getPanicValue(this.beast.panic)
-
     this.beast.skills.forEach(skill => {
       if ((!skill.skillroleid || skill.allroles) && !skill.deleted) {
         skillpoints += +skill.rank
@@ -1938,7 +1853,6 @@ export class BeastViewEditComponent implements OnInit {
       let skillpoints = 0
 
       let panic = role.panic ? role.panic : this.beast.panic
-      skillpoints += this.getPanicValue(panic)
 
       this.beast.skills.forEach(skill => {
         if ((skill.skillroleid === role.id || skill.allroles) && !skill.deleted) {
@@ -1949,65 +1863,6 @@ export class BeastViewEditComponent implements OnInit {
       role.skillpoints = skillpoints
       this.beast.roleInfo[role.id].skillpoints = skillpoints
     })
-  }
-
-  convertFatigue() {
-    if (isNaN(this.averageVitality)) {
-      return ' '
-    }
-
-    let percentage: any = .00;
-    switch (this.displayFatigue) {
-      case 'A':
-        percentage = 'A'
-        break;
-      case 'H':
-        percentage = 1
-        break;
-      case 'B':
-        percentage = .25
-        break;
-      case 'W':
-        percentage = .5
-        break;
-      case 'C':
-        percentage = .75
-        break;
-      case 'N':
-        percentage = 'N'
-        break;
-      default:
-        percentage = .75
-    }
-
-    if (percentage < 1 && !isNaN(percentage)) {
-      this.fatigueAsVitality = `Fatigued at ${(this.averageVitality * percentage).toFixed(0)} damage`
-    } else if (!isNaN(percentage)) {
-      this.fatigueAsVitality = `Fatigued at ${percentage} damage`
-    } else if (percentage === 'A') {
-      this.fatigueAsVitality = "This Monster is Always Fatigued"
-    } else if (percentage === 'N') {
-      this.fatigueAsVitality = "This Monster is Never Fatigued"
-    } else {
-      this.fatigueAsVitality = 'Something went wrong calculating when this monster is fatigued.'
-    }
-  }
-
-  getFatigueValue = (fatigue) => {
-    switch (fatigue) {
-      case 'A':
-        return -16;
-      case 'H':
-        return -12;
-      case 'B':
-        return -8;
-      case 'W':
-        return -4;
-      case 'C':
-        return 0;
-      case 'N':
-        return 4;
-    }
   }
 
   captureFolklore(type, index, event) {
