@@ -201,11 +201,12 @@
             <div *ngFor="let combatSquare of beast.combatStatArray" class="combat-square-margin"
               [ngClass]="{'noDisplay': selectedRoleId !== combatSquare.roleid}">
               <h4 class="weaponName">{{combatSquare.weaponname ? combatSquare.weaponname :
-                combatSquare.defaultweaponname}}<i
-                  *ngIf="(combatSquare.weapon || combatSquare.armor || combatSquare.shield) && !combatSquare.weapon"
+                combatSquare.defaultweaponname}}
+                <!-- <i *ngIf="combatSquare.weapon || combatSquare.armor || combatSquare.shield"
                   (click)="toggleEquipmentSelection(combatSquare)"
-                  class="fa-solid fa-arrow-right-arrow-left swap-equipment" matTooltip="Click to swap out gear."
-                  matTooltipClass="my-tooltip"></i></h4>
+                  class="fa-solid fa-pen-to-square swap-equipment" matTooltip="Click to swap out gear."
+                  matTooltipClass="my-tooltip"></i> -->
+                </h4>
               <div class="square-shell">
                 <img *ngIf="combatSquare.weaponType === 'm'" class="combat-image" src="../../../../assets/square.png"
                   alt="combat square">
@@ -504,7 +505,7 @@
                 <div class="flex-row-opposite">
                   <h5
                     [ngClass]="{'strike-through': movementType.movementSpeeds.strollspeed === 0 || !movementType.movementSpeeds.strollspeed }">
-                    Stroll</h5>
+                    Crawl</h5>
                   <p>{{movementType.movementSpeeds.strollspeed + ' ft / sec'}}</p>
                 </div>
                 <div class="flex-row-opposite">
