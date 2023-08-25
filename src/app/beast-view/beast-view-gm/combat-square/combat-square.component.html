@@ -1,0 +1,90 @@
+<div class="combat-square-shell">
+  <h4 class="weaponName">{{combatSquare.weaponname ? combatSquare.weaponname :
+    combatSquare.defaultweaponname}}
+    <i *ngIf="(combatSquare.weapon || combatSquare.armor || combatSquare.shield) && !showEquipmentSelection"
+      (click)="toggleEquipmentSelection()" class="fa-solid fa-pen-to-square swap-equipment"
+      matTooltip="Click to swap out gear." matTooltipClass="my-tooltip"></i>
+  </h4>
+  <div class="square-shell">
+    <img *ngIf="combatSquare.weaponType === 'm'" class="combat-image" src="../../../../assets/square.png"
+      alt="combat square">
+    <img *ngIf="combatSquare.weaponType === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png"
+      alt="combat square">
+    <p class="spd">{{combatSquare.recovery}}</p>
+    <p class="atk">{{combatSquare.attack}}</p>
+    <p class="init">{{combatSquare.initiative}}</p>
+    <div class="def">
+      <p>{{combatSquare.defense}}</p>
+      <p class="shield_dr">{{combatSquare.cover}}</p>
+    </div>
+    <p class="fatigue">{{combatSquare.damageType}}</p>
+    <div class="dr">
+      <p>{{combatSquare.dr}}</p>
+      <p class="shield_dr"><img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
+          height="15">{{combatSquare.shieldDr}}</p>
+    </div>
+    <div class="measure">
+      <p *ngIf="combatSquare.weaponType === 'm'">{{combatSquare.measure}}</p>
+      <p *ngIf="combatSquare.weaponType === 'r'">{{combatSquare.range}}</p>
+    </div>
+    <p class="damage">{{combatSquare.isspecial === 'yes' ? 'See Attack Info' : combatSquare.damage }}</p>
+    <p *ngIf="combatSquare.weaponType === 'm'" class="parry">{{combatSquare.eua ? 'EUA' :
+      combatSquare.parry}}</p>
+  </div>
+
+  <div *ngIf="showEquipmentSelection">
+    <mat-form-field>
+      <input placeholder="Weapon" matInput [value]="combatSquare.weapon" [matAutocomplete]="weaponGroup"
+        [formControl]="weaponControl">
+
+      <mat-autocomplete #weaponGroup="matAutocomplete" (optionSelected)="captureSelected($event, 'weapon')"
+        [displayWith]="getDisplayTextWeapon">
+        <mat-option>None</mat-option>
+        <mat-optgroup *ngFor="let group of weaponGroupOptions | async" [label]="group.label">
+          <mat-option *ngFor="let item of group.items" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input placeholder="Armor" matInput [value]="combatSquare.armor" [matAutocomplete]="armorGroup"
+        [formControl]="armorControl">
+
+      <mat-autocomplete #armorGroup="matAutocomplete" (optionSelected)="captureSelected($event, 'armor')"
+        [displayWith]="getDisplayTextArmor">
+        <mat-option>None</mat-option>
+        <mat-optgroup *ngFor="let group of armorGroupOptions | async" [label]="group.label">
+          <mat-option *ngFor="let item of group.items" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input placeholder="Shield" matInput [value]="combatSquare.shield" [matAutocomplete]="shieldGroup"
+        [formControl]="shieldControl">
+
+      <mat-autocomplete #shieldGroup="matAutocomplete" (optionSelected)="captureSelected($event, 'shield')"
+        [displayWith]="getDisplayTextShield">
+        <mat-option>None</mat-option>
+        <mat-optgroup *ngFor="let group of shieldGroupOptions | async" [label]="group.label">
+          <mat-option *ngFor="let item of group.items" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-checkbox (change)="checkComponentVariable('showAllEquipment', $event)" [checked]="showAllEquipment">Show Me
+      All
+      Equipment</mat-checkbox>
+
+    <div class="save-and-exit-shell">
+      <i class="fa-solid fa-floppy-disk" (click)="saveEquipmentChange()"></i>
+      <i class="fa-solid fa-circle-xmark orange" (click)="backOutofSwap()"></i>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.combat-square-shell {
+    width: 150px;
+}
+
+h4 {
+    font-weight: bold;
+}
+
+h4 i {
+    font-size: 12px;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.save-and-exit-shell {
+    padding: 15px 0 0 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.save-and-exit-shell i {
+    font-size: 20px;
+}
