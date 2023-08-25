@@ -155,7 +155,6 @@ export class CombatSquareComponent implements OnInit {
     if (option && option.item) {
       return option.item
     } else if (type) {
-      console.log(this.combatStats)
       return this.combatStats[type]
     }
     return ''

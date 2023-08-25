@@ -208,7 +208,12 @@ module.exports = {
               specialAbilities[combatSquare.roleid].push(equipmentInfo.shieldInfo.bonusLong)
             }
 
-            return { ...fullCombatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, weaponname: combatSquare.weaponname, weapon: combatSquare.weapon, armor: combatSquare.armor, shield: combatSquare.shield }
+            fullCombatSquare.weaponname = combatSquare.weaponname, 
+            fullCombatSquare.weapon = combatSquare.weapon, 
+            fullCombatSquare.armor = combatSquare.armor, 
+            fullCombatSquare.shield = combatSquare.shield
+
+            return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, weaponname: combatSquare.weaponname, weapon: combatSquare.weapon, armor: combatSquare.armor, shield: combatSquare.shield }
           })
 
           for (const key in specialAbilities) {
