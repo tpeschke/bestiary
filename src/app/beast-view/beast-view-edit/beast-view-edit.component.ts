@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChildren, QueryList, ViewChild } from '@angular/
 import { ActivatedRoute, Router } from '@angular/router';
 import { BeastService } from '../../util/services/beast.service';
 import variables from '../../../local.js'
-import { CalculatorService } from '../../util/services/calculator.service';
 import lootTables from "../loot-tables.js"
 import roles from '../roles.js'
 import { MatExpansionPanel, MatSelect } from '@angular/material';
@@ -13,7 +12,7 @@ import { startWith, map } from 'rxjs/operators';
 @Component({
   selector: 'app-beast-view-edit',
   templateUrl: './beast-view-edit.component.html',
-  styleUrls: ['../beast-view.component.css']
+  styleUrls: ['./beast-view-edit.component.css', '../beast-view.component.css']
 })
 export class BeastViewEditComponent implements OnInit {
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
@@ -33,7 +32,6 @@ export class BeastViewEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private beastService: BeastService,
-    private calculatorService: CalculatorService
   ) { }
 
   objectKeys = Object.keys;

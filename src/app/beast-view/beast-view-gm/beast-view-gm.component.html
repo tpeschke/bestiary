@@ -601,7 +601,7 @@
         </div>
 
         <div *ngIf="encounter !== 'loading' && encounter.main" class="regenerateButtonShell">
-          <div class="group-type-shell" *ngIf="encounter.allGroups.length > 1">
+          <div class="group-type-shell" *ngIf="encounter.allGroups && encounter.allGroups.length > 1">
             <mat-form-field>
               <mat-label>Group Type</mat-label>
               <mat-select (selectionChange)="setGroupParam($event)" [(value)]="groupId">
