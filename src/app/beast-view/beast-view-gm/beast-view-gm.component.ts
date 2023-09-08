@@ -73,6 +73,7 @@ export class BeastViewGmComponent implements OnInit {
 
   public showSkillSection = true;
   public showCharacteristicsSection = true
+  public aLotOfMovement = false
   public showDescriptions = false
   public showConvictions = false
   public showDevotions = false
@@ -128,6 +129,24 @@ export class BeastViewGmComponent implements OnInit {
         }
       }
       this.showSkillSection = showSkillSectionTemp
+    }
+  }
+
+  determineIfAlotOfMovement = () => {
+    if (!this.selectedRoleId) {
+      this.aLotOfMovement = this.beast.movement.length > 2
+    } else {
+      let movementCount = 0
+      this.aLotOfMovement = false
+      for (let i = 0; i < this.beast.movement.length; i++) {
+        if (this.beast.movement[i].roleid === this.selectedRoleId || this.beast.movement[i].allroles) {
+          movementCount++
+          if (movementCount > 1) {
+            this.aLotOfMovement = true
+            i = this.beast.movement.length
+          }
+        }
+      }
     }
   }
 
@@ -726,6 +745,7 @@ export class BeastViewGmComponent implements OnInit {
 
     this.determineIfSkillsShouldBeShown()
     this.determineIfCharacteristicsShouldBeShown()
+    this.determineIfAlotOfMovement()
 
     this.setDisplayVitality()
   }

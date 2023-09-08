@@ -158,17 +158,21 @@ getDefaultName = ({ weapon, armor, shield }) => {
 setStressAndPanic = (combatStats, baseRoleInfo, combatpoints) => {
     let mental = { stress: 0, panic: 0 }
     mental.stress = getModifiedStats('mental', combatStats, baseRoleInfo, combatpoints)
-    let panic = getModifiedStats('panic', combatStats, baseRoleInfo, combatpoints)
-    if (panic > 1) {
-        panic = 1.1
-    } else if (panic < 0) {
-        panic = 0
-    }
-
-    if (mental.stress === 'N' || panic === 'N') {
-        mental.panic = 'N'
+    let panic;
+    if (combatStats.panic === 'one') {
+        mental.panic = 1
     } else {
-        mental.panic = Math.floor(panic * mental.stress)
+        panic = getModifiedStats('panic', combatStats, baseRoleInfo, combatpoints)
+        if (panic > 1) {
+            panic = 1.1
+        } else if (panic < 0) {
+            panic = 0
+        }
+        if (mental.stress === 'N' || panic === 'N') {
+            mental.panic = 'N'
+        } else {
+            mental.panic = Math.floor(panic * mental.stress)
+        }
     }
 
     return mental
@@ -269,6 +273,9 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole,
     return physical
 }
 getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapons) => {
+    if (combatStats.fatigue) {
+        return 1
+    }
     let fatigue = getModifiedStats('fatigue', combatStats, baseRoleInfo, combatpoints)
     if (fatigue !== 'N' && largeweapons !== 'N') {
         if (armor) {
@@ -288,6 +295,9 @@ getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapo
     }
 }
 setCaution = (combatStats, baseRoleInfo, combatpoints, mental, physical) => {
+    if (combatStats.caution === 'one') {
+        return 1
+    }
     let caution = getModifiedStats('caution', combatStats, baseRoleInfo, combatpoints)
     if (caution === 'N') {
         return caution
@@ -1060,8 +1070,8 @@ getCover = (combatStats, roleInfo, points) => {
 
 getBaseDR = (combatStats, roleInfo, points) => {
     if (combatStats.armor) {
-        const armorSlash = getArmorOrShieldStat('weaponsmallslashing', 'armor', 'slash', combatStats, roleInfo, points)
-        const armorStatic = getArmorOrShieldStat('weaponsmallcrushing', 'armor', 'flat', combatStats, roleInfo, points)
+        const armorSlash = Math.floor(getArmorOrShieldStat('weaponsmallslashing', 'armor', 'slash', combatStats, roleInfo, points))
+        const armorStatic = Math.floor(getArmorOrShieldStat('weaponsmallcrushing', 'armor', 'flat', combatStats, roleInfo, points))
 
         return getDRString(armorSlash, armorStatic)
     }
@@ -1073,8 +1083,8 @@ getBaseDR = (combatStats, roleInfo, points) => {
 
 getParryDR = (combatStats, roleInfo, points) => {
     if (combatStats.shield) {
-        const shieldSlash = getArmorOrShieldStat('andslashing', 'shield', 'slash', combatStats, roleInfo, points)
-        const shieldStatic = getArmorOrShieldStat('andcrushing', 'shield', 'flat', combatStats, roleInfo, points)
+        const shieldSlash = Math.floor(getArmorOrShieldStat('andslashing', 'shield', 'slash', combatStats, roleInfo, points))
+        const shieldStatic = Math.floor(getArmorOrShieldStat('andcrushing', 'shield', 'flat', combatStats, roleInfo, points))
 
         return getDRString(shieldSlash, shieldStatic)
     }

@@ -807,7 +807,7 @@
             <br>
 
             <h2>Movement</h2>
-            <div class="vitals-shell">
+            <div class="vitals-shell movement-shell">
               <div *ngFor="let movementType of beast.movement; let i = index"
                 [ngClass]="{'noDisplay': !(!movementType.deleted && (selectedRoleId === movementType.roleid || movementType.allroles))}">
                 <div *ngIf="i > 0" class="divider white"></div>

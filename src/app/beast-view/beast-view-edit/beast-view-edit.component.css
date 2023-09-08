@@ -1,0 +1,42 @@
+.movement-shell thead {
+    background: #607d8b;
+    color: whitesmoke;
+    text-align: center;
+    font-family: 'know'; letter-spacing: 1px;
+}
+
+.movement-shell thead tr td {
+    background: #4b4b4b
+}
+
+.movement-shell tbody tr th {
+    background: gray;
+    color: whitesmoke;
+    font-family: 'know'; letter-spacing: 1px;
+    text-align: center;
+}
+
+.movement-shell tbody tr:nth-child(odd) {
+    background: lightgray
+}
+
+.movement-shell tbody tr td {
+    text-align: center;
+}
+
+.movement-shell tbody tr td:first-child {
+    text-align: left !important;
+}
+
+.movement-shell th, td {
+    min-width: 100px;
+    padding: 2px 5px;
+}
+
+.movement-shell .justify-right {
+    padding-left: 25px;
+}
+
+.movement-shell .checkmark-role-background ::ng-deep .mat-checkbox-background {
+    background-color: #a9a9a9 !important;
+}
