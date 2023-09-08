@@ -33,7 +33,7 @@ export default {
                 },
                 {
                     label: 'Not Preferred Choices',
-                    skillList: ['Animism', 'Distraction', 'Escape Artist', 'Riding', 'Use Rope', 'World Craft']
+                    skillList: ['Animism', 'Escape Artist', 'Riding', 'Use Rope', 'World Craft']
                 }
             ],
             description: "Hunters keep their prey at a distance until it's time to strike. They use their Skills to pick their moment of engagement, a moment where they're exceptionally powerful."
@@ -44,7 +44,7 @@ export default {
             skillList: [
                 {
                     label: 'Preferred Choices',
-                    skillList: ['Acrobatics', 'Climbing', 'Deception', 'Distraction', 'Endurance', 'Escape Artist', 'Listening']
+                    skillList: ['Acrobatics', 'Climbing', 'Deception', 'Endurance', 'Escape Artist', 'Listening']
                 },
                 {
                     label: 'Neutral Choices',
@@ -63,11 +63,11 @@ export default {
             skillList: [
                 {
                     label: 'Preferred Choices',
-                    skillList: ['Administration', 'Distraction', 'Intuition', 'Language', 'Perception', 'Performance']
+                    skillList: ['Administration', 'Intuition', 'Language', 'Perception', 'Performance']
                 },
                 {
                     label: 'Neutral Choices',
-                    skillList: ['Glamour', 'Occultism', 'Rally']
+                    skillList: ['Glamour', 'Occultism']
                 },
                 {
                     label: 'Not Preferred Choices',
@@ -124,7 +124,7 @@ export default {
         },
         {
             label: 'Strategy',
-            skillList: ['Combat Style', 'Distraction', 'Leadership', 'Quarter Mastering', 'Rally', 'Recruiting', 'Riding', 'Signalling', 'Warfare']
+            skillList: ['Combat Style', 'Leadership', 'Quarter Mastering', 'Recruiting', 'Riding', 'Signalling', 'Warfare']
         },
         {
             label: 'Trades',
