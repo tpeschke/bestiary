@@ -1168,7 +1168,7 @@
                     [formControl]="signsController" (blur)="addOption($event, 'signs')">
                   <mat-autocomplete #signauto="matAutocomplete" [displayWith]="getDisplayTextSign"
                     (optionSelected)="captureEncounterAutocomplete($event, 'signs', 'sign')">
-                    <mat-option *ngFor="let sign of signsFiltered | async" [value]="sign">
+                    <mat-option matTooltip="{{sign.sign}}" *ngFor="let sign of signsFiltered | async" [value]="sign">
                       {{sign.sign}}
                     </mat-option>
                   </mat-autocomplete>

@@ -197,7 +197,6 @@ export class BeastViewGmComponent implements OnInit {
   handleAnyFlaws = () => {
     let anyCount = 0
     this.beast.conflict.flaws.forEach(flaw => flaw.trait === 'Any' ? anyCount++ : null)
-
     if (anyCount) {
       this.beastService.getAnyFlaws(anyCount).subscribe((result: any[]) => {
         this.beast.conflict.flaws.map(flaw => {
