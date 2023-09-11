@@ -541,11 +541,10 @@ getFlanks = (combatStats, roleInfo, points) => {
     } else {
         modifiedStat = getModifiedStat(scalingStrength, scaling, points)
     }
-
-    if (modifiedStat < 0) {
-        return modifiedStat
+    if (modifiedStat >= 1) {
+        return Math.floor(modifiedStat)
     }
-    return 0
+    return 1
 }
 
 getModifiedMeasure = (combatStats, roleInfo, points, size) => {
