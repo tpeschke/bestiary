@@ -67,7 +67,8 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole, s
 
 module.exports = {
   getQuickView(req, res) {
-    let { hash, secretKey, patreon, userid } = req.params
+    let { hash } = req.params
+    let {secretKey, userpatreon, userid} = req.query
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
@@ -143,14 +144,14 @@ module.exports = {
         , patreonTestValue = -1;
 
       let beastPatreon = beast.patreon === 0 ? beast.patreon + 3 : beast.patreon
-
+console.log(secretKey, userpatreon, userid)
       if (canplayerview) {
         patreonTestValue = 1000
-      } else if (secretKey === combatCounterSecretKey && patreon) {
+      } else if (secretKey === combatCounterSecretKey && userpatreon) {
         if (userid === 1 || userid === 21) {
           patreonTestValue = 1000
-        } else if (userid && patreon) {
-          patreonTestValue = patreon
+        } else if (userid && userpatreon) {
+          patreonTestValue = userpatreon
         }
       } else if (req.user) {
         if (req.user.id === 1 || req.user.id === 21) {
