@@ -1,6 +1,7 @@
 const roles = require('./roles')
   , equipmentCtrl = require('./equipmentController')
   , combatSquareCtrl = require('./combatSquare')
+  , { combatCounterSecretKey } = require('./server-config')
 
 function formatNameWithCommas(name) {
   if (name.includes(',')) {
@@ -66,7 +67,7 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole, s
 
 module.exports = {
   getQuickView(req, res) {
-    let { hash } = req.params
+    let { hash, secretKey, patreon, userid } = req.params
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
@@ -145,6 +146,12 @@ module.exports = {
 
       if (canplayerview) {
         patreonTestValue = 1000
+      } else if (secretKey === combatCounterSecretKey && patreon) {
+        if (userid === 1 || userid === 21) {
+          patreonTestValue = 1000
+        } else if (userid && patreon) {
+          patreonTestValue = patreon
+        }
       } else if (req.user) {
         if (req.user.id === 1 || req.user.id === 21) {
           patreonTestValue = 1000
