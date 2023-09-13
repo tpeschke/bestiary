@@ -810,6 +810,13 @@
           </tr>
         </tbody>
       </table>
+      
+      <br>
+      <mat-form-field>
+        <input placeholder="Adjustment" matInput [value]="combatStats.adjustment"
+          (change)="getAdjustment('adjustment', $event)">
+      </mat-form-field>
+
       <button class="trash-button" mat-raised-button (click)="removeCallback(index)" color="warn"><i
           class="fa-solid fa-trash"></i></button>
     </div>

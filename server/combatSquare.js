@@ -40,6 +40,7 @@ const sizeDictionary = {
 
 const combatSquareController = {
     getSquareDirectly: ({ combatStats, points, size, role }) => {
+        const adjustedPoints = points + combatStats.adjustment
         const weaponType = getWeaponType(combatStats, roles.combatRoles.primary[role])
 
         let roleInfo = noRole;
@@ -50,25 +51,25 @@ const combatSquareController = {
                 roleInfo = roles.combatRoles.primary[role].meleeCombatStats
             }
         }
-        const damageAndRecovery = setDamageDice(combatStats, roleInfo, points)
+        const damageAndRecovery = setDamageDice(combatStats, roleInfo, adjustedPoints)
         const initMod = combatStats.armor ? equipmentController.getArmor(combatStats.armor).init : 0
 
         let combatSquare = {
             weaponType,
-            attack: !combatStats.showonlydefenses ? getModifiedStatsRounded('attack', combatStats, roleInfo, points) : '',
-            recovery: damageAndRecovery.recovery ? damageAndRecovery.recovery : getRecoveryForSpecial(combatStats, roleInfo, points),
-            initiative: !combatStats.showonlydefenses ? getModifiedStatsRounded('initiative', combatStats, roleInfo, points) + initMod : '',
-            defense: getDefense(combatStats, roleInfo, points, size),
-            cover: getCover(combatStats, roleInfo, points),
+            attack: !combatStats.showonlydefenses ? getModifiedStatsRounded('attack', combatStats, roleInfo, adjustedPoints) : '',
+            recovery: damageAndRecovery.recovery ? damageAndRecovery.recovery : getRecoveryForSpecial(combatStats, roleInfo, adjustedPoints),
+            initiative: !combatStats.showonlydefenses ? getModifiedStatsRounded('initiative', combatStats, roleInfo, adjustedPoints) + initMod : '',
+            defense: getDefense(combatStats, roleInfo, adjustedPoints, size),
+            cover: getCover(combatStats, roleInfo, adjustedPoints),
             damageType: damageAndRecovery.damageType,
-            dr: getBaseDR(combatStats, roleInfo, points),
-            shieldDr: getParryDR(combatStats, roleInfo, points),
-            measure: !combatStats.showonlydefenses ? getModifiedMeasure(combatStats, roleInfo, points, size) : '',
-            range: !combatStats.showonlydefenses ? getModifiedWithWeapon('rangedistance', combatStats, roleInfo, 'range', points) : '',
+            dr: getBaseDR(combatStats, roleInfo, adjustedPoints),
+            shieldDr: getParryDR(combatStats, roleInfo, adjustedPoints),
+            measure: !combatStats.showonlydefenses ? getModifiedMeasure(combatStats, roleInfo, adjustedPoints, size) : '',
+            range: !combatStats.showonlydefenses ? getModifiedWithWeapon('rangedistance', combatStats, roleInfo, 'range', adjustedPoints) : '',
             damage: damageAndRecovery.damageString,
-            parry: getModifiedParry(combatStats, roleInfo, points),
+            parry: getModifiedParry(combatStats, roleInfo, adjustedPoints),
             weaponScaling: damageAndRecovery.weaponScaling,
-            flanks: getFlanks(combatStats, roleInfo, points),
+            flanks: getFlanks(combatStats, roleInfo, adjustedPoints),
             defaultweaponname: getDefaultName(combatStats)
         }
 
@@ -83,11 +84,11 @@ const combatSquareController = {
             roleInfo = roles.combatRoles.primary[movement.role].meleeCombatStats.movement
         }
         const { points } = movement
-        let strollspeed = +getMovementStats(movement.strollstrength, roleInfo, points)
-            , walkspeed = +(getMovementStats(movement.walkstrength, roleInfo, points) + strollspeed)
-            , jogspeed = +(getMovementStats(movement.jogstrength, roleInfo, points) * 2 + walkspeed)
-            , runspeed = +(getMovementStats(movement.runstrength, roleInfo, points) * 2 + jogspeed)
-            , sprintspeed = +(getMovementStats(movement.sprintstrength, roleInfo, points) * 2 + runspeed)
+        let strollspeed = +getMovementStats(movement.strollstrength, roleInfo, points + movement.adjustment)
+            , walkspeed = +(getMovementStats(movement.walkstrength, roleInfo, points + movement.adjustment) + strollspeed)
+            , jogspeed = +(getMovementStats(movement.jogstrength, roleInfo, points + movement.adjustment) * 2 + walkspeed)
+            , runspeed = +(getMovementStats(movement.runstrength, roleInfo, points + movement.adjustment) * 2 + jogspeed)
+            , sprintspeed = +(getMovementStats(movement.sprintstrength, roleInfo, points + movement.adjustment) * 2 + runspeed)
 
         return { ...movement, movementSpeeds: { strollspeed: roundToNearestTwoPointFive(strollspeed), walkspeed: roundToNearestTwoPointFive(walkspeed), jogspeed: roundToNearestTwoPointFive(jogspeed), runspeed: roundToNearestTwoPointFive(runspeed), sprintspeed: roundToNearestTwoPointFive(sprintspeed) } }
     },
@@ -273,7 +274,7 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole,
     return physical
 }
 getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapons) => {
-    if (combatStats.fatigue) {
+    if (combatStats.fatigue === 'one') {
         return 1
     }
     let fatigue = getModifiedStats('fatigue', combatStats, baseRoleInfo, combatpoints)
@@ -288,7 +289,7 @@ getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapo
             fatigue = 1
         }
         return Math.floor(fatigue * largeweapons)
-    } else if (largeweapons === 'N') {
+    } else if (largeweapons === 'N' || fatigue === 'N') {
         return 'N'
     } else {
         return fatigue

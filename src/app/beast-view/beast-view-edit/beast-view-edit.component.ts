@@ -541,7 +541,7 @@ export class BeastViewEditComponent implements OnInit {
           plural: null
         }
       }
-      
+
       this.beastService.getFlaws().subscribe((results: any) => {
         delete results.flawTables
         let newAllFlaws = []
@@ -738,7 +738,7 @@ export class BeastViewEditComponent implements OnInit {
   checkTrauma(checked) {
     this.beast.notrauma = checked
   }
-  
+
   checkCheckBox = (checked, type) => {
     if (this.selectedRoleId) {
       this.beast.roleInfo[this.selectedRoleId][type] = checked
@@ -982,6 +982,7 @@ export class BeastViewEditComponent implements OnInit {
         shield: null,
         armor: null,
         defaultweaponname: null,
+        adjustment: 0,
         weaponname: null
       })
     } else if (type === 'movement') {
@@ -992,6 +993,7 @@ export class BeastViewEditComponent implements OnInit {
         run: 0,
         sprint: 0,
         type: '',
+        adjustment: 0,
         roleid: this.selectedRoleId,
         movementSpeeds: { strollspeed: 0, walkspeed: 0, jogspeed: 0, runspeed: 0, sprintspeed: 0 }
       }
@@ -1078,7 +1080,7 @@ export class BeastViewEditComponent implements OnInit {
 
   saveChanges() {
     let id = this.route.snapshot.paramMap.get('id');
-    
+
     this.beast.roles = this.beast.roles.map(role => {
       const roleInfo = this.beast.roleInfo[role.id]
       role.caution = roleInfo.caution
@@ -1932,10 +1934,10 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     const combatStats = {
-      panic: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].panic : this.beast.panic ,
-      mental: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].mental : this.beast.mental ,
-      caution: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].caution : this.beast.caution ,
-      largeweapons: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].largeweapons : this.beast.largeweapons ,
+      panic: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].panic : this.beast.panic,
+      mental: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].mental : this.beast.mental,
+      caution: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].caution : this.beast.caution,
+      largeweapons: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].largeweapons : this.beast.largeweapons,
       fatigue: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].fatigue : this.beast.fatigue,
       singledievitality: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].singledievitality : this.beast.singledievitality,
       noknockback: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].noknockback : this.beast.noknockback
@@ -1964,6 +1966,12 @@ export class BeastViewEditComponent implements OnInit {
     } else {
       this.beast.movement[index][stat] = value
     }
+
+    this.calculateMovementSpeed()
+  }
+
+  getAdjustment = async (type, index, event) => {
+    this.beast[type][index].adjustment = +event.target.value
 
     this.calculateMovementSpeed()
   }

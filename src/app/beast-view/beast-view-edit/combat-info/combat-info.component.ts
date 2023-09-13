@@ -276,6 +276,12 @@ export class CombatInfoComponent implements OnChanges {
     this.getCombatSquare()
   }
 
+  getAdjustment = async (type, event) => {
+    this.combatStats[type] = +event.target.value
+
+    this.getCombatSquare()
+  }
+
   checkAttackStat = (stat, value, event) => {
     if (!value) {
       event.source._checked = false
