@@ -31,7 +31,7 @@
           <p *ngIf="combatSquare.weaponType === 'r'">{{combatSquare.range}}</p>
         </div>
         <p class="damage">{{combatStats.isspecial === 'yes' ? 'See Attack Info' : combatSquare.damage }}</p>
-        <p *ngIf="combatSquare.weaponType === 'm'" class="parry">{{combatStats.eua ? 'EUA' : combatSquare.parry}}</p>
+        <p *ngIf="combatSquare.weaponType === 'm'" class="parry">{{combatSquare.parry}}</p>
       </div>
 
       <br>

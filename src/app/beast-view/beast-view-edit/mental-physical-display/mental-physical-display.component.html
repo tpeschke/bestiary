@@ -20,8 +20,8 @@
       <td class="border-left">Major Strength</td>
       <td>Baseline</td>
       <td>Major Weakness</td>
-      <td>Nothing</td>
       <td>One</td>
+      <td>Nothing</td>
     </tr>
   </thead>
   <tbody>
@@ -93,20 +93,20 @@
       </td>
       <td>
         <mat-checkbox
-          [ngClass]="roleInfo && roleInfo[stat.stat] === 'x' ? 'checkmark-role-background' : ''"
-          (change)="checkStat(stat.stat, 'x', $event)"
-          [checked]="!stats[stat.stat] ? roleInfo && roleInfo[stat.stat] === 'x' : stats[stat.stat] === 'x'"
-          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-          [matTooltipDisabled]="roleInfo && roleInfo[stat.stat] !== 'x'">
-        </mat-checkbox>
-      </td>
-      <td>
-        <mat-checkbox
           [ngClass]="roleInfo && roleInfo[stat.stat] === 'one' ? 'checkmark-role-background' : ''"
           (change)="checkStat(stat.stat, 'one', $event)"
           [checked]="!stats[stat.stat] ? roleInfo && roleInfo[stat.stat] === 'one' : stats[stat.stat] === 'one'"
           matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
           [matTooltipDisabled]="roleInfo && roleInfo[stat.stat] !== 'one'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[stat.stat] === 'x' ? 'checkmark-role-background' : ''"
+          (change)="checkStat(stat.stat, 'x', $event)"
+          [checked]="!stats[stat.stat] ? roleInfo && roleInfo[stat.stat] === 'x' : stats[stat.stat] === 'x'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[stat.stat] !== 'x'">
         </mat-checkbox>
       </td>
     </tr>

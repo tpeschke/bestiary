@@ -575,7 +575,7 @@ getModifiedMeasure = (combatStats, roleInfo, points, size) => {
         } else {
             modifiedStat = getModifiedStat(scalingStrength, scaling, points)
         }
-    
+
         const measureModDictionary = {
             Fine: -4,
             Diminutive: -3,
@@ -588,7 +588,7 @@ getModifiedMeasure = (combatStats, roleInfo, points, size) => {
             Enormous: 4,
             Colossal: 5
         }
-    
+
         if (!combatStats.addsizemod) {
             return modifiedStat
         }
@@ -610,7 +610,9 @@ getModifiedMeasure = (combatStats, roleInfo, points, size) => {
 }
 
 getModifiedParry = (combatStats, roleInfo, points) => {
-
+    if (combatStats.eua) {
+        return 'EUA'
+    }
     let scalingStrength;
 
     if (combatStats.weaponsmallpiercing) {
