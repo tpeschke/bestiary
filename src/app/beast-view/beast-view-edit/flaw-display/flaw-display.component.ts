@@ -75,8 +75,6 @@ export class FlawDisplayComponent implements OnInit {
   }
 
   checkRandomFlaw (index, checked) {
-    // trait-name-input
-
     this.checkRandomizeFlaw(index, checked)
     if (!checked) {
       this.flawController.setValue('')
