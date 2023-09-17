@@ -316,7 +316,8 @@
                   <h5
                     [ngClass]="{'strike-through': movementType.movementSpeeds.strollspeed === 0 || !movementType.movementSpeeds.strollspeed }">
                     Crawl</h5>
-                  <p>{{movementType.movementSpeeds.strollspeed + ' ft / sec'}}</p>
+                  <p>{{movementType.movementSpeeds.strollspeed === 0 || !movementType.movementSpeeds.strollspeed ? '' :
+                    movementType.movementSpeeds.strollspeed + ' ft / sec'}}</p>
                 </div>
                 <div class="flex-row-opposite">
                   <h5
