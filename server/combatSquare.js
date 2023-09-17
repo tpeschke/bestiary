@@ -84,13 +84,13 @@ const combatSquareController = {
             roleInfo = roles.combatRoles.primary[movement.role].meleeCombatStats.movement
         }
         const { points } = movement
-        let strollspeed = +getMovementStats(movement.strollstrength, roleInfo, points + movement.adjustment)
-            , walkspeed = +(getMovementStats(movement.walkstrength, roleInfo, points + movement.adjustment) + strollspeed)
-            , jogspeed = +(getMovementStats(movement.jogstrength, roleInfo, points + movement.adjustment) * 2 + walkspeed)
-            , runspeed = +(getMovementStats(movement.runstrength, roleInfo, points + movement.adjustment) * 2 + jogspeed)
-            , sprintspeed = +(getMovementStats(movement.sprintstrength, roleInfo, points + movement.adjustment) * 2 + runspeed)
+        let strollspeed = +getMovementStats(movement.strollstrength === 'x' ? null : movement.strollstrength, roleInfo, points + movement.adjustment)
+            , walkspeed = +(getMovementStats(movement.walkstrength === 'x' ? null : movement.walkstrength, roleInfo, points + movement.adjustment) + strollspeed)
+            , jogspeed = +(getMovementStats(movement.jogstrength === 'x' ? null : movement.jogstrength, roleInfo, points + movement.adjustment) * 2 + walkspeed)
+            , runspeed = +(getMovementStats(movement.runstrength === 'x' ? null : movement.runstrength, roleInfo, points + movement.adjustment) * 2 + jogspeed)
+            , sprintspeed = +(getMovementStats(movement.sprintstrength === 'x' ? null : movement.sprintstrength, roleInfo, points + movement.adjustment) * 2 + runspeed)
 
-        return { ...movement, movementSpeeds: { strollspeed: roundToNearestTwoPointFive(strollspeed), walkspeed: roundToNearestTwoPointFive(walkspeed), jogspeed: roundToNearestTwoPointFive(jogspeed), runspeed: roundToNearestTwoPointFive(runspeed), sprintspeed: roundToNearestTwoPointFive(sprintspeed) } }
+        return { ...movement, movementSpeeds: { strollspeed: returnRoundedMovementOrNullIfX(movement.strollstrength, strollspeed), walkspeed: returnRoundedMovementOrNullIfX(movement.walkstrength, walkspeed), jogspeed: returnRoundedMovementOrNullIfX(movement.jogstrength, jogspeed), runspeed: returnRoundedMovementOrNullIfX(movement.runstrength, runspeed), sprintspeed: returnRoundedMovementOrNullIfX(movement.sprintstrength, sprintspeed) } }
     },
     getMovement: (req, res) => {
         const newMovements = req.body.movements.map(movement => combatSquareController.getMovementDirectly(movement))
@@ -123,6 +123,10 @@ const combatSquareController = {
         const { points, role, combatStats, secondaryrole, knockback, size, armor, shield } = req.body
         res.send(combatSquareController.setVitalityAndStressDirectly(points, role, combatStats, secondaryrole, knockback, size, armor, shield))
     },
+}
+
+returnRoundedMovementOrNullIfX = (strength, speed) => {
+    return strength === 'x' ? null : roundToNearestTwoPointFive(speed)
 }
 
 getRecoveryForSpecial = (combatStats, roleInfo, points) => {

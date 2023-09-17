@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import roles from '../../roles.js'
 
 @Component({
   selector: 'app-flaw-display',
@@ -73,6 +72,15 @@ export class FlawDisplayComponent implements OnInit {
       target: { value: Math.ceil(base + (per * severity)) }
     }
     this.captureInput(fakeEvent, 'conflict', this.i, 'flaws', 'value')
+  }
+
+  checkRandomFlaw (index, checked) {
+    // trait-name-input
+
+    this.checkRandomizeFlaw(index, checked)
+    if (!checked) {
+      this.flawController.setValue('')
+    }
   }
 
 }

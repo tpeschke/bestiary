@@ -538,7 +538,8 @@ export class BeastViewEditComponent implements OnInit {
           challenges: [],
           obstacles: [],
           artistInfo: {},
-          plural: null
+          plural: null,
+          rarity: 10
         }
       }
 
@@ -1002,7 +1003,7 @@ export class BeastViewEditComponent implements OnInit {
     } else if (type === 'conflict') {
       let traitType = secondType === 'descriptions' ? 'h' : secondType.substring(0, 1);
       this.beast[type][secondType].push({
-        trait: '',
+        trait: 'Any',
         value: '',
         type: traitType,
         socialroleid: this.selectedRoleId,

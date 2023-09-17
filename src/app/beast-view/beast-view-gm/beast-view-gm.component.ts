@@ -965,16 +965,6 @@ export class BeastViewGmComponent implements OnInit {
     document.body.removeChild(textArea);
   }
 
-  includesSwarm() {
-    let includesSwarm = false
-    this.beast.types.forEach(val => {
-      if (val.typeid === 10) {
-        includesSwarm = true
-      }
-    })
-    return includesSwarm
-  }
-
   selectObstacle(obstacleId) {
     if (obstacleId === this.selectedObstacleId) {
       this.selectedObstacleId = null

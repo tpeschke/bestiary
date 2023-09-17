@@ -8,7 +8,7 @@ import { startWith, map } from 'rxjs/operators';
 @Component({
   selector: 'app-combat-square',
   templateUrl: './combat-square.component.html',
-  styleUrls: ['../../beast-view.component.css','./combat-square.component.css']
+  styleUrls: ['../../beast-view.component.css', './combat-square.component.css']
 })
 export class CombatSquareComponent implements OnInit {
   @Input() baseCombatSquare: any;
@@ -30,7 +30,7 @@ export class CombatSquareComponent implements OnInit {
   constructor(
     public beastService: BeastService
   ) { }
-  
+
   public combatSquare
 
   showEquipmentSelection = false
@@ -63,7 +63,7 @@ export class CombatSquareComponent implements OnInit {
 
   getCombatSquare() {
     this.beastService.getCombatSquare(this.combatStats, this.primaryRole, this.points, this.size).subscribe(res => {
-      this.combatSquare = {...this.combatSquare, ...res}
+      this.combatSquare = { ...this.combatSquare, ...res }
     })
   }
 
@@ -86,49 +86,49 @@ export class CombatSquareComponent implements OnInit {
     }
   }
 
-  bootUpAutoComplete (){
+  bootUpAutoComplete() {
     this.weaponControl = new FormControl(this.equipmentLists.weapons);
     this.weaponGroupOptions = this.weaponControl.valueChanges
-    .pipe(
-      startWith(''),
-      map((value: string) => {
-        let weaponList = this.primaryRole  && !this.showAllEquipment ? this.primaryRoles[this.primaryRole].weapons : this.equipmentLists.weapons
-        if (this.secondaryRole === 'Controller' && !this.showAllEquipment) {
-          weaponList = [...this.controllerWeapons, ...weaponList]
-        }
-        return this._filterGroup(value, weaponList)
-      })
-    );
+      .pipe(
+        startWith(''),
+        map((value: string) => {
+          let weaponList = this.primaryRole && !this.showAllEquipment ? this.primaryRoles[this.primaryRole].weapons : this.equipmentLists.weapons
+          if (this.secondaryRole === 'Controller' && !this.showAllEquipment) {
+            weaponList = [...this.controllerWeapons, ...weaponList]
+          }
+          return this._filterGroup(value, weaponList)
+        })
+      );
     this.armorControl = new FormControl(this.equipmentLists.weapons);
     this.armorGroupOptions = this.armorControl.valueChanges
-    .pipe(
-      startWith(''),
-      map((value: string) => {
-        if (this.primaryRole && !this.showAllEquipment) {
-          return [{label: 'Preferred Armor', items: this._filter(this.primaryRoles[this.primaryRole].armor || [], value)}]
-        } else {
-          return this._filterGroup(value, this.equipmentLists.armor)
-        }
-      })
-    );
+      .pipe(
+        startWith(''),
+        map((value: string) => {
+          if (this.primaryRole && !this.showAllEquipment) {
+            return [{ label: 'Preferred Armor', items: this._filter(this.primaryRoles[this.primaryRole].armor || [], value) }]
+          } else {
+            return this._filterGroup(value, this.equipmentLists.armor)
+          }
+        })
+      );
     this.shieldControl = new FormControl(this.equipmentLists.weapons);
     this.shieldGroupOptions = this.shieldControl.valueChanges
-    .pipe(
-      startWith(''),
-      map((value: string) => {
-        if (this.primaryRole && !this.showAllEquipment) {
-          return [{label: 'Preferred Shields', items: this._filter(this.primaryRoles[this.primaryRole].shields || [], value)}]
-        } else {
-          return this._filterGroup(value, this.equipmentLists.shields)
-        }
-      })
-    );
+      .pipe(
+        startWith(''),
+        map((value: string) => {
+          if (this.primaryRole && !this.showAllEquipment) {
+            return [{ label: 'Preferred Shields', items: this._filter(this.primaryRoles[this.primaryRole].shields || [], value) }]
+          } else {
+            return this._filterGroup(value, this.equipmentLists.shields)
+          }
+        })
+      );
   }
 
   private _filterGroup(value: string, groups: any): any[] {
     if (value) {
       return groups
-        .map(group => ({label: group.label, items: this._filter(group.items || [], value)}))
+        .map(group => ({ label: group.label, items: this._filter(group.items || [], value) }))
         .filter(group => group.items.length > 0);
     }
     return groups;
@@ -160,6 +160,13 @@ export class CombatSquareComponent implements OnInit {
     return ''
   }
 
+  isASwarmBonus = (name) => {
+    if (name) {
+      return name.includes('Swarm Bonus')
+    } 
+    return false
+  }
+
   checkShowAllEquipment = () => {
     if (this.primaryRole) {
       let armorOnRoleList = false
@@ -189,7 +196,7 @@ export class CombatSquareComponent implements OnInit {
         })
       }
 
-      this.showAllEquipment = (this.combatSquare.armor && !armorOnRoleList) || (this.combatSquare.shield && !shieldOnRoleList) || (this.combatSquare.weapon && !weaponOnRoleList) 
+      this.showAllEquipment = (this.combatSquare.armor && !armorOnRoleList) || (this.combatSquare.shield && !shieldOnRoleList) || (this.combatSquare.weapon && !weaponOnRoleList)
     }
   }
 

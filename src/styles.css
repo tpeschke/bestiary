@@ -249,7 +249,7 @@ table {
 }
 
 .icon-small {
-  font-size: 9px;
+  font-size: 10px !important;
 }
 
 .icon-medium {
