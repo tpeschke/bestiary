@@ -40,7 +40,7 @@ const sizeDictionary = {
 
 const combatSquareController = {
     getSquareDirectly: ({ combatStats, points, size, role }) => {
-        const adjustedPoints = points + combatStats.adjustment
+        const adjustedPoints = +points + combatStats.adjustment
         const weaponType = getWeaponType(combatStats, roles.combatRoles.primary[role])
 
         let roleInfo = noRole;
