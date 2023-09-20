@@ -41,6 +41,14 @@ img {
   vertical-align: bottom;
 }
 
+.gray {
+  color: lightgray;
+}
+
+.gray:hover {
+  color: whitesmoke
+}
+
 .beast-name {
   font-family: 'know'; letter-spacing: 1px;
   font-size: 16px;    

@@ -4,6 +4,7 @@ import { BeastService } from '../util/services/beast.service'
 import variables from '../../local.js'
 import {Title, Meta} from "@angular/platform-browser";
 import { QuickViewService } from '../util/services/quick-view.service';
+import { boolean } from 'mathjs';
 
 @Component({
   selector: 'app-catalog',
@@ -29,6 +30,7 @@ export class CatalogComponent implements OnInit {
   rightClickMenuPositionX: number;
   rightClickMenuPositionY: number;
   targetBeast: number;
+  targetName: string;
   targetHash: string;
   targetRoles: any[];
   targetRole: string;
@@ -37,6 +39,7 @@ export class CatalogComponent implements OnInit {
   targetSkillRole: string;
   targetSocialSecondary: string;
   targetDefaultRole: string
+  targetHasToken: any = false
   public loggedIn:boolean|string|number = false;
 
   ngOnInit() {
@@ -85,11 +88,12 @@ export class CatalogComponent implements OnInit {
     this.quickViewService.addToQuickViewArray(this.targetRoles[randomIndex].hash)
   }
 
-  displayContextMenu(event, beastid, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary, defaultrole) {
+  displayContextMenu(event, beastid, name, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary, defaultrole) {
     this.isDisplayContextMenu = true;
     this.rightClickMenuPositionX = event.clientX;
     this.rightClickMenuPositionY = event.clientY;
     this.targetBeast = beastid
+    this.targetName = name
     this.targetHash = hash
     this.targetRoles = roles
     this.targetRole = role
@@ -98,6 +102,32 @@ export class CatalogComponent implements OnInit {
     this.targetSkillRole = skillrole
     this.targetSocialSecondary = socialsecondary
     this.targetDefaultRole = defaultrole
+    this.targetHasToken = false
+    this.beastService.checkToken(beastid).subscribe(res => {
+      this.targetHasToken = res
+    })
+  }
+
+  forceDownload() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + this.targetBeast + '-token', true);
+    xhr.responseType = "blob";
+    const beastName = this.targetName
+    xhr.onload = function () {
+      var urlCreator = window.URL || window.webkitURL;
+      var imageUrl = urlCreator.createObjectURL(this.response);
+      var tag = document.createElement('a');
+      tag.href = imageUrl;
+      tag.download = beastName + '.png';
+      document.body.appendChild(tag);
+      tag.click();
+      document.body.removeChild(tag);
+    }
+    xhr.send();
+  }
+
+  stopProp(event) {
+    event.stopPropagation()
   }
 
   getRightClickMenuStyle() {
@@ -127,6 +157,7 @@ export class CatalogComponent implements OnInit {
   @HostListener('document:click')
   documentClick(): void {
     this.isDisplayContextMenu = false;
+    this.targetHasToken = false
   }
 
   displayName(name, combatrole, secondarycombat, socialrole, skillrole, socialsecondary) {
