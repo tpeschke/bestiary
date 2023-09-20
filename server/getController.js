@@ -2,6 +2,7 @@ const roles = require('./roles')
   , equipmentCtrl = require('./equipmentController')
   , combatSquareCtrl = require('./combatSquare')
   , { combatCounterSecretKey } = require('./server-config')
+  , axios = require('axios')
 
 function formatNameWithCommas(name) {
   if (name.includes(',')) {
@@ -66,6 +67,15 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole, s
 }
 
 module.exports = {
+  checkToken(req, res) {
+    const id = req.params.id
+    const endpoint = 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + id + '-token'
+    axios.get(endpoint).then(_ => {
+      res.send(true)
+    }).catch(e => {
+      res.send(false)
+    })
+  },
   getQuickView(req, res) {
     let { hash } = req.params
     let {secretKey, userpatreon, userid} = req.query
@@ -144,7 +154,7 @@ module.exports = {
         , patreonTestValue = -1;
 
       let beastPatreon = beast.patreon === 0 ? beast.patreon + 3 : beast.patreon
-console.log(secretKey, userpatreon, userid)
+
       if (canplayerview) {
         patreonTestValue = 1000
       } else if (secretKey === combatCounterSecretKey && userpatreon) {

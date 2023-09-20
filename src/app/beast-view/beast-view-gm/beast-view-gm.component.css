@@ -239,6 +239,19 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     margin-right: 10px;
 }
 
+.token-download-shell {
+    font-size: 16px;
+    font-family: 'know'; letter-spacing: 1px;
+    cursor: pointer;
+    transition: .6s;
+    padding: 0 5px;
+    border-radius: 5px;
+}
+
+.token-download-shell:hover {
+    background: #0000004a;
+}
+
 @media (max-width: 1246px) {
     .vitals-and-movement-shell .vitals-shell {
         width: 100%;

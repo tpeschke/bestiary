@@ -81,9 +81,15 @@ export class BeastViewGmComponent implements OnInit {
 
   public groupId = null
 
+  public tokenExists: Boolean = false
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
+
+      this.beastService.checkToken(this.beast.id).subscribe((res: Boolean) => {
+        this.tokenExists = res
+      })
 
       this.handleAnyFlaws()
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
@@ -116,6 +122,24 @@ export class BeastViewGmComponent implements OnInit {
     })
   }
 
+  forceDownload() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + this.beast.id + '-token', true);
+    xhr.responseType = "blob";
+    const beastName = this.beast.name
+    xhr.onload = function () {
+      var urlCreator = window.URL || window.webkitURL;
+      var imageUrl = urlCreator.createObjectURL(this.response);
+      var tag = document.createElement('a');
+      tag.href = imageUrl;
+      tag.download = beastName + '.png';
+      document.body.appendChild(tag);
+      tag.click();
+      document.body.removeChild(tag);
+    }
+    xhr.send();
+  }
+
   determineIfSkillsShouldBeShown = () => {
     if (!this.selectedRoleId) {
       this.showSkillSection = this.beast.skills.length > 0
@@ -134,14 +158,14 @@ export class BeastViewGmComponent implements OnInit {
 
   determineIfAlotOfMovement = () => {
     if (!this.selectedRoleId) {
-      this.aLotOfMovement = this.beast.movement.length > 2
+      this.aLotOfMovement = this.beast.movement.length > 3
     } else {
       let movementCount = 0
       this.aLotOfMovement = false
       for (let i = 0; i < this.beast.movement.length; i++) {
         if (this.beast.movement[i].roleid === this.selectedRoleId || this.beast.movement[i].allroles) {
           movementCount++
-          if (movementCount > 1) {
+          if (movementCount > 3) {
             this.aLotOfMovement = true
             i = this.beast.movement.length
           }

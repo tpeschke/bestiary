@@ -15,6 +15,10 @@
           class="fas fa-star"></i>
         {{beast.name}}
       </h1>
+
+      <div *ngIf="tokenExists" class="token-download-shell">
+        <span (click)="forceDownload()"><i class="fa-solid fa-download"></i> Download Token</span>
+      </div>
     </mat-toolbar>
 
     <div class="content-shell">

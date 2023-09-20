@@ -1,7 +1,7 @@
 const aws = require('aws-sdk')
     , multer = require('multer')
     , multerS3 = require('multer-s3')
-    , { key, access, bucketName } = require('./server-config')
+    , { key, access, bucketName } = require('../server-config')
 
 aws.config.update({
     secretAccessKey: access,

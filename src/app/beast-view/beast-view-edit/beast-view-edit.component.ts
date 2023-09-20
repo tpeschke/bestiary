@@ -26,7 +26,8 @@ export class BeastViewEditComponent implements OnInit {
   @ViewChild('newConfRoleSelect') newConfRoleSelect: MatSelect;
   @ViewChild('newSkillRoleSelect') newSkillRoleSelect: MatSelect;
   @ViewChild('newSecondaryConfRoleSelect') newSecondaryConfRoleSelect: MatSelect;
-  imageObj: File;
+  mainImageObj: File;
+  tokenImageObj: File
 
   constructor(
     private route: ActivatedRoute,
@@ -65,6 +66,7 @@ export class BeastViewEditComponent implements OnInit {
   public selectedSocialRole = {}
   public selectedSkillRole = {}
   public imageUrl = null;
+  public tokenExists: Boolean = false;
   public unusedRolesForEncounters = []
   public allFlaws;
   public newRole = {
@@ -483,6 +485,7 @@ export class BeastViewEditComponent implements OnInit {
           this.bootUpEncounterAutoComplete()
         })
         this.getImageUrl()
+        this.seeIfTokenExists()
       } else {
         this.beastService.getEditEncounter(0).subscribe(encounter => {
           this.encounter = encounter
@@ -1064,18 +1067,24 @@ export class BeastViewEditComponent implements OnInit {
     this.beast[type].splice(index, 1)
   }
 
-  onImagePicked(event: Event): void {
+  onMainImagePicked(event: Event): void {
     const FILE = (event.target as HTMLInputElement).files[0];
-    this.imageObj = FILE;
-    this.onImageUpload()
-  }
-
-  onImageUpload() {
+    this.mainImageObj = FILE;
     const imageForm = new FormData();
-    imageForm.append('image', this.imageObj);
-    this.beastService.imageUpload(imageForm, this.beast.id).subscribe(res => {
+    imageForm.append('image', this.mainImageObj);
+    this.beastService.uploadMainImage(imageForm, this.beast.id).subscribe(res => {
       this.beast.image = res['image']
       this.getImageUrl()
+    });
+  }
+
+  onTokenImagePicked(event: Event): void {
+    const FILE = (event.target as HTMLInputElement).files[0];
+    this.tokenImageObj = FILE;
+    const imageForm = new FormData();
+    imageForm.append('image', this.tokenImageObj);
+    this.beastService.uploadTokenImage(imageForm, this.beast.id).subscribe(res => {
+      this.seeIfTokenExists()
     });
   }
 
@@ -1995,6 +2004,30 @@ export class BeastViewEditComponent implements OnInit {
   getImageUrl() {
     this.imageUrl = this.imageBase + this.beast.id + '?t=' + new Date().getTime()
   }
+
+  seeIfTokenExists () {
+    this.beastService.checkToken(this.beast.id).subscribe((res: Boolean) => {
+      this.tokenExists = res
+    })
+  }
+
+  forceDownload () {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + this.beast.id + '-token', true);
+    xhr.responseType = "blob";
+    const beastName = this.beast.name
+    xhr.onload = function () {
+        var urlCreator = window.URL || window.webkitURL;
+        var imageUrl = urlCreator.createObjectURL(this.response);
+        var tag = document.createElement('a');
+        tag.href = imageUrl;
+        tag.download = beastName + '.png';
+        document.body.appendChild(tag);
+        tag.click();
+        document.body.removeChild(tag);
+    }
+    xhr.send();
+}
 
   deleteRole() {
     this.beast.conflict.devotions.forEach((subcat, index) => {

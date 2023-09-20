@@ -40,3 +40,13 @@
 .movement-shell .checkmark-role-background ::ng-deep .mat-checkbox-background {
     background-color: #a9a9a9 !important;
 }
+
+.download-token-shell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.download-token-shell button {
+    margin: 0
+}

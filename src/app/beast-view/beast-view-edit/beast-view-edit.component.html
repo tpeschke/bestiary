@@ -54,7 +54,7 @@
         <label mat-raised-button color="accent" for="file-upload" class="custom-file-upload">
           <i class="fa fa-cloud-upload"></i> Upload Image
         </label>
-        <input id="file-upload" type="file" (change)="onImagePicked($event)" />
+        <input id="file-upload" type="file" (change)="onMainImagePicked($event)" />
       </div>
 
       <br>
@@ -98,6 +98,20 @@
             *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name">
         </div>
       </div>
+      
+      <div class="download-token-shell" *ngIf="beast.id">
+        <div>
+          <label mat-raised-button color="accent" for="file-upload-token" class="custom-file-upload">
+            <i class="fa fa-cloud-upload"></i> Upload Token
+          </label>
+          <input id="file-upload-token" type="file" (change)="onTokenImagePicked($event)" />
+        </div>
+  
+        <div *ngIf="tokenExists">
+          <button mat-raised-button color="accent" (click)="forceDownload()"><i class="fa-solid fa-download"></i> Download Token</button>
+        </div>
+      </div>
+      <br>
 
       <div *ngIf="beast.id">
         <mat-form-field>

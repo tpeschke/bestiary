@@ -8,7 +8,8 @@ const express = require('express')
     , getCtrl = require('./getController')
     , obstCtrl = require('./obstacleController')
     , squareCtrl = require('./combatSquare')
-    , upload = require('./file-upload')
+    , uploadMain = require('./file-upload/main')
+    , uploadToken = require('./file-upload/token')
     , session = require('express-session')
     , passport = require('passport')
     , Auth0Strategy = require('passport-auth0')
@@ -113,6 +114,7 @@ function ownerAuth(req, res, next) {
 
 app.get('/api/obstacles/isValid/:name', obstCtrl.isValid)
 app.get('/api/equipment', equipmentCtrl.getAllEquipment)
+app.get('/api/checkToken/:id', getCtrl.checkToken)
 
 app.patch('/api/beasts/edit', ownerAuth, ctrl.editBeast)
 app.patch('/api/combatSquare', squareCtrl.getSquare)
@@ -121,7 +123,8 @@ app.patch('/api/movement', squareCtrl.getMovement)
 
 app.post('/api/beasts/add', ownerAuth, ctrl.addBeast)
 app.post('/api/obstacles/add', ownerAuth, obstCtrl.add)
-app.post('/api/v1/upload/:id', ownerAuth, upload.array('image', 1), (req, res) => res.send({ image: req.file }));
+app.post('/api/v1/upload/:id', ownerAuth, uploadMain.array('image', 1), (req, res) => res.send({ image: req.file }));
+app.post('/api/v1/uploadToken/:id', ownerAuth, uploadToken.array('image', 1), (req, res) => res.send({ image: req.file }));
 
 app.delete('/api/beasts/delete/:id', ownerAuth, ctrl.deleteBeast)
 app.delete('/api/obstacles/:id', ownerAuth, obstCtrl.deleteObstacle)
