@@ -204,12 +204,12 @@
           <div class="combat-square-shell">
             <div *ngFor="let combatSquare of beast.combatStatArray" class="combat-square-margin"
               [ngClass]="{'noDisplay': selectedRoleId !== combatSquare.roleid}">
-                <app-combat-square [baseCombatSquare]="combatSquare.combatSquare"
-                [combatStats]="combatSquare.combatStats"
+              <app-combat-square [baseCombatSquare]="combatSquare.combatSquare" [combatStats]="combatSquare.combatStats"
                 [primaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role"
                 [secondaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].secondaryrole : beast.secondaryrole"
                 [size]="selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size ? beast.size : 'Medium'"
-                [points]="selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints"></app-combat-square>
+                [points]="selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints">
+              </app-combat-square>
             </div>
           </div>
         </div>
@@ -285,7 +285,9 @@
               <p>
                 {{findWhatToDisplay('mental', 'stress', 'N/A')}}</p>
             </div>
-            <div *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.stress !== 'N') || (!selectedRoleId && beast.phyiscalAndStress.mental.stress !== 'N')" class="rolled-stats-shell">
+            <div
+              *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.stress !== 'N') || (!selectedRoleId && beast.phyiscalAndStress.mental.stress !== 'N')"
+              class="rolled-stats-shell">
               <mat-form-field>
                 <input matInput>
               </mat-form-field>
@@ -555,7 +557,21 @@
             <h3>Battlefield [Pattern] <i class="fas fa-info-circle icon-small blue"
                 matTooltip="Battlefield Patterns are found in the 2.2 Combat Chapter of the GameMaster's Guide."></i>
             </h3>
-            <p id="temperamentPTag">{{encounter.battlefield}} [{{encounter.pattern}}]</p>
+            <div id="temperamentPTag">
+              <p>{{encounter.battlefield}} [{{encounter.pattern}} <i class="fas fa-info-circle icon-small blue"></i>]
+              </p>
+              <div class="patternTooltip">
+                <div>
+                  <img src="../../../assets/patterns/explaination.jpg" alt="">
+                  <div matTooltip="Door" class="doorExplain"></div>
+                  <div matTooltip="Enemy" class="enemyExplain"></div>
+                  <div matTooltip="Ally" class="allyExplain"></div>
+                  <div matTooltip="Barrier" class="barrierExplain"></div>
+                  <div matTooltip="Elevation" class="elevationExplain"></div>
+                </div>
+                <img src="../../../assets/patterns/{{battlefieldPatternDictionary[encounter.pattern]}}.jpg" alt="">
+              </div>
+            </div>
           </div>
           <div class="flex-row-opposite">
             <h3>Time of Day</h3>

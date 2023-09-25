@@ -304,6 +304,68 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 #temperamentPTag {
   text-align: right !important;
+  position: relative;
+}
+
+#temperamentPTag:hover .patternTooltip {
+  display: unset;
+}
+
+.patternTooltip {
+  position: absolute;
+  right: 0;
+  background: whitesmoke;
+  padding: 3px;
+  border-bottom-right-radius: 5px;
+  width: 200px;
+  border-bottom-left-radius: 5px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0);
+  z-index: 99;
+  display: none;
+}
+
+.patternTooltip img {
+  border-radius: 0px !important;
+}
+
+.doorExplain {
+  height: 24px;
+  width: 49px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.enemyExplain {
+  height: 24px;
+  width: 22px;
+  position: absolute;
+  top: 0;
+  left: 49px;
+}
+
+.allyExplain {
+  height: 24px;
+  width: 25px;
+  position: absolute;
+  top: 0;
+  left: 71px;
+}
+
+.barrierExplain {
+  height: 24px;
+  width: 50px;
+  position: absolute;
+  top: 0;
+  left: 96px;
+}
+
+.elevationExplain {
+  height: 24px;
+  width: 54px;
+  position: absolute;
+  top: 0;
+  left: 146px;
 }
 
 .shield-dr {

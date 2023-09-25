@@ -83,6 +83,21 @@ export class BeastViewGmComponent implements OnInit {
 
   public tokenExists: Boolean = false
 
+  public battlefieldPatternDictionary = {
+    'Open Field': 'openfield',
+    'Divide': 'divide',
+    'Danger Wall': 'dangerwall',
+    'Pillar': 'pillar',
+    'Guardian': 'guardian',
+    'Pincer': 'pincer',
+    'Funnel': 'funnel',
+    'Horseshoe': 'horseshoe',
+    'Long-Path': 'longpath',
+    'Alley': 'alley',
+    'Up-Hill': 'uphill',
+    'King of the Hill': 'kingofthehill'
+  }
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
