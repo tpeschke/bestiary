@@ -107,8 +107,8 @@
           <input id="file-upload-token" type="file" (change)="onTokenImagePicked($event)" />
         </div>
   
-        <div *ngIf="tokenExists">
-          <button mat-raised-button color="accent" (click)="forceDownload()"><i class="fa-solid fa-download"></i> Download Token</button>
+        <div *ngIf="tokenExists" (click)="forceDownload()">
+          <button mat-raised-button color="accent"><i class="fa-solid fa-download"></i> Download Token</button>
         </div>
       </div>
       <br>
@@ -2759,14 +2759,8 @@
               <mat-form-field>
                 <mat-label>Select New Environ</mat-label>
                 <mat-select (selectionChange)="captureChip($event, 'environ')">
-                  <mat-option value="1">
-                    Dungeon/Ruins
-                  </mat-option>
-                  <mat-option value="2">
-                    Wilderness
-                  </mat-option>
-                  <mat-option value="3">
-                    Forest
+                  <mat-option value="12">
+                    Aquatic
                   </mat-option>
                   <mat-option value="4">
                     Castle
@@ -2774,32 +2768,20 @@
                   <mat-option value="5">
                     Cave/Underground
                   </mat-option>
-                  <mat-option value="6">
-                    Mountain
-                  </mat-option>
-                  <mat-option value="7">
-                    Plains
-                  </mat-option>
-                  <mat-option value="8">
-                    Swamp
-                  </mat-option>
-                  <mat-option value="9">
-                    Urban
-                  </mat-option>
-                  <mat-option value="10">
-                    Ship
-                  </mat-option>
                   <mat-option value="11">
                     Coastal
                   </mat-option>
-                  <mat-option value="12">
-                    Aquatic
-                  </mat-option>
-                  <mat-option value="13">
-                    Other
-                  </mat-option>
                   <mat-option value="14">
                     Desert
+                  </mat-option>
+                  <mat-option value="1">
+                    Dungeon/Ruins
+                  </mat-option>
+                  <mat-option value="3">
+                    Forest
+                  </mat-option>
+                  <mat-option value="18">
+                    House
                   </mat-option>
                   <mat-option value="15">
                     Island
@@ -2807,11 +2789,29 @@
                   <mat-option value="16">
                     Jungle
                   </mat-option>
+                  <mat-option value="6">
+                    Mountain
+                  </mat-option>
+                  <mat-option value="7">
+                    Plains
+                  </mat-option>
                   <mat-option value="17">
                     Sewer
                   </mat-option>
-                  <mat-option value="18">
-                    House
+                  <mat-option value="10">
+                    Ship
+                  </mat-option>
+                  <mat-option value="8">
+                    Swamp
+                  </mat-option>
+                  <mat-option value="9">
+                    Urban
+                  </mat-option>
+                  <mat-option value="2">
+                    Wilderness
+                  </mat-option>
+                  <mat-option value="13">
+                    Other
                   </mat-option>
                 </mat-select>
               </mat-form-field>
