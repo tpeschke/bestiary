@@ -98,7 +98,7 @@
             *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name">
         </div>
       </div>
-      
+
       <div class="download-token-shell" *ngIf="beast.id">
         <div>
           <label mat-raised-button color="accent" for="file-upload-token" class="custom-file-upload">
@@ -106,7 +106,7 @@
           </label>
           <input id="file-upload-token" type="file" (change)="onTokenImagePicked($event)" />
         </div>
-  
+
         <div *ngIf="tokenExists" (click)="forceDownload()">
           <button mat-raised-button color="accent"><i class="fa-solid fa-download"></i> Download Token</button>
         </div>

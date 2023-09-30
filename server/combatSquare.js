@@ -112,7 +112,7 @@ const combatSquareController = {
         if (combatStats.singledievitality) {
             physical = setVitalityDieAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield, sizeMod)
         } else {
-            physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield)
+            physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield, sizeMod, combatStats.noknockback)
             deteremineVitalityDice(physical, sizeMod, combatStats.noknockback)
         }
         let caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
@@ -264,7 +264,7 @@ setVitalityDieAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryro
     return physical
 
 }
-setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole, armor, shield) => {
+setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole, armor, shield, sizeMod, noknockback) => {
     let physical = {}
     physical.largeweapons = getModifiedStats('largeweapons', combatStats, baseRoleInfo, combatpoints)
     if (secondaryrole && physical.largeweapons !== 'N') {
@@ -274,10 +274,10 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole,
             physical.largeweapons *= 3
         }
     }
-    physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatpoints, armor, shield, physical.largeweapons)
+    physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatpoints, armor, shield, physical.largeweapons, sizeMod, noknockback)
     return physical
 }
-getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapons) => {
+getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapons, sizeMod, noknockback) => {
     if (combatStats.fatigue === 'one') {
         return 1
     }
@@ -291,6 +291,9 @@ getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapo
         }
         if (fatigue > 1) {
             fatigue = 1
+        }
+        if (largeweapons + sizeMod < 0 && !noknockback) {
+            return Math.floor(fatigue * sizeMod)
         }
         return Math.floor(fatigue * largeweapons)
     } else if (largeweapons === 'N' || fatigue === 'N') {

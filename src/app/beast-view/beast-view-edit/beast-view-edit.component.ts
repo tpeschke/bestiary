@@ -8,6 +8,7 @@ import { MatExpansionPanel, MatSelect } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { CalculatorService } from 'src/app/util/services/calculator.service';
 
 @Component({
   selector: 'app-beast-view-edit',
@@ -33,6 +34,7 @@ export class BeastViewEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private beastService: BeastService,
+    private calculatorService: CalculatorService,
   ) { }
 
   objectKeys = Object.keys;
