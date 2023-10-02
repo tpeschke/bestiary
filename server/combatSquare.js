@@ -1512,8 +1512,8 @@ const scalingAndBases = {
             majSt: .75,
             minSt: .9,
             none: 1,
-            minWk: 1.1,
-            majWk: 1.25
+            minWk: 1.35,
+            majWk: 1.7
         },
         bonus: {
             majSt: .5,

@@ -1351,7 +1351,7 @@ let controllerObj = {
 async function collectComplication(db, beastId) {
   return db.get.complication.complication().then(result => {
     let complication = result[0]
-    if (complication.id === 1) {
+    if (complication.id === 1 || complication.id === 14) {
       //rival
       console.log("RIVAL")
       console.log(beastId)
@@ -1366,11 +1366,20 @@ async function collectComplication(db, beastId) {
             rival.plural = rival.name += 's'
           }
 
-          return {
-            id: 1,
-            type: 'Rival',
-            rival: rival
+          if (complication.id === 1) {
+            return {
+              id: 1,
+              type: 'Rival',
+              rival: rival
+            }
+          } else {
+            return {
+              id: 14,
+              type: 'Unlikely Allies',
+              allies: rival
+            }
           }
+
         } else {
           return null
         }

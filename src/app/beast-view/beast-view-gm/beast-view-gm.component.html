@@ -605,6 +605,11 @@
                   href="{{getUrl(complication.rival.id)}}">{{complication.rival.number}}
                   {{complication.rival.number > 1 ? complication.rival.plural : complication.rival.name}}</a>
               </div>
+              <div *ngIf="complication.allies">
+                <h5>Unlikely Allies: </h5><a target="_blank"
+                  href="{{getUrl(complication.allies.id)}}">{{complication.allies.number}}
+                  {{complication.allies.number > 1 ? complication.allies.plural : complication.allies.name}}</a>
+              </div>
               <div *ngIf="complication.amount">
                 <h5>Damage Taken: </h5>
                 <p>{{complication.amount}}</p>
