@@ -170,8 +170,8 @@ module.exports = {
           patreonTestValue = req.user.patreon
         }
       }
-
-      if (beastPatreon >= patreonTestValue) {
+console.log(beastPatreon >= patreonTestValue)
+      if (beastPatreon > patreonTestValue) {
         res.send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
         promiseArray.push(db.get.beastmovement(beastid).then(result => {

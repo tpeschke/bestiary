@@ -18,14 +18,15 @@ export class QuickViewService {
 
   addToQuickViewArray(hash) {
     this.beastService.getQuickView(hash).subscribe(results => {
-
-      results.vitalityArray = []
-      if (results.role) {
-        results.roleinfo = this.combatRolesInfo[results.role]
+      if (!results.color) {
+        results.vitalityArray = []
+        if (results.role) {
+          results.roleinfo = this.combatRolesInfo[results.role]
+        }
+        this.quickViewArray.push(results)
+        this.addAnotherVitalityToBeast(this.quickViewArray.length - 1)
+        this.beastService.handleMessage({ message: `${results.name} have been added to your quick view`, color: "green" })
       }
-      this.quickViewArray.push(results)
-      this.addAnotherVitalityToBeast(this.quickViewArray.length - 1)
-      this.beastService.handleMessage({ message: `${results.name} have been added to your quick view`, color: "green" })
     })
   }
 
