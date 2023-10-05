@@ -1143,7 +1143,9 @@
               </thead>
               <tr *ngFor="let noun of encounter.noun.noun; let i = index" [ngClass]="{'noDisplay': noun.deleted}">
                 <td>{{noun.noun}}</td>
-                <i (click)="removeEncounterItem(i, 'noun', 'noun')" class="fa-solid fa-trash"></i>
+                <td>
+                  <i (click)="removeEncounterItem(i, 'noun', 'noun')" class="fa-solid fa-trash"></i>
+                </td>
               </tr>
               <tr>
                 <td>

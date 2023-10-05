@@ -727,11 +727,11 @@ export class BeastViewGmComponent implements OnInit {
   getRarityModifier(rarity) {
     switch (+rarity) {
       case 1:
-        return 'd20!';
+        return '2d20!';
       case 3:
-        return 'd12!';
+        return 'd20!';
       case 5:
-        return 'd6!';
+        return 'd10!';
       case 10:
         return '0';
       default:
