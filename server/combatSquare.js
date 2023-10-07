@@ -1157,8 +1157,8 @@ const scalingAndBases = {
             majWk: 2
         },
         bonus: {
-            majSt: 1.5,
-            minSt: 1.25,
+            majSt: 1,
+            minSt: .75,
             none: 0,
             minWk: .5,
             majWk: .25
@@ -1173,8 +1173,8 @@ const scalingAndBases = {
             majWk: 1
         },
         bonus: {
-            majSt: 1.5,
-            minSt: 1.25,
+            majSt: 1,
+            minSt: .75,
             none: 0,
             minWk: .5,
             majWk: .25
@@ -1189,8 +1189,8 @@ const scalingAndBases = {
             majWk: 1
         },
         bonus: {
-            majSt: 1.5,
-            minSt: 1.25,
+            majSt: 1,
+            minSt: .75,
             none: 0,
             minWk: .5,
             majWk: .25
@@ -1205,8 +1205,8 @@ const scalingAndBases = {
             majWk: -2
         },
         bonus: {
-            majSt: 1.5,
-            minSt: 1.25,
+            majSt: 1,
+            minSt: .75,
             none: 0,
             minWk: .5,
             majWk: .25
