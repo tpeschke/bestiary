@@ -110,7 +110,7 @@ module.exports = {
         },
         {
             name: "Texture",
-            max: 10,
+            max: 20,
             rows: [
                 "Fur",
                 "Feathers",
