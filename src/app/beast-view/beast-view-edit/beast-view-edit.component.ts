@@ -227,7 +227,7 @@ export class BeastViewEditComponent implements OnInit {
   socialRolesSecondaryInfo = roles.socialRoles.secondary
   skillRolesInfo = roles.skillRoles;
 
-  public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Acrobatics', 'Escape Artist', 'Warfare', 'Athletics Skill Suite', 'Strategy Skill Suite']
+  public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Tumbling', 'Escape Artist', 'Warfare', 'Athletics Skill Suite', 'Strategy Skill Suite']
   public socialSkills = ['Deception', 'Intuition', 'Perception', 'Leadership', 'Articulation', 'Performance', 'Language (All)', 'Language']
 
   public temperamentController = new FormControl('');

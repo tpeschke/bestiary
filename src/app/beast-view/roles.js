@@ -25,7 +25,7 @@ export default {
             skillList: [
                 {
                     label: 'Preferred Choices',
-                    skillList: ['Acrobatics', 'Endurance', 'Hunting', 'Jumping', 'Move Silently', 'Perception', 'Snaring']
+                    skillList: ['Tumbling', 'Endurance', 'Hunting', 'Jumping', 'Move Silently', 'Perception', 'Snaring']
                 },
                 {
                     label: 'Neutral Choices',
@@ -44,7 +44,7 @@ export default {
             skillList: [
                 {
                     label: 'Preferred Choices',
-                    skillList: ['Acrobatics', 'Climbing', 'Deception', 'Endurance', 'Escape Artist', 'Listening']
+                    skillList: ['Tumbling', 'Climbing', 'Deception', 'Endurance', 'Escape Artist', 'Listening']
                 },
                 {
                     label: 'Neutral Choices',
@@ -108,7 +108,7 @@ export default {
         },
         {
             label: 'Athletics',
-            skillList: ['Acrobatics', 'Climbing', 'Endurance', 'Escape Artist', 'Jumping', 'Move Silently', 'Sport', 'Swimming', 'Vandalism']
+            skillList: ['Tumbling', 'Climbing', 'Endurance', 'Escape Artist', 'Jumping', 'Move Silently', 'Sport', 'Swimming', 'Vandalism']
         },
         {
             label: 'Lore',
