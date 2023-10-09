@@ -241,18 +241,19 @@ export class BeastViewGmComponent implements OnInit {
         this.beast.conflict.flaws.map(flaw => {
           if (flaw.trait === 'Any') {
             let rolledFlaw = result.shift().flaw
-            const severityAndRank = this.getFlawSeverityAndRank(rolledFlaw, flaw.value)
-            flaw.trait = `${rolledFlaw.flaw} (${severityAndRank.severity})`
-            flaw.value = severityAndRank.rank
+            const severity = this.getFlawSeverity(rolledFlaw, flaw.value)
+            flaw.trait = `${rolledFlaw.flaw}`
+            flaw.severity ? null : flaw.severity = severity
           }
           return flaw
         })
+        console.log(this.beast.conflict.flaws)
         this.beast.conflict.flaws = this.beast.conflict.flaws.sort((a, b) => +b.value - +a.value)
       })
     }
   }
 
-  getFlawSeverityAndRank = (flaw, modifier) => {
+  getFlawSeverity = (flaw, modifier) => {
     if (flaw.cap === 'n/a') {
       flaw.cap = 20
     }
@@ -273,9 +274,7 @@ export class BeastViewGmComponent implements OnInit {
       }
     }
 
-    const rank = Math.ceil(flaw.rank.base + (flaw.rank.per * severity))
-
-    return { severity, rank }
+    return severity
   }
 
   setLocationalVitality = () => {

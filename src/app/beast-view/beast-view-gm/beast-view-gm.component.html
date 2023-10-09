@@ -105,13 +105,13 @@
           </div>
 
           <div class="conflict-inner-shell box-padding" *ngIf="showFlaws">
-            <h3>Flaws</h3>
+            <h3>Burdens & Wounds</h3>
             <div class="divider white"></div>
             <div *ngFor="let trait of beast.conflict.flaws; let i = index">
               <div *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait !== 'Any'"
                 class="flex-row-opposite">
-                <h5>{{trait.trait | titlecase}} {{trait.severity ? '(' + trait.severity + ')' : ''}}</h5>
-                <h5>{{trait.value ? trait.value : '1'}}</h5>
+                <h5>{{trait.trait | titlecase}}</h5>
+                <h5>{{trait.severity ? trait.severity : ''}}</h5>
               </div>
               <div class="inline-loading"
                 *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait === 'Any'">
