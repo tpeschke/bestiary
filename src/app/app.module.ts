@@ -72,6 +72,7 @@ import { ChallengeInnardsComponent } from './obstacle-index/view/challenge-innar
 import { CombatInfoComponent } from './beast-view/beast-view-edit/combat-info/combat-info.component';
 import { MentalPhysicalDisplayComponent } from './beast-view/beast-view-edit/mental-physical-display/mental-physical-display.component';
 import { CombatSquareComponent } from './beast-view/beast-view-gm/combat-square/combat-square.component';
+import { EditTableComponent } from './beast-view/beast-view-edit/edit-table/edit-table.component';
 
 const routes: Routes = [
   {
@@ -137,7 +138,8 @@ const routes: Routes = [
     SkillDisplayComponent,
     FlawDisplayComponent,
     ChallengeInnardsComponent,
-    CombatSquareComponent
+    CombatSquareComponent,
+    EditTableComponent
   ],
   imports: [
     BrowserModule,

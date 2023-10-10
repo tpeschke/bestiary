@@ -50,3 +50,11 @@
 .download-token-shell button {
     margin: 0
 }
+
+.edit-table-shell {
+    padding: 10px 5px;
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    align-items: center;
+}

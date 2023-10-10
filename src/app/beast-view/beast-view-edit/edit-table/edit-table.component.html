@@ -1,0 +1,32 @@
+<table>
+  <thead>
+    <tr>
+      <th colspan="4"><input class="table-input-clearable" placeholder="Table Label" [value]="table.label"
+        (change)="updateRowInfo($event, 'label', null)"> <i (click)="removeThisTable()" matTooltip="Remove Table" class="fa-solid fa-trash"></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>d{{table.diceSize}}</th>
+      <th colspan="3"> </th>
+    </tr>
+    <tr *ngFor="let row of table.rows; let index = index">
+      <td>{{row.weight > 1 ? (row.currentTotal + 1) + ' - ' + (row.currentTotal + row.weight) :
+        row.currentTotal + 1}}</td>
+      <td class="small-width"><input class="table-input-clearable" placeholder="Weight" [value]="row.weight"
+          (change)="updateRowInfo($event, 'weight', index)"></td>
+      <td><input class="table-input-clearable" placeholder="Value" [value]="row.value"
+          (change)="updateRowInfo($event, 'value', index)"></td>
+      <td><i (click)="removeRow(index)" class="fa-solid fa-trash"></i></td>
+    </tr>
+    <tr>
+      <td colspan="2"><input class="table-input-clearable" placeholder="Weight"
+          (change)="captureNewRowInfo($event, 'weight')"></td>
+      <td><input class="table-input-clearable" placeholder="Value"
+          (change)="captureNewRowInfo($event, 'value')"></td>
+      <td>
+        <i *ngIf="weight && value" (click)="addRow()" class="fa-sharp fa-solid fa-square-plus"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>

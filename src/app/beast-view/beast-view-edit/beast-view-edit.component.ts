@@ -468,6 +468,62 @@ export class BeastViewEditComponent implements OnInit {
           }
         }
 
+        this.beast.tables = {
+          habitat: [],
+          attack: [],
+          defense: [],
+          appearance: [{
+            label: 'Weaknesses',
+            rows: [
+              {
+                weight: 2,
+                value: 'Fire'
+              },
+              {
+                weight: 1,
+                value: 'The Sun'
+              },
+              {
+                weight: 6,
+                value: 'Virgin-Blessed Blade'
+              },
+              {
+                weight: 10,
+                value: 'Scent of Grass'
+              },
+              {
+                weight: 1,
+                value: 'Cold Iron'
+              }
+            ]
+          },
+          {
+            label: 'Weaknesses 2',
+            rows: [
+              {
+                weight: 2,
+                value: 'Fire 2'
+              },
+              {
+                weight: 1,
+                value: 'The Sun 2'
+              },
+              {
+                weight: 6,
+                value: 'Virgin-Blessed Blade 2'
+              },
+              {
+                weight: 10,
+                value: 'Scent of Grass 2'
+              },
+              {
+                weight: 1,
+                value: 'Cold Iron 2'
+              }
+            ]
+          }]
+        }
+
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
         }
@@ -2007,29 +2063,29 @@ export class BeastViewEditComponent implements OnInit {
     this.imageUrl = this.imageBase + this.beast.id + '?t=' + new Date().getTime()
   }
 
-  seeIfTokenExists () {
+  seeIfTokenExists() {
     this.beastService.checkToken(this.beast.id).subscribe((res: Boolean) => {
       this.tokenExists = res
     })
   }
 
-  forceDownload () {
+  forceDownload() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + this.beast.id + '-token', true);
     xhr.responseType = "blob";
     const beastName = this.beast.name
     xhr.onload = function () {
-        var urlCreator = window.URL || window.webkitURL;
-        var imageUrl = urlCreator.createObjectURL(this.response);
-        var tag = document.createElement('a');
-        tag.href = imageUrl;
-        tag.download = beastName + '.png';
-        document.body.appendChild(tag);
-        tag.click();
-        document.body.removeChild(tag);
+      var urlCreator = window.URL || window.webkitURL;
+      var imageUrl = urlCreator.createObjectURL(this.response);
+      var tag = document.createElement('a');
+      tag.href = imageUrl;
+      tag.download = beastName + '.png';
+      document.body.appendChild(tag);
+      tag.click();
+      document.body.removeChild(tag);
     }
     xhr.send();
-}
+  }
 
   deleteRole() {
     this.beast.conflict.devotions.forEach((subcat, index) => {
@@ -2144,5 +2200,20 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     return nameString
+  }
+
+  addNewTable = (table) => {
+    const blankTable = {
+      label: null,
+      rows: []
+    }
+
+    this.beast.tables[table].push(blankTable)
+  }
+
+  removeTable = (table) => {
+    return (index) => {
+      this.beast.tables[table].splice(index, 1)
+    }
   }
 }
