@@ -23,16 +23,11 @@ export class EditTableComponent implements OnInit {
     let currentTotal = 0
     this.table.diceSize = null
     this.table.rows = this.table.rows.map(row => {
-      const rowWithCurrentTotal = {...row, currentTotal}
+      const rowWithCurrentTotal = { ...row, currentTotal }
       currentTotal += +row.weight
       return rowWithCurrentTotal
     })
-    const lastWeight = this.table.rows[this.table.rows.length - 1].weight
-    if (lastWeight > 1) {
-      this.table.diceSize = currentTotal + +lastWeight
-    } else {
-      this.table.diceSize = currentTotal
-    }
+    this.table.diceSize = currentTotal
   }
 
   removeThisTable = () => {
@@ -44,9 +39,9 @@ export class EditTableComponent implements OnInit {
   }
 
   addRow = () => {
-    const {weight, value} = this
+    const { weight, value } = this
     if (weight && value) {
-      this.table.rows.push({weight, value})
+      this.table.rows.push({ weight: +weight, value })
       this.updateCurrentTotal()
       this.weight = null
       this.value = null
@@ -54,8 +49,8 @@ export class EditTableComponent implements OnInit {
   }
 
   updateRowInfo = (event, type, index) => {
-    if (index) {
-      this.table.rows[index].type = event.target.value
+    if (index || index === 0) {
+      this.table.rows[index][type] = event.target.value
       if (type === 'weight') {
         this.updateCurrentTotal()
       }

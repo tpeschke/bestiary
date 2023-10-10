@@ -468,62 +468,6 @@ export class BeastViewEditComponent implements OnInit {
           }
         }
 
-        this.beast.tables = {
-          habitat: [],
-          attack: [],
-          defense: [],
-          appearance: [{
-            label: 'Weaknesses',
-            rows: [
-              {
-                weight: 2,
-                value: 'Fire'
-              },
-              {
-                weight: 1,
-                value: 'The Sun'
-              },
-              {
-                weight: 6,
-                value: 'Virgin-Blessed Blade'
-              },
-              {
-                weight: 10,
-                value: 'Scent of Grass'
-              },
-              {
-                weight: 1,
-                value: 'Cold Iron'
-              }
-            ]
-          },
-          {
-            label: 'Weaknesses 2',
-            rows: [
-              {
-                weight: 2,
-                value: 'Fire 2'
-              },
-              {
-                weight: 1,
-                value: 'The Sun 2'
-              },
-              {
-                weight: 6,
-                value: 'Virgin-Blessed Blade 2'
-              },
-              {
-                weight: 10,
-                value: 'Scent of Grass 2'
-              },
-              {
-                weight: 1,
-                value: 'Cold Iron 2'
-              }
-            ]
-          }]
-        }
-
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
         }

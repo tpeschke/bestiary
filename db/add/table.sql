@@ -1,0 +1,1 @@
+insert into bbtablebeast (beastid, tableid) values ($1, $2)

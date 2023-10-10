@@ -467,3 +467,22 @@ create table bbcombatstats (
     weaponname varchar(150), 
     rangeddefense varchar(20)
 )
+
+create table bbtablebeast (
+    id serial primary key,
+    beastid int,
+    tableid int
+)
+
+create table bbtableinfo (
+    id serial primary key,
+    label varchar(250),
+    section varchar(10)
+)
+
+create table bbtablerows (
+    id serial primary key,
+    tableid int,
+    weight int,
+    value varchar(250)
+)

@@ -47,46 +47,6 @@ let rollDice = function (diceString) {
   }
 }
 
-
-function displayName(name, combatrole, secondarycombat, socialrole, skillrole) {
-  let nameString = ''
-  let roles = false
-
-  if (name) {
-    nameString += name
-  } else {
-    name = ''
-  }
-  if (combatrole || socialrole || skillrole) {
-    nameString += ' ['
-    roles = true
-  }
-  if (combatrole) {
-    nameString += `${combatrole}`
-    if (secondarycombat) {
-      nameString += `(${secondarycombat})`
-    }
-  }
-  if (socialrole) {
-    if (nameString.length > name.length + 3) {
-      nameString += '/'
-    }
-    nameString += `${socialrole}`
-  }
-  if (skillrole) {
-    if (nameString.length > name.length + 3) {
-      nameString += '/'
-    }
-    nameString += `${skillrole}`
-  }
-
-  if (roles) {
-    nameString += ']'
-  }
-
-  return nameString
-}
-
 function getRandomEncounter(label, numbers, weights) {
   let rolesGoodToAdd = {}
   let randomEncounterRoles = {}
@@ -310,7 +270,7 @@ let controllerObj = {
   },
   addBeast({ body, app }, res) {
     const db = app.get('db')
-    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback, singledievitality, noknockback } = body
+    let { name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, environ, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback, singledievitality, noknockback, tables } = body
 
     db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, +panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback).then(result => {
       let id = result[0].id
@@ -379,6 +339,84 @@ let controllerObj = {
           promiseArray.push(db.add.artist(id, artistid).then(result => result))
         }
       }
+
+      let {appearance, habitat, attack, defense} = tables
+      appearance.forEach(table => {
+        if (table.id) {
+          promiseArray.push(db.update.alltables(table.id, table.label))
+          db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+            table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+            })
+          })
+        } else {
+          promiseArray.push(db.add.alltables(table.label, 'ap').then(result => {
+            promiseArray.push(db.add.table(id, result[0].id))
+            db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+              table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+              })
+            })
+          }))
+        }
+      })
+      habitat.forEach(table => {
+        if (table.id) {
+          promiseArray.push(db.update.alltables(table.id, table.label))
+          db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+            table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+            })
+          })
+        } else {
+          promiseArray.push(db.add.alltables(table.label, 'ha').then(result => {
+            promiseArray.push(db.add.table(id, result[0].id))
+            db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+              table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+              })
+            })
+          }))
+        }
+      })
+      attack.forEach(table => {
+        if (table.id) {
+          promiseArray.push(db.update.alltables(table.id, table.label))
+          db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+            table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+            })
+          })
+        } else {
+          promiseArray.push(db.add.alltables(table.label, 'at').then(result => {
+            promiseArray.push(db.add.table(id, result[0].id))
+            db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+              table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+              })
+            })
+          }))
+        }
+      })
+      defense.forEach(table => {
+        if (table.id) {
+          promiseArray.push(db.update.alltables(table.id, table.label))
+          db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+            table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+            })
+          })
+        } else {
+          promiseArray.push(db.add.alltables(table.label, 'de').then(result => {
+            promiseArray.push(db.add.table(id, result[0].id))
+            db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+              table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+              })
+            })
+          }))
+        }
+      })
 
       let { temperament, rank, verb, noun, signs, numbers, groups } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted, temperamentid }) => {
@@ -656,7 +694,7 @@ let controllerObj = {
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, largeweapons, panic, mental, types, environ, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback: mainknockback, singledievitality, noknockback } = body
+    let { id, name, hr, intro, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, largeweapons, panic, mental, types, environ, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback: mainknockback, singledievitality, noknockback, tables } = body
     // update beast
     db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, largeweapons, panic, mental, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, mainknockback, singledievitality, noknockback).then(result => {
       let promiseArray = []
@@ -786,6 +824,88 @@ let controllerObj = {
           promiseArray.push(db.add.artist(id, artistid).then(result => result))
         }
       }
+
+      let {appearance, habitat, attack, defense} = tables
+      promiseArray.push(db.delete.table(id, appearance.map(table => table.id)))
+      promiseArray.push(db.delete.table(id, habitat.map(table => table.id)))
+      promiseArray.push(db.delete.table(id, attack.map(table => table.id)))
+      promiseArray.push(db.delete.table(id, defense.map(table => table.id)))
+      appearance.forEach(table => {
+        if (table.id) {
+          promiseArray.push(db.update.alltables(table.id, table.label))
+          db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+            table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+            })
+          })
+        } else {
+          promiseArray.push(db.add.alltables(table.label, 'ap').then(result => {
+            promiseArray.push(db.add.table(id, result[0].id))
+            db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+              table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+              })
+            })
+          }))
+        }
+      })
+      habitat.forEach(table => {
+        if (table.id) {
+          promiseArray.push(db.update.alltables(table.id, table.label))
+          db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+            table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+            })
+          })
+        } else {
+          promiseArray.push(db.add.alltables(table.label, 'ha').then(result => {
+            promiseArray.push(db.add.table(id, result[0].id))
+            db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+              table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+              })
+            })
+          }))
+        }
+      })
+      attack.forEach(table => {
+        if (table.id) {
+          promiseArray.push(db.update.alltables(table.id, table.label))
+          db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+            table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+            })
+          })
+        } else {
+          promiseArray.push(db.add.alltables(table.label, 'at').then(result => {
+            promiseArray.push(db.add.table(id, result[0].id))
+            db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+              table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+              })
+            })
+          }))
+        }
+      })
+      defense.forEach(table => {
+        if (table.id) {
+          promiseArray.push(db.update.alltables(table.id, table.label))
+          db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+            table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+            })
+          })
+        } else {
+          promiseArray.push(db.add.alltables(table.label, 'de').then(result => {
+            promiseArray.push(db.add.table(id, result[0].id))
+            db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
+              table.rows.forEach(({weight, value, id: rowid}) => {
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+              })
+            })
+          }))
+        }
+      })
 
       let { temperament, signs, rank, noun, verb, groups, numbers } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
@@ -1770,28 +1890,6 @@ function displayDamage(weapon, roleToUse, addrolemods, dontaddroledamage) {
   }
 
   return diceString
-}
-
-function displayName(weapon) {
-  let { selectedweapon, selectedarmor, selectedshield } = weapon
-
-  if (selectedweapon && selectedarmor && selectedshield) {
-    return `${selectedweapon}, ${selectedarmor}, & ${selectedshield}`
-  } else if (selectedweapon && selectedarmor && !selectedshield) {
-    return `${selectedweapon} & ${selectedarmor}`
-  } else if (selectedweapon && !selectedarmor && selectedshield) {
-    return `${selectedweapon} & ${selectedshield}`
-  } else if (selectedweapon && !selectedarmor && !selectedshield) {
-    return `${selectedweapon}`
-  } else if (!selectedweapon && selectedarmor && selectedshield) {
-    return `${selectedarmor}, & ${selectedshield}`
-  } else if (!selectedweapon && selectedarmor && !selectedshield) {
-    return `${selectedarmor}`
-  } else if (!selectedweapon && !selectedarmor && selectedshield) {
-    return `${selectedshield}`
-  } else {
-    return weapon.weapon
-  }
 }
 
 module.exports = controllerObj

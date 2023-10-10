@@ -1,0 +1,1 @@
+delete from bbtablebeast where beastid = $1 and tableid != ANY($2)

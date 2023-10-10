@@ -1,0 +1,1 @@
+delete from bbtablerows where tableid = $1 and id != ANY($2)

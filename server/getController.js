@@ -78,7 +78,7 @@ module.exports = {
   },
   getQuickView(req, res) {
     let { hash } = req.params
-    let {secretKey, userpatreon, userid} = req.query
+    let { secretKey, userpatreon, userid } = req.query
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
@@ -126,7 +126,7 @@ module.exports = {
       if (isARole) {
         roleToUse = roletype
         secondaryRoleToUse = secondaryroletype
-        
+
         beast.singledievitality = rolesingledievitality
         beast.knockback = roleknockback
         beast.panicstrength = rolepanicstrength
@@ -170,7 +170,7 @@ module.exports = {
           patreonTestValue = req.user.patreon
         }
       }
-      
+
       if (beastPatreon > patreonTestValue) {
         res.send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
@@ -226,10 +226,10 @@ module.exports = {
               specialAbilities[combatSquare.roleid].push(equipmentInfo.shieldInfo.bonusLong)
             }
 
-            fullCombatSquare.weaponname = combatSquare.weaponname, 
-            fullCombatSquare.weapon = combatSquare.weapon, 
-            fullCombatSquare.armor = combatSquare.armor, 
-            fullCombatSquare.shield = combatSquare.shield
+            fullCombatSquare.weaponname = combatSquare.weaponname,
+              fullCombatSquare.weapon = combatSquare.weapon,
+              fullCombatSquare.armor = combatSquare.armor,
+              fullCombatSquare.shield = combatSquare.shield
 
             return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, weaponname: combatSquare.weaponname, weapon: combatSquare.weapon, armor: combatSquare.armor, shield: combatSquare.shield }
           })
@@ -480,6 +480,40 @@ module.exports = {
           return result
         }))
 
+        beast.tables = {
+          habitat: [],
+          attack: [],
+          defense: [],
+          appearance: []
+        }
+
+        db.get.tableinfo(id).then(result => {
+          result.forEach(table => {
+            promiseArray.push(db.get.rows(table.id).then(rows => {
+              if (table.section === 'ap') {
+                beast.tables.appearance.push({
+                  ...table,
+                  rows
+                })
+              } else if (table.section === 'ha') {
+                beast.tables.habitat.push({
+                  ...table,
+                  rows
+                })
+              } else if (table.section === 'at') {
+                beast.tables.attack.push({
+                  ...table,
+                  rows
+                })
+              } else if (table.section === 'de') {
+                beast.tables.defense.push({
+                  ...table,
+                  rows
+                })
+              }
+            }))
+          })
+        })
 
         promiseArray.push(db.get.beastroles(id).then(result => {
           beast.roles = result
@@ -590,10 +624,10 @@ module.exports = {
                   specialAbilities[combatSquare.roleid].push(equipmentInfo.shieldInfo.bonusLong)
                 }
 
-                fullCombatSquare.weaponname = combatSquare.weaponname, 
-                fullCombatSquare.weapon = combatSquare.weapon, 
-                fullCombatSquare.armor = combatSquare.armor, 
-                fullCombatSquare.shield = combatSquare.shield
+                fullCombatSquare.weaponname = combatSquare.weaponname,
+                  fullCombatSquare.weapon = combatSquare.weapon,
+                  fullCombatSquare.armor = combatSquare.armor,
+                  fullCombatSquare.shield = combatSquare.shield
 
                 return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua }
               })
