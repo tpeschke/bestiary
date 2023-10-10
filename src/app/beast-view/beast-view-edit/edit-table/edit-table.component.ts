@@ -46,6 +46,13 @@ export class EditTableComponent implements OnInit {
       this.weight = null
       this.value = null
     }
+
+    let inputs = document.getElementById('edit-table').getElementsByTagName('input');
+    for (let i = 0; i < inputs.length; ++i) {
+      if (inputs[i].className.includes('edit-table-clearable')) {
+        inputs[i].value = null
+      }
+    }
   }
 
   updateRowInfo = (event, type, index) => {

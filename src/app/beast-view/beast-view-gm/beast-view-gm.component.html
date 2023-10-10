@@ -385,6 +385,12 @@
           </div>
         </div>
 
+        <div class="view-table-shell">
+          <div *ngFor="let table of beast.tables.attack; let i = index">
+            <app-view-table [table]="table"></app-view-table>
+          </div>
+        </div>
+
         <div
           *ngIf="(beast.sp_def && !beast.sp_def.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].defense)">
           <h3 class="margin-top">Add. Defense Info</h3>
@@ -394,6 +400,12 @@
           </div>
           <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].defense">
             <quill-view-html [content]="beast.roleInfo[selectedRoleId].defense"></quill-view-html>
+          </div>
+        </div>
+
+        <div class="view-table-shell">
+          <div *ngFor="let table of beast.tables.defense; let i = index">
+            <app-view-table [table]="table"></app-view-table>
           </div>
         </div>
 
@@ -503,6 +515,12 @@
         <div *ngIf="beast.habitat" class="divider"></div>
         <div *ngIf="beast.habitat">
           <quill-view-html [content]="beast.habitat"></quill-view-html>
+        </div>
+
+        <div class="view-table-shell">
+          <div *ngFor="let table of beast.tables.habitat; let i = index">
+            <app-view-table [table]="table"></app-view-table>
+          </div>
         </div>
 
         <h2>Random Encounter <i class="fas fa-info-circle icon-small blue"

@@ -1,4 +1,4 @@
-<table>
+<table id="edit-table">
   <thead>
     <tr>
       <th colspan="4"><input class="table-input-clearable" placeholder="Table Label" [value]="table.label"
@@ -13,16 +13,16 @@
     <tr *ngFor="let row of table.rows; let index = index">
       <td>{{row.weight > 1 ? (row.currentTotal + 1) + ' - ' + (row.currentTotal + row.weight) :
         row.currentTotal + 1}}</td>
-      <td class="small-width"><input class="table-input-clearable" placeholder="Weight" [value]="row.weight"
+      <td class="small-width"><input class="table-input" placeholder="Weight" [value]="row.weight"
           (change)="updateRowInfo($event, 'weight', index)"></td>
-      <td><input class="table-input-clearable" placeholder="Value" [value]="row.value"
+      <td><input class="table-input" placeholder="Value" [value]="row.value"
           (change)="updateRowInfo($event, 'value', index)"></td>
       <td><i (click)="removeRow(index)" class="fa-solid fa-trash"></i></td>
     </tr>
     <tr>
-      <td colspan="2"><input class="table-input-clearable" placeholder="Weight"
+      <td colspan="2"><input class="edit-table-clearable table-input-clearable" placeholder="Weight"
           (change)="captureNewRowInfo($event, 'weight')"></td>
-      <td><input class="table-input-clearable" placeholder="Value"
+      <td><input class="edit-table-clearable table-input-clearable" placeholder="Value"
           (change)="captureNewRowInfo($event, 'value')"></td>
       <td>
         <i *ngIf="weight && value" (click)="addRow()" class="fa-sharp fa-solid fa-square-plus"></i>

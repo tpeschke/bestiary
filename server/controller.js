@@ -826,7 +826,6 @@ let controllerObj = {
       }
 
       let {appearance, habitat, attack, defense} = tables
-      // console.log([...appearance.map(table => table.id), ...habitat.map(table => table.id), ...attack.map(table => table.id), ...defense.map(table => table.id)])
       promiseArray.push(db.delete.table(id, [...appearance.map(table => table.id), ...habitat.map(table => table.id), ...attack.map(table => table.id), ...defense.map(table => table.id)]))
       appearance.forEach(table => {
         if (table.id) {
