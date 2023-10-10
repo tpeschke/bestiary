@@ -252,6 +252,15 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     background: #0000004a;
 }
 
+.view-table-shell {
+    padding: 10px 5px;
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    align-items: start;
+}
+
+
 @media (max-width: 1246px) {
     .vitals-and-movement-shell .vitals-shell {
         width: 100%;

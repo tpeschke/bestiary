@@ -416,6 +416,12 @@
           <quill-view-html [content]="beast.ecology"></quill-view-html>
         </div>
 
+        <div class="view-table-shell">
+          <div *ngFor="let table of beast.tables.appearance; let i = index">
+            <app-view-table [table]="table"></app-view-table>
+          </div>
+        </div>
+
         <div *ngIf="beast.id === 442">
           <div class="mutation-shell">
             <table *ngFor="let table of primaryTables">

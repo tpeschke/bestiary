@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th colspan="2">{{table.label}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>d{{table.diceSize}}</th>
+      <th> </th>
+    </tr>
+    <tr *ngFor="let row of table.rows">
+      <td>{{row.weight > 1 ? (row.currentTotal + 1) + ' - ' + (row.currentTotal + row.weight) :
+        row.currentTotal + 1}}</td>
+      <td>{{row.value}}</td>
+    </tr>
+  </tbody>
+</table>
