@@ -56,5 +56,10 @@
     display: flex;
     justify-content: start;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: start;
+}
+
+.edit-table-shell button {
+    height: 100%;
+    margin: 0;
 }
