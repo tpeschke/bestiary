@@ -9,6 +9,20 @@ table {
     margin-right: 5px;
 }
 
+mat-expansion-panel {
+    margin-bottom: 5px;
+    margin-right: 5px;
+    background-color: rgb(233 233 233);
+}
+
+mat-expansion-panel table {
+    margin: 0;
+}
+
+::ng-deep .mat-expansion-panel-body {
+ padding: 0;
+}
+
 table thead input {
     color: whitesmoke !important;
     font-size: 14px;

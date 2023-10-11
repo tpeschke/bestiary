@@ -10,6 +10,8 @@ export class ViewTableComponent implements OnInit {
   
   constructor() { }
 
+  public above20 = false
+
   ngOnInit() {
     this.updateCurrentTotal()
   }
@@ -20,6 +22,9 @@ export class ViewTableComponent implements OnInit {
     this.table.rows = this.table.rows.map(row => {
       const rowWithCurrentTotal = { ...row, currentTotal }
       currentTotal += +row.weight
+      if (currentTotal > 20) {
+        this.above20 = true
+      }
       return rowWithCurrentTotal
     })
     this.table.diceSize = currentTotal
