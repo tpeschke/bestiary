@@ -511,13 +511,21 @@ module.exports = {
                   rows
                 })
               }
+              return true
             }))
+            return true
           })
+
         })
 
         promiseArray.push(db.get.beastroles(id).then(result => {
           beast.roles = result
           beast.roleInfo = {}
+
+          beast.tables.appearance.sort((a, b) => a.label.localeCompare(b.label))
+          beast.tables.habitat.sort((a, b) => a.label.localeCompare(b.label))
+          beast.tables.attack.sort((a, b) => a.label.localeCompare(b.label))
+          beast.tables.defense.sort((a, b) => a.label.localeCompare(b.label))
 
           for (i = 0; i < result.length; i++) {
             beast.roleInfo[result[i].id] = {
