@@ -1,4 +1,4 @@
-<table *ngIf="!above20">
+<table *ngIf="table.rows.length <= 10">
   <thead>
     <tr>
       <th colspan="2">{{table.label}}</th>
@@ -17,10 +17,10 @@
   </tbody>
 </table>
 
-  <mat-expansion-panel  *ngIf="above20">
+  <mat-expansion-panel  *ngIf="table.rows.length > 10">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <h3>{{table.label}}</h3>
+        <h3>{{table.label}} Table</h3>
       </mat-panel-title>
     </mat-expansion-panel-header>
 

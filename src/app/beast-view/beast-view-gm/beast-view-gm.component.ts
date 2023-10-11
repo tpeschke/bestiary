@@ -6,8 +6,6 @@ import variables from '../../../local.js'
 import { Title, Meta } from "@angular/platform-browser";
 import lootTables from "../loot-tables.js"
 import { QuickViewService } from 'src/app/util/services/quick-view.service';
-import { primaryTables, secondaryTables } from './firbolg-tables'
-import { demonIds, tables as demonTables } from './demon-tables'
 import roles from '../roles.js'
 import { DisplayServiceService } from 'src/app/util/services/displayService.service';
 import { MatDialog } from '@angular/material';
@@ -46,10 +44,6 @@ export class BeastViewGmComponent implements OnInit {
   public carriedLoot = []
   public carriedlootpresent = false
   public selectedRoleId = null;
-  public primaryTables = primaryTables;
-  public secondaryTables = secondaryTables;
-  public demonIds = demonIds
-  public demonTables = demonTables
   public selectedRole: any = {}
   public combatRolesInfo = roles.combatRoles.primary
   public combatSecondaryInfo = roles.combatRoles.secondary
@@ -1072,10 +1066,6 @@ export class BeastViewGmComponent implements OnInit {
     this.carriedLoot = []
     this.carriedlootpresent = false
     this.selectedRoleId = null;
-    this.primaryTables = primaryTables;
-    this.secondaryTables = secondaryTables;
-    this.demonIds = demonIds
-    this.demonTables = demonTables
     this.selectedRole = {}
     this.combatRolesInfo = roles.combatRoles.primary
     this.combatSecondaryInfo = roles.combatRoles.secondary

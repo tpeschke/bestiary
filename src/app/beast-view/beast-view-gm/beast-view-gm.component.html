@@ -434,29 +434,6 @@
           </div>
         </div>
 
-        <div *ngIf="demonIds.includes(beast.id)">
-          <div class="mutation-shell box-padding">
-            <mat-accordion>
-              <mat-expansion-panel *ngFor="let table of demonTables">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    <h3>Random {{table.name}}</h3>
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-
-                <table>
-                  <tbody>
-                    <tr *ngFor="let row of table.rows; let i = index">
-                      <td>{{i === 0 ? 1 : (((table.max / table.rows.length) * (i)) + 1 ).toFixed(0)}}</td>
-                      <td colspan="2">{{row}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </mat-expansion-panel>
-            </mat-accordion>
-          </div>
-        </div>
-
         <div *ngIf="beast.folklore.length > 0">
           <h2>Common Folklore <i class="fas fa-info-circle small-font blue"
               matTooltip="Common folklore is what people believe about the monster and what players will know without making a Check. The first line is the belief while the second line is the truth. The belief is almost always wrong in some way but almost always has a bit of truth as well."></i>
