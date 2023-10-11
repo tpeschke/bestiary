@@ -247,7 +247,6 @@ export class BeastViewGmComponent implements OnInit {
           }
           return flaw
         })
-        console.log(this.beast.conflict.flaws)
         this.beast.conflict.flaws = this.beast.conflict.flaws.sort((a, b) => +b.value - +a.value)
       })
     }

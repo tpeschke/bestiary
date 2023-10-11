@@ -363,11 +363,9 @@
           </div>
         </div>
 
-        <div
-          *ngIf="(beast.sp_atk && !beast.sp_atk.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack) || (selectedRoleId && beast.specialAbilities[selectedRoleId] && beast.specialAbilities[selectedRoleId].length > 0) || (!selectedRoleId && beast.specialAbilities['generic'] && beast.specialAbilities['generic'].length > 0)">
+        <div *ngIf="(beast.sp_atk && !beast.sp_atk.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack) || (selectedRoleId && beast.specialAbilities[selectedRoleId] && beast.specialAbilities[selectedRoleId].length > 0) || (!selectedRoleId && beast.specialAbilities['generic'] && beast.specialAbilities['generic'].length > 0)">
           <h3 class="margin-top">Add. Attack Info</h3>
-          <div
-            *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk && beast.sp_atk.includes('None') || ((selectedRoleId && beast.specialAbilities[selectedRoleId]) || (!selectedRoleId && beast.specialAbilities.generic)) && ((beast.sp_atk && beast.sp_atk.includes('None')) || !beast.sp_atk))">
+          <div *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk && beast.sp_atk.includes('None') || ((selectedRoleId && beast.specialAbilities[selectedRoleId]) || (!selectedRoleId && beast.specialAbilities.generic)) && ((beast.sp_atk && beast.sp_atk.includes('None')) || !beast.sp_atk))">
             <quill-view-html [content]="beast.sp_atk"></quill-view-html>
           </div>
           <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].attack">
@@ -425,12 +423,14 @@
         <h2>Appearance</h2>
         <div class="divider"></div>
         <div>
-          <quill-view-html [content]="beast.ecology"></quill-view-html>
-        </div>
-
-        <div class="view-table-shell">
-          <div *ngFor="let table of beast.tables.appearance; let i = index">
-            <app-view-table [table]="table"></app-view-table>
+          <div>
+            <quill-view-html [content]="beast.ecology"></quill-view-html>
+          </div>
+  
+          <div class="view-table-shell">
+            <div *ngFor="let table of beast.tables.appearance; let i = index">
+              <app-view-table [table]="table"></app-view-table>
+            </div>
           </div>
         </div>
 
