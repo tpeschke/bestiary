@@ -11,7 +11,7 @@
       <th colspan="3"> </th>
     </tr>
     <tr *ngFor="let row of table.rows; let index = index">
-      <td>{{row.weight > 1 ? (row.currentTotal + 1) + ' - ' + (row.currentTotal + row.weight) :
+      <td>{{row.weight > 1 ? (row.currentTotal + 1) + ' - ' + (row.currentTotal + +row.weight) :
         row.currentTotal + 1}}</td>
       <td class="small-width"><input class="table-input" placeholder="Weight" [value]="row.weight"
           (change)="updateRowInfo($event, 'weight', index)"></td>

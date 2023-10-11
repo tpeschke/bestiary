@@ -260,6 +260,13 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     align-items: start;
 }
 
+.tables-to-the-side {
+    display: flex;
+}
+
+.tables-to-the-side .view-table-shell {
+    min-width: 36%;
+}
 
 @media (max-width: 1246px) {
     .vitals-and-movement-shell .vitals-shell {

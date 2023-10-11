@@ -422,7 +422,7 @@
 
         <h2>Appearance</h2>
         <div class="divider"></div>
-        <div>
+        <div class="{{beast.tables.appearance.length === 1 ? 'tables-to-the-side' : ''}}">
           <div>
             <quill-view-html [content]="beast.ecology"></quill-view-html>
           </div>
@@ -431,47 +431,6 @@
             <div *ngFor="let table of beast.tables.appearance; let i = index">
               <app-view-table [table]="table"></app-view-table>
             </div>
-          </div>
-        </div>
-
-        <div *ngIf="beast.id === 442">
-          <div class="mutation-shell">
-            <table *ngFor="let table of primaryTables">
-              <thead>
-                <tr>
-                  <th colspan="3">{{table.name}}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let row of table.rows; let i = index">
-                  <td>{{i === 0 ? 1 : (((table.max / table.rows.length) * (i)) + 1 ).toFixed(0)}} - {{((table.max /
-                    table.rows.length) * (i + 1)).toFixed(0)}}</td>
-                  <td colspan="2">{{row}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="mutation-shell box-padding">
-            <mat-accordion>
-              <mat-expansion-panel *ngFor="let table of secondaryTables">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    <h3>{{table.name}}</h3>
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-
-                <table>
-                  <tbody>
-                    <tr *ngFor="let row of table.rows; let i = index">
-                      <td>{{i === 0 ? 1 : (((table.max / table.rows.length) * (i)) + 1 ).toFixed(0)}} - {{((table.max /
-                        table.rows.length) * (i + 1)).toFixed(0)}}</td>
-                      <td colspan="2">{{row}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </mat-expansion-panel>
-            </mat-accordion>
           </div>
         </div>
 
@@ -513,13 +472,15 @@
 
         <h2 *ngIf="beast.habitat">Habitat/Society</h2>
         <div *ngIf="beast.habitat" class="divider"></div>
-        <div *ngIf="beast.habitat">
-          <quill-view-html [content]="beast.habitat"></quill-view-html>
-        </div>
-
-        <div class="view-table-shell">
-          <div *ngFor="let table of beast.tables.habitat; let i = index">
-            <app-view-table [table]="table"></app-view-table>
+        <div class="{{beast.tables.appearance.habitat === 1 ? 'tables-to-the-side' : ''}}">
+          <div *ngIf="beast.habitat">
+            <quill-view-html [content]="beast.habitat"></quill-view-html>
+          </div>
+  
+          <div class="view-table-shell">
+            <div *ngFor="let table of beast.tables.habitat; let i = index">
+              <app-view-table [table]="table"></app-view-table>
+            </div>
           </div>
         </div>
 

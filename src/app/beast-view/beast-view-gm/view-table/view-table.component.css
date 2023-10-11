@@ -21,7 +21,7 @@ table thead input::placeholder {
 
 table tbody tr td:first-child, table tbody tr th:first-child, .small-width {
     text-align: right;
-    width: 60px;
+    width: 63px;
 }
 
 tbody tr:nth-child(odd) {
