@@ -69,3 +69,8 @@ p {
     background: grey;
     border-radius: 4px;
 }
+
+
+::ng-deep .cdk-global-overlay-wrapper {
+    overflow: auto;
+  }

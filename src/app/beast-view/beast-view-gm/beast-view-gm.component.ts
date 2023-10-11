@@ -680,8 +680,8 @@ export class BeastViewGmComponent implements OnInit {
       harvest = difficulty
     }
 
-    let harvestAndDifficulty = this.calculatorService.calculateAverageOfDice(harvest + "+" + difficulty)
-      , justDifficulty = this.calculatorService.calculateAverageOfDice(difficulty + "+" + difficulty)
+    let harvestAndDifficulty = this.calculatorService.calculateAverageOfDice(harvest + "+" + difficulty + '+' + this.getRarityModifier(this.beast.rarity))
+      , justDifficulty = this.calculatorService.calculateAverageOfDice(difficulty + "+" + difficulty + '+' + this.getRarityModifier(this.beast.rarity))
       , price;
     if (isNaN(harvestAndDifficulty) && !difficulty.includes("!") || !difficulty.includes("d")) {
       if (difficulty === '0') {
@@ -690,26 +690,18 @@ export class BeastViewGmComponent implements OnInit {
         price = difficulty;
       }
     } else if (isNaN(harvestAndDifficulty) && harvest !== 'n/a') {
-      price = justDifficulty * 5
+      price = justDifficulty * 2
     } else if (isNaN(harvestAndDifficulty) && harvest === 'n/a') {
-      price = this.calculatorService.calculateAverageOfDice(difficulty) * 5
+      price = this.calculatorService.calculateAverageOfDice(difficulty)  * 2
     } else {
-      price = harvestAndDifficulty * 5
+      price = harvestAndDifficulty * 2
     }
 
     if (harvest === '0' && difficulty === '0') {
       return 'Priceless'
     }
 
-    const rarityMultipliers = {
-      1: 5,
-      2: 2,
-      3: 1,
-      5: .5,
-      10: .25
-    }
-
-    return (price * rarityMultipliers[this.beast.rarity]).toFixed(1) + 'sc'
+    return price + ' sc'
   }
 
   getUrl(id) {

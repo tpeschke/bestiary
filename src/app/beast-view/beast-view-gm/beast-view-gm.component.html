@@ -768,7 +768,7 @@
                   <h3>{{reagent.name}}</h3>
                 </mat-panel-title>
                 <mat-panel-description>
-                  ID Difficulty: {{reagent.difficulty}}
+                  ID Difficulty: {{reagent.difficulty}}{{getRarityModifier(beast.rarity) !== '0' ? '+' + getRarityModifier(beast.rarity) : ''}}
                 </mat-panel-description>
               </mat-expansion-panel-header>
 
