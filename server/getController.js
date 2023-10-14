@@ -104,13 +104,13 @@ module.exports = {
         beast.largeweapons = mainlargeweapons
       }
 
+      if (rolename && rolename.toUpperCase() !== "NONE") {
+        name = name + " " + rolename
+      }
+      
       if (baseroletype) {
         roleToUse = baseroletype
         secondaryRoleToUse = basesecondaryrole
-
-        if (rolename && rolename.toUpperCase() !== "NONE") {
-          name = name + " " + rolename
-        }
 
         if (roleToUse !== '' && secondaryRoleToUse) {
           beast.name = name + ` [${roleToUse}(${secondaryRoleToUse})]`
@@ -199,8 +199,9 @@ module.exports = {
             result = result.filter(weapon => !weapon.roleid)
           }
 
-          let specialAbilities = {}
+          let specialAbilities = []
           beast.combatStatArray = result.map(combatSquare => {
+            let specialAbilities = {}
             let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points: beast.combatpoints, size: beast.size, role: roleToUse })
             let equipmentInfo = {}
             if (combatSquare.weapon) {

@@ -1,1 +1,1 @@
-delete from bbverbinfo where beastid = $1 and id = $2
+delete from bbverbinfo where beastid = $1 and verbid = $2

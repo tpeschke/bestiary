@@ -848,7 +848,7 @@ setNoWeaponDamage = (combatStats, roleInfo, points) => {
 
     const scaling = getDamageScalingInfo(damageType);
 
-    let modifiedPoints = getModifiedStat(scalingStrength, scaling, points)
+    let modifiedPoints = Math.ceil(getModifiedStat(scalingStrength, scaling, points))
     if (modifiedPoints <= 0) {
         modifiedPoints = 1
     }

@@ -1134,9 +1134,8 @@ mat-form-field.fatigue-field {
 
 @media (max-width: 963px) {
     .combat-shell {
-        justify-content: start;
+        justify-content: flex-start;
         margin-right: 10px;
-        margin-bottom: 25px;
     }
 
     .lairLoot li {

@@ -16,7 +16,7 @@ mat-expansion-panel {
 }
 
 mat-expansion-panel table {
-    margin: 0;
+    margin: 0 auto 5px;
 }
 
 ::ng-deep .mat-expansion-panel-body {

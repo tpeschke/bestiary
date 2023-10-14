@@ -925,9 +925,10 @@ let controllerObj = {
         } else if (groupid && beastid) {
           promiseArray.push(db.update.encounter.groups(beastid, groupid, label, +weight).then(_ => {
             let groupPromises = []
-
-            weights.forEach(({ id: roleid, weight: roleweight, role }) => {
-              if (roleid) {
+            weights.forEach(({ id: roleid, weight: roleweight, role, deleted }) => {
+              if (deleted && roleid) {
+                groupPromises.push(db.delete.encounter.groupRoles(id, roleid).catch(e=>console.log('----------------------- delete beast update group role: ', e)))
+              } else if (roleid) {
                 groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
               } else {
                 groupPromises.push(db.add.encounter.groupRoles(id, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))

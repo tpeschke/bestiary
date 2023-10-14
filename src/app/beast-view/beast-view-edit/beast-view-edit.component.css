@@ -54,9 +54,9 @@
 .edit-table-shell {
     padding: 10px 5px;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    align-items: start;
+    align-items: flex-start;
 }
 
 .edit-table-shell button {

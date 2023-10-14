@@ -255,9 +255,9 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
 .view-table-shell {
     padding: 0px 5px;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    align-items: start;
+    align-items: flex-start;
 }
 
 .tables-to-the-side {
