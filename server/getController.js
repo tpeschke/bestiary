@@ -82,7 +82,7 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons } = result[0]
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons,rolenameorder } = result[0]
       let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: rolepoints || rolepoints === 0 ? rolepoints : mainpoints, notrauma }
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
@@ -105,7 +105,11 @@ module.exports = {
       }
 
       if (rolename && rolename.toUpperCase() !== "NONE") {
-        name = name + " " + rolename
+        if (rolenameorder === '1') {
+          name = name + " " + rolename
+        } else {
+          name = rolename + " " + name
+        }
       }
       
       if (baseroletype) {
@@ -488,9 +492,10 @@ module.exports = {
           appearance: []
         }
 
-        db.get.tableinfo(id).then(result => {
-          result.forEach(table => {
-            promiseArray.push(db.get.rows(table.id).then(rows => {
+        promiseArray.push(db.get.tableinfo(id).then(result => {
+          let tablePromiseArray = []
+          result.map(table => {
+            tablePromiseArray.push(db.get.rows(table.id).then(rows => {
               if (table.section === 'ap') {
                 beast.tables.appearance.push({
                   ...table,
@@ -514,19 +519,15 @@ module.exports = {
               }
               return true
             }))
+          })
+          return Promise.all(tablePromiseArray).then(finalArray => {
             return true
           })
-
-        })
+        }))
 
         promiseArray.push(db.get.beastroles(id).then(result => {
           beast.roles = result
           beast.roleInfo = {}
-
-          beast.tables.appearance.sort((a, b) => a.label.localeCompare(b.label))
-          beast.tables.habitat.sort((a, b) => a.label.localeCompare(b.label))
-          beast.tables.attack.sort((a, b) => a.label.localeCompare(b.label))
-          beast.tables.defense.sort((a, b) => a.label.localeCompare(b.label))
 
           for (i = 0; i < result.length; i++) {
             beast.roleInfo[result[i].id] = {
@@ -585,6 +586,11 @@ module.exports = {
 
         Promise.all(promiseArray).then(finalArray => {
           finalPromise = [];
+
+          beast.tables.appearance.sort((a, b) => a.label.localeCompare(b.label))
+          beast.tables.habitat.sort((a, b) => a.label.localeCompare(b.label))
+          beast.tables.attack.sort((a, b) => a.label.localeCompare(b.label))
+          beast.tables.defense.sort((a, b) => a.label.localeCompare(b.label))
 
           finalPromise.push(db.get.beastmovement(id).then(result => {
             beast.movement = result.map(movementType => {
