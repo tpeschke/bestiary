@@ -67,14 +67,14 @@
               </div>
 
               <div class="locationVitality">
-                <div *ngFor="let location of beast.locationalvitality; let i = index">
+                <div *ngFor="let location of quickViewService.quickViewArray[beastIndex].locationalvitalities; let i = index">
                   <div class="flex-row-opposite">
                     <strong>{{location.location}}</strong>
                     <div class="input-shell">
                       <mat-form-field>
                         <input matInput>
                       </mat-form-field>
-                      <p>/ {{vitalities.locationCheckboxes[location.location].rolled}}</p>
+                      <p>/ {{location.vitality}}</p>
                     </div>
                   </div>
                 </div>

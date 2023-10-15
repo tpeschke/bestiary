@@ -44,6 +44,14 @@ export class QuickViewService {
     if (this.quickViewArray[beastIndex].notrauma) {
       trauma = 'N/A'
     }
+    let locationalvitalities = null
+    if (this.quickViewArray[beastIndex].locationalvitality) {
+      locationalvitalities = []
+      this.quickViewArray[beastIndex].locationalvitality.forEach(({location, vitality}) => {
+        locationalvitalities.push({location, vitality: this.calculatorService.rollDice(vitality)})
+      })
+      this.quickViewArray[beastIndex].locationalvitalities = locationalvitalities
+    }
     this.quickViewArray[beastIndex].vitalityArray.push({ vitality, trauma, label: "" })
   }
 
