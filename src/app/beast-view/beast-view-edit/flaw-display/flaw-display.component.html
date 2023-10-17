@@ -14,29 +14,24 @@
   </h3>
   <section>
     <mat-checkbox [checked]="flaw.trait === 'Any'" (change)="checkRandomFlaw(i, $event.checked)">Make
-      this a Random Flaw</mat-checkbox>
+      this Random</mat-checkbox>
   </section>
-
-  <mat-form-field *ngIf="flaw.trait !== 'Any'">
-    <input placeholder="Severity" matInput [value]="flaw.severity"
-      (change)="captureSeverity($event, 'conflict', i, 'flaws', 'severity')">
-  </mat-form-field>
 
   <mat-form-field *ngIf="flaw.trait !== 'Any'">
     <input [disabled]="fullInfo" placeholder="Rank (1 point)" matInput [value]="flaw.value"
       (change)="captureInput($event, 'conflict', i, 'flaws', 'value')">
   </mat-form-field>
 
-  <p *ngIf="flaw.trait === 'Any'" class="flaw-severity-range">This Flaw Severity range:</p>
+  <p *ngIf="flaw.trait === 'Any'" class="flaw-severity-range">The Rank Range:</p>
   <div class="flaw-severity-buttons" *ngIf="flaw.trait === 'Any'">
     <button id="{{flaw.value === '1' ? 'gray-blue' : ''}}" mat-raised-button
       (click)="setRankSeverityRank(i, '1')">Random</button>
     <button id="{{flaw.value === '2' ? 'gray-blue' : ''}}" mat-raised-button
-      (click)="setRankSeverityRank(i, '2')">Low Severity</button>
+      (click)="setRankSeverityRank(i, '2')">Low</button>
     <button id="{{flaw.value === '3' ? 'gray-blue' : ''}}" mat-raised-button
-      (click)="setRankSeverityRank(i, '3')">Mid Severity</button>
+      (click)="setRankSeverityRank(i, '3')">Mid</button>
     <button id="{{flaw.value === '4' ? 'gray-blue' : ''}}" mat-raised-button
-      (click)="setRankSeverityRank(i, '4')">High Severity</button>
+      (click)="setRankSeverityRank(i, '4')">High</button>
   </div>
   <section>
     <mat-checkbox [checked]="flaw.allroles" (change)="checkAllRoles('flaws', i, $event.checked)">Add to

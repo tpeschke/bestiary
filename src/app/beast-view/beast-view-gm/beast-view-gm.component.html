@@ -28,11 +28,12 @@
           <img class="beastImg" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name"
             onerror="this.onerror=null;this.src='/assets/404.png';">
           <div *ngIf="beast.artistInfo.artist" class="artist-credits">
-            <p *ngIf="!beast.artistInfo.link">Artist: {{beast.artistInfo.artist}}<i *ngIf="beast.artistInfo.tooltip" class="fas fa-info-circle icon-small blue"
-              matTooltip="{{beast.artistInfo.tooltip}}" matTooltipClass="my-tooltip"></i></p>
+            <p *ngIf="!beast.artistInfo.link">Artist: {{beast.artistInfo.artist}}<i *ngIf="beast.artistInfo.tooltip"
+                class="fas fa-info-circle icon-small blue" matTooltip="{{beast.artistInfo.tooltip}}"
+                matTooltipClass="my-tooltip"></i></p>
             <a *ngIf="beast.artistInfo.link" target="_blank" href="{{beast.artistInfo.link}}">Artist:
               {{beast.artistInfo.artist}}<i *ngIf="beast.artistInfo.tooltip" class="fas fa-info-circle icon-small blue"
-              matTooltip="{{beast.artistInfo.tooltip}}" matTooltipClass="my-tooltip"></i></a>
+                matTooltip="{{beast.artistInfo.tooltip}}" matTooltipClass="my-tooltip"></i></a>
           </div>
         </div>
 
@@ -105,7 +106,7 @@
           </div>
 
           <div class="conflict-inner-shell box-padding" *ngIf="showFlaws">
-            <h3>Burdens & Wounds</h3>
+            <h3>Burdens & Injuries</h3>
             <div class="divider white"></div>
             <div *ngFor="let trait of beast.conflict.flaws; let i = index">
               <div *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait !== 'Any'"
@@ -363,9 +364,11 @@
           </div>
         </div>
 
-        <div *ngIf="(beast.sp_atk && !beast.sp_atk.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack) || (selectedRoleId && beast.specialAbilities[selectedRoleId] && beast.specialAbilities[selectedRoleId].length > 0) || (!selectedRoleId && beast.specialAbilities['generic'] && beast.specialAbilities['generic'].length > 0)">
+        <div
+          *ngIf="(beast.sp_atk && !beast.sp_atk.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack) || (selectedRoleId && beast.specialAbilities[selectedRoleId] && beast.specialAbilities[selectedRoleId].length > 0) || (!selectedRoleId && beast.specialAbilities['generic'] && beast.specialAbilities['generic'].length > 0)">
           <h3 class="margin-top">Add. Attack Info</h3>
-          <div *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk && beast.sp_atk.includes('None') || ((selectedRoleId && beast.specialAbilities[selectedRoleId]) || (!selectedRoleId && beast.specialAbilities.generic)) && ((beast.sp_atk && beast.sp_atk.includes('None')) || !beast.sp_atk))">
+          <div
+            *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].attack && beast.sp_atk && beast.sp_atk.includes('None') || ((selectedRoleId && beast.specialAbilities[selectedRoleId]) || (!selectedRoleId && beast.specialAbilities.generic)) && ((beast.sp_atk && beast.sp_atk.includes('None')) || !beast.sp_atk))">
             <quill-view-html [content]="beast.sp_atk"></quill-view-html>
           </div>
           <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].attack">
@@ -426,7 +429,7 @@
           <div>
             <quill-view-html [content]="beast.ecology"></quill-view-html>
           </div>
-  
+
           <div class="view-table-shell">
             <div *ngFor="let table of beast.tables.appearance; let i = index">
               <app-view-table [table]="table"></app-view-table>
@@ -453,7 +456,7 @@
           <div *ngIf="beast.habitat">
             <quill-view-html [content]="beast.habitat"></quill-view-html>
           </div>
-  
+
           <div class="view-table-shell">
             <div *ngFor="let table of beast.tables.habitat; let i = index">
               <app-view-table [table]="table"></app-view-table>
@@ -768,7 +771,8 @@
                   <h3>{{reagent.name}}</h3>
                 </mat-panel-title>
                 <mat-panel-description>
-                  ID Difficulty: {{reagent.difficulty}}{{getRarityModifier(beast.rarity) !== '0' ? '+' + getRarityModifier(beast.rarity) : ''}}
+                  ID Difficulty: {{reagent.difficulty}}{{getRarityModifier(beast.rarity) !== '0' ? '+' +
+                  getRarityModifier(beast.rarity) : ''}}
                 </mat-panel-description>
               </mat-expansion-panel-header>
 
@@ -803,29 +807,24 @@
           <p class="text-align">This creature has no harvestable pleroma.</p>
         </div>
 
-        <h2>Variants</h2>
-        <div class="divider"></div>
-        <div *ngIf="beast.variants.length > 0" class="chip-shell">
-          <mat-chip-list>
-            <mat-chip (click)="goToVariant(variant.variantid)" *ngFor="let variant of beast.variants" color="accent"
-              selected>
-              {{variant.name}}</mat-chip>
-          </mat-chip-list>
-        </div>
-        <div *ngIf="beast.variants.length == 0" class="box-padding">
-          <p class="text-indent">This creature currently has no variants</p>
+        <div *ngIf="beast.variants.length > 0">
+          <h2>Variants</h2>
+          <div class="divider"></div>
+          <div class="chip-shell">
+            <mat-chip-list>
+              <mat-chip (click)="goToVariant(variant.variantid)" *ngFor="let variant of beast.variants" color="accent"
+                selected>
+                {{variant.name}}</mat-chip>
+            </mat-chip-list>
+          </div>
         </div>
 
         <!-- <h2>Special Harvest</h2> -->
 
-        <h2>Meta Notes</h2>
-        <div class="divider"></div>
         <div *ngIf="beast.meta && beast.meta.length > 0">
+          <h2>Meta Notes</h2>
+          <div class="divider"></div>
           <quill-view-html [content]="beast.meta"></quill-view-html>
-        </div>
-
-        <div *ngIf="!beast.meta || beast.meta.length == 0" class="box-padding">
-          <p class="text-align">This creature currently has no meta notes</p>
         </div>
 
         <h2>Personal Notes</h2>
