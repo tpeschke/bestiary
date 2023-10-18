@@ -12,7 +12,7 @@ export class MoraleConverterPipe implements PipeTransform {
       case 2:
         return 'Unsure';
       case 3: 
-        return 'Nervous';
+        return 'Tired';
       case 4:
         return 'Shaken';
       case 5:
