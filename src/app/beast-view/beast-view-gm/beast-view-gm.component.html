@@ -452,7 +452,7 @@
 
         <h2 *ngIf="beast.habitat">Habitat/Society</h2>
         <div *ngIf="beast.habitat" class="divider"></div>
-        <div class="{{beast.tables.appearance.habitat === 1 ? 'tables-to-the-side' : ''}}">
+        <div class="{{beast.tables.habitat.length === 1 ? 'tables-to-the-side' : ''}}">
           <div *ngIf="beast.habitat">
             <quill-view-html [content]="beast.habitat"></quill-view-html>
           </div>
