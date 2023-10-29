@@ -1,0 +1,65 @@
+.combat-table-shell {
+    font-size: 12px;
+    height: 195px;
+    width: 195px;
+    display: flex;
+}
+
+.combat-table-shell p {
+    position: unset;
+}
+
+.combat-table-column {
+    width: 50%;
+    height: 100%;
+}
+
+.combat-table-shell .combat-table-column:nth-child(2) {
+    border-left: 1px solid;
+}
+.combat-table-shell .combat-table-column div:nth-child(odd){
+    background-color: lightgray;
+}
+
+.combat-table-column div:first-child {
+    background-color: #222 !important;
+    color: whitesmoke;
+    width: 100%;
+}
+
+.combat-table-column div:first-child p {
+    font-size: 14px !important;
+}
+
+.combat-table-column div { 
+    display: flex;
+    justify-content: space-between;
+}
+
+.combat-table-column div p {
+    padding: 2px 5px;
+    height: 19.5px;
+}
+
+p {
+    font-size: 16.5px;
+}
+
+.first-cell {
+    width: 35% !important;
+    font-weight: bold;
+    font-size: 14px !important;
+}
+
+.combat-table-column .column {
+    flex-direction: column;
+}
+
+.combat-table-column .column p {
+    width: 100% !important;
+    text-align: left;
+}
+
+.combat-table-column .column .double {
+    height: 59px;
+}

@@ -1,10 +1,11 @@
 .combat-square-shell {
-    width: 150px;
+    width: 195px;
     margin-bottom: 5px;
 }
 
 h4 {
     font-weight: bold;
+    font-size: 20px;
 }
 
 h4 i {

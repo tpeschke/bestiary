@@ -74,6 +74,7 @@ import { MentalPhysicalDisplayComponent } from './beast-view/beast-view-edit/men
 import { CombatSquareComponent } from './beast-view/beast-view-gm/combat-square/combat-square.component';
 import { EditTableComponent } from './beast-view/beast-view-edit/edit-table/edit-table.component';
 import { ViewTableComponent } from './beast-view/beast-view-gm/view-table/view-table.component';
+import { CombatTableComponent } from './util/combat-table/combat-table.component';
 
 const routes: Routes = [
   {
@@ -141,7 +142,8 @@ const routes: Routes = [
     ChallengeInnardsComponent,
     CombatSquareComponent,
     EditTableComponent,
-    ViewTableComponent
+    ViewTableComponent,
+    CombatTableComponent
   ],
   imports: [
     BrowserModule,

@@ -6,32 +6,7 @@
       matTooltip="Click to swap out gear." matTooltipClass="my-tooltip"></i>
     <i *ngIf="isASwarmBonus(combatSquare.weaponname ? combatSquare.weaponname : combatSquare.defaultweaponname)" class="fas fa-info-circle icon-small blue icon-small" matTooltip="For more information on what 'Swarm Bonus' means, see 'Swarm' in the Types section."></i>
   </h4>
-  <div class="square-shell">
-    <img *ngIf="combatSquare.weaponType === 'm'" class="combat-image" src="../../../../assets/square.png"
-      alt="combat square">
-    <img *ngIf="combatSquare.weaponType === 'r'" class="combat-image" src="../../../../assets/rangedsquare.png"
-      alt="combat square">
-    <p class="spd">{{combatSquare.recovery}}</p>
-    <p class="atk">{{combatSquare.attack}}</p>
-    <p class="init">{{combatSquare.initiative}}</p>
-    <div class="def">
-      <p>{{combatSquare.defense}}</p>
-      <p class="shield_dr">{{combatSquare.cover}}</p>
-    </div>
-    <p class="fatigue">{{combatSquare.damageType}}</p>
-    <div class="dr">
-      <p>{{combatSquare.dr}}</p>
-      <p class="shield_dr"><img class="shield-dr" src="./assets/shield.svg" alt="shield dr" width="15"
-          height="15">{{combatSquare.shieldDr}}</p>
-    </div>
-    <div class="measure">
-      <p *ngIf="combatSquare.weaponType === 'm'">{{combatSquare.measure}}</p>
-      <p *ngIf="combatSquare.weaponType === 'r'">{{combatSquare.range}}</p>
-    </div>
-    <p class="damage">{{combatSquare.isspecial === 'yes' ? 'See Attack Info' : combatSquare.damage }}</p>
-    <p *ngIf="combatSquare.weaponType === 'm'" class="parry">{{combatSquare.eua ? 'EUA' :
-      combatSquare.parry}}</p>
-  </div>
+  <app-combat-table [combatSquare]="combatSquare"></app-combat-table>
 
   <div *ngIf="showEquipmentSelection">
     <mat-form-field>

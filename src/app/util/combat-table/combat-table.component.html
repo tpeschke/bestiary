@@ -1,0 +1,60 @@
+<div class='combat-table-shell'>
+  <div class='combat-table-column'>
+    <div>
+      <p>Attacks</p>
+    </div>
+    <div>
+      <p class='first-cell'>{{isMelee ? 'Meas' : 'R.I.'}}</p>
+      <p>{{isMelee ? combatSquare.measure : combatSquare.range}}</p>
+    </div>
+    <div>
+      <p class='first-cell'>Atk</p>
+      <p>{{combatSquare.attack}}</p>
+    </div>
+    <div class='column'>
+      <p class='first-cell'>Damage</p>
+      <p class='double'>{{combatSquare.isspecial === 'yes' ? 'See Attack Info' : combatSquare.damage }}</p>
+    </div>
+    <div>
+      <p class='first-cell'>Type</p>
+      <p>{{combatSquare.damageType}}</p>
+    </div>
+    <div>
+      <p class='first-cell'>Rec</p>
+      <p>{{combatSquare.recovery}}</p>
+    </div>
+    <div>
+      <p class='first-cell'>Init</p>
+      <p>{{combatSquare.initiative}}</p>
+    </div>
+  </div>
+  <div class='combat-table-column'>
+    <div>
+      <p>Defenses</p>
+    </div>
+    <div>
+      <p class='first-cell'>Def</p>
+      <p>{{combatSquare.defense}}</p>
+    </div>
+    <div>
+      <p class='first-cell'>Flanks</p>
+      <p>{{combatSquare.flanks}}</p>
+    </div>
+    <div>
+      <p class='first-cell'>Parry</p>
+      <p>{{combatSquare.eua ? 'EUA' : combatSquare.parry}}</p>
+    </div>
+    <div class='column'>
+      <p class='first-cell'>Cover</p>
+      <p>{{combatSquare.cover}}</p>
+    </div>
+    <div class='column'>
+      <p class='first-cell'>Parry DR</p>
+      <p>{{combatSquare.shieldDr}}</p>
+    </div>
+    <div class='column'>
+      <p class='first-cell'>DR</p>
+      <p>{{combatSquare.dr}}</p>
+    </div>
+  </div>
+</div>
