@@ -234,9 +234,9 @@ export class BeastViewGmComponent implements OnInit {
       this.beastService.getAnyFlaws(anyCount).subscribe((result: any[]) => {
         this.beast.conflict.flaws.map(flaw => {
           if (flaw.trait === 'Any') {
-            let rolledFlaw = result.shift().flaw
+            let rolledFlaw = result.shift().ib
             const severity = this.getFlawSeverity(rolledFlaw, flaw.value)
-            flaw.trait = `${rolledFlaw.flaw}`
+            flaw.trait = `${rolledFlaw.ib}`
             flaw.severity ? null : flaw.severity = severity
           }
           return flaw

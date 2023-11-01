@@ -12,7 +12,6 @@ export class CombatTableComponent implements OnInit {
 
   public isMelee = true
   ngOnInit() {
-    console.log(this.combatSquare)
     this.isMelee = this.combatSquare.weaponType === 'm'
   }
 

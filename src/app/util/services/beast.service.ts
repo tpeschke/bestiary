@@ -178,11 +178,11 @@ export class BeastService {
   }
 
   getAnyFlaws(number) {
-    return this.http.get(local.srdBase + '/getRandomFlaw/' + number)
+    return this.http.get(local.srdBase + '/getRandomIB/' + number)
   }
 
   getFlaws() {
-    return this.http.get(local.srdBase + '/getFlawTables')
+    return this.http.get(local.srdBase + '/getIBTables')
   }
 
 }
