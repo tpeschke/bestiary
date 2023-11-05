@@ -177,11 +177,11 @@ export class BeastService {
     return this.http.post(local.reliquaryEndpoint, equipmentArray)
   }
 
-  getAnyFlaws(number) {
+  getAnyBurdens(number) {
     return this.http.get(local.srdBase + '/getRandomIB/' + number)
   }
 
-  getFlaws() {
+  getBurdens() {
     return this.http.get(local.srdBase + '/getIBTables')
   }
 

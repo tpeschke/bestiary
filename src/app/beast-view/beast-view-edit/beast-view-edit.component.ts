@@ -70,7 +70,7 @@ export class BeastViewEditComponent implements OnInit {
   public imageUrl = null;
   public tokenExists: Boolean = false;
   public unusedRolesForEncounters = []
-  public allFlaws;
+  public allBurdens;
   public newRole = {
     name: null,
     role: null,
@@ -325,7 +325,7 @@ export class BeastViewEditComponent implements OnInit {
           return socialObject
         })
 
-        this.beast.conflict.flaws = this.beast.conflict.flaws.map(socialObject => {
+        this.beast.conflict.burdens = this.beast.conflict.burdens.map(socialObject => {
           if (socialObject.socialroleid) {
             socialObject.socialroleid = roleIdsDictionary[socialObject.socialroleid]
           }
@@ -516,7 +516,7 @@ export class BeastViewEditComponent implements OnInit {
           stress: 0,
           combat: [],
           combatStatArray: [],
-          conflict: { descriptions: [], convictions: [], devotions: [], flaws: [] },
+          conflict: { descriptions: [], convictions: [], devotions: [], burdens: [] },
           skills: [],
           movement: [],
           types: [],
@@ -548,16 +548,16 @@ export class BeastViewEditComponent implements OnInit {
         }
       }
 
-      this.beastService.getFlaws().subscribe((results: any) => {
-        delete results.flawTables
-        let newAllFlaws = []
+      this.beastService.getBurdens().subscribe((results: any) => {
+        delete results.burdenTables
+        let newAllBurdens = []
         for (const key in results) {
-          newAllFlaws.push({
+          newAllBurdens.push({
             label: key.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()),
-            flaws: results[key]
+            burdens: results[key]
           })
         }
-        this.allFlaws = newAllFlaws
+        this.allBurdens = newAllBurdens
       })
 
       this.bootUpAutoCompletes()
@@ -579,7 +579,7 @@ export class BeastViewEditComponent implements OnInit {
   _filterGroup = (value, groups, type) => {
     if (value) {
       return groups
-        .map(group => ({ label: group.label, flaws: this._filter(value, group.flaws, type) }))
+        .map(group => ({ label: group.label, burdens: this._filter(value, group.burdens, type) }))
         .filter(group => group.label.length > 0);
     }
 
@@ -706,14 +706,14 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  checkRandomizeFlaw = (index, checked) => {
+  checkRandomizeBurden = (index, checked) => {
     if (checked) {
-      this.beast.conflict.flaws[index].trait = 'Any'
-      if (+this.beast.conflict.flaws[index].value > 4) {
-        this.beast.conflict.flaws[index].value = '1'
+      this.beast.conflict.burdens[index].trait = 'Any'
+      if (+this.beast.conflict.burdens[index].value > 4) {
+        this.beast.conflict.burdens[index].value = '1'
       }
     } else {
-      this.beast.conflict.flaws[index].trait = ''
+      this.beast.conflict.burdens[index].trait = ''
     }
   }
 
@@ -729,7 +729,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   setRankSeverityRank = (index, value) => {
-    this.beast.conflict.flaws[index].value = value
+    this.beast.conflict.burdens[index].value = value
   }
 
   updateRolesObject(type, value) {
@@ -804,7 +804,7 @@ export class BeastViewEditComponent implements OnInit {
     this.beast[secondaryType][type] = event.value
   }
 
-  getFlawDiceValue = (dice) => {
+  getBurdenDiceValue = (dice) => {
     switch (dice) {
       case '1d4!':
         return 2
@@ -1576,7 +1576,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.conflict.devotions.forEach(val => {
         val.socialroleid = id
       })
-      this.beast.conflict.flaws.forEach(val => {
+      this.beast.conflict.burdens.forEach(val => {
         val.socialroleid = id
       })
 
@@ -1787,7 +1787,7 @@ export class BeastViewEditComponent implements OnInit {
         socialpoints += +trait.value
       }
     })
-    this.beast.conflict.flaws.forEach(trait => {
+    this.beast.conflict.burdens.forEach(trait => {
       if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
         socialpoints -= 2
       }
@@ -1821,7 +1821,7 @@ export class BeastViewEditComponent implements OnInit {
           socialpoints += +trait.value
         }
       })
-      this.beast.conflict.flaws.forEach(trait => {
+      this.beast.conflict.burdens.forEach(trait => {
         if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
           socialpoints -= +trait.value
         }
@@ -2047,9 +2047,9 @@ export class BeastViewEditComponent implements OnInit {
         this.removeNewSecondaryItem('conflict', index, 'descriptions')
       }
     })
-    this.beast.conflict.flaws.forEach((subcat, index) => {
+    this.beast.conflict.burdens.forEach((subcat, index) => {
       if (this.selectedRoleId === subcat.socialroleid) {
-        this.removeNewSecondaryItem('conflict', index, 'flaws')
+        this.removeNewSecondaryItem('conflict', index, 'burdens')
       }
     })
 

@@ -12,16 +12,16 @@ strong {
     margin-top: -10px;
 }
 
-.flaw-severity-buttons {
+.burden-severity-buttons {
     display: flex;
     flex-wrap: wrap;
 }
 
-.flaw-severity-buttons button {
+.burden-severity-buttons button {
     margin: 0 5px 5px 0;
 }
 
-.flaw-severity-range {
+.burden-severity-range {
     margin: 5px 0;
 }
 
@@ -551,14 +551,14 @@ mat-toolbar {
     margin-top: 0;
 }
 
-.flaw-dice-shell {
+.burden-dice-shell {
     display: flex;
     justify-content: space-between;
     max-width: 269px;
     flex-wrap: wrap;
 }
 
-.selected-flaw-value {
+.selected-burden-value {
     background: #607d8b;
     color: whitesmoke;
 }

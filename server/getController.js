@@ -332,7 +332,7 @@ module.exports = {
 
         if (req.query.edit === 'true') {
           promiseArray.push(db.get.beastconflictedit(id).then(result => {
-            beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [] }
+            beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [], burdens: [] }
             result.forEach(val => {
               if (val.type === 't' || val.type === 'c' || !val.type) {
                 beast.conflict.convictions.push(val)
@@ -340,7 +340,9 @@ module.exports = {
                 beast.conflict.devotions.push(val)
               } else if (val.type === 'f') {
                 beast.conflict.flaws.push(val)
-              } else if (val.type === 'h') {
+              } else if (val.type === 'b') {
+                beast.conflict.burdens.push(val)
+              }  else if (val.type === 'h') {
                 beast.conflict.descriptions.push(val)
               }
             })
@@ -348,7 +350,7 @@ module.exports = {
           }))
         } else {
           promiseArray.push(db.get.beastconflict(id).then(result => {
-            beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [] }
+            beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [], burdens: []  }
             result.forEach(val => {
               if (val.type === 't' || val.type === 'c' || !val.type) {
                 if (beast.traitlimit && beast.conflict.convictions.length < beast.traitlimit) {
@@ -368,6 +370,8 @@ module.exports = {
                 } else if (!beast.flawlimit) {
                   beast.conflict.flaws.push(val)
                 }
+              } else if (val.type === 'b') {
+                  beast.conflict.burdens.push(val)
               } else if (val.type === 'h') {
                 beast.conflict.descriptions.push(val)
               }
@@ -376,6 +380,7 @@ module.exports = {
             beast.conflict.descriptions = beast.conflict.descriptions.sort((a, b) => +b.value - +a.value)
             beast.conflict.convictions = beast.conflict.convictions.sort((a, b) => +b.value - +a.value)
             beast.conflict.flaws = beast.conflict.flaws.sort(sortOutAnyToTheBottom)
+            beast.conflict.burdens = beast.conflict.burdens.sort(sortOutAnyToTheBottom)
 
             return result
           }))

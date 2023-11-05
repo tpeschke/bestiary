@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { FlawDisplayComponent } from './flaw-display.component';
+import { BurdensDisplayComponent } from './burden-display.component';
 
-describe('FlawDisplayComponent', () => {
-  let component: FlawDisplayComponent;
-  let fixture: ComponentFixture<FlawDisplayComponent>;
+describe('BurdensDisplayComponent', () => {
+  let component: BurdensDisplayComponent;
+  let fixture: ComponentFixture<BurdensDisplayComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FlawDisplayComponent ]
+      declarations: [ BurdensDisplayComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FlawDisplayComponent);
+    fixture = TestBed.createComponent(BurdensDisplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

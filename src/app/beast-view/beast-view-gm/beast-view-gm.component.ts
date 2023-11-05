@@ -71,7 +71,7 @@ export class BeastViewGmComponent implements OnInit {
   public showDescriptions = false
   public showConvictions = false
   public showDevotions = false
-  public showFlaws = false
+  public showBurdens = false
 
   public groupId = null
 
@@ -100,7 +100,7 @@ export class BeastViewGmComponent implements OnInit {
         this.tokenExists = res
       })
 
-      this.handleAnyFlaws()
+      this.handleAnyBurdens()
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
       // this.metaService.updateTag({ name: 'og:description', content: this.beast.name });
       // this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/preview.png" });
@@ -188,12 +188,12 @@ export class BeastViewGmComponent implements OnInit {
       this.showDescriptions = this.beast.conflict.descriptions.length > 0
       this.showConvictions = this.beast.conflict.convictions.length > 0
       this.showDevotions = this.beast.conflict.devotions.length > 0
-      this.showFlaws = this.beast.conflict.flaws.length > 0
+      this.showBurdens = this.beast.conflict.burdens.length > 0
     } else {
       this.showDescriptions = false
       this.showConvictions = false
       this.showDevotions = false
-      this.showFlaws = false
+      this.showBurdens = false
 
       for (let i = 0; i < this.beast.conflict.descriptions.length; i++) {
         if (this.beast.conflict.descriptions[i].socialroleid === this.selectedRoleId || this.beast.conflict.descriptions[i].allroles) {
@@ -216,54 +216,54 @@ export class BeastViewGmComponent implements OnInit {
         }
       }
 
-      for (let i = 0; i < this.beast.conflict.flaws.length; i++) {
-        if (this.beast.conflict.flaws[i].socialroleid === this.selectedRoleId || this.beast.conflict.flaws[i].allroles) {
-          this.showFlaws = true
-          i = this.beast.conflict.flaws.length
+      for (let i = 0; i < this.beast.conflict.burdens.length; i++) {
+        if (this.beast.conflict.burdens[i].socialroleid === this.selectedRoleId || this.beast.conflict.burdens[i].allroles) {
+          this.showBurdens = true
+          i = this.beast.conflict.burdens.length
         }
       }
 
     }
-    this.showCharacteristicsSection = this.showDescriptions || this.showConvictions || this.showDevotions || this.showFlaws
+    this.showCharacteristicsSection = this.showDescriptions || this.showConvictions || this.showDevotions || this.showBurdens
   }
 
-  handleAnyFlaws = () => {
+  handleAnyBurdens = () => {
     let anyCount = 0
-    this.beast.conflict.flaws.forEach(flaw => flaw.trait === 'Any' ? anyCount++ : null)
+    this.beast.conflict.burdens.forEach(burden => burden.trait === 'Any' ? anyCount++ : null)
     if (anyCount) {
-      this.beastService.getAnyFlaws(anyCount).subscribe((result: any[]) => {
-        this.beast.conflict.flaws.map(flaw => {
-          if (flaw.trait === 'Any') {
-            let rolledFlaw = result.shift().ib
-            const severity = this.getFlawSeverity(rolledFlaw, flaw.value)
-            flaw.trait = `${rolledFlaw.ib}`
-            flaw.severity ? null : flaw.severity = severity
+      this.beastService.getAnyBurdens(anyCount).subscribe((result: any[]) => {
+        this.beast.conflict.burdens.map(burden => {
+          if (burden.trait === 'Any') {
+            let rolledBurden = result.shift().ib
+            const severity = this.getBurdenSeverity(rolledBurden, burden.value)
+            burden.trait = `${rolledBurden.ib}`
+            burden.severity ? null : burden.severity = severity
           }
-          return flaw
+          return burden
         })
-        this.beast.conflict.flaws = this.beast.conflict.flaws.sort((a, b) => +b.value - +a.value)
+        this.beast.conflict.burdens = this.beast.conflict.burdens.sort((a, b) => +b.value - +a.value)
       })
     }
   }
 
-  getFlawSeverity = (flaw, modifier) => {
-    if (flaw.cap === 'n/a') {
-      flaw.cap = 20
+  getBurdenSeverity = (burden, modifier) => {
+    if (burden.cap === 'n/a') {
+      burden.cap = 20
     }
-    let severity = +Math.floor(Math.random() * Math.floor(flaw.cap)) + 1
+    let severity = +Math.floor(Math.random() * Math.floor(burden.cap)) + 1
 
     if (modifier === '2') {
       severity = Math.floor(severity / 3)
     } else if (modifier === '3') {
-      if (severity > (flaw.cap / 2)) {
+      if (severity > (burden.cap / 2)) {
         severity = severity - Math.ceil(severity / 3)
-      } else if (severity < (flaw.cap / 2)) {
+      } else if (severity < (burden.cap / 2)) {
         severity = severity + Math.ceil(severity / 3)
       }
     } else if (modifier === '4') {
       severity *= 2
-      if (severity > flaw.cap) {
-        severity = flaw.cap
+      if (severity > burden.cap) {
+        severity = burden.cap
       }
     }
 

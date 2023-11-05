@@ -67,7 +67,7 @@ import { ChallengePopUpComponent } from './obstacle-index/view/challenge-pop-up/
 import { ChallengeShellComponent } from './obstacle-index/view/challenge-shell/challenge-shell.component';
 import { ObstacleInnardsComponent } from './obstacle-index/view/obstacle-innards/obstacle-innards.component';
 import { SkillDisplayComponent } from './beast-view/beast-view-edit/skill-display/skill-display.component';
-import { FlawDisplayComponent } from './beast-view/beast-view-edit/flaw-display/flaw-display.component';
+import { BurdenDisplayComponent } from './beast-view/beast-view-edit/burdens-display/burden-display.component';
 import { ChallengeInnardsComponent } from './obstacle-index/view/challenge-innards/challenge-innards.component';
 import { CombatInfoComponent } from './beast-view/beast-view-edit/combat-info/combat-info.component';
 import { MentalPhysicalDisplayComponent } from './beast-view/beast-view-edit/mental-physical-display/mental-physical-display.component';
@@ -138,7 +138,7 @@ const routes: Routes = [
     CombatInfoComponent,
     MentalPhysicalDisplayComponent,
     SkillDisplayComponent,
-    FlawDisplayComponent,
+    BurdenDisplayComponent,
     ChallengeInnardsComponent,
     CombatSquareComponent,
     EditTableComponent,

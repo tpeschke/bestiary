@@ -53,7 +53,7 @@
         </div>
 
         <div
-          *ngIf="(beast.conflict.convictions.length > 0 || beast.conflict.descriptions.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.flaws.length > 0) || (selectedRoleId && beast.roleInfo[selectedRoleId].socialrole) || (!selectedRoleId && beast.socialrole)">
+          *ngIf="(beast.conflict.convictions.length > 0 || beast.conflict.descriptions.length > 0 || beast.conflict.devotions.length > 0 || beast.conflict.burdens.length > 0) || (selectedRoleId && beast.roleInfo[selectedRoleId].socialrole) || (!selectedRoleId && beast.socialrole)">
           <h2>Confrontation</h2>
           <div class="divider"></div>
         </div>
@@ -105,10 +105,10 @@
             </div>
           </div>
 
-          <div class="conflict-inner-shell box-padding" *ngIf="showFlaws">
+          <div class="conflict-inner-shell box-padding" *ngIf="showBurdens">
             <h3>Burdens & Injuries</h3>
             <div class="divider white"></div>
-            <div *ngFor="let trait of beast.conflict.flaws; let i = index">
+            <div *ngFor="let trait of beast.conflict.burdens; let i = index">
               <div *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait !== 'Any'"
                 class="flex-row-opposite">
                 <h5>{{trait.trait | titlecase}}</h5>
