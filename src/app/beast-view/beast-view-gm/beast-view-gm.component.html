@@ -709,7 +709,7 @@
         <ul *ngIf="carriedLoot.length > 0" class="box-padding lairLoot">
           <li *ngFor="let loot of carriedLoot">
             <span *ngIf="!loot.swigs">{{loot}} </span>
-            <span *ngIf="loot.swigs">{{loot.name}} w/ {{loot.swigs}} {{loot.isSalve ? 'applications' : 'swigs'}} </span>
+            <span *ngIf="loot.swigs">{{loot.name}} w/ {{loot.swigs}} {{loot.isSalve ? 'application' : 'swig'}}{{loot.swigs > 1 ? 's' : ''}} </span>
             <i *ngIf="loot.swigs" class="fas fa-info-circle icon-small blue"
               matTooltip='{{loot.effect}} {{loot.price}} sc'></i>
             <i *ngIf="!loot.name && loot.includes('alm script')" class="fas fa-info-circle icon-small blue"
