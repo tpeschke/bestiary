@@ -185,4 +185,8 @@ export class BeastService {
     return this.http.get(local.srdBase + '/getIBTables')
   }
 
+  getPotions(number) {
+    return this.http.post('https://reliquary.dragon-slayer.net/api/getRandomPotions?numberOfItems=' + number, null)
+  }
+
 }
