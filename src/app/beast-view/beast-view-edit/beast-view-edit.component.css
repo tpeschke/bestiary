@@ -59,6 +59,12 @@
     align-items: flex-start;
 }
 
+.edit-table-shell div:first-child {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
 .edit-table-shell button {
     height: 100%;
     margin: 0;

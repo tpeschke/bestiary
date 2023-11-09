@@ -172,8 +172,8 @@
       </div>
 
       <div class="edit-table-shell">
-        <div *ngFor="let table of beast.tables.appearance; let i = index">
-          <app-edit-table [table]="table" [index]="i" [removeTable]="removeTable('appearance')"></app-edit-table>
+        <div *ngIf="beast.tables">
+            <app-edit-table *ngFor="let table of beast.tables.appearance; let i = index" [table]="table" [index]="i" [removeTable]="removeTable('appearance')"></app-edit-table>
         </div>
         <button mat-raised-button (click)="addNewTable('appearance')" color="accent"><i class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
       </div>
@@ -211,8 +211,8 @@
       </div>
 
       <div class="edit-table-shell">
-        <div *ngFor="let table of beast.tables.habitat; let i = index">
-          <app-edit-table [table]="table" [index]="i" [removeTable]="removeTable('habitat')"></app-edit-table>
+        <div *ngIf="beast.tables">
+          <app-edit-table *ngFor="let table of beast.tables.habitat; let i = index" [table]="table" [index]="i" [removeTable]="removeTable('habitat')"></app-edit-table>
         </div>
         <button mat-raised-button (click)="addNewTable('habitat')" color="accent"><i class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
       </div>
@@ -377,8 +377,8 @@
       </div>
 
       <div class="edit-table-shell">
-        <div *ngFor="let table of beast.tables.attack; let i = index">
-          <app-edit-table [table]="table" [index]="i" [removeTable]="removeTable('attack')"></app-edit-table>
+        <div *ngIf="beast.tables">
+          <app-edit-table *ngFor="let table of beast.tables.attack; let i = index" [table]="table" [index]="i" [removeTable]="removeTable('attack')"></app-edit-table>
         </div>
         <button mat-raised-button (click)="addNewTable('attack')" color="accent"><i class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
       </div>
@@ -402,8 +402,8 @@
       </div>
 
       <div class="edit-table-shell">
-        <div *ngFor="let table of beast.tables.defense; let i = index">
-          <app-edit-table [table]="table" [index]="i" [removeTable]="removeTable('defense')"></app-edit-table>
+        <div *ngIf="beast.tables">
+          <app-edit-table *ngFor="let table of beast.tables.defense; let i = index" [table]="table" [index]="i" [removeTable]="removeTable('defense')"></app-edit-table>
         </div>
         <button mat-raised-button (click)="addNewTable('defense')" color="accent"><i class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
       </div>
