@@ -544,7 +544,13 @@ export class BeastViewEditComponent implements OnInit {
           obstacles: [],
           artistInfo: {},
           plural: null,
-          rarity: 10
+          rarity: 10,
+          tables: {
+            appearance: [],
+            habitat: [],
+            attack: [],
+            defense: []
+          }
         }
       }
 
