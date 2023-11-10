@@ -71,6 +71,7 @@ export class BeastViewGmComponent implements OnInit {
   public showDescriptions = false
   public showConvictions = false
   public showDevotions = false
+  public showFlaws = false
   public showBurdens = false
 
   public groupId = null
@@ -101,6 +102,7 @@ export class BeastViewGmComponent implements OnInit {
       })
 
       this.handleAnyBurdens()
+      this.handleAnyFlaws()
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
       // this.metaService.updateTag({ name: 'og:description', content: this.beast.name });
       // this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/preview.png" });
@@ -188,11 +190,13 @@ export class BeastViewGmComponent implements OnInit {
       this.showDescriptions = this.beast.conflict.descriptions.length > 0
       this.showConvictions = this.beast.conflict.convictions.length > 0
       this.showDevotions = this.beast.conflict.devotions.length > 0
+      this.showFlaws = this.beast.conflict.flaws.length > 0
       this.showBurdens = this.beast.conflict.burdens.length > 0
     } else {
       this.showDescriptions = false
       this.showConvictions = false
       this.showDevotions = false
+      this.showFlaws = false
       this.showBurdens = false
 
       for (let i = 0; i < this.beast.conflict.descriptions.length; i++) {
@@ -216,6 +220,13 @@ export class BeastViewGmComponent implements OnInit {
         }
       }
 
+      for (let i = 0; i < this.beast.conflict.flaws.length; i++) {
+        if (this.beast.conflict.flaws[i].socialroleid === this.selectedRoleId || this.beast.conflict.flaws[i].allroles) {
+          this.showFlaws = true
+          i = this.beast.conflict.flaws.length
+        }
+      }
+
       for (let i = 0; i < this.beast.conflict.burdens.length; i++) {
         if (this.beast.conflict.burdens[i].socialroleid === this.selectedRoleId || this.beast.conflict.burdens[i].allroles) {
           this.showBurdens = true
@@ -225,6 +236,23 @@ export class BeastViewGmComponent implements OnInit {
 
     }
     this.showCharacteristicsSection = this.showDescriptions || this.showConvictions || this.showDevotions || this.showBurdens
+  }
+
+  handleAnyFlaws = () => {
+    let anyCount = 0
+    this.beast.conflict.flaws.forEach(flaw => flaw.trait === 'Any' ? anyCount++ : null)
+    if (anyCount) {
+      this.beastService.getAnyFlaws(anyCount).subscribe((result: any[]) => {
+        this.beast.conflict.flaws.map(flaw => {
+          if (flaw.trait === 'Any') {
+            let rolledflaw = result.shift().title
+            flaw.trait = `${rolledflaw}`
+          }
+          return flaw
+        })
+        this.beast.conflict.flaws = this.beast.conflict.flaws.sort((a, b) => +b.value - +a.value)
+      })
+    }
   }
 
   handleAnyBurdens = () => {

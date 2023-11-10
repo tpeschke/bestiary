@@ -181,6 +181,10 @@ export class BeastService {
     return this.http.get(local.srdBase + '/getRandomIB/' + number)
   }
 
+  getAnyFlaws(number) {
+    return this.http.get(local.srdBase + '/getRandomFlaws/' + number)
+  }
+
   getBurdens() {
     return this.http.get(local.srdBase + '/getIBTables')
   }

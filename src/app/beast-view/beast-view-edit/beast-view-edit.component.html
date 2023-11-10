@@ -610,6 +610,41 @@
           </mat-form-field>
           <br />
 
+          
+          <h2>Flaws</h2>
+          <div class="divider"></div>
+
+          <div class="characteristic-edit-shell">
+            <p *ngIf="beast.conflict.flaws.length === 0"><br>This monster has no Flaws<br></p>
+            <div *ngFor="let flaw of beast.conflict.flaws; let i = index"
+              [ngClass]="{'noDisplay': !(!flaw.deleted && (selectedRoleId === flaw.socialroleid || flaw.allroles))}">
+              <div class="conflict-shell edit-shell-box">
+                <h3 *ngIf="flaw.trait !== 'Any'">
+                  <mat-form-field>
+                    <input placeholder="Flaw" matInput [value]="flaw.trait"
+                      (change)="captureInput($event, 'conflict', i, 'flaws', 'trait')">
+                  </mat-form-field>
+                </h3>
+                <section>
+                  <mat-checkbox [checked]="flaw.trait === 'Any'"
+                    (change)="checkRandomizeflaw(i, $event.checked)">Make
+                    this a Random Flaw</mat-checkbox>
+                </section>
+                <section>
+                  <mat-checkbox [checked]="flaw.allroles" (change)="checkAllRoles('flaws', i, $event.checked)">
+                    Add to all Roles</mat-checkbox>
+                </section>
+                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'flaws')" color="warn"><i
+                    class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+          </div>
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'flaws')" color="accent"><i
+              class="fa-solid fa-plus icon-medium"></i>
+            Flaw</button>
+          <br *ngIf="beast.conflict.flaws.length > 0" />
+          <br />
+
           <h2>Burdens & Injuries</h2>
           <div class="divider"></div>
 
@@ -625,14 +660,6 @@
           </div>
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'burdens')" color="accent"><i
               class="fa-solid fa-plus icon-medium"></i> Burden</button>
-          <br *ngIf="beast.conflict.burdens.length > 0" />
-          <br />
-          <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.burdens.length > 0">
-            <input matInput placeholder="Max Burdens Appearing" [value]="beast.burdenlimit"
-              (change)="captureInput($event, 'burdenlimit')">
-          </mat-form-field>
-          <br />
-
         </div>
       </div>
     </mat-tab>

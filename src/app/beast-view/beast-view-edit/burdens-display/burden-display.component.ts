@@ -29,8 +29,8 @@ export class BurdenDisplayComponent implements OnInit {
   ngOnInit() { }
 
   ngOnChanges(changes) {
-    if (!changes.allBurdenss.previousValue && changes.allBurdenss.currentValue) {
-      this.updateFullInfo(this.burden.trait, changes.allBurdenss.currentValue)
+    if (!changes.allBurdens.previousValue && changes.allBurdens.currentValue) {
+      this.updateFullInfo(this.burden.trait, changes.allBurdens.currentValue)
     }
     this.bootUpAutoComplete()
   }
@@ -46,11 +46,11 @@ export class BurdenDisplayComponent implements OnInit {
     );
   }
 
-  updateFullInfo(value, allBurdenss) {
-    if (value && allBurdenss) {
+  updateFullInfo(value, allBurdens) {
+    if (value && allBurdens) {
       this.fullInfo = null
-      allBurdenss.forEach(category => {
-        category.burdenss.forEach(fullBurdens => fullBurdens.burdens === value ? this.fullInfo = fullBurdens : null)
+      allBurdens.forEach(category => {
+        category.burdens.forEach(fullBurdens => fullBurdens.burdens === value ? this.fullInfo = fullBurdens : null)
       })
 
       if (this.fullInfo && this.burden.severity) {
@@ -71,10 +71,10 @@ export class BurdenDisplayComponent implements OnInit {
     const fakeEvent = {
       target: { value: Math.ceil(base + (per * severity)) }
     }
-    this.captureInput(fakeEvent, 'conflict', this.i, 'burdenss', 'value')
+    this.captureInput(fakeEvent, 'conflict', this.i, 'burdens', 'value')
   }
 
-  checkRandomBurdens (index, checked) {
+  checkRandomBurden (index, checked) {
     this.checkRandomizeBurden(index, checked)
     if (!checked) {
       this.burdensController.setValue('')

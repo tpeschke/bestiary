@@ -1,7 +1,7 @@
 <div class="conflict-shell edit-shell-box">
   <h3 *ngIf="burden.trait !== 'Any'">
     <mat-form-field>
-      <input id="traitNameInput" matInput placeholder="Burden" [matAutocomplete]="burdenauto" [formControl]="burdenController"
+      <input id="traitNameInput" matInput placeholder="Burden" [matAutocomplete]="burdenauto" [formControl]="burdensController"
         (blur)="captureInput($event, 'conflict', i, 'burdens', 'trait')" [value]="burden.trait">
       <mat-autocomplete #burdenauto="matAutocomplete">
         <mat-optgroup *ngFor="let group of burdenFiltered | async" [label]="group.label">

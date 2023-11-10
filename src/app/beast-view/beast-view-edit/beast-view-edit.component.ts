@@ -734,6 +734,17 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  checkRandomizeflaw = (index, checked) => {
+    if (checked) {
+      this.beast.conflict.flaws[index].trait = 'Any'
+      if (+this.beast.conflict.flaws[index].value > 4) {
+        this.beast.conflict.flaws[index].value = '1'
+      }
+    } else {
+      this.beast.conflict.flaws[index].trait = ''
+    }
+  }
+
   setRankSeverityRank = (index, value) => {
     this.beast.conflict.burdens[index].value = value
   }
