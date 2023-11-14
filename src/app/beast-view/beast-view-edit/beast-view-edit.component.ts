@@ -516,7 +516,7 @@ export class BeastViewEditComponent implements OnInit {
           stress: 0,
           combat: [],
           combatStatArray: [],
-          conflict: { descriptions: [], convictions: [], devotions: [], burdens: [] },
+          conflict: { descriptions: [], convictions: [], devotions: [], burdens: [], flaws: [] },
           skills: [],
           movement: [],
           types: [],
