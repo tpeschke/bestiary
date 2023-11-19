@@ -555,12 +555,12 @@ export class BeastViewEditComponent implements OnInit {
       }
 
       this.beastService.getBurdens().subscribe((results: any) => {
-        delete results.burdenTables
+        delete results.ibTables
         let newAllBurdens = []
         for (const key in results) {
           newAllBurdens.push({
             label: key.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()),
-            burdens: results[key]
+            burdens: results[key].map(burden => {return {trait: burden.ib}})
           })
         }
         this.allBurdens = newAllBurdens

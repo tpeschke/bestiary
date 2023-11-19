@@ -4,9 +4,9 @@
       <input id="traitNameInput" matInput placeholder="Burden" [matAutocomplete]="burdenauto" [formControl]="burdensController"
         (blur)="captureInput($event, 'conflict', i, 'burdens', 'trait')" [value]="burden.trait">
       <mat-autocomplete #burdenauto="matAutocomplete">
-        <mat-optgroup *ngFor="let group of burdenFiltered | async" [label]="group.label">
-          <mat-option *ngFor="let burden of group.burdens" [value]="burden.burden">
-            {{burden.burden}}
+        <mat-optgroup *ngFor="let group of burdensFiltered | async" [label]="group.label">
+          <mat-option *ngFor="let burden of group.burdens" [value]="burden.trait">
+            {{burden.trait}}
           </mat-option>
         </mat-optgroup>
       </mat-autocomplete>
@@ -18,7 +18,7 @@
   </section>
 
   <mat-form-field *ngIf="burden.trait !== 'Any'">
-    <input [disabled]="fullInfo" placeholder="Rank (1 point)" matInput [value]="burden.value"
+    <input placeholder="Rank (1 point)" matInput [value]="burden.value"
       (change)="captureInput($event, 'conflict', i, 'burdens', 'value')">
   </mat-form-field>
 

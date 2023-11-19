@@ -26,7 +26,7 @@ export class BurdenDisplayComponent implements OnInit {
 
   public fullInfo: any
 
-  ngOnInit() { }
+  ngOnInit() {  }
 
   ngOnChanges(changes) {
     if (!changes.allBurdens.previousValue && changes.allBurdens.currentValue) {
@@ -41,7 +41,7 @@ export class BurdenDisplayComponent implements OnInit {
       startWith(''),
       map((value: string) => {
         this.updateFullInfo(value, this.allBurdens)
-        return this._filterGroup(value || '', this.allBurdens, 'burdens')
+        return this._filterGroup(value || '', this.allBurdens, 'trait')
       }),
     );
   }
@@ -50,28 +50,13 @@ export class BurdenDisplayComponent implements OnInit {
     if (value && allBurdens) {
       this.fullInfo = null
       allBurdens.forEach(category => {
-        category.burdens.forEach(fullBurdens => fullBurdens.burdens === value ? this.fullInfo = fullBurdens : null)
+        category.burdens.forEach(burden => burden.trait === value ? this.fullInfo = burden : null)
       })
-
-      if (this.fullInfo && this.burden.severity) {
-        this.setRankBasedOnSeverity(+this.burden.severity)
-      }
     }
   }
 
   captureSeverity(event, category, index, type, subtype) {
-    if (this.fullInfo) {
-      this.setRankBasedOnSeverity(event.target.value)
-    }
     this.captureInput(event, category, index, type, subtype)
-  }
-
-  setRankBasedOnSeverity(severity) {
-    const { base, per } = this.fullInfo.rank
-    const fakeEvent = {
-      target: { value: Math.ceil(base + (per * severity)) }
-    }
-    this.captureInput(fakeEvent, 'conflict', this.i, 'burdens', 'value')
   }
 
   checkRandomBurden (index, checked) {
