@@ -178,7 +178,7 @@ setStressAndPanic = (combatStats, baseRoleInfo, combatpoints) => {
         if (mental.stress === 'N' || panic === 'N') {
             mental.panic = 'N'
         } else {
-            mental.panic = Math.floor(panic * mental.stress)
+            mental.panic = Math.ceil(panic * mental.stress)
         }
     }
 
@@ -187,12 +187,12 @@ setStressAndPanic = (combatStats, baseRoleInfo, combatpoints) => {
 setVitalityDieAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole, armor, shield, sizeMod) => {
     let physical = {}
     const scaling = getStatScaling('singleDieVitality')
-    let numberOfIncreases = Math.floor(getModifiedStat(combatStats.largeweapons ? combatStats.largeweapons : baseRoleInfo.largeweapons, scaling, combatpoints))
+    let numberOfIncreases = Math.ceil(getModifiedStat(combatStats.largeweapons ? combatStats.largeweapons : baseRoleInfo.largeweapons, scaling, combatpoints))
 
     if (!isNaN(numberOfIncreases)) {
         if (secondaryrole) {
             if (secondaryrole === 'Fodder') {
-                numberOfIncreases = Math.floor(numberOfIncreases / 2)
+                numberOfIncreases = Math.ceil(numberOfIncreases / 2)
             } else if (secondaryrole === 'Solo') {
                 numberOfIncreases *= 3
             }
@@ -271,7 +271,7 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole,
     physical.largeweapons = getModifiedStats('largeweapons', combatStats, baseRoleInfo, combatpoints)
     if (secondaryrole && physical.largeweapons !== 'N') {
         if (secondaryrole === 'Fodder' && physical.largeweapons !== 1) {
-            physical.largeweapons = Math.floor(physical.largeweapons / 2)
+            physical.largeweapons = Math.ceil(physical.largeweapons / 2)
         } else if (secondaryrole === 'Solo') {
             physical.largeweapons *= 3
         }
@@ -295,9 +295,9 @@ getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapo
             fatigue = 1
         }
         if (largeweapons + sizeMod < 0 && !noknockback) {
-            return Math.floor(fatigue * sizeMod)
+            return Math.ceil(fatigue * sizeMod)
         }
-        return Math.floor(fatigue * largeweapons)
+        return Math.ceil(fatigue * largeweapons)
     } else if (largeweapons === 'N' || fatigue === 'N') {
         return 'N'
     } else {
@@ -317,7 +317,7 @@ setCaution = (combatStats, baseRoleInfo, combatpoints, mental, physical) => {
     }
     const largeweapons = physical.largeweapons === 'N' ? 0 : physical.largeweapons
     const stress = mental.stress === 'N' ? 0 : mental.stress
-    return Math.floor((stress + largeweapons) * caution)
+    return Math.ceil((stress + largeweapons) * caution)
 }
 deteremineVitalityDice = (physical, sizeMod, noknockback) => {
     if (physical.largeweapons - sizeMod > 0) {
@@ -552,7 +552,7 @@ getFlanks = (combatStats, roleInfo, points) => {
         modifiedStat = getModifiedStat(scalingStrength, scaling, points)
     }
     if (modifiedStat >= 1) {
-        return Math.floor(modifiedStat)
+        return Math.ceil(modifiedStat)
     }
     return 1
 }
