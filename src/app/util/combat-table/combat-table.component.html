@@ -42,7 +42,7 @@
     </div>
     <div>
       <p class='first-cell'>Parry</p>
-      <p>{{combatSquare.eua ? 'EUA' : combatSquare.parry}}</p>
+      <p [matTooltipDisabled]="!combatSquare.eua" matTooltip="Parries all attacks except Unarmed ones.">{{combatSquare.eua ? 'EUA' : combatSquare.parry}}</p>
     </div>
     <div class='column'>
       <p class='first-cell'>Cover</p>

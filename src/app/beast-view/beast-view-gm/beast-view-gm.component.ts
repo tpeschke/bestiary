@@ -394,7 +394,7 @@ export class BeastViewGmComponent implements OnInit {
     if (potion) {
       let potionNumber = 0
       for (let i = 0; i < timesToRoll; i++) {
-        potionNumber += rollDice(numberAppearing[potion])
+        potionNumber += Math.min(rollDice(numberAppearing[potion]), 4)
       }
       if (potionNumber > 0) {
         this.beastService.getPotions(potionNumber).subscribe((potions: any) => {
@@ -539,7 +539,7 @@ export class BeastViewGmComponent implements OnInit {
     if (potion) {
       let potionNumber = 0
       for (let i = 0; i < timesToRoll; i++) {
-        potionNumber += rollDice(numberAppearing[potion])
+        potionNumber += Math.min(rollDice(numberAppearing[potion]), 4)
       }
       if (potionNumber > 0) {
         this.beastService.getPotions(potionNumber).subscribe((potions: any) => {

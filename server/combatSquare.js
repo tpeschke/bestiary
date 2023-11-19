@@ -70,7 +70,9 @@ const combatSquareController = {
             parry: getModifiedParry(combatStats, roleInfo, adjustedPoints),
             weaponScaling: damageAndRecovery.weaponScaling,
             flanks: getFlanks(combatStats, roleInfo, adjustedPoints),
-            defaultweaponname: getDefaultName(combatStats)
+            defaultweaponname: getDefaultName(combatStats),
+            isspecial: combatStats.isspecial,
+            eua: combatStats.eua
         }
 
         return combatSquare

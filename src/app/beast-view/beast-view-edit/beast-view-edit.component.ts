@@ -512,7 +512,7 @@ export class BeastViewEditComponent implements OnInit {
           subsystem: 0,
           patreon: 20,
           vitality: '',
-          panic: '',
+          panic: null,
           stress: 0,
           combat: [],
           combatStatArray: [],
