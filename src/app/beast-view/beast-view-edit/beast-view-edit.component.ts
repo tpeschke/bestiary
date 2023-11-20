@@ -514,6 +514,7 @@ export class BeastViewEditComponent implements OnInit {
           vitality: '',
           panic: null,
           stress: 0,
+          combatpoints: 0,
           combat: [],
           combatStatArray: [],
           conflict: { descriptions: [], convictions: [], devotions: [], burdens: [], flaws: [] },
@@ -1831,8 +1832,6 @@ export class BeastViewEditComponent implements OnInit {
     this.beast.roles.forEach(role => {
       let socialpoints = 0
 
-      let panic = role.panic ? role.panic : this.beast.panic
-
       this.beast.conflict.devotions.forEach(trait => {
         if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
           socialpoints += +trait.value
@@ -1880,8 +1879,6 @@ export class BeastViewEditComponent implements OnInit {
 
     this.beast.roles.forEach(role => {
       let skillpoints = 0
-
-      let panic = role.panic ? role.panic : this.beast.panic
 
       this.beast.skills.forEach(skill => {
         if ((skill.skillroleid === role.id || skill.allroles) && !skill.deleted) {
