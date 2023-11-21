@@ -622,7 +622,7 @@ export default {
                     },
                     {
                         label: 'Neutral Choices',
-                        items: ['Javelin (P)', 'Short Spear (P)']
+                        items: ['Melee Javelin (P)', 'Short Spear (P)']
                     },
                     {
                         label: 'Ranged',

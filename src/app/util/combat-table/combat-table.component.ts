@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-combat-table',
@@ -12,7 +12,10 @@ export class CombatTableComponent implements OnInit {
 
   public isMelee = true
   ngOnInit() {
-    this.isMelee = this.combatSquare.weaponType === 'm'
+  }
+
+  ngOnChanges(changes) {
+    this.isMelee = changes.combatSquare.currentValue.weaponType === 'm'
   }
 
 }

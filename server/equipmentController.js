@@ -65,12 +65,19 @@ module.exports = {
                         weapon.damageObj = getDamageObject(weapon.damage.dice)
                         weaponsObj[`Horseman's pick (${weapon.type})`] = weapon
                         weaponsObj[`Horseman's pick`] = weapon
+                    } else if (weapon.name === 'Javelin' && !weapon.range) {
+                        weaponTypeObj.items.push(`Melee Javelin (${weapon.type})`)
+                        weapon.damage = processDamage(weapon.dam, weapon.bonus)
+                        weapon.damageObj = getDamageObject(weapon.damage.dice)
+                        weaponsObj[`Melee Javelin (${weapon.type})`] = weapon
+                        weaponsObj[`Melee Javelin`] = weapon
+                    } else {
+                        weaponTypeObj.items.push(`${weapon.name} (${weapon.type})`)
+                        weapon.damage = processDamage(weapon.dam, weapon.bonus)
+                        weapon.damageObj = getDamageObject(weapon.damage.dice)
+                        weaponsObj[`${weapon.name} (${weapon.type})`] = weapon
+                        weaponsObj[`${weapon.name}`] = weapon
                     }
-                    weaponTypeObj.items.push(`${weapon.name} (${weapon.type})`)
-                    weapon.damage = processDamage(weapon.dam, weapon.bonus)
-                    weapon.damageObj = getDamageObject(weapon.damage.dice)
-                    weaponsObj[`${weapon.name} (${weapon.type})`] = weapon
-                    weaponsObj[`${weapon.name}`] = weapon
 
                 })
                 weapons.push(weaponTypeObj)

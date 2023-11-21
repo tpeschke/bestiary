@@ -1413,6 +1413,13 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   addNewArtist() {
+    this.beast.artistInfo.allartists.push(this.artist)
+    this.artistFiltered = this.artistController.valueChanges.pipe(
+      startWith(this.artist),
+      map((value: string) => this._filter(value || '', this.beast.artistInfo.allartists, 'artist')),
+    );
+    this.artistController.setValue(this.beast.artistInfo)
+
     let { artist, tooltip, link } = this.artist
     this.beast.artistInfo.id = null
     this.beast.artistInfo.artistid = null
