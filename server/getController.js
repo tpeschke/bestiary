@@ -3,6 +3,9 @@ const roles = require('./roles')
   , combatSquareCtrl = require('./combatSquare')
   , { combatCounterSecretKey } = require('./server-config')
   , axios = require('axios')
+const {sendErrorForwardNoFile} = require('./helpers')
+
+const sendErrorForward = sendErrorForwardNoFile('get controller')
 
 function formatNameWithCommas(name) {
   if (name.includes(',')) {
@@ -191,7 +194,7 @@ module.exports = {
             return combatSquareCtrl.getMovementDirectly(movementType).movementSpeeds
           })
           return result
-        }))
+        }).catch(e => sendErrorForward('movement', e, res)))
 
         promiseArray.push(db.get.combatStatArray(beastid).then(result => {
           if (isARole) {
@@ -257,7 +260,7 @@ module.exports = {
             beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, beast.roleInfo[role].role, { mental: beast.roleInfo[role].mental, panic: beast.roleInfo[role].panic, caution: beast.roleInfo[role].caution, fatigue: beast.roleInfo[role].fatigue, largeweapons: beast.roleInfo[role].largeweapons, singledievitality: beast.roleInfo[role].singledievitality, noknockback: beast.roleInfo[role].noknockback }, beast.roleInfo[role].secondaryrole, beast.roleInfo[role].knockback, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
           }
           return result
-        }))
+        }).catch(e => sendErrorForward('combat', e, res)))
 
         promiseArray.push(db.get.locationalvitality(beastid).then(result => {
           if (isARole) {
@@ -273,9 +276,9 @@ module.exports = {
 
         Promise.all(promiseArray).then(finalArray => {
           res.send(beast)
-        })
+        }).catch(e => sendErrorForward('final promise', e, res))
       }
-    })
+    }).catch(e => sendErrorForward('main', e, res))
   },
   getSingleBeast(req, res) {
     const id = +req.params.id
@@ -309,25 +312,25 @@ module.exports = {
         promiseArray.push(db.get.beasttypes(id).then(result => {
           beast.types = result
           return result
-        }))
+        }).catch(e => sendErrorForward('beast types', e, res)))
 
         promiseArray.push(db.get.beastenviron(id).then(result => {
           beast.environ = result
           return result
-        }))
+        }).catch(e => sendErrorForward('beast environ', e, res)))
 
         beast.artistInfo = {}
         if (req.query.edit === 'true') {
           promiseArray.push(db.get.artist(id).then(result => {
             beast.artistInfo = { ...beast.artistInfo, ...result[0] }
-          }))
+          }).catch(e => sendErrorForward('beast artist', e, res)))
           promiseArray.push(db.get.allartists(id).then(result => {
             beast.artistInfo = { ...beast.artistInfo, allartists: [...result] }
-          }))
+          }).catch(e => sendErrorForward('beast all artists', e, res)))
         } else {
           promiseArray.push(db.get.artist(id).then(result => {
             beast.artistInfo = { ...beast.artistInfo, ...result[0] }
-          }))
+          }).catch(e => sendErrorForward('beast artist 2', e, res)))
         }
 
         if (req.query.edit === 'true') {
@@ -347,7 +350,7 @@ module.exports = {
               }
             })
             return result
-          }))
+          }).catch(e => sendErrorForward('beast confrontation 1', e, res)))
         } else {
           promiseArray.push(db.get.beastconflict(id).then(result => {
             beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [], burdens: []  }
@@ -383,13 +386,13 @@ module.exports = {
             beast.conflict.burdens = beast.conflict.burdens.sort(sortOutAnyToTheBottom)
 
             return result
-          }))
+          }).catch(e => sendErrorForward('beast conflict', e, res)))
         }
 
         promiseArray.push(db.get.beastskill(id).then(result => {
           beast.skills = result.sort((a, b) => +b.rank - +a.rank)
           return result
-        }))
+        }).catch(e => sendErrorForward('beast skills', e, res)))
 
         if (req.user && req.user.id) {
           promiseArray.push(db.get.favorite(req.user.id, id).then(result => {
@@ -398,7 +401,7 @@ module.exports = {
             } else {
               beast.favorite = false
             }
-          }))
+          }).catch(e => sendErrorForward('beast favorite', e, res)))
         } else {
           beast.favorite = false
         }
@@ -407,88 +410,88 @@ module.exports = {
           promiseArray.push(db.get.beastnotes(id, req.user.id).then(result => {
             beast.notes = result[0] || {}
             return result
-          }))
+          }).catch(e => sendErrorForward('beast notes', e, res)))
         }
 
         promiseArray.push(db.get.beastvariants(id).then(result => {
           beast.variants = result
           return result
-        }))
+        }).catch(e => sendErrorForward('beast variants', e, res)))
 
         promiseArray.push(db.get.beastloot(id).then(result => {
           beast.loot = result
           return result
-        }))
+        }).catch(e => sendErrorForward('beast loot', e, res)))
 
         promiseArray.push(db.get.beastreagents(id).then(result => {
           beast.reagents = result
           return result
-        }))
+        }).catch(e => sendErrorForward('beast pleroma', e, res)))
 
         promiseArray.push(db.get.locationalvitality(id).then(result => {
           beast.locationalvitality = result
           return result
-        }))
+        }).catch(e => sendErrorForward('beast locational vitality', e, res)))
 
         promiseArray.push(db.get.folklore(id).then(result => {
           beast.folklore = result
           return result
-        }))
+        }).catch(e => sendErrorForward('beast folklore', e, res)))
 
         promiseArray.push(db.get.loot.lairbasic(id).then(result => {
           beast.lairloot = { ...result[0], ...beast.lairloot }
           return result
-        }))
+        }).catch(e => sendErrorForward('beast basic', e, res)))
 
         promiseArray.push(db.get.loot.lairalms(id).then(result => {
           beast.lairloot = { alms: result, ...beast.lairloot }
           return result
-        }))
+        }).catch(e => sendErrorForward('beast alms', e, res)))
 
         promiseArray.push(db.get.loot.lairequipment(id).then(result => {
           beast.lairloot = { equipment: result, ...beast.lairloot }
           return result
-        }))
+        }).catch(e => sendErrorForward('beast equipment', e, res)))
 
         promiseArray.push(db.get.loot.lairscrolls(id).then(result => {
           beast.lairloot = { scrolls: result, ...beast.lairloot }
           return result
-        }))
+        }).catch(e => sendErrorForward('beast scrolls', e, res)))
 
         promiseArray.push(db.get.loot.lairtraited(id).then(result => {
           beast.lairloot = { traited: result, ...beast.lairloot }
           return result
-        }))
+        }).catch(e => sendErrorForward('beast superior', e, res)))
 
         promiseArray.push(db.get.loot.carriedbasic(id).then(result => {
           beast.carriedloot = { ...result[0], ...beast.carriedloot }
           return result
-        }))
+        }).catch(e => sendErrorForward('beast carried basic', e, res)))
 
         promiseArray.push(db.get.loot.carriedalms(id).then(result => {
           beast.carriedloot = { alms: result, ...beast.carriedloot }
           return result
-        }))
+        }).catch(e => sendErrorForward('beast carried alms', e, res)))
 
         promiseArray.push(db.get.loot.carriedequipment(id).then(result => {
           beast.carriedloot = { equipment: result, ...beast.carriedloot }
           return result
-        }))
+        }).catch(e => sendErrorForward('beast carried equipment', e, res)))
 
         promiseArray.push(db.get.loot.carriedscrolls(id).then(result => {
           beast.carriedloot = { scrolls: result, ...beast.carriedloot }
           return result
-        }))
+        }).catch(e => sendErrorForward('beast carried scrolls', e, res)))
 
         promiseArray.push(db.get.loot.carriedtraited(id).then(result => {
           beast.carriedloot = { traited: result, ...beast.carriedloot }
           return result
-        }))
+        }).catch(e => sendErrorForward('beast carried superior', e, res)))
 
         promiseArray.push(db.get.ranks(id).then(result => {
           beast.ranks = result
           return result
-        }))
+        }).catch(e => sendErrorForward('beast carried ranks', e, res)))
 
         beast.tables = {
           habitat: [],
@@ -523,12 +526,12 @@ module.exports = {
                 })
               }
               return true
-            }))
+            }).catch(e => sendErrorForward('beast table rows', e, res)))
           })
           return Promise.all(tablePromiseArray).then(finalArray => {
             return true
-          })
-        }))
+          }).catch(e => sendErrorForward('beast tables final promise', e, res))
+        }).catch(e => sendErrorForward('beast tables', e, res)))
 
         promiseArray.push(db.get.beastroles(id).then(result => {
           beast.roles = result
@@ -565,28 +568,28 @@ module.exports = {
             }
           }
           return result
-        }))
+        }).catch(e => sendErrorForward('beast roles', e, res)))
 
         promiseArray.push(db.get.casting(id).then(result => {
           beast.casting = result[0]
-        }))
+        }).catch(e => sendErrorForward('beast casting', e, res)))
 
         promiseArray.push(db.get.spells(id).then(result => {
           beast.spells = result
-        }))
+        }).catch(e => sendErrorForward('beast spells', e, res)))
 
         promiseArray.push(db.get.challenges(id).then(result => {
           beast.challenges = result
-        }))
+        }).catch(e => sendErrorForward('beast challenges', e, res)))
 
         if (req.query.edit === 'true') {
           promiseArray.push(db.get.obstacles_edit(id).then(result => {
             beast.obstacles = result
-          }))
+          }).catch(e => sendErrorForward('beast editable obstacles', e, res)))
         } else {
           promiseArray.push(db.get.obstacles_view(id).then(result => {
             beast.obstacles = result
-          }))
+          }).catch(e => sendErrorForward('beast obstalces view', e, res)))
         }
 
         Promise.all(promiseArray).then(finalArray => {
@@ -607,7 +610,7 @@ module.exports = {
             })
 
             return true
-          }))
+          }).catch(e => sendErrorForward('beast movement 2', e, res)))
 
           finalPromise.push(db.get.combatStatArray(id).then(result => {
             if (req.query.edit === 'true') {
@@ -670,14 +673,14 @@ module.exports = {
               }
             }
             return result
-          }))
+          }).catch(e => sendErrorForward('beast combat 2', e, res)))
 
           if (req.query.edit !== 'true') {
             beast.conflict.devotions.forEach(val => {
               if (val.trait.toUpperCase() === 'ANY') {
                 finalPromise.push(db.get.randomdevotion().then(result => {
                   val.trait = result[0].trait
-                }))
+                }).catch(e => sendErrorForward('beast random devotion', e, res)))
               }
             })
           }
@@ -685,75 +688,9 @@ module.exports = {
           Promise.all(finalPromise).then(actualFinal => {
             beast.conflict.devotions = beast.conflict.devotions.sort(sortOutAnyToTheBottom)
             res.send(beast)
-          })
-        })
+          }).catch(e => sendErrorForward('beast final promise 2', e, res))
+        }).catch(e => sendErrorForward('beast main promise', e, res))
       }
-    })
+    }).catch(e => sendErrorForward('beast main', e, res))
   },
-}
-
-function processDR(drString, flat, slash) {
-  let newDR = {
-    flat,
-    slash
-  }
-  if (newDR.flat !== null || newDR.slash !== null) {
-    return newDR
-  }
-
-  if (drString) {
-    drString.split('+').forEach(element => {
-      if (element.includes('/d')) {
-        newDR.slash = +element.split('/d')[0]
-      } else {
-        newDR.flat = +element
-      }
-    })
-  }
-
-  return newDR
-}
-
-function processDamage(damageString, isSpecial, hasSpecialAndDamage) {
-  let newDamage = {
-    dice: [],
-    flat: 0,
-    isSpecial,
-    hasSpecialAndDamage
-  }
-
-  damageString = damageString ? damageString : ''
-
-  if (damageString.includes('see') && !isSpecial) {
-    newDamage.isSpecial = true
-    return newDamage
-  }
-
-  if (damageString.includes('*')) {
-    damageString = damageString.replace(/\*/g, '')
-    newDamage.hasSpecialAndDamage = true
-  }
-
-  let expressionValue = ""
-  damageString.trim().replace(/\s/g, '').split('').forEach((val, i, array) => {
-
-    if (i === array.length - 1) {
-      expressionValue = expressionValue + val
-    }
-    if (val === '-' || val === '+' || val === '*' || i === array.length - 1) {
-      if (expressionValue.includes('d')) {
-        newDamage.dice.push(expressionValue)
-        expressionValue = ""
-      } else if (expressionValue !== '') {
-        newDamage.flat += +expressionValue
-        expressionValue = ""
-      } else {
-        expressionValue = expressionValue + val
-      }
-    } else {
-      expressionValue = expressionValue + val;
-    }
-  })
-
-  return newDamage
 }

@@ -31,34 +31,31 @@ export class ObstacleService {
 
   getCatalog(): any {
     return this.http.get(local.endpointBase + '/api/obstacles/catalog')
+    .pipe(tap(result => this.handleMessage(result)))
   }
 
   getObstacle(id, type): any {
     return this.http.get(local.endpointBase + '/api/obstacles/single/' + id, { params: {type}})
-      .pipe(
-        tap(result => this.handleMessage(result))
-      );
+    .pipe(tap(result => this.handleMessage(result)))
   }
 
   updateObstacle(obstacle): any {
     return this.http.post(local.endpointBase + '/api/obstacles/add', obstacle)
-      .pipe(
-        tap(result => this.handleMessage(result))
-      );
+    .pipe(tap(result => this.handleMessage(result)))
   }
 
   deleteObstacle(id): any {
     return this.http.delete(local.endpointBase + '/api/obstacles/' + id)
-      .pipe(
-        tap(result => this.handleMessage(result))
-      );
+    .pipe(tap(result => this.handleMessage(result)))
   }
 
   searchObstacles(params): any {
     return this.http.get(local.endpointBase + '/api/obstacles/search', { params })
+    .pipe(tap(result => this.handleMessage(result)))
   }
 
   checkIfObstacleIsValid(name): any {
     return this.http.get(local.endpointBase + '/api/obstacles/isValid/' + name)
+    .pipe(tap(result => this.handleMessage(result)))
   }
 }

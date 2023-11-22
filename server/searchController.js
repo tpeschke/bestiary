@@ -1,3 +1,7 @@
+const {sendErrorForwardNoFile} = require('./helpers')
+
+const sendErrorForward = sendErrorForwardNoFile('search controller')
+
 module.exports = {
     search: (req, res) => {
         const db = req.app.get('db')
@@ -6,56 +10,50 @@ module.exports = {
         for (item in req.query) {
             switch (item) {
                 case "name":
-                    idArray.push(db.get.search.name(req.query.name).then())
+                    idArray.push(db.get.search.name(req.query.name).catch(e => sendErrorForward('search name', e, res)))
                     break;
                 case "body":
-                    idArray.push(db.get.search.body(req.query.body).then())
+                    idArray.push(db.get.search.body(req.query.body).catch(e => sendErrorForward('search body', e, res)))
                     break;
                 case "minHr":
-                    idArray.push(db.get.search.minHr(req.query.minHr).then())
+                    idArray.push(db.get.search.minHr(req.query.minHr).catch(e => sendErrorForward('search min hr', e, res)))
                     break;
                 case "maxHr":
-                    idArray.push(db.get.search.maxHr(req.query.maxHr).then())
-                    break;
-                case "minInt":
-                    idArray.push(db.get.search.minInt(req.query.minInt).then())
-                    break;
-                case "maxInt":
-                    idArray.push(db.get.search.maxInt(req.query.maxInt).then())
+                    idArray.push(db.get.search.maxHr(req.query.maxHr).catch(e => sendErrorForward('search max hr', e, res)))
                     break;
                 case "size":
-                    idArray.push(db.get.search.size(req.query.size).then())
+                    idArray.push(db.get.search.size(req.query.size).catch(e => sendErrorForward('search size', e, res)))
                     break;
                 case "access":
-                    idArray.push(db.get.search.access(req.query.access).then())
+                    idArray.push(db.get.search.access(req.query.access).catch(e => sendErrorForward('search access', e, res)))
                     break;
                 case "rarity":
-                    idArray.push(db.get.search.rarity(req.query.rarity).then())
+                    idArray.push(db.get.search.rarity(req.query.rarity).catch(e => sendErrorForward('search rarity', e, res)))
                     break;
                 case "subsystem":
                     if (req.query.subsystem !== "NaN") {
-                        idArray.push(db.get.search.subsystem(req.query.subsystem).then())
+                        idArray.push(db.get.search.subsystem(req.query.subsystem).catch(e => sendErrorForward('search subsystem', e, res)))
                     }
                     break;
                 case "anyaccess":
-                    idArray.push(db.get.search.playerview().then())
+                    idArray.push(db.get.search.playerview().catch(e => sendErrorForward('search player can view', e, res)))
                     break;
                 case "personalNotes":
                     if (req.user) {
-                        idArray.push(db.get.search.personalNotes(req.user.id))
+                        idArray.push(db.get.search.personalNotes(req.user.id).catch(e => sendErrorForward('search personal notes', e, res)))
                     }
                     break;
                 case "environ":
                     if (req.query.environ !== '') {
                         req.query.environ.split(',').forEach(val => {
-                            idArray.push(db.get.search.environ(+val).then())
+                            idArray.push(db.get.search.environ(+val).catch(e => sendErrorForward('search environ', e, res)))
                         })
                     }
                     break;
                 case "types":
                     if (req.query.types !== '') {
                         req.query.types.split(',').forEach(val => {
-                            idArray.push(db.get.search.types(+val).then())
+                            idArray.push(db.get.search.types(+val).catch(e => sendErrorForward('search types', e, res)))
                         })
                     }
                     break;
@@ -64,11 +62,11 @@ module.exports = {
                         req.query.roles.split(',').forEach(val => {
                             let roleName = getRoleName(val)
                             if (+val < 11) {
-                                idArray.push(db.get.search.roles_confrontation(roleName).then(result => result))
+                                idArray.push(db.get.search.roles_confrontation(roleName).then(result => result).catch(e => sendErrorForward('search roles confrontation', e, res)))
                             } else if (+val > 10 && +val < 22) {
-                                idArray.push(db.get.search.roles_combat(roleName).then(result => result))
+                                idArray.push(db.get.search.roles_combat(roleName).then(result => result).catch(e => sendErrorForward('search roles combat', e, res)))
                             } else {
-                                idArray.push(db.get.search.roles_skill(roleName).then(result => result))
+                                idArray.push(db.get.search.roles_skill(roleName).then(result => result).catch(e => sendErrorForward('search roles skills', e, res)))
                             }
                         })
                     }
@@ -110,20 +108,20 @@ module.exports = {
             finalIdArray.forEach(id => {
                 if (req.user) {
                     if (req.user.id === 1 || req.user.id === 21) {
-                        beastArray.push(db.get.search.beastPreviewOwner(id).then(result => result[0]))
+                        beastArray.push(db.get.search.beastPreviewOwner(id).then(result => result[0]).catch(e => sendErrorForward('preview owner', e, res)))
                     } else if (req.user.patreon >= 3) {
-                        beastArray.push(db.get.search.beastPreviewGM(id).then(result => result[0]))
+                        beastArray.push(db.get.search.beastPreviewGM(id).then(result => result[0]).catch(e => sendErrorForward('preview GM', e, res)))
                     }
                 } else {
-                    beastArray.push(db.get.search.beastPreviewPlayer(id).then(result => result[0]))
+                    beastArray.push(db.get.search.beastPreviewPlayer(id).then(result => result[0]).catch(e => sendErrorForward('preview player', e, res)))
                 }
             })
 
             Promise.all(beastArray).then(finalArray => {
                 // the final fitler removes null values for player search
                 res.send(finalArray.filter(x => x).sort((a, b) => a.name < b.name ? -1 : 1))
-            })
-        })
+            }).catch(e => sendErrorForward('search final promise 2', e, res))
+        }).catch(e => sendErrorForward('search final promise', e, res))
     },
     getRandomMonster: (req, res) => {
         const db = req.app.get('db')
@@ -133,7 +131,7 @@ module.exports = {
         }
         db.get.search.randomMonster(patreon).then(data => {
             res.send(data[0])
-        })
+        }).catch(e => sendErrorForward('random monster', e, res))
     }
 }
 

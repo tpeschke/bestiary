@@ -1132,7 +1132,11 @@ export class BeastViewEditComponent implements OnInit {
     this.calculateSocialPoints()
     this.calculateSkillPoints()
     if (+id) {
-      this.beastService.updateBeast(this.beast).subscribe(_ => this.router.navigate([`/beast/${id}/gm`]))
+      this.beastService.updateBeast(this.beast).subscribe(result => {
+        if (result.color && result.color !== 'red') {
+          this.router.navigate([`/beast/${id}/gm`])
+        }
+      })
     } else {
       this.beastService.addBeast(this.beast).subscribe(result => this.router.navigate([`/beast/${result.id}/gm`]))
     }

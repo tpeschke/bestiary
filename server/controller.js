@@ -1,5 +1,6 @@
-const roles = require('./roles')
-  , equipmentCtrl = require('./equipmentController')
+const {sendErrorForwardNoFile} = require('./helpers')
+
+const sendErrorForward = sendErrorForwardNoFile('controller')
 
 let rollDice = function (diceString) {
   if (typeof (diceString) === 'number') {
@@ -139,7 +140,7 @@ let controllerObj = {
             }
           }
           return result
-        }))
+        }).catch(e => sendErrorForward('get roles for catalog', e, res)))
       })
 
       Promise.all(finalArray).then(_ => {
@@ -167,15 +168,15 @@ let controllerObj = {
                 }
               }
               return result
-            }))
+            }).catch(e => sendErrorForward('collect roles for templates', e, res)))
           })
 
           Promise.all(finalArray).then(_ => {
             this.collectCache(app, 0)
-          })
-        })
-      })
-    })
+          }).catch(e => sendErrorForward('catalog final promise', e, res))
+        }).catch(e => sendErrorForward('templates catagory', e, res))
+      }).catch(e => sendErrorForward('collect catagory promise', e, res))
+    }).catch(e => sendErrorForward('collect catagory outer', e, res))
   },
   collectCache(app, index) {
     const db = app.get('db')
@@ -206,13 +207,13 @@ let controllerObj = {
               }
             }
             return result
-          }))
+          }).catch(e => sendErrorForward('roles for catalog by alpha', e, res)))
         })
 
         Promise.all(finalArray).then(_ => {
           this.collectCache(app, ++index)
-        })
-      })
+        }).catch(e => sendErrorForward('collect cache final promise', e, res))
+      }).catch(e => sendErrorForward('catalog by letter', e, res))
     } else {
       this.catalogCache = this.newCache
       this.newCache = []
@@ -226,7 +227,7 @@ let controllerObj = {
 
     db.get.playercanview(id).then(result => {
       res.send({ canView: (req.user && req.user.id === 1) || (req.user && req.user.patreon >= 3) || result[0].canplayerview })
-    }).catch(e => console.log(e))
+    }).catch(e => sendErrorForward('player can view', e, res))
   },
   getPlayerBeast(req, res) {
     const db = req.app.get('db')
@@ -237,11 +238,11 @@ let controllerObj = {
           result = result[0]
           result.notes = notes[0] || {}
           res.send(result)
-        })
+        }).catch(e => sendErrorForward('player version notes', e, res))
       } else {
         res.send(result)
       }
-    })
+    }).catch(e => sendErrorForward('player version', e, res))
   },
   addPlayerNotes(req, res) {
     const db = req.app.get('db')
@@ -251,7 +252,7 @@ let controllerObj = {
       if (noteId) {
         db.update.beastnotes(noteId, notes).then(result => {
           res.send(result[0])
-        })
+        }).catch(e => sendErrorForward('update beast notes', e, res))
       } else {
         db.get.usernotecount(req.user.id).then(count => {
           count = count[0]
@@ -260,9 +261,9 @@ let controllerObj = {
           } else {
             db.add.beastnotes(beastId, req.user.id, notes).then(result => {
               res.send(result[0])
-            })
+            }).catch(e => sendErrorForward('save beast notes', e, res))
           }
-        })
+        }).catch(e => sendErrorForward('check user note count', e, res))
       }
     } else {
       res.sendStatus(401)
@@ -283,12 +284,12 @@ let controllerObj = {
           }
           return db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback).catch(e => console.log("add roles ~ ", e))
         })
-      }).catch(e => console.log("delete roles ~ ", e)))
+      }).catch(e => sendErrorForward('add beast delete roles', e, res)))
       types.forEach(val => {
-        promiseArray.push(db.add.beasttype(id, val.typeid).then().catch(e => console.log('----------------------- add beast types: ', e)))
+        promiseArray.push(db.add.beasttype(id, val.typeid).then().catch(e => sendErrorForward('add beast types', e, res)))
       })
       environ.forEach(val => {
-        promiseArray.push(db.add.beastenviron(id, val.environid).then().catch(e => console.log('----------------------- add beast environ: ', e)))
+        promiseArray.push(db.add.beastenviron(id, val.environid).then().catch(e => sendErrorForward('add beast environ', e, res)))
       })
 // COMBAT STAT ADD
       promiseArray.push(db.delete.combatStats([id, [0, ...combatStatArray.map(combatStat => combatStat.id)]]).then(_ => {
@@ -305,150 +306,150 @@ let controllerObj = {
               unarmored, attack, isspecial, eua, addsizemod, weapon, shield, armor, weaponname, rangeddefense, initiative, measure, recovery, showonlydefenses, weapontype, rangedistance, swarmbonus, adjustment )
           }
         })
-      }).catch(e => console.log("add beast combat stats ~ ", e)))
+      }).catch(e => sendErrorForward('add beast combat stats', e, res)))
 
       let newConflict = []
       Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
       newConflict.forEach(({ trait, value, type, socialroleid, allroles, severity }) => {
-        promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles, severity).then().catch(e => console.log('----------------------- add beast conflict: ', e)))
+        promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles, severity).then().catch(e => sendErrorForward('add beast conflict', e, res)))
       })
       skills.forEach(({ skill, rank, skillroleid, allroles }) => {
-        promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid, allroles).then().catch(e => console.log('----------------------- add beast skills: ', e)))
+        promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid, allroles).then().catch(e => sendErrorForward('add beast skills', e, res)))
       })
       movement.forEach(({ stroll, walk, jog, run, sprint, type, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, adjustment }) => {
-        promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, adjustment).then().catch(e => console.log('----------------------- add beast movement: ', e)))
+        promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, adjustment).then().catch(e => sendErrorForward('add beast movement', e, res)))
       })
       variants.forEach(({ variantid }) => {
-        promiseArray.push(db.add.beastvariants(id, variantid).then().catch(e => console.log('----------------------- add beast varients 1: ', e)))
-        promiseArray.push(db.add.beastvariants(variantid, id).then().catch(e => console.log('----------------------- add beast varients 2: ', e)))
+        promiseArray.push(db.add.beastvariants(id, variantid).then().catch(e => sendErrorForward('add beast variant 1', e, res)))
+        promiseArray.push(db.add.beastvariants(variantid, id).then().catch(e => sendErrorForward('add beast variant 2', e, res)))
       })
       loot.forEach(({ loot, price }) => {
-        promiseArray.push(db.add.beastloot(id, loot, price).then().catch(e => console.log('----------------------- add beast loot: ', e)))
+        promiseArray.push(db.add.beastloot(id, loot, price).then().catch(e => sendErrorForward('add beast loot', e, res)))
       })
       reagents.forEach(({ name, spell, difficulty, harvest }) => {
-        promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then().catch(e => console.log('----------------------- add beast reagents: ', e)))
+        promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then().catch(e => sendErrorForward('add beast reagents', e, res)))
       })
 
       let { id: dbid, artistid, artist, tooltip, link } = artistInfo;
       if (artist) {
         if (!artistid) {
           promiseArray.push(db.add.allartists(artist, tooltip, link).then(result => {
-            return promiseArray.push(db.add.artist(id, result[0].id).then(result => result))
-          }))
+            return promiseArray.push(db.add.artist(id, result[0].id).then(result => result).catch(e => sendErrorForward('add beast add artist', e, res)))
+          }).catch(e => sendErrorForward('add beast all artists', e, res)))
         } else {
-          promiseArray.push(db.add.artist(id, artistid).then(result => result))
+          promiseArray.push(db.add.artist(id, artistid).then(result => result).catch(e => sendErrorForward('add beast add artist 2', e, res)))
         }
       }
 
       let {appearance, habitat, attack, defense} = tables
       appearance.forEach(table => {
         if (table.id) {
-          promiseArray.push(db.update.alltables(table.id, table.label))
+          promiseArray.push(db.update.alltables(table.id, table.label).then().catch(e => sendErrorForward('add beast appearance all tables', e, res)))
           db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
             table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+                promiseArray.push(db.add.row(rowid, table.id, weight, value).then().catch(e => sendErrorForward('add beast add appearnce table row', e, res)))
             })
-          })
+          }).catch(e => sendErrorForward('add beast delete apperance table rows', e, res))
         } else {
           promiseArray.push(db.add.alltables(table.label, 'ap').then(result => {
             promiseArray.push(db.add.table(id, result[0].id))
             db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
               table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value).then().catch(e => sendErrorForward('add beast add appearance table add rows 2', e, res)))
               })
-            })
-          }))
+            }).catch(e => sendErrorForward('add beast add appearance table add rows', e, res))
+          }).catch(e => sendErrorForward('add beast add appearance table', e, res)))
         }
       })
       habitat.forEach(table => {
         if (table.id) {
-          promiseArray.push(db.update.alltables(table.id, table.label))
+          promiseArray.push(db.update.alltables(table.id, table.label).then().catch(e => sendErrorForward('add beast habitat all tables', e, res)))
           db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
             table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+                promiseArray.push(db.add.row(rowid, table.id, weight, value).then().catch(e => sendErrorForward('add beast add habitat rows', e, res)))
             })
-          })
+          }).catch(e => sendErrorForward('add beast add habitat table delete rows', e, res))
         } else {
           promiseArray.push(db.add.alltables(table.label, 'ha').then(result => {
             promiseArray.push(db.add.table(id, result[0].id))
             db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
               table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value).then().catch(e => sendErrorForward('add beast add habitat add rows', e, res)))
               })
-            })
-          }))
+            }).catch(e => sendErrorForward('add beast habitat delete rows', e, res))
+          }).catch(e => sendErrorForward('add beast add habitat table', e, res)))
         }
       })
       attack.forEach(table => {
         if (table.id) {
-          promiseArray.push(db.update.alltables(table.id, table.label))
+          promiseArray.push(db.update.alltables(table.id, table.label).then().catch(e => sendErrorForward('add beast attack table all tables', e, res)))
           db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
             table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+                promiseArray.push(db.add.row(rowid, table.id, weight, value).then().catch(e => sendErrorForward('add beast add attack table add rows', e, res)))
             })
-          })
+          }).catch(e => sendErrorForward('add beast add attack table delete rows', e, res))
         } else {
           promiseArray.push(db.add.alltables(table.label, 'at').then(result => {
             promiseArray.push(db.add.table(id, result[0].id))
             db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
               table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value).then().catch(e => sendErrorForward('add beast add attack table delete rows 3', e, res)))
               })
-            })
-          }))
+            }).catch(e => sendErrorForward('add beast add attack table delete rows 2', e, res))
+          }).catch(e => sendErrorForward('add beast add attack table all table', e, res)))
         }
       })
       defense.forEach(table => {
         if (table.id) {
-          promiseArray.push(db.update.alltables(table.id, table.label))
+          promiseArray.push(db.update.alltables(table.id, table.label).then().catch(e => sendErrorForward('add beast add defense table all tables', e, res)))
           db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
             table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+                promiseArray.push(db.add.row(rowid, table.id, weight, value).then().catch(e => sendErrorForward('add beast add defense table add rows', e, res)))
             })
-          })
+          }).catch(e => sendErrorForward('add beast add defence table delete rows', e, res))
         } else {
           promiseArray.push(db.add.alltables(table.label, 'de').then(result => {
             promiseArray.push(db.add.table(id, result[0].id))
             db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
               table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value).then().catch(e => sendErrorForward('add beast add defnes table  more rows', e, res)))
               })
-            })
-          }))
+            }).catch(e => sendErrorForward('add beast add defense table delete rows', e, res))
+          }).catch(e => sendErrorForward('add beast add defense table all table label', e, res)))
         }
       })
 
       let { temperament, rank, verb, noun, signs, numbers, groups } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted, temperamentid }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.temperament(beastid, tempid).catch(e => console.log('----------------------- add beast delete temp: ', e)))
+          promiseArray.push(db.delete.encounter.temperament(beastid, tempid).catch(e => sendErrorForward('add beast delete temp', e, res)))
         } else if ((tempid && !beastid) || (tempid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.temperament(id, tempid, weight).catch(e => console.log('----------------------- add beast add temp: ', e)))
+          promiseArray.push(db.add.encounter.temperament(id, tempid, weight).catch(e => sendErrorForward('add beast add temp', e, res)))
         } else if (tempid && beastid) {
-          promiseArray.push(db.update.encounter.temperament(weight, beastid, tempid).catch(e => console.log('----------------------- add beast update temp: ', e)))
+          promiseArray.push(db.update.encounter.temperament(weight, beastid, tempid).catch(e => sendErrorForward('add beast update temp', e, res)))
         } else if (!tempid) {
           db.add.encounter.allTemp(temp, tooltip).then(result => {
-            promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight).catch(e => console.log('----------------------- add beast add temp with weight: ', e)))
-          }).catch(e => console.log('----------------------- add beast all temp: ', e))
+            promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight).catch(e => sendErrorForward('add beast add temp w/ weight', e, res)))
+          }).catch(e => sendErrorForward('add beast all temp', e, res))
         }
       })
 
       groups.forEach(({ id: groupid, beastid, deleted, label, weights, weight }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.groupRoles(beastid, groupid).catch(e => console.log('----------------------- add beast delete group roles: ', e))).catch(e => console.log('----------------------- add beast delete groups: ', e)))
+          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.groupRoles(beastid, groupid).catch(e => sendErrorForward('add beast delete group roles', e, res))).catch(e => sendErrorForward('add beast delete groups', e, res)))
         } else if (groupid && beastid) {
           promiseArray.push(db.update.encounter.groups(id, groupid, label, +weight).then(_ => {
             let groupPromises = []
 
             weights.forEach(({ id: roleid, weight: roleweight, role }) => {
               if (roleid) {
-                groupPromises.push(db.update.encounter.groupRoles(beastid, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
+                groupPromises.push(db.update.encounter.groupRoles(beastid, roleid, groupid, +roleweight, role).catch(e => sendErrorForward('add beast update group role', e, res)))
               } else {
-                groupPromises.push(db.add.encounter.groupRoles(beastid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))
+                groupPromises.push(db.add.encounter.groupRoles(beastid, groupid, +roleweight, role).catch(e => sendErrorForward('add beast add group role', e, res)))
               }
             })
             return Promise.all(groupPromises)
-          }).catch(e => console.log('----------------------- add beast update group: ', e)))
+          }).catch(e => sendErrorForward('add beast update group', e, res)))
         } else if (!groupid) {
           promiseArray.push(db.add.encounter.groups(id, label, +weight).then(result => {
             let groupPromises = []
@@ -456,89 +457,89 @@ let controllerObj = {
             groupid = result[0].id
             weights.forEach(({ id: roleid, weight: roleweight, role }) => {
               if (roleid) {
-                groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
+                groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => sendErrorForward('add beast update group role', e, res)))
               } else {
-                groupPromises.push(db.add.encounter.groupRoles(id, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))
+                groupPromises.push(db.add.encounter.groupRoles(id, groupid, +roleweight, role).catch(e => sendErrorForward('add beast add group role', e, res)))
               }
             })
             return Promise.all(groupPromises)
-          }).catch(e => console.log('----------------------- add beast add group: ', e)))
+          }).catch(e => sendErrorForward('add beast add group', e, res)))
         }
       })
 
       numbers.forEach(({ id: numberid, beastid, deleted, numbers, miles, weight }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.numbers(id, numberid).catch(e => console.log('----------------------- add beast delete numbers: ', e)))
+          promiseArray.push(db.delete.encounter.numbers(id, numberid).catch(e => sendErrorForward('add beast delete numbers', e, res)))
         } else if (numberid && beastid) {
-          promiseArray.push(db.update.encounter.numbers(beastid, numberid, numbers, miles, +weight).catch(e => console.log('----------------------- add beast update numbers: ', e)))
+          promiseArray.push(db.update.encounter.numbers(beastid, numberid, numbers, miles, +weight).catch(e => sendErrorForward('add beast update numbers', e, res)))
         } else if (!numberid) {
-          promiseArray.push(db.add.encounter.numbers(id, numbers, miles, +weight).catch(e => console.log('----------------------- add beast add numbers: ', e)))
+          promiseArray.push(db.add.encounter.numbers(id, numbers, miles, +weight).catch(e => sendErrorForward('add beast add numbers', e, res)))
         }
       })
 
       signs.signs.forEach(({ sign, weight, id: signid, beastid, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.signs(beastid, signid).catch(e => console.log('----------------------- add beast delete sign: ', e)))
+          promiseArray.push(db.delete.encounter.signs(beastid, signid).catch(e => sendErrorForward('add beast delete sign', e, res)))
         } else if ((signid && !beastid) || (signid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.sign(id, signid, weight).catch(e => console.log('----------------------- add beast add sign: ', e)))
+          promiseArray.push(db.add.encounter.sign(id, signid, weight).catch(e => sendErrorForward('add beast add sign', e, res)))
         } else if (signid && beastid) {
-          promiseArray.push(db.update.encounter.signs(weight, beastid, signid).catch(e => console.log('----------------------- add beast update sign: ', e)))
+          promiseArray.push(db.update.encounter.signs(weight, beastid, signid).catch(e => sendErrorForward('add beast update sign', e, res)))
         } else if (!signid) {
           db.add.encounter.allSigns(sign).then(result => {
-            promiseArray.push(db.add.encounter.sign(id, result[0].id, weight).catch(e => console.log('----------------------- add beast add sign with weight: ', e)))
-          }).catch(e => console.log('----------------------- add beast all signs: ', e))
+            promiseArray.push(db.add.encounter.sign(id, result[0].id, weight).catch(e => sendErrorForward('add beast add sign w/ weight', e, res)))
+          }).catch(e => sendErrorForward('add beast all signs', e, res))
         }
       })
 
       verb.verb.forEach(({ verb, id: verbid, beastid, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.verb(beastid, verbid).catch(e => console.log('----------------------- add beast delete verb: ', e)))
+          promiseArray.push(db.delete.encounter.verb(beastid, verbid).catch(e => sendErrorForward('add beast delete verb', e, res)))
         } else if ((verbid && !beastid) || (verbid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.verb(verbid, id).catch(e => console.log('----------------------- add beast add verb: ', e)))
+          promiseArray.push(db.add.encounter.verb(verbid, id).catch(e => sendErrorForward('add beast add verb', e, res)))
         } else if (!verbid) {
           db.add.encounter.allVerb(verb).then(result => {
-            promiseArray.push(db.add.encounter.verb(result[0].id, id).catch(e => console.log('----------------------- add beast add verb 2: ', e)))
-          }).catch(e => console.log('----------------------- add beast all verbs: ', e))
+            promiseArray.push(db.add.encounter.verb(result[0].id, id).catch(e => sendErrorForward('add beast add verb 2', e, res)))
+          }).catch(e => sendErrorForward('add beast all verbs', e, res))
         }
       })
 
       noun.noun.forEach(({ noun, id: nounid, beastid, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.noun(beastid, nounid).catch(e => console.log('----------------------- add beast delete noun: ', e)))
+          promiseArray.push(db.delete.encounter.noun(beastid, nounid).catch(e => sendErrorForward('add beast delete noun', e, res)))
         } else if ((nounid && !beastid) || (nounid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.noun(nounid, id).catch(e => console.log('----------------------- add beast add noun: ', e)))
+          promiseArray.push(db.add.encounter.noun(nounid, id).catch(e => sendErrorForward('add beast add noun', e, res)))
         } else if (!nounid) {
-          db.add.encounter.allNoun(noun).then(result => {
-            promiseArray.push(db.add.encounter.noun(result[0].id, id).catch(e => console.log('----------------------- add beast add noun 2: ', e)))
-          }).catch(e => console.log('----------------------- add beast add all nouns: ', e))
+          db.add.encounter.allNoun(noun).then(result => { 
+            promiseArray.push(db.add.encounter.noun(result[0].id, id).catch(e => sendErrorForward('add beast add noun 2', e, res)))
+          }).catch(e => sendErrorForward('add beast all nouns', e, res))
         }
       })
 
       locationalvitality.forEach(({ id: locationid, location, vitality, beastid, roleid, allroles }) => {
         if (deleted) {
-          promiseArray.push(db.delete.locationalvitality(beastid, locationid).catch(e => console.log('----------------------- add beast delete locational vitality: ', e)))
+          promiseArray.push(db.delete.locationalvitality(beastid, locationid).catch(e => sendErrorForward('add beast delete locational vitality', e, res)))
         } else if (locationid && beastid) {
-          promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid, allroles).catch(e => console.log('----------------------- add beast update locational vitality: ', e)))
+          promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid, allroles).catch(e => sendErrorForward('add beast update locational vitality', e, res)))
         } else {
-          promiseArray.push(db.add.locationalvitality(beastid, locationid, vitality, allroles, roleid).catch(e => console.log('----------------------- add beast add locational vitality: ', e)))
+          promiseArray.push(db.add.locationalvitality(beastid, locationid, vitality, allroles, roleid).catch(e => sendErrorForward('add beast add locational vitality', e, res)))
         }
       })
 
       let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms } = lairloot
       if (!beastid) {
-        promiseArray.push(db.add.loot.lairbasic(id, copper, silver, gold, potion, relic, enchanted).catch(e => console.log('----------------------- add beast add loot basic ', e)))
+        promiseArray.push(db.add.loot.lairbasic(id, copper, silver, gold, potion, relic, enchanted).catch(e => sendErrorForward('add beast add loot basic', e, res)))
       } else {
-        promiseArray.push(db.update.loot.lairbasic(beastid, copper, silver, gold, potion, relic, enchanted).catch(e => console.log('----------------------- add beast update loot basic: ', e)))
+        promiseArray.push(db.update.loot.lairbasic(beastid, copper, silver, gold, potion, relic, enchanted).catch(e => sendErrorForward('add beast update loot basic', e, res)))
       }
 
       if (equipment) {
         equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.lairequipment(beastid, equipid).catch(e => console.log('----------------------- add beast delete equipment: ', e)))
+            promiseArray.push(db.delete.loot.lairequipment(beastid, equipid).catch(e => sendErrorForward('add beast delete equipment', e, res)))
           } else if (equipid && beastid) {
-            promiseArray.push(db.update.loot.lairequipment(equipid, value, number).catch(e => console.log('----------------------- add beast update equipment: ', e)))
+            promiseArray.push(db.update.loot.lairequipment(equipid, value, number).catch(e => sendErrorForward('add beast update equipment', e, res)))
           } else {
-            promiseArray.push(db.add.loot.lairequipment(id, value, number).catch(e => console.log('----------------------- add beast add equipment: ', e)))
+            promiseArray.push(db.add.loot.lairequipment(id, value, number).catch(e => sendErrorForward('add beast add equipment', e, res)))
           }
         })
       }
@@ -546,11 +547,11 @@ let controllerObj = {
       if (traited) {
         traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.lairtraited(beastid, traitedid).catch(e => console.log('----------------------- add beast delete traited equipment: ', e)))
+            promiseArray.push(db.delete.loot.lairtraited(beastid, traitedid).catch(e => sendErrorForward('add beast delete traited equipment', e, res)))
           } else if (traitedid && beastid) {
-            promiseArray.push(db.update.loot.lairtraited(traitedid, value, chancetable).catch(e => console.log('----------------------- add beast update traited equipment: ', e)))
+            promiseArray.push(db.update.loot.lairtraited(traitedid, value, chancetable).catch(e => sendErrorForward('add beast update traited equipment', e, res)))
           } else {
-            promiseArray.push(db.add.loot.lairtraited(id, value, chancetable).catch(e => console.log('----------------------- add beast add traited equipment: ', e)))
+            promiseArray.push(db.add.loot.lairtraited(id, value, chancetable).catch(e => sendErrorForward('add beast add traited equipment', e, res)))
           }
         })
       }
@@ -558,11 +559,11 @@ let controllerObj = {
       if (scrolls) {
         scrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.lairscrolls(beastid, scrollid).catch(e => console.log('----------------------- add beast delete scrolls: ', e)))
+            promiseArray.push(db.delete.loot.lairscrolls(beastid, scrollid).catch(e => sendErrorForward('add beast delete scrolls', e, res)))
           } else if (scrollid && beastid) {
-            promiseArray.push(db.update.loot.lairscrolls(scrollid, number, power).catch(e => console.log('----------------------- add beast update scrolls: ', e)))
+            promiseArray.push(db.update.loot.lairscrolls(scrollid, number, power).catch(e => sendErrorForward('add beast update scrolls', e, res)))
           } else {
-            promiseArray.push(db.add.loot.lairscrolls(id, number, power).catch(e => console.log('----------------------- add beast add scrolls: ', e)))
+            promiseArray.push(db.add.loot.lairscrolls(id, number, power).catch(e => sendErrorForward('add beast add scrolls', e, res)))
           }
         })
       }
@@ -570,11 +571,11 @@ let controllerObj = {
       if (alms) {
         alms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.lairalms(beastid, almid).catch(e => console.log('----------------------- add beast delete alms: ', e)))
+            promiseArray.push(db.delete.loot.lairalms(beastid, almid).catch(e => sendErrorForward('add beast delete alms', e, res)))
           } else if (almid && beastid) {
-            promiseArray.push(db.update.loot.lairalms(almid, number, favor).catch(e => console.log('----------------------- add beast update alms: ', e)))
+            promiseArray.push(db.update.loot.lairalms(almid, number, favor).catch(e => sendErrorForward('add beast update alms', e, res)))
           } else {
-            promiseArray.push(db.add.loot.lairalms(id, number, favor).catch(e => console.log('----------------------- add beast add alms: ', e)))
+            promiseArray.push(db.add.loot.lairalms(id, number, favor).catch(e => sendErrorForward('add beast add alms', e, res)))
           }
         })
       }
@@ -582,19 +583,19 @@ let controllerObj = {
 
       let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms } = carriedloot
       if (!cbeastid) {
-        promiseArray.push(db.add.loot.carriedbasic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => console.log('----------------------- add beast add loot basic ', e)))
+        promiseArray.push(db.add.loot.carriedbasic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => sendErrorForward('add beast add basic loot', e, res)))
       } else {
-        promiseArray.push(db.update.loot.carriedbasic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => console.log('----------------------- add beast update loot basic: ', e)))
+        promiseArray.push(db.update.loot.carriedbasic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => sendErrorForward('add beast update basic loot', e, res)))
       }
 
       if (cequipment) {
         cequipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.carriedequipment(cbeastid, equipid).catch(e => console.log('----------------------- add beast delete equipment: ', e)))
+            promiseArray.push(db.delete.loot.carriedequipment(cbeastid, equipid).catch(e => sendErrorForward('add beast delete carried equipment', e, res)))
           } else if (equipid && cbeastid) {
-            promiseArray.push(db.update.loot.carriedequipment(equipid, value, number).catch(e => console.log('----------------------- add beast update equipment: ', e)))
+            promiseArray.push(db.update.loot.carriedequipment(equipid, value, number).catch(e => sendErrorForward('add beast update carried equipment', e, res)))
           } else {
-            promiseArray.push(db.add.loot.carriedequipment(id, value, number).catch(e => console.log('----------------------- add beast add equipment: ', e)))
+            promiseArray.push(db.add.loot.carriedequipment(id, value, number).catch(e => sendErrorForward('add beast add carried equipment', e, res)))
           }
         })
       }
@@ -602,11 +603,11 @@ let controllerObj = {
       if (ctraited) {
         ctraited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.carriedtraited(cbeastid, traitedid).catch(e => console.log('----------------------- add beast delete traited equipment: ', e)))
+            promiseArray.push(db.delete.loot.carriedtraited(cbeastid, traitedid).catch(e => sendErrorForward('add beast delete carried traited equipment', e, res)))
           } else if (traitedid && cbeastid) {
-            promiseArray.push(db.update.loot.carriedtraited(traitedid, value, chancetable).catch(e => console.log('----------------------- add beast update traited equipment: ', e)))
+            promiseArray.push(db.update.loot.carriedtraited(traitedid, value, chancetable).catch(e => sendErrorForward('add beast update carried traited equipment', e, res)))
           } else {
-            promiseArray.push(db.add.loot.carriedtraited(id, value, chancetable).catch(e => console.log('----------------------- add beast add traited equipment: ', e)))
+            promiseArray.push(db.add.loot.carriedtraited(id, value, chancetable).catch(e => sendErrorForward('add beast add carried traited equipment', e, res)))
           }
         })
       }
@@ -614,11 +615,11 @@ let controllerObj = {
       if (cscrolls) {
         cscrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.carriedscrolls(cbeastid, scrollid).catch(e => console.log('----------------------- add beast delete scrolls: ', e)))
+            promiseArray.push(db.delete.loot.carriedscrolls(cbeastid, scrollid).catch(e => sendErrorForward('add beast delete carried scrolls', e, res)))
           } else if (scrollid && cbeastid) {
-            promiseArray.push(db.update.loot.carriedscrolls(scrollid, number, power).catch(e => console.log('----------------------- add beast update scrolls: ', e)))
+            promiseArray.push(db.update.loot.carriedscrolls(scrollid, number, power).catch(e => sendErrorForward('add beast update carried scrolls', e, res)))
           } else {
-            promiseArray.push(db.add.loot.carriedscrolls(id, number, power).catch(e => console.log('----------------------- add beast add scrolls: ', e)))
+            promiseArray.push(db.add.loot.carriedscrolls(id, number, power).catch(e => sendErrorForward('add beast add carried scrolls', e, res)))
           }
         })
       }
@@ -626,71 +627,71 @@ let controllerObj = {
       if (calms) {
         calms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
           if (deleted) {
-            promiseArray.push(db.delete.loot.carriedalms(cbeastid, almid).catch(e => console.log('----------------------- add beast delete alms: ', e)))
+            promiseArray.push(db.delete.loot.carriedalms(cbeastid, almid).catch(e => sendErrorForward('add beast delete carried alms', e, res)))
           } else if (almid && cbeastid) {
-            promiseArray.push(db.update.loot.carriedalms(almid, number, favor).catch(e => console.log('----------------------- add beast update alms: ', e)))
+            promiseArray.push(db.update.loot.carriedalms(almid, number, favor).catch(e => sendErrorForward('add beast update carried alms', e, res)))
           } else {
-            promiseArray.push(db.add.loot.carriedalms(id, number, favor).catch(e => console.log('----------------------- add beast add alms: ', e)))
+            promiseArray.push(db.add.loot.carriedalms(id, number, favor).catch(e => sendErrorForward('add beast add carried alms', e, res)))
           }
         })
       }
 
       if (casting) {
         let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype } = casting
-        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype, id).catch(e => console.log('----------------------- add beast casting: ', e)))
+        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype, id).catch(e => sendErrorForward('add beast add beast casting', e, res)))
       }
 
       if (spells) {
         spells.forEach(({ id: spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist }) => {
           if (beastid) {
-            promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist).catch(e => console.log('----------------------- add beast update spell: ', e)))
+            promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist).catch(e => sendErrorForward('add beast update spell', e, res)))
           } else {
-            promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id, allroles, roleid, resist).catch(e => console.log('----------------------- add beast add spell: ', e)))
+            promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id, allroles, roleid, resist).catch(e => sendErrorForward('add beast add spell', e, res)))
           }
         })
       }
 
       if (deletedSpellList) {
         deletedSpellList.forEach(val => {
-          promiseArray.push(db.delete.spell(val, id).catch(e => console.log('----------------------- add beast delete spell list: ', e)))
+          promiseArray.push(db.delete.spell(val, id).catch(e => sendErrorForward('add beast delete spell list', e, res)))
         })
       }
 
       promiseArray.push(db.delete.obstacles([id, [0, ...obstacles.map(obstacles => obstacles.id)]]).then(_ => {
         return obstacles.map(({ id: uniqueid, obstacleid, notes }) => {
           if (!uniqueid) {
-            return db.add.obstacles(id, obstacleid, notes)
+            return db.add.obstacles(id, obstacleid, notes).catch(e => sendErrorForward('add beast add obstacles', e, res))
           } else {
             return true
           }
         })
-      }).catch(e => console.log("beast obstacles ~ ", e)))
+      }).catch(e => sendErrorForward('add beast delete obstacles', e, res)))
 
       promiseArray.push(db.delete.folklore([id, [0, ...folklore.map(folklore => folklore.id)]]).then(_ => {
         return folklore.map(({ id: uniqueid, belief, truth }) => {
           if (!uniqueid) {
-            return db.add.folklore(id, belief, truth)
+            return db.add.folklore(id, belief, truth).catch(e => sendErrorForward('add beast add folklore', e, res))
           } else {
-            return db.update.folklore(uniqueid, id, belief, truth)
+            return db.update.folklore(uniqueid, id, belief, truth).catch(e => sendErrorForward('add beast update folklore', e, res))
           }
         })
-      }).catch(e => console.log("beast folklore ~ ", e)))
+      }).catch(e => sendErrorForward('add beast delete folklore', e, res)))
 
       promiseArray.push(db.delete.challenges([id, [0, ...challenges.map(challenges => challenges.id)]]).then(_ => {
         return challenges.map(({ challengesid }) => {
           if (!uniqueid) {
-            return db.add.challenges(challengesid, id).catch(e => console.log('----------------------- add beast challenges: ', e))
+            return db.add.challenges(challengesid, id).catch(e => sendErrorForward('add beast add challenges', e, res))
           } else {
             return true
           }
         })
-      }).catch(e => console.log("beast challenges ~ ", e)))
+      }).catch(e => sendErrorForward('add beast delete challenges', e, res)))
 
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCatelog(app)
         res.send({ id })
-      })
-    }).catch(e => console.log('----------------------- add beast main add: ', e))
+      }).catch(e => sendErrorForward('add beast final array', e, res))
+    }).catch(e => sendErrorForward('add beast main', e, res))
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
@@ -704,23 +705,23 @@ let controllerObj = {
           if (!hash) {
             hash = controllerObj.createHash()
           }
-          return db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback).catch(e => console.log("add roles ~ ", e))
+          return db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback).catch(e => sendErrorForward('update beast add roles', e, res))
         })
-      }).catch(e => console.log("delete roles ~ ", e)))
+      }).catch(e => sendErrorForward('update beast delete roles', e, res)))
       // update types
       types.forEach(val => {
         if (!val.id) {
-          promiseArray.push(db.add.beasttype(id, val.typeid).then())
+          promiseArray.push(db.add.beasttype(id, val.typeid).catch(e => sendErrorForward('update beast add types', e, res)))
         } else if (val.deleted) {
-          promiseArray.push(db.delete.beasttype(val.id).then())
+          promiseArray.push(db.delete.beasttype(val.id).catch(e => sendErrorForward('update beast delete types', e, res)))
         }
       })
       // update environ
       environ.forEach(val => {
         if (!val.id) {
-          promiseArray.push(db.add.beastenviron(id, val.environid).then())
+          promiseArray.push(db.add.beastenviron(id, val.environid).catch(e => sendErrorForward('update beast add environ', e, res)))
         } else if (val.deleted) {
-          promiseArray.push(db.delete.beastenviron(val.id).then())
+          promiseArray.push(db.delete.beastenviron(val.id).catch(e => sendErrorForward('update beast delete environ', e, res)))
         }
       })
       // update combat
@@ -731,85 +732,85 @@ let controllerObj = {
           if (!uniqueid) {
             return db.add.combatStats(id, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,
               weaponsmallcrushing, weaponsmallpiercing, andslashing, andcrushing, flanks, rangeddefence, alldefense, allaround, armorandshields,
-              unarmored, attack, isspecial, eua, addsizemod, weapon, shield, armor, weaponname, rangeddefense, initiative, measure, recovery, showonlydefenses, weapontype, rangedistance, swarmbonus, adjustment )
+              unarmored, attack, isspecial, eua, addsizemod, weapon, shield, armor, weaponname, rangeddefense, initiative, measure, recovery, showonlydefenses, weapontype, rangedistance, swarmbonus, adjustment ).catch(e => sendErrorForward('update beast add combat', e, res))
           } else {
             return db.update.combatStats(uniqueid, id, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,
               weaponsmallcrushing, weaponsmallpiercing, andslashing, andcrushing, flanks, rangeddefence, alldefense, allaround, armorandshields,
-              unarmored, attack, isspecial, eua, addsizemod, weapon, shield, armor, weaponname, rangeddefense, initiative, measure, recovery, showonlydefenses, weapontype, rangedistance, swarmbonus, adjustment )
+              unarmored, attack, isspecial, eua, addsizemod, weapon, shield, armor, weaponname, rangeddefense, initiative, measure, recovery, showonlydefenses, weapontype, rangedistance, swarmbonus, adjustment ).catch(e => sendErrorForward('update beast update combat', e, res))
           }
         })
-      }).catch(e => console.log("beast combat stats ~ ", e)))
+      }).catch(e => sendErrorForward('update beast delete combat', e, res)))
       // update conflict
       let newConflict = []
       Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
       newConflict.forEach(({ trait, value, type, id: conflictId, deleted, socialroleid, allroles, severity }) => {
         if (deleted) {
-          promiseArray.push(db.delete.beastconflict(conflictId).then())
+          promiseArray.push(db.delete.beastconflict(conflictId).catch(e => sendErrorForward('update beast delete confrontation', e, res)))
         } else if (!conflictId) {
-          promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles, severity).then())
+          promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles, severity).catch(e => sendErrorForward('update beast add confrontation', e, res)))
         } else {
-          promiseArray.push(db.update.beastconflict(id, trait, value, type, conflictId, socialroleid, allroles, severity).then())
+          promiseArray.push(db.update.beastconflict(id, trait, value, type, conflictId, socialroleid, allroles, severity).catch(e => sendErrorForward('update beast update roles', e, res)))
         }
       })
       // update skills
       skills.forEach(({ skill, rank, id: skillId, deleted, skillroleid, allroles }) => {
         if (deleted) {
-          promiseArray.push(db.delete.beastskill(skillId).then())
+          promiseArray.push(db.delete.beastskill(skillId).catch(e => sendErrorForward('update beast delete skills', e, res)))
         } else if (!skillId) {
-          promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid, allroles).then())
+          promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid, allroles).catch(e => sendErrorForward('update beast add skills', e, res)))
         } else {
-          promiseArray.push(db.update.beastskill(id, skill, rank, skillId, skillroleid, allroles).then())
+          promiseArray.push(db.update.beastskill(id, skill, rank, skillId, skillroleid, allroles).catch(e => sendErrorForward('update beast update skills', e, res)))
         }
       })
       // update movement
       movement.forEach(({ stroll, walk, jog, run, sprint, type, id: movementId, deleted, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, adjustment }) => {
         if (deleted) {
-          promiseArray.push(db.delete.beastmovement(movementId).then())
+          promiseArray.push(db.delete.beastmovement(movementId).catch(e => sendErrorForward('update beast delete movement', e, res)))
         } else if (!movementId) {
-          promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, adjustment).then())
+          promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, adjustment).catch(e => sendErrorForward('update beast add movement', e, res)))
         } else {
-          promiseArray.push(db.update.beastmovement(id, stroll, walk, jog, run, sprint, type, movementId, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, adjustment).then())
+          promiseArray.push(db.update.beastmovement(id, stroll, walk, jog, run, sprint, type, movementId, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, adjustment).catch(e => sendErrorForward('update beast update movement', e, res)))
         }
       })
       // update variants
       variants.forEach(({ id: checkId, variantid, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.beastvariants(id, variantid).then())
-          promiseArray.push(db.delete.beastvariants(variantid, id).then())
+          promiseArray.push(db.delete.beastvariants(id, variantid).catch(e => sendErrorForward('update beast delete variants 1', e, res)))
+          promiseArray.push(db.delete.beastvariants(variantid, id).catch(e => sendErrorForward('update beast delete variants 2', e, res)))
         } else if (!checkId) {
-          promiseArray.push(db.add.beastvariants(id, variantid).then())
-          promiseArray.push(db.add.beastvariants(variantid, id).then())
+          promiseArray.push(db.add.beastvariants(id, variantid).catch(e => sendErrorForward('update beast add variants 1', e, res)))
+          promiseArray.push(db.add.beastvariants(variantid, id).catch(e => sendErrorForward('update beast add variants 2', e, res)))
         }
       })
       // update loot
       loot.forEach(({ loot, price, id: lootId, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.beastloot(lootId).then())
+          promiseArray.push(db.delete.beastloot(lootId).catch(e => sendErrorForward('update beast delete beast loot', e, res)))
         } else if (!lootId) {
-          promiseArray.push(db.add.beastloot(id, loot, price).then())
+          promiseArray.push(db.add.beastloot(id, loot, price).catch(e => sendErrorForward('update beast add beast loot', e, res)))
         } else {
-          promiseArray.push(db.update.beastloot(id, loot, price, lootId).then())
+          promiseArray.push(db.update.beastloot(id, loot, price, lootId).catch(e => sendErrorForward('update beast update beast loot', e, res)))
         }
       })
       // update reagents
       reagents.forEach(({ name, spell, difficulty, harvest, id: reagentId, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.beastreagents(reagentId).then())
+          promiseArray.push(db.delete.beastreagents(reagentId).catch(e => sendErrorForward('update beast delete pleroma', e, res)))
         } else if (!reagentId) {
-          promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).then())
+          promiseArray.push(db.add.beastreagents(id, name, spell, difficulty, harvest).catch(e => sendErrorForward('update beast add pleroma', e, res)))
         } else {
-          promiseArray.push(db.update.beastreagents(id, name, spell, difficulty, harvest, reagentId).then())
+          promiseArray.push(db.update.beastreagents(id, name, spell, difficulty, harvest, reagentId).catch(e => sendErrorForward('update beast update pleroma', e, res)))
         }
       })
 
       if (locationalvitality.length > 0) {
         locationalvitality.forEach(({ id: locationid, location, vitality, beastid, deleted, roleid, allroles }) => {
           if (deleted) {
-            promiseArray.push(db.delete.locationalvitality(locationid))
+            promiseArray.push(db.delete.locationalvitality(locationid).catch(e => sendErrorForward('update beast delete locational vitality', e, res)))
           } else if (locationid && beastid) {
-            promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid, allroles))
+            promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid, allroles).catch(e => sendErrorForward('update beast update locational vitality', e, res)))
           } else {
-            promiseArray.push(db.add.locationalvitality(id, location, vitality, allroles, roleid))
+            promiseArray.push(db.add.locationalvitality(id, location, vitality, allroles, roleid).catch(e => sendErrorForward('update beast add locational vitality', e, res)))
           }
         })
       }
@@ -818,10 +819,10 @@ let controllerObj = {
       if (artist) {
         if (!artistid) {
           promiseArray.push(db.add.allartists(artist, tooltip, link).then(result => {
-            return promiseArray.push(db.add.artist(id, result[0].id).then(result => result))
-          }))
+            return promiseArray.push(db.add.artist(id, result[0].id).then(result => result).catch(e => sendErrorForward('update beast add artist 1', e, res)))
+          }).catch(e => sendErrorForward('update beast add all artists', e, res)))
         } else {
-          promiseArray.push(db.add.artist(id, artistid).then(result => result))
+          promiseArray.push(db.add.artist(id, artistid).then(result => result).catch(e => sendErrorForward('update beast add artist 2', e, res)))
         }
       }
 
@@ -829,327 +830,327 @@ let controllerObj = {
       promiseArray.push(db.delete.table(id, [0, ...appearance.map(table => table.id), ...habitat.map(table => table.id), ...attack.map(table => table.id), ...defense.map(table => table.id)]))
       appearance.forEach(table => {
         if (table.id) {
-          promiseArray.push(db.update.alltables(table.id, table.label))
+          promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast appearance all tables', e, res)))
           db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
             table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+                promiseArray.push(db.add.row(rowid, table.id, weight, value).catch(e => sendErrorForward('update beast appearance add rows', e, res)))
             })
-          })
+          }).catch(e => sendErrorForward('update beast appearance delete row', e, res))
         } else {
           promiseArray.push(db.add.alltables(table.label, 'ap').then(result => {
-            promiseArray.push(db.add.table(id, result[0].id))
+            promiseArray.push(db.add.table(id, result[0].id).catch(e => sendErrorForward('update beast appearance add table2 ', e, res)))
             db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
               table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value).catch(e => sendErrorForward('update beast appearance add rows 2', e, res)))
               })
-            })
-          }))
+            }).catch(e => sendErrorForward('update beast appearance delete rows 2', e, res))
+          }).catch(e => sendErrorForward('update beast appearance all tables 2', e, res)))
         }
       })
       habitat.forEach(table => {
         if (table.id) {
-          promiseArray.push(db.update.alltables(table.id, table.label))
+          promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast habitat all tables', e, res)))
           db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
             table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+                promiseArray.push(db.add.row(rowid, table.id, weight, value).catch(e => sendErrorForward('update beast habitat add rows', e, res)))
             })
-          })
+          }).catch(e => sendErrorForward('update beast habitat delete rows', e, res))
         } else {
           promiseArray.push(db.add.alltables(table.label, 'ha').then(result => {
             promiseArray.push(db.add.table(id, result[0].id))
             db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
               table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value).catch(e => sendErrorForward('update beast habitat add rows 2', e, res)))
               })
-            })
-          }))
+            }).catch(e => sendErrorForward('update beast habitat delete rows 2', e, res))
+          }).catch(e => sendErrorForward('update beast habitat all tables 2', e, res)))
         }
       })
       attack.forEach(table => {
         if (table.id) {
-          promiseArray.push(db.update.alltables(table.id, table.label))
+          promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast attack all tables', e, res)))
           db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
             table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+                promiseArray.push(db.add.row(rowid, table.id, weight, value).catch(e => sendErrorForward('update beast attack add rows', e, res)))
             })
-          })
+          }).catch(e => sendErrorForward('update beast attack delete rows', e, res))
         } else {
           promiseArray.push(db.add.alltables(table.label, 'at').then(result => {
             promiseArray.push(db.add.table(id, result[0].id))
             db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
               table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value).catch(e => sendErrorForward('update beast attack add rows 2', e, res)))
               })
-            })
-          }))
+            }).catch(e => sendErrorForward('update beast attack delete rows 2', e, res))
+          }).catch(e => sendErrorForward('update beast attack all tables 2', e, res)))
         }
       })
       defense.forEach(table => {
         if (table.id) {
-          promiseArray.push(db.update.alltables(table.id, table.label))
+          promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast defense all tables', e, res)))
           db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
             table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, table.id, weight, value))
+                promiseArray.push(db.add.row(rowid, table.id, weight, value).catch(e => sendErrorForward('update beast defense add rows', e, res)))
             })
-          })
+          }).catch(e => sendErrorForward('update beast defense delete rows', e, res))
         } else {
           promiseArray.push(db.add.alltables(table.label, 'de').then(result => {
-            promiseArray.push(db.add.table(id, result[0].id))
+            promiseArray.push(db.add.table(id, result[0].id).catch(e => sendErrorForward('update beast defense all tables 2', e, res)))
             db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
               table.rows.forEach(({weight, value, id: rowid}) => {
-                promiseArray.push(db.add.row(rowid, result[0].id, weight, value))
+                promiseArray.push(db.add.row(rowid, result[0].id, weight, value).catch(e => sendErrorForward('update beast defense add rows', e, res)))
               })
-            })
-          }))
+            }).catch(e => sendErrorForward('update beast defense delete rows ', e, res))
+          }).catch(e => sendErrorForward('update beast defense all tables 2', e, res)))
         }
       })
 
       let { temperament, signs, rank, noun, verb, groups, numbers } = encounter;
       temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.temperament(beastid, tempid))
+          promiseArray.push(db.delete.encounter.temperament(beastid, tempid).catch(e => sendErrorForward('update beast delete temp', e, res)))
         } else if ((tempid && !beastid) || (tempid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.temperament(id, tempid, weight))
+          promiseArray.push(db.add.encounter.temperament(id, tempid, weight).catch(e => sendErrorForward('update beast add temp', e, res)))
         } else if (tempid && beastid) {
-          promiseArray.push(db.update.encounter.temperament(weight, beastid, tempid))
+          promiseArray.push(db.update.encounter.temperament(weight, beastid, tempid).catch(e => sendErrorForward('update beast update temp', e, res)))
         } else if (!tempid) {
           db.add.encounter.allTemp(temp, tooltip).then(result => {
-            promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight))
-          })
+            promiseArray.push(db.add.encounter.temperament(id, result[0].id, weight).catch(e => sendErrorForward('update beast add temp 2', e, res)))
+          }).catch(e => sendErrorForward('update beast add all temp', e, res))
         }
       })
 
       groups.forEach(({ id: groupid, beastid, deleted, label, weights, weight }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.groupRoles(beastid, groupid).catch(e => console.log('----------------------- add beast delete group roles: ', e))).catch(e => console.log('----------------------- add beast delete groups: ', e)))
+          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.groupRoles(beastid, groupid).catch(e => sendErrorForward('update beast delete group roles', e, res))).catch(e => sendErrorForward('update beast delete groups', e, res)))
         } else if (groupid && beastid) {
           promiseArray.push(db.update.encounter.groups(beastid, groupid, label, +weight).then(_ => {
             let groupPromises = []
             weights.forEach(({ id: roleid, weight: roleweight, role, deleted }) => {
               if (deleted && roleid) {
-                groupPromises.push(db.delete.encounter.groupRoles(id, roleid).catch(e=>console.log('----------------------- delete beast update group role: ', e)))
+                groupPromises.push(db.delete.encounter.groupRoles(id, roleid).catch(e => sendErrorForward('update beast delete groups role', e, res)))
               } else if (roleid) {
-                groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
+                groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => sendErrorForward('update beast update groups role', e, res)))
               } else {
-                groupPromises.push(db.add.encounter.groupRoles(id, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))
+                groupPromises.push(db.add.encounter.groupRoles(id, groupid, +roleweight, role).catch(e => sendErrorForward('update beast add groups role', e, res)))
               }
             })
             return Promise.all(groupPromises)
-          }).catch(e => console.log('----------------------- add beast update group: ', e)))
+          }).catch(e => sendErrorForward('update beast update groups', e, res)))
         } else if (!groupid) {
           promiseArray.push(db.add.encounter.groups(id, label, +weight).then(result => {
             let groupPromises = []
             groupid = result[0].id
             weights.forEach(({ id: roleid, weight: roleweight, role }) => {
               if (roleid) {
-                groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast update group role: ', e)))
+                groupPromises.push(db.update.encounter.groupRoles(id, roleid, groupid, +roleweight, role).catch(e => sendErrorForward('update beast update groups role 2', e, res)))
               } else {
-                groupPromises.push(db.add.encounter.groupRoles(id, groupid, +roleweight, role).catch(e => console.log('----------------------- add beast add group role: ', e)))
+                groupPromises.push(db.add.encounter.groupRoles(id, groupid, +roleweight, role).catch(e => sendErrorForward('update beast add groups role 2', e, res)))
               }
             })
             return Promise.all(groupPromises)
-          }).catch(e => console.log('----------------------- add beast add group: ', e)))
+          }).catch(e => sendErrorForward('update beast add groups 2', e, res)))
         }
       })
 
       numbers.forEach(({ id: numberid, beastid, deleted, numbers, miles, weight }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.numbers(id, numberid).catch(e => console.log('----------------------- add beast delete numbers: ', e)))
+          promiseArray.push(db.delete.encounter.numbers(id, numberid).catch(e => sendErrorForward('update beast delete numbers', e, res)))
         } else if (numberid) {
-          promiseArray.push(db.update.encounter.numbers(id, numberid, numbers, miles, +weight).catch(e => console.log('----------------------- add beast update numbers: ', e)))
+          promiseArray.push(db.update.encounter.numbers(id, numberid, numbers, miles, +weight).catch(e => sendErrorForward('update beast update numbers', e, res)))
         } else if (!numberid) {
-          promiseArray.push(db.add.encounter.numbers(id, numbers, miles, +weight).catch(e => console.log('----------------------- add beast add numbers: ', e)))
+          promiseArray.push(db.add.encounter.numbers(id, numbers, miles, +weight).catch(e => sendErrorForward('update beast add numbers', e, res)))
         }
       })
 
       signs.signs.forEach(({ sign, weight, id: signid, beastid, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.sign(beastid, signid).catch(e => console.log('----------------------- add beast delete sign: ', e)))
+          promiseArray.push(db.delete.encounter.sign(beastid, signid).catch(e => sendErrorForward('update beast delete sign', e, res)))
         } else if ((signid && !beastid) || (signid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.sign(id, signid, weight).catch(e => console.log('----------------------- add beast add sign: ', e)))
+          promiseArray.push(db.add.encounter.sign(id, signid, weight).catch(e => sendErrorForward('update beast add sign', e, res)))
         } else if (signid && beastid) {
-          promiseArray.push(db.update.encounter.signs(weight, beastid, signid).catch(e => console.log('----------------------- add beast update sign: ', e)))
+          promiseArray.push(db.update.encounter.signs(weight, beastid, signid).catch(e => sendErrorForward('update beast update sign', e, res)))
         } else if (!signid) {
           db.add.encounter.allSigns(sign).then(result => {
-            promiseArray.push(db.add.encounter.sign(id, result[0].id, weight).catch(e => console.log('----------------------- add beast add sign with weight: ', e)))
-          }).catch(e => console.log('----------------------- add beast all signs: ', e))
+            promiseArray.push(db.add.encounter.sign(id, result[0].id, weight).catch(e => sendErrorForward('update beast add sign w/ weight', e, res)))
+          }).catch(e => sendErrorForward('update beast all signs', e, res))
         }
       })
 
       verb.verb.forEach(({ verb, id: verbid, beastid, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.verb(beastid, verbid))
+          promiseArray.push(db.delete.encounter.verb(beastid, verbid).catch(e => sendErrorForward('update beast delete verb', e, res)))
         } else if ((verbid && !beastid) || (verbid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.verb(verbid, id))
+          promiseArray.push(db.add.encounter.verb(verbid, id).catch(e => sendErrorForward('update beast add add', e, res)))
         } else if (!verbid) {
           db.add.encounter.allVerb(verb).then(result => {
-            promiseArray.push(db.add.encounter.verb(result[0].id, id))
-          })
+            promiseArray.push(db.add.encounter.verb(result[0].id, id).catch(e => sendErrorForward('update beast add verb 2', e, res)))
+          }).catch(e => sendErrorForward('update beast add all verbs', e, res))
         }
       })
 
       noun.noun.forEach(({ noun, id: nounid, beastid, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.noun(beastid, nounid))
+          promiseArray.push(db.delete.encounter.noun(beastid, nounid).catch(e => sendErrorForward('update beast delete noun', e, res)))
         } else if ((nounid && !beastid) || (nounid && beastid !== id)) {
-          promiseArray.push(db.add.encounter.noun(nounid, id))
+          promiseArray.push(db.add.encounter.noun(nounid, id).catch(e => sendErrorForward('update beast add noun', e, res)))
         } else if (!nounid) {
           db.add.encounter.allNoun(noun).then(result => {
-            promiseArray.push(db.add.encounter.noun(result[0].id, id))
-          })
+            promiseArray.push(db.add.encounter.noun(result[0].id, id).catch(e => sendErrorForward('update beast add noun 2', e, res)))
+          }).catch(e => sendErrorForward('update beast all nouns', e, res))
         }
       })
 
       let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms } = lairloot
       if (!beastid) {
-        promiseArray.push(db.add.loot.lairbasic(id, copper, silver, gold, potion, relic, enchanted))
+        promiseArray.push(db.add.loot.lairbasic(id, copper, silver, gold, potion, relic, enchanted).catch(e => sendErrorForward('update beast add basic lair', e, res)))
       } else {
-        promiseArray.push(db.update.loot.lairbasic(beastid, copper, silver, gold, potion, relic, enchanted))
+        promiseArray.push(db.update.loot.lairbasic(beastid, copper, silver, gold, potion, relic, enchanted).catch(e => sendErrorForward('update beast update basic lair', e, res)))
       }
 
       equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.lairequipment(beastid, equipid))
+          promiseArray.push(db.delete.loot.lairequipment(beastid, equipid).catch(e => sendErrorForward('update beast delete lair equipment', e, res)))
         } else if (equipid && beastid) {
-          promiseArray.push(db.update.loot.lairequipment(equipid, value, number))
+          promiseArray.push(db.update.loot.lairequipment(equipid, value, number).catch(e => sendErrorForward('update beast update lair equipment', e, res)))
         } else {
-          promiseArray.push(db.add.loot.lairequipment(id, value, number))
+          promiseArray.push(db.add.loot.lairequipment(id, value, number).catch(e => sendErrorForward('update beast add lair equipment', e, res)))
         }
       })
 
       traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.lairtraited(beastid, traitedid))
+          promiseArray.push(db.delete.loot.lairtraited(beastid, traitedid).catch(e => sendErrorForward('update beast delete lair traited equipment', e, res)))
         } else if (traitedid && beastid) {
-          promiseArray.push(db.update.loot.lairtraited(traitedid, value, chancetable))
+          promiseArray.push(db.update.loot.lairtraited(traitedid, value, chancetable).catch(e => sendErrorForward('update beast update lair equipment', e, res)))
         } else {
-          promiseArray.push(db.add.loot.lairtraited(id, value, chancetable))
+          promiseArray.push(db.add.loot.lairtraited(id, value, chancetable).catch(e => sendErrorForward('update beast add lair equipment', e, res)))
         }
       })
 
       scrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.lairscrolls(beastid, scrollid))
+          promiseArray.push(db.delete.loot.lairscrolls(beastid, scrollid).catch(e => sendErrorForward('update beast delete lair scrolls', e, res)))
         } else if (scrollid && beastid) {
-          promiseArray.push(db.update.loot.lairscrolls(scrollid, number, power))
+          promiseArray.push(db.update.loot.lairscrolls(scrollid, number, power).catch(e => sendErrorForward('update beast update lair scrolls', e, res)))
         } else {
-          promiseArray.push(db.add.loot.lairscrolls(id, number, power))
+          promiseArray.push(db.add.loot.lairscrolls(id, number, power).catch(e => sendErrorForward('update beast add lair scrolls', e, res)))
         }
       })
 
       alms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.lairalms(beastid, almid))
+          promiseArray.push(db.delete.loot.lairalms(beastid, almid).catch(e => sendErrorForward('update beast delete lair alms', e, res)))
         } else if (almid && beastid) {
-          promiseArray.push(db.update.loot.lairalms(almid, number, favor))
+          promiseArray.push(db.update.loot.lairalms(almid, number, favor).catch(e => sendErrorForward('update beast update lair alms', e, res)))
         } else {
-          promiseArray.push(db.add.loot.lairalms(id, number, favor))
+          promiseArray.push(db.add.loot.lairalms(id, number, favor).catch(e => sendErrorForward('update beast add lair alms', e, res)))
         }
       })
 
 
       let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms } = carriedloot
       if (!cbeastid) {
-        promiseArray.push(db.add.loot.carriedbasic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted))
+        promiseArray.push(db.add.loot.carriedbasic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => sendErrorForward('update beast add carried basic', e, res)))
       } else {
-        promiseArray.push(db.update.loot.carriedbasic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted))
+        promiseArray.push(db.update.loot.carriedbasic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => sendErrorForward('update beast update carried basic', e, res)))
       }
 
       cequipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.carriedequipment(cbeastid, equipid))
+          promiseArray.push(db.delete.loot.carriedequipment(cbeastid, equipid).catch(e => sendErrorForward('update beast delete carried equipment', e, res)))
         } else if (equipid && cbeastid) {
-          promiseArray.push(db.update.loot.carriedequipment(equipid, value, number))
+          promiseArray.push(db.update.loot.carriedequipment(equipid, value, number).catch(e => sendErrorForward('update beast update carried equipment', e, res)))
         } else {
-          promiseArray.push(db.add.loot.carriedequipment(id, value, number))
+          promiseArray.push(db.add.loot.carriedequipment(id, value, number).catch(e => sendErrorForward('update beast add carried equipment', e, res)))
         }
       })
 
       ctraited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.carriedtraited(cbeastid, traitedid))
+          promiseArray.push(db.delete.loot.carriedtraited(cbeastid, traitedid).catch(e => sendErrorForward('update beast delete carried equipment', e, res)))
         } else if (traitedid && cbeastid) {
-          promiseArray.push(db.update.loot.carriedtraited(traitedid, value, chancetable))
+          promiseArray.push(db.update.loot.carriedtraited(traitedid, value, chancetable).catch(e => sendErrorForward('update beast update carried equipment', e, res)))
         } else {
-          promiseArray.push(db.add.loot.carriedtraited(id, value, chancetable))
+          promiseArray.push(db.add.loot.carriedtraited(id, value, chancetable).catch(e => sendErrorForward('update beast add carried equipment', e, res)))
         }
       })
 
       cscrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.carriedscrolls(cbeastid, scrollid))
+          promiseArray.push(db.delete.loot.carriedscrolls(cbeastid, scrollid).catch(e => sendErrorForward('update beast delete carried scrolls', e, res)))
         } else if (scrollid && cbeastid) {
-          promiseArray.push(db.update.loot.carriedscrolls(scrollid, number, power))
+          promiseArray.push(db.update.loot.carriedscrolls(scrollid, number, power).catch(e => sendErrorForward('update beast update carried scrolls', e, res)))
         } else {
-          promiseArray.push(db.add.loot.carriedscrolls(id, number, power))
+          promiseArray.push(db.add.loot.carriedscrolls(id, number, power).catch(e => sendErrorForward('update beast add carried scrolls', e, res)))
         }
       })
 
       calms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
         if (deleted) {
-          promiseArray.push(db.delete.loot.carriedalms(cbeastid, almid))
+          promiseArray.push(db.delete.loot.carriedalms(cbeastid, almid).catch(e => sendErrorForward('update beast delete carried alms', e, res)))
         } else if (almid && cbeastid) {
-          promiseArray.push(db.update.loot.carriedalms(almid, number, favor))
+          promiseArray.push(db.update.loot.carriedalms(almid, number, favor.catch(e => sendErrorForward('update beast update carried alms', e, res))))
         } else {
-          promiseArray.push(db.add.loot.carriedalms(id, number, favor))
+          promiseArray.push(db.add.loot.carriedalms(id, number, favor).catch(e => sendErrorForward('update beast add carried alms', e, res)))
         }
       })
 
       if (casting.beastid) {
         let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype } = casting
-        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype, id))
+        promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype, id).catch(e => sendErrorForward('update beast update casting', e, res)))
       } else {
-        promiseArray.push(db.update.casting(null, null, null, 'd4', null, null, null, null, id))
+        promiseArray.push(db.update.casting(null, null, null, 'd4', null, null, null, null, id).catch(e => sendErrorForward('update beast update casting 2', e, res)))
       }
       spells.forEach(({ id: spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist }) => {
         if (beastid) {
-          promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist))
+          promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist).catch(e => sendErrorForward('update beast update spell', e, res)))
         } else {
-          promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id, allroles, roleid, resist))
+          promiseArray.push(db.add.spell(spellid, name, origin, shape, range, interval, effect, id, allroles, roleid, resist).catch(e => sendErrorForward('update beast add spell', e, res)))
         }
       })
       if (deletedSpellList) {
         deletedSpellList.forEach(val => {
-          promiseArray.push(db.delete.spell(val, beastid))
+          promiseArray.push(db.delete.spell(val, beastid).catch(e => sendErrorForward('update beast delete spell', e, res)))
         })
       }
 
       promiseArray.push(db.delete.obstacles([id, [0, ...obstacles.map(obstacles => obstacles.id)]]).then(_ => {
         return obstacles.map(({ id: uniqueid, obstacleid, notes }) => {
           if (!uniqueid) {
-            return db.add.obstacles(id, obstacleid, notes)
+            return db.add.obstacles(id, obstacleid, notes).catch(e => sendErrorForward('update beast add obstacles', e, res))
           } else {
             return true
           }
         })
-      }).catch(e => console.log("beast obstacles ~ ", e)))
+      }).catch(e => sendErrorForward('update beast delete obstacles', e, res)))
 
       promiseArray.push(db.delete.folklore([id, [0, ...folklore.map(folklore => folklore.id)]]).then(_ => {
         return folklore.map(({ id: uniqueid, belief, truth }) => {
           if (!uniqueid) {
-            return db.add.folklore(id, belief, truth)
+            return db.add.folklore(id, belief, truth).catch(e => sendErrorForward('update beast add folklore', e, res))
           } else {
-            return db.update.folklore(uniqueid, id, belief, truth)
+            return db.update.folklore(uniqueid, id, belief, truth).catch(e => sendErrorForward('update beast update folklore', e, res))
           }
         })
-      }).catch(e => console.log("beast folklore ~ ", e)))
+      }).catch(e => sendErrorForward('update beast delete folkore', e, res)))
 
       promiseArray.push(db.delete.challenges([id, [0, ...challenges.map(challenges => challenges.id)]]).then(_ => {
         return challenges.map(({ id: uniqueid, challengeid }) => {
           if (!uniqueid) {
-            return db.add.challenges(id, challengeid)
+            return db.add.challenges(id, challengeid).catch(e => sendErrorForward('update beast add challenges', e, res))
           } else {
             return true
           }
         })
-      }).catch(e => console.log("beast challenges ~ ", e)))
+      }).catch(e => sendErrorForward('update beast delete challenges', e, res)))
 
 
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCatelog(app)
         res.send({ id })
-      })
-    })
+      }).catch(e => sendErrorForward('update beast final promise', e, res))
+    }).catch(e => sendErrorForward('update beast main', e, res))
   },
   deleteBeast(req, res) {
     const db = req.app.get('db')
@@ -1158,39 +1159,39 @@ let controllerObj = {
     db.delete.beast(id).then(_ => {
       let promiseArray = []
 
-      promiseArray.push(db.delete.allbeasttypes(id).then())
-      promiseArray.push(db.delete.allbeastenviron(id).then())
-      promiseArray.push(db.delete.allbeastcombat(id).then())
-      promiseArray.push(db.delete.allbeastconflict(id).then())
-      promiseArray.push(db.delete.allbeastskill(id).then())
-      promiseArray.push(db.delete.allbeastloot(id).then())
-      promiseArray.push(db.delete.allbeastmovement(id).then())
-      promiseArray.push(db.delete.allbeastreagents(id).then())
-      promiseArray.push(db.delete.encounter.allNoun(id).then())
-      promiseArray.push(db.delete.encounter.allTemperament(id).then())
-      promiseArray.push(db.delete.encounter.allVerb(id).then())
-      promiseArray.push(db.delete.encounter.allNumbers(id).then())
-      promiseArray.push(db.delete.encounter.allGroups(id).then())
-      promiseArray.push(db.delete.encounter.allGroupRoles(id).then())
-      promiseArray.push(db.delete.alllocationalvitality(id).then())
-      promiseArray.push(db.delete.loot.lairbasic(id).then())
-      promiseArray.push(db.delete.loot.lairallequipment(id).then())
-      promiseArray.push(db.delete.loot.lairalltraited(id).then())
-      promiseArray.push(db.delete.loot.lairallscrolls(id).then())
-      promiseArray.push(db.delete.loot.lairallalms(id).then())
-      promiseArray.push(db.delete.loot.carriedbasic(id).then())
-      promiseArray.push(db.delete.loot.carriedallequipment(id).then())
-      promiseArray.push(db.delete.loot.carriedalltraited(id).then())
-      promiseArray.push(db.delete.loot.carriedallscrolls(id).then())
-      promiseArray.push(db.delete.loot.carriedallalms(id).then())
-      promiseArray.push(db.delete.allfolklore(id).then())
+      promiseArray.push(db.delete.allbeasttypes(id).catch(e => sendErrorForward('delete beast types', e, res)))
+      promiseArray.push(db.delete.allbeastenviron(id).catch(e => sendErrorForward('delete beast environ', e, res)))
+      promiseArray.push(db.delete.allbeastcombat(id).catch(e => sendErrorForward('delete beast combat', e, res)))
+      promiseArray.push(db.delete.allbeastconflict(id).catch(e => sendErrorForward('delete beast confrontation', e, res)))
+      promiseArray.push(db.delete.allbeastskill(id).catch(e => sendErrorForward('delete beast skill', e, res)))
+      promiseArray.push(db.delete.allbeastloot(id).catch(e => sendErrorForward('delete beast loot', e, res)))
+      promiseArray.push(db.delete.allbeastmovement(id).catch(e => sendErrorForward('delete beast movement', e, res)))
+      promiseArray.push(db.delete.allbeastreagents(id).catch(e => sendErrorForward('delete beast reagents', e, res)))
+      promiseArray.push(db.delete.encounter.allNoun(id).catch(e => sendErrorForward('delete beast noun', e, res)))
+      promiseArray.push(db.delete.encounter.allTemperament(id).catch(e => sendErrorForward('delete beast temp', e, res)))
+      promiseArray.push(db.delete.encounter.allVerb(id).catch(e => sendErrorForward('delete beast verb', e, res)))
+      promiseArray.push(db.delete.encounter.allNumbers(id).catch(e => sendErrorForward('delete beast numbers', e, res)))
+      promiseArray.push(db.delete.encounter.allGroups(id).catch(e => sendErrorForward('delete beast groups', e, res)))
+      promiseArray.push(db.delete.encounter.allGroupRoles(id).catch(e => sendErrorForward('delete beast group roles', e, res)))
+      promiseArray.push(db.delete.alllocationalvitality(id).catch(e => sendErrorForward('delete beast locational vitality', e, res)))
+      promiseArray.push(db.delete.loot.lairbasic(id).catch(e => sendErrorForward('delete beast basic', e, res)))
+      promiseArray.push(db.delete.loot.lairallequipment(id).catch(e => sendErrorForward('delete beast equipment', e, res)))
+      promiseArray.push(db.delete.loot.lairalltraited(id).catch(e => sendErrorForward('delete beast traits', e, res)))
+      promiseArray.push(db.delete.loot.lairallscrolls(id).catch(e => sendErrorForward('delete beast scrolls', e, res)))
+      promiseArray.push(db.delete.loot.lairallalms(id).catch(e => sendErrorForward('delete beast alms', e, res)))
+      promiseArray.push(db.delete.loot.carriedbasic(id).catch(e => sendErrorForward('delete beast carried basic', e, res)))
+      promiseArray.push(db.delete.loot.carriedallequipment(id).catch(e => sendErrorForward('delete beast carred equipment', e, res)))
+      promiseArray.push(db.delete.loot.carriedalltraited(id).catch(e => sendErrorForward('delete beast carried traited', e, res)))
+      promiseArray.push(db.delete.loot.carriedallscrolls(id).catch(e => sendErrorForward('delete beast carried scrolls', e, res)))
+      promiseArray.push(db.delete.loot.carriedallalms(id).catch(e => sendErrorForward('delete beast carried alms', e, res)))
+      promiseArray.push(db.delete.allfolklore(id).catch(e => sendErrorForward('delete beast folklore', e, res)))
       // promiseArray.push(db.delete.beastvariants(id, variantid).then())
       // promiseArray.push(db.delete.combatranges(id, variantid).then())
 
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCatelog(req.app)
         res.send({ id })
-      })
+      }).catch(e => sendErrorForward('delete beast final promise', e, res))
     })
   },
   addFavorite(req, res) {
@@ -1199,11 +1200,11 @@ let controllerObj = {
     if (req.user && req.user.id) {
       db.get.favoriteCount(req.user.id).then(result => {
         if (+result[0].count <= ((req.user.patreon * 3) + 3)) {
-          db.add.favorite(req.user.id, beastid).then(_ => res.send({ color: "green", message: `Monster Favorited` }))
+          db.add.favorite(req.user.id, beastid).then(_ => res.send({ color: "green", message: `Monster Favorited` }).catch(e => sendErrorForward('add favorite', e, res)))
         } else {
           res.send({ color: "yellow", message: "You have too many favorited monsters: delete some or upgrade your Patreon tier" })
         }
-      })
+      }).catch(e => sendErrorForward('get favorite count', e, res))
     } else {
       res.send({ color: "red", message: "You Need to Log On to Favorite Monsters" })
     }
@@ -1212,7 +1213,7 @@ let controllerObj = {
     const db = req.app.get('db')
       , { beastid } = req.params
     if (req.user && req.user.id) {
-      db.delete.favorite(req.user.id, beastid).then(_ => res.send({ color: "green", message: 'Monster Unfavorited' }))
+      db.delete.favorite(req.user.id, beastid).then(_ => res.send({ color: "green", message: 'Monster Unfavorited' }).catch(e => sendErrorForward('delete favorite', e, res)))
     } else {
       res.send({ color: "red", message: "You Need to Log On to Unfavorite Monsters" })
     }
@@ -1241,14 +1242,14 @@ let controllerObj = {
               }
             }
             return beast
-          }))
+          }).catch(e => sendErrorForward('get favorite roles', e, res)))
           return beast
         })
 
         Promise.all(finalArray).then(_ => {
           res.send(result)
-        })
-      })
+        }).catch(e => sendErrorForward('get favorite final promise', e, res))
+      }).catch(e => sendErrorForward('get favorites', e, res))
     } else {
       res.send({ color: "red", message: "You Need to Log On to Favorite Monsters" })
     }
@@ -1268,16 +1269,16 @@ let controllerObj = {
     promiseArray.push(db.get.encounter.temperament(beastid).then(result => {
       encounterObject.temperament.temperament = result
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter temp', e, res)))
     promiseArray.push(db.get.encounter.allTemp(beastid).then(result => {
       encounterObject.temperament.allTemp = result
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter all temp', e, res)))
 
     promiseArray.push(db.get.encounter.numbers(beastid).then(result => {
       encounterObject.numbers = result
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter numbers', e, res)))
 
     promiseArray.push(db.get.encounter.allGroups(beastid).then(result => {
       if (result.length === 0) {
@@ -1293,44 +1294,44 @@ let controllerObj = {
           group.weights = roles
           encounterObject.groups.push(group)
           return true
-        }))
+        }).catch(e => sendErrorForward('get encounter group roles', e, res)))
       })
 
       return Promise.all(groupArray).then(finalArray => {
         return true
-      })
-    }))
+      }).catch(e => sendErrorForward('get encounter group final promise', e, res))
+    }).catch(e => sendErrorForward('get encounter all groups', e, res)))
 
     promiseArray.push(db.get.encounter.verb(beastid).then(result => {
       encounterObject.verb.verb = result
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter verb', e, res)))
     promiseArray.push(db.get.encounter.allVerb(beastid).then(result => {
       encounterObject.verb.allVerb = result
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter all verbs', e, res)))
 
     promiseArray.push(db.get.encounter.noun(beastid).then(result => {
       encounterObject.noun.noun = result
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter noun', e, res)))
     promiseArray.push(db.get.encounter.allNoun(beastid).then(result => {
       encounterObject.noun.allNoun = result
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter all nouns', e, res)))
 
     promiseArray.push(db.get.encounter.signs(beastid).then(result => {
       encounterObject.signs.signs = result
       return result
-    }).catch(e => `get signs -------------------------------------------- ${e}`))
+    }).catch(e => sendErrorForward('get encounter signs', e, res)))
     promiseArray.push(db.get.encounter.allSigns(beastid).then(result => {
       encounterObject.signs.allSigns = result
       return result
-    }).catch(e => `get all signs -------------------------------------------- ${e}`))
+    }).catch(e => sendErrorForward('get encounter all signs', e, res)))
 
     Promise.all(promiseArray).then(_ => {
       res.send(encounterObject)
-    })
+    }).catch(e => sendErrorForward('get encounter promise array', e, res))
   },
   getRandomEncounter(req, res) {
     const db = req.app.get('db')
@@ -1341,51 +1342,51 @@ let controllerObj = {
     promiseArray.push(db.get.encounter.tempWeighted(beastId).then(result => {
       encounterObject.temperament = result[0]
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter temp weighted', e, res)))
 
     promiseArray.push(db.get.encounter.signWeighted(beastId).then(result => {
       encounterObject.sign = result[0]
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter sign weighted', e, res)))
     promiseArray.push(db.get.encounter.signsOrderedByWeight(beastId).then(result => {
       encounterObject.allSigns = result
       return result
-    }).catch(e => `get all signs view -------------------------------------------- ${e}`))
+    }).catch(e => sendErrorForward('get encounter signs order by weight', e, res)))
 
     promiseArray.push(db.get.encounter.verbWeighted(beastId).then(result => {
       if (result[0]) {
         encounterObject.verb = result[0].verb
       }
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter verb weighted', e, res)))
 
     promiseArray.push(db.get.encounter.nounWeighted(beastId).then(result => {
       if (result[0]) {
         encounterObject.noun = result[0].noun
       }
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter noun weighted', e, res)))
 
     promiseArray.push(db.get.encounter.battlefield().then(result => {
       if (result[0]) {
         encounterObject.battlefield = result[0].battlefield
       }
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter battlefield', e, res)))
 
     promiseArray.push(db.get.encounter.pattern().then(result => {
       if (result[0]) {
         encounterObject.pattern = result[0].pattern
       }
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter pattern', e, res)))
 
     promiseArray.push(db.get.encounter.allGroups(beastId).then(result => {
       if (result[0]) {
         encounterObject.allGroups = result
       }
       return result
-    }))
+    }).catch(e => sendErrorForward('get encounter all groups', e, res)))
 
     if (+req.query.groupId) {
       promiseArray.push(db.get.encounter.numbers(beastId).then(numbers => {
@@ -1412,10 +1413,10 @@ let controllerObj = {
               encounterObject.main = getRandomEncounter('Group', numbers, [{ role: 'None', weight: 1 }])
               return encounterObject.main
             }
-          })
+          }).catch(e => sendErrorForward('get encounter all groups 2', e, res))
         }
         return true
-      }))
+      }).catch(e => sendErrorForward('get encounter random numbers', e, res)))
     } else {
       promiseArray.push(db.get.encounter.numbersWeight(beastId).then(numbers => {
         if (numbers.length > 0) {
@@ -1429,15 +1430,15 @@ let controllerObj = {
                 }
                 encounterObject.main = getRandomEncounter(groups[0].label, numbers, [{ role: 'None', weight: 1 }])
                 return encounterObject.main
-              })
+              }).catch(e => sendErrorForward('get encounter groups weighted 3', e, res))
             } else {
               encounterObject.main = getRandomEncounter('Group', numbers, [{ role: 'None', weight: 1 }])
               return encounterObject.main
             }
-          })
+          }).catch(e => sendErrorForward('get encounter groups weighted 2', e, res))
         }
         return true
-      }))
+      }).catch(e => sendErrorForward('get encounter numbers weighted 2', e, res)))
     }
 
     let randomEncounter = Math.floor(Math.random() * 10) > 5
@@ -1457,12 +1458,12 @@ let controllerObj = {
         }
         encounterObject.complication = flatArray
         return result
-      }))
+      }).catch(e => sendErrorForward('get encounter complications', e, res)))
     }
 
     Promise.all(promiseArray).then(_ => {
       res.send(encounterObject)
-    })
+    }).catch(e => sendErrorForward('get random encounter finall array', e, res))
   }
 }
 
@@ -1501,7 +1502,7 @@ async function collectComplication(db, beastId) {
         } else {
           return null
         }
-      })
+      }).catch(e => sendErrorForward('collect complication rival', e, null))
     } else if (complication.id === 2) {
       //wounded
       return db.get.complication.rival(beastId).then(result => {
@@ -1512,7 +1513,7 @@ async function collectComplication(db, beastId) {
           byWhom: result[0],
           amount: woundCategories[Math.floor(Math.random() * 3)]
         }
-      })
+      }).catch(e => sendErrorForward('collect complication rival 2', e, null))
     } else if (complication.id === 5) {
       //lost
       return { id: 5, type: 'Lost', distance: '10d10' }
@@ -1546,16 +1547,16 @@ async function collectComplication(db, beastId) {
           }
         }
 
-      })
+      }).catch(e => sendErrorForward('collect complication backup', e, null))
     } else if (complication.id === 12) {
       //roll an additional time
       let promiseArray = []
       promiseArray.push(collectComplication(db, beastId).then(result => {
         return result
-      }))
+      }).catch(e => sendErrorForward('collect complication 2', e, null)))
       promiseArray.push(collectComplication(db, beastId).then(result => {
         return result
-      }))
+      }).catch(e => sendErrorForward('collect complication rival 3', e, null)))
       return Promise.all(promiseArray).then(result => {
         let flatArray = []
         console.log(result)
@@ -1580,314 +1581,11 @@ async function collectComplication(db, beastId) {
           }
         })
         return dedupedArray
-      })
+      }).catch(e => sendErrorForward('collect complication final promise', e, null))
     } else {
       return complication
     }
   })
-}
-
-function processDR(drString, flat, slash, type, roleToUse, gear, addrolemods) {
-  let role = roles.combatRoles.primary[roleToUse]
-  if (roleToUse && addrolemods) {
-    if (type === 'armor') {
-      flat += role.dr.flat
-      slash += role.dr.slash
-    } else if (type === 'shield') {
-      flat += role.shield_dr.flat
-      slash += role.shield_dr.slash
-    }
-  }
-
-  if (gear) {
-    let gearToUse;
-    if (type === 'armor') {
-      gearToUse = equipmentCtrl.getArmor(gear)
-    } else {
-      gearToUse = equipmentCtrl.getShield(gear)
-    }
-    flat += gearToUse.dr.flat
-    slash += gearToUse.dr.slash
-  }
-
-  if (flat && slash) {
-    return `${slash}/d ${flat >= 0 ? '+' : ''}${flat}`
-  } else if (flat && !slash) {
-    return `${flat}`
-  } else if (!flat && slash) {
-    return `${slash}/d`
-  }
-
-  let newDRslash, newDRflat
-  if (drString) {
-    drString.split('+').forEach(element => {
-      if (element.includes('/d')) {
-        newDRslash = +element.split('/d')[0]
-      } else {
-        newDRflat = +element
-      }
-    })
-  }
-
-  if (roleToUse && addrolemods) {
-    if (type === 'armor') {
-      newDRflat += role.dr.flat
-      newDRslash += role.dr.slash
-    } else if (type === 'shield') {
-      newDRflat += role.shield_dr.flat
-      newDRslash += role.shield_dr.slash
-    }
-  }
-
-  if (gear) {
-    let gearToUse;
-    if (type === 'armor') {
-      gearToUse = equipmentCtrl.getArmor(gear)
-    } else {
-      gearToUse = equipmentCtrl.getShield(gear)
-    }
-    newDRflat += gearToUse.dr.flat
-    newDRslash += gearToUse.dr.slash
-  }
-
-  if (newDRflat && newDRslash) {
-    return `${newDRslash}/d ${flat >= 0 ? '+' : ''}${newDRflat}`
-  } else if (newDRflat && !newDRslash) {
-    return `${newDRflat}`
-  } else if (!newDRflat && newDRslash) {
-    return `${newDRslash}/d`
-  }
-}
-
-function processDamage(damageString, isSpecial, hasSpecialAndDamage) {
-  let newDamage = {
-    dice: [],
-    flat: 0,
-    isSpecial,
-    hasSpecialAndDamage
-  }
-
-  if (damageString.includes('see') && !isSpecial) {
-    newDamage.isSpecial = true
-    return newDamage
-  }
-  if (damageString.includes('*') && !hasSpecialAndDamage) {
-    newDamage.hasSpecialAndDamage = true
-  }
-
-  let expressionValue = ""
-  damageString.replace(/\s/g, '').split('').forEach((val, i, array) => {
-
-    if (i === array.length - 1) {
-      expressionValue = expressionValue + val
-    }
-    if (val === '-' || val === '+' || val === '*' || i === array.length - 1) {
-      if (expressionValue.includes('d')) {
-        newDamage.dice.push(expressionValue)
-      } else {
-        newDamage.flat += +expressionValue
-      }
-      expressionValue = ""
-    } else {
-      expressionValue = expressionValue + val;
-    }
-  })
-
-  return newDamage
-}
-
-function displayDamage(weapon, roleToUse, addrolemods, dontaddroledamage) {
-  if (weapon.damage.isSpecial) {
-    return "*See Attack Info"
-  }
-
-  let roleDamage = null
-  if (!weapon.selectedweapon && roleToUse && addrolemods && !dontaddroledamage) {
-    if (weapon.weapontype === 'm') {
-      roleDamage = roles.combatRoles.primary[roleToUse].damage
-    } else {
-      roleDamage = roles.combatRoles.primary[roleToUse].rangedDamage
-    }
-  } else if (weapon.selectedweapon) {
-    roleDamage = equipmentCtrl.getWeapon(weapon.selectedweapon).damage
-  }
-
-  let damage = weapon.damage
-
-  let diceObject = {
-    d3s: 0,
-    d4s: 0,
-    d6s: 0,
-    d8s: 0,
-    d10s: 0,
-    d12s: 0,
-    d20s: 0
-  }
-
-  if (roleDamage) {
-    roleDamage.dice.forEach(dice => {
-      let index = dice.indexOf("d")
-        , substring = dice.substring(index)
-      if (substring.includes('20')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d20s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d20s
-        }
-      } else if (substring.includes('12')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d12s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d12s
-        }
-      } else if (substring.includes('10')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d10s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d10s
-        }
-      } else if (substring.includes('8')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d8s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d8s
-        }
-      } else if (substring.includes('6')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d6s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d6s
-        }
-      } else if (substring.includes('4')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d4s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d4s
-        }
-      } else if (substring.includes('3')) {
-        if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-          diceObject.d3s += +dice.substring(0, index)
-        } else {
-          ++diceObject.d3s
-        }
-      }
-    })
-  }
-
-  damage.dice.forEach(dice => {
-    let index = dice.indexOf("d")
-      , substring = dice.substring(index)
-    if (substring.includes('20')) {
-      if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-        diceObject.d20s += +dice.substring(0, index)
-      } else {
-        ++diceObject.d20s
-      }
-    } else if (substring.includes('12')) {
-      if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-        diceObject.d12s += +dice.substring(0, index)
-      } else {
-        ++diceObject.d12s
-      }
-    } else if (substring.includes('10')) {
-      if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-        diceObject.d10s += +dice.substring(0, index)
-      } else {
-        ++diceObject.d10s
-      }
-    } else if (substring.includes('8')) {
-      if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-        diceObject.d8s += +dice.substring(0, index)
-      } else {
-        ++diceObject.d8s
-      }
-    } else if (substring.includes('6')) {
-      if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-        diceObject.d6s += +dice.substring(0, index)
-      } else {
-        ++diceObject.d6s
-      }
-    } else if (substring.includes('4')) {
-      if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-        diceObject.d4s += +dice.substring(0, index)
-      } else {
-        ++diceObject.d4s
-      }
-    } else if (substring.includes('3')) {
-      if (dice.substring(0, index) !== '' && dice.substring(0, index) != null) {
-        diceObject.d3s += +dice.substring(0, index)
-      } else {
-        ++diceObject.d3s
-      }
-    }
-  })
-
-  let crushingDamageMod = 0
-  let damagetype = weapon.selectedweapon ? equipmentCtrl.getWeapon(weapon.selectedweapon).type : weapon.damagetype
-  if (weapon.damageskill) {
-    if (damagetype === 'S') {
-      diceObject.d4s += Math.floor(weapon.damageskill / 2)
-      let leftover = weapon.damageskill % 2
-      if (leftover === 1) {
-        diceObject.d3s += 1
-      }
-    } else if (damagetype === 'P') {
-      diceObject.d8s += Math.floor(weapon.damageskill / 4)
-      let leftover = weapon.damageskill % 4
-      if (leftover === 1) {
-        diceObject.d3s += 1
-      } else if (leftover === 2) {
-        diceObject.d4s += 1
-      } else if (leftover === 3) {
-        diceObject.d6s += 1
-      }
-    } else {
-      crushingDamageMod = weapon.damageskill
-    }
-  }
-
-  let { d3s, d4s, d6s, d8s, d10s, d12s, d20s } = diceObject
-
-  let diceString = ''
-  if (d3s > 0) {
-    diceString += `${d3s}d3!`
-  }
-  if (d4s > 0) {
-    diceString += ` ${diceString !== '' ? '+' : ''}${d4s}d4!`
-  }
-  if (d6s > 0) {
-    diceString += ` ${diceString !== '' ? '+' : ''}${d6s}d6!`
-  }
-  if (d8s > 0) {
-    diceString += ` ${diceString !== '' ? '+' : ''}${d8s}d8!`
-  }
-  if (d10s > 0) {
-    diceString += ` ${diceString !== '' ? '+' : ''}${d10s}d10!`
-  }
-  if (d12s > 0) {
-    diceString += ` ${diceString !== '' ? '+' : ''}${d12s}d12!`
-  }
-  if (d20s > 0) {
-    diceString += ` ${diceString !== '' ? '+' : ''}${d20s}d20!`
-  }
-
-  let modifier = damage.flat
-  if (roleDamage) {
-    modifier = roleDamage.flat + damage.flat
-  }
-
-  let staticRoleDamage = roleToUse && !weapon.dontaddroledamage && weapon.addrolemods ? roles.combatRoles.primary[roleToUse].damagebonus : 0
-  if (modifier + crushingDamageMod + staticRoleDamage > 0) {
-    diceString += ` +${modifier + crushingDamageMod + staticRoleDamage}`
-  } else if (modifier + crushingDamageMod + staticRoleDamage < 0) {
-    diceString += ` ${modifier + crushingDamageMod + staticRoleDamage}`
-  }
-
-  if (damage.hasSpecialAndDamage) {
-    diceString += '*'
-  }
-
-  return diceString
 }
 
 module.exports = controllerObj
