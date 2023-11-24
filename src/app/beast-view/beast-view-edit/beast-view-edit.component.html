@@ -1470,9 +1470,51 @@
             </div>
 
             <div class="lair-loot-category-shell">
-              <h3>Potions, Scrolls, Alm Scripts</h3>
+              <h3>Talismans, Potions, Scrolls, Alm Scripts</h3>
               <div>
                 <br />
+                <mat-form-field>
+                  <mat-label>Talismans</mat-label>
+                  <mat-select [value]="beast.carriedloot.talisman"
+                    (selectionChange)="captureSelectForObject($event, 'talisman', 'carriedloot')">
+                    <mat-option>
+                      None
+                    </mat-option>
+                    <mat-option value="a">
+                      {{lootTables.numberAppearing.a}} (Max 4)
+                    </mat-option>
+                    <mat-option value="b">
+                      {{lootTables.numberAppearing.b}} (Max 4)
+                    </mat-option>
+                    <mat-option value="c">
+                      {{lootTables.numberAppearing.c}} (Max 4)
+                    </mat-option>
+                    <mat-option value="d">
+                      {{lootTables.numberAppearing.d}} (Max 4)
+                    </mat-option>
+                    <mat-option value="e">
+                      {{lootTables.numberAppearing.e}} (Max 4)
+                    </mat-option>
+                    <mat-option value="f">
+                      {{lootTables.numberAppearing.f}} (Max 4)
+                    </mat-option>
+                    <mat-option value="g">
+                      {{lootTables.numberAppearing.g}} (Max 4)
+                    </mat-option>
+                    <mat-option value="h">
+                      {{lootTables.numberAppearing.h}} (Max 4)
+                    </mat-option>
+                    <mat-option value="i">
+                      {{lootTables.numberAppearing.i}} (Max 4)
+                    </mat-option>
+                    <mat-option value="j">
+                      {{lootTables.numberAppearing.j}} (Max 4)
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <div class="divider white"></div>
+
                 <mat-form-field>
                   <mat-label>Potions</mat-label>
                   <mat-select [value]="beast.carriedloot.potion"
@@ -2083,9 +2125,51 @@
             </div>
 
             <div class="lair-loot-category-shell">
-              <h3>Potions, Scrolls, Alm Scripts</h3>
+              <h3>Talismans, Potions, Scrolls, Alm Scripts</h3>
               <div>
                 <br />
+                <mat-form-field>
+                  <mat-label>Talismans</mat-label>
+                  <mat-select [value]="beast.lairloot.talisman"
+                    (selectionChange)="captureSelectForObject($event, 'talisman', 'lairloot')">
+                    <mat-option>
+                      None
+                    </mat-option>
+                    <mat-option value="a">
+                      {{lootTables.numberAppearing.a}} (Max 4)
+                    </mat-option>
+                    <mat-option value="b">
+                      {{lootTables.numberAppearing.b}} (Max 4)
+                    </mat-option>
+                    <mat-option value="c">
+                      {{lootTables.numberAppearing.c}} (Max 4)
+                    </mat-option>
+                    <mat-option value="d">
+                      {{lootTables.numberAppearing.d}} (Max 4)
+                    </mat-option>
+                    <mat-option value="e">
+                      {{lootTables.numberAppearing.e}} (Max 4)
+                    </mat-option>
+                    <mat-option value="f">
+                      {{lootTables.numberAppearing.f}} (Max 4)
+                    </mat-option>
+                    <mat-option value="g">
+                      {{lootTables.numberAppearing.g}} (Max 4)
+                    </mat-option>
+                    <mat-option value="h">
+                      {{lootTables.numberAppearing.h}} (Max 4)
+                    </mat-option>
+                    <mat-option value="i">
+                      {{lootTables.numberAppearing.i}} (Max 4)
+                    </mat-option>
+                    <mat-option value="j">
+                      {{lootTables.numberAppearing.j}} (Max 4)
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <div class="divider white"></div>
+
                 <mat-form-field>
                   <mat-label>Potions</mat-label>
                   <mat-select [value]="beast.lairloot.potion"

@@ -200,4 +200,9 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
+  getTalismans(number) {
+    return this.http.post('https://reliquary.dragon-slayer.net/api/getTalismans?numberOfItems=' + number, null)
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
 }

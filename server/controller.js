@@ -168,15 +168,15 @@ let controllerObj = {
                 }
               }
               return result
-            }).catch(e => sendErrorForward('collect roles for templates', e, res)))
+            }).catch(e => sendErrorForward('collect roles for templates', e, null)))
           })
 
           Promise.all(finalArray).then(_ => {
             this.collectCache(app, 0)
-          }).catch(e => sendErrorForward('catalog final promise', e, res))
-        }).catch(e => sendErrorForward('templates catagory', e, res))
-      }).catch(e => sendErrorForward('collect catagory promise', e, res))
-    }).catch(e => sendErrorForward('collect catagory outer', e, res))
+          }).catch(e => sendErrorForward('catalog final promise', e, null))
+        }).catch(e => sendErrorForward('templates catagory', e, null))
+      }).catch(e => sendErrorForward('collect catagory promise', e, null))
+    }).catch(e => sendErrorForward('collect catagory outer', e, null))
   },
   collectCache(app, index) {
     const db = app.get('db')
@@ -207,13 +207,13 @@ let controllerObj = {
               }
             }
             return result
-          }).catch(e => sendErrorForward('roles for catalog by alpha', e, res)))
+          }).catch(e => sendErrorForward('roles for catalog by alpha', e, null)))
         })
 
         Promise.all(finalArray).then(_ => {
           this.collectCache(app, ++index)
-        }).catch(e => sendErrorForward('collect cache final promise', e, res))
-      }).catch(e => sendErrorForward('catalog by letter', e, res))
+        }).catch(e => sendErrorForward('collect cache final promise', e, null))
+      }).catch(e => sendErrorForward('catalog by letter', e, null))
     } else {
       this.catalogCache = this.newCache
       this.newCache = []
@@ -525,11 +525,11 @@ let controllerObj = {
         }
       })
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms, talisman } = lairloot
       if (!beastid) {
-        promiseArray.push(db.add.loot.lairbasic(id, copper, silver, gold, potion, relic, enchanted).catch(e => sendErrorForward('add beast add loot basic', e, res)))
+        promiseArray.push(db.add.loot.lairbasic(id, copper, silver, gold, potion, relic, enchanted, talisman).catch(e => sendErrorForward('add beast add loot basic', e, res)))
       } else {
-        promiseArray.push(db.update.loot.lairbasic(beastid, copper, silver, gold, potion, relic, enchanted).catch(e => sendErrorForward('add beast update loot basic', e, res)))
+        promiseArray.push(db.update.loot.lairbasic(beastid, copper, silver, gold, potion, relic, enchanted, talisman).catch(e => sendErrorForward('add beast update loot basic', e, res)))
       }
 
       if (equipment) {
@@ -581,11 +581,11 @@ let controllerObj = {
       }
 
 
-      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms } = carriedloot
+      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms, talisman: ctalisman } = carriedloot
       if (!cbeastid) {
-        promiseArray.push(db.add.loot.carriedbasic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => sendErrorForward('add beast add basic loot', e, res)))
+        promiseArray.push(db.add.loot.carriedbasic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman).catch(e => sendErrorForward('add beast add basic loot', e, res)))
       } else {
-        promiseArray.push(db.update.loot.carriedbasic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => sendErrorForward('add beast update basic loot', e, res)))
+        promiseArray.push(db.update.loot.carriedbasic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman).catch(e => sendErrorForward('add beast update basic loot', e, res)))
       }
 
       if (cequipment) {
@@ -1001,11 +1001,11 @@ let controllerObj = {
         }
       })
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms, talisman } = lairloot
       if (!beastid) {
-        promiseArray.push(db.add.loot.lairbasic(id, copper, silver, gold, potion, relic, enchanted).catch(e => sendErrorForward('update beast add basic lair', e, res)))
+        promiseArray.push(db.add.loot.lairbasic(id, copper, silver, gold, potion, relic, enchanted, talisman).catch(e => sendErrorForward('update beast add basic lair', e, res)))
       } else {
-        promiseArray.push(db.update.loot.lairbasic(beastid, copper, silver, gold, potion, relic, enchanted).catch(e => sendErrorForward('update beast update basic lair', e, res)))
+        promiseArray.push(db.update.loot.lairbasic(beastid, copper, silver, gold, potion, relic, enchanted, talisman).catch(e => sendErrorForward('update beast update basic lair', e, res)))
       }
 
       equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
@@ -1049,11 +1049,11 @@ let controllerObj = {
       })
 
 
-      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms } = carriedloot
+      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms, talisman: ctalisman } = carriedloot
       if (!cbeastid) {
-        promiseArray.push(db.add.loot.carriedbasic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => sendErrorForward('update beast add carried basic', e, res)))
+        promiseArray.push(db.add.loot.carriedbasic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman).catch(e => sendErrorForward('update beast add carried basic', e, res)))
       } else {
-        promiseArray.push(db.update.loot.carriedbasic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted).catch(e => sendErrorForward('update beast update carried basic', e, res)))
+        promiseArray.push(db.update.loot.carriedbasic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman).catch(e => sendErrorForward('update beast update carried basic', e, res)))
       }
 
       cequipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
@@ -1090,7 +1090,7 @@ let controllerObj = {
         if (deleted) {
           promiseArray.push(db.delete.loot.carriedalms(cbeastid, almid).catch(e => sendErrorForward('update beast delete carried alms', e, res)))
         } else if (almid && cbeastid) {
-          promiseArray.push(db.update.loot.carriedalms(almid, number, favor.catch(e => sendErrorForward('update beast update carried alms', e, res))))
+          promiseArray.push(db.update.loot.carriedalms(almid, number, favor).catch(e => sendErrorForward('update beast update carried alms', e, res)))
         } else {
           promiseArray.push(db.add.loot.carriedalms(id, number, favor).catch(e => sendErrorForward('update beast add carried alms', e, res)))
         }

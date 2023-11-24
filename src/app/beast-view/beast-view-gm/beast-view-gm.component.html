@@ -386,8 +386,7 @@
         <div
           *ngIf="(beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack) || (selectedRoleId && beast.specialAbilities[selectedRoleId] && beast.specialAbilities[selectedRoleId].length > 0) || (!selectedRoleId && beast.specialAbilities['generic'] && beast.specialAbilities['generic'].length > 0)">
           <h3 class="margin-top">Add. Attack Info</h3>
-          <div
-            *ngIf="beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')">
+          <div *ngIf="beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')">
             <quill-view-html [content]="beast.sp_atk"></quill-view-html>
           </div>
           <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].attack">
@@ -414,8 +413,7 @@
         <div
           *ngIf="(beast.sp_def && !beast.sp_def.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].defense)">
           <h3 class="margin-top">Add. Defense Info</h3>
-          <div
-            *ngIf="beast.sp_def && (beast.sp_def !== 'None' || beast.sp_def !== 'None.')">
+          <div *ngIf="beast.sp_def && (beast.sp_def !== 'None' || beast.sp_def !== 'None.')">
             <quill-view-html [content]="beast.sp_def"></quill-view-html>
           </div>
           <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].defense">
@@ -535,7 +533,8 @@
           <div *ngIf="encounter.temperament" class="flex-row-opposite">
             <h3>Temperament</h3>
             <p id="temperamentPTag">{{encounter.temperament.temperament}} <i class="fas fa-info-circle icon-small blue"
-                matTooltip="{{encounter.temperament.tooltip}}. This works as Emotional State starting at Rank 15."></i></p>
+                matTooltip="{{encounter.temperament.tooltip}}. This works as Emotional State starting at Rank 15."></i>
+            </p>
           </div>
           <div *ngIf="encounter.battlefield" class="flex-row-opposite">
             <h3>Battlefield [Pattern] <i class="fas fa-info-circle icon-small blue"
@@ -727,16 +726,20 @@
 
         <ul *ngIf="carriedLoot.length > 0" class="box-padding lairLoot">
           <li *ngFor="let loot of carriedLoot">
-            <span *ngIf="!loot.swigs">{{loot}} </span>
+            <span *ngIf="!loot.swigs && !loot.skill">{{loot}} </span>
             <span *ngIf="loot.swigs">{{loot.name}} w/ {{loot.swigs}} {{loot.isSalve ? 'application' :
               'swig'}}{{loot.swigs > 1 ? 's' : ''}} </span>
             <i *ngIf="loot.swigs" class="fas fa-info-circle icon-small blue"
               matTooltip='{{loot.effect}} {{loot.price}} sc'></i>
-            <i *ngIf="!loot.name && loot.includes('alm script')" class="fas fa-info-circle icon-small blue"
+            <span *ngIf="loot.skill">Talisman of {{loot.skill}} </span>
+            <i *ngIf="loot.skill" class="fas fa-info-circle icon-small blue" matTooltip='{{loot.explanation}}'></i>
+            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('alm script')"
+              class="fas fa-info-circle icon-small blue"
               matTooltip="Destroying this script awards the noted Favor that must immediately be spent. It can take you above your Max Favor."></i>
-            <i *ngIf="!loot.name && loot.includes('scroll')" class="fas fa-info-circle icon-small blue" matTooltip="Contains a spell with random Rudiments with Drain value about equal to SP noted. Cast as Runegalder although it requires a Weirdcarft Skill Check vs d20! to successfully cast.
+            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('scroll')" class="fas fa-info-circle icon-small blue"
+              matTooltip="Contains a spell with random Rudiments with Drain value about equal to SP noted. Cast as Runegalder although it requires a Weirdcarft Skill Check vs d20! to successfully cast.
                           Scroll is destroyed on casting."></i>
-            <i *ngIf="!loot.name && loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
+            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
               matTooltip="Use the sc price as the base price and then add the Trait on top."></i>
           </li>
         </ul>
@@ -758,11 +761,20 @@
             matTooltip="Loot that can only be found at the beast's lair and that they don't carry on them."></i></h3>
         <ul *ngIf="lairLoot.length > 0" class="box-padding lairLoot">
           <li *ngFor="let loot of lairLoot">{{loot}}
-            <i *ngIf="loot.includes('alm script')" class="fas fa-info-circle icon-small blue"
+            <span *ngIf="!loot.swigs && !loot.skill">{{loot}} </span>
+            <span *ngIf="loot.swigs">{{loot.name}} w/ {{loot.swigs}} {{loot.isSalve ? 'application' :
+              'swig'}}{{loot.swigs > 1 ? 's' : ''}} </span>
+            <i *ngIf="loot.swigs" class="fas fa-info-circle icon-small blue"
+              matTooltip='{{loot.effect}} {{loot.price}} sc'></i>
+            <span *ngIf="loot.skill">Talisman of {{loot.skill}} </span>
+            <i *ngIf="loot.skill" class="fas fa-info-circle icon-small blue" matTooltip='{{loot.explanation}}'></i>
+            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('alm script')"
+              class="fas fa-info-circle icon-small blue"
               matTooltip="Destroying this script awards the noted Favor that must immediately be spent. It can take you above your Max Favor."></i>
-            <i *ngIf="loot.includes('scroll')" class="fas fa-info-circle icon-small blue" matTooltip="Contains a spell with random Rudiments with Drain value about equal to SP noted. Cast as Runegalder although it requires a Weirdcarft Skill Check vs d20! to successfully cast.
+            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('scroll')" class="fas fa-info-circle icon-small blue"
+              matTooltip="Contains a spell with random Rudiments with Drain value about equal to SP noted. Cast as Runegalder although it requires a Weirdcarft Skill Check vs d20! to successfully cast.
                           Scroll is destroyed on casting."></i>
-            <i *ngIf="loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
+            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
               matTooltip="Use the sc price as the base price and then add the Trait on top."></i>
           </li>
         </ul>
