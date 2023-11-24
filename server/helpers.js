@@ -7,6 +7,11 @@ const helperObjects = {
                 console.log(file + ' ' + location + ' ~ ', error.message)
             }
         }
+    },
+    consoleLogErrorNoFile: (file) => {
+        return (location, error) => {
+            console.log(file + ' ' + location + ' ~ ', error.message)
+        }
     }
 }
 

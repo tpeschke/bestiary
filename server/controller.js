@@ -1,5 +1,6 @@
-const {sendErrorForwardNoFile} = require('./helpers')
+const {consoleLogErrorNoFile, sendErrorForwardNoFile} = require('./helpers')
 
+const consoleLogError = consoleLogErrorNoFile('controller')
 const sendErrorForward = sendErrorForwardNoFile('controller')
 
 let rollDice = function (diceString) {
@@ -140,7 +141,7 @@ let controllerObj = {
             }
           }
           return result
-        }).catch(e => sendErrorForward('get roles for catalog', e, res)))
+        }).catch(e => consoleLogError('get roles for catalog', e)))
       })
 
       Promise.all(finalArray).then(_ => {
@@ -168,15 +169,15 @@ let controllerObj = {
                 }
               }
               return result
-            }).catch(e => sendErrorForward('collect roles for templates', e, null)))
+            }).catch(e => consoleLogError('collect roles for templates', e)))
           })
 
           Promise.all(finalArray).then(_ => {
             this.collectCache(app, 0)
-          }).catch(e => sendErrorForward('catalog final promise', e, null))
-        }).catch(e => sendErrorForward('templates catagory', e, null))
-      }).catch(e => sendErrorForward('collect catagory promise', e, null))
-    }).catch(e => sendErrorForward('collect catagory outer', e, null))
+          }).catch(e => consoleLogError('catalog final promise', e))
+        }).catch(e => consoleLogError('templates catagory', e))
+      }).catch(e => consoleLogError('collect catagory promise', e))
+    }).catch(e => consoleLogError('collect catagory outer', e))
   },
   collectCache(app, index) {
     const db = app.get('db')
@@ -207,13 +208,13 @@ let controllerObj = {
               }
             }
             return result
-          }).catch(e => sendErrorForward('roles for catalog by alpha', e, null)))
+          }).catch(e => consoleLogError('roles for catalog by alpha', e)))
         })
 
         Promise.all(finalArray).then(_ => {
           this.collectCache(app, ++index)
-        }).catch(e => sendErrorForward('collect cache final promise', e, null))
-      }).catch(e => sendErrorForward('catalog by letter', e, null))
+        }).catch(e => consoleLogError('collect cache final promise', e))
+      }).catch(e => consoleLogError('catalog by letter', e))
     } else {
       this.catalogCache = this.newCache
       this.newCache = []
