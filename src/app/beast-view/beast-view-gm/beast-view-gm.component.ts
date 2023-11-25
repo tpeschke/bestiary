@@ -398,7 +398,7 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (potionNumber > 0) {
         this.beastService.getPotions(potionNumber).subscribe((potions: any) => {
-          this.carriedLoot = [this.carriedLoot, ...potions]
+          this.carriedLoot = [...this.carriedLoot, ...potions]
         })
       }
     }
@@ -410,7 +410,7 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (talismanNumber > 0) {
         this.beastService.getTalismans(talismanNumber).subscribe((talismans: any) => {
-          this.carriedLoot = [this.carriedLoot, ...talismans]
+          this.carriedLoot = [...this.carriedLoot, ...talismans]
         })
       }
     }
@@ -555,7 +555,7 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (potionNumber > 0) {
         this.beastService.getPotions(potionNumber).subscribe((potions: any) => {
-          this.carriedLoot = [this.carriedLoot, ...potions]
+          this.carriedLoot = [...this.carriedLoot, ...potions]
         })
       }
     }
@@ -568,7 +568,7 @@ export class BeastViewGmComponent implements OnInit {
       
       if (talismanNumber > 0) {
         this.beastService.getTalismans(talismanNumber).subscribe((talismans: any) => {
-          this.carriedLoot = [this.carriedLoot, ...talismans]
+          this.carriedLoot = [...this.carriedLoot, ...talismans]
         })
       }
     }

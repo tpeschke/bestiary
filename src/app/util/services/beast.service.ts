@@ -25,7 +25,7 @@ export class BeastService {
   public loggedIn: boolean | string | number = false
 
   handleMessage(message) {
-    let { message: info, color } = message;
+    let { message: info, color, error } = message;
     if (info) {
       if (color === 'green') {
         this.toastr.success(info)
@@ -35,7 +35,12 @@ export class BeastService {
         this.toastr.warning(info)
       } else if (color === 'red') {
         this.toastr.error(info)
+        throw info
       }
+    }
+    if (error) {
+      this.toastr.error(info)
+      throw info
     }
   }
 

@@ -314,62 +314,6 @@
                 [matTooltipDisabled]="roleInfo && roleInfo.alldefense !== 'noneWk'"></mat-checkbox>
             </td>
           </tr>
-          <tr>
-            <td>Large Weapons <i class="fas fa-info-circle icon-small blue" matTooltip="Vitality"
-                matTooltipClass="my-tooltip"></i>
-            </td>
-            <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.largeweapons === 'majSt' ? 'checkmark-role-background' : ''"
-                (change)="checkPhysicalStat('largeweapons', 'majSt', $event)"
-                [checked]="!physical.largeweapons ? roleInfo && roleInfo.largeweapons === 'majSt' : physical.largeweapons === 'majSt'"
-                matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                [matTooltipDisabled]="roleInfo && roleInfo.largeweapons !== 'majSt'"></mat-checkbox>
-            </td>
-            <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.largeweapons === 'minSt' ? 'checkmark-role-background' : ''"
-                (change)="checkPhysicalStat('largeweapons', 'minSt', $event)"
-                [checked]="!physical.largeweapons ? roleInfo && roleInfo.largeweapons === 'minSt' : physical.largeweapons === 'minSt'"
-                matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                [matTooltipDisabled]="roleInfo && roleInfo.largeweapons !== 'minSt'"></mat-checkbox>
-            </td>
-            <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.largeweapons === 'minWk' ? 'checkmark-role-background' : ''"
-                (change)="checkPhysicalStat('largeweapons', 'minWk', $event)"
-                [checked]="!physical.largeweapons ? roleInfo && roleInfo.largeweapons === 'minWk' : physical.largeweapons === 'minWk'"
-                matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                [matTooltipDisabled]="roleInfo && roleInfo.largeweapons !== 'minWk'"></mat-checkbox>
-            </td>
-            <td>
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.largeweapons === 'majWk' ? 'checkmark-role-background' : ''"
-                (change)="checkPhysicalStat('largeweapons', 'majWk', $event)"
-                [checked]="!physical.largeweapons ? roleInfo && roleInfo.largeweapons === 'majWk' : physical.largeweapons === 'majWk'"
-                matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                [matTooltipDisabled]="roleInfo && roleInfo.largeweapons !== 'majWk'"></mat-checkbox>
-            </td>
-            <td class="border-left">
-              <mat-checkbox [ngClass]="roleInfo && roleInfo.largeweapons === 'noneStr' ? 'checkmark-role-background' : ''"
-                (change)="checkPhysicalStat('largeweapons', 'noneStr', $event)"
-                [checked]="!physical.largeweapons ? roleInfo && roleInfo.largeweapons === 'noneStr' : physical.largeweapons === 'noneStr'"
-                matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                [matTooltipDisabled]="roleInfo && roleInfo.largeweapons !== 'noneStr'"></mat-checkbox>
-            </td>
-            <td>
-              <mat-checkbox [ngClass]="roleInfo && !roleInfo.largeweapons ? 'checkmark-role-background' : ''"
-                (change)="checkPhysicalStat('largeweapons', 'none', $event)"
-                matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                [matTooltipDisabled]="roleInfo && roleInfo.largeweapons"
-                [checked]="(!physical.largeweapons && roleInfo && !roleInfo.largeweapons) || physical.largeweapons === 'none'">
-              </mat-checkbox>
-            </td>
-            <td>
-              <mat-checkbox
-                [ngClass]="roleInfo && roleInfo.largeweapons === 'noneWk' ? 'checkmark-role-background' : ''"
-                (change)="checkPhysicalStat('largeweapons', 'noneWk', $event)"
-                [checked]="!physical.largeweapons ? roleInfo && roleInfo.largeweapons === 'noneWk' : physical.largeweapons === 'noneWk'"
-                matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                [matTooltipDisabled]="roleInfo && roleInfo.largeweapons !== 'noneWk'"></mat-checkbox>
-            </td>
-          </tr>
           <tr *ngFor="let stat of defenseStats">
             <td>{{stat.label}} <i *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue"
                 matTooltip="{{stat.tooltip}}" matTooltipClass="my-tooltip"></i>

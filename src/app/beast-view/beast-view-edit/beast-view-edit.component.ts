@@ -113,6 +113,7 @@ export class BeastViewEditComponent implements OnInit {
     {
       label: 'Vitality',
       stat: 'largeweapons',
+      tooltip: 'Defense Against Large Weapons'
     },
     {
       label: 'Fatigue',
@@ -974,41 +975,61 @@ export class BeastViewEditComponent implements OnInit {
 
   addNewSecondaryItem(type, secondType) {
     if (type === 'combatStatArray') {
-      this.beast[type].push({
-        roleid: this.selectedRoleId,
-        weapontype: null,
-        piercingweapons: null,
-        slashingweapons: null,
-        crushingweapons: null,
-        weaponsmallslashing: null,
-        weaponsmallcrushing: null,
-        weaponsmallpiercing: null,
-        andslashing: null,
-        andcrushing: null,
-        flanks: null,
-        rangeddefence: null,
-        alldefense: null,
-        allaround: null,
-        armorandshields: null,
-        unarmored: null,
-        attack: null,
-        caution: null,
-        initiative: null,
-        measure: null,
-        panic: null,
-        rangedistance: null,
-        recovery: null,
-        isspecial: null,
-        showonlydefenses: false,
-        eua: false,
-        addsizemod: true,
-        weapon: null,
-        shield: null,
-        armor: null,
-        defaultweaponname: null,
-        adjustment: 0,
-        weaponname: null
-      })
+      if (this.beast[type].length === 0) {
+        this.beast[type].push({
+          roleid: this.selectedRoleId,
+          weapontype: null,
+          piercingweapons: null,
+          slashingweapons: null,
+          crushingweapons: null,
+          weaponsmallslashing: null,
+          weaponsmallcrushing: null,
+          weaponsmallpiercing: null,
+          andslashing: null,
+          andcrushing: null,
+          flanks: null,
+          rangeddefence: null,
+          alldefense: null,
+          allaround: null,
+          armorandshields: null,
+          unarmored: null,
+          attack: null,
+          caution: null,
+          initiative: null,
+          measure: null,
+          panic: null,
+          rangedistance: null,
+          recovery: null,
+          isspecial: null,
+          showonlydefenses: false,
+          eua: false,
+          addsizemod: true,
+          weapon: null,
+          shield: null,
+          armor: null,
+          defaultweaponname: null,
+          adjustment: 0,
+          weaponname: null
+        })
+      } else {
+        let combatSquareCopy = {id: 0, weaponname: '', weapon: '', armor: '', shield: ''}
+        if (this.selectedRoleId) {
+          for (let i = this.beast[type].length - 1; i >= 0; i--) {
+            if (this.beast[type][i].roleid === this.selectedRoleId) {
+              combatSquareCopy = {...this.beast[type][i]}
+              i = 0
+            }
+          }
+        } else {
+          combatSquareCopy = {...this.beast[type][this.beast[type].length - 1]}
+        }
+        delete combatSquareCopy.id
+        combatSquareCopy.weaponname = ''
+        combatSquareCopy.weapon = ''
+        combatSquareCopy.armor = ''
+        combatSquareCopy.shield = ''
+        this.beast[type].push(combatSquareCopy)
+      }
     } else if (type === 'movement') {
       let movement = {
         stroll: 0,

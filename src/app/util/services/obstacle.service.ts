@@ -25,6 +25,7 @@ export class ObstacleService {
         this.toastr.warning(info)
       } else if (color === 'red') {
         this.toastr.error(info)
+        throw info
       }
     }
   }
