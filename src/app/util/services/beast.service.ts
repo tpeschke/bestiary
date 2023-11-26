@@ -210,4 +210,10 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
+  getScrolls(number) {
+    return this.http.post('https://reliquary.dragon-slayer.net/api/getScrolls?numberOfItems=' + number, null)
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
+
 }

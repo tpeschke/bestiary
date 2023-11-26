@@ -726,20 +726,24 @@
 
         <ul *ngIf="carriedLoot.length > 0" class="box-padding lairLoot">
           <li *ngFor="let loot of carriedLoot">
-            <span *ngIf="!loot.swigs && !loot.skill">{{loot}} </span>
+            <span *ngIf="!loot.swigs && !loot.skill && !loot.scroll">{{loot}} </span>
+
             <span *ngIf="loot.swigs">{{loot.name}} w/ {{loot.swigs}} {{loot.isSalve ? 'application' :
               'swig'}}{{loot.swigs > 1 ? 's' : ''}} </span>
             <i *ngIf="loot.swigs" class="fas fa-info-circle icon-small blue"
               matTooltip='{{loot.effect}} {{loot.price}} sc'></i>
             <span *ngIf="loot.skill">Talisman of {{loot.skill}} </span>
+
             <i *ngIf="loot.skill" class="fas fa-info-circle icon-small blue" matTooltip='{{loot.explanation}}'></i>
-            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('alm script')"
+            <i *ngIf="(!loot.name && !loot.skill && !loot.scroll) && loot.includes('alm script')"
               class="fas fa-info-circle icon-small blue"
               matTooltip="Destroying this script awards the noted Favor that must immediately be spent. It can take you above your Max Favor."></i>
-            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('scroll')" class="fas fa-info-circle icon-small blue"
-              matTooltip="Contains a spell with random Rudiments with Drain value about equal to SP noted. Cast as Runegalder although it requires a Weirdcarft Skill Check vs d20! to successfully cast.
-                          Scroll is destroyed on casting."></i>
-            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
+            
+              <span *ngIf="loot.scroll">{{loot.scroll}} ({{loot.sp}} SP) </span>
+            <i *ngIf="loot.scroll" class="fas fa-info-circle icon-small blue"
+              matTooltip="Takes 2 Sec / SP to read, after which, it casts the spell. Scroll is destroyed on casting."></i>
+
+            <i *ngIf="(!loot.name && !loot.skill && !loot.scroll) && loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
               matTooltip="Use the sc price as the base price and then add the Trait on top."></i>
           </li>
         </ul>
@@ -761,20 +765,24 @@
             matTooltip="Loot that can only be found at the beast's lair and that they don't carry on them."></i></h3>
         <ul *ngIf="lairLoot.length > 0" class="box-padding lairLoot">
           <li *ngFor="let loot of lairLoot">{{loot}}
-            <span *ngIf="!loot.swigs && !loot.skill">{{loot}} </span>
+            <span *ngIf="!loot.swigs && !loot.skill && !loot.scroll">{{loot}} </span>
+
             <span *ngIf="loot.swigs">{{loot.name}} w/ {{loot.swigs}} {{loot.isSalve ? 'application' :
               'swig'}}{{loot.swigs > 1 ? 's' : ''}} </span>
             <i *ngIf="loot.swigs" class="fas fa-info-circle icon-small blue"
               matTooltip='{{loot.effect}} {{loot.price}} sc'></i>
             <span *ngIf="loot.skill">Talisman of {{loot.skill}} </span>
+
             <i *ngIf="loot.skill" class="fas fa-info-circle icon-small blue" matTooltip='{{loot.explanation}}'></i>
-            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('alm script')"
+            <i *ngIf="(!loot.name && !loot.skill && !loot.scroll) && loot.includes('alm script')"
               class="fas fa-info-circle icon-small blue"
               matTooltip="Destroying this script awards the noted Favor that must immediately be spent. It can take you above your Max Favor."></i>
-            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('scroll')" class="fas fa-info-circle icon-small blue"
-              matTooltip="Contains a spell with random Rudiments with Drain value about equal to SP noted. Cast as Runegalder although it requires a Weirdcarft Skill Check vs d20! to successfully cast.
-                          Scroll is destroyed on casting."></i>
-            <i *ngIf="(!loot.name && !loot.skill) && loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
+            
+              <span *ngIf="loot.scroll">{{loot.scroll}} ({{loot.sp}} SP) </span>
+            <i *ngIf="loot.scroll" class="fas fa-info-circle icon-small blue"
+              matTooltip="Requires Literacy in the language and takes 2 Sec / SP to read, after which, it shapes the spell. The scroll is destroyed on shape."></i>
+
+            <i *ngIf="(!loot.name && !loot.skill && !loot.scroll) && loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
               matTooltip="Use the sc price as the base price and then add the Trait on top."></i>
           </li>
         </ul>

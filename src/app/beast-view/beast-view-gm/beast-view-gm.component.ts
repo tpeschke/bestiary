@@ -421,7 +421,11 @@ export class BeastViewGmComponent implements OnInit {
           let power = rollDice(scrollPower[scrolls[i].power])
             , number = rollDice(numberAppearing[scrolls[i].number])
           if (number > 0) {
-            this.lairLoot.push(`${number} scroll${number > 1 ? 's' : ''} (${power} SP)`)
+            this.beastService.getScrolls(number).subscribe((scrolls: any) => {
+              scrolls.forEach(scroll => {
+                this.carriedLoot.push({ scroll: scroll.name, sp: power })
+              })
+            })
           }
         }
       }
@@ -565,21 +569,25 @@ export class BeastViewGmComponent implements OnInit {
       for (let i = 0; i < timesToRoll; i++) {
         talismanNumber += Math.min(rollDice(numberAppearing[talisman]), 4)
       }
-      
+
       if (talismanNumber > 0) {
         this.beastService.getTalismans(talismanNumber).subscribe((talismans: any) => {
           this.carriedLoot = [...this.carriedLoot, ...talismans]
         })
       }
     }
-    
+
     if (scrolls.length > 0) {
       for (let y = 0; y < timesToRoll; y++) {
         for (let i = 0; i < scrolls.length; i++) {
           let power = rollDice(scrollPower[scrolls[i].power])
-            , number = rollDice(numberAppearing[scrolls[i].number])
+            , number = Math.min(rollDice(numberAppearing[scrolls[i].number]))
           if (number > 0) {
-            this.carriedLoot.push(`${number} scroll${number > 1 ? 's' : ''} (${power} SP)`)
+            this.beastService.getScrolls(number).subscribe((scrolls: any) => {
+              scrolls.forEach(scroll => {
+                this.carriedLoot.push({ scroll: scroll.name, sp: power })
+              })
+            })
           }
         }
       }
@@ -749,7 +757,7 @@ export class BeastViewGmComponent implements OnInit {
     } else if (isNaN(harvestAndDifficulty) && harvest !== 'n/a') {
       price = justDifficulty * 2
     } else if (isNaN(harvestAndDifficulty) && harvest === 'n/a') {
-      price = this.calculatorService.calculateAverageOfDice(difficulty)  * 2
+      price = this.calculatorService.calculateAverageOfDice(difficulty) * 2
     } else {
       price = harvestAndDifficulty * 2
     }
