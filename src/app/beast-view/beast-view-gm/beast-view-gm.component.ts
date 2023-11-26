@@ -423,7 +423,7 @@ export class BeastViewGmComponent implements OnInit {
           if (number > 0) {
             this.beastService.getScrolls(number).subscribe((scrolls: any) => {
               scrolls.forEach(scroll => {
-                this.carriedLoot.push({ scroll: scroll.name, sp: power })
+                this.carriedLoot.push({ scroll: scroll.name, sp: power, breakdown: scroll.tooltip  })
               })
             })
           }
@@ -585,7 +585,7 @@ export class BeastViewGmComponent implements OnInit {
           if (number > 0) {
             this.beastService.getScrolls(number).subscribe((scrolls: any) => {
               scrolls.forEach(scroll => {
-                this.carriedLoot.push({ scroll: scroll.name, sp: power })
+                this.carriedLoot.push({ scroll: scroll.name, sp: power, breakdown: scroll.tooltip })
               })
             })
           }

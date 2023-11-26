@@ -741,7 +741,8 @@
             
               <span *ngIf="loot.scroll">{{loot.scroll}} ({{loot.sp}} SP) </span>
             <i *ngIf="loot.scroll" class="fas fa-info-circle icon-small blue"
-              matTooltip="Takes 2 Sec / SP to read, after which, it casts the spell. Scroll is destroyed on casting."></i>
+              matTooltip="Requires Literacy in the language and takes 2 Sec / SP to read, after which, it shapes the spell. The scroll is destroyed on shape.
+              Rudiment Breakdown: {{loot.breakdown}}"></i>
 
             <i *ngIf="(!loot.name && !loot.skill && !loot.scroll) && loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
               matTooltip="Use the sc price as the base price and then add the Trait on top."></i>
@@ -780,7 +781,8 @@
             
               <span *ngIf="loot.scroll">{{loot.scroll}} ({{loot.sp}} SP) </span>
             <i *ngIf="loot.scroll" class="fas fa-info-circle icon-small blue"
-              matTooltip="Requires Literacy in the language and takes 2 Sec / SP to read, after which, it shapes the spell. The scroll is destroyed on shape."></i>
+              matTooltip="Requires Literacy in the language and takes 2 Sec / SP to read, after which, it shapes the spell. The scroll is destroyed on shape.
+              Rudiment Breakdown: {{loot.breakdown}}"></i>
 
             <i *ngIf="(!loot.name && !loot.skill && !loot.scroll) && loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
               matTooltip="Use the sc price as the base price and then add the Trait on top."></i>
