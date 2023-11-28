@@ -75,6 +75,7 @@ import { CombatSquareComponent } from './beast-view/beast-view-gm/combat-square/
 import { EditTableComponent } from './beast-view/beast-view-edit/edit-table/edit-table.component';
 import { ViewTableComponent } from './beast-view/beast-view-gm/view-table/view-table.component';
 import { CombatTableComponent } from './util/combat-table/combat-table.component';
+import { CharacteristicDisplayComponent } from './beast-view/beast-view-edit/characteristic-display/characteristic-display.component';
 
 const routes: Routes = [
   {
@@ -137,6 +138,7 @@ const routes: Routes = [
     ObstacleInnardsComponent,
     CombatInfoComponent,
     MentalPhysicalDisplayComponent,
+    CharacteristicDisplayComponent,
     SkillDisplayComponent,
     BurdenDisplayComponent,
     ChallengeInnardsComponent,

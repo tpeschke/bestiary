@@ -6,6 +6,7 @@ import roles from '../../roles.js'
   templateUrl: './mental-physical-display.component.html',
   styleUrls: ['../../beast-view.component.css', './mental-physical-display.component.css']
 })
+
 export class MentalPhysicalDisplayComponent implements OnInit {
   @Input() statInfo: any;
   @Input() stats: any
