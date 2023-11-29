@@ -493,6 +493,10 @@ module.exports = {
           return result
         }).catch(e => sendErrorForward('beast carried ranks', e, res)))
 
+        beast.descriptionshare = 15
+        beast.convictionshare = 55
+        beast.devotionshare = 30
+
         beast.tables = {
           habitat: [],
           attack: [],
@@ -564,7 +568,10 @@ module.exports = {
               knockback: result[i].knockback,
               largeweapons: result[i].largeweapons,
               singledievitality: result[i].singledievitality,
-              noknockback: result[i].noknockback
+              noknockback: result[i].noknockback,
+              descriptionshare: 15,
+              convictionshare: 55,
+              devotionshare: 30
             }
           }
           return result

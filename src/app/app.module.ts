@@ -76,6 +76,7 @@ import { EditTableComponent } from './beast-view/beast-view-edit/edit-table/edit
 import { ViewTableComponent } from './beast-view/beast-view-gm/view-table/view-table.component';
 import { CombatTableComponent } from './util/combat-table/combat-table.component';
 import { CharacteristicDisplayComponent } from './beast-view/beast-view-edit/characteristic-display/characteristic-display.component';
+import {MatSliderModule} from '@angular/material/slider';
 
 const routes: Routes = [
   {
@@ -168,6 +169,7 @@ const routes: Routes = [
     MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSliderModule,
     ToastrModule.forRoot(),
     QuillModule.forRoot(),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })

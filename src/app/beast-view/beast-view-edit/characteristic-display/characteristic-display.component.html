@@ -1,0 +1,126 @@
+<table>
+  <thead>
+    <tr>
+      <th colspan="4">
+
+      </th>
+      <th colspan="4">
+        Scaling
+      </th>
+      <th colspan="4">
+        No Scaling
+      </th>
+      <th>
+
+      </th>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Random</td>
+      <td>All Roles</td>
+      <td>Rank</td>
+      <td class="border-left">Major Strength</td>
+      <td>Minor Strength</td>
+      <td>Minor Weakness</td>
+      <td>Major Weakness</td>
+      <td class="border-left">5</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td> </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let characteristic of characteristicInfo; let index = index" [ngClass]="{'noDisplay': !(!characteristic.deleted && (selectedRoleId === characteristic.socialroleid || characteristic.allroles))}">
+      <td *ngIf="characteristic.trait !== 'Any'"><input class="table-input" placeholder="Characteristic" value="{{characteristic.trait}}"
+          (change)="captureName($event, index)"></td>
+      <td *ngIf="characteristic.trait === 'Any'"> </td>
+      <td matTooltip="Check this to make the Characteristic random." matTooltipClass="my-tooltip">
+        <mat-checkbox
+          (change)="checkRandomize(index, $event.checked)"
+          [checked]="characteristic.trait === 'Any'">
+        </mat-checkbox>
+      </td>
+      <td matTooltip="Character is added to all Roles." matTooltipClass="my-tooltip">
+        <mat-checkbox
+          (change)="checkAll(index, $event.checked)"
+          [checked]="characteristic.allroles">
+        </mat-checkbox>
+      </td>
+      <td>{{beastService.calculateRankForCharacteristic(ranksToDistribute, characteristic.strength)}}</td>
+      <td class="border-left">
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[characteristicType] === 'majSt' ? 'checkmark-role-background' : ''"
+          (change)="checkcharacteristicInner('majSt', index, $event)"
+          [checked]="!characteristic.strength ? roleInfo && roleInfo[characteristicType] === 'majSt' : characteristic.strength === 'majSt'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[characteristicType] !== 'majSt'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[characteristicType] === 'minSt' ? 'checkmark-role-background' : ''"
+          (change)="checkcharacteristicInner('minSt', index, $event)"
+          [checked]="!characteristic.strength ? roleInfo && roleInfo[characteristicType] === 'minSt' : characteristic.strength === 'minSt'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[characteristicType] !== 'minSt'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[characteristicType] === 'minWk' ? 'checkmark-role-background' : ''"
+          (change)="checkcharacteristicInner('minWk', index, $event)"
+          [checked]="!characteristic.strength ? roleInfo && roleInfo[characteristicType] === 'minWk' : characteristic.strength === 'minWk'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[characteristicType] !== 'minWk'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[characteristicType] === 'majWk' ? 'checkmark-role-background' : ''"
+          (change)="checkcharacteristicInner('majWk', index, $event)"
+          [checked]="!characteristic.strength ? roleInfo && roleInfo[characteristicType] === 'majWk' : characteristic.strength === 'majWk'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[characteristicType] !== 'majWk'">
+        </mat-checkbox>
+      </td>
+      <td class="border-left">
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[characteristicType] === 'noneStr' ? 'checkmark-role-background' : ''"
+          (change)="checkcharacteristicInner('noneStr', index, $event)"
+          [checked]="!characteristic.strength ? roleInfo && roleInfo[characteristicType] === 'noneStr' : characteristic.strength === 'noneStr'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[characteristicType] !== 'noneStr'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox [ngClass]="roleInfo && !roleInfo[characteristicType] ? 'checkmark-role-background' : ''"
+          (change)="checkcharacteristicInner('none', index, $event)"
+          [checked]="!characteristic.strength ? roleInfo && (roleInfo[characteristicType] === 'none' || !roleInfo[characteristicType]) : characteristic.strength === 'none'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[characteristicType]">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox [ngClass]="roleInfo && roleInfo[characteristicType] === 'one' ? 'checkmark-role-background' : ''"
+          (change)="checkcharacteristicInner('one', index, $event)"
+          [checked]="!characteristic.strength ? roleInfo && roleInfo[characteristicType] === 'one' : characteristic.strength === 'one'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[characteristicType] !== 'one'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          [ngClass]="roleInfo && roleInfo[characteristicType] === 'noneWk' ? 'checkmark-role-background' : ''"
+          (change)="checkcharacteristicInner('noneWk', index, $event)"
+          [checked]="!characteristic.strength ? roleInfo && roleInfo[characteristicType] === 'noneWk' : characteristic.strength === 'noneWk'"
+          matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+          [matTooltipDisabled]="roleInfo && roleInfo[characteristicType] !== 'noneWk'">
+        </mat-checkbox>
+      </td>
+      <td>
+        <i mat-raised-button (click)="removeCharacteristic(index)" color="warn" class="fa-solid fa-trash"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>

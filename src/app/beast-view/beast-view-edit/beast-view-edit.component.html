@@ -173,9 +173,11 @@
 
       <div class="edit-table-shell">
         <div *ngIf="beast.tables">
-            <app-edit-table *ngFor="let table of beast.tables.appearance; let i = index" [table]="table" [index]="i" [removeTable]="removeTable('appearance')"></app-edit-table>
+          <app-edit-table *ngFor="let table of beast.tables.appearance; let i = index" [table]="table" [index]="i"
+            [removeTable]="removeTable('appearance')"></app-edit-table>
         </div>
-        <button mat-raised-button (click)="addNewTable('appearance')" color="accent"><i class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
+        <button mat-raised-button (click)="addNewTable('appearance')" color="accent"><i
+            class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
       </div>
 
       <h2>Common Folklore</h2>
@@ -212,9 +214,11 @@
 
       <div class="edit-table-shell">
         <div *ngIf="beast.tables">
-          <app-edit-table *ngFor="let table of beast.tables.habitat; let i = index" [table]="table" [index]="i" [removeTable]="removeTable('habitat')"></app-edit-table>
+          <app-edit-table *ngFor="let table of beast.tables.habitat; let i = index" [table]="table" [index]="i"
+            [removeTable]="removeTable('habitat')"></app-edit-table>
         </div>
-        <button mat-raised-button (click)="addNewTable('habitat')" color="accent"><i class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
+        <button mat-raised-button (click)="addNewTable('habitat')" color="accent"><i
+            class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
       </div>
     </div>
   </div>
@@ -247,7 +251,7 @@
 
       <mat-form-field>
         <mat-label>Name & Role Order</mat-label>
-        <mat-select  (selectionChange)="captureSelect($event, 'rolenameorder')" [value]="beast.rolenameorder">
+        <mat-select (selectionChange)="captureSelect($event, 'rolenameorder')" [value]="beast.rolenameorder">
           <mat-option value="1">
             {{beast.name}} {{beast.roleInfo[selectedRoleId].name}}
           </mat-option>
@@ -378,9 +382,11 @@
 
       <div class="edit-table-shell">
         <div *ngIf="beast.tables">
-          <app-edit-table *ngFor="let table of beast.tables.attack; let i = index" [table]="table" [index]="i" [removeTable]="removeTable('attack')"></app-edit-table>
+          <app-edit-table *ngFor="let table of beast.tables.attack; let i = index" [table]="table" [index]="i"
+            [removeTable]="removeTable('attack')"></app-edit-table>
         </div>
-        <button mat-raised-button (click)="addNewTable('attack')" color="accent"><i class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
+        <button mat-raised-button (click)="addNewTable('attack')" color="accent"><i
+            class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
       </div>
     </div>
     <div class="attack-and-defense-inner-shell">
@@ -403,9 +409,11 @@
 
       <div class="edit-table-shell">
         <div *ngIf="beast.tables">
-          <app-edit-table *ngFor="let table of beast.tables.defense; let i = index" [table]="table" [index]="i" [removeTable]="removeTable('defense')"></app-edit-table>
+          <app-edit-table *ngFor="let table of beast.tables.defense; let i = index" [table]="table" [index]="i"
+            [removeTable]="removeTable('defense')"></app-edit-table>
         </div>
-        <button mat-raised-button (click)="addNewTable('defense')" color="accent"><i class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
+        <button mat-raised-button (click)="addNewTable('defense')" color="accent"><i
+            class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
       </div>
     </div>
 
@@ -468,6 +476,13 @@
             {{socialRolesSecondaryInfo[beast.socialsecondary].description}}</p>
         </div>
 
+        <br>
+        <mat-form-field>
+          <input placeholder="Confrontation Points" matInput
+            [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints"
+            (change)="captureBasicInput($event, 'socialpoints')">
+        </mat-form-field>
+
         <div class="vitals-shell" *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role">
           <div class="long-field">
             <p><strong>Panic: </strong> {{mental.panic}}</p>
@@ -485,38 +500,9 @@
         <div>
           <h2>Descriptions</h2>
           <div class="divider"></div>
-
-          <div class="characteristic-edit-shell">
-            <p *ngIf="beast.conflict.descriptions.length === 0"><br>This monster has no Descriptions<br></p>
-            <div *ngFor="let description of beast.conflict.descriptions; let i = index"
-              [ngClass]="{'noDisplay': !(!description.deleted && (selectedRoleId === description.socialroleid || description.allroles))}">
-              <div class="conflict-shell edit-shell-box">
-                <h3 *ngIf="description.trait !== 'Any'">
-                  <mat-form-field>
-                    <input placeholder="Description" matInput [value]="description.trait"
-                      (change)="captureInput($event, 'conflict', i, 'descriptions', 'trait')">
-                  </mat-form-field>
-                </h3>
-                <section>
-                  <mat-checkbox [checked]="description.trait === 'Any'"
-                    (change)="checkRandomizeDescription(i, $event.checked)">Make
-                    this a Random Description</mat-checkbox>
-                </section>
-                <br>
-                <mat-form-field>
-                  <input placeholder="Rank (1 point)" matInput [value]="description.value"
-                    (change)="captureInput($event, 'conflict', i, 'descriptions', 'value')">
-                </mat-form-field>
-                <section>
-                  <mat-checkbox [checked]="description.allroles"
-                    (change)="checkAllRoles('descriptions', i, $event.checked)">
-                    Add to all Roles</mat-checkbox>
-                </section>
-                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'descriptions')"
-                  color="warn"><i class="fa-solid fa-trash"></i></button>
-              </div>
-            </div>
-          </div>
+          <mat-slider min="1" max="100" step="2" [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].descriptionshare : beast.descriptionshare" (change)="captureSlide($event, 'descriptionshare')"><input matSliderThumb></mat-slider> 
+          <app-characteristic-display [ranksToDistribute]="beastService.getSocialRanks(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints, selectedRoleId ? beast.roleInfo[selectedRoleId].descriptionshare : beast.descriptionshare)" [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem" [characteristicInfo]='beast.conflict.descriptions' [captureInput]="captureInput" [characteristicType]="'Description'" [checkCharacteristic]="checkCharacteristic"></app-characteristic-display>
+        
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'descriptions')" color="accent"><i
               class="fa-solid fa-plus icon-medium"></i>
             Description</button>
@@ -525,37 +511,9 @@
 
           <h2>Convictions</h2>
           <div class="divider"></div>
+          <mat-slider min="1" max="100" step="2" [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].convictionshare: beast.convictionshare" (change)="captureSlide($event, 'convictionshare')"><input matSliderThumb></mat-slider>
+          <app-characteristic-display [ranksToDistribute]="beastService.getSocialRanks(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints: beast.socialpoints, selectedRoleId ? beast.roleInfo[selectedRoleId].convictionshare: beast.convictionshare)" [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem" [characteristicInfo]='beast.conflict.convictions' [captureInput]="captureInput" [characteristicType]="'Conviction'" [checkCharacteristic]="checkCharacteristic"></app-characteristic-display>
 
-          <div class="characteristic-edit-shell">
-            <p *ngIf="beast.conflict.convictions.length === 0"><br>This monster has no Convictions<br></p>
-            <div *ngFor="let trait of beast.conflict.convictions; let i = index"
-              [ngClass]="{'noDisplay': !(!trait.deleted && (selectedRoleId === trait.socialroleid || trait.allroles))}">
-              <div class="conflict-shell edit-shell-box">
-                <h3 *ngIf="trait.trait !== 'Any'">
-                  <mat-form-field>
-                    <input placeholder="Conviction" matInput [value]="trait.trait"
-                      (change)="captureInput($event, 'conflict', i, 'convictions', 'trait')">
-                  </mat-form-field>
-                </h3>
-                <section>
-                  <mat-checkbox [checked]="trait.trait === 'Any'" (change)="checkRandomizeTrait(i, $event.checked)">Make
-                    this a Random Conviction</mat-checkbox>
-                </section>
-                <br>
-                <mat-form-field>
-                  <input placeholder="Rank (1 point)" matInput [value]="trait.value"
-                    (change)="captureInput($event, 'conflict', i, 'convictions', 'value')">
-                </mat-form-field>
-                <section>
-                  <mat-checkbox [checked]="trait.allroles" (change)="checkAllRoles('convictions', i, $event.checked)">
-                    Add to
-                    all Roles</mat-checkbox>
-                </section>
-                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'convictions')" color="warn"><i
-                    class="fa-solid fa-trash"></i></button>
-              </div>
-            </div>
-          </div>
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'convictions')" color="accent"><i
               class="fa-solid fa-plus icon-medium"></i>
             Conviction</button>
@@ -569,36 +527,9 @@
 
           <h2>Devotions</h2>
           <div class="divider"></div>
+          <mat-slider min="1" max="100" step="2" [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].devotionshare : beast.devotionshare" (change)="captureSlide($event, 'devotionshare')"><input matSliderThumb></mat-slider>
+          <app-characteristic-display [ranksToDistribute]="beastService.getSocialRanks(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints, selectedRoleId ? beast.roleInfo[selectedRoleId].devotionshare : beast.devotionshare)" [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem" [characteristicInfo]='beast.conflict.devotions' [captureInput]="captureInput" [characteristicType]="'Devotion'" [checkCharacteristic]="checkCharacteristic"></app-characteristic-display>
 
-          <div class="characteristic-edit-shell">
-            <p *ngIf="beast.conflict.devotions.length === 0"><br>This monster has no Devotions<br></p>
-            <div *ngFor="let devotion of beast.conflict.devotions; let i = index"
-              [ngClass]="{'noDisplay': !(!devotion.deleted && (selectedRoleId === devotion.socialroleid || devotion.allroles))}">
-              <div class="conflict-shell edit-shell-box">
-                <h3 *ngIf="devotion.trait !== 'Any'">
-                  <mat-form-field>
-                    <input placeholder="Devotion" matInput [value]="devotion.trait"
-                      (change)="captureInput($event, 'conflict', i, 'devotions', 'trait')">
-                  </mat-form-field>
-                </h3>
-                <section>
-                  <mat-checkbox [checked]="devotion.trait === 'Any'"
-                    (change)="checkRandomizeDevotion(i, $event.checked)">Make
-                    this a Random Devotion</mat-checkbox>
-                </section>
-                <mat-form-field>
-                  <input placeholder="Rank (1 point)" matInput [value]="devotion.value"
-                    (change)="captureInput($event, 'conflict', i, 'devotions', 'value')">
-                </mat-form-field>
-                <section>
-                  <mat-checkbox [checked]="devotion.allroles" (change)="checkAllRoles('devotions', i, $event.checked)">
-                    Add to all Roles</mat-checkbox>
-                </section>
-                <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'devotions')" color="warn"><i
-                    class="fa-solid fa-trash"></i></button>
-              </div>
-            </div>
-          </div>
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent"><i
               class="fa-solid fa-plus icon-medium"></i>
             Devotion</button>
@@ -610,7 +541,7 @@
           </mat-form-field>
           <br />
 
-          
+
           <h2>Flaws</h2>
           <div class="divider"></div>
 
@@ -626,8 +557,7 @@
                   </mat-form-field>
                 </h3>
                 <section>
-                  <mat-checkbox [checked]="flaw.trait === 'Any'"
-                    (change)="checkRandomizeflaw(i, $event.checked)">Make
+                  <mat-checkbox [checked]="flaw.trait === 'Any'" (change)="checkRandomizeflaw(i, $event.checked)">Make
                     this a Random Flaw</mat-checkbox>
                 </section>
                 <section>
@@ -799,8 +729,7 @@
             *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].role ? beast.roleInfo[selectedRoleId].role : selectedRoleId ? null : beast.role)">
             <h3>You need to select a Primary Role to edit anything else</h3>
           </div>
-          <div
-            *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].role ? beast.roleInfo[selectedRoleId].role : selectedRoleId ? null : beast.role">
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].role ? beast.roleInfo[selectedRoleId].role : selectedRoleId ? null : beast.role">
             <br>
             <mat-form-field>
               <input placeholder="Combat Points" matInput

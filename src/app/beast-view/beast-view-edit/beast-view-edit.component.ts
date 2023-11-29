@@ -9,6 +9,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { CalculatorService } from 'src/app/util/services/calculator.service';
+import {MatSliderModule} from '@angular/material/slider';
 
 @Component({
   selector: 'app-beast-view-edit',
@@ -573,7 +574,6 @@ export class BeastViewEditComponent implements OnInit {
       this.setDefaultRole()
       this.setVitalityAndStress()
 
-      this.calculateSocialPoints()
       this.calculateSkillPoints()
 
       window.scrollTo({
@@ -674,6 +674,48 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  captureSlide = ({value}, type) => {
+    const DESCRIPTIONSHARE = 'descriptionshare'
+    , CONVICTIONSHARE = 'convictionshare'
+    , DEVOTIONSHARE = 'devotionshare'
+
+    if (this.selectedRoleId) {
+      if (type === DESCRIPTIONSHARE) {
+        const difference = this.beast.roleInfo[this.selectedRoleId][DESCRIPTIONSHARE] - value
+        this.beast.roleInfo[this.selectedRoleId][CONVICTIONSHARE] += difference / 2
+        this.beast.roleInfo[this.selectedRoleId][DEVOTIONSHARE] += difference / 2
+        this.beast.roleInfo[this.selectedRoleId][DESCRIPTIONSHARE] = value
+      } else if (type === CONVICTIONSHARE) {
+        const difference = this.beast.roleInfo[this.selectedRoleId][CONVICTIONSHARE] - value
+        this.beast.roleInfo[this.selectedRoleId][CONVICTIONSHARE] = value
+        this.beast.roleInfo[this.selectedRoleId][DEVOTIONSHARE] += difference / 2
+        this.beast.roleInfo[this.selectedRoleId][DESCRIPTIONSHARE] += difference / 2
+      } else if (type === DEVOTIONSHARE) {
+        const difference = this.beast.roleInfo[this.selectedRoleId][DEVOTIONSHARE] - value
+        this.beast.roleInfo[this.selectedRoleId][CONVICTIONSHARE] += difference / 2
+        this.beast.roleInfo[this.selectedRoleId][DEVOTIONSHARE] = value
+        this.beast.roleInfo[this.selectedRoleId][DESCRIPTIONSHARE] += difference / 2
+      }
+    } else {
+      if (type === DESCRIPTIONSHARE) {
+        const difference = this.beast[DESCRIPTIONSHARE] - value
+        this.beast[CONVICTIONSHARE] += difference / 2
+        this.beast[DEVOTIONSHARE] += difference / 2
+        this.beast[DESCRIPTIONSHARE] = value
+      } else if (type === CONVICTIONSHARE) {
+        const difference = this.beast[CONVICTIONSHARE] - value
+        this.beast[CONVICTIONSHARE] = value
+        this.beast[DEVOTIONSHARE] += difference / 2
+        this.beast[DESCRIPTIONSHARE] += difference / 2
+      } else if (type === DEVOTIONSHARE) {
+        const difference = this.beast[DEVOTIONSHARE] - value
+        this.beast[CONVICTIONSHARE] += difference / 2
+        this.beast[DEVOTIONSHARE] = value
+        this.beast[DESCRIPTIONSHARE] += difference / 2
+      }
+    }
+  }
+
   captureInputUnbound = (event, type, index, secondaryType, thirdType) => {
     if (type === 'conflict') {
       let newSecondaryObject = Object.assign({}, this.beast[type])
@@ -693,18 +735,9 @@ export class BeastViewEditComponent implements OnInit {
       this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     }
 
-    this.calculateSocialPoints()
     this.calculateSkillPoints()
   }
   captureInput = this.captureInputUnbound.bind(this)
-
-  checkRandomizeTrait = (index, checked) => {
-    if (checked) {
-      this.beast.conflict.convictions[index].trait = 'Any'
-    } else {
-      this.beast.conflict.convictions[index].trait = ''
-    }
-  }
 
   checkRandomizeDescription = (index, checked) => {
     if (checked) {
@@ -784,7 +817,6 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.movement[index].allroles = checked
     } else {
       this.beast.conflict[type][index].allroles = checked
-      this.calculateSocialPoints()
     }
   }
 
@@ -796,7 +828,6 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type][index][secondaryType] = event.value;
     } else {
       this.beast[type] = event.value
-      this.calculateSocialPoints()
       this.calculateSkillPoints()
     }
   }
@@ -1051,7 +1082,8 @@ export class BeastViewEditComponent implements OnInit {
         value: '',
         type: traitType,
         socialroleid: this.selectedRoleId,
-        severity: null
+        severity: null,
+        strength: null
       })
     } else if (type === 'skills') {
       this.beast[type].push({
@@ -1096,9 +1128,6 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type].push({ id: deleted[0].id, deleted: true })
     }
 
-    if (type === 'conflict') {
-      this.calculateSocialPoints()
-    }
     if (type === 'skill') {
       this.calculateSkillPoints()
     }
@@ -1150,7 +1179,6 @@ export class BeastViewEditComponent implements OnInit {
     if (this.deletedSpellList) {
       this.beast.deletedSpellList = this.deletedSpellList
     }
-    this.calculateSocialPoints()
     this.calculateSkillPoints()
     if (+id) {
       this.beastService.updateBeast(this.beast).subscribe(result => {
@@ -1831,75 +1859,6 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  calculateSocialPoints = () => {
-    let socialpoints = 0
-
-    socialpoints += Math.ceil(this.beast.stress / 5)
-
-    this.beast.conflict.devotions.forEach(trait => {
-      if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
-        socialpoints += +trait.value
-      }
-    })
-    this.beast.conflict.burdens.forEach(trait => {
-      if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
-        socialpoints -= 2
-      }
-    })
-    this.beast.conflict.convictions.forEach(trait => {
-      if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
-        socialpoints += +trait.value
-      }
-    })
-    this.beast.conflict.descriptions.forEach(trait => {
-      if ((!trait.socialroleid || trait.allroles) && !trait.deleted) {
-        socialpoints += +trait.value
-      }
-    })
-
-    this.beast.skills.forEach(skill => {
-      if ((!skill.skillroleid || skill.allroles) && this.socialSkills.includes(skill.skill) && !skill.deleted) {
-        socialpoints += +skill.rank
-      }
-    })
-
-    this.beast.socialpoints = socialpoints
-
-    this.beast.roles.forEach(role => {
-      let socialpoints = 0
-
-      this.beast.conflict.devotions.forEach(trait => {
-        if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
-          socialpoints += +trait.value
-        }
-      })
-      this.beast.conflict.burdens.forEach(trait => {
-        if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
-          socialpoints -= +trait.value
-        }
-      })
-      this.beast.conflict.convictions.forEach(trait => {
-        if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
-          socialpoints += +trait.value
-        }
-      })
-      this.beast.conflict.descriptions.forEach(trait => {
-        if ((trait.socialroleid === role.id || trait.allroles) && !trait.deleted) {
-          socialpoints += +trait.value
-        }
-      })
-
-      this.beast.skills.forEach(skill => {
-        if ((skill.skillroleid === role.id || skill.allroles) && this.socialSkills.includes(skill.skill) && !skill.deleted) {
-          socialpoints += +skill.rank
-        }
-      })
-
-      role.socialpoints = socialpoints
-      this.beast.roleInfo[role.id].socialpoints = socialpoints
-    })
-  }
-
   calculateSkillPoints = () => {
     let skillpoints = 0
 
@@ -1945,6 +1904,18 @@ export class BeastViewEditComponent implements OnInit {
         belief: null,
         truth: null
       }
+    }
+  }
+
+  checkCharacteristic = (type, index, value, event) => { 
+    if (!value) {
+      event.source._checked = false
+    }
+
+    if (this.beast.conflict[type][index].strength === value) {
+      this.beast.conflict[type][index].strength = null
+    } else {
+      this.beast.conflict[type][index].strength = value
     }
   }
 

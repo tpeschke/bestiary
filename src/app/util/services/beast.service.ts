@@ -49,6 +49,39 @@ export class BeastService {
     return throwError(() => new Error(`${error.statusText}`));
   }
 
+  getSocialRanks = (points, share) => {
+    return this.calculateSpecificSocialRanks(this.calculateTotalSocialRanks(points), share)
+  }
+
+  calculateTotalSocialRanks = (points) => {
+    return 25 + (15 * points)
+  }
+
+  calculateSpecificSocialRanks = (totalPoints, share) => {
+    return totalPoints * (share / 100)
+  }
+
+  calculateRankForCharacteristic = (ranks, strength) => {
+    const scaling = {
+      majSt: 1,
+      minSt: .5,
+      minWk: .25,
+      majWk: .1
+    }
+
+    if (strength === 'one') {
+      return 1
+    } else if (strength === 'noneStr') {
+      return 5
+    } else if (strength === 'noneWk') {
+      return 0
+    } else if (strength === 'none' || !strength) {
+      return 3
+    } else {
+      return Math.ceil(scaling[strength] * ranks)
+    }
+  }
+
   checkLogin() {
     return this.http.get(local.endpointBase + '/api/auth/me').pipe(
       map((result: User) => {
