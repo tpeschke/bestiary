@@ -63,10 +63,10 @@ export class BeastService {
 
   calculateRankForCharacteristic = (ranks, strength) => {
     const scaling = {
-      majSt: 1,
-      minSt: .5,
-      minWk: .25,
-      majWk: .1
+      majSt: 3,
+      minSt: 2,
+      minWk: 1,
+      majWk: .5
     }
 
     if (strength === 'one') {
