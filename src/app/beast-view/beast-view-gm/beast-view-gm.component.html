@@ -78,7 +78,7 @@
             <div *ngFor="let trait of beast.conflict.descriptions; let i = index">
               <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
                 <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{trait.value}}</h5>
+                <h5>{{getSocialRank('descriptionshare', trait.strength)}}</h5>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@
             <div *ngFor="let trait of beast.conflict.convictions; let i = index">
               <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
                 <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{trait.value}}</h5>
+                <h5>{{getSocialRank('convictionshare', trait.strength)}}</h5>
               </div>
             </div>
           </div>
@@ -100,7 +100,7 @@
             <div *ngFor="let trait of beast.conflict.devotions; let i = index">
               <div *ngIf="selectedRoleId === trait.socialroleid || trait.allroles" class="flex-row-opposite">
                 <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{trait.value}}</h5>
+                <h5>{{getSocialRank('devotionshare', trait.strength)}}</h5>
               </div>
             </div>
           </div>

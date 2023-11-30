@@ -3,7 +3,7 @@ const roles = require('./roles')
   , combatSquareCtrl = require('./combatSquare')
   , { combatCounterSecretKey } = require('./server-config')
   , axios = require('axios')
-const {sendErrorForwardNoFile} = require('./helpers')
+const { sendErrorForwardNoFile } = require('./helpers')
 
 const sendErrorForward = sendErrorForwardNoFile('get controller')
 
@@ -13,6 +13,11 @@ function formatNameWithCommas(name) {
     return `${nameArray[1]} ${nameArray[0]}`
   }
   return name
+}
+
+function sortByStrength(a, b) {
+  const order = [ 'majSt', 'minSt', 'minWk', 'majWk' ];
+  return order.indexOf(a.strength) - order.indexOf(b.strength)
 }
 
 function sortOutAnyToTheBottom(a, b) {
@@ -85,7 +90,7 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons,rolenameorder } = result[0]
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons, rolenameorder } = result[0]
       let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: rolepoints || rolepoints === 0 ? rolepoints : mainpoints, notrauma }
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
@@ -114,7 +119,7 @@ module.exports = {
           name = rolename + " " + name
         }
       }
-      
+
       if (baseroletype) {
         roleToUse = baseroletype
         secondaryRoleToUse = basesecondaryrole
@@ -345,7 +350,7 @@ module.exports = {
                 beast.conflict.flaws.push(val)
               } else if (val.type === 'b') {
                 beast.conflict.burdens.push(val)
-              }  else if (val.type === 'h') {
+              } else if (val.type === 'h') {
                 beast.conflict.descriptions.push(val)
               }
             })
@@ -353,7 +358,7 @@ module.exports = {
           }).catch(e => sendErrorForward('beast confrontation 1', e, res)))
         } else {
           promiseArray.push(db.get.beastconflict(id).then(result => {
-            beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [], burdens: []  }
+            beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [], burdens: [] }
             result.forEach(val => {
               if (val.type === 't' || val.type === 'c' || !val.type) {
                 if (beast.traitlimit && beast.conflict.convictions.length < beast.traitlimit) {
@@ -374,14 +379,14 @@ module.exports = {
                   beast.conflict.flaws.push(val)
                 }
               } else if (val.type === 'b') {
-                  beast.conflict.burdens.push(val)
+                beast.conflict.burdens.push(val)
               } else if (val.type === 'h') {
                 beast.conflict.descriptions.push(val)
               }
             })
 
-            beast.conflict.descriptions = beast.conflict.descriptions.sort((a, b) => +b.value - +a.value)
-            beast.conflict.convictions = beast.conflict.convictions.sort((a, b) => +b.value - +a.value)
+            beast.conflict.descriptions = beast.conflict.descriptions.sort(sortByStrength)
+            beast.conflict.convictions = beast.conflict.convictions.sort(sortByStrength)
             beast.conflict.flaws = beast.conflict.flaws.sort(sortOutAnyToTheBottom)
             beast.conflict.burdens = beast.conflict.burdens.sort(sortOutAnyToTheBottom)
 
@@ -493,10 +498,6 @@ module.exports = {
           return result
         }).catch(e => sendErrorForward('beast carried ranks', e, res)))
 
-        beast.descriptionshare = 15
-        beast.convictionshare = 55
-        beast.devotionshare = 30
-
         beast.tables = {
           habitat: [],
           attack: [],
@@ -538,6 +539,7 @@ module.exports = {
         }).catch(e => sendErrorForward('beast tables', e, res)))
 
         promiseArray.push(db.get.beastroles(id).then(result => {
+          console.log(result)
           beast.roles = result
           beast.roleInfo = {}
 
@@ -569,9 +571,9 @@ module.exports = {
               largeweapons: result[i].largeweapons,
               singledievitality: result[i].singledievitality,
               noknockback: result[i].noknockback,
-              descriptionshare: 15,
-              convictionshare: 55,
-              devotionshare: 30
+              descriptionshare: result[i].descriptionshare,
+              convictionshare: result[i].convictionshare,
+              devotionshare: result[i].devotionshare
             }
           }
           return result
