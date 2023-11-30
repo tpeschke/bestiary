@@ -38,7 +38,6 @@ export class CharacteristicDisplayComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    console.log(this.ranksToDistribute)
     if (this.primaryRole) {
       this.roleInfo = roles.socialRoles.primary[this.primaryRole].characteristicStrengths
     }

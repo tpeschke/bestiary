@@ -1079,7 +1079,7 @@ export class BeastViewEditComponent implements OnInit {
       let traitType = secondType === 'descriptions' ? 'h' : secondType.substring(0, 1);
       this.beast[type][secondType].push({
         trait: 'Any',
-        value: '',
+        value: traitType === 'b' ? '1' : '',
         type: traitType,
         socialroleid: this.selectedRoleId,
         severity: null,
@@ -1916,6 +1916,15 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.conflict[type][index].strength = null
     } else {
       this.beast.conflict[type][index].strength = value
+    }
+  }
+
+  checkBurden = (burden, value, event) => { 
+    if (burden.value === value) {
+      burden.value = value
+      event.source._checked = true
+    } else {
+      burden.value = value
     }
   }
 

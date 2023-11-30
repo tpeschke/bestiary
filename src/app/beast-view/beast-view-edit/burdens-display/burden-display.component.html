@@ -1,42 +1,9 @@
-<div class="conflict-shell edit-shell-box">
-  <h3 *ngIf="burden.trait !== 'Any'">
-    <mat-form-field>
-      <input id="traitNameInput" matInput placeholder="Burden" [matAutocomplete]="burdenauto" [formControl]="burdensController"
-        (blur)="captureInput($event, 'conflict', i, 'burdens', 'trait')" [value]="burden.trait">
-      <mat-autocomplete #burdenauto="matAutocomplete">
-        <mat-optgroup *ngFor="let group of burdensFiltered | async" [label]="group.label">
-          <mat-option *ngFor="let burden of group.burdens" [value]="burden.trait">
-            {{burden.trait}}
-          </mat-option>
-        </mat-optgroup>
-      </mat-autocomplete>
-    </mat-form-field>
-  </h3>
-  <section>
-    <mat-checkbox [checked]="burden.trait === 'Any'" (change)="checkRandomBurden(i, $event.checked)">Make
-      this Random</mat-checkbox>
-  </section>
-
-  <mat-form-field *ngIf="burden.trait !== 'Any'">
-    <input placeholder="Rank (1 point)" matInput [value]="burden.value"
-      (change)="captureInput($event, 'conflict', i, 'burdens', 'value')">
-  </mat-form-field>
-
-  <p *ngIf="burden.trait === 'Any'" class="burden-severity-range">The Rank Range:</p>
-  <div class="burden-severity-buttons" *ngIf="burden.trait === 'Any'">
-    <button id="{{burden.value === '1' ? 'gray-blue' : ''}}" mat-raised-button
-      (click)="setRankSeverityRank(i, '1')">Random</button>
-    <button id="{{burden.value === '2' ? 'gray-blue' : ''}}" mat-raised-button
-      (click)="setRankSeverityRank(i, '2')">Low</button>
-    <button id="{{burden.value === '3' ? 'gray-blue' : ''}}" mat-raised-button
-      (click)="setRankSeverityRank(i, '3')">Mid</button>
-    <button id="{{burden.value === '4' ? 'gray-blue' : ''}}" mat-raised-button
-      (click)="setRankSeverityRank(i, '4')">High</button>
-  </div>
-  <section>
-    <mat-checkbox [checked]="burden.allroles" (change)="checkAllRoles('burdens', i, $event.checked)">Add to
-      all Roles</mat-checkbox>
-  </section>
-  <button mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'burdens')" color="warn"><i
-      class="fa-solid fa-trash"></i></button>
-</div>
+<input class="table-input" placeholder="Burden" [matAutocomplete]="burdenauto" [formControl]="burdensController"
+  (blur)="captureInput($event, 'conflict', i, 'burdens', 'trait')" [value]="burden.trait">
+<mat-autocomplete #burdenauto="matAutocomplete">
+  <mat-optgroup *ngFor="let group of burdensFiltered | async" [label]="group.label">
+    <mat-option *ngFor="let burden of group.burdens" [value]="burden.trait">
+      {{burden.trait}}
+    </mat-option>
+  </mat-optgroup>
+</mat-autocomplete>

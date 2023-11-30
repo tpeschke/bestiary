@@ -32,10 +32,10 @@
   </thead>
   <tbody>
     <tr *ngFor="let characteristic of characteristicInfo; let index = index" [ngClass]="{'noDisplay': !(!characteristic.deleted && (selectedRoleId === characteristic.socialroleid || characteristic.allroles))}">
-      <td *ngIf="characteristic.trait !== 'Any'"><input class="table-input" placeholder="Characteristic" value="{{characteristic.trait}}"
+      <td *ngIf="characteristic.trait !== 'Any'"><input class="table-input" placeholder="{{characteristicType}}" value="{{characteristic.trait}}"
           (change)="captureName($event, index)"></td>
       <td *ngIf="characteristic.trait === 'Any'"> </td>
-      <td matTooltip="Check this to make the Characteristic random." matTooltipClass="my-tooltip">
+      <td matTooltip="Check this to make the {{characteristicType}} random." matTooltipClass="my-tooltip">
         <mat-checkbox
           (change)="checkRandomize(index, $event.checked)"
           [checked]="characteristic.trait === 'Any'">

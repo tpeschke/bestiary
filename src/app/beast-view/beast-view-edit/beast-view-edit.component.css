@@ -69,3 +69,46 @@
     height: 100%;
     margin: 0;
 }
+
+.checkbox-table thead {
+    background: #607d8b;
+    color: whitesmoke;
+    text-align: center;
+    font-family: 'know'; letter-spacing: 1px;
+}
+
+.checkbox-table thead tr td {
+    background: #4b4b4b
+}
+
+.checkbox-table tbody tr th {
+    background: gray;
+    color: whitesmoke;
+    font-family: 'know'; letter-spacing: 1px;
+    text-align: center;
+}
+
+.checkbox-table tbody tr:nth-child(odd) {
+    background: lightgray
+}
+
+.checkbox-table tbody tr td {
+    text-align: center;
+}
+
+.checkbox-table tbody tr td:first-child {
+    text-align: left !important;
+}
+
+.checkbox-table th, .checkbox-table td {
+    min-width: 80px;
+    padding: 2px 5px;
+}
+
+.justify-right {
+    padding-left: 25px;
+}
+
+.checkmark-role-background ::ng-deep .mat-checkbox-background {
+    background-color: #a9a9a9 !important;
+}

@@ -12,12 +12,8 @@ export class BurdenDisplayComponent implements OnInit {
   @Input() burden: any;
   @Input() allBurdens: any;
   @Input() captureInput: Function;
-  @Input() removeNewSecondaryItem: Function;
   @Input() i: any;
-  @Input() checkAllRoles: Function;
   @Input() _filterGroup: Function;
-  @Input() checkRandomizeBurden: Function;
-  @Input() setRankSeverityRank: Function;
 
   constructor() { }
 
@@ -54,16 +50,4 @@ export class BurdenDisplayComponent implements OnInit {
       })
     }
   }
-
-  captureSeverity(event, category, index, type, subtype) {
-    this.captureInput(event, category, index, type, subtype)
-  }
-
-  checkRandomBurden (index, checked) {
-    this.checkRandomizeBurden(index, checked)
-    if (!checked) {
-      this.burdensController.setValue('')
-    }
-  }
-
 }
