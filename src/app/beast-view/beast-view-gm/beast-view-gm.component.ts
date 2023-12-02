@@ -235,6 +235,7 @@ export class BeastViewGmComponent implements OnInit {
       }
 
     }
+
     this.showCharacteristicsSection = this.showDescriptions || this.showConvictions || this.showDevotions || this.showBurdens || this.showFlaws
   }
 

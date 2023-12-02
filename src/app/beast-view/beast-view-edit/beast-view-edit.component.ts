@@ -1169,6 +1169,8 @@ export class BeastViewEditComponent implements OnInit {
       role.mental = roleInfo.mental
       role.panic = roleInfo.panic
       role.combatpoints = roleInfo.combatpoints
+      role.socialpoints = roleInfo.socialpoints
+      role.skillpoints = roleInfo.skillpoints
       role.knockback = roleInfo.knockback
       role.singledievitality = roleInfo.singledievitality
       role.noknockback = roleInfo.noknockback

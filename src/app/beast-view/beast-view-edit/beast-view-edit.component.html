@@ -500,9 +500,6 @@
         <div>
           <h2>Descriptions</h2>
           <div class="divider"></div>
-          <mat-slider min="1" max="100" step="2"
-            [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].descriptionshare : beast.descriptionshare"
-            (change)="captureSlide($event, 'descriptionshare')"><input matSliderThumb></mat-slider>
           <app-characteristic-display
             [ranksToDistribute]="beastService.getSocialRanks(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints, selectedRoleId ? beast.roleInfo[selectedRoleId].descriptionshare : beast.descriptionshare)"
             [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
@@ -518,9 +515,6 @@
 
           <h2>Convictions</h2>
           <div class="divider"></div>
-          <mat-slider min="1" max="100" step="2"
-            [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].convictionshare: beast.convictionshare"
-            (change)="captureSlide($event, 'convictionshare')"><input matSliderThumb></mat-slider>
           <app-characteristic-display
             [ranksToDistribute]="beastService.getSocialRanks(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints: beast.socialpoints, selectedRoleId ? beast.roleInfo[selectedRoleId].convictionshare: beast.convictionshare)"
             [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
@@ -541,9 +535,6 @@
 
           <h2>Devotions</h2>
           <div class="divider"></div>
-          <mat-slider min="1" max="100" step="2"
-            [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].devotionshare : beast.devotionshare"
-            (change)="captureSlide($event, 'devotionshare')"><input matSliderThumb></mat-slider>
           <app-characteristic-display
             [ranksToDistribute]="beastService.getSocialRanks(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints, selectedRoleId ? beast.roleInfo[selectedRoleId].devotionshare : beast.devotionshare)"
             [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
@@ -641,7 +632,7 @@
                 </td>
 
                 <td colspan="4" *ngIf="burden.trait !== 'Any'">
-                  <input class="table-input" matInput placeholder="Rank" (change)="captureInput($event, 'conflict', i, 'burdens', 'trait')" [value]="burden.value">
+                  <input class="table-input" matInput placeholder="Rank" (change)="captureInput($event, 'conflict', i, 'burdens', 'rank')" [value]="burden.value">
                 </td>
 
                 <td *ngIf="burden.trait === 'Any'">

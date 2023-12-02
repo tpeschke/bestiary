@@ -539,7 +539,6 @@ module.exports = {
         }).catch(e => sendErrorForward('beast tables', e, res)))
 
         promiseArray.push(db.get.beastroles(id).then(result => {
-          console.log(result)
           beast.roles = result
           beast.roleInfo = {}
 
