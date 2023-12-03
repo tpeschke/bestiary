@@ -352,22 +352,11 @@ export class BeastViewGmComponent implements OnInit {
   getLairLoot() {
     this.lairLoot = []
     let timesToRoll = this.monsterNumber ? this.monsterNumber : 1;
-    let { copper, silver, gold, relic, enchanted, potion, equipment, traited, scrolls, alms, talisman } = this.beast.lairloot
+    let { copper, silver, gold, enchanted, potion, equipment, traited, scrolls, alms, talisman } = this.beast.lairloot
 
-    this.lairlootpresent = copper || silver || gold || relic || enchanted || potion || talisman || equipment.length > 0 || traited > 0 || scrolls > 0 || alms > 0
-    let { staticValues, numberAppearing, relicTable, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
+    this.lairlootpresent = copper || silver || gold || enchanted || potion || talisman || equipment.length > 0 || traited > 0 || scrolls > 0 || alms > 0
+    let { staticValues, numberAppearing, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
       , { rollDice } = this.calculatorService
-
-    if (relic) {
-      for (let i = 0; i < timesToRoll; i++) {
-        let relicChance = Math.floor(Math.random() * 101);
-        if (relicTable[relic].middling >= relicChance) {
-          this.lairLoot.push("Middling Relic")
-        } else if (relicTable[relic].minor >= relicChance) {
-          this.lairLoot.push("Minor Relic")
-        }
-      }
-    }
 
     if (alms.length > 0) {
       for (let i = 0; i < timesToRoll; i++) {
@@ -384,9 +373,7 @@ export class BeastViewGmComponent implements OnInit {
     if (enchanted) {
       for (let i = 0; i < timesToRoll; i++) {
         let enchantedChance = Math.floor(Math.random() * 101);
-        if (enchantedTable[enchanted].middling >= enchantedChance) {
-          this.lairLoot.push("Middling Enchanted Item")
-        } else if (enchantedTable[enchanted].minor >= enchantedChance) {
+        if (enchantedTable[enchanted].minor >= enchantedChance) {
           this.lairLoot.push("Minor Enchanted Item")
         }
       }
@@ -399,7 +386,7 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (potionNumber > 0) {
         this.beastService.getPotions(potionNumber).subscribe((potions: any) => {
-          this.carriedLoot = [...this.carriedLoot, ...potions]
+          potions.forEach((potion)=> {this.carriedLoot.push(potion)})
         })
       }
     }
@@ -411,7 +398,7 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (talismanNumber > 0) {
         this.beastService.getTalismans(talismanNumber).subscribe((talismans: any) => {
-          this.carriedLoot = [...this.carriedLoot, ...talismans]
+          talismans.forEach((talisman) => {this.carriedLoot.push(talisman)})
         })
       }
     }
@@ -475,8 +462,8 @@ export class BeastViewGmComponent implements OnInit {
         }
       }
       if (equipmentToGetArray.length > 0) {
-        this.beastService.getUniqueEquipment({ "budgets": equipmentToGetArray }).subscribe(result => {
-          this.lairLoot = [...this.lairLoot, ...result]
+        this.beastService.getUniqueEquipment({ "budgets": equipmentToGetArray }).subscribe(results => {
+          results.forEach(equipment => {this.lairLoot.push(equipment)})
         })
       }
     }
@@ -513,22 +500,11 @@ export class BeastViewGmComponent implements OnInit {
   getCarriedLoot() {
     this.carriedLoot = []
     let timesToRoll = this.monsterNumber ? this.monsterNumber : 1;
-    let { copper, silver, gold, relic, enchanted, potion, equipment, traited, scrolls, alms, talisman } = this.beast.carriedloot
+    let { copper, silver, gold, enchanted, potion, equipment, traited, scrolls, alms, talisman } = this.beast.carriedloot
 
-    this.carriedlootpresent = copper || silver || gold || relic || enchanted || potion || talisman || equipment.length > 0 || traited > 0 || scrolls > 0 || alms > 0
-    let { staticValues, numberAppearing, relicTable, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
+    this.carriedlootpresent = copper || silver || gold || enchanted || potion || talisman || equipment.length > 0 || traited > 0 || scrolls > 0 || alms > 0
+    let { staticValues, numberAppearing, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
       , { rollDice } = this.calculatorService
-
-    if (relic) {
-      for (let i = 0; i < timesToRoll; i++) {
-        let relicChance = Math.floor(Math.random() * 101);
-        if (relicTable[relic].middling >= relicChance) {
-          this.carriedLoot.push("Middling Relic")
-        } else if (relicTable[relic].minor >= relicChance) {
-          this.carriedLoot.push("Minor Relic")
-        }
-      }
-    }
 
     if (alms.length > 0) {
       for (let i = 0; i < timesToRoll; i++) {
@@ -545,9 +521,7 @@ export class BeastViewGmComponent implements OnInit {
     if (enchanted) {
       for (let i = 0; i < timesToRoll; i++) {
         let enchantedChance = Math.floor(Math.random() * 101);
-        if (enchantedTable[enchanted].middling >= enchantedChance) {
-          this.carriedLoot.push("Middling Enchanted Item")
-        } else if (enchantedTable[enchanted].minor >= enchantedChance) {
+        if (enchantedTable[enchanted].minor >= enchantedChance) {
           this.carriedLoot.push("Minor Enchanted Item")
         }
       }
@@ -560,7 +534,7 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (potionNumber > 0) {
         this.beastService.getPotions(potionNumber).subscribe((potions: any) => {
-          this.carriedLoot = [...this.carriedLoot, ...potions]
+          potions.forEach(potion => this.carriedLoot.push(potion))
         })
       }
     }
@@ -573,7 +547,7 @@ export class BeastViewGmComponent implements OnInit {
 
       if (talismanNumber > 0) {
         this.beastService.getTalismans(talismanNumber).subscribe((talismans: any) => {
-          this.carriedLoot = [...this.carriedLoot, ...talismans]
+          talismans.forEach(talisman => this.carriedLoot.push(talisman))
         })
       }
     }

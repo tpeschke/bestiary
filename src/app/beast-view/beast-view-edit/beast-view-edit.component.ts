@@ -1452,7 +1452,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   formatRelicAndEnchantedChange(chances) {
-    return `${chances.minor}% of Minor, ${chances.middling}% of Middling`
+    return `${chances.minor}% of Minor`
   }
 
   setArtist(event) {

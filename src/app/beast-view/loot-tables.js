@@ -38,15 +38,6 @@ export default {
         k: [15, 35, 45, 55, 65, 75, 85, 95, 100, 100, 100, 100]
     },
     traitDice: ['+2', '+4', '+6', '+8', '+10', '+12', '+14', '+16', '+18', '+20', '+22', '+24'],
-    relicTable: {
-        a: {minor: 1, middling: 0},
-        b: {minor: 5, middling: 0},
-        c: {minor: 10, middling: 1},
-        d: {minor: 15, middling: 5},
-        e: {minor: 20, middling: 10},
-        f: {minor: 25, middling: 15},
-        g: {minor: 30, middling: 20}
-    },
     enchantedTable: {
         a: {minor: 1, middling: 0},
         b: {minor: 5, middling: 0},

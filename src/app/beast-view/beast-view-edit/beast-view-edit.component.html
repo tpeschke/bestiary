@@ -1925,41 +1925,10 @@
             </div>
 
             <div class="lair-loot-category-shell">
-              <h3>Woundrous Items</h3>
+              <h3>Enchanted Items</h3>
               <div class="loot-inner-shell">
                 <mat-form-field>
-                  <mat-label>Relic Chance</mat-label>
-                  <mat-select [value]="beast.carriedloot.relic"
-                    (selectionChange)="captureSelectForObject($event, 'relic', 'carriedloot')">
-                    <mat-option>
-                      No Chance of Either
-                    </mat-option>
-                    <mat-option value="a">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.a)}}
-                    </mat-option>
-                    <mat-option value="b">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.b)}}
-                    </mat-option>
-                    <mat-option value="c">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.c)}}
-                    </mat-option>
-                    <mat-option value="d">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.d)}}
-                    </mat-option>
-                    <mat-option value="e">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.e)}}
-                    </mat-option>
-                    <mat-option value="f">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.f)}}
-                    </mat-option>
-                    <mat-option value="g">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.g)}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <mat-form-field>
-                  <mat-label>Enchanted Item Chance</mat-label>
+                  <mat-label>Chance</mat-label>
                   <mat-select [value]="beast.carriedloot.enchanted"
                     (selectionChange)="captureSelectForObject($event, 'enchanted', 'carriedloot')">
                     <mat-option>
@@ -2580,41 +2549,10 @@
             </div>
 
             <div class="lair-loot-category-shell">
-              <h3>Woundrous Items</h3>
+              <h3>Enchanted Items</h3>
               <div class="loot-inner-shell">
                 <mat-form-field>
-                  <mat-label>Relic Chance</mat-label>
-                  <mat-select [value]="beast.lairloot.relic"
-                    (selectionChange)="captureSelectForObject($event, 'relic', 'lairloot')">
-                    <mat-option>
-                      No Chance of Either
-                    </mat-option>
-                    <mat-option value="a">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.a)}}
-                    </mat-option>
-                    <mat-option value="b">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.b)}}
-                    </mat-option>
-                    <mat-option value="c">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.c)}}
-                    </mat-option>
-                    <mat-option value="d">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.d)}}
-                    </mat-option>
-                    <mat-option value="e">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.e)}}
-                    </mat-option>
-                    <mat-option value="f">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.f)}}
-                    </mat-option>
-                    <mat-option value="g">
-                      {{formatRelicAndEnchantedChange(lootTables.relicTable.g)}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <mat-form-field>
-                  <mat-label>Enchanted Item Chance</mat-label>
+                  <mat-label>Chance</mat-label>
                   <mat-select [value]="beast.lairloot.enchanted"
                     (selectionChange)="captureSelectForObject($event, 'enchanted', 'lairloot')">
                     <mat-option>
