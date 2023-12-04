@@ -20,6 +20,11 @@ function sortByStrength(a, b) {
   return order.indexOf(a.strength) - order.indexOf(b.strength)
 }
 
+function sortTemplateRoles(a, b) {
+  const order = [ 'Novice', 'Apprentice', 'Journeyman', 'Expert', 'Master', 'Grandmaster' ];
+  return order.indexOf(a.name) - order.indexOf(b.name)
+}
+
 function sortOutAnyToTheBottom(a, b) {
   if ((a.trait === 'Any' && b.trait === 'Any') || (a.trait !== 'Any' && b.trait !== 'Any')) {
     return +b.value - +a.value
@@ -540,6 +545,10 @@ module.exports = {
 
         promiseArray.push(db.get.beastroles(id).then(result => {
           beast.roles = result
+
+          if (beast.name.includes('Template')) {
+            beast.roles = beast.roles.sort(sortTemplateRoles)
+          }
           beast.roleInfo = {}
 
           for (i = 0; i < result.length; i++) {
