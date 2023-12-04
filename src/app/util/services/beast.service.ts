@@ -49,16 +49,24 @@ export class BeastService {
     return throwError(() => new Error(`${error.statusText}`));
   }
 
-  getSocialRanks = (points, share) => {
-    return this.calculateSpecificSocialRanks(this.calculateTotalSocialRanks(points), share)
-  }
+  getSocialRanks = (type, points) => {
+    const typeDictionaryBase = {
+      Descriptions: 3.75,
+      Convictions: 13.75,
+      Devotions: 7.5
+    }
+    const typeDictionaryBonus = {
+      Descriptions: 2.25,
+      Convictions: 8.25,
+      Devotions: 4.5 
+    }
 
-  calculateTotalSocialRanks = (points) => {
-    return 25 + (15 * points)
-  }
-
-  calculateSpecificSocialRanks = (totalPoints, share) => {
-    return totalPoints * (share / 100)
+    const typeShareDictionary = {
+      Descriptions: .15,
+      Convictions: .55,
+      Devotions: .30
+    }
+    return Math.ceil(typeDictionaryBase[type] + (typeDictionaryBonus[type] * points))
   }
 
   calculateRankForCharacteristic = (ranks, strength) => {

@@ -1030,8 +1030,7 @@ export class BeastViewGmComponent implements OnInit {
 
   getSocialRank(type, strength) {
     const socialPoints = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].socialpoints : this.beast.socialpoints
-    const share = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId][type] : this.beast[type]
-    const ranksToDistribute = this.beastService.getSocialRanks(socialPoints, share)
+    const ranksToDistribute = this.beastService.getSocialRanks(type, socialPoints)
     return this.beastService.calculateRankForCharacteristic(ranksToDistribute, strength)
   }
 

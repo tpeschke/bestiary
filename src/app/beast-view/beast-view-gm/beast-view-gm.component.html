@@ -73,12 +73,12 @@
 
         <div class="conflict-shell unset-width" *ngIf="showCharacteristicsSection">
           <div class="conflict-inner-shell box-padding" *ngIf="showDescriptions">
-            <h3>Description</h3>
+            <h3>Descriptions</h3>
             <div class="divider white"></div>
             <div *ngFor="let trait of beast.conflict.descriptions; let i = index">
               <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
                 <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{getSocialRank('descriptionshare', trait.strength)}}</h5>
+                <h5>{{getSocialRank('Descriptions', trait.strength)}}</h5>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@
             <div *ngFor="let trait of beast.conflict.convictions; let i = index">
               <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
                 <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{getSocialRank('convictionshare', trait.strength)}}</h5>
+                <h5>{{getSocialRank('Convictions', trait.strength)}}</h5>
               </div>
             </div>
           </div>
@@ -100,7 +100,7 @@
             <div *ngFor="let trait of beast.conflict.devotions; let i = index">
               <div *ngIf="selectedRoleId === trait.socialroleid || trait.allroles" class="flex-row-opposite">
                 <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{getSocialRank('devotionshare', trait.strength)}}</h5>
+                <h5>{{getSocialRank('Devotions', trait.strength)}}</h5>
               </div>
             </div>
           </div>
