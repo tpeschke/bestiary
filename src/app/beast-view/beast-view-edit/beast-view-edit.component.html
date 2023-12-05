@@ -618,21 +618,24 @@
                 [ngClass]="{'noDisplay': !(!burden.deleted && (selectedRoleId === burden.socialroleid || burden.allroles))}">
 
                 <td *ngIf="burden.trait !== 'Any'">
-                  <app-burden-display [burden]="burden" [allBurdens]="allBurdens" [captureInput]="captureInput"
-                    [i]="i" [_filterGroup]="_filterGroup"></app-burden-display>
+                  <app-burden-display [burden]="burden" [allBurdens]="allBurdens" [captureInput]="captureInput" [i]="i"
+                    [_filterGroup]="_filterGroup"></app-burden-display>
                 </td>
                 <td *ngIf="burden.trait === 'Any'"> </td>
 
                 <td matTooltip="Check this to make the Burden random." matTooltipClass="my-tooltip">
-                  <mat-checkbox [checked]="burden.trait === 'Any'" (change)="checkRandomizeBurden(i, $event.checked)"></mat-checkbox>
+                  <mat-checkbox [checked]="burden.trait === 'Any'" (change)="checkRandomizeBurden(i, $event.checked)">
+                  </mat-checkbox>
                 </td>
 
                 <td>
-                  <mat-checkbox [checked]="burden.allroles" (change)="checkAllRoles('burdens', i, $event.checked)"></mat-checkbox>
+                  <mat-checkbox [checked]="burden.allroles" (change)="checkAllRoles('burdens', i, $event.checked)">
+                  </mat-checkbox>
                 </td>
 
                 <td colspan="4" *ngIf="burden.trait !== 'Any'">
-                  <input class="table-input" matInput placeholder="Rank" (change)="captureInput($event, 'conflict', i, 'burdens', 'rank')" [value]="burden.value">
+                  <input class="table-input" matInput placeholder="Rank"
+                    (change)="captureInput($event, 'conflict', i, 'burdens', 'rank')" [value]="burden.value">
                 </td>
 
                 <td *ngIf="burden.trait === 'Any'">
@@ -649,13 +652,15 @@
                 </td>
 
                 <td>
-                  <i mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'burdens')" color="warn" class="fa-solid fa-trash"></i>
+                  <i mat-raised-button (click)="removeNewSecondaryItem('conflict', i, 'burdens')" color="warn"
+                    class="fa-solid fa-trash"></i>
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'burdens')" color="accent"><i class="fa-solid fa-plus icon-medium"></i> Burden</button>
+          <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'burdens')" color="accent"><i
+              class="fa-solid fa-plus icon-medium"></i> Burden</button>
         </div>
       </div>
     </mat-tab>
@@ -679,6 +684,13 @@
           <p><strong>Description: </strong> {{selectedSkillRole.description}}</p>
         </div>
 
+        <br>
+        <mat-form-field>
+          <input placeholder="Skill Points" matInput
+            [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints"
+            (change)="captureBasicInput($event, 'skillpoints')">
+        </mat-form-field>
+
         <div class="vitals-shell" *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role">
           <div class="long-field">
             <p><strong>Panic: </strong> {{mental.panic}}</p>
@@ -697,15 +709,130 @@
         <div class="divider"></div>
 
         <div class="characteristic-edit-shell">
-          <p *ngIf="beast.skills.length === 0"><br>This monster has no Skills<br></p>
           <div *ngFor="let skill of beast.skills; let i = index"
             [ngClass]="{'noDisplay': !(!skill.deleted && (selectedRoleId === skill.skillroleid || skill.allroles))}">
-            <app-skill-display [skillInfo]="skill" [captureInput]="captureInput"
-              [removeNewSecondaryItem]="removeNewSecondaryItem" [i]="i" [selectedSkillRole]="selectedSkillRole"
-              [combatSkills]="combatSkills" [checkAllRoles]="checkAllRoles" [socialSkills]="socialSkills">
-            </app-skill-display>
+
           </div>
         </div>
+
+        <table class="checkbox-table">
+          <thead>
+            <tr>
+              <th colspan="3">
+              </th>
+              <th colspan="4">
+                Scaling
+              </th>
+              <th colspan="4">
+                No Scaling
+              </th>
+              <th>
+              </th>
+            </tr>
+            <tr>
+              <td> </td>
+              <td>All Roles</td>
+              <td>Rank</td>
+              <td class="border-left">Major Strength</td>
+              <td>Minor Strength</td>
+              <td>Minor Weakness</td>
+              <td>Major Weakness</td>
+              <td class="border-left">5</td>
+              <td>3</td>
+              <td>1</td>
+              <td>0</td>
+              <td> </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let skill of beast.skills; let i = index"
+              [ngClass]="{'noDisplay': !(!skill.deleted && (selectedRoleId === skill.skillroleid || skill.allroles))}">
+              <td>
+                <app-skill-display [skillInfo]="skill" [captureInput]="captureInput"
+                   [i]="i" [selectedSkillRole]="selectedSkillRole">
+                </app-skill-display>
+              </td>
+              <td matTooltip="Skill is added to all Roles." matTooltipClass="my-tooltip">
+                <mat-checkbox [checked]="skill.allroles" (change)="checkAllRoles('skills', i, $event.checked)"></mat-checkbox>
+              </td>
+              <td>{{beastService.calculateRankForSkill(beast.skillpoints, skill.strength)}}</td>
+              <td class="border-left">
+                <mat-checkbox
+                  [ngClass]="skill && skill[skill] === 'majSt' ? 'checkmark-role-background' : ''"
+                  (change)="checkSkill('majSt', i, $event)"
+                  [checked]="!skill.strength ? skill && skill[skill] === 'majSt' : skill.strength === 'majSt'"
+                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                  [matTooltipDisabled]="skill && skill[skill] !== 'majSt'">
+                </mat-checkbox>
+              </td>
+              <td>
+                <mat-checkbox
+                  [ngClass]="skill && skill[skill] === 'minSt' ? 'checkmark-role-background' : ''"
+                  (change)="checkSkill('minSt', i, $event)"
+                  [checked]="!skill.strength ? skill && skill[skill] === 'minSt' : skill.strength === 'minSt'"
+                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                  [matTooltipDisabled]="skill && skill[skill] !== 'minSt'">
+                </mat-checkbox>
+              </td>
+              <td>
+                <mat-checkbox
+                  [ngClass]="skill && skill[skill] === 'minWk' ? 'checkmark-role-background' : ''"
+                  (change)="checkSkill('minWk', i, $event)"
+                  [checked]="!skill.strength ? skill && skill[skill] === 'minWk' : skill.strength === 'minWk'"
+                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                  [matTooltipDisabled]="skill && skill[skill] !== 'minWk'">
+                </mat-checkbox>
+              </td>
+              <td>
+                <mat-checkbox
+                  [ngClass]="skill && skill[skill] === 'majWk' ? 'checkmark-role-background' : ''"
+                  (change)="checkSkill('majWk', i, $event)"
+                  [checked]="!skill.strength ? skill && skill[skill] === 'majWk' : skill.strength === 'majWk'"
+                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                  [matTooltipDisabled]="skill && skill[skill] !== 'majWk'">
+                </mat-checkbox>
+              </td>
+              <td class="border-left">
+                <mat-checkbox
+                  [ngClass]="skill && skill[skill] === 'noneStr' ? 'checkmark-role-background' : ''"
+                  (change)="checkSkill('noneStr', i, $event)"
+                  [checked]="!skill.strength ? skill && skill[skill] === 'noneStr' : skill.strength === 'noneStr'"
+                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                  [matTooltipDisabled]="skill && skill[skill] !== 'noneStr'">
+                </mat-checkbox>
+              </td>
+              <td>
+                <mat-checkbox [ngClass]="skill && !skill[skill] ? 'checkmark-role-background' : ''"
+                  (change)="checkSkill('none', i, $event)"
+                  [checked]="!skill.strength ? skill && (skill[skill] === 'none' || !skill[skill]) : skill.strength === 'none'"
+                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                  [matTooltipDisabled]="skill && skill[skill]">
+                </mat-checkbox>
+              </td>
+              <td>
+                <mat-checkbox
+                  [ngClass]="skill && skill[skill] === 'one' ? 'checkmark-role-background' : ''"
+                  (change)="checkSkill('one', i, $event)"
+                  [checked]="!skill.strength ? skill && skill[skill] === 'one' : skill.strength === 'one'"
+                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                  [matTooltipDisabled]="skill && skill[skill] !== 'one'">
+                </mat-checkbox>
+              </td>
+              <td>
+                <mat-checkbox
+                  [ngClass]="skill && skill[skill] === 'noneWk' ? 'checkmark-role-background' : ''"
+                  (change)="checkSkill('noneWk', i, $event)"
+                  [checked]="!skill.strength ? skill && skill[skill] === 'noneWk' : skill.strength === 'noneWk'"
+                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                  [matTooltipDisabled]="skill && skill[skill] !== 'noneWk'">
+                </mat-checkbox>
+              </td>
+              <td>
+                <i mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn" class="fa-solid fa-trash"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent"><i
             class="fa-solid fa-plus icon-medium"></i> Skill</button>
 

@@ -90,6 +90,34 @@ export class BeastService {
     }
   }
 
+  calculateRankForSkill = (ranks, strength) => {
+    const scaling = {
+      majSt: 1.5,
+      minSt: 1,
+      minWk: .75,
+      majWk: .5
+    }
+
+    const base = {
+      majSt: 13,
+      minSt: 11,
+      minWk: 9,
+      majWk: 7
+    }
+
+    if (strength === 'one') {
+      return 1
+    } else if (strength === 'noneStr') {
+      return 5
+    } else if (strength === 'noneWk') {
+      return 0
+    } else if (strength === 'none' || !strength) {
+      return 3
+    } else {
+      return Math.ceil(base[strength] + (scaling[strength] * ranks))
+    }
+  }
+
   checkLogin() {
     return this.http.get(local.endpointBase + '/api/auth/me').pipe(
       map((result: User) => {

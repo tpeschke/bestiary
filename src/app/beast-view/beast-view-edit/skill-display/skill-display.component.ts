@@ -15,13 +15,9 @@ export class SkillDisplayComponent implements OnInit {
   @Input() removeNewSecondaryItem: Function;
   @Input() i: any;
   @Input() selectedSkillRole: any;
-  @Input() combatSkills: string[]
-  @Input() checkAllRoles: Function;
-  @Input() socialSkills: string[]
 
   constructor() { }
 
-  public showAllSkills = true
   public skillList = roles.skillList
 
   allSkillControl: any;
@@ -42,18 +38,13 @@ export class SkillDisplayComponent implements OnInit {
     );
   }
 
-  checkShowAll (value) {
-    this.showAllSkills = value
-    this.bootUpAutoComplete()
-  }
-
   _filter = (opt: string[], value: string): string[] => {
     const filterValue = value.toLowerCase();
     return opt.filter(item => item.toLowerCase().indexOf(filterValue) === 0);
   };
 
   _filterGroup(value: string): any[] {
-    if (!this.selectedSkillRole || !this.selectedSkillRole.skillList || this.showAllSkills) {
+    if (!this.selectedSkillRole || !this.selectedSkillRole.skillList) {
       if (value) {
         return this.skillList
           .map(group => ({ label: group.label, skillList: this._filter(group.skillList, value) }))

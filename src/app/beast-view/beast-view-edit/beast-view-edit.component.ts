@@ -574,8 +574,6 @@ export class BeastViewEditComponent implements OnInit {
       this.setDefaultRole()
       this.setVitalityAndStress()
 
-      this.calculateSkillPoints()
-
       window.scrollTo({
         top: 0,
         left: 0,
@@ -734,8 +732,6 @@ export class BeastViewEditComponent implements OnInit {
       newSecondaryObject[index][secondaryType][thirdType] = event.target.value
       this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
     }
-
-    this.calculateSkillPoints()
   }
   captureInput = this.captureInputUnbound.bind(this)
 
@@ -810,10 +806,9 @@ export class BeastViewEditComponent implements OnInit {
   checkAllRoles = (type, index, checked) => {
     if (type === 'skills') {
       this.beast[type][index].allroles = checked
-      this.calculateSkillPoints()
     } else if (type === 'locationalvitality') {
       this.beast.locationalvitality[index].allroles = checked
-    } if (type === 'movement') {
+    } else if (type === 'movement') {
       this.beast.movement[index].allroles = checked
     } else {
       this.beast.conflict[type][index].allroles = checked
@@ -828,7 +823,6 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type][index][secondaryType] = event.value;
     } else {
       this.beast[type] = event.value
-      this.calculateSkillPoints()
     }
   }
 
@@ -1090,7 +1084,8 @@ export class BeastViewEditComponent implements OnInit {
         skill: '',
         rank: '',
         skillroleid: this.selectedRoleId,
-        showAllSkills: true
+        showAllSkills: true,
+        strength: null
       })
     } else if (type === 'loot') {
       this.beast[type].push({
@@ -1126,10 +1121,6 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type][secondType].push({ id: deleted[0].id, deleted: true })
     } else {
       this.beast[type].push({ id: deleted[0].id, deleted: true })
-    }
-
-    if (type === 'skill') {
-      this.calculateSkillPoints()
     }
   }
 
@@ -1181,7 +1172,6 @@ export class BeastViewEditComponent implements OnInit {
     if (this.deletedSpellList) {
       this.beast.deletedSpellList = this.deletedSpellList
     }
-    this.calculateSkillPoints()
     if (+id) {
       this.beastService.updateBeast(this.beast).subscribe(result => {
         if (result.id) {
@@ -1861,33 +1851,6 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  calculateSkillPoints = () => {
-    let skillpoints = 0
-
-    skillpoints += Math.ceil(this.beast.stress / 5)
-
-    this.beast.skills.forEach(skill => {
-      if ((!skill.skillroleid || skill.allroles) && !skill.deleted) {
-        skillpoints += +skill.rank
-      }
-    })
-
-    this.beast.skillpoints = skillpoints
-
-    this.beast.roles.forEach(role => {
-      let skillpoints = 0
-
-      this.beast.skills.forEach(skill => {
-        if ((skill.skillroleid === role.id || skill.allroles) && !skill.deleted) {
-          skillpoints += +skill.rank
-        }
-      })
-
-      role.skillpoints = skillpoints
-      this.beast.roleInfo[role.id].skillpoints = skillpoints
-    })
-  }
-
   captureFolklore(type, index, event) {
     this.beast.folklore[index][type] = event.target.value
   }
@@ -1918,6 +1881,18 @@ export class BeastViewEditComponent implements OnInit {
       this.beast.conflict[type][index].strength = null
     } else {
       this.beast.conflict[type][index].strength = value
+    }
+  }
+
+  checkSkill = (value, index, event) => { 
+    if (!value) {
+      event.source._checked = false
+    }
+    
+    if (this.beast.skills[index].strength === value) {
+      this.beast.skills[index].strength = null
+    } else {
+      this.beast.skills[index].strength = value
     }
   }
 
