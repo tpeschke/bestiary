@@ -1252,7 +1252,7 @@ let controllerObj = {
         }).catch(e => sendErrorForward('get favorite final promise', e, res))
       }).catch(e => sendErrorForward('get favorites', e, res))
     } else {
-      res.send({ color: "red", message: "You Need to Log On to Favorite Monsters" })
+      res.send({ message: "You Need to Log On to Favorite Monsters" })
     }
   },
   getEditEncounter(req, res) {

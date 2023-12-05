@@ -195,6 +195,7 @@ export class BeastService {
   }
 
   getFavorites() {
+    console.log('hello')
     return this.http.get(local.endpointBase + '/api/favorites')
       .pipe(tap(result => this.handleMessage(result)))
   }
