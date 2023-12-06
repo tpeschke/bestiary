@@ -163,7 +163,7 @@
             <div class="flex-row-opposite {{skill.skill.includes('Skill Suite') ? 'skill-suite' : '' }}"
               *ngIf="selectedRoleId === skill.skillroleid || skill.allroles">
               <h5>{{skill.skill}}</h5>
-              <h5>{{beastService.calculateRankForSkill(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints, skill.strength)}}</h5>
+              <h5>{{getSkillRank(skill.strength)}}</h5>
             </div>
           </div>
         </div>

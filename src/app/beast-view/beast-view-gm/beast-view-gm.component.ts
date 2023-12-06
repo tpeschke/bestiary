@@ -1034,6 +1034,11 @@ export class BeastViewGmComponent implements OnInit {
     return this.beastService.calculateRankForCharacteristic(ranksToDistribute, strength)
   }
 
+  getSkillRank(strength) {
+    const skillpoints = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].skillpoints : this.beast.skillpoints
+    return this.beastService.calculateRankForSkill(skillpoints, strength)
+  }
+
   selectObstacle(obstacleId) {
     if (obstacleId === this.selectedObstacleId) {
       this.selectedObstacleId = null

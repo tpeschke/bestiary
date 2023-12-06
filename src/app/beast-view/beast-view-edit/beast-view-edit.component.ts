@@ -2010,6 +2010,11 @@ export class BeastViewEditComponent implements OnInit {
     })
   }
 
+  getSkillRank(strength) {
+    const skillpoints = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].skillpoints : this.beast.skillpoints
+    return this.beastService.calculateRankForSkill(skillpoints, strength)
+  }
+
   getImageUrl() {
     this.imageUrl = this.imageBase + this.beast.id + '?t=' + new Date().getTime()
   }
