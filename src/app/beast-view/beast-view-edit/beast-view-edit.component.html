@@ -755,7 +755,7 @@
               <td matTooltip="Skill is added to all Roles." matTooltipClass="my-tooltip">
                 <mat-checkbox [checked]="skill.allroles" (change)="checkAllRoles('skills', i, $event.checked)"></mat-checkbox>
               </td>
-              <td>{{beastService.calculateRankForSkill(beast.skillpoints, skill.strength)}}</td>
+              <td>{{beastService.calculateRankForSkill(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints, skill.strength)}}</td>
               <td class="border-left">
                 <mat-checkbox
                   [ngClass]="skill && skill[skill] === 'majSt' ? 'checkmark-role-background' : ''"
