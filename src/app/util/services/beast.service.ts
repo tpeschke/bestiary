@@ -91,7 +91,6 @@ export class BeastService {
   }
 
   calculateRankForSkill = (ranks, strength) => {
-    console.log(ranks)
     const scaling = {
       majSt: 1.5,
       minSt: 1,
