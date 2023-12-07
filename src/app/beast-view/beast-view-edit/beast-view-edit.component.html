@@ -503,7 +503,8 @@
           <app-characteristic-display
             [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
             [characteristicInfo]='beast.conflict.descriptions' [captureInput]="captureInput"
-            [characteristicType]="'Description'" [checkCharacteristic]="checkCharacteristic">
+            [characteristicType]="'Description'" [checkCharacteristic]="checkCharacteristic"
+            [socialpoints]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints">
           </app-characteristic-display>
 
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'descriptions')" color="accent"><i
@@ -517,7 +518,8 @@
           <app-characteristic-display
             [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
             [characteristicInfo]='beast.conflict.convictions' [captureInput]="captureInput"
-            [characteristicType]="'Conviction'" [checkCharacteristic]="checkCharacteristic">
+            [characteristicType]="'Conviction'" [checkCharacteristic]="checkCharacteristic"
+            [socialpoints]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints">
           </app-characteristic-display>
 
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'convictions')" color="accent"><i
@@ -536,7 +538,8 @@
           <app-characteristic-display
             [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
             [characteristicInfo]='beast.conflict.devotions' [captureInput]="captureInput"
-            [characteristicType]="'Devotion'" [checkCharacteristic]="checkCharacteristic"></app-characteristic-display>
+            [characteristicType]="'Devotion'" [checkCharacteristic]="checkCharacteristic"
+            [socialpoints]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints"></app-characteristic-display>
 
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent"><i
               class="fa-solid fa-plus icon-medium"></i>

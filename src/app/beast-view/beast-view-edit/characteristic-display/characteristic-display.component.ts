@@ -16,6 +16,7 @@ export class CharacteristicDisplayComponent implements OnInit {
   @Input() captureInput: Function;
   @Input() removeNewSecondaryItem: Function;
   @Input() selectedRoleId: any;
+  @Input() socialpoints: any
 
   constructor(
     private beastService: BeastService,
