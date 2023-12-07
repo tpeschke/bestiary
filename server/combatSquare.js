@@ -72,7 +72,8 @@ const combatSquareController = {
             flanks: getFlanks(combatStats, roleInfo, adjustedPoints),
             defaultweaponname: getDefaultName(combatStats),
             isspecial: combatStats.isspecial,
-            eua: combatStats.eua
+            eua: combatStats.eua,
+            tdr: combatStats.tdr
         }
 
         return combatSquare
@@ -98,7 +99,7 @@ const combatSquareController = {
         const newMovements = req.body.movements.map(movement => combatSquareController.getMovementDirectly(movement))
         res.send(newMovements)
     },
-    setVitalityAndStressDirectly: (points, role, combatStats, secondaryrole, knockback, size, armor, shield) => {
+    setVitalityAndStressDirectly: (points, mentalpoints, role, combatStats, secondaryrole, knockback, size, armor, shield) => {
         const baseRoleInfo = role ? roles.combatRoles.primary[role].meleeCombatStats : noRole
         let sizeMod
         if (knockback) {
@@ -109,7 +110,7 @@ const combatSquareController = {
             sizeMod = sizeDictionary.Medium
         }
 
-        let mental = setStressAndPanic(combatStats, baseRoleInfo, points)
+        let mental = setStressAndPanic(combatStats, baseRoleInfo, mentalpoints)
         let physical;
         if (combatStats.singledievitality) {
             physical = setVitalityDieAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield, sizeMod)
@@ -122,8 +123,8 @@ const combatSquareController = {
         return { mental: { ...mental, caution }, physical: { ...physical } }
     },
     setVitalityAndStress: (req, res) => {
-        const { points, role, combatStats, secondaryrole, knockback, size, armor, shield } = req.body
-        res.send(combatSquareController.setVitalityAndStressDirectly(points, role, combatStats, secondaryrole, knockback, size, armor, shield))
+        const { points, mentalpoints, role, combatStats, secondaryrole, knockback, size, armor, shield } = req.body
+        res.send(combatSquareController.setVitalityAndStressDirectly(points, mentalpoints, role, combatStats, secondaryrole, knockback, size, armor, shield))
     },
 }
 
@@ -162,14 +163,14 @@ getDefaultName = ({ weapon, armor, shield }) => {
     }
 }
 
-setStressAndPanic = (combatStats, baseRoleInfo, combatpoints) => {
+setStressAndPanic = (combatStats, baseRoleInfo, points) => {
     let mental = { stress: 0, panic: 0 }
-    mental.stress = getModifiedStats('mental', combatStats, baseRoleInfo, combatpoints)
+    mental.stress = getModifiedStats('mental', combatStats, baseRoleInfo, points)
     let panic;
     if (combatStats.panic === 'one') {
         mental.panic = 1
     } else {
-        panic = getModifiedStats('panic', combatStats, baseRoleInfo, combatpoints)
+        panic = getModifiedStats('panic', combatStats, baseRoleInfo, points)
         if (panic > 1) {
             panic = 1.1
         } else if (panic < 0) {

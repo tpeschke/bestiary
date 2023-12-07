@@ -370,6 +370,15 @@
             </td>
           </tr>
 
+          <tr>
+            <td>Threshold DR <i
+                class="fas fa-info-circle icon-small blue" matTooltip="Damage above DR is reduced to 1. Doubling the damage needed, increases it to 2 and so on. So, for 5 TDR, dealing 9 damage only deals 1; dealing 23 damage deals 3." matTooltipClass="my-tooltip"></i></td>
+            <td>
+              <mat-checkbox (change)="checkBasicStatOnOff('tdr', $event)" [checked]="combatStats.tdr"></mat-checkbox>
+            </td>
+            <td colspan="5"> </td>
+          </tr>
+
           <tr *ngIf="!combatStats.eua">
             <td>Weapons, Small, Piercing <i class="fas fa-info-circle icon-small blue" matTooltip="Parry"
                 matTooltipClass="my-tooltip"></i>
@@ -434,7 +443,7 @@
 
           <tr>
             <td colspan="2" [ngClass]="{'justify-right': !combatStats.eua}">Parry Everything Except Unarmed Attacks <i
-                class="fas fa-info-circle icon-small blue" matTooltip="EUA" matTooltipClass="my-tooltip"></i></td>
+                class="fas fa-info-circle icon-small blue" matTooltip="Parries all attacks except unarmed (EUA)" matTooltipClass="my-tooltip"></i></td>
             <td>
               <mat-checkbox (change)="checkBasicStatOnOff('eua', $event)" [checked]="combatStats.eua"></mat-checkbox>
             </td>

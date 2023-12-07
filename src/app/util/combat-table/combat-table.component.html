@@ -54,7 +54,10 @@
     </div>
     <div class='column'>
       <p class='first-cell'>DR</p>
-      <p>{{combatSquare.dr}}</p>
+      <span>
+        <p>{{combatSquare.dr}} </p>
+        <img *ngIf="combatSquare.tdr" matTooltip="Damage above DR is reduced to 1. Doubling the damage needed, increases it to 2 and so on. So, for 5 TDR, dealing 9 damage only deals 1; dealing 23 damage deals 3." src="./assets/tdr.svg" alt="threshold DR" width="20" height="20" >
+      </span>
     </div>
   </div>
 </div>

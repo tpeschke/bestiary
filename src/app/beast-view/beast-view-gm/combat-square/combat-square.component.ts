@@ -16,6 +16,8 @@ export class CombatSquareComponent implements OnInit {
   @Input() primaryRole: any
   @Input() secondaryRole: any
   @Input() points: any
+  @Input() skillpoints: any
+  @Input() socialpoints: any
   @Input() size: any
 
   weaponControl: any;

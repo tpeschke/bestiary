@@ -249,7 +249,7 @@ module.exports = {
               fullCombatSquare.armor = combatSquare.armor,
               fullCombatSquare.shield = combatSquare.shield
 
-            return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, weaponname: combatSquare.weaponname, weapon: combatSquare.weapon, armor: combatSquare.armor, shield: combatSquare.shield }
+            return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, tdr: combatSquare.tdr, weaponname: combatSquare.weaponname, weapon: combatSquare.weapon, armor: combatSquare.armor, shield: combatSquare.shield }
           })
 
           for (const key in specialAbilities) {
@@ -265,9 +265,9 @@ module.exports = {
             shield = beast.combatStatArray[0].shield
           }
 
-          beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, beast.role, { mental: beast.mental, panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons, singledievitality: beast.singledievitality, noknockback: beast.noknockback }, beast.secondaryrole, beast.knockback, beast.size ? beast.size : 'Medium', armor, shield)
+          beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, Math.max(beast.combatpoints, beast.skillpoints, beast.socialpoints), beast.role, { mental: beast.mental, panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons, singledievitality: beast.singledievitality, noknockback: beast.noknockback }, beast.secondaryrole, beast.knockback, beast.size ? beast.size : 'Medium', armor, shield)
           for (let role in beast.roleInfo) {
-            beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, beast.roleInfo[role].role, { mental: beast.roleInfo[role].mental, panic: beast.roleInfo[role].panic, caution: beast.roleInfo[role].caution, fatigue: beast.roleInfo[role].fatigue, largeweapons: beast.roleInfo[role].largeweapons, singledievitality: beast.roleInfo[role].singledievitality, noknockback: beast.roleInfo[role].noknockback }, beast.roleInfo[role].secondaryrole, beast.roleInfo[role].knockback, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
+            beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, Math.max(beast.roleInfo[role].combatpoints, beast.roleInfo[role].skillpoints, beast.roleInfo[role].socialpoints), beast.roleInfo[role].role, { mental: beast.roleInfo[role].mental, panic: beast.roleInfo[role].panic, caution: beast.roleInfo[role].caution, fatigue: beast.roleInfo[role].fatigue, largeweapons: beast.roleInfo[role].largeweapons, singledievitality: beast.roleInfo[role].singledievitality, noknockback: beast.roleInfo[role].noknockback }, beast.roleInfo[role].secondaryrole, beast.roleInfo[role].knockback, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
           }
           return result
         }).catch(e => sendErrorForward('combat', e, res)))
@@ -669,7 +669,7 @@ module.exports = {
                   fullCombatSquare.armor = combatSquare.armor,
                   fullCombatSquare.shield = combatSquare.shield
 
-                return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua }
+                return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, tdr: combatSquare.tdr }
               })
 
               for (const key in specialAbilities) {
@@ -684,9 +684,9 @@ module.exports = {
                 armor = beast.combatStatArray[0].armor
                 shield = beast.combatStatArray[0].shield
               }
-              beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, beast.role, { mental: beast.mental, panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons, singledievitality: beast.singledievitality, noknockback: beast.noknockback }, beast.secondaryrole, beast.knockback, beast.size ? beast.size : 'Medium', armor, shield)
+              beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, Math.max(beast.combatpoints, beast.skillpoints, beast.socialpoints), beast.role, { mental: beast.mental, panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons, singledievitality: beast.singledievitality, noknockback: beast.noknockback }, beast.secondaryrole, beast.knockback, beast.size ? beast.size : 'Medium', armor, shield)
               for (let role in beast.roleInfo) {
-                beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, beast.roleInfo[role].role, { mental: beast.roleInfo[role].mental, panic: beast.roleInfo[role].panic, caution: beast.roleInfo[role].caution, fatigue: beast.roleInfo[role].fatigue, largeweapons: beast.roleInfo[role].largeweapons, singledievitality: beast.roleInfo[role].singledievitality, noknockback: beast.roleInfo[role].noknockback }, beast.roleInfo[role].secondaryrole, beast.roleInfo[role].knockback, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
+                beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, Math.max(beast.roleInfo[role].combatpoints, beast.roleInfo[role].skillpoints, beast.roleInfo[role].socialpoints), beast.roleInfo[role].role, { mental: beast.roleInfo[role].mental, panic: beast.roleInfo[role].panic, caution: beast.roleInfo[role].caution, fatigue: beast.roleInfo[role].fatigue, largeweapons: beast.roleInfo[role].largeweapons, singledievitality: beast.roleInfo[role].singledievitality, noknockback: beast.roleInfo[role].noknockback }, beast.roleInfo[role].secondaryrole, beast.roleInfo[role].knockback, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
               }
             }
             return result

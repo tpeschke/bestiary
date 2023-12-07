@@ -63,3 +63,8 @@ p {
 .combat-table-column .column .double {
     height: 59px;
 }
+
+.column span {
+    display: flex;
+    justify-content: start;
+}

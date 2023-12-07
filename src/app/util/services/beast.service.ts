@@ -244,8 +244,8 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
-  getVitalityAndStress(points, role, combatStats, secondaryrole, knockback, size, armor, shield): any {
-    return this.http.patch(local.endpointBase + '/api/vitalityAndStress', { points, role, combatStats, secondaryrole, knockback, size, armor, shield })
+  getVitalityAndStress(points, mentalpoints, role, combatStats, secondaryrole, knockback, size, armor, shield): any {
+    return this.http.patch(local.endpointBase + '/api/vitalityAndStress', { points, mentalpoints, role, combatStats, secondaryrole, knockback, size, armor, shield })
       .pipe(tap(result => this.handleMessage(result)))
   }
 

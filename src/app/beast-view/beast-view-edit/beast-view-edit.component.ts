@@ -1028,6 +1028,7 @@ export class BeastViewEditComponent implements OnInit {
           isspecial: null,
           showonlydefenses: false,
           eua: false,
+          tdr: false,
           addsizemod: true,
           weapon: null,
           shield: null,
@@ -1963,10 +1964,12 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     const combatpoints = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints
+    const skillpoints = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].skillpoints : this.beast.skillpoints
+    const socialpoints = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].socialpoints : this.beast.socialpoints
     const role = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].role : this.beast.role
     const secondaryrole = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].secondaryrole : this.beast.secondaryrole
 
-    this.beastService.getVitalityAndStress(combatpoints, role, combatStats, secondaryrole, knockback, size, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(res => {
+    this.beastService.getVitalityAndStress(combatpoints, Math.max(combatpoints, skillpoints, socialpoints), role, combatStats, secondaryrole, knockback, size, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(res => {
       this.physical = res.physical
       this.mental = res.mental
     })
@@ -2120,7 +2123,7 @@ export class BeastViewEditComponent implements OnInit {
       , combatrole = roleInfo.role
       , secondarycombat = roleInfo.secondaryrole
       , socialrole = roleInfo.socialrole
-      , socialsecondary = roleInfo.socialsecondary
+      , socialsecondary = roleInfo.socialsecondarysetVitalityAndFatigue
       , skillrole = roleInfo.skillrole
     let nameString = ''
     let roles = false
