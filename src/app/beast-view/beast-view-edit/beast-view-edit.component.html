@@ -501,7 +501,6 @@
           <h2>Descriptions</h2>
           <div class="divider"></div>
           <app-characteristic-display
-            [ranksToDistribute]="beastService.getSocialRanks('Descriptions', selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints)"
             [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
             [characteristicInfo]='beast.conflict.descriptions' [captureInput]="captureInput"
             [characteristicType]="'Description'" [checkCharacteristic]="checkCharacteristic">
@@ -516,7 +515,6 @@
           <h2>Convictions</h2>
           <div class="divider"></div>
           <app-characteristic-display
-            [ranksToDistribute]="beastService.getSocialRanks('Convictions', selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints: beast.socialpoints)"
             [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
             [characteristicInfo]='beast.conflict.convictions' [captureInput]="captureInput"
             [characteristicType]="'Conviction'" [checkCharacteristic]="checkCharacteristic">
@@ -536,7 +534,6 @@
           <h2>Devotions</h2>
           <div class="divider"></div>
           <app-characteristic-display
-            [ranksToDistribute]="beastService.getSocialRanks('Devotions', selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints)"
             [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
             [characteristicInfo]='beast.conflict.devotions' [captureInput]="captureInput"
             [characteristicType]="'Devotion'" [checkCharacteristic]="checkCharacteristic"></app-characteristic-display>

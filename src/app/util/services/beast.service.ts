@@ -49,32 +49,23 @@ export class BeastService {
     return throwError(() => new Error(`${error.statusText}`));
   }
 
-  getSocialRanks = (type, points) => {
-    const typeDictionaryBase = {
-      Descriptions: 3.75,
-      Convictions: 13.75,
-      Devotions: 7.5
+  calculateRankForCharacteristic = (type, ranks, strength) => {
+    const typeBase = {
+      Convictions: 4,
+      Descriptions: 4,
+      Devotions: 4
     }
-    const typeDictionaryBonus = {
-      Descriptions: 2.25,
-      Convictions: 8.25,
-      Devotions: 4.5 
+    const typeScalingBonus = {
+      Convictions: 2.75,
+      Descriptions: 1.33,
+      Devotions: 2.75
     }
 
-    const typeShareDictionary = {
-      Descriptions: .15,
-      Convictions: .55,
-      Devotions: .30
-    }
-    return Math.ceil(typeDictionaryBase[type] + (typeDictionaryBonus[type] * points))
-  }
-
-  calculateRankForCharacteristic = (ranks, strength) => {
     const scaling = {
-      majSt: 1,
-      minSt: .75,
-      minWk: .5,
-      majWk: .25
+      majSt: 1.5,
+      minSt: 1.25,
+      minWk: .75,
+      majWk: .5
     }
 
     if (strength === 'one') {
@@ -86,23 +77,23 @@ export class BeastService {
     } else if (strength === 'none' || !strength) {
       return 3
     } else {
-      return Math.ceil(scaling[strength] * ranks)
+      return Math.ceil(typeBase[type] + ((scaling[strength] * typeScalingBonus[type]) * ranks))
     }
   }
 
   calculateRankForSkill = (ranks, strength) => {
     const scaling = {
-      majSt: 1.5,
-      minSt: 1,
-      minWk: .75,
+      majSt: 2,
+      minSt: 1.5,
+      minWk: 1,
       majWk: .5
     }
 
     const base = {
-      majSt: 13,
-      minSt: 11,
-      minWk: 9,
-      majWk: 7
+      majSt: 7,
+      minSt: 5,
+      minWk: 3,
+      majWk: 1
     }
 
     if (strength === 'one') {
