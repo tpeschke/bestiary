@@ -669,6 +669,8 @@ export class BeastViewEditComponent implements OnInit {
     } else if (type === 'combatpoints') {
       this.setVitalityAndStress()
       this.calculateMovementSpeed()
+    } else if (type === 'skillpoints' || type === 'socialpoints') {
+      this.setVitalityAndStress()
     }
   }
 

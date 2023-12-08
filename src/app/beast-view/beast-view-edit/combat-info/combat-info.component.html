@@ -370,15 +370,6 @@
             </td>
           </tr>
 
-          <tr>
-            <td>Threshold DR <i
-                class="fas fa-info-circle icon-small blue" matTooltip="Damage above DR is reduced to 1. Doubling the damage needed, increases it to 2 and so on. So, for 5 TDR, dealing 9 damage only deals 1; dealing 23 damage deals 3." matTooltipClass="my-tooltip"></i></td>
-            <td>
-              <mat-checkbox (change)="checkBasicStatOnOff('tdr', $event)" [checked]="combatStats.tdr"></mat-checkbox>
-            </td>
-            <td colspan="5"> </td>
-          </tr>
-
           <tr *ngIf="!combatStats.eua">
             <td>Weapons, Small, Piercing <i class="fas fa-info-circle icon-small blue" matTooltip="Parry"
                 matTooltipClass="my-tooltip"></i>
@@ -505,6 +496,15 @@
                 matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
                 [matTooltipDisabled]="roleInfo && roleInfo[stat.stat] !== 'noneWk'"></mat-checkbox>
             </td>
+          </tr>
+
+          <tr>
+            <td>Threshold DR <i
+                class="fas fa-info-circle icon-small blue" matTooltip="Damage above DR is reduced to 1. Doubling the damage needed, increases it to 2 and so on. So, for 5 TDR, dealing 9 damage only deals 1; dealing 23 damage deals 3." matTooltipClass="my-tooltip"></i></td>
+            <td>
+              <mat-checkbox (change)="checkBasicStatOnOff('tdr', $event)" [checked]="combatStats.tdr"></mat-checkbox>
+            </td>
+            <td colspan="6"> </td>
           </tr>
 
           <tr>
