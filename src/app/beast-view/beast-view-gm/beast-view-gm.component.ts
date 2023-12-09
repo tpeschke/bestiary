@@ -375,7 +375,9 @@ export class BeastViewGmComponent implements OnInit {
       for (let i = 0; i < timesToRoll; i++) {
         let enchantedChance = Math.floor(Math.random() * 101);
         if (enchantedTable[enchanted].minor >= enchantedChance) {
-          this.lairLoot.push("Minor Enchanted Item")
+          this.beastService.getEnchantedItem().subscribe((item: any) => {
+            this.lairLoot.push(item[0])
+          })
         }
       }
     }
