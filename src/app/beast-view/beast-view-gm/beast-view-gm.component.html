@@ -726,7 +726,9 @@
 
         <ul *ngIf="carriedLoot.length > 0" class="box-padding lairLoot">
           <li *ngFor="let loot of carriedLoot">
-            <span *ngIf="!loot.swigs && !loot.skill && !loot.scroll">{{loot}} </span>
+            <span *ngIf="!loot.swigs && !loot.skill && !loot.scroll && !loot.itemcategory">{{loot}} </span>
+
+            <span class="pointer" (click)="openEnchantedItem(loot)" *ngIf="loot.itemcategory">{{loot.name}} <i class="fa-solid fa-expand"></i></span>
 
             <span *ngIf="loot.swigs">{{loot.name}} w/ {{loot.swigs}} {{loot.isSalve ? 'application' :
               'swig'}}{{loot.swigs > 1 ? 's' : ''}} </span>

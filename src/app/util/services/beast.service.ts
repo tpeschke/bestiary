@@ -275,5 +275,9 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
+  getEnchantedItem() {
+    return this.http.get('https://reliquary.dragon-slayer.net/api/getEnchantedItem')
+      .pipe(tap(result => this.handleMessage(result)))
+  }
 
 }

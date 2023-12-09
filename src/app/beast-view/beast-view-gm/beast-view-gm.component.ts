@@ -10,6 +10,7 @@ import roles from '../roles.js'
 import { DisplayServiceService } from 'src/app/util/services/displayService.service';
 import { MatDialog } from '@angular/material';
 import { ChallengePopUpComponent } from '../../obstacle-index/view/challenge-pop-up/challenge-pop-up.component'
+import { EnchantedItemPopUpComponent } from './EnchantedItemPopUp/EnchantedItemPopUp.component';
 
 @Component({
   selector: 'app-beast-view-gm',
@@ -520,10 +521,12 @@ export class BeastViewGmComponent implements OnInit {
 
     if (enchanted) {
       for (let i = 0; i < timesToRoll; i++) {
-        let enchantedChance = Math.floor(Math.random() * 101);
-        if (enchantedTable[enchanted].minor >= enchantedChance) {
-          this.carriedLoot.push("Minor Enchanted Item")
-        }
+        // let enchantedChance = Math.floor(Math.random() * 101);
+        // if (enchantedTable[enchanted].minor >= enchantedChance) {
+          this.beastService.getEnchantedItem().subscribe((item: any) => {
+            this.carriedLoot.push(item[0])
+          })
+        // }
       }
     }
 
@@ -1054,6 +1057,10 @@ export class BeastViewGmComponent implements OnInit {
 
   openChallenge(id) {
     this.dialog.open(ChallengePopUpComponent, { panelClass: 'my-class', data: { id } })
+  }
+
+  openEnchantedItem(loot) {
+    this.dialog.open(EnchantedItemPopUpComponent, { panelClass: 'my-class', data: { loot } })
   }
 
   getConnector(object, index) {
