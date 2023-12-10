@@ -2976,6 +2976,18 @@
               <mat-form-field>
                 <mat-label>Select New climate</mat-label>
                 <mat-select (selectionChange)="captureChip($event, 'climate')">
+                  <mat-option value="all" >
+                    Add All Climates
+                  </mat-option>
+                  <mat-option value="allClimates" >
+                    Add All Land Climates
+                  </mat-option>
+                  <mat-option value="allAquatic" >
+                    Add All Aquatic Climates
+                  </mat-option>
+                  <mat-option value="allSpecial" >
+                    Add All Special Climates
+                  </mat-option>
                   <mat-option matTooltip="{{climate.examples}}
                   Köppen Climate Classification: {{climate.code}}" matTooltipPosition="after" *ngFor="let climate of beast.climates.allclimates"  [value]="climate" >
                     {{climate.climate}}

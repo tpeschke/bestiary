@@ -43,10 +43,10 @@ module.exports = {
                         idArray.push(db.get.search.personalNotes(req.user.id).catch(e => sendErrorForward('search personal notes', e, res)))
                     }
                     break;
-                case "environ":
-                    if (req.query.environ !== '') {
-                        req.query.environ.split(',').forEach(val => {
-                            idArray.push(db.get.search.environ(+val).catch(e => sendErrorForward('search environ', e, res)))
+                case "climate":
+                    if (req.query.climate !== '') {
+                        req.query.climate.split(',').forEach(val => {
+                            idArray.push(db.get.search.climate(+val).catch(e => sendErrorForward('search climate', e, res)))
                         })
                     }
                     break;

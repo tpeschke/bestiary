@@ -9,7 +9,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { CalculatorService } from 'src/app/util/services/calculator.service';
-import {MatSliderModule} from '@angular/material/slider';
+import { MatSliderModule } from '@angular/material/slider';
 
 @Component({
   selector: 'app-beast-view-edit',
@@ -566,7 +566,7 @@ export class BeastViewEditComponent implements OnInit {
         for (const key in results) {
           newAllBurdens.push({
             label: key.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()),
-            burdens: results[key].map(burden => {return {trait: burden.ib}})
+            burdens: results[key].map(burden => { return { trait: burden.ib } })
           })
         }
         this.allBurdens = newAllBurdens
@@ -677,10 +677,10 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  captureSlide = ({value}, type) => {
+  captureSlide = ({ value }, type) => {
     const DESCRIPTIONSHARE = 'descriptionshare'
-    , CONVICTIONSHARE = 'convictionshare'
-    , DEVOTIONSHARE = 'devotionshare'
+      , CONVICTIONSHARE = 'convictionshare'
+      , DEVOTIONSHARE = 'devotionshare'
 
     if (this.selectedRoleId) {
       if (type === DESCRIPTIONSHARE) {
@@ -959,13 +959,45 @@ export class BeastViewEditComponent implements OnInit {
     if (type === 'types') {
       this.types = { typeid: +event.value }
     } else if (type === 'climate') {
-      event.value.climateid = event.value.id
+      if (!event.value.includes('all')) {
+        event.value.climateid = event.value.id
+      }
       this.climate = event.value
     }
   }
 
+  public landClimates = ['Af','Am','Aw/As','BWh','BWk','BSh','BSk','Csa','Csb','Csc','Cwa','Cwb','Cfb','Dsa','Dsb','Dsc','Dsd','Dwa','Dwb','Dwc','Dwd','Dfa','Dfb','Dfc','Dfd','ET','EF']
+  public aquaticClimates = ['Ss','So','Sl','Sr','Fs','Fl','Fr','Fg']
+  public specialClimates = ['U', 'Us', 'Sh', 'D', 'C', 'R']
+
   addChip(type) {
-    if (this[type] && type === 'climate') {
+    if (this[type] === 'all' && type === 'climate') {
+      this.beast.climates.allclimates.forEach(climate => {
+        const newClimate = { ...climate, climateid: climate.id }
+        this.beast.climates.beast.push(newClimate)
+      })
+    } else if (this[type] === 'allClimates' && type === 'climate') {
+      this.beast.climates.allclimates.forEach(climate => {
+        if (this.landClimates.includes(climate.code)) {
+          const newClimate = { ...climate, climateid: climate.id }
+          this.beast.climates.beast.push(newClimate)
+        }
+      })
+    } else if (this[type] === 'allAquatic' && type === 'climate') {
+      this.beast.climates.allclimates.forEach(climate => {
+        if (this.aquaticClimates.includes(climate.code)) {
+          const newClimate = { ...climate, climateid: climate.id }
+          this.beast.climates.beast.push(newClimate)
+        }
+      })
+    } else if (this[type] === 'allSpecial' && type === 'climate') {
+      this.beast.climates.allclimates.forEach(climate => {
+        if (this.specialClimates.includes(climate.code)) {
+          const newClimate = { ...climate, climateid: climate.id }
+          this.beast.climates.beast.push(newClimate)
+        }
+      })
+    } else if (this[type] && type === 'climate') {
       this.beast.climates.beast.push(this[type])
     } else if (this[type]) {
       this.beast[type].push(this[type])
@@ -1046,16 +1078,16 @@ export class BeastViewEditComponent implements OnInit {
           weaponname: null
         })
       } else {
-        let combatSquareCopy = {id: 0, weaponname: '', weapon: '', armor: '', shield: ''}
+        let combatSquareCopy = { id: 0, weaponname: '', weapon: '', armor: '', shield: '' }
         if (this.selectedRoleId) {
           for (let i = this.beast[type].length - 1; i >= 0; i--) {
             if (this.beast[type][i].roleid === this.selectedRoleId) {
-              combatSquareCopy = {...this.beast[type][i]}
+              combatSquareCopy = { ...this.beast[type][i] }
               i = 0
             }
           }
         } else {
-          combatSquareCopy = {...this.beast[type][this.beast[type].length - 1]}
+          combatSquareCopy = { ...this.beast[type][this.beast[type].length - 1] }
         }
         delete combatSquareCopy.id
         combatSquareCopy.weaponname = ''
@@ -1130,7 +1162,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type][secondType].push({ id: deleted[0].id, deleted: true })
     } else if (type === 'climates') {
       this.beast.climates.beast.push({ uniqueid: deleted[0].uniqueid, deleted: true })
-    }  else {
+    } else {
       this.beast[type].push({ id: deleted[0].id, deleted: true })
     }
   }
@@ -1193,7 +1225,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beastService.addBeast(this.beast).subscribe(result => {
         if (result.id) {
           this.router.navigate([`/beast/${result.id}/gm`])
-         }
+        }
       })
     }
   }
@@ -1883,7 +1915,7 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  checkCharacteristic = (type, index, value, event) => { 
+  checkCharacteristic = (type, index, value, event) => {
     if (!value) {
       event.source._checked = false
     }
@@ -1895,11 +1927,11 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  checkSkill = (value, index, event) => { 
+  checkSkill = (value, index, event) => {
     if (!value) {
       event.source._checked = false
     }
-    
+
     if (this.beast.skills[index].strength === value) {
       this.beast.skills[index].strength = null
     } else {
@@ -1907,7 +1939,7 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  checkBurden = (burden, value, event) => { 
+  checkBurden = (burden, value, event) => {
     if (burden.value === value) {
       burden.value = value
       event.source._checked = true

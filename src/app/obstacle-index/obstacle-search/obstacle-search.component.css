@@ -24,7 +24,7 @@ button {
       background: rgba(211, 211, 211, 0.5);
   }
   
-  .environPanel {
+  .climatePanel {
     margin-top: 15px;
   }
   
@@ -59,7 +59,7 @@ button {
     width: 96.5% !important;
   }
   
-  .environShell {
+  .climateShell {
     margin-top: 15px
   }
   

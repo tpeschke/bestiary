@@ -15,7 +15,7 @@ class QueryObject {
   subsystem?: number
   personalNotes?: boolean
   anyaccess?: boolean
-  environ?: any
+  climate?: any
   types?: any
   roles?: any
   rarity?: any
@@ -35,15 +35,60 @@ export class SearchBarComponent implements OnInit {
   ) { }
 
   public queryObject: QueryObject = {}
-  public environ = []
+  public climate = []
   public types = []
   public roles = []
+
+  public climateList = [
+    {id: 1, code: 'Af', climate: 'Tropical Rainforest', examples: 'Indonesia, Colombia, North DRC'},
+    {id: 2, code: 'Am', climate: 'Tropical Monsoon', examples: 'Northern Brazil, Thailand Coast, Congo'},
+    {id: 3, code: 'Aw/As', climate: 'Tropical Savanna', examples: 'Ivory Coast, Central India, Southern Brazil'},
+    {id: 4, code: 'BWh', climate: 'Hot Desert', examples: 'The Sahara'},
+    {id: 5, code: 'BWk', climate: 'Cold Desert', examples: 'Atacama Desert, Katpana Desert'},
+    {id: 6, code: 'BSh', climate: 'Hot Semi-Arid', examples: 'The Outback'},
+    {id: 7, code: 'BSk', climate: 'Cold Semi-Arid', examples: 'Spain, Western US'},
+    {id: 8, code: 'Csa', climate: 'Hot-Summer Mediterranean', examples: 'Anatolia, Iran'},
+    {id: 9, code: 'Csb', climate: 'Warm-Summer Mediterranean', examples: 'NW Iberian Peninsula, Coastal California'},
+    {id: 10, code: 'Csc', climate: 'Cold-Summer Mediterranean', examples: 'Cascadia, Sierra Nevada'},
+    {id: 11, code: 'Cwa', climate: 'Monsoon Humid Subtropical', examples: 'Southern US, Southern China'},
+    {id: 12, code: 'Cwb', climate: 'Subtropical Highland', examples: 'Guatemala, Lesotho'},
+    {id: 13, code: 'Cfb', climate: 'Temperate Oceanic', examples: 'New Zealand, Lyon'},
+    {id: 14, code: 'Dsa', climate: 'Mediterranean Hot-Summer Humid', examples: 'Iran, Kyrgyzstan, Utah'},
+    {id: 15, code: 'Dsb', climate: 'Warm-Summer Continental', examples: 'Iran, Armenia, South Finland, Ukraine'},
+    {id: 16, code: 'Dsc', climate: 'Mediterranean Subartic', examples: 'Iceland, Chile, Norway, Washington'},
+    {id: 17, code: 'Dsd', climate: 'Mediterranean Freezing Subartic', examples: 'Russia'},
+    {id: 18, code: 'Dwa', climate: 'Monsoon Hot-Summer Humid', examples: 'South Korea, China, Nebraska'},
+    {id: 19, code: 'Dwb', climate: 'Monsoon Warm-Summer Humid', examples: 'Mongolia, Calgary, Irkutsk'},
+    {id: 20, code: 'Dwc', climate: 'Monsoon Subartic, Russia, Alaska'},
+    {id: 21, code: 'Dwd', climate: 'Monsoon Freezing Subartic', examples: 'Russia'},
+    {id: 22, code: 'Dfa', climate: 'Hot-Summer Humid Continental', examples: 'Kazakhstan, Chicago, Ontario'},
+    {id: 23, code: 'Dfb', climate: 'Warm-Summer Humid Continental', examples: 'Chamonix, Alberta, Quebec'},
+    {id: 24, code: 'Dfc', climate: 'Subartic', examples: 'Norway, Russia, Alaska, Greenland'},
+    {id: 25, code: 'Dfd', climate: 'Freezing Subartic', examples: 'Sakha Republic'},
+    {id: 26, code: 'ET', climate: 'Tundra', examples: 'Crozet Islands, Denmark, Iceland'},
+    {id: 27, code: 'EF', climate: 'Ice Cap', examples: 'Antarctica, Greenland'},
+    {id: 28, code: 'Ss', climate: 'Salt-Water Sea', examples: 'Caspian, Black Sea'},
+    {id: 29, code: 'So', climate: 'Salt-Water Ocean', examples: 'Atlantic, Pacific'},
+    {id: 30, code: 'Sl', climate: 'Salt-Water Lake', examples: 'Salt Lake, Chott el Djerid'},
+    {id: 31, code: 'Sr', climate: 'Salt-Water River', examples: 'Pecos River'},
+    {id: 32, code: 'Fs', climate: 'Fresh-Water Sea', examples: 'Sea of Galilee'},
+    {id: 33, code: 'Fl', climate: 'Fresh-Water Lake', examples: 'Lake Superior, Lake Victoria'},
+    {id: 34, code: 'Fr', climate: 'Fresh-Water River', examples: 'The Nile, The Amazon'},
+    {id: 35, code: 'Fg', climate: 'Fresh-Water Glacier', examples: 'Bering Glacier, Jostedalsbreen'},
+    {id: 36, code: 'U', climate: 'Urban', examples: 'London, Aachen, Milan'},
+    {id: 37, code: 'Us', climate: 'Urban Sewer', examples: 'Cloaca Maxima, the Sewers of Paris'},
+    {id: 38, code: 'Sh', climate: 'Ship', examples: 'Flor de la Mar, Mary Rose, Sao Gabriel'},
+    {id: 39, code: 'D', climate: 'Dungeon', examples: 'The Xanthic Hold, Conjuror\'s Tower'},
+    {id: 40, code: 'C', climate: 'Castle', examples: 'Neuschwanstein, Caernarfon, Bodiam'},
+    {id: 41, code: 'R', climate: 'Ruin', examples: 'Anything the Romans built'}
+  ]
+
 
   ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if(!event.url.includes('search')) {
-          this.environ = []
+          this.climate = []
           this.types = []
           this.roles = []
           this.queryObject = {}
@@ -206,19 +251,19 @@ export class SearchBarComponent implements OnInit {
     }
   }
 
-  enterSearchEnvirons(id, e) {
+  enterSearchClimate(id, e) {
     if (e.checked) {
-      this.environ.push(id)
+      this.climate.push(id)
     } else {
-      let index = this.environ.indexOf(id)
-      this.environ.splice(index, 1)
+      let index = this.climate.indexOf(id)
+      this.climate.splice(index, 1)
     }
-    if (this.environ.length === 0) {
-      delete this.queryObject.environ
+    if (this.climate.length === 0) {
+      delete this.queryObject.climate
       this.router.navigate(['/search', { ...this.queryObject }]);
     } else {
-      this.queryObject = { ...this.queryObject, environ: this.environ }
-      this.router.navigate(['/search', { ...this.queryObject, environ: this.environ }]);
+      this.queryObject = { ...this.queryObject, climate: this.climate }
+      this.router.navigate(['/search', { ...this.queryObject, climate: this.climate }]);
     }
   }
 

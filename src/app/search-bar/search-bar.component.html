@@ -56,7 +56,7 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            
+
             <mat-form-field>
                 <mat-label>Rarity</mat-label>
                 <mat-select (selectionChange)="enterSearchRarity($event)">
@@ -105,7 +105,7 @@
             </div>
         </div>
 
-        <mat-expansion-panel class="environPanel">
+        <mat-expansion-panel class="climatePanel">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     Roles
@@ -159,14 +159,14 @@
             </div>
         </mat-expansion-panel>
 
-        <mat-expansion-panel class="environPanel">
+        <mat-expansion-panel class="climatePanel">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     Types
                 </mat-panel-title>
             </mat-expansion-panel-header>
 
-            <div class="searchCheckboxes environShell">
+            <div class="searchCheckboxes climateShell">
                 <mat-checkbox color='primary' (change)="enterSearchTypes(12, $event)">Aos Sidhe</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchTypes(1, $event)">Demon</mat-checkbox>
                 <mat-checkbox color='primary' (change)="enterSearchTypes(14, $event)">Eldritch</mat-checkbox>
@@ -187,32 +187,19 @@
             </div>
         </mat-expansion-panel>
 
-        <mat-expansion-panel class="environPanel">
+        <mat-expansion-panel class="climatePanel">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    Environments
+                    Climate
                 </mat-panel-title>
             </mat-expansion-panel-header>
 
-            <div class="searchCheckboxes environShell">
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(12, $event)">Aquatic</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(4, $event)">Castle</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(5, $event)">Cave/Underground</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(11, $event)">Coastal</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(14, $event)">Desert</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(1, $event)">Dungeon/Ruins</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(3, $event)">Forest</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(18, $event)">House</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(15, $event)">Island</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(16, $event)">Jungle</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(6, $event)">Mountain</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(13, $event)">Other</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(7, $event)">Plains</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(17, $event)">Sewer</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(10, $event)">Ship</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(8, $event)">Swamp</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(9, $event)">Urban</mat-checkbox>
-                <mat-checkbox color='primary' (change)="enterSearchEnvirons(2, $event)">Wilderness</mat-checkbox>
+            <div class="searchCheckboxes climateShell extratall">
+                <mat-checkbox *ngFor="let climate of climateList" color='primary' (change)="enterSearchClimate(climate.id, $event)">
+                    <span matTooltip="{{climate.examples}} 
+                    Köppen Climate Classification: {{climate.code}}" matTooltipPosition="after">
+                        {{climate.climate}}</span>
+                </mat-checkbox>
             </div>
         </mat-expansion-panel>
 

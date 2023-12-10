@@ -43,7 +43,7 @@ button {
       background: rgba(211, 211, 211, 0.5);
   }
   
-  .environPanel {
+  .climatePanel {
     margin-top: 15px;
   }
   
@@ -78,9 +78,17 @@ button {
     width: 96.5% !important;
   }
   
-  .environShell {
+  .climateShell {
     margin-top: 15px
   }
+
+  .extratall {
+    max-height: 350px
+  }
+
+  ::ng-deep .mat-tooltip {
+    white-space: pre-line !important;
+}
   
   .searchBody div p:first-child {
     margin-right: 15px;
