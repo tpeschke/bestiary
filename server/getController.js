@@ -324,10 +324,12 @@ module.exports = {
           return result
         }).catch(e => sendErrorForward('beast types', e, res)))
 
-        promiseArray.push(db.get.beastenviron(id).then(result => {
-          beast.environ = result
-          return result
-        }).catch(e => sendErrorForward('beast environ', e, res)))
+        promiseArray.push(db.get.climates(id).then(result => {
+          beast.climates = {beast: result}
+          return db.get.all_climates().then(allclimates => {
+            beast.climates.allclimates = allclimates
+          }).catch(e => sendErrorForward('beast all climates', e, res))
+        }).catch(e => sendErrorForward('beast climates', e, res)))
 
         beast.artistInfo = {}
         if (req.query.edit === 'true') {

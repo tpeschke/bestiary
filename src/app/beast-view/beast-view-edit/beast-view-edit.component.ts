@@ -44,7 +44,7 @@ export class BeastViewEditComponent implements OnInit {
   public encounter = null;
   public loggedIn = this.beastService.loggedIn || false;
   public types = null;
-  public environ = null;
+  public climate = null;
   public imageBase = variables.imageBase;
   public uploader: any;
   public newVariantId = null;
@@ -523,7 +523,10 @@ export class BeastViewEditComponent implements OnInit {
           skills: [],
           movement: [],
           types: [],
-          environ: [],
+          climates: {
+            beast: [],
+            allclimates: []
+          },
           variants: [],
           loot: [],
           lootnotes: '',
@@ -955,16 +958,19 @@ export class BeastViewEditComponent implements OnInit {
   captureChip(event, type) {
     if (type === 'types') {
       this.types = { typeid: +event.value }
-    } else if (type === 'environ') {
-      this.environ = { environid: +event.value }
+    } else if (type === 'climate') {
+      event.value.climateid = event.value.id
+      this.climate = event.value
     }
   }
 
   addChip(type) {
-    if (this[type]) {
+    if (this[type] && type === 'climate') {
+      this.beast.climates.beast.push(this[type])
+    } else if (this[type]) {
       this.beast[type].push(this[type])
-      this[type] = null;
     }
+    this[type] = null;
   }
 
   captureID(event) {
@@ -1122,7 +1128,9 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type].push({ id: deleted[0].id, variantid: deleted[0].variantid, deleted: true })
     } else if (type === 'conflict') {
       this.beast[type][secondType].push({ id: deleted[0].id, deleted: true })
-    } else {
+    } else if (type === 'climates') {
+      this.beast.climates.beast.push({ uniqueid: deleted[0].uniqueid, deleted: true })
+    }  else {
       this.beast[type].push({ id: deleted[0].id, deleted: true })
     }
   }

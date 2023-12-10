@@ -2963,78 +2963,28 @@
               <input placeholder="Senses" matInput [value]="beast.senses" (change)="captureInput($event, 'senses')">
             </mat-form-field>
 
-            <h3>Environment</h3>
+            <h3>Climates</h3>
             <div class="chip-shell">
               <mat-chip-list>
-                <div *ngFor="let environ of beast.environ; let i = index">
-                  <mat-chip *ngIf="!environ.deleted" (click)="removeNewSecondaryItem('environ', i)" color="warn"
-                    selected>
-                    {{environ.environid | environConverter}}
+                <div *ngFor="let climate of beast.climates.beast; let i = index">
+                  <mat-chip matTooltip="{{climate.examples}}
+                  Köppen Climate Classification: {{climate.code}}" *ngIf="!climate.deleted" (click)="removeNewSecondaryItem('climates', i, 'beast')" color="warn" selected>
+                    {{climate.climate}} ({{climate.code}})
                   </mat-chip>
                 </div>
               </mat-chip-list>
               <mat-form-field>
-                <mat-label>Select New Environ</mat-label>
-                <mat-select (selectionChange)="captureChip($event, 'environ')">
-                  <mat-option value="12">
-                    Aquatic
-                  </mat-option>
-                  <mat-option value="4">
-                    Castle
-                  </mat-option>
-                  <mat-option value="5">
-                    Cave/Underground
-                  </mat-option>
-                  <mat-option value="11">
-                    Coastal
-                  </mat-option>
-                  <mat-option value="14">
-                    Desert
-                  </mat-option>
-                  <mat-option value="1">
-                    Dungeon/Ruins
-                  </mat-option>
-                  <mat-option value="3">
-                    Forest
-                  </mat-option>
-                  <mat-option value="18">
-                    House
-                  </mat-option>
-                  <mat-option value="15">
-                    Island
-                  </mat-option>
-                  <mat-option value="16">
-                    Jungle
-                  </mat-option>
-                  <mat-option value="6">
-                    Mountain
-                  </mat-option>
-                  <mat-option value="7">
-                    Plains
-                  </mat-option>
-                  <mat-option value="17">
-                    Sewer
-                  </mat-option>
-                  <mat-option value="10">
-                    Ship
-                  </mat-option>
-                  <mat-option value="8">
-                    Swamp
-                  </mat-option>
-                  <mat-option value="9">
-                    Urban
-                  </mat-option>
-                  <mat-option value="2">
-                    Wilderness
-                  </mat-option>
-                  <mat-option value="13">
-                    Other
+                <mat-label>Select New climate</mat-label>
+                <mat-select (selectionChange)="captureChip($event, 'climate')">
+                  <mat-option matTooltip="{{climate.examples}}
+                  Köppen Climate Classification: {{climate.code}}" matTooltipPosition="after" *ngFor="let climate of beast.climates.allclimates"  [value]="climate" >
+                    {{climate.climate}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
               <br>
-              <button mat-raised-button color="accent" (click)="addChip('environ')"><i
-                  class="fa-solid fa-plus icon-medium"></i> Environment</button>
+              <button mat-raised-button color="accent" (click)="addChip('climate')"><i
+                  class="fa-solid fa-plus icon-medium"></i> Climate</button>
             </div>
 
             <mat-form-field>

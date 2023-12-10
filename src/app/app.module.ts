@@ -28,7 +28,6 @@ import { BeastViewEditComponent } from './beast-view/beast-view-edit/beast-view-
 import { QuillModule } from 'ngx-quill'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TypeConverterPipe } from './util/pipes/type-converter.pipe';
-import { EnvironConverterPipe } from './util/pipes/environ-converter.pipe';
 import { MoraleConverterPipe } from './util/pipes/morale-converter.pipe'
 import { SubsystemConverterPipe } from './util/pipes/subsystem-converter.pipe';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -117,7 +116,6 @@ const routes: Routes = [
     BeastViewGmComponent,
     BeastViewEditComponent,
     TypeConverterPipe,
-    EnvironConverterPipe,
     MoraleConverterPipe,
     SubsystemConverterPipe,
     PlayerNotesComponent,

@@ -676,14 +676,16 @@
             <h3>Senses</h3>
             <p>{{beast.senses}}</p>
           </div>
-          <h3 *ngIf="beast.environ.length > 0">Environment</h3>
-          <div *ngIf="beast.environ.length > 0" class="chip-shell">
+          
+          <h3 *ngIf="beast.climates.beast.length > 0">Climate</h3>
+          <div *ngIf="beast.climates.beast.length > 0" class="chip-shell">
             <mat-chip-list>
-              <mat-chip (click)="navigateToSearch('environ', environ.environid)" *ngFor="let environ of beast.environ"
-                color="primary" selected>
-                {{environ.environid | environConverter}}</mat-chip>
+              <mat-chip matTooltip="{{climate.examples}}
+              Köppen Climate Classification: {{climate.code}}" (click)="navigateToSearch('climate', climate.climateid)" *ngFor="let climate of beast.climates.beast"
+                color="primary" selected>{{climate.climate}}</mat-chip>
             </mat-chip-list>
           </div>
+
           <div class="flex-row-opposite" *ngIf="beast.diet">
             <h3>Diet</h3>
             <p>{{beast.diet}}</p>

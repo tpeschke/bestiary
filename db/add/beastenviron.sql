@@ -1,1 +1,0 @@
-insert into bbbeasteviron (beastid, environid) values ($1, $2);

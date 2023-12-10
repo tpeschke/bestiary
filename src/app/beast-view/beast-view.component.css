@@ -496,10 +496,6 @@ mat-toolbar {
     border-left: 1px solid lightgrey;
 }
 
-.chip-shell {
-    margin: 15px 0;
-}
-
 .right {
     padding: 15px;
     min-height: 500px;

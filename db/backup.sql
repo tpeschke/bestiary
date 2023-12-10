@@ -486,3 +486,16 @@ create table bbtablerows (
     weight int,
     value varchar(250)
 )
+
+create table bbclimate (
+    id serial primary key,
+    code varchar(10),
+    climate varchar(1000),
+    examples varchar(1000)
+);
+
+create table bbbeastclimate (
+    id serial primary key,
+	beastid int,
+	climateid int
+)
