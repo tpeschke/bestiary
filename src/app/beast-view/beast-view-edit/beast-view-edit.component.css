@@ -105,6 +105,10 @@
     padding: 2px 5px;
 }
 
+.bottom-border {
+    border-bottom: 1px solid rgb(195, 195, 195);
+}
+
 .justify-right {
     padding-left: 25px;
 }

@@ -676,14 +676,15 @@
             <h3>Senses</h3>
             <p>{{beast.senses}}</p>
           </div>
-          
+
           <h3 *ngIf="beast.climates.beast.length > 0">Climate</h3>
           <div *ngIf="beast.climates.beast.length > 0" class="chip-shell">
-            <mat-chip-list>
-              <mat-chip matTooltip="{{climate.examples}}
-              Köppen Climate Classification: {{climate.code}}" (click)="navigateToSearch('climate', climate.climateid)" *ngFor="let climate of beast.climates.beast"
-                color="primary" selected>{{climate.climate}}</mat-chip>
-            </mat-chip-list>
+            <div class="chip-button" matTooltip="{{climate.examples}}
+            Köppen Climate Classification: {{climate.code}}
+            Click to Search for other monsters in this climate."
+              (click)="navigateToSearch('climate', climate.climateid)" *ngFor="let climate of beast.climates.beast">
+              <p>{{climate.climate}}</p>
+            </div>
           </div>
 
           <div class="flex-row-opposite" *ngIf="beast.diet">
@@ -730,7 +731,8 @@
           <li *ngFor="let loot of carriedLoot">
             <span *ngIf="!loot.swigs && !loot.skill && !loot.scroll && !loot.itemcategory">{{loot}} </span>
 
-            <span class="pointer" (click)="openEnchantedItem(loot)" *ngIf="loot.itemcategory">{{loot.name}} <i class="fa-solid fa-expand"></i></span>
+            <span class="pointer" (click)="openEnchantedItem(loot)" *ngIf="loot.itemcategory">{{loot.name}} <i
+                class="fa-solid fa-expand"></i></span>
 
             <span *ngIf="loot.swigs">{{loot.name}} w/ {{loot.swigs}} {{loot.isSalve ? 'application' :
               'swig'}}{{loot.swigs > 1 ? 's' : ''}} </span>
@@ -782,13 +784,13 @@
             <i *ngIf="(!loot.name && !loot.skill && !loot.scroll) && loot.includes('alm script')"
               class="fas fa-info-circle icon-small blue"
               matTooltip="Destroying this script awards the noted Favor that must immediately be spent. It can take you above your Max Favor."></i>
-            
-              <span *ngIf="loot.scroll">{{loot.scroll}} ({{loot.sp}} SP) </span>
-            <i *ngIf="loot.scroll" class="fas fa-info-circle icon-small blue"
-              matTooltip="Requires Literacy in the language and takes 2 Sec / SP to read, after which, it shapes the spell. The scroll is destroyed on shape.
+
+            <span *ngIf="loot.scroll">{{loot.scroll}} ({{loot.sp}} SP) </span>
+            <i *ngIf="loot.scroll" class="fas fa-info-circle icon-small blue" matTooltip="Requires Literacy in the language and takes 2 Sec / SP to read, after which, it shapes the spell. The scroll is destroyed on shape.
               Rudiment Breakdown: {{loot.breakdown}}"></i>
 
-            <i *ngIf="(!loot.name && !loot.skill && !loot.scroll) && loot.includes('Trait')" class="fas fa-info-circle icon-small blue"
+            <i *ngIf="(!loot.name && !loot.skill && !loot.scroll) && loot.includes('Trait')"
+              class="fas fa-info-circle icon-small blue"
               matTooltip="Use the sc price as the base price and then add the Description on top."></i>
           </li>
         </ul>

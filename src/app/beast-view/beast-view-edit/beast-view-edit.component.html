@@ -2976,7 +2976,7 @@
               <mat-form-field>
                 <mat-label>Select New climate</mat-label>
                 <mat-select (selectionChange)="captureChip($event, 'climate')">
-                  <mat-option value="all" >
+                  <mat-option value="all" class="bottom-border">
                     Add All Climates
                   </mat-option>
                   <mat-option value="allClimates" >
@@ -2985,7 +2985,7 @@
                   <mat-option value="allAquatic" >
                     Add All Aquatic Climates
                   </mat-option>
-                  <mat-option value="allSpecial" >
+                  <mat-option value="allSpecial" class="bottom-border">
                     Add All Special Climates
                   </mat-option>
                   <mat-option matTooltip="{{climate.examples}}

@@ -959,7 +959,7 @@ export class BeastViewEditComponent implements OnInit {
     if (type === 'types') {
       this.types = { typeid: +event.value }
     } else if (type === 'climate') {
-      if (!event.value.includes('all')) {
+      if (typeof event.value !== 'string') {
         event.value.climateid = event.value.id
       }
       this.climate = event.value
