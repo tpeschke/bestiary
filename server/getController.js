@@ -89,6 +89,12 @@ module.exports = {
       res.send(false)
     })
   },
+  getAllClimates(req, res) {
+    db = req.app.get('db')
+    db.get.all_climates().then(allclimates => {
+      res.send(allclimates)
+    }).catch(e => sendErrorForward('beast all climates single', e, res))
+  },
   getQuickView(req, res) {
     let { hash } = req.params
     let { secretKey, userpatreon, userid } = req.query

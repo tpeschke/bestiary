@@ -197,7 +197,7 @@
             <div class="searchCheckboxes climateShell extratall">
                 <mat-checkbox *ngFor="let climate of climateList" color='primary' (change)="enterSearchClimate(climate.id, $event)">
                     <span matTooltip="{{climate.examples}} 
-                    Köppen Climate Classification: {{climate.code}}" matTooltipPosition="after">
+                    {{climate.code ? 'Köppen Climate Classification: ' + climate.code : ''}}" matTooltipPosition="after">
                         {{climate.climate}}</span>
                 </mat-checkbox>
             </div>

@@ -260,6 +260,11 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
+  getAllClimates(){
+    return this.http.get(local.endpointBase + '/api/getAllClimates')
+    .pipe(tap(result => this.handleMessage(result)))
+  }
+
   getPotions(number) {
     return this.http.post('https://reliquary.dragon-slayer.net/api/getRandomPotions?numberOfItems=' + number, null)
       .pipe(tap(result => this.handleMessage(result)))

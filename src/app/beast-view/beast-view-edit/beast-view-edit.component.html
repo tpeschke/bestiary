@@ -2968,8 +2968,8 @@
               <mat-chip-list>
                 <div *ngFor="let climate of beast.climates.beast; let i = index">
                   <mat-chip matTooltip="{{climate.examples}}
-                  Köppen Climate Classification: {{climate.code}}" *ngIf="!climate.deleted" (click)="removeNewSecondaryItem('climates', i, 'beast')" color="warn" selected>
-                    {{climate.climate}} ({{climate.code}})
+                  {{climate.code ? 'Köppen Climate Classification: ' + climate.code : ''}}" *ngIf="!climate.deleted" (click)="removeNewSecondaryItem('climates', i, 'beast')" color="warn" selected>
+                    {{climate.climate}}
                   </mat-chip>
                 </div>
               </mat-chip-list>
@@ -2989,7 +2989,7 @@
                     Add All Special Climates
                   </mat-option>
                   <mat-option matTooltip="{{climate.examples}}
-                  Köppen Climate Classification: {{climate.code}}" matTooltipPosition="after" *ngFor="let climate of beast.climates.allclimates"  [value]="climate" >
+                  {{climate.code ? 'Köppen Climate Classification: ' + climate.code : ''}}" matTooltipPosition="after" *ngFor="let climate of beast.climates.allclimates"  [value]="climate" >
                     {{climate.climate}}
                   </mat-option>
                 </mat-select>

@@ -115,6 +115,7 @@ function ownerAuth(req, res, next) {
 app.get('/api/obstacles/isValid/:name', obstCtrl.isValid)
 app.get('/api/equipment', equipmentCtrl.getAllEquipment)
 app.get('/api/checkToken/:id', getCtrl.checkToken)
+app.get('/api/getAllClimates', getCtrl.getAllClimates)
 
 app.patch('/api/beasts/edit', ownerAuth, ctrl.editBeast)
 app.patch('/api/combatSquare', squareCtrl.getSquare)

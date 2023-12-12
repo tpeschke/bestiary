@@ -560,6 +560,12 @@ export class BeastViewEditComponent implements OnInit {
         }
       }
 
+      if ( this.beast.climates.allclimates.length === 0) {
+        this.beastService.getAllClimates().subscribe((results: any) => {
+          this.beast.climates.allclimates = results
+        })
+      }
+
       this.beastService.getBurdens().subscribe((results: any) => {
         delete results.ibTables
         let newAllBurdens = []
@@ -1078,13 +1084,16 @@ export class BeastViewEditComponent implements OnInit {
           weaponname: null
         })
       } else {
-        let combatSquareCopy = { id: 0, weaponname: '', weapon: '', armor: '', shield: '' }
+        let combatSquareCopy = { id: 0, weaponname: '', weapon: '', armor: '', shield: '', roleid: null }
         if (this.selectedRoleId) {
           for (let i = this.beast[type].length - 1; i >= 0; i--) {
             if (this.beast[type][i].roleid === this.selectedRoleId) {
               combatSquareCopy = { ...this.beast[type][i] }
               i = 0
             }
+          }
+          if (combatSquareCopy.id === 0) {
+            combatSquareCopy = { ...this.beast[type][this.beast[type].length - 1] }
           }
         } else {
           combatSquareCopy = { ...this.beast[type][this.beast[type].length - 1] }
@@ -1094,6 +1103,7 @@ export class BeastViewEditComponent implements OnInit {
         combatSquareCopy.weapon = ''
         combatSquareCopy.armor = ''
         combatSquareCopy.shield = ''
+        combatSquareCopy.roleid = this.selectedRoleId
         this.beast[type].push(combatSquareCopy)
       }
     } else if (type === 'movement') {

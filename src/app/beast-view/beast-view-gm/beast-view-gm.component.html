@@ -679,8 +679,8 @@
 
           <h3 *ngIf="beast.climates.beast.length > 0">Climate</h3>
           <div *ngIf="beast.climates.beast.length > 0" class="chip-shell">
-            <div class="chip-button" matTooltip="{{climate.examples}}
-            Köppen Climate Classification: {{climate.code}}
+            <div class="chip-button" matTooltip="{{climate.examples}}{{climate.code ? ' 
+            Köppen Climate Classification: ' + climate.code : ''}}
             Click to Search for other monsters in this climate."
               (click)="navigateToSearch('climate', climate.climateid)" *ngFor="let climate of beast.climates.beast">
               <p>{{climate.climate}}</p>
