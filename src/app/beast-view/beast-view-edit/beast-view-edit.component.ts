@@ -854,29 +854,35 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  public alphabet = 'abcdefghij'
+
   captureSelectForObject(event, type, secondaryType) {
     if (!event.value) {
       event.value = null
     }
     this.beast[secondaryType][type] = event.value
+
+    if (secondaryType === "carriedloot") {
+      const letterIndex = this.alphabet.indexOf(event.value)
+      const newLetter = this.alphabet[letterIndex+2]
+      this.captureSelectForObject({value: newLetter}, type, 'lairloot')
+    }
   }
 
-  getBurdenDiceValue = (dice) => {
-    switch (dice) {
-      case '1d4!':
-        return 2
-      case '1d6!':
-        return 3
-      case '1d8!':
-        return 4
-      case '1d10!':
-        return 5
-      case '1d12!':
-        return 6
-      case '1d20!':
-        return 10
-      default:
-        return 2
+  captureScroll(event, type) {
+    this.scroll[type] = event.value
+  }
+
+  captureAddScroll(type) {
+    this.beast[type].scrolls.push(this.scroll)
+    if (type === 'carriedloot') {
+      const letterIndex = this.alphabet.indexOf(this.scroll.number)
+      const newLetter = this.alphabet[letterIndex+2]
+      this.beast.lairloot.scrolls.push({...this.scroll, number: newLetter})
+    }
+    this.scroll = {
+      number: null,
+      power: null
     }
   }
 
@@ -886,6 +892,11 @@ export class BeastViewEditComponent implements OnInit {
 
   captureAddEquipment(type) {
     this.beast[type].equipment.push(this.equipment)
+    if (type === 'carriedloot') {
+      const letterIndex = this.alphabet.indexOf(this.equipment.number)
+      const newLetter = this.alphabet[letterIndex+2]
+      this.beast.lairloot.equipment.push({...this.equipment, number: newLetter})
+    }
     this.equipment = {
       number: null,
       value: null
@@ -907,6 +918,11 @@ export class BeastViewEditComponent implements OnInit {
 
   captureAddTraited(type) {
     this.beast[type].traited.push(this.traited)
+    if (type === 'carriedloot') {
+      const letterIndex = this.alphabet.indexOf(this.traited.number)
+      const newLetter = this.alphabet[letterIndex+2]
+      this.beast.lairloot.traited.push({...this.traited, number: newLetter})
+    }
     this.traited = {
       chancetable: null,
       value: null
@@ -919,18 +935,6 @@ export class BeastViewEditComponent implements OnInit {
       traited[index].deleted = true
     } else {
       traited.splice(index, 1)
-    }
-  }
-
-  captureScroll(event, type) {
-    this.scroll[type] = event.value
-  }
-
-  captureAddScroll(type) {
-    this.beast[type].scrolls.push(this.scroll)
-    this.scroll = {
-      number: null,
-      power: null
     }
   }
 
@@ -948,6 +952,11 @@ export class BeastViewEditComponent implements OnInit {
 
   captureAddAlm(type) {
     this.beast[type].alms.push(this.alm)
+    if (type === 'carriedloot') {
+      const letterIndex = this.alphabet.indexOf(this.alm.number)
+      const newLetter = this.alphabet[letterIndex+2]
+      this.beast.lairloot.alms.push({...this.alm, number: newLetter})
+    }
     this.alm = {
       number: null,
       favor: null
