@@ -517,6 +517,8 @@ export class BeastViewEditComponent implements OnInit {
           panic: null,
           stress: 0,
           combatpoints: 0,
+          skillpoints: 0,
+          socialpoints: 0,
           combat: [],
           combatStatArray: [],
           conflict: { descriptions: [], convictions: [], devotions: [], burdens: [], flaws: [] },
@@ -1128,7 +1130,8 @@ export class BeastViewEditComponent implements OnInit {
         type: traitType,
         socialroleid: this.selectedRoleId,
         severity: null,
-        strength: null
+        strength: null,
+        adjustment: 0
       })
     } else if (type === 'skills') {
       this.beast[type].push({
@@ -1136,7 +1139,8 @@ export class BeastViewEditComponent implements OnInit {
         rank: '',
         skillroleid: this.selectedRoleId,
         showAllSkills: true,
-        strength: null
+        strength: null,
+        adjustment: 0
       })
     } else if (type === 'loot') {
       this.beast[type].push({
@@ -2065,9 +2069,9 @@ export class BeastViewEditComponent implements OnInit {
     })
   }
 
-  getSkillRank(strength) {
+  getSkillRank(strength, adjustment = 0) {
     const skillpoints = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].skillpoints : this.beast.skillpoints
-    return this.beastService.calculateRankForSkill(skillpoints, strength)
+    return this.beastService.calculateRankForSkill(skillpoints, strength, adjustment)
   }
 
   getImageUrl() {

@@ -78,7 +78,7 @@
             <div *ngFor="let trait of beast.conflict.descriptions; let i = index">
               <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
                 <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{getSocialRank('Descriptions', trait.strength)}}</h5>
+                <h5>{{getSocialRank('Descriptions', trait.strength, trait.adjustment)}}</h5>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@
             <div *ngFor="let trait of beast.conflict.convictions; let i = index">
               <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
                 <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{getSocialRank('Convictions', trait.strength)}}</h5>
+                <h5>{{getSocialRank('Convictions', trait.strength, trait.adjustment)}}</h5>
               </div>
             </div>
           </div>
@@ -100,7 +100,7 @@
             <div *ngFor="let trait of beast.conflict.devotions; let i = index">
               <div *ngIf="selectedRoleId === trait.socialroleid || trait.allroles" class="flex-row-opposite">
                 <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{getSocialRank('Devotions', trait.strength)}}</h5>
+                <h5>{{getSocialRank('Devotions', trait.strength, trait.adjustment)}}</h5>
               </div>
             </div>
           </div>
@@ -163,7 +163,7 @@
             <div class="flex-row-opposite {{skill.skill.includes('Skill Suite') ? 'skill-suite' : '' }}"
               *ngIf="selectedRoleId === skill.skillroleid || skill.allroles">
               <h5>{{skill.skill}}</h5>
-              <h5>{{getSkillRank(skill.strength)}}</h5>
+              <h5>{{getSkillRank(skill.strength, skill.adjustment)}}</h5>
             </div>
           </div>
         </div>

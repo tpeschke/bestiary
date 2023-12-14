@@ -1033,14 +1033,14 @@ export class BeastViewGmComponent implements OnInit {
     document.body.removeChild(textArea);
   }
 
-  getSocialRank(type, strength) {
+  getSocialRank(type, strength, adjustment = 0) {
     const socialPoints = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].socialpoints : this.beast.socialpoints
-    return this.beastService.calculateRankForCharacteristic(type, socialPoints, strength)
+    return this.beastService.calculateRankForCharacteristic(type, socialPoints, strength, adjustment)
   }
 
-  getSkillRank(strength) {
+  getSkillRank(strength, adjustment = 0) {
     const skillpoints = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].skillpoints : this.beast.skillpoints
-    return this.beastService.calculateRankForSkill(skillpoints, strength)
+    return this.beastService.calculateRankForSkill(skillpoints, strength, adjustment)
   }
 
   selectObstacle(obstacleId) {

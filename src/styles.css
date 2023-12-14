@@ -180,6 +180,10 @@ table {
   text-align: center;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .spinner > div {
   width: 18px;
   height: 18px;

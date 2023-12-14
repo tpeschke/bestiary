@@ -718,7 +718,7 @@
         <table class="checkbox-table">
           <thead>
             <tr>
-              <th colspan="3">
+              <th colspan="4">
               </th>
               <th colspan="4">
                 Scaling
@@ -733,6 +733,7 @@
               <td> </td>
               <td>All Roles</td>
               <td>Rank</td>
+              <td class="border-left">Adj</td>
               <td class="border-left">Major Strength</td>
               <td>Minor Strength</td>
               <td>Minor Weakness</td>
@@ -755,7 +756,8 @@
               <td matTooltip="Skill is added to all Roles." matTooltipClass="my-tooltip">
                 <mat-checkbox [checked]="skill.allroles" (change)="checkAllRoles('skills', i, $event.checked)"></mat-checkbox>
               </td>
-              <td>{{getSkillRank(skill.strength)}}</td>
+              <td>{{getSkillRank(skill.strength, skill.adjustment)}}</td>
+              <td><input class="table-input text-center" [value]="skill.adjustment" (change)="captureInput($event, 'skills', i, 'adjustment')"></td>
               <td class="border-left">
                 <mat-checkbox
                   [ngClass]="skill && skill[skill] === 'majSt' ? 'checkmark-role-background' : ''"

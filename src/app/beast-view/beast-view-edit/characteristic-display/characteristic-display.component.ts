@@ -63,6 +63,10 @@ export class CharacteristicDisplayComponent implements OnInit {
     this.captureInput(event, 'conflict', index, this.typeDictionary[this.characteristicType], 'trait')
   }
 
+  captureAdjustment = (event, index) => {
+    this.captureInput(event, 'conflict', index, this.typeDictionary[this.characteristicType], 'adjustment')
+  }
+
   removeCharacteristic = (index) => {
     this.removeNewSecondaryItem('conflict', index, this.typeDictionary[this.characteristicType])
   }

@@ -40,3 +40,7 @@ th, td {
 .checkmark-role-background ::ng-deep .mat-checkbox-background {
     background-color: #a9a9a9 !important;
 }
+
+.max-width-input {
+    max-width: 80px;
+}

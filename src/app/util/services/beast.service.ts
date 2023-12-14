@@ -49,7 +49,7 @@ export class BeastService {
     return throwError(() => new Error(`${error.statusText}`));
   }
 
-  calculateRankForCharacteristic = (type, ranks, strength) => {
+  calculateRankForCharacteristic = (type, ranks, strength, adjustment = 0) => {
     const typeBase = {
       Convictions: 4,
       Descriptions: 4,
@@ -77,11 +77,11 @@ export class BeastService {
     } else if (strength === 'none' || !strength) {
       return 3
     } else {
-      return Math.ceil(typeBase[type] + ((scaling[strength] * typeScalingBonus[type]) * ranks))
+      return Math.ceil(typeBase[type] + ((scaling[strength] * typeScalingBonus[type]) * (ranks + adjustment)))
     }
   }
 
-  calculateRankForSkill = (ranks, strength) => {
+  calculateRankForSkill = (ranks, strength, adjustment = 0) => {
     const scaling = {
       majSt: 2,
       minSt: 1.5,
@@ -105,7 +105,7 @@ export class BeastService {
     } else if (strength === 'none' || !strength) {
       return 3
     } else {
-      return Math.ceil(base[strength] + (scaling[strength] * ranks))
+      return Math.ceil(base[strength] + (scaling[strength] * (ranks + adjustment)))
     }
   }
 

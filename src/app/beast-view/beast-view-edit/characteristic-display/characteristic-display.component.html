@@ -1,7 +1,7 @@
 <table>
   <thead>
     <tr>
-      <th colspan="4">
+      <th colspan="5">
 
       </th>
       <th colspan="4">
@@ -19,6 +19,7 @@
       <td>Random</td>
       <td>All Roles</td>
       <td>Rank</td>
+      <td class="border-left">Adj</td>
       <td class="border-left">Major Strength</td>
       <td>Minor Strength</td>
       <td>Minor Weakness</td>
@@ -47,7 +48,10 @@
           [checked]="characteristic.allroles">
         </mat-checkbox>
       </td>
-      <td>{{beastService.calculateRankForCharacteristic(characteristicType + 's', socialpoints, characteristic.strength)}}</td>
+      <td>{{beastService.calculateRankForCharacteristic(characteristicType + 's', socialpoints, characteristic.strength, characteristic.adjustment)}}</td>
+      <td>
+        <input class="table-input text-center max-width-input" value="{{characteristic.adjustment}}" (change)="captureAdjustment($event, index)">
+      </td>
       <td class="border-left">
         <mat-checkbox
           [ngClass]="roleInfo && roleInfo[characteristicType] === 'majSt' ? 'checkmark-role-background' : ''"
