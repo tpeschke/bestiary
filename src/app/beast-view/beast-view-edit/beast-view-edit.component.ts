@@ -919,9 +919,9 @@ export class BeastViewEditComponent implements OnInit {
   captureAddTraited(type) {
     this.beast[type].traited.push(this.traited)
     if (type === 'carriedloot') {
-      const letterIndex = this.alphabet.indexOf(this.traited.number)
+      const letterIndex = this.alphabet.indexOf(this.traited.chancetable)
       const newLetter = this.alphabet[letterIndex+2]
-      this.beast.lairloot.traited.push({...this.traited, number: newLetter})
+      this.beast.lairloot.traited.push({...this.traited, chancetable: newLetter})
     }
     this.traited = {
       chancetable: null,
