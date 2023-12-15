@@ -129,7 +129,10 @@
             (change)="captureSpellInput($event, i, 'interval')">
         </mat-form-field>
 
-        <quill-editor [(ngModel)]="spell.effect" (onContentChanged)="captureSpellHTML($event, i)"></quill-editor>
+        <div>
+          <quill-editor [(ngModel)]="spell.effect" (onContentChanged)="captureSpellHTML($event, i)"></quill-editor>
+          <p class="character-counter">{{spell.effect ? spell.effect.length : 0}} / 5,000 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
+        </div>
 
         <mat-checkbox color='primary' (change)="addToAllRoles(i, $event)" [(ngModel)]="spell.allroles">Add to All Roles
         </mat-checkbox>

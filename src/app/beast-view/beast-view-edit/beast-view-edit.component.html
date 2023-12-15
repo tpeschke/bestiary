@@ -163,12 +163,14 @@
       <div class="divider"></div>
       <div>
         <quill-editor [(ngModel)]="beast.intro" (onContentChanged)="captureHTML($event, 'intro')"></quill-editor>
+        <p class="character-counter">{{beast.intro ? beast.intro.length : 0}} / 500 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
       </div>
 
       <h2>Appearance</h2>
       <div class="divider"></div>
       <div>
         <quill-editor [(ngModel)]="beast.ecology" (onContentChanged)="captureHTML($event, 'ecology')"></quill-editor>
+        <p class="character-counter">{{beast.ecology ? beast.ecology.length : 0}} / 1,000 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
       </div>
 
       <div class="edit-table-shell">
@@ -186,22 +188,26 @@
         <div *ngFor="let lore of beast.folklore; let i = index" class="belief-display">
           <mat-form-field>
             <input matInput placeholder="Belief" [value]="lore.belief" max="500"
-              (change)="captureFolklore('belief', i, $event)">
+              (input)="captureFolklore('belief', i, $event)">
+            <mat-hint align="end">{{lore.belief.length}}/500</mat-hint>
           </mat-form-field>
           <mat-form-field>
             <input matInput placeholder="Truth" [value]="lore.truth" max="500"
-              (change)="captureFolklore('truth', i, $event)">
+              (input)="captureFolklore('truth', i, $event)">
+            <mat-hint align="end">{{lore.truth.length}}/500</mat-hint>
           </mat-form-field>
           <i (click)="deleteFolkloreEntry(i)" class="fa-solid fa-trash"></i>
         </div>
         <div class="belief-display">
           <mat-form-field>
             <input matInput placeholder="Belief" [value]="folklore.belief" max="500"
-              (change)="captureNewFolklore('belief', $event)">
+              (input)="captureNewFolklore('belief', $event)">
+            <mat-hint align="end">{{folklore.belief ? folklore.belief.length : 0}}/500</mat-hint>
           </mat-form-field>
           <mat-form-field>
             <input matInput placeholder="Truth" [value]="folklore.truth" max="500"
-              (change)="captureNewFolklore('truth', $event)">
+              (input)="captureNewFolklore('truth', $event)">
+            <mat-hint align="end">{{folklore.truth ? folklore.truth.length : 0}}/500</mat-hint>
           </mat-form-field>
         </div>
       </div>
@@ -210,6 +216,7 @@
       <div class="divider"></div>
       <div>
         <quill-editor [(ngModel)]="beast.habitat" (onContentChanged)="captureHTML($event, 'habitat')"></quill-editor>
+        <p class="character-counter">{{beast.habitat ? beast.habitat.length : 0}} / 10,000 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
       </div>
 
       <div class="edit-table-shell">
@@ -246,7 +253,8 @@
     <div *ngIf="selectedRoleId" class="flex-row-opposite">
       <mat-form-field>
         <input matInput placeholder="Change Role Name" [value]="beast.roleInfo[selectedRoleId].name"
-          (change)="captureRoleName($event)">
+          (input)="captureRoleName($event)"  max="25">
+          <mat-hint align="end">{{beast.roleInfo[selectedRoleId].name.length}}/25</mat-hint>
       </mat-form-field>
 
       <mat-form-field>
@@ -277,7 +285,8 @@
             Characteristics, and Combat Info that you've filled out already will be transferred to this new role</p>
 
           <mat-form-field>
-            <input #newRoleName placeholder="Role Name" matInput (change)="captureNewRole('name', $event)">
+            <input #newRoleName placeholder="Role Name" matInput (input)="captureNewRole('name', $event)" max="25">
+            <mat-hint align="end">{{newRole.name ? newRole.name.length : 0}}/25</mat-hint>
           </mat-form-field>
 
           <mat-form-field>
@@ -369,6 +378,7 @@
       <h3 *ngIf="selectedRoleId">Base Abilities</h3>
       <div>
         <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')"></quill-editor>
+        <p class="character-counter">{{beast.sp_atk ? beast.sp_atk.length : 0}} / 3,000  <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
       </div>
 
       <div *ngIf="selectedRoleId">
@@ -377,6 +387,7 @@
         <div>
           <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
             (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
+          <p class="character-counter">{{beast.roleInfo[selectedRoleId].attack ? beast.roleInfo[selectedRoleId].attack.length : 0}} / 3,000  <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
         </div>
       </div>
 
@@ -396,6 +407,7 @@
       <h3 *ngIf="selectedRoleId">Base Abilities</h3>
       <div>
         <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')"></quill-editor>
+        <p class="character-counter">{{beast.sp_def ? beast.sp_def.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
       </div>
 
       <div *ngIf="selectedRoleId">
@@ -404,6 +416,7 @@
         <div>
           <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense"
             (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
+          <p class="character-counter">{{beast.roleInfo[selectedRoleId].defense ? beast.roleInfo[selectedRoleId].defense.length : 0}} / 3,000  <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
         </div>
       </div>
 
@@ -424,8 +437,8 @@
   <h2>Tactics & Strategy</h2>
   <div class="divider"></div>
   <div>
-    <quill-editor [(ngModel)]="beast.tactics" (onContentChanged)="captureHTML($event, 'tactics')">
-    </quill-editor>
+    <quill-editor [(ngModel)]="beast.tactics" (onContentChanged)="captureHTML($event, 'tactics')"></quill-editor>
+    <p class="character-counter">{{beast.tactics ? beast.tactics.length : 0}} / 3,000  <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
   </div>
 
   <br>
@@ -500,10 +513,10 @@
         <div>
           <h2>Descriptions</h2>
           <div class="divider"></div>
-          <app-characteristic-display
-            [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
-            [characteristicInfo]='beast.conflict.descriptions' [captureInput]="captureInput"
-            [characteristicType]="'Description'" [checkCharacteristic]="checkCharacteristic"
+          <app-characteristic-display [selectedRoleId]="selectedRoleId"
+            [removeNewSecondaryItem]="removeNewSecondaryItem" [characteristicInfo]='beast.conflict.descriptions'
+            [captureInput]="captureInput" [characteristicType]="'Description'"
+            [checkCharacteristic]="checkCharacteristic"
             [socialpoints]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints">
           </app-characteristic-display>
 
@@ -515,10 +528,10 @@
 
           <h2>Convictions</h2>
           <div class="divider"></div>
-          <app-characteristic-display
-            [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
-            [characteristicInfo]='beast.conflict.convictions' [captureInput]="captureInput"
-            [characteristicType]="'Conviction'" [checkCharacteristic]="checkCharacteristic"
+          <app-characteristic-display [selectedRoleId]="selectedRoleId"
+            [removeNewSecondaryItem]="removeNewSecondaryItem" [characteristicInfo]='beast.conflict.convictions'
+            [captureInput]="captureInput" [characteristicType]="'Conviction'"
+            [checkCharacteristic]="checkCharacteristic"
             [socialpoints]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints">
           </app-characteristic-display>
 
@@ -535,11 +548,11 @@
 
           <h2>Devotions</h2>
           <div class="divider"></div>
-          <app-characteristic-display
-            [selectedRoleId]="selectedRoleId" [removeNewSecondaryItem]="removeNewSecondaryItem"
-            [characteristicInfo]='beast.conflict.devotions' [captureInput]="captureInput"
-            [characteristicType]="'Devotion'" [checkCharacteristic]="checkCharacteristic"
-            [socialpoints]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints"></app-characteristic-display>
+          <app-characteristic-display [selectedRoleId]="selectedRoleId"
+            [removeNewSecondaryItem]="removeNewSecondaryItem" [characteristicInfo]='beast.conflict.devotions'
+            [captureInput]="captureInput" [characteristicType]="'Devotion'" [checkCharacteristic]="checkCharacteristic"
+            [socialpoints]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints">
+          </app-characteristic-display>
 
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent"><i
               class="fa-solid fa-plus icon-medium"></i>
@@ -749,18 +762,19 @@
             <tr *ngFor="let skill of beast.skills; let i = index"
               [ngClass]="{'noDisplay': !(!skill.deleted && (selectedRoleId === skill.skillroleid || skill.allroles))}">
               <td>
-                <app-skill-display [skillInfo]="skill" [captureInput]="captureInput"
-                   [i]="i" [selectedSkillRole]="selectedSkillRole">
+                <app-skill-display [skillInfo]="skill" [captureInput]="captureInput" [i]="i"
+                  [selectedSkillRole]="selectedSkillRole">
                 </app-skill-display>
               </td>
               <td matTooltip="Skill is added to all Roles." matTooltipClass="my-tooltip">
-                <mat-checkbox [checked]="skill.allroles" (change)="checkAllRoles('skills', i, $event.checked)"></mat-checkbox>
+                <mat-checkbox [checked]="skill.allroles" (change)="checkAllRoles('skills', i, $event.checked)">
+                </mat-checkbox>
               </td>
               <td>{{getSkillRank(skill.strength, skill.adjustment)}}</td>
-              <td><input class="table-input text-center" [value]="skill.adjustment" (change)="captureInput($event, 'skills', i, 'adjustment')"></td>
+              <td><input class="table-input text-center" [value]="skill.adjustment"
+                  (change)="captureInput($event, 'skills', i, 'adjustment')"></td>
               <td class="border-left">
-                <mat-checkbox
-                  [ngClass]="skill && skill[skill] === 'majSt' ? 'checkmark-role-background' : ''"
+                <mat-checkbox [ngClass]="skill && skill[skill] === 'majSt' ? 'checkmark-role-background' : ''"
                   (change)="checkSkill('majSt', i, $event)"
                   [checked]="!skill.strength ? skill && skill[skill] === 'majSt' : skill.strength === 'majSt'"
                   matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -768,8 +782,7 @@
                 </mat-checkbox>
               </td>
               <td>
-                <mat-checkbox
-                  [ngClass]="skill && skill[skill] === 'minSt' ? 'checkmark-role-background' : ''"
+                <mat-checkbox [ngClass]="skill && skill[skill] === 'minSt' ? 'checkmark-role-background' : ''"
                   (change)="checkSkill('minSt', i, $event)"
                   [checked]="!skill.strength ? skill && skill[skill] === 'minSt' : skill.strength === 'minSt'"
                   matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -777,8 +790,7 @@
                 </mat-checkbox>
               </td>
               <td>
-                <mat-checkbox
-                  [ngClass]="skill && skill[skill] === 'minWk' ? 'checkmark-role-background' : ''"
+                <mat-checkbox [ngClass]="skill && skill[skill] === 'minWk' ? 'checkmark-role-background' : ''"
                   (change)="checkSkill('minWk', i, $event)"
                   [checked]="!skill.strength ? skill && skill[skill] === 'minWk' : skill.strength === 'minWk'"
                   matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -786,8 +798,7 @@
                 </mat-checkbox>
               </td>
               <td>
-                <mat-checkbox
-                  [ngClass]="skill && skill[skill] === 'majWk' ? 'checkmark-role-background' : ''"
+                <mat-checkbox [ngClass]="skill && skill[skill] === 'majWk' ? 'checkmark-role-background' : ''"
                   (change)="checkSkill('majWk', i, $event)"
                   [checked]="!skill.strength ? skill && skill[skill] === 'majWk' : skill.strength === 'majWk'"
                   matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -795,8 +806,7 @@
                 </mat-checkbox>
               </td>
               <td class="border-left">
-                <mat-checkbox
-                  [ngClass]="skill && skill[skill] === 'noneStr' ? 'checkmark-role-background' : ''"
+                <mat-checkbox [ngClass]="skill && skill[skill] === 'noneStr' ? 'checkmark-role-background' : ''"
                   (change)="checkSkill('noneStr', i, $event)"
                   [checked]="!skill.strength ? skill && skill[skill] === 'noneStr' : skill.strength === 'noneStr'"
                   matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -812,8 +822,7 @@
                 </mat-checkbox>
               </td>
               <td>
-                <mat-checkbox
-                  [ngClass]="skill && skill[skill] === 'one' ? 'checkmark-role-background' : ''"
+                <mat-checkbox [ngClass]="skill && skill[skill] === 'one' ? 'checkmark-role-background' : ''"
                   (change)="checkSkill('one', i, $event)"
                   [checked]="!skill.strength ? skill && skill[skill] === 'one' : skill.strength === 'one'"
                   matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -821,8 +830,7 @@
                 </mat-checkbox>
               </td>
               <td>
-                <mat-checkbox
-                  [ngClass]="skill && skill[skill] === 'noneWk' ? 'checkmark-role-background' : ''"
+                <mat-checkbox [ngClass]="skill && skill[skill] === 'noneWk' ? 'checkmark-role-background' : ''"
                   (change)="checkSkill('noneWk', i, $event)"
                   [checked]="!skill.strength ? skill && skill[skill] === 'noneWk' : skill.strength === 'noneWk'"
                   matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
@@ -830,7 +838,8 @@
                 </mat-checkbox>
               </td>
               <td>
-                <i mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn" class="fa-solid fa-trash"></i>
+                <i mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn"
+                  class="fa-solid fa-trash"></i>
               </td>
             </tr>
           </tbody>
@@ -974,10 +983,12 @@
                   <mat-form-field>
                     <input placeholder="Location" matInput [value]="location.location"
                       (change)="captureInput($event, 'locationalvitality', i, 'location')">
+                      <mat-hint align="end">{{location.location.length}}/250</mat-hint>
                   </mat-form-field>
                   <mat-form-field>
                     <input placeholder="Vitality" matInput [value]="location.vitality"
                       (change)="captureInput($event, 'locationalvitality', i, 'vitality')">
+                      <mat-hint align="end">{{location.vitality.length}}/250</mat-hint>
                   </mat-form-field>
                   <p>(Ave: {{calculatorService.calculateAverageOfDice(location.vitality)}})</p>
                   <section>
@@ -1023,6 +1034,7 @@
                   <mat-form-field>
                     <input placeholder="Movement Type" matInput [value]="movementType.type"
                       (change)="captureInput($event, 'movement', i, 'type')">
+                      <mat-hint align="end">{{movementType.type.length}}/250</mat-hint>
                   </mat-form-field>
                 </h3>
                 <table>
@@ -1445,12 +1457,14 @@
                 <h3>
                   <mat-form-field>
                     <input placeholder="Loot" matInput [value]="lootitem.loot"
-                      (change)="captureInput($event, 'loot', i, 'loot')">
+                      (input)="captureInput($event, 'loot', i, 'loot')">
+                    <mat-hint align="end">{{lootitem.loot.length}}/500</mat-hint>
                   </mat-form-field>
                 </h3>
                 <mat-form-field>
                   <input placeholder="Value" matInput [value]="lootitem.price"
                     (change)="captureInput($event, 'loot', i, 'price')">
+                    <mat-hint align="end">{{lootitem.price.length}}/500</mat-hint>
                 </mat-form-field>
                 <button mat-raised-button (click)="removeNewSecondaryItem('loot', i)" color="warn"><i
                     class="fa-solid fa-trash"></i></button>
@@ -1463,8 +1477,8 @@
           <br />
           <h3 class="loot-notes-subtitle">Loot Notes</h3>
           <div>
-            <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')">
-            </quill-editor>
+            <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')"></quill-editor>
+            <p class="character-counter">{{beast.lootnotes ? beast.lootnotes.length : 0}} / 5,000 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
           </div>
           <br />
 
@@ -2897,6 +2911,7 @@
 
             <mat-form-field>
               <input placeholder="Senses" matInput [value]="beast.senses" (change)="captureInput($event, 'senses')">
+              <mat-hint align="end">{{beast.senses.length}}/500</mat-hint>
             </mat-form-field>
 
             <h3>Climates</h3>
@@ -2904,7 +2919,8 @@
               <mat-chip-list>
                 <div *ngFor="let climate of beast.climates.beast; let i = index">
                   <mat-chip matTooltip="{{climate.examples}}
-                  {{climate.code ? 'Köppen Climate Classification: ' + climate.code : ''}}" *ngIf="!climate.deleted" (click)="removeNewSecondaryItem('climates', i, 'beast')" color="warn" selected>
+                  {{climate.code ? 'Köppen Climate Classification: ' + climate.code : ''}}" *ngIf="!climate.deleted"
+                    (click)="removeNewSecondaryItem('climates', i, 'beast')" color="warn" selected>
                     {{climate.climate}}
                   </mat-chip>
                 </div>
@@ -2915,17 +2931,18 @@
                   <mat-option value="all" class="bottom-border">
                     Add All Climates
                   </mat-option>
-                  <mat-option value="allClimates" >
+                  <mat-option value="allClimates">
                     Add All Land Climates
                   </mat-option>
-                  <mat-option value="allAquatic" >
+                  <mat-option value="allAquatic">
                     Add All Aquatic Climates
                   </mat-option>
                   <mat-option value="allSpecial" class="bottom-border">
                     Add All Special Climates
                   </mat-option>
                   <mat-option matTooltip="{{climate.examples}}
-                  {{climate.code ? 'Köppen Climate Classification: ' + climate.code : ''}}" matTooltipPosition="after" *ngFor="let climate of beast.climates.allclimates"  [value]="climate" >
+                  {{climate.code ? 'Köppen Climate Classification: ' + climate.code : ''}}" matTooltipPosition="after"
+                    *ngFor="let climate of beast.climates.allclimates" [value]="climate">
                     {{climate.climate}}
                   </mat-option>
                 </mat-select>
@@ -2938,6 +2955,7 @@
             <mat-form-field>
               <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')"
                 maxlength="40">
+                <mat-hint align="end">{{beast.diet.length}}/500</mat-hint>
             </mat-form-field>
 
             <mat-form-field>
@@ -2979,6 +2997,7 @@
         <div class="divider"></div>
         <div>
           <quill-editor [(ngModel)]="beast.meta" (onContentChanged)="captureHTML($event, 'meta')"></quill-editor>
+          <p class="character-counter">{{beast.meta ? beast.meta.length : 0}} / 5,000 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
         </div>
       </ng-template>
     </mat-tab>

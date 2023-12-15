@@ -173,7 +173,6 @@ table {
   border-spacing: 0;
 }
 
-
 .spinner {
   margin: 15px auto;
   width: 70px;
@@ -182,6 +181,12 @@ table {
 
 .text-center {
   text-align: center;
+}
+
+.character-counter { 
+  color: grey;
+  font-size: 12px;
+  float: right;
 }
 
 .spinner > div {

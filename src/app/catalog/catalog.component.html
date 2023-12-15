@@ -6,9 +6,9 @@
   </div>
 
   <div class="context-menu" *ngIf="isDisplayContextMenu" [ngStyle]="getRightClickMenuStyle()">
-    <p (click)="openNewTab()">Open in New Tab</p>
-    <p *ngIf="targetHasToken" (click)="forceDownload()">Download Token</p>
-    <p *ngIf="!targetHasToken" (click)="stopProp($event)" class="gray">Download Token</p>
+    <p (click)="openNewTab()"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open in New Tab</p>
+    <p *ngIf="targetHasToken" (click)="forceDownload()"><i class="fa-solid fa-download"></i> Download Token</p>
+    <p *ngIf="!targetHasToken" (click)="stopProp($event)" class="gray"><i class="fa-solid fa-download"></i> Download Token</p>
     <p *ngIf="targetRoles.length === 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view"
         matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i
           class="fa-solid fa-rectangle-list"></i></span> <strong

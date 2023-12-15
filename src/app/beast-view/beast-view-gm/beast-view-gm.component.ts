@@ -707,9 +707,7 @@ export class BeastViewGmComponent implements OnInit {
         }
 
         result.main.milesFromLair = distance > 0 ? distance : result.main.milesFromLair
-        result.timeOfDay = this.calculatorService.rollDice(12)
-        let partOfDay = this.calculatorService.rollDice(2)
-        result.timeOfDay += partOfDay === 1 ? " AM" : " PM";
+        result.timeOfDay = this.calculatorService.rollDice(8) / 2
       }
       this.encounter = result
     })
