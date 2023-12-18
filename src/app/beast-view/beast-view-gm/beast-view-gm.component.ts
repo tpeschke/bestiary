@@ -389,7 +389,7 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (potionNumber > 0) {
         this.beastService.getPotions(potionNumber).subscribe((potions: any) => {
-          potions.forEach((potion)=> {this.carriedLoot.push(potion)})
+          potions.forEach((potion) => { this.carriedLoot.push(potion) })
         })
       }
     }
@@ -401,7 +401,7 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (talismanNumber > 0) {
         this.beastService.getTalismans(talismanNumber).subscribe((talismans: any) => {
-          talismans.forEach((talisman) => {this.carriedLoot.push(talisman)})
+          talismans.forEach((talisman) => { this.carriedLoot.push(talisman) })
         })
       }
     }
@@ -414,7 +414,7 @@ export class BeastViewGmComponent implements OnInit {
           if (number > 0) {
             this.beastService.getScrolls(number).subscribe((scrolls: any) => {
               scrolls.forEach(scroll => {
-                this.carriedLoot.push({ scroll: scroll.name, sp: power, breakdown: scroll.tooltip  })
+                this.carriedLoot.push({ scroll: scroll.name, sp: power, breakdown: scroll.tooltip })
               })
             })
           }
@@ -466,7 +466,7 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (equipmentToGetArray.length > 0) {
         this.beastService.getUniqueEquipment({ "budgets": equipmentToGetArray }).subscribe(results => {
-          results.forEach(equipment => {this.lairLoot.push(equipment)})
+          results.forEach(equipment => { this.lairLoot.push(equipment) })
         })
       }
     }
@@ -1125,7 +1125,102 @@ export class BeastViewGmComponent implements OnInit {
 
     this.equipmentLists = { weapons: [], armor: [], shields: [] }
     this.equipmentObjects = { weapons: {}, armor: {}, shields: {} }
-    // [routerLink]="['/beast', variant.variantid, 'gm']"
     this.router.navigate(['/beast', variantid, 'gm'])
+  }
+
+  getNameWithRole = (rolenameorder, name, rolename) => {
+    if (rolenameorder === '1') {
+      return this.formatNameWithCommas(name) + " " + rolename
+    } else {
+      return rolename + " " + this.formatNameWithCommas(name)
+    }
+  }
+
+  formatNameWithCommas = (name) => {
+    if (name.includes(',')) {
+      let nameArray = name.split(', ')
+      return `${nameArray[1]} ${nameArray[0]}`
+    }
+    return name
+  }
+
+  downloadJson() {
+    const { id, name: basicName, senses, meta, sp_atk, sp_def, tactics, size: basicSize, role: basicRole,
+      secondaryrole: basicSecondaryRole, socialrole: basicSocialRole, socialsecondary: basicSocialSecondary,
+      skillrole: basicSkillRole, notes, movement, rolenameorder, roleInfo, hash, combatStatArray, specialAbilities,
+      knockback: basicKnockback, notrauma: basicTrauma, noknockback: basicnoknockback, phyiscalAndStress, locationalvitality,
+      spells, skills, challenges, obstacles, conflict } = this.beast
+
+    const selectedRoleInfo = roleInfo[this.selectedRoleId]
+
+    const getCharacteristic = (characteristic, type) => {
+      return {
+        characteristic: characteristic.trait,
+        rank: this.getSocialRank(type, characteristic.strength, characteristic.adjustment)
+      }
+    }
+
+    const confrontation = {
+      descriptions: conflict.descriptions.filter(characteristic => characteristic.socialroleid === this.selectedObstacleId || characteristic.allroles).map(characteristic => getCharacteristic(characteristic, 'Descriptions')),
+      convictions: conflict.convictions.filter(characteristic => characteristic.socialroleid === this.selectedObstacleId || characteristic.allroles).map(characteristic => getCharacteristic(characteristic, 'Convictions')),
+      devotions: conflict.devotions.filter(characteristic => characteristic.socialroleid === this.selectedObstacleId || characteristic.allroles).map(characteristic => getCharacteristic(characteristic, 'Devotions')),
+      burdens: conflict.burdens.filter(characteristic => characteristic.socialroleid === this.selectedObstacleId || characteristic.allroles).map(characteristic => getCharacteristic(characteristic, 'Burdens')),
+      flaws: conflict.flaws.filter(characteristic => characteristic.socialroleid === this.selectedObstacleId || characteristic.allroles).map(characteristic => characteristic.trait),
+    }
+
+    const name = this.selectedRoleId ? this.getNameWithRole(rolenameorder, basicName, selectedRoleInfo.name) : this.formatNameWithCommas(basicName)
+    const combatCounterHash = this.selectedRoleId ? selectedRoleInfo.hash : hash
+    const attacknotes = this.selectedRoleId && specialAbilities[this.selectedRoleId] ? sp_atk + '<br/>' + specialAbilities[this.selectedRoleId].join('<br/>') : sp_atk
+    const size = this.selectedRoleId && selectedRoleInfo.size ? selectedRoleInfo.size : basicSize
+    const role = this.selectedObstacleId ? selectedRoleInfo.role : basicRole
+    const combatsecondary = this.selectedRoleId ? selectedRoleInfo.secondaryrole : basicSecondaryRole
+    const socialrole = this.selectedRoleId ? selectedRoleInfo.socialrole : basicSocialRole
+    const socialsecondary = this.selectedRoleId ? selectedRoleInfo.socialsecondary : basicSocialSecondary
+    const skillrole = this.selectedRoleId ? selectedRoleInfo.skillrole : basicSkillRole
+    const knockback = this.selectedRoleId ? selectedRoleInfo.knockback : basicKnockback
+    const notrauma = this.selectedRoleId ? selectedRoleInfo.notrauma : basicTrauma
+    const noknockback = this.selectedRoleId ? selectedRoleInfo.noknockback : basicnoknockback
+    const physical = this.selectedRoleId ? selectedRoleInfo.phyiscalAndStress.physical : phyiscalAndStress.physical
+    const mental = this.selectedRoleId ? selectedRoleInfo.phyiscalAndStress.mental : phyiscalAndStress.mental
+
+    let beastObj = {
+      portrait: 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + id + '-token',
+      name, metanotes: meta, mental, personalnotes: notes, 
+      confrontation: {
+        ...confrontation,
+        role: socialrole,
+        secondary: socialsecondary
+      },
+      combat: {
+        attacknotes, defensenotes: sp_def, tactics, combatCounterHash, 
+        role: role, 
+        secondary: combatsecondary,
+        attacks: combatStatArray.filter(combat => combat.roleid === this.selectedRoleId).map(combat => combat.combatSquare),
+        physical: {
+          ...physical, knockback, notrauma, noknockback, size, senses,
+          locationalvitality: locationalvitality.filter(location => location.roleid === this.selectedRoleId || location.allroles),
+          movement: movement.filter(move => move.roleid === this.selectedRoleId || move.allroles),
+        },
+      },
+      spells: spells.filter(spell => spell.roleid === this.selectedRoleId || spell.allroles),
+      skills: {
+        challenges, obstacles, skillrole,
+        skill: skills.filter(skill => skill.skillroleid === this.selectedRoleId || skill.allroles).map(skill => {
+          return {
+            skill: skill.skill,
+            rank: this.getSkillRank(skill.strength, skill.adjustment)
+          }
+        }),
+      } 
+    }
+
+    var sJson = JSON.stringify(beastObj);
+    var element = document.createElement('a');
+    element.setAttribute('href', "data:text/json;charset=UTF-8," + encodeURIComponent(sJson));
+    element.setAttribute('download', `${beastObj.name}.json`);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click(); // simulate click
+    document.body.removeChild(element);
   }
 }

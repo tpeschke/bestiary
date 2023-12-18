@@ -884,6 +884,10 @@
         <div>
           <app-player-notes class="gm-notes-shell" [notes]="beast.notes" [id]="beast.id"></app-player-notes>
         </div>
+
+        <div class="token-download-shell json-download" (click)="downloadJson()">
+          <span><i class="fa-solid fa-download"></i> Download JSON for {{selectedRoleId ? getNameWithRole(beast.rolenameorder, beast.name, beast.roleInfo[selectedRoleId].name) : formatNameWithCommas(beast.name)}}</span>
+        </div>
       </div>
     </div>
 

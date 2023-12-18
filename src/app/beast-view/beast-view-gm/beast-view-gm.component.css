@@ -248,12 +248,23 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     border-radius: 5px;
 }
 
+.json-download {
+    float: right;
+    margin-top: 15px;
+    padding: 5px 10px;
+}
+
 .pointer {
     cursor: pointer;
 }
 
 .token-download-shell:hover {
     background: #0000004a;
+}
+
+.json-download:hover {
+    background: #607d8b;
+    color: whitesmoke
 }
 
 .view-table-shell {
