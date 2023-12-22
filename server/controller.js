@@ -1,4 +1,4 @@
-const {consoleLogErrorNoFile, sendErrorForwardNoFile} = require('./helpers')
+const {consoleLogErrorNoFile, sendErrorForwardNoFile, checkForContentTypeBeforeSending} = require('./helpers')
 
 const consoleLogError = consoleLogErrorNoFile('controller')
 const sendErrorForward = sendErrorForwardNoFile('controller')
@@ -227,7 +227,7 @@ let controllerObj = {
       , id = +req.params.id
 
     db.get.playercanview(id).then(result => {
-      res.send({ canView: (req.user && req.user.id === 1) || (req.user && req.user.patreon >= 3) || result[0].canplayerview })
+      checkForContentTypeBeforeSending(res, { canView: (req.user && req.user.id === 1) || (req.user && req.user.patreon >= 3) || result[0].canplayerview })
     }).catch(e => sendErrorForward('player can view', e, res))
   },
   getPlayerBeast(req, res) {
@@ -238,10 +238,10 @@ let controllerObj = {
         db.get.beastnotes(id, req.user.id).then(notes => {
           result = result[0]
           result.notes = notes[0] || {}
-          res.send(result)
+          checkForContentTypeBeforeSending(res, result)
         }).catch(e => sendErrorForward('player version notes', e, res))
       } else {
-        res.send(result)
+        checkForContentTypeBeforeSending(res, result)
       }
     }).catch(e => sendErrorForward('player version', e, res))
   },
@@ -252,7 +252,7 @@ let controllerObj = {
     if (req.user) {
       if (noteId) {
         db.update.beastnotes(noteId, notes).then(result => {
-          res.send(result[0])
+          checkForContentTypeBeforeSending(res, result[0])
         }).catch(e => sendErrorForward('update beast notes', e, res))
       } else {
         db.get.usernotecount(req.user.id).then(count => {
@@ -261,7 +261,7 @@ let controllerObj = {
             res.status(401).send('You need to upgrade your Patreon to add more notes')
           } else {
             db.add.beastnotes(beastId, req.user.id, notes).then(result => {
-              res.send(result[0])
+              checkForContentTypeBeforeSending(res, result[0])
             }).catch(e => sendErrorForward('save beast notes', e, res))
           }
         }).catch(e => sendErrorForward('check user note count', e, res))
@@ -444,7 +444,7 @@ let controllerObj = {
 
       groups.forEach(({ id: groupid, beastid, deleted, label, weights, weight }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.groupRoles(beastid, groupid).catch(e => sendErrorForward('add beast delete group roles', e, res))).catch(e => sendErrorForward('add beast delete groups', e, res)))
+          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.encounter.groupRoles(beastid, groupid).catch(e => sendErrorForward('add beast delete group roles', e, res))).catch(e => sendErrorForward('add beast delete groups', e, res)))
         } else if (groupid && beastid) {
           promiseArray.push(db.update.encounter.groups(id, groupid, label, +weight).then(_ => {
             let groupPromises = []
@@ -697,7 +697,7 @@ let controllerObj = {
 
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCatelog(app)
-        res.send({ id })
+        checkForContentTypeBeforeSending(res, { id })
       }).catch(e => sendErrorForward('add beast final array', e, res))
     }).catch(e => sendErrorForward('add beast main', e, res))
   },
@@ -932,7 +932,7 @@ let controllerObj = {
 
       groups.forEach(({ id: groupid, beastid, deleted, label, weights, weight }) => {
         if (deleted) {
-          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.groupRoles(beastid, groupid).catch(e => sendErrorForward('update beast delete group roles', e, res))).catch(e => sendErrorForward('update beast delete groups', e, res)))
+          promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.encounter.groupRoles(beastid, groupid).catch(e => sendErrorForward('update beast delete group roles', e, res))).catch(e => sendErrorForward('update beast delete groups', e, res)))
         } else if (groupid && beastid) {
           promiseArray.push(db.update.encounter.groups(beastid, groupid, label, +weight).then(_ => {
             let groupPromises = []
@@ -1155,10 +1155,9 @@ let controllerObj = {
         })
       }).catch(e => sendErrorForward('update beast delete challenges', e, res)))
 
-
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCatelog(app)
-        res.send({ id })
+        checkForContentTypeBeforeSending(res, {id})
       }).catch(e => sendErrorForward('update beast final promise', e, res))
     }).catch(e => sendErrorForward('update beast main', e, res))
   },
@@ -1200,7 +1199,7 @@ let controllerObj = {
 
       Promise.all(promiseArray).then(_ => {
         controllerObj.collectCatelog(req.app)
-        res.send({ id })
+        checkForContentTypeBeforeSending(res, { id })
       }).catch(e => sendErrorForward('delete beast final promise', e, res))
     })
   },
@@ -1210,22 +1209,22 @@ let controllerObj = {
     if (req.user && req.user.id) {
       db.get.favoriteCount(req.user.id).then(result => {
         if (+result[0].count <= ((req.user.patreon * 3) + 3)) {
-          db.add.favorite(req.user.id, beastid).then(_ => res.send({ color: "green", message: `Monster Favorited` }).catch(e => sendErrorForward('add favorite', e, res)))
+          db.add.favorite(req.user.id, beastid).then(_ => checkForContentTypeBeforeSending(res, { color: "green", message: `Monster Favorited` }).catch(e => sendErrorForward('add favorite', e, res)))
         } else {
-          res.send({ color: "yellow", message: "You have too many favorited monsters: delete some or upgrade your Patreon tier" })
+          checkForContentTypeBeforeSending(res, { color: "yellow", message: "You have too many favorited monsters: delete some or upgrade your Patreon tier" })
         }
       }).catch(e => sendErrorForward('get favorite count', e, res))
     } else {
-      res.send({ color: "red", message: "You Need to Log On to Favorite Monsters" })
+      checkForContentTypeBeforeSending(res, { color: "red", message: "You Need to Log On to Favorite Monsters" })
     }
   },
   deleteFavorite(req, res) {
     const db = req.app.get('db')
       , { beastid } = req.params
     if (req.user && req.user.id) {
-      db.delete.favorite(req.user.id, beastid).then(_ => res.send({ color: "green", message: 'Monster Unfavorited' }).catch(e => sendErrorForward('delete favorite', e, res)))
+      db.delete.favorite(req.user.id, beastid).then(_ => checkForContentTypeBeforeSending(res, { color: "green", message: 'Monster Unfavorited' }).catch(e => sendErrorForward('delete favorite', e, res)))
     } else {
-      res.send({ color: "red", message: "You Need to Log On to Unfavorite Monsters" })
+      checkForContentTypeBeforeSending(res, { color: "red", message: "You Need to Log On to Unfavorite Monsters" })
     }
   },
   getUsersFavorites(req, res) {
@@ -1257,11 +1256,11 @@ let controllerObj = {
         })
 
         Promise.all(finalArray).then(_ => {
-          res.send(result)
+          checkForContentTypeBeforeSending(res, result)
         }).catch(e => sendErrorForward('get favorite final promise', e, res))
       }).catch(e => sendErrorForward('get favorites', e, res))
     } else {
-      res.send({ message: "You Need to Log On to Favorite Monsters" })
+      checkForContentTypeBeforeSending(res, { message: "You Need to Log On to Favorite Monsters" })
     }
   },
   getEditEncounter(req, res) {
@@ -1340,7 +1339,7 @@ let controllerObj = {
     }).catch(e => sendErrorForward('get encounter all signs', e, res)))
 
     Promise.all(promiseArray).then(_ => {
-      res.send(encounterObject)
+      checkForContentTypeBeforeSending(res, encounterObject)
     }).catch(e => sendErrorForward('get encounter promise array', e, res))
   },
   getRandomEncounter(req, res) {
@@ -1472,7 +1471,7 @@ let controllerObj = {
     }
 
     Promise.all(promiseArray).then(_ => {
-      res.send(encounterObject)
+      checkForContentTypeBeforeSending(res, encounterObject)
     }).catch(e => sendErrorForward('get random encounter finall array', e, res))
   }
 }

@@ -1,4 +1,4 @@
-const {sendErrorForwardNoFile} = require('./helpers')
+const {sendErrorForwardNoFile, checkForContentTypeBeforeSending} = require('./helpers')
 
 const sendErrorForward = sendErrorForwardNoFile('Obstacle controller')
 
@@ -79,7 +79,7 @@ let obstacleController = {
 
             Promise.all(promiseArray).then(_ => {
                 obstacleController.collectCache(req.app, 0)
-                res.send({ color: 'green', message: `${type.toProperCase()} added successfully` })
+                checkForContentTypeBeforeSending(res, { color: 'green', message: `${type.toProperCase()} added successfully` })
             }).catch(e => sendErrorForward('obstacle final promise', e, res))
         }).catch(e => sendErrorForward('obstacle main', e, res))
     },
@@ -89,12 +89,12 @@ let obstacleController = {
         if (id) {
             db.update.obstacle.challenge(type, name, flowchart, notes, id).then(result => {
                 obstacleController.collectCache(req.app, 0)
-                res.send({ color: 'green', message: `${type.toProperCase()} added successfully` })
+                checkForContentTypeBeforeSending(res, { color: 'green', message: `${type.toProperCase()} added successfully` })
             }).catch(e => sendErrorForward('add challenge 1', e, res))
         } else {
             db.add.obstacle.challenge(type, name, flowchart, notes).then(result => {
                 obstacleController.collectCache(req.app, 0)
-                res.send({ color: 'green', message: `${type.toProperCase()} added successfully` })
+                checkForContentTypeBeforeSending(res, { color: 'green', message: `${type.toProperCase()} added successfully` })
             }).catch(e => sendErrorForward('add challenge 2', e, res))
         }
     },
@@ -129,11 +129,11 @@ let obstacleController = {
                 }).catch(e => sendErrorForward('get obstacle complications', e, res)))
     
                 Promise.all(promiseArray).then(_ => {
-                    res.send(obstacle)
+                    checkForContentTypeBeforeSending(res, obstacle)
                 })
             }).catch(e => sendErrorForward('get obstacle main', e, res))
         } else {
-            res.send({})
+            checkForContentTypeBeforeSending(res, {})
         }
     },
     getChallenge: (req, res) => {
@@ -148,7 +148,7 @@ let obstacleController = {
                 challenge.beasts = result
             }).catch(e => sendErrorForward('get challenge related beasts', e, res)))
             Promise.all(promiseArray).then(_ => {
-                res.send(challenge)
+                checkForContentTypeBeforeSending(res, challenge)
             }).catch(e => sendErrorForward('get challenge final promise', e, res))
         }).catch(e => sendErrorForward('get challenge main', e, res))
     },
@@ -166,13 +166,13 @@ let obstacleController = {
     
                 Promise.all(promiseArray).then(_ => {
                     obstacleController.collectCache(req.app, 0)
-                    res.send({ color: 'green', message: `Obstacle deleted successfully` })
+                    checkForContentTypeBeforeSending(res, { color: 'green', message: `Obstacle deleted successfully` })
                 })
             }).catch(e => sendErrorForward('get obstacle for delete', e, res))
         } else {
             db.delete.obstacle.challenges(id).then(result => {
                 obstacleController.collectCache(req.app, 0)
-                res.send({ color: 'green', message: `Challenge deleted successfully` })
+                checkForContentTypeBeforeSending(res, { color: 'green', message: `Challenge deleted successfully` })
             }).catch(e => sendErrorForward('delete challenges', e, res))
         }
     },
@@ -201,7 +201,7 @@ let obstacleController = {
             })
             Promise.all(promiseArray).then(_ => {
                 db.get.obstacle.challengesearch(req.query.search).then(challenges => {
-                    res.send({obstacles: obstacleArray, challenges})
+                    checkForContentTypeBeforeSending(res, {obstacles: obstacleArray, challenges})
                 }).catch(e => sendErrorForward('search obstacle challenges', e, res))
             }).catch(e => sendErrorForward('search obstacle final promise', e, res))
         }).catch(e => sendErrorForward('search obstacle main', e, res))
@@ -213,9 +213,9 @@ let obstacleController = {
         db.get.obstacle.byName(name).then(id => {
             id = id[0]
             if (!id) {
-                res.send({ id: false })
+                checkForContentTypeBeforeSending(res, { id: false })
             } else {
-                res.send({ id: id.id })
+                checkForContentTypeBeforeSending(res, { id: id.id })
             }
         }).catch(e => sendErrorForward('get obstacle by name', e, res))
     }

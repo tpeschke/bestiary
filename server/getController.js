@@ -3,7 +3,7 @@ const roles = require('./roles')
   , combatSquareCtrl = require('./combatSquare')
   , { combatCounterSecretKey } = require('./server-config')
   , axios = require('axios')
-const { sendErrorForwardNoFile } = require('./helpers')
+const { sendErrorForwardNoFile, checkForContentTypeBeforeSending } = require('./helpers')
 
 const sendErrorForward = sendErrorForwardNoFile('get controller')
 
@@ -84,15 +84,15 @@ module.exports = {
     const id = req.params.id
     const endpoint = 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + id + '-token'
     axios.get(endpoint).then(_ => {
-      res.send(true)
+      checkForContentTypeBeforeSending(res, true)
     }).catch(e => {
-      res.send(false)
+      checkForContentTypeBeforeSending(res, false)
     })
   },
   getAllClimates(req, res) {
     db = req.app.get('db')
     db.get.all_climates().then(allclimates => {
-      res.send(allclimates)
+      checkForContentTypeBeforeSending(res, allclimates)
     }).catch(e => sendErrorForward('beast all climates single', e, res))
   },
   getQuickView(req, res) {
@@ -195,7 +195,7 @@ module.exports = {
       }
 
       if (beastPatreon > patreonTestValue) {
-        res.send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
+        checkForContentTypeBeforeSending(res, { color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
         promiseArray.push(db.get.beastmovement(beastid).then(result => {
           if (roleid) {
@@ -291,7 +291,7 @@ module.exports = {
         }))
 
         Promise.all(promiseArray).then(finalArray => {
-          res.send(beast)
+          checkForContentTypeBeforeSending(res, beast)
         }).catch(e => sendErrorForward('final promise', e, res))
       }
     }).catch(e => sendErrorForward('main', e, res))
@@ -321,7 +321,7 @@ module.exports = {
       }
 
       if (patreon > patreonTestValue) {
-        res.send({ color: 'red', message: 'You need to update your Patreon tier to access this monster' })
+        checkForContentTypeBeforeSending(res, { color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
         beast.lairloot = {};
 
@@ -712,7 +712,7 @@ module.exports = {
 
           Promise.all(finalPromise).then(actualFinal => {
             beast.conflict.devotions = beast.conflict.devotions.sort(sortOutAnyToTheBottom)
-            res.send(beast)
+            checkForContentTypeBeforeSending(res, beast)
           }).catch(e => sendErrorForward('beast final promise 2', e, res))
         }).catch(e => sendErrorForward('beast main promise', e, res))
       }

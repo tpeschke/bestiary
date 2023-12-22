@@ -493,7 +493,7 @@
         <mat-form-field>
           <input placeholder="Confrontation Points" matInput
             [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints"
-            (change)="captureBasicInput($event, 'socialpoints')">
+            (change)="captureBasicInput($event, 'socialpoints')" type="number">
         </mat-form-field>
 
         <div class="vitals-shell" *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role">
@@ -542,7 +542,7 @@
           <br />
           <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.convictions.length > 0">
             <input matInput placeholder="Max Convictions Appearing" [value]="beast.traitlimit"
-              (change)="captureInput($event, 'traitlimit')">
+              (change)="captureInput($event, 'traitlimit')" type="number">
           </mat-form-field>
           <br />
 
@@ -561,7 +561,7 @@
           <br />
           <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.devotions.length > 0">
             <input matInput placeholder="Max Devotions Appearing" [value]="beast.devotionlimit"
-              (change)="captureInput($event, 'devotionlimit')">
+              (change)="captureInput($event, 'devotionlimit')" type="number">
           </mat-form-field>
           <br />
 
@@ -701,7 +701,7 @@
         <mat-form-field>
           <input placeholder="Skill Points" matInput
             [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints"
-            (change)="captureBasicInput($event, 'skillpoints')">
+            (change)="captureBasicInput($event, 'skillpoints')" type="number">
         </mat-form-field>
 
         <div class="vitals-shell" *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role">
@@ -772,7 +772,7 @@
               </td>
               <td>{{getSkillRank(skill.strength, skill.adjustment)}}</td>
               <td><input class="table-input text-center" [value]="skill.adjustment"
-                  (change)="captureInput($event, 'skills', i, 'adjustment')"></td>
+                  (change)="captureInput($event, 'skills', i, 'adjustment')" type="number"></td>
               <td class="border-left">
                 <mat-checkbox [ngClass]="skill && skill[skill] === 'majSt' ? 'checkmark-role-background' : ''"
                   (change)="checkSkill('majSt', i, $event)"
@@ -860,7 +860,7 @@
           </div>
         </mat-chip-list>
         <mat-form-field>
-          <input matInput placeholder="Obstacle ID" [value]="newObstacleId" (change)="captureObstacle($event)">
+          <input matInput placeholder="Obstacle ID" [value]="newObstacleId" (change)="captureObstacle($event)" type="number">
         </mat-form-field>
         <br>
         <button mat-raised-button color="accent" (click)="addObstacleById()"><i
@@ -876,7 +876,7 @@
           </div>
         </mat-chip-list>
         <mat-form-field>
-          <input matInput placeholder="Challenge ID" [value]="newChallengeId" (change)="captureChallenge($event)">
+          <input matInput placeholder="Challenge ID" [value]="newChallengeId" (change)="captureChallenge($event)" type="number"> 
         </mat-form-field>
         <br>
         <button mat-raised-button color="accent" (click)="addChallengeById()"><i
@@ -939,7 +939,7 @@
             <mat-form-field>
               <input placeholder="Combat Points" matInput
                 [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints"
-                (change)="captureBasicInput($event, 'combatpoints')">
+                (change)="captureBasicInput($event, 'combatpoints')" type="number">
             </mat-form-field>
 
             <div class="vitals-shell">
@@ -974,7 +974,7 @@
                 *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
                 <input placeholder="Knock Back Threshold" matInput
                   [value]="beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].knockback ? beast.roleInfo[selectedRoleId].knockback : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].size ? sizeDictionary[beast.roleInfo[selectedRoleId].size] : beast.knockback ? beast.knockback : sizeDictionary[beast.size] ? sizeDictionary[beast.size] : null"
-                  (change)="captureBasicInput($event, 'knockback')">
+                  (change)="captureBasicInput($event, 'knockback')" type="number">
               </mat-form-field>
 
               <div class="locational-shell">
@@ -1144,7 +1144,7 @@
                 <br>
                 <mat-form-field>
                   <input placeholder="Adjustment" matInput [value]="movementType.adjustment"
-                    (change)="getAdjustment('movement', i, $event)">
+                    (change)="getAdjustment('movement', i, $event)" type="number">
                 </mat-form-field>
 
                 <div class="flex-row-opposite">
@@ -1181,7 +1181,7 @@
                 [ngClass]="{'noDisplay': temperament.deleted}">
                 <td matTooltip="{{temperament.tooltip}}" matTooltipPosition="right">{{temperament.temperament}}</td>
                 <td><input class="table-input" placeholder="Weight" value="{{temperament.weight}}"
-                    (change)="changeEncounterItemSubtype($event, 'temperament', 'weight', i)"></td>
+                    (change)="changeEncounterItemSubtype($event, 'temperament', 'weight', i)" type="number"></td>
                 <td><i (click)="removeEncounterItem(i, 'temperament', 'temperament')" class="fa-solid fa-trash"></i>
                 </td>
               </tr>
@@ -1198,7 +1198,7 @@
                   </mat-autocomplete>
                 </td>
                 <td><input class="table-input-clearable" placeholder="Weight"
-                    (change)="captureEncounterInput($event, 'temperament', 'weight')"></td>
+                    (change)="captureEncounterInput($event, 'temperament', 'weight')" type="number"></td>
 
                 <td><i *ngIf="temperament.temperament && temperament.weight"
                     (click)="addEncounterItem('temperament', 'temperament')"
@@ -1228,7 +1228,7 @@
                 <td><input class="table-input" value="{{row.miles}}"
                     (change)="changeEncounterItem($event, 'numbers', 'miles', i)"></td>
                 <td><input class="table-input" value="{{row.weight}}"
-                    (change)="changeEncounterItem($event, 'numbers', 'weight', i)"></td>
+                    (change)="changeEncounterItem($event, 'numbers', 'weight', i)" type="number"></td>
                 <td><i (click)="removeSingleEncounter(i, 'numbers')" class="fa-solid fa-trash"></i></td>
               </tr>
               <tr>
@@ -1237,7 +1237,7 @@
                 <td><input class="table-input-clearable" placeholder="Miles in dice"
                     (change)="captureEncounterInput($event, 'numbers', 'miles')"></td>
                 <td><input class="table-input-clearable" placeholder="Weight"
-                    (change)="captureEncounterInput($event, 'numbers', 'weight')"></td>
+                    (change)="captureEncounterInput($event, 'numbers', 'weight')" type="number"></td>
                 <td><i *ngIf="numbers.numbers && numbers.weight && numbers.miles"
                     (click)="addSingleEncounterItem('numbers')" class="fa-sharp fa-solid fa-square-plus"></i>
                   <i *ngIf="!numbers.numbers && !numbers.weight && !numbers.miles"
@@ -1266,7 +1266,7 @@
                   <td colspan="2"><input placeholder="Group Label" value="{{group.label}}" class="table-input"
                       (change)="changeEncounterItem($event, 'groups', 'label', i)"></td>
                   <td><input placeholder="Group Weight" value="{{group.weight}}" class="table-input"
-                      (change)="changeEncounterItem($event, 'groups', 'weight', i)"></td>
+                      (change)="changeEncounterItem($event, 'groups', 'weight', i)" type="number"></td>
                   <td><i (click)="removeSingleEncounter(i, 'groups')" class="fa-solid fa-trash"></i></td>
                 </tr>
                 <tr *ngFor="let row of group.weights; let rowi = index" [ngClass]="{'noDisplay': row.deleted}">
@@ -1274,7 +1274,7 @@
                   <td><input placeholder="Role" value="{{row.role}}" class="table-input"
                       (change)="changeEncounterItemInArray($event, 'groups', 'weights', i, rowi, 'role')"></td>
                   <td><input placeholder="Weight" value="{{row.weight}}" class="table-input"
-                      (change)="changeEncounterItemInArray($event, 'groups', 'weights', i, rowi, 'weight')"></td>
+                      (change)="changeEncounterItemInArray($event, 'groups', 'weights', i, rowi, 'weight')" type="number"></td>
                   <td><i (click)="removeEncounterItemFromInnerArray('groups', i, 'weights', rowi)"
                       class="fa-solid fa-trash"></i></td>
                 </tr>
@@ -1283,7 +1283,7 @@
                   <td><input placeholder="Role" class="table-input-clearable"
                       (change)="captureEncounterInputAtIndex($event, 'weights', 'role', i)"></td>
                   <td><input placeholder="Role Weight" class="table-input-clearable"
-                      (change)="captureEncounterInputAtIndex($event, 'weights', 'weight', i)"></td>
+                      (change)="captureEncounterInputAtIndex($event, 'weights', 'weight', i)" type="number"></td>
                   <td><i *ngIf="weights[i] && weights[i].role && weights[i].weight"
                       (click)="addEncounterItemFromArray('groups','weights',  i)"
                       class="fa-sharp fa-solid fa-square-plus"></i>
@@ -1297,7 +1297,7 @@
                   <td colspan="2"><input placeholder="Group Label" class="table-input-clearable"
                       (change)="captureEncounterInput($event, 'groups', 'label')"></td>
                   <td><input placeholder="Group Weight" class="table-input-clearable"
-                      (change)="captureEncounterInput($event, 'groups', 'weight')"></td>
+                      (change)="captureEncounterInput($event, 'groups', 'weight')" type="number"></td>
                   <td><i *ngIf="groups.label && groups.weight" [ngClass]="{'disabled': !groups.label || !groups.weight}"
                       (click)="addSingleEncounterItem('groups')"
                       class="subheader-icon fa-sharp fa-solid fa-square-plus"></i>
@@ -1387,7 +1387,7 @@
               <tr *ngFor="let sign of encounter.signs.signs; let i = index" [ngClass]="{'noDisplay': sign.deleted}">
                 <td>{{sign.sign}}</td>
                 <td><input class="table-input" placeholder="Weight" value="{{sign.weight}}"
-                    (change)="changeEncounterItemSubtype($event, 'signs', 'weight', i)"></td>
+                    (change)="changeEncounterItemSubtype($event, 'signs', 'weight', i)" type="number"></td>
                 <td><i (click)="removeEncounterItem(i, 'signs', 'signs')" class="fa-solid fa-trash"></i>
                 </td>
               </tr>
@@ -1403,7 +1403,7 @@
                   </mat-autocomplete>
                 </td>
                 <td><input placeholder="Weight" class="table-input-clearable"
-                    (change)="captureEncounterInput($event, 'signs', 'weight')">
+                    (change)="captureEncounterInput($event, 'signs', 'weight')" type="number">
                 </td>
                 <td><i *ngIf="signs.sign && signs.weight" (click)="addEncounterItem('signs', 'signs')"
                     class="fa-sharp fa-solid fa-square-plus"></i>
@@ -2986,7 +2986,7 @@
             </div>
           </mat-chip-list>
           <mat-form-field>
-            <input matInput placeholder="Monster ID" [value]="newVariantId" (change)="captureID($event)">
+            <input matInput placeholder="Monster ID" [value]="newVariantId" (change)="captureID($event)" type="number">
           </mat-form-field>
           <br>
           <button mat-raised-button color="accent" (click)="addById()"><i class="fa-solid fa-plus icon-medium"></i> By

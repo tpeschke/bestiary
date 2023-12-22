@@ -1,4 +1,4 @@
-const {sendErrorForwardNoFile} = require('./helpers')
+const {sendErrorForwardNoFile, checkForContentTypeBeforeSending} = require('./helpers')
 
 const sendErrorForward = sendErrorForwardNoFile('search controller')
 
@@ -119,7 +119,7 @@ module.exports = {
 
             Promise.all(beastArray).then(finalArray => {
                 // the final fitler removes null values for player search
-                res.send(finalArray.filter(x => x).sort((a, b) => a.name < b.name ? -1 : 1))
+                checkForContentTypeBeforeSending(res, finalArray.filter(x => x).sort((a, b) => a.name < b.name ? -1 : 1))
             }).catch(e => sendErrorForward('search final promise 2', e, res))
         }).catch(e => sendErrorForward('search final promise', e, res))
     },
@@ -130,7 +130,7 @@ module.exports = {
             patreon = req.user.patreon
         }
         db.get.search.randomMonster(patreon).then(data => {
-            res.send(data[0])
+            checkForContentTypeBeforeSending(res, data[0])
         }).catch(e => sendErrorForward('random monster', e, res))
     }
 }

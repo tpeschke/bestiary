@@ -744,7 +744,7 @@
       <br>
       <mat-form-field>
         <input placeholder="Adjustment" matInput [value]="combatStats.adjustment"
-          (change)="getAdjustment('adjustment', $event)">
+          (change)="getAdjustment('adjustment', $event)" type="number">
       </mat-form-field>
 
       <button class="trash-button" mat-raised-button (click)="removeCallback(index)" color="warn"><i

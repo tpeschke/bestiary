@@ -1903,6 +1903,7 @@ export class BeastViewEditComponent implements OnInit {
       interval: null,
       effect: null,
       allroles: null,
+      resist: null,
       roleid: this.selectedRoleId
     })
   }
