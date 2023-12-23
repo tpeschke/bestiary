@@ -63,7 +63,6 @@ import { DifficultyMatrixComponent } from './obstacle-index/difficulty-matrix/di
 import { ChallengeEditComponent } from './obstacle-index/edit/challenge-edit/challenge-edit.component';
 import { EditHomeComponent } from './obstacle-index/edit/edit-home/edit-home.component';
 import { ChallengePopUpComponent } from './obstacle-index/view/challenge-pop-up/challenge-pop-up.component';
-import { EnchantedItemPopUpComponent } from './beast-view/beast-view-gm/EnchantedItemPopUp/EnchantedItemPopUp.component';
 import { ChallengeShellComponent } from './obstacle-index/view/challenge-shell/challenge-shell.component';
 import { ObstacleInnardsComponent } from './obstacle-index/view/obstacle-innards/obstacle-innards.component';
 import { SkillDisplayComponent } from './beast-view/beast-view-edit/skill-display/skill-display.component';
@@ -134,7 +133,6 @@ const routes: Routes = [
     ChallengeEditComponent,
     EditHomeComponent,
     ChallengePopUpComponent,
-    EnchantedItemPopUpComponent,
     ChallengeShellComponent,
     ObstacleInnardsComponent,
     CombatInfoComponent,
@@ -174,7 +172,7 @@ const routes: Routes = [
     QuillModule.forRoot(),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })
   ],
-  entryComponents: [ObstaclePopUpComponent, DifficultyMatrixComponent, ChallengePopUpComponent, EnchantedItemPopUpComponent],
+  entryComponents: [ObstaclePopUpComponent, DifficultyMatrixComponent, ChallengePopUpComponent],
   providers: [BeastService, CalculatorService],
   bootstrap: [AppComponent]
 })

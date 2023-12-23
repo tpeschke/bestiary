@@ -258,6 +258,10 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     cursor: pointer;
 }
 
+.no-underline {
+    text-decoration: none;
+}
+
 .token-download-shell:hover {
     background: #0000004a;
 }
