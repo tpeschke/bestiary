@@ -1144,7 +1144,7 @@ export class BeastViewGmComponent implements OnInit {
       secondaryrole: basicSecondaryRole, socialrole: basicSocialRole, socialsecondary: basicSocialSecondary,
       skillrole: basicSkillRole, notes, movement, rolenameorder, roleInfo, hash, combatStatArray, specialAbilities,
       knockback: basicKnockback, notrauma: basicTrauma, noknockback: basicnoknockback, phyiscalAndStress, locationalvitality,
-      spells, skills, challenges, obstacles, conflict } = this.beast
+      spells, skills, challenges, obstacles, conflict, rollundertrauma: basicRollUnderTrauma } = this.beast
 
     const selectedRoleInfo = roleInfo[this.selectedRoleId]
 
@@ -1174,6 +1174,7 @@ export class BeastViewGmComponent implements OnInit {
     const skillrole = this.selectedRoleId ? selectedRoleInfo.skillrole : basicSkillRole
     const knockback = this.selectedRoleId ? selectedRoleInfo.knockback : basicKnockback
     const notrauma = this.selectedRoleId ? selectedRoleInfo.notrauma : basicTrauma
+    const rollundertrauma = this.selectedRoleId ? selectedRoleInfo.rollundertrauma : basicRollUnderTrauma
     const noknockback = this.selectedRoleId ? selectedRoleInfo.noknockback : basicnoknockback
     const physical = this.selectedRoleId ? selectedRoleInfo.phyiscalAndStress.physical : phyiscalAndStress.physical
     const mental = this.selectedRoleId ? selectedRoleInfo.phyiscalAndStress.mental : phyiscalAndStress.mental
@@ -1192,7 +1193,7 @@ export class BeastViewGmComponent implements OnInit {
         secondary: combatsecondary,
         attacks: combatStatArray.filter(combat => combat.roleid === this.selectedRoleId).map(combat => combat.combatSquare),
         physical: {
-          ...physical, knockback, notrauma, noknockback, size, senses,
+          ...physical, knockback, notrauma, noknockback, size, senses, rollundertrauma,
           locationalvitality: locationalvitality.filter(location => location.roleid === this.selectedRoleId || location.allroles),
           movement: movement.filter(move => move.roleid === this.selectedRoleId || move.allroles),
         },
