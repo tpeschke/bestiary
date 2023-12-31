@@ -51,7 +51,7 @@
       </div>
 
       <div class="margin-spacing" *ngIf="beast.id">
-        <label mat-raised-button color="accent" for="file-upload" class="custom-file-upload">
+        <label mat-raised-button color="accent" for="file-upload" class="custom-file-upload" matTooltip="10 MB limit">
           <i class="fa fa-cloud-upload"></i> Upload Image
         </label>
         <input id="file-upload" type="file" (change)="onMainImagePicked($event)" />
@@ -269,7 +269,15 @@
         </mat-select>
       </mat-form-field>
 
-      <button mat-raised-button (click)="deleteRole()" color="warn">Delete Role</button>
+      <div>
+        <div *ngIf="checkForDeleteRole">
+          <button mat-raised-button (click)="deleteRole()" color="warn" matTooltip="Yes, Delete the Role"><i class="fa-solid fa-check"></i></button>
+          <button mat-raised-button (click)="toggleCheckDeleteRole()" color="primary" matTooltip="Nevermind"><i class="fa-solid fa-x"></i></button>
+        </div>
+        <div *ngIf="!checkForDeleteRole">
+          <button mat-raised-button (click)="toggleCheckDeleteRole()" color="warn">Delete Role</button>
+        </div>
+      </div>
     </div>
 
     <mat-accordion>
@@ -3007,6 +3015,14 @@
   <div class="divider"></div>
   <br>
 
-  <button (click)="saveChanges()" mat-raised-button color="primary">Save</button>
-  <button (click)="deleteThisBeast()" mat-raised-button color="warn" class="deleteButton">Delete Monster</button>
+  <button (click)="saveChanges()" mat-raised-button color="primary">Save Monster</button>
+  <div>
+    <div *ngIf="checkForDelete" class="deleteButton">
+      <button mat-raised-button (click)="deleteThisBeast()" color="warn" matTooltip="Yes, Delete this Monster"><i class="fa-solid fa-check"></i></button>
+      <button mat-raised-button (click)="toggleCheckDelete()" color="primary" matTooltip="Nevermind"><i class="fa-solid fa-x"></i></button>
+    </div>
+    <div *ngIf="!checkForDelete" class="deleteButton">
+      <button (click)="toggleCheckDelete()" mat-raised-button color="warn">Delete Monster</button>
+    </div>
+  </div>
 </mat-card>

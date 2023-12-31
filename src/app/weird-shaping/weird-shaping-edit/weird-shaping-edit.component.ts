@@ -24,9 +24,22 @@ export class WeirdShapingEditComponent implements OnInit {
 
   castingSelect = []
   tooltips = null
+  checkForDelete = false
+  indexToDelete = null
 
   ngOnInit() {
     this.tooltips = tooltips
+  }
+
+  goAheadAndDelete = (index) => {
+    this.checkForDelete = false
+    this.indexToDelete = null
+    this.deleteSpell(index)
+  }
+
+  toggleCheckDelete = (index) => {
+    this.checkForDelete = !this.checkForDelete
+    this.indexToDelete = index
   }
 
 }

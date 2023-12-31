@@ -716,7 +716,9 @@ mat-toolbar {
 }
 
 .deleteButton {
-    margin-top: 150px
+    margin-top: 150px;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 ul {

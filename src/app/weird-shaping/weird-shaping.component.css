@@ -120,6 +120,19 @@ mat-card {
     color: #607d8b !important;
 }
 
+.fa-square-check {
+    margin-top: 15px;
+    font-size: 25px;
+    color: green
+}
+
+.fa-square-xmark {
+    margin-top: 15px;
+    font-size: 25px;
+    margin-left: 15px;
+    color: red
+}
+
 mat-form-field {
     width: 90%;
 }

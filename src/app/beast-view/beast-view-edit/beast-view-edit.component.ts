@@ -51,6 +51,8 @@ export class BeastViewEditComponent implements OnInit {
   public newChallengeId = null;
   public newObstacleId = null;
   public lootTables = lootTables;
+  public checkForDeleteRole = false
+  public checkForDelete = false
 
   public mental = {
     stress: null,
@@ -290,7 +292,7 @@ export class BeastViewEditComponent implements OnInit {
 
         this.beast.artistInfo = { ...this.beast.artistInfo, artist: null, artistid: null, beastid: null, id: null, link: null, tooltip: null }
 
-        this.beast.combat = this.beast.combat.map(combat => {
+        this.beast.combatStatArray = this.beast.combatStatArray.map(combat => {
           if (combat.roleid) {
             combat.roleid = roleIdsDictionary[combat.roleid]
           }
@@ -440,6 +442,12 @@ export class BeastViewEditComponent implements OnInit {
           return spells
         })
 
+        this.beast.climates.beast = this.beast.climates.beast.map(climate => {
+          delete climate.beastid
+          delete climate.uniqueid
+          return climate
+        })
+
         if (this.beast.role) {
           this.selectedRole = this.combatRolesInfo[this.beast.role]
         }
@@ -452,6 +460,43 @@ export class BeastViewEditComponent implements OnInit {
         this.beast.patreon = 20
         this.beastService.getEditEncounter(this.route.snapshot.params.templateId).subscribe(encounter => {
           this.encounter = encounter
+          this.encounter.groups = this.encounter.groups.map(group => {
+            delete group.id
+            delete group.beastid
+            group.weights = group.weights.map(weight => {
+              delete weight.id
+              delete weight.beastid
+              return weight
+            })
+            return group
+          })
+          this.encounter.noun.noun = this.encounter.noun.noun.map(noun => {
+            delete noun.id
+            delete noun.beastid
+            return noun
+          })
+          this.encounter.numbers = this.encounter.numbers.map(number => {
+            delete number.id
+            delete number.beastid
+            return number
+          })
+          this.encounter.signs.signs = this.encounter.signs.signs.map(sign => {
+            delete sign.id
+            delete sign.signid
+            delete sign.beastid
+            return sign
+          })
+          this.encounter.temperament.temperament = this.encounter.temperament.temperament.map(temp => {
+            delete temp.id
+            delete temp.temperamentid
+            delete temp.beastid
+            return temp
+          })
+          this.encounter.verb.verb = this.encounter.verb.verb.map(verb => {
+            delete verb.id
+            delete verb.beastid
+            return verb
+          })
           this.bootUpEncounterAutoComplete()
         })
       } else if (beast) {
@@ -562,7 +607,7 @@ export class BeastViewEditComponent implements OnInit {
         }
       }
 
-      if ( this.beast.climates.allclimates.length === 0) {
+      if (this.beast.climates.allclimates.length === 0) {
         this.beastService.getAllClimates().subscribe((results: any) => {
           this.beast.climates.allclimates = results
         })
@@ -864,8 +909,8 @@ export class BeastViewEditComponent implements OnInit {
 
     if (secondaryType === "carriedloot") {
       const letterIndex = this.alphabet.indexOf(event.value)
-      const newLetter = this.alphabet[letterIndex+2]
-      this.captureSelectForObject({value: newLetter}, type, 'lairloot')
+      const newLetter = this.alphabet[letterIndex + 2]
+      this.captureSelectForObject({ value: newLetter }, type, 'lairloot')
     }
   }
 
@@ -877,8 +922,8 @@ export class BeastViewEditComponent implements OnInit {
     this.beast[type].scrolls.push(this.scroll)
     if (type === 'carriedloot') {
       const letterIndex = this.alphabet.indexOf(this.scroll.number)
-      const newLetter = this.alphabet[letterIndex+2]
-      this.beast.lairloot.scrolls.push({...this.scroll, number: newLetter})
+      const newLetter = this.alphabet[letterIndex + 2]
+      this.beast.lairloot.scrolls.push({ ...this.scroll, number: newLetter })
     }
     this.scroll = {
       number: null,
@@ -894,8 +939,8 @@ export class BeastViewEditComponent implements OnInit {
     this.beast[type].equipment.push(this.equipment)
     if (type === 'carriedloot') {
       const letterIndex = this.alphabet.indexOf(this.equipment.number)
-      const newLetter = this.alphabet[letterIndex+2]
-      this.beast.lairloot.equipment.push({...this.equipment, number: newLetter})
+      const newLetter = this.alphabet[letterIndex + 2]
+      this.beast.lairloot.equipment.push({ ...this.equipment, number: newLetter })
     }
     this.equipment = {
       number: null,
@@ -920,8 +965,8 @@ export class BeastViewEditComponent implements OnInit {
     this.beast[type].traited.push(this.traited)
     if (type === 'carriedloot') {
       const letterIndex = this.alphabet.indexOf(this.traited.chancetable)
-      const newLetter = this.alphabet[letterIndex+2]
-      this.beast.lairloot.traited.push({...this.traited, chancetable: newLetter})
+      const newLetter = this.alphabet[letterIndex + 2]
+      this.beast.lairloot.traited.push({ ...this.traited, chancetable: newLetter })
     }
     this.traited = {
       chancetable: null,
@@ -954,8 +999,8 @@ export class BeastViewEditComponent implements OnInit {
     this.beast[type].alms.push(this.alm)
     if (type === 'carriedloot') {
       const letterIndex = this.alphabet.indexOf(this.alm.number)
-      const newLetter = this.alphabet[letterIndex+2]
-      this.beast.lairloot.alms.push({...this.alm, number: newLetter})
+      const newLetter = this.alphabet[letterIndex + 2]
+      this.beast.lairloot.alms.push({ ...this.alm, number: newLetter })
     }
     this.alm = {
       number: null,
@@ -983,8 +1028,8 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  public landClimates = ['Af','Am','Aw/As','BWh','BWk','BSh','BSk','Csa','Csb','Csc','Cwa','Cwb','Cfb','Dsa','Dsb','Dsc','Dsd','Dwa','Dwb','Dwc','Dwd','Dfa','Dfb','Dfc','Dfd','ET','EF']
-  public aquaticClimates = ['Ss','So','Sl','Sr','Fs','Fl','Fr','Fg']
+  public landClimates = ['Af', 'Am', 'Aw/As', 'BWh', 'BWk', 'BSh', 'BSk', 'Csa', 'Csb', 'Csc', 'Cwa', 'Cwb', 'Cfb', 'Dsa', 'Dsb', 'Dsc', 'Dsd', 'Dwa', 'Dwb', 'Dwc', 'Dwd', 'Dfa', 'Dfb', 'Dfc', 'Dfd', 'ET', 'EF']
+  public aquaticClimates = ['Ss', 'So', 'Sl', 'Sr', 'Fs', 'Fl', 'Fr', 'Fg']
   public specialClimates = ['U', 'Us', 'Sh', 'D', 'C', 'R']
 
   addChip(type) {
@@ -1216,6 +1261,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   saveChanges() {
+    this.beastService.handleMessage({ message: 'Saving Monster', color: 'yellow' })
     let id = this.route.snapshot.paramMap.get('id');
 
     this.beast.roles = this.beast.roles.map(role => {
@@ -1241,16 +1287,22 @@ export class BeastViewEditComponent implements OnInit {
     if (+id) {
       this.beastService.updateBeast(this.beast).subscribe(result => {
         if (result.id) {
+          this.beastService.handleMessage({ message: 'Saved!', color: 'green' })
           this.router.navigate([`/beast/${id}/gm`])
         }
       })
     } else {
       this.beastService.addBeast(this.beast).subscribe(result => {
         if (result.id) {
+          this.beastService.handleMessage({ message: 'Saved!', color: 'green' })
           this.router.navigate([`/beast/${result.id}/gm`])
         }
       })
     }
+  }
+
+  toggleCheckDelete = () => {
+    this.checkForDelete = !this.checkForDelete
   }
 
   deleteThisBeast() {
@@ -2112,7 +2164,12 @@ export class BeastViewEditComponent implements OnInit {
     xhr.send();
   }
 
+  toggleCheckDeleteRole = () => {
+    this.checkForDeleteRole = !this.checkForDeleteRole
+  }
+
   deleteRole() {
+    this.checkForDeleteRole = false
     this.beast.conflict.devotions.forEach((subcat, index) => {
       if (this.selectedRoleId === subcat.socialroleid) {
         this.removeNewSecondaryItem('conflict', index, 'devotions')
@@ -2140,9 +2197,9 @@ export class BeastViewEditComponent implements OnInit {
       }
     })
 
-    this.beast.combat.forEach((cat, index) => {
+    this.beast.combatStatArray.forEach((cat, index) => {
       if (this.selectedRoleId === cat.roleid) {
-        this.removeNewSecondaryItem('combat', index, null)
+        this.removeNewSecondaryItem('combatStatArray', index, null)
       }
     })
 

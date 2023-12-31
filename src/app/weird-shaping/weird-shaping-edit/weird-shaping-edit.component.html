@@ -138,7 +138,13 @@
         </mat-checkbox>
 
         <br />
-        <i (click)="deleteSpell(i)" class="fa-solid fa-trash"></i>
+        <div *ngIf="checkForDelete && i === indexToDelete">
+          <i (click)="goAheadAndDelete(i)" class="fa-solid fa-square-check" matTooltip="Yes, Delete Spell"></i>
+          <i (click)="toggleCheckDelete(null)" class="fa-solid fa-square-xmark" matTooltip="Nevermind"></i>
+        </div>
+        <div *ngIf="!checkForDelete || i !== indexToDelete">
+          <i (click)="toggleCheckDelete(i)" class="fa-solid fa-trash"></i>
+        </div>
       </mat-card>
     </div>
     <div class="spell-card add-spell-shell">

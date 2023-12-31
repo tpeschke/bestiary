@@ -34,7 +34,7 @@ export class BeastService {
       } else if (color === 'yellow') {
         this.toastr.warning(info)
       } else if (color === 'red') {
-        this.toastr.error(info)
+        this.toastr.error(info, null, {disableTimeOut: true})
         throw info
       }
     }
