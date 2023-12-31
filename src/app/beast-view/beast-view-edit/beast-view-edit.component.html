@@ -163,14 +163,18 @@
       <div class="divider"></div>
       <div>
         <quill-editor [(ngModel)]="beast.intro" (onContentChanged)="captureHTML($event, 'intro')"></quill-editor>
-        <p class="character-counter">{{beast.intro ? beast.intro.length : 0}} / 500 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
+        <p class="character-counter">{{beast.intro ? beast.intro.length : 0}} / 500 <i
+            class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i>
+        </p>
       </div>
 
       <h2>Appearance</h2>
       <div class="divider"></div>
       <div>
         <quill-editor [(ngModel)]="beast.ecology" (onContentChanged)="captureHTML($event, 'ecology')"></quill-editor>
-        <p class="character-counter">{{beast.ecology ? beast.ecology.length : 0}} / 1,000 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
+        <p class="character-counter">{{beast.ecology ? beast.ecology.length : 0}} / 1,000 <i
+            class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i>
+        </p>
       </div>
 
       <div class="edit-table-shell">
@@ -216,7 +220,9 @@
       <div class="divider"></div>
       <div>
         <quill-editor [(ngModel)]="beast.habitat" (onContentChanged)="captureHTML($event, 'habitat')"></quill-editor>
-        <p class="character-counter">{{beast.habitat ? beast.habitat.length : 0}} / 10,000 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
+        <p class="character-counter">{{beast.habitat ? beast.habitat.length : 0}} / 10,000 <i
+            class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i>
+        </p>
       </div>
 
       <div class="edit-table-shell">
@@ -253,8 +259,8 @@
     <div *ngIf="selectedRoleId" class="flex-row-opposite">
       <mat-form-field>
         <input matInput placeholder="Change Role Name" [value]="beast.roleInfo[selectedRoleId].name"
-          (input)="captureRoleName($event)"  max="25">
-          <mat-hint align="end">{{beast.roleInfo[selectedRoleId].name.length}}/25</mat-hint>
+          (input)="captureRoleName($event)" max="25">
+        <mat-hint align="end">{{beast.roleInfo[selectedRoleId].name.length}}/25</mat-hint>
       </mat-form-field>
 
       <mat-form-field>
@@ -271,8 +277,10 @@
 
       <div>
         <div *ngIf="checkForDeleteRole">
-          <button mat-raised-button (click)="deleteRole()" color="warn" matTooltip="Yes, Delete the Role"><i class="fa-solid fa-check"></i></button>
-          <button mat-raised-button (click)="toggleCheckDeleteRole()" color="primary" matTooltip="Nevermind"><i class="fa-solid fa-x"></i></button>
+          <button mat-raised-button (click)="deleteRole()" color="warn" matTooltip="Yes, Delete the Role"><i
+              class="fa-solid fa-check"></i></button>
+          <button mat-raised-button (click)="toggleCheckDeleteRole()" color="primary" matTooltip="Nevermind"><i
+              class="fa-solid fa-x"></i></button>
         </div>
         <div *ngIf="!checkForDeleteRole">
           <button mat-raised-button (click)="toggleCheckDeleteRole()" color="warn">Delete Role</button>
@@ -386,7 +394,9 @@
       <h3 *ngIf="selectedRoleId">Base Abilities</h3>
       <div>
         <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')"></quill-editor>
-        <p class="character-counter">{{beast.sp_atk ? beast.sp_atk.length : 0}} / 3,000  <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
+        <p class="character-counter">{{beast.sp_atk ? beast.sp_atk.length : 0}} / 3,000 <i
+            class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i>
+        </p>
       </div>
 
       <div *ngIf="selectedRoleId">
@@ -395,7 +405,9 @@
         <div>
           <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
             (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
-          <p class="character-counter">{{beast.roleInfo[selectedRoleId].attack ? beast.roleInfo[selectedRoleId].attack.length : 0}} / 3,000  <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
+          <p class="character-counter">{{beast.roleInfo[selectedRoleId].attack ?
+            beast.roleInfo[selectedRoleId].attack.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
+              matTooltip="This also counts the HTML tags which are invisible."></i></p>
         </div>
       </div>
 
@@ -415,7 +427,9 @@
       <h3 *ngIf="selectedRoleId">Base Abilities</h3>
       <div>
         <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')"></quill-editor>
-        <p class="character-counter">{{beast.sp_def ? beast.sp_def.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
+        <p class="character-counter">{{beast.sp_def ? beast.sp_def.length : 0}} / 3,000 <i
+            class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i>
+        </p>
       </div>
 
       <div *ngIf="selectedRoleId">
@@ -424,7 +438,9 @@
         <div>
           <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense"
             (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
-          <p class="character-counter">{{beast.roleInfo[selectedRoleId].defense ? beast.roleInfo[selectedRoleId].defense.length : 0}} / 3,000  <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
+          <p class="character-counter">{{beast.roleInfo[selectedRoleId].defense ?
+            beast.roleInfo[selectedRoleId].defense.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
+              matTooltip="This also counts the HTML tags which are invisible."></i></p>
         </div>
       </div>
 
@@ -446,7 +462,8 @@
   <div class="divider"></div>
   <div>
     <quill-editor [(ngModel)]="beast.tactics" (onContentChanged)="captureHTML($event, 'tactics')"></quill-editor>
-    <p class="character-counter">{{beast.tactics ? beast.tactics.length : 0}} / 3,000  <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
+    <p class="character-counter">{{beast.tactics ? beast.tactics.length : 0}} / 3,000 <i
+        class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
   </div>
 
   <br>
@@ -868,7 +885,8 @@
           </div>
         </mat-chip-list>
         <mat-form-field>
-          <input matInput placeholder="Obstacle ID" [value]="newObstacleId" (change)="captureObstacle($event)" type="number">
+          <input matInput placeholder="Obstacle ID" [value]="newObstacleId" (change)="captureObstacle($event)"
+            type="number">
         </mat-form-field>
         <br>
         <button mat-raised-button color="accent" (click)="addObstacleById()"><i
@@ -884,7 +902,8 @@
           </div>
         </mat-chip-list>
         <mat-form-field>
-          <input matInput placeholder="Challenge ID" [value]="newChallengeId" (change)="captureChallenge($event)" type="number"> 
+          <input matInput placeholder="Challenge ID" [value]="newChallengeId" (change)="captureChallenge($event)"
+            type="number">
         </mat-form-field>
         <br>
         <button mat-raised-button color="accent" (click)="addChallengeById()"><i
@@ -965,25 +984,37 @@
                 [checkStat]="checkStat" [stats]="selectedRoleId ? beast.roleInfo[selectedRoleId] : beast">
               </app-mental-physical-display>
               <br>
-              <mat-checkbox
-                [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].singledievitality : beast.singledievitality"
-                (change)="checkCheckBox($event.checked, 'singledievitality')">Single Die Vitality
-              </mat-checkbox>
-              <br>
-              <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?
-              </mat-checkbox>
-              <br>
-              <mat-checkbox [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback"
-                (change)="checkCheckBox($event.checked, 'noknockback')">Immune to Knockbacks?
-              </mat-checkbox>
-              <br *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
-              <br *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
-              <mat-form-field
-                *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
-                <input placeholder="Knock Back Threshold" matInput
-                  [value]="beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].knockback ? beast.roleInfo[selectedRoleId].knockback : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].size ? sizeDictionary[beast.roleInfo[selectedRoleId].size] : beast.knockback ? beast.knockback : sizeDictionary[beast.size] ? sizeDictionary[beast.size] : null"
-                  (change)="captureBasicInput($event, 'knockback')" type="number">
-              </mat-form-field>
+              <div class="vitality-info-shell">
+                <div>
+                  <mat-checkbox
+                    [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].singledievitality : beast.singledievitality"
+                    (change)="checkCheckBox($event.checked, 'singledievitality')">Single Die Vitality
+                  </mat-checkbox>
+                </div>
+                <div>
+                  <mat-checkbox
+                    [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback"
+                    (change)="checkCheckBox($event.checked, 'noknockback')">Immune to Knockbacks?
+                  </mat-checkbox>
+                  <br *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
+                  <br *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
+                  <mat-form-field *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
+                    <input placeholder="Knock Back Threshold" matInput
+                      [value]="beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].knockback ? beast.roleInfo[selectedRoleId].knockback : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].size ? sizeDictionary[beast.roleInfo[selectedRoleId].size] : beast.knockback ? beast.knockback : sizeDictionary[beast.size] ? sizeDictionary[beast.size] : null"
+                      (change)="captureBasicInput($event, 'knockback')" type="number">
+                  </mat-form-field>
+                </div>
+                <div>
+                  <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?</mat-checkbox>
+                  <div *ngIf="!beast.notrauma">
+                    <br>
+                    <p>Needs to Roll Under: {{selectedRoleId ? beast.roleInfo[selectedRoleId].rollundertrauma : beast.rollundertrauma}}</p>
+                    <mat-slider (input)="captureSliderInput($event)" min="1" max="20" step="1" [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].rollundertrauma : beast.rollundertrauma">
+                      <input matSliderThumb>
+                    </mat-slider>
+                  </div>
+                </div>
+              </div>
 
               <div class="locational-shell">
                 <div *ngFor="let location of beast.locationalvitality; let i = index" class="locational-id-shell"
@@ -991,12 +1022,12 @@
                   <mat-form-field>
                     <input placeholder="Location" matInput [value]="location.location"
                       (change)="captureInput($event, 'locationalvitality', i, 'location')">
-                      <mat-hint align="end">{{location.location.length}}/250</mat-hint>
+                    <mat-hint align="end">{{location.location.length}}/250</mat-hint>
                   </mat-form-field>
                   <mat-form-field>
                     <input placeholder="Vitality" matInput [value]="location.vitality"
                       (change)="captureInput($event, 'locationalvitality', i, 'vitality')">
-                      <mat-hint align="end">{{location.vitality.length}}/250</mat-hint>
+                    <mat-hint align="end">{{location.vitality.length}}/250</mat-hint>
                   </mat-form-field>
                   <p>(Ave: {{calculatorService.calculateAverageOfDice(location.vitality)}})</p>
                   <section>
@@ -1042,7 +1073,7 @@
                   <mat-form-field>
                     <input placeholder="Movement Type" matInput [value]="movementType.type"
                       (change)="captureInput($event, 'movement', i, 'type')">
-                      <mat-hint align="end">{{movementType.type.length}}/250</mat-hint>
+                    <mat-hint align="end">{{movementType.type.length}}/250</mat-hint>
                   </mat-form-field>
                 </h3>
                 <table>
@@ -1282,7 +1313,8 @@
                   <td><input placeholder="Role" value="{{row.role}}" class="table-input"
                       (change)="changeEncounterItemInArray($event, 'groups', 'weights', i, rowi, 'role')"></td>
                   <td><input placeholder="Weight" value="{{row.weight}}" class="table-input"
-                      (change)="changeEncounterItemInArray($event, 'groups', 'weights', i, rowi, 'weight')" type="number"></td>
+                      (change)="changeEncounterItemInArray($event, 'groups', 'weights', i, rowi, 'weight')"
+                      type="number"></td>
                   <td><i (click)="removeEncounterItemFromInnerArray('groups', i, 'weights', rowi)"
                       class="fa-solid fa-trash"></i></td>
                 </tr>
@@ -1472,7 +1504,7 @@
                 <mat-form-field>
                   <input placeholder="Value" matInput [value]="lootitem.price"
                     (change)="captureInput($event, 'loot', i, 'price')">
-                    <mat-hint align="end">{{lootitem.price.length}}/500</mat-hint>
+                  <mat-hint align="end">{{lootitem.price.length}}/500</mat-hint>
                 </mat-form-field>
                 <button mat-raised-button (click)="removeNewSecondaryItem('loot', i)" color="warn"><i
                     class="fa-solid fa-trash"></i></button>
@@ -1485,8 +1517,11 @@
           <br />
           <h3 class="loot-notes-subtitle">Loot Notes</h3>
           <div>
-            <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')"></quill-editor>
-            <p class="character-counter">{{beast.lootnotes ? beast.lootnotes.length : 0}} / 5,000 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
+            <quill-editor [(ngModel)]="beast.lootnotes" (onContentChanged)="captureHTML($event, 'lootnotes')">
+            </quill-editor>
+            <p class="character-counter">{{beast.lootnotes ? beast.lootnotes.length : 0}} / 5,000 <i
+                class="fas fa-info-circle icon-small"
+                matTooltip="This also counts the HTML tags which are invisible."></i></p>
           </div>
           <br />
 
@@ -2963,7 +2998,7 @@
             <mat-form-field>
               <input matInput placeholder="Diet" [value]="beast.diet" (change)="captureInput($event, 'diet')"
                 maxlength="40">
-                <mat-hint align="end">{{beast.diet.length}}/500</mat-hint>
+              <mat-hint align="end">{{beast.diet.length}}/500</mat-hint>
             </mat-form-field>
 
             <mat-form-field>
@@ -3005,7 +3040,9 @@
         <div class="divider"></div>
         <div>
           <quill-editor [(ngModel)]="beast.meta" (onContentChanged)="captureHTML($event, 'meta')"></quill-editor>
-          <p class="character-counter">{{beast.meta ? beast.meta.length : 0}} / 5,000 <i class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i></p>
+          <p class="character-counter">{{beast.meta ? beast.meta.length : 0}} / 5,000 <i
+              class="fas fa-info-circle icon-small"
+              matTooltip="This also counts the HTML tags which are invisible."></i></p>
         </div>
       </ng-template>
     </mat-tab>
@@ -3018,8 +3055,10 @@
   <button (click)="saveChanges()" mat-raised-button color="primary">Save Monster</button>
   <div>
     <div *ngIf="checkForDelete" class="deleteButton">
-      <button mat-raised-button (click)="deleteThisBeast()" color="warn" matTooltip="Yes, Delete this Monster"><i class="fa-solid fa-check"></i></button>
-      <button mat-raised-button (click)="toggleCheckDelete()" color="primary" matTooltip="Nevermind"><i class="fa-solid fa-x"></i></button>
+      <button mat-raised-button (click)="deleteThisBeast()" color="warn" matTooltip="Yes, Delete this Monster"><i
+          class="fa-solid fa-check"></i></button>
+      <button mat-raised-button (click)="toggleCheckDelete()" color="primary" matTooltip="Nevermind"><i
+          class="fa-solid fa-x"></i></button>
     </div>
     <div *ngIf="!checkForDelete" class="deleteButton">
       <button (click)="toggleCheckDelete()" mat-raised-button color="warn">Delete Monster</button>

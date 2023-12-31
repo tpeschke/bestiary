@@ -254,6 +254,14 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     padding: 5px 10px;
 }
 
+.fa-down-long {
+    font-size: 14px;
+}
+
+h3 span {
+    display: inline !important;
+}
+
 .pointer {
     cursor: pointer;
 }

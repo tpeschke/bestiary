@@ -105,6 +105,14 @@
     padding: 2px 5px;
 }
 
+.vitality-info-shell {
+    display: flex;
+}
+
+.vitality-info-shell div {
+    margin-right: 15px
+}
+
 .bottom-border {
     border-bottom: 1px solid rgb(195, 195, 195);
 }

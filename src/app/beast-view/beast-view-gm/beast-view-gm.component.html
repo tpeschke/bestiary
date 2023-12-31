@@ -292,10 +292,11 @@
             </div>
 
             <div *ngIf="isNumber(trauma) && trauma !== 0" class="flex-row-opposite">
-              <h3>Trauma Threshold</h3>
-              <p>
-                {{selectedRoleId && beast.roleInfo[selectedRoleId].notrauma ? 'N/A' : beast.notrauma ? 'N/A' :
-                this.trauma}}</p>
+              <h3>Trauma Threshold <span *ngIf="!beast.notrauma">(<i matTooltip="What you need to roll under for the Trauma Check" class="fa-solid fa-down-long"></i>)</span></h3>
+              <span>
+                <p>{{beast.notrauma ? 'N/A' : trauma }}</p>
+                <p *ngIf="!beast.notrauma" matTooltip="What you need to roll under for the Trauma Check">({{selectedRoleId ? beast.roleInfo[selectedRoleId].rollundertrauma : beast.rollundertrauma}})</p>
+              </span>
             </div>
 
             <div class="divider white"></div>

@@ -589,7 +589,8 @@ module.exports = {
               noknockback: result[i].noknockback,
               descriptionshare: result[i].descriptionshare,
               convictionshare: result[i].convictionshare,
-              devotionshare: result[i].devotionshare
+              devotionshare: result[i].devotionshare,
+              rollundertrauma: result[i].rollundertrauma
             }
           }
           return result

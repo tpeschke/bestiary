@@ -593,6 +593,7 @@ export class BeastViewEditComponent implements OnInit {
             commanding: null,
             bloodpact: null
           },
+          rollundertrauma: 5,
           challenges: [],
           obstacles: [],
           artistInfo: {},
@@ -792,6 +793,14 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
   captureInput = this.captureInputUnbound.bind(this)
+
+  captureSliderInput = (event) => {
+    if (this.selectedRoleId) {
+      this.beast.roleInfo[this.selectedRoleId].rollundertrauma = event.value
+    } else {
+      this.beast.rollundertrauma = event.value
+    }
+  }
 
   checkRandomizeDescription = (index, checked) => {
     if (checked) {
@@ -1277,6 +1286,7 @@ export class BeastViewEditComponent implements OnInit {
       role.knockback = roleInfo.knockback
       role.singledievitality = roleInfo.singledievitality
       role.noknockback = roleInfo.noknockback
+      role.rollundertrauma = roleInfo.rollundertrauma
       return role
     })
 
@@ -1824,6 +1834,7 @@ export class BeastViewEditComponent implements OnInit {
         largeweapons: this.beast.largeweapons,
         mental: this.beast.mental,
         fatigue: this.beast.fatigue,
+        rollundertrauma: this.beast.rollundertrauma,
         ...rolesToAdd
       }
 
@@ -1866,6 +1877,7 @@ export class BeastViewEditComponent implements OnInit {
         largeweapons: null,
         mental: null,
         fatigue: null,
+        rollundertrauma: 5,
         ...rolesToAdd
       }
 
