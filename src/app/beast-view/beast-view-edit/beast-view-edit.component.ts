@@ -1038,8 +1038,9 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   public landClimates = ['Af', 'Am', 'Aw/As', 'BWh', 'BWk', 'BSh', 'BSk', 'Csa', 'Csb', 'Csc', 'Cwa', 'Cwb', 'Cfb', 'Dsa', 'Dsb', 'Dsc', 'Dsd', 'Dwa', 'Dwb', 'Dwc', 'Dwd', 'Dfa', 'Dfb', 'Dfc', 'Dfd', 'ET', 'EF']
-  public aquaticClimates = ['Ss', 'So', 'Sl', 'Sr', 'Fs', 'Fl', 'Fr', 'Fg']
-  public specialClimates = ['U', 'Us', 'Sh', 'D', 'C', 'R']
+  public aquaticClimates = ['Salt-Water Sea','Salt-Water Lake','Salt-Water Ocean','Salt-Water River','Fresh-Water Glacier','Fresh-Water Lake','Fresh-Water River','Fresh-Water Sea']
+  public specialClimates = ['Ship','Castle','Ruin','Urban','Urban Sewer','Dungeon']
+
 
   addChip(type) {
     if (this[type] === 'all' && type === 'climate') {
@@ -1056,14 +1057,14 @@ export class BeastViewEditComponent implements OnInit {
       })
     } else if (this[type] === 'allAquatic' && type === 'climate') {
       this.beast.climates.allclimates.forEach(climate => {
-        if (this.aquaticClimates.includes(climate.code)) {
+        if (this.aquaticClimates.includes(climate.climate)) {
           const newClimate = { ...climate, climateid: climate.id }
           this.beast.climates.beast.push(newClimate)
         }
       })
     } else if (this[type] === 'allSpecial' && type === 'climate') {
       this.beast.climates.allclimates.forEach(climate => {
-        if (this.specialClimates.includes(climate.code)) {
+        if (this.specialClimates.includes(climate.climate)) {
           const newClimate = { ...climate, climateid: climate.id }
           this.beast.climates.beast.push(newClimate)
         }
