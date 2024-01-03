@@ -122,7 +122,12 @@
       </div>
       <br>
 
-      <div *ngIf="beast.id">
+      <div *ngIf="beast.id && beast.imagesource">
+        <br>
+        <p><strong>Artist: </strong>{{beast.artistInfo.artist}}</p>
+      </div>
+
+      <div *ngIf="beast.id && !beast.imagesource">
         <mat-form-field>
           <input placeholder="Artist" matInput [matAutocomplete]="artistauto" [formControl]="artistController">
           <mat-autocomplete #artistauto="matAutocomplete" [displayWith]="getDisplayTextArtist"
@@ -134,7 +139,7 @@
         </mat-form-field>
       </div>
 
-      <mat-accordion *ngIf="beast.id">
+      <mat-accordion *ngIf="beast.id && !beast.imagesource">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>

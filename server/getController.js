@@ -80,6 +80,14 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole, s
 }
 
 module.exports = {
+  getArtist: (req, res) => {
+    const db = req.app.get('db')
+        , id = req.params.id
+    
+    db.get.artist_by_id(id).then(result => {
+      checkForContentTypeBeforeSending(res, result)
+    }).catch(e => sendErrorForward('get artist by id', e, res))
+  },
   checkToken(req, res) {
     const id = req.params.id
     const endpoint = 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + id + '-token'

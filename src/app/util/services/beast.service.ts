@@ -123,6 +123,11 @@ export class BeastService {
     )
   }
 
+  getArtist(id) {
+    return this.http.get(local.endpointBase + '/api/getArtist/' + id)
+    .pipe(tap(result => this.handleMessage(result)))
+  }
+
   searchName(name = null) {
     return this.http.get(local.endpointBase + '/api/searchName/' + name)
       .pipe(tap(result => this.handleMessage(result)))

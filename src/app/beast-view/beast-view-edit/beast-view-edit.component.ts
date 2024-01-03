@@ -670,11 +670,16 @@ export class BeastViewEditComponent implements OnInit {
     if (!isNaN(+event.target.value)) {
       this.beast.imagesource = event.target.value
       this.getImageUrl()
+      if (this.beast.imagesource) {
+        this.beastService.getArtist(this.beast.imagesource).subscribe(result => {
+          console.log(result)
+          this.setArtist({option: {value: result[0]}})
+        })
+      }
     }
   }
 
   _filterGroup = (value, groups, type) => {
-    console.log(value)
     if (value) {
       return groups
         .map(group => ({ label: group.label, burdens: this._filter(value, group.burdens, type) }))
