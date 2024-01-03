@@ -35,7 +35,7 @@ export class BeastService {
       } else if (color === 'yellow') {
         this.toastr.warning(info)
       } else if (color === 'red') {
-        this.toastr.error(info, null, {disableTimeOut: true})
+        this.toastr.error(info, null, { disableTimeOut: true })
         throw info
       }
     }
@@ -121,6 +121,11 @@ export class BeastService {
         }
       })
     )
+  }
+
+  checkIfCanEdit(id) {
+    return this.http.get(local.endpointBase + '/api/canEdit/' + id)
+      .pipe(tap(result => this.handleMessage(result)))
   }
 
   uploadMainImage = (imageForm: FormData, id: number) => {
@@ -265,9 +270,9 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
-  getAllClimates(){
+  getAllClimates() {
     return this.http.get(local.endpointBase + '/api/getAllClimates')
-    .pipe(tap(result => this.handleMessage(result)))
+      .pipe(tap(result => this.handleMessage(result)))
   }
 
   getPotions(number) {

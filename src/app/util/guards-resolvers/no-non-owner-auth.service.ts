@@ -18,25 +18,11 @@ export class NoNonOwnerService implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.beastService.loggedIn) {
-      return this.beastService.checkLogin()
-        .pipe(
-          map((loggedIn) => {
-            return this.routeWhere(loggedIn)
-          })
-        )
-    } else {
-      return this.routeWhere(this.beastService.loggedIn)
-    }
+    console.log(next.paramMap.get('id'))
+    return this.beastService.checkIfCanEdit(next.paramMap.get('id')).pipe(
+      map((result: any) => {
+        return result.canEdit
+      })
+    )
   }
-
-  routeWhere = (loggedIn) => {
-    if (loggedIn.id === 1 || loggedIn.id === 21) {
-      return true
-    } else {
-      this.router.navigate(['catalog'])
-      return false
-    }
-  }
-
 }

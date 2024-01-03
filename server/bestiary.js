@@ -82,6 +82,7 @@ app.get('/api/beasts/:id', getCtrl.getSingleBeast)
 app.get('/api/quickview/:hash', getCtrl.getQuickView)
 app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
 app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({ id: 0 }))
+app.get('/api/canEdit/:id', ctrl.canEditMonster)
 
 app.get('/api/search', searchCtrl.search)
 app.get('/api/obstacles/search', obstCtrl.search)

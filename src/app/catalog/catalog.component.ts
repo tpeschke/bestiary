@@ -39,7 +39,7 @@ export class CatalogComponent implements OnInit {
   targetSocialSecondary: string;
   targetDefaultRole: string
   targetHasToken: any = false
-  public loggedIn:boolean|string|number = false;
+  public loggedIn:any = false;
 
   ngOnInit() {
     this.beastService.checkLogin().subscribe(result => {

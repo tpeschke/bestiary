@@ -123,6 +123,17 @@ let controllerObj = {
       checkForContentTypeBeforeSending(res, { canView: (req.user && req.user.id === 1) || (req.user && req.user.patreon >= 3) || result[0].canplayerview })
     }).catch(e => sendErrorForward('player can view', e, res))
   },
+  canEditMonster (req, res) {
+    const db = req.app.get('db')
+      , id = +req.params.id
+    if (req.user) {
+      db.get.can_edit(id).then(result => {
+        checkForContentTypeBeforeSending(res, { canEdit: (req.user.id === 1) || (req.user.id === 21) || (req.user.id === result[0].userid) })
+      }).catch(e => sendErrorForward('can edit', e, res))
+    } else {
+      checkForContentTypeBeforeSending(res, {canEdit: false})
+    }
+  },
   getPlayerBeast(req, res) {
     const db = req.app.get('db')
       , id = +req.params.id
