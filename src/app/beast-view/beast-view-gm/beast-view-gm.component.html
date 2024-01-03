@@ -16,7 +16,7 @@
         {{beast.name}}
       </h1>
 
-      <div *ngIf="tokenExists" class="token-download-shell" (click)="forceDownload()">
+      <div *ngIf="tokenExists || beast.imagesource" class="token-download-shell" (click)="forceDownload()">
         <span><i class="fa-solid fa-download"></i> Download Token</span>
       </div>
     </mat-toolbar>

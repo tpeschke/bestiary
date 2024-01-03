@@ -2210,7 +2210,8 @@ export class BeastViewEditComponent implements OnInit {
 
   forceDownload() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + this.beast.id + '-token', true);
+    const idToUse = this.tokenExists ? this.beast.id : this.beast.imagesource
+    xhr.open("GET", 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + idToUse + '-token', true);
     xhr.responseType = "blob";
     const beastName = this.beast.name
     xhr.onload = function () {
