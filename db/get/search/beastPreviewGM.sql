@@ -4,4 +4,4 @@ join (select avg(combatpoints) as combatpoints, avg(socialpoints) as socialpoint
 union all
 select combatpoints, socialpoints, skillpoints from bbroles where beastid = $1) x) t
 on t.id = b.id
-where t.id = $1 and patreon < 20;
+where t.id = $1 and patreon < 20 and (userid is null or userid = $2);

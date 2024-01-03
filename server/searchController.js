@@ -117,7 +117,7 @@ module.exports = {
                     if (req.user.id === 1 || req.user.id === 21) {
                         beastArray.push(db.get.search.beastPreviewOwner(id).then(result => result[0]).catch(e => sendErrorForward('preview owner', e, res)))
                     } else if (req.user.patreon >= 3) {
-                        beastArray.push(db.get.search.beastPreviewGM(id).then(result => result[0]).catch(e => sendErrorForward('preview GM', e, res)))
+                        beastArray.push(db.get.search.beastPreviewGM(id, req.user.id).then(result => result[0]).catch(e => sendErrorForward('preview GM', e, res)))
                     }
                 } else {
                     beastArray.push(db.get.search.beastPreviewPlayer(id).then(result => result[0]).catch(e => sendErrorForward('preview player', e, res)))

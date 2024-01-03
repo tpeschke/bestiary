@@ -7,12 +7,11 @@
         <h1 routerLink="/obstacle" class="title">Bonfire Obstacle Index</h1>
         <p class="subtitle-desktop" [routerLink]="['/']">(& Bestiary)</p>
       </div>
-        <p class="subtitle-mobile" [routerLink]="['/']">(& Bestiary)</p>
+      <p class="subtitle-mobile" [routerLink]="['/']">(& Bestiary)</p>
 
       <div>
-        <button mat-flat-button color="accent" [routerLink]="['/']">Bestiary <i
-            class="fas fa-arrow-right"></i></button>
-        <button class="new-button right-most-buttom" *ngIf="loggedIn.id === 1 || loggedIn.id === 21 || loggedIn.patreon > 19" mat-raised-button color="accent"
+        <button mat-flat-button color="accent" [routerLink]="['/']">Bestiary <i class="fas fa-arrow-right"></i></button>
+        <button class="new-button right-most-buttom" *ngIf="loggedIn.id === 1 || loggedIn.id === 21"
           [routerLink]="['/obstacle', 'edit', 0]">New</button>
         <div *ngIf="!loggedIn" class="right-most-buttom">
           <a href={{loginEndpoint}}>

@@ -3070,8 +3070,8 @@
   <div class="divider"></div>
   <br>
 
-  <button (click)="saveChanges()" mat-raised-button color="primary">Save Monster</button>
-  <div>
+  <button (click)="saveChanges()" mat-raised-button color="primary" [disabled]="!beast.name">{{beast.name ? 'Save Monster' : 'Your beast needs a name to save it'}}</button>
+  <div *ngIf="beast.id">
     <div *ngIf="checkForDelete" class="deleteButton">
       <button mat-raised-button (click)="deleteThisBeast()" color="warn" matTooltip="Yes, Delete this Monster"><i
           class="fa-solid fa-check"></i></button>
