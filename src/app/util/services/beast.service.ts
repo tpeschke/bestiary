@@ -123,6 +123,11 @@ export class BeastService {
     )
   }
 
+  canAccessCustomCatalog() {
+    return this.http.get(local.endpointBase + '/api/checkCustomCatalogAccess')
+    .pipe(tap(result => this.handleMessage(result)))
+  }
+
   getArtist(id) {
     return this.http.get(local.endpointBase + '/api/getArtist/' + id)
     .pipe(tap(result => this.handleMessage(result)))

@@ -77,6 +77,7 @@ import { CombatTableComponent } from './util/combat-table/combat-table.component
 import { CharacteristicDisplayComponent } from './beast-view/beast-view-edit/characteristic-display/characteristic-display.component';
 import {MatSliderModule} from '@angular/material/slider';
 import { CustomCatalogComponent } from './custom-catalog/custom-catalog.component';
+import { PatreonAuthService } from './util/guards-resolvers/patreon-auth.service';
 
 const routes: Routes = [
   {
@@ -100,7 +101,7 @@ const routes: Routes = [
     { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: { beast: PlayerBeastResolverService } },
     { path: 'beast/:id/edit', component: BeastViewEditComponent, canActivate: [NoNonOwnerService], resolve: { beast: SingleBeastResolverService } },
     { path: 'search', component: SearchResultsComponent },
-    { path: 'custom', component: CustomCatalogComponent },
+    { path: 'custom', component: CustomCatalogComponent, canActivate: [PatreonAuthService] },
     { path: '**', redirectTo: '' }
     ]
   },
