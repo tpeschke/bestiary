@@ -12,7 +12,7 @@
       <div>
         <button mat-flat-button color="accent" [routerLink]="['/']">Bestiary <i
             class="fas fa-arrow-right"></i></button>
-        <button class="new-button right-most-buttom" *ngIf="loggedIn === 'owner'" mat-raised-button color="accent"
+        <button class="new-button right-most-buttom" *ngIf="loggedIn.id === 1 || loggedIn.id === 21 || loggedIn.patreon > 19" mat-raised-button color="accent"
           [routerLink]="['/obstacle', 'edit', 0]">New</button>
         <div *ngIf="!loggedIn" class="right-most-buttom">
           <a href={{loginEndpoint}}>

@@ -21,7 +21,6 @@ export class NoGmAuthService {
     return this.beastService.checkPlayerCanView(next.paramMap.get('id'))
       .pipe(
         map(({ canView }) => {
-          console.log(canView)
           if (canView) {
             this.router.navigate(['/beast/', next.paramMap.get('id'), 'gm'])
             return false

@@ -20,6 +20,7 @@ export class CustomCatalogComponent implements OnInit {
   ) { }
 
   public beasts = []
+  public isLoading = true
   public favorites: any = []
   public imageBase = variables.imageBase;
 
@@ -45,8 +46,9 @@ export class CustomCatalogComponent implements OnInit {
       this.loggedIn = result
     })
     this.titleService.setTitle("Custom Catalog")
-    this.route.data.subscribe(data => {
-      this.beasts = data['catalog']
+    this.beastService.getCustomCatalog().subscribe(data => {
+      this.beasts = data
+      this.isLoading = false
     })
   }
 

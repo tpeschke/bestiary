@@ -70,9 +70,9 @@
   </div>
 
   <div class="copy-link-shell">
-    <button class="new-button" *ngIf="loggedIn === 'owner'" mat-raised-button color="warn"
+    <button class="new-button" *ngIf="loggedIn.id === 1 || loggedIn.id === 21" mat-raised-button color="warn"
     (click)="goToEdit()"><i class="fa-solid fa-pen-to-square"></i></button>
-    <div *ngIf="loggedIn !== 'owner'"></div>
+    <div *ngIf="!(loggedIn.id === 1 || loggedIn.id === 21)"></div>
 
     <button class="new-button" mat-raised-button color="accent" matTooltip="Get Quick Link for Obstacle (id: {{obstacle.id}})"
     (click)="copyLink(obstacle.id)"><i class="fa-solid fa-link"></i></button>

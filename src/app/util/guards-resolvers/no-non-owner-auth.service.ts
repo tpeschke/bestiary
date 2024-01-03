@@ -31,7 +31,7 @@ export class NoNonOwnerService implements CanActivate {
   }
 
   routeWhere = (loggedIn) => {
-    if (loggedIn === 'owner') {
+    if (loggedIn.id === 1 || loggedIn.id === 21) {
       return true
     } else {
       this.router.navigate(['catalog'])

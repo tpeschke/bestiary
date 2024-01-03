@@ -100,7 +100,7 @@ const routes: Routes = [
     { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: { beast: PlayerBeastResolverService } },
     { path: 'beast/:id/edit', component: BeastViewEditComponent, canActivate: [NoNonOwnerService], resolve: { beast: SingleBeastResolverService } },
     { path: 'search', component: SearchResultsComponent },
-    { path: 'custom', component: CustomCatalogComponent, resolve: { catalog: CatalogResolverService } },
+    { path: 'custom', component: CustomCatalogComponent },
     { path: '**', redirectTo: '' }
     ]
   },

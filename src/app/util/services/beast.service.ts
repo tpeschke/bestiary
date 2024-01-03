@@ -22,7 +22,8 @@ export class BeastService {
     private toastr: ToastrService
   ) { }
 
-  public loggedIn: boolean | string | number = false
+  public loggedIn: boolean | string | number | User = false
+  public userId = null
 
   handleMessage(message) {
     let { message: info, color, error } = message;
@@ -112,12 +113,11 @@ export class BeastService {
   checkLogin() {
     return this.http.get(local.endpointBase + '/api/auth/me').pipe(
       map((result: User) => {
-        if (result.id === 1 || result.id === 21) {
-          return 'owner'
-        } else if (result.id && result.patreon) {
-          return result.patreon
+        this.loggedIn = result
+        if (result.id && result.patreon) {
+          return result
         } else if (result.id) {
-          return true;
+          return result;
         }
       })
     )

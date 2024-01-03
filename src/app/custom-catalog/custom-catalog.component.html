@@ -1,95 +1,72 @@
-<mat-card>
-  <div *ngFor="let category of beasts; let titleIndex = index">
-    <h2>{{category[0].name.substring(0,1)}} <i *ngIf="titleIndex === 1" class="fas fa-info-circle icon-small blue large"
-        matTooltip="A template is the purist expression of a monster - a platonic version, if you will. It is, in fact, so pure that they do not exist in the game world. Templates monsters are baselines that you can use to improve monsters that are not in the Bestiary on the fly."
-        matTooltipClass="my-tooltip"></i></h2>
-    <mat-divider></mat-divider>
-    <div class="beastDiv">
-      <div *ngFor="let beast of category">
-        <div class="beast-outer-shell">
-          <button *ngIf="beast.patreon < 20" class="beastButton" mat-button
-            (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.defaultrole); false">
-            <div class="img-shell">
-              <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
-                [src]="imageBase + beast.id  " [alt]="beast.name"
-                onerror="this.onerror=null;this.src='/assets/404.png';">
-            </div>
-            <div class="beast-name-shell">
-              <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
-              <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
-              <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
-            </div>
-          </button>
-        </div>
+<div *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
 
-        <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || beastService.loggedIn === 'owner'"
-          class="beast-outer-shell">
-          <button *ngIf="beast.patreon < 19 || beastService.loggedIn === 'owner'"
-            [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
-            (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.defaultrole); false">
-            <div class="img-shell">
-              <img [ngStyle]="beast.thumbnail ? {'object-position': beast.thumbnail} : {}" *ngIf="beast.id"
-                [src]="imageBase + beast.id  " [alt]="beast.name"
-                onerror="this.onerror=null;this.src='/assets/404.png';">
-            </div>
-            <div class="beast-name-shell">
-              <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
-              <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
-              <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
-              <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
-            </div>
-          </button>
-          <button *ngIf="beastService.loggedIn !== 'owner' && beast.patreon > 19" disabled class="beastButton"
-            mat-button
-            (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.defaultrole); false">
-            <div class="img-shell">
-              <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail :  'top'}" *ngIf="beast.id"
-                [src]="imageBase + beast.id  " [alt]="beast.name"
-                onerror="this.onerror=null;this.src='/assets/404.png';">
-            </div>
-            <div class="beast-name-shell">
-              <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
-              <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
-              <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
-              <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
-            </div>
-          </button>
+<div *ngIf="beasts.length > 0 && !isLoading">
+  <mat-card>
+    <div *ngFor="let category of beasts; let titleIndex = index">
+      <h2>{{category[0].name.substring(0,1)}} <i *ngIf="titleIndex === 1" class="fas fa-info-circle icon-small blue large"
+          matTooltip="A template is the purist expression of a monster - a platonic version, if you will. It is, in fact, so pure that they do not exist in the game world. Templates monsters are baselines that you can use to improve monsters that are not in the Bestiary on the fly."
+          matTooltipClass="my-tooltip"></i></h2>
+      <mat-divider></mat-divider>
+      <div class="beastDiv">
+        <div *ngFor="let beast of category">
+          <div class="beast-outer-shell">
+            <button
+              [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
+              (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.defaultrole); false">
+              <div class="img-shell">
+                <img [ngStyle]="beast.thumbnail ? {'object-position': beast.thumbnail} : {}" *ngIf="beast.id"
+                  [src]="imageBase + beast.id  " [alt]="beast.name"
+                  onerror="this.onerror=null;this.src='/assets/404.png';">
+              </div>
+              <div class="beast-name-shell">
+                <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
+                <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
+                <p class="beast-name">{{beast.name}}</p>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div [routerLink]="['/']" class="custom-catalog-shell" matTooltip="Go to the main Catalog">
-    <div class="custom-catalog-icons">
-      <i class="fa-solid fa-arrow-left"></i>
-      <i class="fa-solid fa-list"></i>
+  
+    <div [routerLink]="['/']" class="custom-catalog-shell" matTooltip="Go to the main Catalog">
+      <div class="custom-catalog-icons">
+        <i class="fa-solid fa-arrow-left"></i>
+        <i class="fa-solid fa-list"></i>
+      </div>
     </div>
-  </div>
-
-  <div class="context-menu" *ngIf="isDisplayContextMenu" [ngStyle]="getRightClickMenuStyle()">
-    <p (click)="openNewTab()"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open in New Tab</p>
-    <p *ngIf="targetHasToken" (click)="forceDownload()"><i class="fa-solid fa-download"></i> Download Token</p>
-    <p *ngIf="!targetHasToken" (click)="stopProp($event)" class="gray"><i class="fa-solid fa-download"></i> Download
-      Token</p>
-    <p *ngIf="targetRoles.length === 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view"
-        matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i
-          class="fa-solid fa-rectangle-list"></i></span> <strong
-        [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole, targetSocialSecondary)"></strong>
-    </p>
-    <p *ngIf="targetRoles.length > 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view"
-        matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i
-          class="fa-solid fa-rectangle-list"></i></span> <strong
-        [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole, targetSocialSecondary)"></strong>
-    </p>
-    <div *ngIf="targetRoles.length > 0">
-      <div *ngFor="let role of targetRoles; let i = index" class="drop-down-list">
-        <p class="roleIndent" (click)="addRoleToQuickView(i)"><span class="L-line"><span></span></span><strong
-            [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole, role.socialsecondary)"></strong>
+  
+    <div class="context-menu" *ngIf="isDisplayContextMenu" [ngStyle]="getRightClickMenuStyle()">
+      <p (click)="openNewTab()"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open in New Tab</p>
+      <p *ngIf="targetHasToken" (click)="forceDownload()"><i class="fa-solid fa-download"></i> Download Token</p>
+      <p *ngIf="!targetHasToken" (click)="stopProp($event)" class="gray"><i class="fa-solid fa-download"></i> Download
+        Token</p>
+      <p *ngIf="targetRoles.length === 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view"
+          matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i
+            class="fa-solid fa-rectangle-list"></i></span> <strong
+          [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole, targetSocialSecondary)"></strong>
+      </p>
+      <p *ngIf="targetRoles.length > 0" (click)="addBeastToQuickView()"><span class="add-to-quick-view"
+          matTooltip="Click to Add to Quick View"><i class="fa-solid fa-square-plus"></i><i
+            class="fa-solid fa-rectangle-list"></i></span> <strong
+          [innerHTML]="displayName(null, targetRole, targetSecondaryRole, targetSocialRole, targetSkillRole, targetSocialSecondary)"></strong>
+      </p>
+      <div *ngIf="targetRoles.length > 0">
+        <div *ngFor="let role of targetRoles; let i = index" class="drop-down-list">
+          <p class="roleIndent" (click)="addRoleToQuickView(i)"><span class="L-line"><span></span></span><strong
+              [innerHTML]="displayName(role.name, role.role, role.secondaryrole, role.socialrole, role.skillrole, role.socialsecondary)"></strong>
+          </p>
+        </div>
+        <p matTooltip="Click to Add to a Random Role to Quick View" class="roleIndent"
+          (click)="addRandomRoleToQuickView()"><span class="L-line"><span></span></span><i class="fa-solid fa-dice"></i>
         </p>
       </div>
-      <p matTooltip="Click to Add to a Random Role to Quick View" class="roleIndent"
-        (click)="addRandomRoleToQuickView()"><span class="L-line"><span></span></span><i class="fa-solid fa-dice"></i>
-      </p>
     </div>
-  </div>
-</mat-card>
+  </mat-card>
+</div>
