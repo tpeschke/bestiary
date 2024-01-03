@@ -105,123 +105,15 @@ function getRandomEncounter(label, numbers, weights) {
 }
 
 let controllerObj = {
-  catalogCache: [],
-  newCache: [],
   createHash() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     for (var i = 0; i < 10; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return text;
-  },
-  collectCatelog(app) {
-    const db = app.get('db')
-    db.get.catalogallview().then(result => {
-      let finalArray = []
-      if (result.length > 0) {
-        this.newCache.push(result)
-      }
-
-      result = result.map(beast => {
-        finalArray.push(db.get.rolesforcatalog(beast.id).then(result => {
-          beast.roles = result
-          if (!beast.defaultrole && beast.roles.length > 0) {
-            beast.defaultrole = beast.roles[0].id
-          }
-          if (beast.defaultrole) {
-            for (let i = 0; i < beast.roles.length; i++) {
-              if (beast.roles[i].id === beast.defaultrole) {
-                beast.role = beast.roles[i].role
-                beast.secondaryrole = beast.roles[i].secondaryrole
-                beast.socialrole = beast.roles[i].socialrole
-                beast.skillrole = beast.roles[i].skillrole
-                i = beast.roles.length
-              }
-            }
-          }
-          return result
-        }).catch(e => consoleLogError('get roles for catalog', e)))
-      })
-
-      Promise.all(finalArray).then(_ => {
-        db.get.catalogtemplates().then(result => {
-          let finalArray = []
-          if (result.length > 0) {
-            this.newCache.push(result)
-          }
-
-          result = result.map(beast => {
-            finalArray.push(db.get.rolesfortemplatecatalog(beast.id).then(result => {
-              beast.roles = result
-              if (!beast.defaultrole && beast.roles.length > 0) {
-                beast.defaultrole = beast.roles[0].id
-              }
-              if (beast.defaultrole) {
-                for (let i = 0; i < beast.roles.length; i++) {
-                  if (beast.roles[i].id === beast.defaultrole) {
-                    beast.role = beast.roles[i].role
-                    beast.secondaryrole = beast.roles[i].secondaryrole
-                    beast.socialrole = beast.roles[i].socialrole
-                    beast.skillrole = beast.roles[i].skillrole
-                    i = beast.roles.length
-                  }
-                }
-              }
-              return result
-            }).catch(e => consoleLogError('collect roles for templates', e)))
-          })
-
-          Promise.all(finalArray).then(_ => {
-            this.collectCache(app, 0)
-          }).catch(e => consoleLogError('catalog final promise', e))
-        }).catch(e => consoleLogError('templates catagory', e))
-      }).catch(e => consoleLogError('collect catagory promise', e))
-    }).catch(e => consoleLogError('collect catagory outer', e))
-  },
-  collectCache(app, index) {
-    const db = app.get('db')
-    let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    if (alphabet[index]) {
-      db.get.catalogbyletter(alphabet[index]).then(result => {
-        let finalArray = []
-        if (result.length > 0) {
-          this.newCache.push(result)
-        }
-
-        result = result.map(beast => {
-          finalArray.push(db.get.rolesforcatalog(beast.id).then(result => {
-            beast.roles = result
-            if (!beast.defaultrole && beast.roles.length > 0) {
-              beast.defaultrole = beast.roles[0].id
-            }
-            if (beast.defaultrole) {
-              for (let i = 0; i < beast.roles.length; i++) {
-                if (beast.roles[i].id === beast.defaultrole) {
-                  beast.role = beast.roles[i].role
-                  beast.secondaryrole = beast.roles[i].secondaryrole
-                  beast.socialrole = beast.roles[i].socialrole
-                  beast.skillrole = beast.roles[i].skillrole
-                  i = beast.roles.length
-                }
-              }
-            }
-            return result
-          }).catch(e => consoleLogError('roles for catalog by alpha', e)))
-        })
-
-        Promise.all(finalArray).then(_ => {
-          this.collectCache(app, ++index)
-        }).catch(e => consoleLogError('collect cache final promise', e))
-      }).catch(e => consoleLogError('catalog by letter', e))
-    } else {
-      this.catalogCache = this.newCache
-      this.newCache = []
-      console.log('bestiary catalog collected')
-    }
-  },
+},
   // BEAST ENDPOINTS
   checkIfPlayerView(req, res) {
     const db = req.app.get('db')
@@ -271,11 +163,11 @@ let controllerObj = {
       res.sendStatus(401)
     }
   },
-  addBeast({ body, app }, res) {
+  addBeast({ body, app, user }, res) {
     const db = app.get('db')
     let { name, hr, intro, climates, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback, singledievitality, noknockback, tables, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma } = body
 
-    db.add.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma).then(result => {
+    db.add.beast(user.id, name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma).then(result => {
       let id = result[0].id
         , promiseArray = []
 

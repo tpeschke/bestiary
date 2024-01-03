@@ -5,6 +5,13 @@
     <h1>{{message}}</h1>
   </div>
 
+  <div [routerLink]="['/custom']" class="custom-catalog-shell" matTooltip="Go to your custom monsters">
+    <div class="custom-catalog-icons">
+      <i class="fa-solid fa-list"></i>
+      <i class="fa-solid fa-arrow-right"></i>
+    </div>
+  </div>
+
   <div class="context-menu" *ngIf="isDisplayContextMenu" [ngStyle]="getRightClickMenuStyle()">
     <p (click)="openNewTab()"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open in New Tab</p>
     <p *ngIf="targetHasToken" (click)="forceDownload()"><i class="fa-solid fa-download"></i> Download Token</p>

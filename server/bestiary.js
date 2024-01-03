@@ -7,6 +7,7 @@ const express = require('express')
     , searchCtrl = require('./searchController')
     , getCtrl = require('./getController')
     , obstCtrl = require('./obstacleController')
+    , catalogCtrl = require('./catalogController')
     , squareCtrl = require('./combatSquare')
     , uploadMain = require('./file-upload/main')
     , uploadToken = require('./file-upload/token')
@@ -76,7 +77,7 @@ app.get('/auth/logout', function (req, res) {
 
 // =====================================
 
-app.get('/api/beasts/catalog', (req, res) => res.send(ctrl.catalogCache))
+app.get('/api/beasts/catalog', (req, res) => res.send(catalogCtrl.catalogCache))
 app.get('/api/beasts/:id', getCtrl.getSingleBeast)
 app.get('/api/quickview/:hash', getCtrl.getQuickView)
 app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
@@ -117,6 +118,8 @@ app.get('/api/equipment', equipmentCtrl.getAllEquipment)
 app.get('/api/checkToken/:id', getCtrl.checkToken)
 app.get('/api/getAllClimates', getCtrl.getAllClimates)
 
+app.get('/api/customCatalog', catalogCtrl.getCustomCatalog)
+
 app.patch('/api/beasts/edit', ownerAuth, ctrl.editBeast)
 app.patch('/api/combatSquare', squareCtrl.getSquare)
 app.patch('/api/vitalityAndStress', squareCtrl.setVitalityAndStress)
@@ -139,7 +142,7 @@ massive(databaseCredentials).then(dbI => {
     app.set('db', dbI)
     app.listen(server, _ => {
         equipmentCtrl.processEquipment()
-        ctrl.collectCatelog(app)
+        catalogCtrl.collectCatelog(app)
         obstCtrl.collectCache(app, 0)
         console.log(`Sing to me a sweet song of forgetfulness and Ill die on your shore ${server}`)
     })

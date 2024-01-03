@@ -21,6 +21,9 @@ export class CatalogResolverService implements Resolve<any> {
     if (state.url.includes('obstacle')) {
       return this.obstacleService.getCatalog();
     }
+    if (state.url.includes('custom')) {
+      return this.beastService.getCustomCatalog();
+    }
     return this.beastService.getCatalog();
    }
 }

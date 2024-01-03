@@ -121,6 +121,27 @@ img {
     left: 0
 }
 
+.custom-catalog-shell {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 37px;
+  width: 75px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  z-index: 99;
+  background: #607d8b;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+.custom-catalog-icons {
+  color: whitesmoke;
+  font-size: 30px;
+}
+
   .context-menu {
     padding: 5px 0px;
     background: white;

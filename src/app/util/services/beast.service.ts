@@ -145,6 +145,11 @@ export class BeastService {
       .pipe(catchError(this.handleError))
   }
 
+  getCustomCatalog(): any {
+    return this.http.get(local.endpointBase + '/api/customCatalog')
+      .pipe(catchError(this.handleError))
+  }
+
   checkPlayerCanView(id): any {
     return this.http.get(local.endpointBase + '/api/playerCanView/' + id)
       .pipe(catchError(this.handleError))

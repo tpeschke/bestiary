@@ -2,28 +2,26 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { BeastService } from '../util/services/beast.service'
 import variables from '../../local.js'
-import {Title, Meta} from "@angular/platform-browser";
+import { Title } from "@angular/platform-browser";
 import { QuickViewService } from '../util/services/quick-view.service';
 
 @Component({
-  selector: 'app-catalog',
-  templateUrl: './catalog.component.html',
-  styleUrls: ['./catalog.component.css']
+  selector: 'app-custom-catalog',
+  templateUrl: './custom-catalog.component.html',
+  styleUrls: ['./custom-catalog.component.css', '../catalog/catalog.component.css']
 })
-export class CatalogComponent implements OnInit {
+export class CustomCatalogComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
     private beastService: BeastService,
     private titleService: Title,
     private quickViewService: QuickViewService,
-    private metaService: Meta
   ) { }
 
   public beasts = []
   public favorites: any = []
   public imageBase = variables.imageBase;
-  public message = "You Don't Have Any Favorite Monsters Yet"
 
   isDisplayContextMenu: boolean;
   rightClickMenuPositionX: number;
@@ -46,18 +44,9 @@ export class CatalogComponent implements OnInit {
       this.beastService.loggedIn = result
       this.loggedIn = result
     })
-    this.titleService.setTitle("Bestiary")
-    this.metaService.updateTag( { name:'og:description', content: 'The Bestiary for the Bonfire TTRPG'});
-    this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/TWRealFire.png"});
+    this.titleService.setTitle("Custom Catalog")
     this.route.data.subscribe(data => {
       this.beasts = data['catalog']
-    })
-    this.beastService.getFavorites().subscribe((results:any) => {
-      if (results.length > 0) {
-        this.favorites = results
-      } else if (results.message) {
-        this.message = results.message
-      }
     })
   }
 

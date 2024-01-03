@@ -76,6 +76,7 @@ import { ViewTableComponent } from './beast-view/beast-view-gm/view-table/view-t
 import { CombatTableComponent } from './util/combat-table/combat-table.component';
 import { CharacteristicDisplayComponent } from './beast-view/beast-view-edit/characteristic-display/characteristic-display.component';
 import {MatSliderModule} from '@angular/material/slider';
+import { CustomCatalogComponent } from './custom-catalog/custom-catalog.component';
 
 const routes: Routes = [
   {
@@ -99,6 +100,7 @@ const routes: Routes = [
     { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: { beast: PlayerBeastResolverService } },
     { path: 'beast/:id/edit', component: BeastViewEditComponent, canActivate: [NoNonOwnerService], resolve: { beast: SingleBeastResolverService } },
     { path: 'search', component: SearchResultsComponent },
+    { path: 'custom', component: CustomCatalogComponent, resolve: { catalog: CatalogResolverService } },
     { path: '**', redirectTo: '' }
     ]
   },
@@ -106,7 +108,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     SearchBarComponent,
     SearchResultsComponent,
@@ -144,8 +146,9 @@ const routes: Routes = [
     CombatSquareComponent,
     EditTableComponent,
     ViewTableComponent,
-    CombatTableComponent
-  ],
+    CombatTableComponent,
+    CustomCatalogComponent
+   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
