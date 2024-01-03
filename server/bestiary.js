@@ -115,22 +115,37 @@ function ownerAuth(req, res, next) {
     } else {
         const db = req.app.get('db')
         const id = req.body.id ? req.body.id : req.params.id
-        db.get.can_edit(id).then(result => {
-            const canEdit = req.user.id === 1 || req.user.id === 21 || req.user.id === result[0].userid
+        if (id) {
+            db.get.can_edit(id).then(result => {
+                const canEdit = req.user.id === 1 || req.user.id === 21 || req.user.id === result[0].userid
+                if (canEdit) {
+                    next()
+                } else {
+                    checkForContentTypeBeforeSending(res, { color: "red", message: "This isn't your monster" })
+                }
+            }).catch(e => sendErrorForward('can edit save', e, res))
+        } else {
+            const canEdit = req.user.id === 1 || req.user.id === 21 || req.user.patreon >= 5
             if (canEdit) {
                 next()
             } else {
-                checkForContentTypeBeforeSending(res, { color: "red", message: "This isn't your monster" })
+                checkForContentTypeBeforeSending(res, { color: "red", message: "You need to upgrade your Patreon" })
             }
-        }).catch(e => sendErrorForward('can edit save', e, res))
+        }
     }
 }
 
 function limitAuth(req, res, next) {
     const db = req.app.get('db')
-    db.get.custom_beast_count(req.user.id).then(result => {
-        console.log(result)
-        next()
+    db.get.custom_beast_count(req.user.id).then(count => {
+        const number = +count[0].count
+        const canCreate = req.user.patreon >= 5 && number <= (5 + (req.user.patreon * 2))
+        const canEdit = req.user.id === 1 || req.user.id === 21 || canCreate
+        if (canEdit) {
+            next()
+        } else {
+            sendErrorForward('add custom monster', { message: "You've hit your limit for monsters. Upgrade your Patreon for more." }, res)
+        }
     }).catch(e => sendErrorForward('get custom monster count', e, res))
 }
 
@@ -146,7 +161,7 @@ app.patch('/api/combatSquare', squareCtrl.getSquare)
 app.patch('/api/vitalityAndStress', squareCtrl.setVitalityAndStress)
 app.patch('/api/movement', squareCtrl.getMovement)
 
-app.post('/api/beasts/add', ownerAuth, ctrl.addBeast)
+app.post('/api/beasts/add', ownerAuth, limitAuth, ctrl.addBeast)
 app.post('/api/obstacles/add', ownerAuth, obstCtrl.add)
 app.post('/api/v1/upload/:id', ownerAuth, uploadMain.array('image', 1), (req, res) => res.send({ image: req.file }));
 app.post('/api/v1/uploadToken/:id', ownerAuth, uploadToken.array('image', 1), (req, res) => res.send({ image: req.file }));

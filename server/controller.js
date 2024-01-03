@@ -140,7 +140,7 @@ let controllerObj = {
             } else {
               sendErrorForward('add custom monster', {message: "You've hit your limit for monsters. Upgrade your Patreon for more."}, res)
             }
-          })
+          }).catch(e => sendErrorForward('get custom monster count', e, res))
         }
       }).catch(e => sendErrorForward('can edit custom', e, res))
     } else {
@@ -191,7 +191,7 @@ let controllerObj = {
     const db = app.get('db')
     let { name, hr, intro, climates, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback, singledievitality, noknockback, tables, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource } = body
 
-    const userid = req.user.id === 1 || req.user.id === 21 ? null : user.id
+    const userid = user.id === 1 || user.id === 21 ? null : user.id
     db.add.beast(userid, name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource).then(result => {
       let id = result[0].id
         , promiseArray = []
