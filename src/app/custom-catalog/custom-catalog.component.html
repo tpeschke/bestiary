@@ -6,6 +6,19 @@
   </div>
 </div>
 
+<div *ngIf="beasts.length === 0 && !isLoading"> 
+  <mat-card>
+    <h2>You have no monsters! Click on the "New" button above to get started!</h2>
+
+    <div [routerLink]="['/']" class="custom-catalog-shell" matTooltip="Go to the main Catalog">
+      <div class="custom-catalog-icons">
+        <i class="fa-solid fa-arrow-left"></i>
+        <i class="fa-solid fa-list"></i>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
 <div *ngIf="beasts.length > 0 && !isLoading">
   <mat-card>
     <div *ngFor="let category of beasts; let titleIndex = index">

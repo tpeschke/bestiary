@@ -128,8 +128,21 @@ let controllerObj = {
       , id = +req.params.id
     if (req.user) {
       db.get.can_edit(id).then(result => {
-        checkForContentTypeBeforeSending(res, { canEdit: (req.user.id === 1) || (req.user.id === 21) || (req.user.id === result[0].userid) })
-      }).catch(e => sendErrorForward('can edit', e, res))
+        if (result.length > 0) {
+          checkForContentTypeBeforeSending(res, { canEdit: req.user.id === 1 || req.user.id === 21 || req.user.id === result[0].userid })
+        } else {
+          db.get.custom_beast_count(req.user.id).then(count => {
+            const number = +count[0].count
+            const canCreate = req.user.patreon >= 5 && number <= (5 + (req.user.patreon * 2))
+            const canEdit = req.user.id === 1 || req.user.id === 21 || canCreate
+            if (canEdit) {
+              checkForContentTypeBeforeSending(res, { canEdit })
+            } else {
+              sendErrorForward('add custom monster', {message: "You've hit your limit for monsters. Upgrade your Patreon for more."}, res)
+            }
+          })
+        }
+      }).catch(e => sendErrorForward('can edit custom', e, res))
     } else {
       checkForContentTypeBeforeSending(res, {canEdit: false})
     }
@@ -178,7 +191,8 @@ let controllerObj = {
     const db = app.get('db')
     let { name, hr, intro, climates, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback, singledievitality, noknockback, tables, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource } = body
 
-    db.add.beast(user.id, name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource).then(result => {
+    const userid = req.user.id === 1 || req.user.id === 21 ? null : user.id
+    db.add.beast(userid, name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource).then(result => {
       let id = result[0].id
         , promiseArray = []
 

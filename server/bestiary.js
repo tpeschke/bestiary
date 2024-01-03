@@ -114,7 +114,8 @@ function ownerAuth(req, res, next) {
         checkForContentTypeBeforeSending(res, { color: "red", message: "You need to log on." })
     } else {
         const db = req.app.get('db')
-        db.get.can_edit(req.body.id).then(result => {
+        const id = req.body.id ? req.body.id : req.params.id
+        db.get.can_edit(id).then(result => {
             const canEdit = req.user.id === 1 || req.user.id === 21 || req.user.id === result[0].userid
             if (canEdit) {
                 next()
@@ -123,6 +124,14 @@ function ownerAuth(req, res, next) {
             }
         }).catch(e => sendErrorForward('can edit save', e, res))
     }
+}
+
+function limitAuth(req, res, next) {
+    const db = req.app.get('db')
+    db.get.custom_beast_count(req.user.id).then(result => {
+        console.log(result)
+        next()
+    }).catch(e => sendErrorForward('get custom monster count', e, res))
 }
 
 app.get('/api/obstacles/isValid/:name', obstCtrl.isValid)
