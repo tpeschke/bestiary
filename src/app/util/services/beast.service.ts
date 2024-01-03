@@ -22,7 +22,7 @@ export class BeastService {
     private toastr: ToastrService
   ) { }
 
-  public loggedIn: boolean | string | number | User = false
+  public loggedIn: any = false
   public userId = null
 
   handleMessage(message) {

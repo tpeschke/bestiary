@@ -12,7 +12,7 @@ export class ObstacleHomeComponent implements OnInit {
     private beastService: BeastService
   ) {  }
 
-  public loggedIn:boolean|string|number = false;
+  public loggedIn:any = false;
   public loginEndpoint = variables.login
 
   ngOnInit() {

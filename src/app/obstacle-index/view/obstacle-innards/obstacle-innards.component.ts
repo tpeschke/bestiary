@@ -22,7 +22,7 @@ export class ObstacleInnardsComponent implements OnInit {
   ) { }
 
   public obstacle: any = {}
-  public loggedIn: boolean | string | number = false;
+  public loggedIn: any = false;
   public loginEndpoint = variables.login
 
   ngOnInit() {

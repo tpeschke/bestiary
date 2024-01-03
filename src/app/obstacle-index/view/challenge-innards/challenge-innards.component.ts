@@ -29,7 +29,7 @@ export class ChallengeInnardsComponent implements OnInit {
   ) { }
 
   public challenge: any = {}
-  public loggedIn: boolean | string | number = false;
+  public loggedIn: any = false;
   public loginEndpoint = variables.login
 
   public viewObstacleId = 0;
