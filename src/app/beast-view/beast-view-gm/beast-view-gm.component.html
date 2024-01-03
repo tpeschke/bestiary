@@ -25,7 +25,7 @@
 
       <div class="left">
         <div>
-          <img class="beastImg" *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name" (error)="onImageError($event);">
+          <img class="beastImg" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name" (error)="onImageError($event);">
           <div *ngIf="beast.artistInfo.artist" class="artist-credits">
             <p *ngIf="!beast.artistInfo.link">Artist: {{beast.artistInfo.artist}}<i *ngIf="beast.artistInfo.tooltip"
                 class="fas fa-info-circle icon-small blue" matTooltip="{{beast.artistInfo.tooltip}}"
