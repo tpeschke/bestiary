@@ -7,9 +7,8 @@ import roles from '../roles.js'
 import { MatExpansionPanel, MatSelect } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { startWith, map, switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CalculatorService } from 'src/app/util/services/calculator.service';
-import { MatSliderModule } from '@angular/material/slider';
 
 @Component({
   selector: 'app-beast-view-edit',
@@ -53,6 +52,9 @@ export class BeastViewEditComponent implements OnInit {
   public lootTables = lootTables;
   public checkForDeleteRole = false
   public checkForDelete = false
+
+  public imageController: FormControl;
+  public imagesFiltered: Observable<any[]>;
 
   public mental = {
     stress: null,
@@ -636,10 +638,43 @@ export class BeastViewEditComponent implements OnInit {
         left: 0,
         behavior: 'smooth'
       })
+
+      this.bootUpAutoComplete()
     })
   }
 
+  bootUpAutoComplete() {
+    this.imageController = new FormControl('')
+    this.imagesFiltered = this.imageController.valueChanges
+      .pipe(
+        startWith(''),
+        debounceTime(400),
+        switchMap(val => {
+          return this.filterAsync(val || '')
+        })
+      );
+  }
+
+  filterAsync(val: string): Observable<any[]> {
+    if (val !== '') {
+      return this.beastService.searchName(val)
+        .pipe(
+          map((response: any[]) => response)
+        )
+    } else {
+      return new Observable((subscriber) => { subscriber.complete() })
+    }
+  }
+
+  captureImage = (event) => {
+    if (!isNaN(+event.target.value)) {
+      this.beast.imagesource = event.target.value
+      this.getImageUrl()
+    }
+  }
+
   _filterGroup = (value, groups, type) => {
+    console.log(value)
     if (value) {
       return groups
         .map(group => ({ label: group.label, burdens: this._filter(value, group.burdens, type) }))
@@ -1038,8 +1073,8 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   public landClimates = ['Af', 'Am', 'Aw/As', 'BWh', 'BWk', 'BSh', 'BSk', 'Csa', 'Csb', 'Csc', 'Cwa', 'Cwb', 'Cfb', 'Dsa', 'Dsb', 'Dsc', 'Dsd', 'Dwa', 'Dwb', 'Dwc', 'Dwd', 'Dfa', 'Dfb', 'Dfc', 'Dfd', 'ET', 'EF']
-  public aquaticClimates = ['Salt-Water Sea','Salt-Water Lake','Salt-Water Ocean','Salt-Water River','Fresh-Water Glacier','Fresh-Water Lake','Fresh-Water River','Fresh-Water Sea']
-  public specialClimates = ['Ship','Castle','Ruin','Urban','Urban Sewer','Dungeon']
+  public aquaticClimates = ['Salt-Water Sea', 'Salt-Water Lake', 'Salt-Water Ocean', 'Salt-Water River', 'Fresh-Water Glacier', 'Fresh-Water Lake', 'Fresh-Water River', 'Fresh-Water Sea']
+  public specialClimates = ['Ship', 'Castle', 'Ruin', 'Urban', 'Urban Sewer', 'Dungeon']
 
 
   addChip(type) {
@@ -2151,6 +2186,15 @@ export class BeastViewEditComponent implements OnInit {
 
   getImageUrl() {
     this.imageUrl = this.imageBase + this.beast.id + '?t=' + new Date().getTime()
+  }
+
+  onImageError (event) {
+    event.target.onerror = null;
+    if (this.beast.imagesource) {
+      event.target.src = this.imageBase + this.beast.imagesource + '?t=' + new Date().getTime()
+    } else {
+      event.target.src = '/assets/404.png';
+    }
   }
 
   seeIfTokenExists() {

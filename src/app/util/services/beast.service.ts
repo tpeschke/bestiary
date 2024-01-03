@@ -123,6 +123,11 @@ export class BeastService {
     )
   }
 
+  searchName(name = null) {
+    return this.http.get(local.endpointBase + '/api/searchName/' + name)
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
   checkIfCanEdit(id) {
     return this.http.get(local.endpointBase + '/api/canEdit/' + id)
       .pipe(tap(result => this.handleMessage(result)))

@@ -18,7 +18,6 @@ export class NoNonOwnerService implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    console.log(next.paramMap.get('id'))
     return this.beastService.checkIfCanEdit(next.paramMap.get('id')).pipe(
       map((result: any) => {
         return result.canEdit

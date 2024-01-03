@@ -52,6 +52,15 @@ export class CustomCatalogComponent implements OnInit {
     })
   }
 
+  onImageError (event, imagesource, imageBase) {
+    event.target.onerror = null;
+    if (imagesource) {
+      event.target.src = imageBase + imagesource
+    } else {
+      event.target.src = '/assets/404.png';
+    }
+  }
+
   openNewTab() {
     window.open(window.location.href + 'beast/' + this.targetBeast + '/gm', '_blank');
   }

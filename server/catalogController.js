@@ -50,7 +50,7 @@ let catalogObj = {
             checkForContentTypeBeforeSending(res, customCatalog)
         }
     },
-    collectCatelog(app) {
+    collectCatalog(app) {
         const db = app.get('db')
         db.get.catalogallview().then(result => {
             let finalArray = []

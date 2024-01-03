@@ -46,8 +46,7 @@
   <div class="content-shell">
     <div class="left">
       <div>
-        <img *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name"
-          onerror="this.onerror=null;this.src='/assets/404.png';">
+        <img *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name" (error)="onImageError($event);">
       </div>
 
       <div class="margin-spacing" *ngIf="beast.id">
@@ -55,6 +54,17 @@
           <i class="fa fa-cloud-upload"></i> Upload Image
         </label>
         <input id="file-upload" type="file" (change)="onMainImagePicked($event)" />
+      </div>
+
+      <br>
+      <div class="margin-spacing" *ngIf="beast.id">
+        <input class="table-input" placeholder="Get Image From Another Monster" [matAutocomplete]="imageauto"
+          [formControl]="imageController" (blur)="captureImage($event)">
+        <mat-autocomplete #imageauto="matAutocomplete">
+          <mat-option *ngFor="let image of imagesFiltered | async" [value]="image.id">
+            {{image.name}}
+          </mat-option>
+        </mat-autocomplete>
       </div>
 
       <br>
@@ -94,8 +104,7 @@
 
         <div>
           <h3>Preview</h3>
-          <img class="preview" [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}"
-            *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name">
+          <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" class="preview" *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name" (error)="onImageError($event);">
         </div>
       </div>
 
@@ -998,18 +1007,22 @@
                   </mat-checkbox>
                   <br *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
                   <br *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
-                  <mat-form-field *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
+                  <mat-form-field
+                    *ngIf="!(selectedRoleId ? beast.roleInfo[selectedRoleId].noknockback : beast.noknockback)">
                     <input placeholder="Knock Back Threshold" matInput
                       [value]="beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].knockback ? beast.roleInfo[selectedRoleId].knockback : beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].size ? sizeDictionary[beast.roleInfo[selectedRoleId].size] : beast.knockback ? beast.knockback : sizeDictionary[beast.size] ? sizeDictionary[beast.size] : null"
                       (change)="captureBasicInput($event, 'knockback')" type="number">
                   </mat-form-field>
                 </div>
                 <div>
-                  <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?</mat-checkbox>
+                  <mat-checkbox [checked]="beast.notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?
+                  </mat-checkbox>
                   <div *ngIf="!beast.notrauma">
                     <br>
-                    <p>Needs to Roll Under: {{selectedRoleId ? beast.roleInfo[selectedRoleId].rollundertrauma : beast.rollundertrauma}}</p>
-                    <mat-slider (input)="captureSliderInput($event)" min="1" max="20" step="1" [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].rollundertrauma : beast.rollundertrauma">
+                    <p>Needs to Roll Under: {{selectedRoleId ? beast.roleInfo[selectedRoleId].rollundertrauma :
+                      beast.rollundertrauma}}</p>
+                    <mat-slider (input)="captureSliderInput($event)" min="1" max="20" step="1"
+                      [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].rollundertrauma : beast.rollundertrauma">
                       <input matSliderThumb>
                     </mat-slider>
                   </div>

@@ -1,7 +1,7 @@
 const upsertHelper = require('./upsertHelper')
-const { consoleLogErrorNoFile, sendErrorForwardNoFile, checkForContentTypeBeforeSending } = require('./helpers')
+const catalogCtrl = require ('./catalogController')
 
-const consoleLogError = consoleLogErrorNoFile('controller')
+const { sendErrorForwardNoFile, checkForContentTypeBeforeSending } = require('./helpers')
 const sendErrorForward = sendErrorForwardNoFile('controller')
 
 let rollDice = function (diceString) {
@@ -176,9 +176,9 @@ let controllerObj = {
   },
   addBeast({ body, app, user }, res) {
     const db = app.get('db')
-    let { name, hr, intro, climates, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback, singledievitality, noknockback, tables, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma } = body
+    let { name, hr, intro, climates, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback, singledievitality, noknockback, tables, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource } = body
 
-    db.add.beast(user.id, name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma).then(result => {
+    db.add.beast(user.id, name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource).then(result => {
       let id = result[0].id
         , promiseArray = []
 
@@ -232,16 +232,16 @@ let controllerObj = {
       upsertHelper.upsertFolklore(promiseArray, db, id, folklore)
 
       Promise.all(promiseArray).then(_ => {
-        controllerObj.collectCatelog(app)
+        catalogCtrl.collectCatalog(app)
         checkForContentTypeBeforeSending(res, { id })
       }).catch(e => sendErrorForward('add beast final array', e, res))
     }).catch(e => sendErrorForward('add beast main', e, res))
   },
   editBeast({ app, body }, res) {
     const db = app.get('db')
-    let { id, name, hr, intro, habitat, ecology, climates, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, largeweapons, panic, mental, types, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback: mainknockback, singledievitality, noknockback, tables, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma } = body
+    let { id, name, hr, intro, habitat, ecology, climates, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, largeweapons, panic, mental, types, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback: mainknockback, singledievitality, noknockback, tables, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource } = body
 
-    db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, largeweapons, panic, mental, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, mainknockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma).then(result => {
+    db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, largeweapons, panic, mental, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, mainknockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource).then(result => {
       let promiseArray = []
 
       upsertHelper.upsertRoles(promiseArray, db, id, roles)
@@ -294,7 +294,7 @@ let controllerObj = {
       upsertHelper.upsertFolklore(promiseArray, db, id, folklore)
 
       Promise.all(promiseArray).then(_ => {
-        controllerObj.collectCatelog(app)
+        catalogCtrl.collectCatalog(app)
         checkForContentTypeBeforeSending(res, { id })
       }).catch(e => sendErrorForward('update beast final promise', e, res))
     }).catch(e => sendErrorForward('update beast main', e, res))
@@ -336,7 +336,7 @@ let controllerObj = {
       // promiseArray.push(db.delete.combatranges(id, variantid).then())
 
       Promise.all(promiseArray).then(_ => {
-        controllerObj.collectCatelog(req.app)
+        catalogCtrl.collectCatalog(req.app)
         checkForContentTypeBeforeSending(res, { id })
       }).catch(e => sendErrorForward('delete beast final promise', e, res))
     })

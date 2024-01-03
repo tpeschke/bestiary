@@ -133,6 +133,15 @@ export class BeastViewGmComponent implements OnInit {
     })
   }
 
+  onImageError (event) {
+    event.target.onerror = null;
+    if (this.beast.imagesource) {
+      event.target.src = this.imageBase + this.beast.imagesource + '?t=' + new Date().getTime()
+    } else {
+      event.target.src = '/assets/404.png';
+    }
+  }
+
   forceDownload() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + this.beast.id + '-token', true);

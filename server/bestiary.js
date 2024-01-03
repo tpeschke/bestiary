@@ -17,6 +17,9 @@ const express = require('express')
     , path = require("path")
     , equipmentCtrl = require('./equipmentController')
 
+const { sendErrorForwardNoFile, checkForContentTypeBeforeSending } = require('./helpers')
+const sendErrorForward = sendErrorForwardNoFile('train station')
+
 const app = new express()
 app.use(bodyParser.json({ limit: '10mb' }))
 app.use(cors())
@@ -83,6 +86,7 @@ app.get('/api/quickview/:hash', getCtrl.getQuickView)
 app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
 app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({ id: 0 }))
 app.get('/api/canEdit/:id', ctrl.canEditMonster)
+app.get('/api/searchName/:name', searchCtrl.searchName)
 
 app.get('/api/search', searchCtrl.search)
 app.get('/api/obstacles/search', obstCtrl.search)
@@ -106,11 +110,17 @@ app.delete('/api/favorite/:beastid', ctrl.deleteFavorite)
 
 function ownerAuth(req, res, next) {
     if (!req.user) {
-        res.sendStatus(401)
-    } else if (req.user.id !== 1 && req.user.id !== 21) {
-        res.sendStatus(401)
+        checkForContentTypeBeforeSending(res, { color: "red", message: "You need to log on." })
     } else {
-        next()
+        const db = req.app.get('db')
+        db.get.can_edit(req.body.id).then(result => {
+            const canEdit = req.user.id === 1 || req.user.id === 21 || req.user.id === result[0].userid
+            if (canEdit) {
+                next()
+            } else {
+                checkForContentTypeBeforeSending(res, { color: "red", message: "This isn't your monster" })
+            }
+        }).catch(e => sendErrorForward('can edit save', e, res))
     }
 }
 
@@ -143,7 +153,7 @@ massive(databaseCredentials).then(dbI => {
     app.set('db', dbI)
     app.listen(server, _ => {
         equipmentCtrl.processEquipment()
-        catalogCtrl.collectCatelog(app)
+        catalogCtrl.collectCatalog(app)
         obstCtrl.collectCache(app, 0)
         console.log(`Sing to me a sweet song of forgetfulness and Ill die on your shore ${server}`)
     })

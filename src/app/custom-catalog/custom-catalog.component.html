@@ -20,9 +20,7 @@
               [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
               (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.defaultrole); false">
               <div class="img-shell">
-                <img [ngStyle]="beast.thumbnail ? {'object-position': beast.thumbnail} : {}" *ngIf="beast.id"
-                  [src]="imageBase + beast.id  " [alt]="beast.name"
-                  onerror="this.onerror=null;this.src='/assets/404.png';">
+                <img [ngStyle]="beast.thumbnail ? {'object-position': beast.thumbnail} : {}" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name" (error)="onImageError($event, beast.imagesource, imageBase);">
               </div>
               <div class="beast-name-shell">
                 <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
