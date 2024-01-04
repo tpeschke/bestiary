@@ -78,6 +78,7 @@ import { CharacteristicDisplayComponent } from './beast-view/beast-view-edit/cha
 import {MatSliderModule} from '@angular/material/slider';
 import { CustomCatalogComponent } from './custom-catalog/custom-catalog.component';
 import { PatreonAuthService } from './util/guards-resolvers/patreon-auth.service';
+import { PleromaDisplayComponent } from './beast-view/beast-view-edit/pleroma-display/pleroma-display.component';
 
 const routes: Routes = [
   {
@@ -148,7 +149,8 @@ const routes: Routes = [
     EditTableComponent,
     ViewTableComponent,
     CombatTableComponent,
-    CustomCatalogComponent
+    CustomCatalogComponent,
+    PleromaDisplayComponent
    ],
   imports: [
     BrowserModule,

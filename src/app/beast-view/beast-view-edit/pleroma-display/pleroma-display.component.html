@@ -1,0 +1,92 @@
+<div class="reagent-single-shell">
+  <mat-form-field>
+    <input placeholder="Body Part" matInput [value]="reagent.name"
+      (change)="captureInput($event, 'reagents', i, 'name')">
+  </mat-form-field>
+  <mat-form-field>
+    <input placeholder="Spell" matInput [value]="reagent.spell" (change)="captureInput($event, 'reagents', i, 'spell')">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Identification</mat-label>
+    <mat-select (selectionChange)="captureEncounterSecondary($event, 'reagents', i, 'difficulty')"
+      [value]="reagent.difficulty">
+      <mat-option value="Depends">
+        Depends
+      </mat-option>
+      <mat-option value="n/a">
+        n/a
+      </mat-option>
+      <mat-option value="0">
+        0
+      </mat-option>
+      <mat-option value="d10!">
+        d10!
+      </mat-option>
+      <mat-option value="d20!">
+        d20!
+      </mat-option>
+      <mat-option value="d10!+d20!">
+        d10!+d20!
+      </mat-option>
+      <mat-option value="2d20!">
+        2d20!
+      </mat-option>
+      <mat-option value="d10!+2d20!">
+        d10!+2d20!
+      </mat-option>
+      <mat-option value="3d20!">
+        3d20!
+      </mat-option>
+      <mat-option value="d10!+3d20!">
+        d10!+3d20!
+      </mat-option>
+      <mat-option value="4d20!">
+        4d20!
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Harvest</mat-label>
+    <mat-select (selectionChange)="captureEncounterSecondary($event, 'reagents', i, 'harvest')"
+      [value]="reagent.harvest">
+      <mat-option>
+        Same as Identification
+      </mat-option>
+      <mat-option value="Depends">
+        Depends
+      </mat-option>
+      <mat-option value="n/a">
+        n/a
+      </mat-option>
+      <mat-option value="0">
+        0
+      </mat-option>
+      <mat-option value="d10!">
+        d10!
+      </mat-option>
+      <mat-option value="d20!">
+        d20!
+      </mat-option>
+      <mat-option value="d10!+d20!">
+        d10!+d20!
+      </mat-option>
+      <mat-option value="2d20!">
+        2d20!
+      </mat-option>
+      <mat-option value="d10!+2d20!">
+        d10!+2d20!
+      </mat-option>
+      <mat-option value="3d20!">
+        3d20!
+      </mat-option>
+      <mat-option value="d10!+3d20!">
+        d10!+3d20!
+      </mat-option>
+      <mat-option value="4d20!">
+        4d20!
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button (click)="removeNewSecondaryItem('reagents', i)" color="warn"><i
+      class="fa-solid fa-trash"></i></button>
+</div>

@@ -1280,7 +1280,7 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  removeNewSecondaryItem = (type, index, secondType) => {
+  removeNewSecondaryItemUnbound = (type, index, secondType) => {
     let deleted
     if (!secondType) {
       deleted = this.beast[type].splice(index, 1)
@@ -1297,6 +1297,8 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type].push({ id: deleted[0].id, deleted: true })
     }
   }
+
+  removeNewSecondaryItem = this.removeNewSecondaryItemUnbound.bind(this)
 
   removeChip(type, index) {
     this.beast[type].splice(index, 1)
@@ -1539,12 +1541,14 @@ export class BeastViewEditComponent implements OnInit {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  captureEncounterSecondary({ value }, type, index, secondaryType) {
+  captureEncounterSecondaryUnbound({ value }, type, index, secondaryType) {
     let newSecondaryObject = Object.assign([], this.beast[type])
     newSecondaryObject[index] = { ...newSecondaryObject[index] }
     newSecondaryObject[index][secondaryType] = value
     this.beast = Object.assign({}, this.beast, { [type]: newSecondaryObject })
   }
+
+  captureEncounterSecondary = this.captureEncounterSecondaryUnbound.bind(this)
 
   captureEncounterInputInt(event, type, subtype) {
     this[type][subtype] = +event.target.value
