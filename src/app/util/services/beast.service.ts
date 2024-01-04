@@ -123,6 +123,11 @@ export class BeastService {
     )
   }
 
+  getSpellsForPleroma() {
+    return this.http.get(local.endpointBase + '/api/spellsForPleroma')
+    .pipe(tap(result => this.handleMessage(result)))
+  }
+
   canAccessCustomCatalog() {
     return this.http.get(local.endpointBase + '/api/checkCustomCatalogAccess')
     .pipe(tap(result => this.handleMessage(result)))

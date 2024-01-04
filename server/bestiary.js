@@ -93,6 +93,8 @@ app.get('/api/getArtist/:id', getCtrl.getArtist)
 app.get('/api/search', searchCtrl.search)
 app.get('/api/obstacles/search', obstCtrl.search)
 
+app.get('/api/spellsForPleroma', getCtrl.getSpells)
+
 app.get('/api/randomMonster', searchCtrl.getRandomMonster)
 app.get('/api/playerCanView/:id', ctrl.checkIfPlayerView)
 app.get('/api/favorites', ctrl.getUsersFavorites)

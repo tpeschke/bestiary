@@ -80,6 +80,12 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole, s
 }
 
 module.exports = {
+  getSpells: (req, res) => {
+    const db = req.app.get('db')
+    db.get.spells_by_count().then(result => {
+      checkForContentTypeBeforeSending(res, result)
+    }).catch(e => sendErrorForward('get spells by count', e, res))
+  },
   getArtist: (req, res) => {
     const db = req.app.get('db')
         , id = req.params.id

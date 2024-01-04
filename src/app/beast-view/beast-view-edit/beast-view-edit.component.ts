@@ -79,6 +79,7 @@ export class BeastViewEditComponent implements OnInit {
   public tokenExists: Boolean = false;
   public unusedRolesForEncounters = []
   public allBurdens;
+  public allSpells;
   public newRole = {
     name: null,
     role: null,
@@ -618,6 +619,10 @@ export class BeastViewEditComponent implements OnInit {
           this.beast.climates.allclimates = results
         })
       }
+
+      this.beastService.getSpellsForPleroma().subscribe(result => {
+        this.allSpells = result
+      })
 
       this.beastService.getBurdens().subscribe((results: any) => {
         delete results.ibTables

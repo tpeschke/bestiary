@@ -4,8 +4,14 @@
       (change)="captureInput($event, 'reagents', i, 'name')">
   </mat-form-field>
   <mat-form-field>
-    <input placeholder="Spell" matInput [value]="reagent.spell" (change)="captureInput($event, 'reagents', i, 'spell')">
+    <input matInput placeholder="Spell" [matAutocomplete]="spellauto" [formControl]="spellsController" [value]="reagent.spell">
+    <mat-autocomplete #spellauto="matAutocomplete" (optionSelected)="captureSpellInput($event)">
+      <mat-option *ngFor="let spell of spellsFiltered | async" [value]="spell.spell">
+        {{spell.spell}}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
+    
   <mat-form-field>
     <mat-label>Identification</mat-label>
     <mat-select (selectionChange)="captureEncounterSecondary($event, 'reagents', i, 'difficulty')"

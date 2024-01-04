@@ -2732,7 +2732,7 @@
         <h2>Weird Pleroma</h2>
         <div class="divider"></div>
         <div *ngFor="let reagent of beast.reagents; let i = index">
-          <app-pleroma-display *ngIf="!reagent.deleted" [i]="i" [reagent]="reagent" [captureInput]="captureInput" [captureEncounterSecondary]="captureEncounterSecondary" [removeNewSecondaryItem]="removeNewSecondaryItem"></app-pleroma-display>
+          <app-pleroma-display *ngIf="!reagent.deleted" [i]="i" [allSpells]="allSpells" [reagent]="reagent" [captureInput]="captureInput" [captureEncounterSecondary]="captureEncounterSecondary" [removeNewSecondaryItem]="removeNewSecondaryItem"></app-pleroma-display>
         </div>
 
         <button mat-raised-button (click)="addNewSecondaryItem('reagents')" color="accent"><i
