@@ -104,7 +104,8 @@
 
         <div>
           <h3>Preview</h3>
-          <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" class="preview" *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name" (error)="onImageError($event);">
+          <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" class="preview"
+            *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name" (error)="onImageError($event);">
         </div>
       </div>
 
@@ -3043,15 +3044,19 @@
           <mat-chip-list>
             <div *ngFor="let variant of beast.variants; let i = index">
               <mat-chip *ngIf="!variant.deleted" (click)="removeNewSecondaryItem('variants', i)" color="warn" selected>
-                {{variant.variantid}}</mat-chip>
+                {{variant.name}}</mat-chip>
             </div>
           </mat-chip-list>
+
           <mat-form-field>
-            <input matInput placeholder="Monster ID" [value]="newVariantId" (change)="captureID($event)" type="number">
+            <input matInput placeholder="Name of Variant Monster" [matAutocomplete]="variantauto"
+              [formControl]="variantController">
+            <mat-autocomplete #variantauto="matAutocomplete" (optionSelected)="captureVariant($event)" [displayWith]="getDisplayVariant">
+              <mat-option *ngFor="let variant of variantsFiltered | async" [value]="variant">
+                {{variant.name}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
-          <br>
-          <button mat-raised-button color="accent" (click)="addById()"><i class="fa-solid fa-plus icon-medium"></i> By
-            ID</button>
         </div>
 
         <h2>Meta Notes</h2>
@@ -3070,7 +3075,8 @@
   <div class="divider"></div>
   <br>
 
-  <button (click)="saveChanges()" mat-raised-button color="primary" [disabled]="!beast.name">{{beast.name ? 'Save Monster' : 'Your beast needs a name to save it'}}</button>
+  <button (click)="saveChanges()" mat-raised-button color="primary" [disabled]="!beast.name">{{beast.name ? 'Save
+    Monster' : 'Your beast needs a name to save it'}}</button>
   <div *ngIf="beast.id">
     <div *ngIf="checkForDelete" class="deleteButton">
       <button mat-raised-button (click)="deleteThisBeast()" color="warn" matTooltip="Yes, Delete this Monster"><i

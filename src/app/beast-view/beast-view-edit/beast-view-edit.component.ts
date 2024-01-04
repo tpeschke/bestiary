@@ -56,6 +56,9 @@ export class BeastViewEditComponent implements OnInit {
   public imageController: FormControl;
   public imagesFiltered: Observable<any[]>;
 
+  public variantController: FormControl;
+  public variantsFiltered: Observable<any[]>;
+
   public mental = {
     stress: null,
     panic: null,
@@ -644,6 +647,16 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   bootUpAutoComplete() {
+    this.variantController = new FormControl('')
+    this.variantsFiltered = this.variantController.valueChanges
+      .pipe(
+        startWith(''),
+        debounceTime(400),
+        switchMap(val => {
+          return this.filterAsync(val || '')
+        })
+      );
+
     this.imageController = new FormControl('')
     this.imagesFiltered = this.imageController.valueChanges
       .pipe(
@@ -673,10 +686,21 @@ export class BeastViewEditComponent implements OnInit {
       if (this.beast.imagesource) {
         this.beastService.getArtist(this.beast.imagesource).subscribe(result => {
           console.log(result)
-          this.setArtist({option: {value: result[0]}})
+          this.setArtist({ option: { value: result[0] } })
         })
       }
     }
+  }
+
+  captureVariant = (event) => {
+    if (event.option.value.id && event.option.value.name) {
+      this.beast.variants.push({variantid: event.option.value.id, name: event.option.value.name})
+      
+    }
+  }
+
+  getDisplayVariant= (option) => {
+    return option.name
   }
 
   _filterGroup = (value, groups, type) => {
@@ -1117,23 +1141,12 @@ export class BeastViewEditComponent implements OnInit {
     this[type] = null;
   }
 
-  captureID(event) {
-    this.newVariantId = +event.target.value
-  }
-
   captureChallenge(event) {
     this.newChallengeId = +event.target.value
   }
 
   captureObstacle(event) {
     this.newObstacleId = +event.target.value
-  }
-
-  addById() {
-    if (this.newVariantId) {
-      this.beast.variants.push({ variantid: this.newVariantId })
-      this.newVariantId = null;
-    }
   }
 
   addChallengeById() {
@@ -2193,7 +2206,7 @@ export class BeastViewEditComponent implements OnInit {
     this.imageUrl = this.imageBase + this.beast.id + '?t=' + new Date().getTime()
   }
 
-  onImageError (event) {
+  onImageError(event) {
     event.target.onerror = null;
     if (this.beast.imagesource) {
       event.target.src = this.imageBase + this.beast.imagesource + '?t=' + new Date().getTime()
