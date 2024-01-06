@@ -58,7 +58,7 @@ export class BeastService {
     }
     const typeScalingBonus = {
       Convictions: 2.75,
-      Descriptions: .75,
+      Descriptions: .25,
       Devotions: 2
     }
 
