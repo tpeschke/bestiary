@@ -1,7 +1,7 @@
 const upsertHelper = require('./upsertHelper')
-const catalogCtrl = require ('./catalogController')
+const catalogCtrl = require('./catalogController')
 
-const { sendErrorForwardNoFile, checkForContentTypeBeforeSending } = require('./helpers')
+const { sendErrorForwardNoFile, checkForContentTypeBeforeSending, createHash } = require('./helpers')
 const sendErrorForward = sendErrorForwardNoFile('controller')
 
 let rollDice = function (diceString) {
@@ -105,15 +105,6 @@ function getRandomEncounter(label, numbers, weights) {
 }
 
 let controllerObj = {
-  createHash() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (var i = 0; i < 10; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-},
   // BEAST ENDPOINTS
   checkIfPlayerView(req, res) {
     const db = req.app.get('db')
@@ -123,7 +114,7 @@ let controllerObj = {
       checkForContentTypeBeforeSending(res, { canView: (req.user && req.user.id === 1) || (req.user && req.user.patreon >= 3) || result[0].canplayerview })
     }).catch(e => sendErrorForward('player can view', e, res))
   },
-  canEditMonster (req, res) {
+  canEditMonster(req, res) {
     const db = req.app.get('db')
       , id = +req.params.id
     if (req.user) {
@@ -138,13 +129,13 @@ let controllerObj = {
             if (canEdit) {
               checkForContentTypeBeforeSending(res, { canEdit })
             } else {
-              sendErrorForward('add custom monster', {message: "You've hit your limit for monsters. Upgrade your Patreon for more."}, res)
+              sendErrorForward('add custom monster', { message: "You've hit your limit for monsters. Upgrade your Patreon for more." }, res)
             }
           }).catch(e => sendErrorForward('get custom monster count', e, res))
         }
       }).catch(e => sendErrorForward('can edit custom', e, res))
     } else {
-      checkForContentTypeBeforeSending(res, {canEdit: false})
+      checkForContentTypeBeforeSending(res, { canEdit: false })
     }
   },
   getPlayerBeast(req, res) {
@@ -192,7 +183,7 @@ let controllerObj = {
     let { name, hr, intro, climates, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback, singledievitality, noknockback, tables, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource } = body
 
     const userid = user.id === 1 || user.id === 21 ? null : user.id
-    db.add.beast(userid, name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, panic, +stress, controllerObj.createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource).then(result => {
+    db.add.beast(userid, name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, panic, +stress, createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource).then(result => {
       let id = result[0].id
         , promiseArray = []
 
@@ -208,7 +199,7 @@ let controllerObj = {
       upsertHelper.upsertReagents(promiseArray, db, id, reagents)
       upsertHelper.upsertLocation(promiseArray, db, id, locationalvitality)
       upsertHelper.upsertArtist(promiseArray, db, id, artistInfo)
-      
+
       let { appearance, habitat, attack, defense } = tables
       upsertHelper.deleteTables(promiseArray, db, id, appearance, habitat, attack, defense)
       upsertHelper.upsertApperanceTable(promiseArray, db, id, appearance)
@@ -270,7 +261,7 @@ let controllerObj = {
       upsertHelper.upsertReagents(promiseArray, db, id, reagents)
       upsertHelper.upsertLocation(promiseArray, db, id, locationalvitality)
       upsertHelper.upsertArtist(promiseArray, db, id, artistInfo)
-      
+
       let { appearance, habitat, attack, defense } = tables
       upsertHelper.deleteTables(promiseArray, db, id, appearance, habitat, attack, defense)
       upsertHelper.upsertApperanceTable(promiseArray, db, id, appearance)

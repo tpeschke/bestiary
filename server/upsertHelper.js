@@ -1,17 +1,17 @@
-const { sendErrorForwardNoFile } = require('./helpers')
+const { sendErrorForwardNoFile, createHash } = require('./helpers')
 
 const sendErrorForward = sendErrorForwardNoFile('upsert helper')
 
 const saveUpdateFunctions = {
     upsertRoles: (promiseArray, db, id, roles) => {
-        promiseArray.push(db.delete.roles([id, ['', ...roles.map(roles => roles.id)]]).then(_ => {
-            return roles.map(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback, rollundertrauma }) => {
+        db.delete.roles([id, ['', ...roles.map(roles => roles.roleid)]]).then(_ => {
+            roles.forEach(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback, rollundertrauma }) => {
                 if (!hash) {
-                    hash = controllerObj.createHash()
+                    hash = createHash()
                 }
-                return db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback, rollundertrauma).catch(e => sendErrorForward('update beast add roles', e, res))
+                promiseArray.push(db.add.beastroles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback, rollundertrauma).catch(e => sendErrorForward('update beast add roles', e, res)))
             })
-        }).catch(e => sendErrorForward('update beast delete roles', e, res)))
+        }).catch(e => sendErrorForward('update beast delete roles', e, res))
     },
     upsertTypes: (promiseArray, db, id, types) => {
         types.forEach(val => {
