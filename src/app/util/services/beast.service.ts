@@ -53,13 +53,13 @@ export class BeastService {
   calculateRankForCharacteristic = (type, ranks, strength, adjustment = 0) => {
     const typeBase = {
       Convictions: 4,
-      Descriptions: 4,
+      Descriptions: 0,
       Devotions: 4
     }
     const typeScalingBonus = {
       Convictions: 2.75,
-      Descriptions: 1.33,
-      Devotions: 2.75
+      Descriptions: .75,
+      Devotions: 2
     }
 
     const scaling = {
