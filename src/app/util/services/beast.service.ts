@@ -84,9 +84,9 @@ export class BeastService {
 
   calculateRankForSkill = (ranks, strength, adjustment = 0) => {
     const scaling = {
-      majSt: 2,
-      minSt: 1.5,
-      minWk: 1,
+      majSt: 1.25,
+      minSt: 1,
+      minWk: .75,
       majWk: .5
     }
 
