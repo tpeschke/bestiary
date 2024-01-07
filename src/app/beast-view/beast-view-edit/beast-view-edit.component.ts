@@ -1208,7 +1208,7 @@ export class BeastViewEditComponent implements OnInit {
           weaponname: null
         })
       } else {
-        let combatSquareCopy = { id: 0, weaponname: '', weapon: '', armor: '', shield: '', roleid: null }
+        let combatSquareCopy = { id: 0, weaponname: null, weapon: null, armor: null, shield: null, roleid: null }
         if (this.selectedRoleId) {
           for (let i = this.beast[type].length - 1; i >= 0; i--) {
             if (this.beast[type][i].roleid === this.selectedRoleId) {
@@ -1223,10 +1223,10 @@ export class BeastViewEditComponent implements OnInit {
           combatSquareCopy = { ...this.beast[type][this.beast[type].length - 1] }
         }
         delete combatSquareCopy.id
-        combatSquareCopy.weaponname = ''
-        combatSquareCopy.weapon = ''
-        combatSquareCopy.armor = ''
-        combatSquareCopy.shield = ''
+        combatSquareCopy.weaponname = null
+        combatSquareCopy.weapon = null
+        combatSquareCopy.armor = null
+        combatSquareCopy.shield = null
         combatSquareCopy.roleid = this.selectedRoleId
         this.beast[type].push(combatSquareCopy)
       }
