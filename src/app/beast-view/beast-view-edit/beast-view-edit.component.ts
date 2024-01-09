@@ -2208,7 +2208,7 @@ export class BeastViewEditComponent implements OnInit {
 
   getSkillRank(strength, adjustment = 0) {
     const skillpoints = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].skillpoints : this.beast.skillpoints
-    return this.beastService.calculateRankForSkill(skillpoints, strength, adjustment)
+    return this.beastService.calculateRankForSkill(+skillpoints, strength, adjustment)
   }
 
   getImageUrl() {

@@ -48,7 +48,7 @@
           [checked]="characteristic.allroles">
         </mat-checkbox>
       </td>
-      <td>{{beastService.calculateRankForCharacteristic(characteristicType + 's', socialpoints, characteristic.strength, characteristic.adjustment)}}</td>
+      <td>{{beastService.calculateRankForCharacteristic(characteristicType + 's', +socialpoints, characteristic.strength, characteristic.adjustment)}}</td>
       <td>
         <input class="table-input text-center max-width-input" value="{{characteristic.adjustment}}" (change)="captureAdjustment($event, index)" type="number">
       </td>
