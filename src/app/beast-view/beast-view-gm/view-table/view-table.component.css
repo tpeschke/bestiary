@@ -19,7 +19,7 @@ mat-expansion-panel table {
     margin: 0 auto 5px;
 }
 
-::ng-deep .mat-expansion-panel-body {
+.table-view ::ng-deep .mat-expansion-panel-body {
  padding: 0;
 }
 

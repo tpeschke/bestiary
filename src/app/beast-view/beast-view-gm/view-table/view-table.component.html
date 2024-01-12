@@ -17,13 +17,14 @@
   </tbody>
 </table>
 
-  <mat-expansion-panel  *ngIf="table.rows.length > 12">
+<div class="table-view">
+  <mat-expansion-panel *ngIf="table.rows.length > 12">
     <mat-expansion-panel-header>
       <mat-panel-title>
         <h3>{{table.label}} Table</h3>
       </mat-panel-title>
     </mat-expansion-panel-header>
-
+  
     <table>
       <tbody>
         <tr>
@@ -38,3 +39,4 @@
       </tbody>
     </table>
   </mat-expansion-panel>
+</div>
