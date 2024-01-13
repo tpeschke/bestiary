@@ -3,7 +3,7 @@ const { sendErrorForwardNoFile, createHash } = require('./helpers')
 const sendErrorForward = sendErrorForwardNoFile('upsert helper')
 
 const saveUpdateFunctions = {
-    upsertRoles: (promiseArray, db, id, roles) => {
+    upsertRoles: (promiseArray, db, id, res, roles) => {
         db.delete.roles([id, ['', ...roles.map(roles => roles.roleid)]]).then(_ => {
             roles.forEach(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback, rollundertrauma }) => {
                 if (!hash) {
@@ -13,7 +13,7 @@ const saveUpdateFunctions = {
             })
         }).catch(e => sendErrorForward('update beast delete roles', e, res))
     },
-    upsertTypes: (promiseArray, db, id, types) => {
+    upsertTypes: (promiseArray, db, id, res, types) => {
         types.forEach(val => {
             if (!val.id) {
                 promiseArray.push(db.add.beasttype(id, val.typeid).catch(e => sendErrorForward('update beast add types', e, res)))
@@ -22,7 +22,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertClimates: (promiseArray, db, id, climates) => {
+    upsertClimates: (promiseArray, db, id, res, climates) => {
         climates.beast.forEach(val => {
             if (val.deleted) {
                 promiseArray.push(db.delete.climate.climate(val.uniqueid).catch(e => sendErrorForward('update beast delete climate', e, res)))
@@ -31,7 +31,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertCombats: (promiseArray, db, id, combatStatArray) => {
+    upsertCombats: (promiseArray, db, id, res, combatStatArray) => {
         promiseArray.push(db.delete.combatStats([id, [0, ...combatStatArray.map(combatStat => combatStat.id)]]).then(_ => {
             return combatStatArray.map(({ id: uniqueid, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,
                 weaponsmallcrushing, weaponsmallpiercing, andslashing, andcrushing, flanks, rangeddefence, alldefense, allaround, armorandshields,
@@ -48,42 +48,42 @@ const saveUpdateFunctions = {
             })
         }).catch(e => sendErrorForward('update beast delete combat', e, res)))
     },
-    upsertConflict: (promiseArray, db, id, conflict) => {
+    upsertConflict: (promiseArray, db, id, res, conflict) => {
         let newConflict = []
         Object.keys(conflict).forEach(key => newConflict = [...newConflict, ...conflict[key]])
         newConflict.forEach(({ trait, value, type, id: conflictId, deleted, socialroleid, allroles, severity, strength, adjustment }) => {
             if (deleted) {
                 promiseArray.push(db.delete.beastconflict(conflictId).catch(e => sendErrorForward('update beast delete confrontation', e, res)))
             } else if (!conflictId) {
-                promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles, severity, strength, adjustment).catch(e => sendErrorForward('update beast add confrontation', e, res)))
+                promiseArray.push(db.add.beastconflict(id, trait, value, type, socialroleid, allroles, severity, strength, +adjustment).catch(e => sendErrorForward('update beast add confrontation', e, res)))
             } else {
-                promiseArray.push(db.update.beastconflict(id, trait, value, type, conflictId, socialroleid, allroles, severity, strength, adjustment).catch(e => sendErrorForward('update beast update roles', e, res)))
+                promiseArray.push(db.update.beastconflict(id, trait, value, type, conflictId, socialroleid, allroles, severity, strength, +adjustment).catch(e => sendErrorForward('update beast update roles', e, res)))
             }
         })
     },
-    upsertSkills: (promiseArray, db, id, skills) => {
+    upsertSkills: (promiseArray, db, id, res, skills) => {
         skills.forEach(({ skill, rank, id: skillId, deleted, skillroleid, allroles, strength, adjustment }) => {
             if (deleted) {
                 promiseArray.push(db.delete.beastskill(skillId).catch(e => sendErrorForward('update beast delete skills', e, res)))
             } else if (!skillId) {
-                promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid, allroles, strength, adjustment).catch(e => sendErrorForward('update beast add skills', e, res)))
+                promiseArray.push(db.add.beastskill(id, skill, rank, skillroleid, allroles, strength, +adjustment).catch(e => sendErrorForward('update beast add skills', e, res)))
             } else {
-                promiseArray.push(db.update.beastskill(id, skill, rank, skillId, skillroleid, allroles, strength, adjustment).catch(e => sendErrorForward('update beast update skills', e, res)))
+                promiseArray.push(db.update.beastskill(id, skill, rank, skillId, skillroleid, allroles, strength, +adjustment).catch(e => sendErrorForward('update beast update skills', e, res)))
             }
         })
     },
-    upsertMovement: (promiseArray, db, id, movement) => {
+    upsertMovement: (promiseArray, db, id, res, movement) => {
         movement.forEach(({ stroll, walk, jog, run, sprint, type, id: movementId, deleted, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, adjustment }) => {
             if (deleted) {
                 promiseArray.push(db.delete.beastmovement(movementId).catch(e => sendErrorForward('update beast delete movement', e, res)))
             } else if (!movementId) {
-                promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, adjustment).catch(e => sendErrorForward('update beast add movement', e, res)))
+                promiseArray.push(db.add.beastmovement(id, stroll, walk, jog, run, sprint, type, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, +adjustment).catch(e => sendErrorForward('update beast add movement', e, res)))
             } else {
-                promiseArray.push(db.update.beastmovement(id, stroll, walk, jog, run, sprint, type, movementId, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, adjustment).catch(e => sendErrorForward('update beast update movement', e, res)))
+                promiseArray.push(db.update.beastmovement(id, stroll, walk, jog, run, sprint, type, movementId, roleid, allroles, strollstrength, walkstrength, jogstrength, runstrength, sprintstrength, +adjustment).catch(e => sendErrorForward('update beast update movement', e, res)))
             }
         })
     },
-    upsertVariants: (promiseArray, db, id, variants) => {
+    upsertVariants: (promiseArray, db, id, res, variants) => {
         variants.forEach(({ id: checkId, variantid, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.beastvariants(id, variantid).catch(e => sendErrorForward('update beast delete variants 1', e, res)))
@@ -94,7 +94,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertLoot: (promiseArray, db, id, loot) => {
+    upsertLoot: (promiseArray, db, id, res, loot) => {
         loot.forEach(({ loot, price, id: lootId, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.beastloot(lootId).catch(e => sendErrorForward('update beast delete beast loot', e, res)))
@@ -105,7 +105,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertReagents: (promiseArray, db, id, reagents) => {
+    upsertReagents: (promiseArray, db, id, res, reagents) => {
         reagents.forEach(({ name, spell, difficulty, harvest, id: reagentId, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.beastreagents(reagentId).catch(e => sendErrorForward('update beast delete pleroma', e, res)))
@@ -116,7 +116,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertLocation: (promiseArray, db, id, locationalvitality) => {
+    upsertLocation: (promiseArray, db, id, res, locationalvitality) => {
         if (locationalvitality.length > 0) {
             locationalvitality.forEach(({ id: locationid, location, vitality, beastid, deleted, roleid, allroles }) => {
                 if (deleted) {
@@ -129,7 +129,7 @@ const saveUpdateFunctions = {
             })
         }
     },
-    upsertArtist: (promiseArray, db, id, artistInfo) => {
+    upsertArtist: (promiseArray, db, id, res, artistInfo) => {
         let { id: dbid, artistid, artist, tooltip, link } = artistInfo;
         if (artist) {
             if (!artistid) {
@@ -141,10 +141,10 @@ const saveUpdateFunctions = {
             }
         }
     },
-    deleteTables: (promiseArray, db, id, appearance, habitat, attack, defense) => {
+    deleteTables: (promiseArray, db, id, res, appearance, habitat, attack, defense) => {
         promiseArray.push(db.delete.table(id, [0, ...appearance.map(table => table.id), ...habitat.map(table => table.id), ...attack.map(table => table.id), ...defense.map(table => table.id)]))
     },
-    upsertApperanceTable: (promiseArray, db, id, appearance) => {
+    upsertApperanceTable: (promiseArray, db, id, res, appearance) => {
         appearance.forEach(table => {
             if (table.id) {
                 promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast appearance all tables', e, res)))
@@ -165,7 +165,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertHabitatTable: (promiseArray, db, id, habitat) => {
+    upsertHabitatTable: (promiseArray, db, id, res, habitat) => {
         habitat.forEach(table => {
             if (table.id) {
                 promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast habitat all tables', e, res)))
@@ -186,7 +186,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertAttackTable: (promiseArray, db, id, attack) => {
+    upsertAttackTable: (promiseArray, db, id, res, attack) => {
         attack.forEach(table => {
             if (table.id) {
                 promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast attack all tables', e, res)))
@@ -207,7 +207,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertDefenseTable: (promiseArray, db, id, defense) => {
+    upsertDefenseTable: (promiseArray, db, id, res, defense) => {
         defense.forEach(table => {
             if (table.id) {
                 promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast defense all tables', e, res)))
@@ -228,7 +228,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertTemperament: (promiseArray, db, id, temperament) => {
+    upsertTemperament: (promiseArray, db, id, res, temperament) => {
         temperament.temperament.forEach(({ temperament: temp, weight, id: tempid, beastid, tooltip, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.encounter.temperament(beastid, tempid).catch(e => sendErrorForward('update beast delete temp', e, res)))
@@ -243,7 +243,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertGroups: (promiseArray, db, id, groups) => {
+    upsertGroups: (promiseArray, db, id, res, groups) => {
         groups.forEach(({ id: groupid, beastid, deleted, label, weights, weight }) => {
             if (deleted) {
                 promiseArray.push(db.delete.encounter.groups(id, groupid).then(_ => db.delete.encounter.groupRoles(beastid, groupid).catch(e => sendErrorForward('update beast delete group roles', e, res))).catch(e => sendErrorForward('update beast delete groups', e, res)))
@@ -277,7 +277,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertNumbers: (promiseArray, db, id, numbers) => {
+    upsertNumbers: (promiseArray, db, id, res, numbers) => {
         numbers.forEach(({ id: numberid, beastid, deleted, numbers, miles, weight }) => {
             if (deleted) {
                 promiseArray.push(db.delete.encounter.numbers(id, numberid).catch(e => sendErrorForward('update beast delete numbers', e, res)))
@@ -288,7 +288,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertSigns: (promiseArray, db, id, signs) => {
+    upsertSigns: (promiseArray, db, id, res, signs) => {
         signs.signs.forEach(({ sign, weight, id: signid, beastid, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.encounter.sign(beastid, signid).catch(e => sendErrorForward('update beast delete sign', e, res)))
@@ -303,7 +303,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertVerb: (promiseArray, db, id, verb) => {
+    upsertVerb: (promiseArray, db, id, res, verb) => {
         verb.verb.forEach(({ verb, id: verbid, beastid, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.encounter.verb(beastid, verbid).catch(e => sendErrorForward('update beast delete verb', e, res)))
@@ -316,7 +316,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertNoun: (promiseArray, db, id, noun) => {
+    upsertNoun: (promiseArray, db, id, res, noun) => {
         noun.noun.forEach(({ noun, id: nounid, beastid, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.encounter.noun(beastid, nounid).catch(e => sendErrorForward('update beast delete noun', e, res)))
@@ -329,14 +329,14 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertLairBasic: (promiseArray, db, id, beastid, copper, silver, gold, potion, relic, enchanted, talisman) => {
+    upsertLairBasic: (promiseArray, db, id, res, beastid, copper, silver, gold, potion, relic, enchanted, talisman) => {
         if (!beastid) {
             promiseArray.push(db.add.loot.lairbasic(id, copper, silver, gold, potion, relic, enchanted, talisman).catch(e => sendErrorForward('update beast add basic lair', e, res)))
         } else {
             promiseArray.push(db.update.loot.lairbasic(id, copper, silver, gold, potion, relic, enchanted, talisman).catch(e => sendErrorForward('update beast update basic lair', e, res)))
         }
     },
-    upsertEquipmentLair: (promiseArray, db, id, equipment = []) => {
+    upsertEquipmentLair: (promiseArray, db, id, res, equipment = []) => {
         equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.loot.lairequipment(beastid, equipid).catch(e => sendErrorForward('update beast delete lair equipment', e, res)))
@@ -347,7 +347,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertTraitedLair: (promiseArray, db, id, traited = []) => {
+    upsertTraitedLair: (promiseArray, db, id, res, traited = []) => {
         traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.loot.lairtraited(beastid, traitedid).catch(e => sendErrorForward('update beast delete lair traited equipment', e, res)))
@@ -358,7 +358,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertScrollsLair: (promiseArray, db, id, scrolls = []) => {
+    upsertScrollsLair: (promiseArray, db, id, res, scrolls = []) => {
         scrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.loot.lairscrolls(beastid, scrollid).catch(e => sendErrorForward('update beast delete lair scrolls', e, res)))
@@ -369,7 +369,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertAlmsLair: (promiseArray, db, id, alms = []) => {
+    upsertAlmsLair: (promiseArray, db, id, res, alms = []) => {
         alms.forEach(({ id: almid, beastid, number, favor, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.loot.lairalms(beastid, almid).catch(e => sendErrorForward('update beast delete lair alms', e, res)))
@@ -380,14 +380,14 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertBasicCarried: (promiseArray, db, id, cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman) => {
+    upsertBasicCarried: (promiseArray, db, id, res, cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman) => {
         if (!cbeastid) {
             promiseArray.push(db.add.loot.carriedbasic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman).catch(e => sendErrorForward('update beast add carried basic', e, res)))
         } else {
             promiseArray.push(db.update.loot.carriedbasic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman).catch(e => sendErrorForward('update beast update carried basic', e, res)))
         }
     },
-    upsertEquipmentCarried: (promiseArray, db, id, cequipment = []) => {
+    upsertEquipmentCarried: (promiseArray, db, id, res, cequipment = []) => {
         cequipment.forEach(({ id: equipid, beastid: cbeastid, value, number, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.loot.carriedequipment(cbeastid, equipid).catch(e => sendErrorForward('update beast delete carried equipment', e, res)))
@@ -398,7 +398,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertTraitedCarried: (promiseArray, db, id, ctraited = []) => {
+    upsertTraitedCarried: (promiseArray, db, id, res, ctraited = []) => {
         ctraited.forEach(({ id: traitedid, beastid: cbeastid, value, chancetable, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.loot.carriedtraited(cbeastid, traitedid).catch(e => sendErrorForward('update beast delete carried equipment', e, res)))
@@ -409,7 +409,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertScrollsCarried: (promiseArray, db, id, cscrolls = []) => {
+    upsertScrollsCarried: (promiseArray, db, id, res, cscrolls = []) => {
         cscrolls.forEach(({ id: scrollid, beastid: cbeastid, number, power, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.loot.carriedscrolls(cbeastid, scrollid).catch(e => sendErrorForward('update beast delete carried scrolls', e, res)))
@@ -420,7 +420,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertAlmsCarried: (promiseArray, db, id, calms = []) => {
+    upsertAlmsCarried: (promiseArray, db, id, res, calms = []) => {
         calms.forEach(({ id: almid, beastid: cbeastid, number, favor, deleted }) => {
             if (deleted) {
                 promiseArray.push(db.delete.loot.carriedalms(cbeastid, almid).catch(e => sendErrorForward('update beast delete carried alms', e, res)))
@@ -431,7 +431,7 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertCasting: (promiseArray, db, id, casting) => {
+    upsertCasting: (promiseArray, db, id, res, casting) => {
         if (casting.beastid) {
             let { augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype } = casting
             promiseArray.push(db.update.casting(augur, wild, vancian, spellnumberdie, manifesting, commanding, bloodpact, defaulttype, id).catch(e => sendErrorForward('update beast update casting', e, res)))
@@ -439,7 +439,7 @@ const saveUpdateFunctions = {
             promiseArray.push(db.update.casting(null, null, null, 'd4', null, null, null, null, id).catch(e => sendErrorForward('update beast update casting 2', e, res)))
         }
     },
-    upsertSpells: (promiseArray, db, id, spells = []) => {
+    upsertSpells: (promiseArray, db, id, res, spells = []) => {
         spells.forEach(({ id: spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist }) => {
             if (beastid) {
                 promiseArray.push(db.update.spell(spellid, name, origin, shape, range, interval, effect, beastid, allroles, roleid, resist).catch(e => sendErrorForward('update beast update spell', e, res)))
@@ -448,12 +448,12 @@ const saveUpdateFunctions = {
             }
         })
     },
-    deleteFromSpellList: (promiseArray, db, id, deletedSpellList = []) => {
+    deleteFromSpellList: (promiseArray, db, id, res, deletedSpellList = []) => {
         deletedSpellList.forEach(val => {
             promiseArray.push(db.delete.spell(val, id).catch(e => sendErrorForward('update beast delete spell', e, res)))
         })
     },
-    upsertObstacles: (promiseArray, db, id, obstacles) => {
+    upsertObstacles: (promiseArray, db, id, res, obstacles) => {
         promiseArray.push(db.delete.obstacles([id, [0, ...obstacles.map(obstacles => obstacles.id)]]).then(_ => {
             return obstacles.map(({ id: uniqueid, obstacleid, notes }) => {
                 if (!uniqueid) {
@@ -464,7 +464,7 @@ const saveUpdateFunctions = {
             })
         }).catch(e => sendErrorForward('update beast delete obstacles', e, res)))
     },
-    upsertChallenges: (promiseArray, db, id, challenges) => {
+    upsertChallenges: (promiseArray, db, id, res, challenges) => {
         promiseArray.push(db.delete.challenges([id, [0, ...challenges.map(challenges => challenges.id)]]).then(_ => {
             return challenges.map(({ id: uniqueid, challengeid }) => {
                 if (!uniqueid) {
@@ -475,7 +475,7 @@ const saveUpdateFunctions = {
             })
         }).catch(e => sendErrorForward('update beast delete challenges', e, res)))
     },
-    upsertFolklore: (promiseArray, db, id, folklore) => {
+    upsertFolklore: (promiseArray, db, id, res, folklore) => {
         promiseArray.push(db.delete.folklore([id, [0, ...folklore.map(folklore => folklore.id)]]).then(_ => {
             return folklore.map(({ id: uniqueid, belief, truth }) => {
                 if (!uniqueid) {
