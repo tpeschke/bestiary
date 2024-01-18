@@ -101,10 +101,6 @@ h1 {
     font-size: 35px;
 }
 
-h1 i {
-    font-size: 25px;
-}
-
 h1 input, h1 input::placeholder, h1 input:focus {
     font-size: 25px;
     background: none;
@@ -117,6 +113,12 @@ h1 input, h1 input::placeholder, h1 input:focus {
 
 h1 input::placeholder {
     color: rgba(245, 245, 245, 0.50);
+}
+
+.fa-star {
+    margin-left: 10px;
+    color: #ffd740;
+    font-size: 32px;
 }
 
 .add-to-quick-view {
@@ -154,7 +156,8 @@ mat-toolbar {
     display: flex;
     justify-content: space-between;
     width: unset;
-    margin: 15px 0px
+    margin: 15px 0px;
+    flex-wrap: wrap;
 }
 
 .top-toolbar {
@@ -680,11 +683,6 @@ mat-toolbar {
     text-align: center;
 }
 
-.fa-star {
-    margin-left: 10px;
-    color: #ffd740
-}
-
 .temperamentList {
     display: flex;
     justify-content: space-between;
@@ -1146,6 +1144,14 @@ mat-form-field.fatigue-field {
 }
 
 @media (max-width: 699px) {
+    mat-toolbar {
+        justify-content: center;
+    }
+
+    h1, .fa-star {
+        font-size: 6vw;
+    }
+
     .attack-and-defense-inner-shell {
         width: 100%;
     }

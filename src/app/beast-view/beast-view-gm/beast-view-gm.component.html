@@ -25,7 +25,8 @@
 
       <div class="left">
         <div>
-          <img class="beastImg" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name" (error)="onImageError($event);">
+          <img class="beastImg" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name"
+            (error)="onImageError($event);">
           <div *ngIf="beast.artistInfo.artist" class="artist-credits">
             <p *ngIf="!beast.artistInfo.link">Artist: {{beast.artistInfo.artist}}<i *ngIf="beast.artistInfo.tooltip"
                 class="fas fa-info-circle icon-small blue" matTooltip="{{beast.artistInfo.tooltip}}"
@@ -291,10 +292,13 @@
             </div>
 
             <div *ngIf="isNumber(trauma) && trauma !== 0" class="flex-row-opposite">
-              <h3>Trauma Threshold <span *ngIf="!beast.notrauma">(<i matTooltip="What you need to roll under for the Trauma Check" class="fa-solid fa-down-long"></i>)</span></h3>
+              <h3>Trauma Threshold <span *ngIf="!beast.notrauma">(<i
+                    matTooltip="What you need to roll under for the Trauma Check"
+                    class="fa-solid fa-down-long"></i>)</span></h3>
               <span>
                 <p>{{beast.notrauma ? 'N/A' : trauma }}</p>
-                <p *ngIf="!beast.notrauma" matTooltip="What you need to roll under for the Trauma Check">({{selectedRoleId ? beast.roleInfo[selectedRoleId].rollundertrauma : beast.rollundertrauma}})</p>
+                <p *ngIf="!beast.notrauma" matTooltip="What you need to roll under for the Trauma Check">
+                  ({{selectedRoleId ? beast.roleInfo[selectedRoleId].rollundertrauma : beast.rollundertrauma}})</p>
               </span>
             </div>
 
@@ -731,7 +735,9 @@
           <li *ngFor="let loot of carriedLoot">
             <span *ngIf="!loot.swigs && !loot.skill && !loot.scroll && !loot.itemcategory">{{loot}} </span>
 
-            <a class="pointer, no-underline" href="{{'https://reliquary.dragon-slayer.net/enchanted/' + loot.id}}" target="_blank" *ngIf="loot.itemcategory">{{loot.name}} <i class="fa-solid fa-arrow-up-right-from-square icon-small"></i></a>
+            <a class="pointer, no-underline" href="{{'https://reliquary.dragon-slayer.net/enchanted/' + loot.id}}"
+              target="_blank" *ngIf="loot.itemcategory">{{loot.name}} <i
+                class="fa-solid fa-arrow-up-right-from-square icon-small"></i></a>
 
             <span *ngIf="loot.swigs">{{loot.name}} w/ {{loot.swigs}} {{loot.isSalve ? 'application' :
               'swig'}}{{loot.swigs > 1 ? 's' : ''}} </span>
@@ -773,7 +779,9 @@
           <li *ngFor="let loot of lairLoot">
             <span *ngIf="!loot.swigs && !loot.skill && !loot.scroll && !loot.itemcategory">{{loot}} </span>
 
-            <a class="pointer, no-underline" href="{{'https://reliquary.dragon-slayer.net/enchanted/' + loot.id}}" target="_blank" *ngIf="loot.itemcategory">{{loot.name}} <i class="fa-solid fa-arrow-up-right-from-square icon-small"></i></a>
+            <a class="pointer, no-underline" href="{{'https://reliquary.dragon-slayer.net/enchanted/' + loot.id}}"
+              target="_blank" *ngIf="loot.itemcategory">{{loot.name}} <i
+                class="fa-solid fa-arrow-up-right-from-square icon-small"></i></a>
 
             <span *ngIf="loot.swigs">{{loot.name}} w/ {{loot.swigs}} {{loot.isSalve ? 'application' :
               'swig'}}{{loot.swigs > 1 ? 's' : ''}} </span>
@@ -887,7 +895,9 @@
         </div>
 
         <div class="token-download-shell json-download" (click)="downloadJson()">
-          <span><i class="fa-solid fa-download"></i> Download JSON for {{selectedRoleId ? getNameWithRole(beast.rolenameorder, beast.name, beast.roleInfo[selectedRoleId].name) : formatNameWithCommas(beast.name)}}</span>
+          <span><i class="fa-solid fa-download"></i> Download JSON for {{selectedRoleId ?
+            getNameWithRole(beast.rolenameorder, beast.name, beast.roleInfo[selectedRoleId].name) :
+            formatNameWithCommas(beast.name)}}</span>
         </div>
       </div>
     </div>
@@ -895,8 +905,8 @@
     <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells" [selectedRoleId]="selectedRoleId">
     </app-weird-shaping-display>
 
-    <button *ngIf="loggedIn.id === 1 || loggedIn.id === 21 || beast.userid === loggedIn.id" mat-raised-button color="warn"
-      [routerLink]="['/beast', beast.id, 'edit']">Edit</button>
+    <button *ngIf="loggedIn.id === 1 || loggedIn.id === 21 || beast.userid === loggedIn.id" mat-raised-button
+      color="warn" [routerLink]="['/beast', beast.id, 'edit']">Edit</button>
     <button *ngIf="loggedIn.id === 1 || loggedIn.id === 21 || loggedIn.patreon > 19" mat-raised-button color="accent"
       [routerLink]="['/beast', 0, 'edit', {'templateId': beast.id}]">Use As Template For New</button>
   </mat-card>
