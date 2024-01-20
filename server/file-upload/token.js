@@ -6,7 +6,7 @@ const aws = require('aws-sdk')
 aws.config.update({
     secretAccessKey: access,
     accessKeyId: key,
-    region: 'us-west-1' //E.g us-east-1
+    region: 'us-west-1'
 });
 
 const s3 = new aws.S3();
@@ -16,8 +16,7 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         cb(null, true);
     } else {
-        cb(new Error('Wrong file type, only upload JPEG and/or PNG'),
-            false);
+        cb(null, false);
     }
 };
 

@@ -151,13 +151,13 @@ export class BeastService {
   uploadMainImage = (imageForm: FormData, id: number) => {
     this.toastr.warning('', `Image Uploading`)
     return this.http.post(local.endpointBase + '/api/v1/upload/' + id, imageForm)
-      .pipe(tap(result => this.handleMessage(result)))
+      .pipe(tap((result: any) => this.handleMessage(result.image ? { message: 'Token Uploaded', color: 'green' } : result)))
   }
 
   uploadTokenImage = (imageForm: FormData, id: number) => {
     this.toastr.warning('', `Token Uploading`)
     return this.http.post(local.endpointBase + '/api/v1/uploadToken/' + id, imageForm)
-      .pipe(tap(result => this.handleMessage(result)))
+      .pipe(tap((result: any) => this.handleMessage(result.image ? { message: 'Token Uploaded', color: 'green' } : result)))
   }
 
   checkToken = (id: number) => {
