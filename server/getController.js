@@ -21,7 +21,7 @@ function sortByStrength(a, b) {
 }
 
 function sortTemplateRoles(a, b) {
-  const order = [ 'Novice', 'Apprentice', 'Journeyman', 'Expert', 'Master', 'Grandmaster' ];
+  const order = [ 'Novice', 'Apprentice', 'Journeyman', 'Expert', 'Master', 'Grandmaster', 'Legendary', 'Mythic' ];
   return order.indexOf(a.name) - order.indexOf(b.name)
 }
 
