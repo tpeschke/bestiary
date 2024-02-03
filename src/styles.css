@@ -1,9 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 @font-face {
-  font-family: 'know'; letter-spacing: 1px;
+  font-family: 'know';
+  letter-spacing: 1px;
   src: url('./assets/jancient.ttf') format("truetype");
 }
+
 @font-face {
   font-family: 'Hamletornot';
   src: url('./assets/Hamletornot.ttf') format("truetype");
@@ -97,9 +100,10 @@ video {
   font: inherit;
   vertical-align: baseline;
   box-sizing: border-box;
-  scrollbar-color: #b45f06 transparent;
+  scrollbar-color: whitesmoke transparent;
   scrollbar-width: thin;
 }
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -114,20 +118,24 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
   background: grey;
   margin: 0 15px;
   font-family: 'know';
 }
+
 h1, h2, h3, h4, h5 {
   font-family: 'know';
 }
+
 h1 {
   font-size: 25px;
   color: whitesmoke;
   margin: 10px
 }
+
 h2 {
   color: #795548;
   font-size: 20px;
@@ -136,31 +144,40 @@ h2 {
   font-family: 'Hamletornot';
   letter-spacing: 2px;
 }
+
 h3 {
   font-size: 18px;
   color: #607d8b;
   font-weight: 600;
 }
+
 a {
-  font-family: 'know'; letter-spacing: 1px;
+  font-family: 'know';
+  letter-spacing: 1px;
   font-size: 20px;
 }
+
 .mat-button-wrapper {
-  font-family: 'know'; letter-spacing: 1px;
+  font-family: 'know';
+  letter-spacing: 1px;
   font-size: 17px;
 }
+
 p {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 13px;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -168,6 +185,7 @@ q:after {
   content: "";
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -183,13 +201,13 @@ table {
   text-align: center;
 }
 
-.character-counter { 
+.character-counter {
   color: grey;
   font-size: 12px;
   float: right;
 }
 
-.spinner > div {
+.spinner>div {
   width: 18px;
   height: 18px;
   background-color: whitesmoke;
@@ -211,15 +229,22 @@ table {
 }
 
 @-webkit-keyframes sk-bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0) }
-  40% { -webkit-transform: scale(1.0) }
+  0%, 80%, 100% {
+    -webkit-transform: scale(0)
+  }
+
+  40% {
+    -webkit-transform: scale(1.0)
+  }
 }
 
 @keyframes sk-bouncedelay {
-  0%, 80%, 100% { 
+  0%, 80%, 100% {
     -webkit-transform: scale(0);
     transform: scale(0);
-  } 40% { 
+  }
+
+  40% {
     -webkit-transform: scale(1.0);
     transform: scale(1.0);
   }
@@ -232,17 +257,17 @@ table {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: white 
+  background: white
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: grey; 
+  background: grey;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: grey; 
+  background: grey;
 }
 
 .fa-dice-d20 {
@@ -282,7 +307,8 @@ table {
 
 .ql-editor strong {
   font-weight: 600;
-  font-family: 'know'; letter-spacing: 1px;
+  font-family: 'know';
+  letter-spacing: 1px;
   font-size: 15px;
   letter-spacing: 2px;
 }
@@ -304,8 +330,14 @@ table {
   padding: 0 !important
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .mat-expansion-panel-header {
   font-family: 'know' !important;
@@ -382,7 +414,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: unset !important;
 }
 
-.mat-checkbox-layout { white-space: normal !important; }
+.mat-checkbox-layout {
+  white-space: normal !important;
+}
 
 .text-indent {
   text-indent: 25px;

@@ -50,7 +50,6 @@ export class EditTableComponent implements OnInit {
     let inputs = document.getElementById('edit-table' + this.index).getElementsByTagName('input');
     for (let i = 0; i < inputs.length; ++i) {
       if (inputs[i].className.includes('edit-table-clearable')) {
-        console.log(inputs[i].value)
         inputs[i].value = null
       }
     }

@@ -690,7 +690,6 @@ export class BeastViewEditComponent implements OnInit {
       this.getImageUrl()
       if (this.beast.imagesource) {
         this.beastService.getArtist(this.beast.imagesource).subscribe(result => {
-          console.log(result)
           this.setArtist({ option: { value: result[0] } })
         })
       }

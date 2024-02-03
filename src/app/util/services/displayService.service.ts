@@ -11,6 +11,14 @@ export class DisplayServiceService {
     
   }
 
+  getFatigueThresholdToShow = (selectedRoleId, rolefatigue, basefatigue, displayedVitality) => {
+    const fatigueToShow = selectedRoleId ? rolefatigue : basefatigue
+    if (fatigueToShow >= displayedVitality) {
+      return 'N'
+    }
+    return fatigueToShow
+  }
+
   returnSizeDefenseModifier (size, addsizemod) {
     if (!addsizemod) {
       return 0

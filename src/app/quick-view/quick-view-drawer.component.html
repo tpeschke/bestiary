@@ -61,7 +61,7 @@
                   <mat-form-field>
                     <input matInput>
                   </mat-form-field>
-                  <p> / ({{quickViewService.quickViewArray[beastIndex].phyiscalAndStress.physical.fatigue}}) /
+                  <p> / ({{quickViewService.quickViewArray[beastIndex].phyiscalAndStress.physical.fatigue >= vitalities.vitality ? 'N' : quickViewService.quickViewArray[beastIndex].phyiscalAndStress.physical.fatigue}}) /
                     {{vitalities.vitality}}</p>
                 </div>
               </div>
