@@ -254,7 +254,7 @@
                 </mat-form-field>
                 <p> / </p>
                 <p matTooltip="This is the Fatigue Threshold based on the average Vitality">
-                  ({{displayService.getFatigueThresholdToShow(selectedRoleId, beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.fatigue, beast.phyiscalAndStress.physical.fatigue, displayedVitalityRoll)}}) </p>
+                  ({{displayService.getFatigueThresholdToShow(selectedRoleId, selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.fatigue : null, beast.phyiscalAndStress.physical.fatigue, displayedVitalityRoll)}}) </p>
                 <p> / </p>
                 <p> {{displayedVitalityRoll}} </p>
               </div>
