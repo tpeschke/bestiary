@@ -1,4 +1,4 @@
-const {sendErrorForwardNoFile, checkForContentTypeBeforeSending} = require('./helpers')
+const { sendErrorForwardNoFile, checkForContentTypeBeforeSending } = require('./helpers')
 
 const sendErrorForward = sendErrorForwardNoFile('search controller')
 
@@ -7,6 +7,20 @@ module.exports = {
         const db = req.app.get('db')
             , name = req.params.name
         db.get.search.name_return_name(name).then(result => {
+            checkForContentTypeBeforeSending(res, result)
+        })
+    },
+    searchObstacle: (req, res) => {
+        const db = req.app.get('db')
+            , name = req.params.name
+        db.get.search.obstacles(name).then(result => {
+            checkForContentTypeBeforeSending(res, result)
+        })
+    },
+    searchChallenge: (req, res) => {
+        const db = req.app.get('db')
+            , name = req.params.name
+        db.get.search.challenges(name).then(result => {
             checkForContentTypeBeforeSending(res, result)
         })
     },

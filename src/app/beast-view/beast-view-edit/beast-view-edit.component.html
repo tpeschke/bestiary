@@ -896,16 +896,20 @@
         <mat-chip-list>
           <div *ngFor="let obstacle of beast.obstacles; let i = index">
             <mat-chip (click)="removeChip('obstacles', i)" color="warn" selected>
-              {{obstacle.obstacleid}}</mat-chip>
+              {{obstacle.name}}</mat-chip>
           </div>
         </mat-chip-list>
+
         <mat-form-field>
-          <input matInput placeholder="Obstacle ID" [value]="newObstacleId" (change)="captureObstacle($event)"
-            type="number">
+          <input matInput placeholder="Name of Obstacle" [matAutocomplete]="obstacleauto"
+            [formControl]="obstacleController">
+          <mat-autocomplete #obstacleauto="matAutocomplete" (optionSelected)="captureObstacle($event)"
+            [displayWith]="getDisplayVariant">
+            <mat-option *ngFor="let obstacle of obstaclesFiltered | async" [value]="obstacle">
+              {{obstacle.name}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
-        <br>
-        <button mat-raised-button color="accent" (click)="addObstacleById()"><i
-            class="fa-solid fa-plus icon-medium"></i> By ID</button>
         <br>
         <br>
         <h2>Skill Challenges</h2>
@@ -913,16 +917,28 @@
         <mat-chip-list>
           <div *ngFor="let challenge of beast.challenges; let i = index">
             <mat-chip (click)="removeChip('challenges', i)" color="warn" selected>
-              {{challenge.challengeid}}</mat-chip>
+              {{challenge.name}}</mat-chip>
           </div>
         </mat-chip-list>
+
         <mat-form-field>
+          <input matInput placeholder="Name of Challenge" [matAutocomplete]="challengeauto"
+            [formControl]="challengeController">
+          <mat-autocomplete #challengeauto="matAutocomplete" (optionSelected)="captureChallenge($event)"
+            [displayWith]="getDisplayVariant">
+            <mat-option *ngFor="let challenge of challengesFiltered | async" [value]="challenge">
+              {{challenge.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- <mat-form-field>
           <input matInput placeholder="Challenge ID" [value]="newChallengeId" (change)="captureChallenge($event)"
             type="number">
         </mat-form-field>
         <br>
         <button mat-raised-button color="accent" (click)="addChallengeById()"><i
-            class="fa-solid fa-plus icon-medium"></i> By ID</button>
+            class="fa-solid fa-plus icon-medium"></i> By ID</button> -->
       </div>
     </mat-tab>
     <mat-tab label="Combat">
@@ -2732,7 +2748,9 @@
         <h2>Weird Pleroma</h2>
         <div class="divider"></div>
         <div *ngFor="let reagent of beast.reagents; let i = index">
-          <app-pleroma-display *ngIf="!reagent.deleted" [i]="i" [allSpells]="allSpells" [reagent]="reagent" [captureInput]="captureInput" [captureEncounterSecondary]="captureEncounterSecondary" [removeNewSecondaryItem]="removeNewSecondaryItem"></app-pleroma-display>
+          <app-pleroma-display *ngIf="!reagent.deleted" [i]="i" [allSpells]="allSpells" [reagent]="reagent"
+            [captureInput]="captureInput" [captureEncounterSecondary]="captureEncounterSecondary"
+            [removeNewSecondaryItem]="removeNewSecondaryItem"></app-pleroma-display>
         </div>
 
         <button mat-raised-button (click)="addNewSecondaryItem('reagents')" color="accent"><i
@@ -2959,7 +2977,8 @@
           <mat-form-field>
             <input matInput placeholder="Name of Variant Monster" [matAutocomplete]="variantauto"
               [formControl]="variantController">
-            <mat-autocomplete #variantauto="matAutocomplete" (optionSelected)="captureVariant($event)" [displayWith]="getDisplayVariant">
+            <mat-autocomplete #variantauto="matAutocomplete" (optionSelected)="captureVariant($event)"
+              [displayWith]="getDisplayVariant">
               <mat-option *ngFor="let variant of variantsFiltered | async" [value]="variant">
                 {{variant.name}}
               </mat-option>

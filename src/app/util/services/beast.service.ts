@@ -143,6 +143,16 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
+  searchObstacle(name = null) {
+    return this.http.get(local.endpointBase + '/api/searchObstacle/' + name)
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
+  searchChallenge(name = null) {
+    return this.http.get(local.endpointBase + '/api/searchChallenge/' + name)
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
   checkIfCanEdit(id) {
     return this.http.get(local.endpointBase + '/api/canEdit/' + id)
       .pipe(tap(result => this.handleMessage(result)))

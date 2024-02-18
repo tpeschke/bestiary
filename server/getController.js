@@ -16,12 +16,12 @@ function formatNameWithCommas(name) {
 }
 
 function sortByStrength(a, b) {
-  const order = [ 'majSt', 'minSt', 'minWk', 'majWk' ];
+  const order = ['majSt', 'minSt', 'minWk', 'majWk'];
   return order.indexOf(a.strength) - order.indexOf(b.strength)
 }
 
 function sortTemplateRoles(a, b) {
-  const order = [ 'Novice', 'Apprentice', 'Journeyman', 'Expert', 'Master', 'Grandmaster', 'Legendary', 'Mythic' ];
+  const order = ['Novice', 'Apprentice', 'Journeyman', 'Expert', 'Master', 'Grandmaster', 'Legendary', 'Mythic'];
   return order.indexOf(a.name) - order.indexOf(b.name)
 }
 
@@ -88,8 +88,8 @@ module.exports = {
   },
   getArtist: (req, res) => {
     const db = req.app.get('db')
-        , id = req.params.id
-    
+      , id = req.params.id
+
     db.get.artist_by_id(id).then(result => {
       checkForContentTypeBeforeSending(res, result)
     }).catch(e => sendErrorForward('get artist by id', e, res))
@@ -348,7 +348,7 @@ module.exports = {
         }).catch(e => sendErrorForward('beast types', e, res)))
 
         promiseArray.push(db.get.climates(id).then(result => {
-          beast.climates = {beast: result}
+          beast.climates = { beast: result }
           return db.get.all_climates().then(allclimates => {
             beast.climates.allclimates = allclimates
           }).catch(e => sendErrorForward('beast all climates', e, res))
@@ -625,15 +625,9 @@ module.exports = {
           beast.challenges = result
         }).catch(e => sendErrorForward('beast challenges', e, res)))
 
-        if (req.query.edit === 'true') {
-          promiseArray.push(db.get.obstacles_edit(id).then(result => {
-            beast.obstacles = result
-          }).catch(e => sendErrorForward('beast editable obstacles', e, res)))
-        } else {
-          promiseArray.push(db.get.obstacles_view(id).then(result => {
-            beast.obstacles = result
-          }).catch(e => sendErrorForward('beast obstalces view', e, res)))
-        }
+        promiseArray.push(db.get.obstacles(id).then(result => {
+          beast.obstacles = result
+        }).catch(e => sendErrorForward('beast obstalces view', e, res)))
 
         Promise.all(promiseArray).then(finalArray => {
           finalPromise = [];

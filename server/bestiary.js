@@ -88,6 +88,8 @@ app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
 app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({ id: 0 }))
 app.get('/api/canEdit/:id', ctrl.canEditMonster)
 app.get('/api/searchName/:name', searchCtrl.searchName)
+app.get('/api/searchObstacle/:name', searchCtrl.searchObstacle)
+app.get('/api/searchChallenge/:name', searchCtrl.searchChallenge)
 app.get('/api/getArtist/:id', getCtrl.getArtist)
 
 app.get('/api/search', searchCtrl.search)

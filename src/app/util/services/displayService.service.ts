@@ -12,7 +12,6 @@ export class DisplayServiceService {
   }
 
   getFatigueThresholdToShow = (selectedRoleId, rolefatigue, basefatigue, displayedVitality) => {
-    console.log(rolefatigue, basefatigue, displayedVitality)
     const fatigueToShow = selectedRoleId ? rolefatigue : basefatigue
     if (fatigueToShow >= displayedVitality) {
       return 'N'

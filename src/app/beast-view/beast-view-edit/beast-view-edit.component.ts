@@ -46,9 +46,6 @@ export class BeastViewEditComponent implements OnInit {
   public climate = null;
   public imageBase = variables.imageBase;
   public uploader: any;
-  public newVariantId = null;
-  public newChallengeId = null;
-  public newObstacleId = null;
   public lootTables = lootTables;
   public checkForDeleteRole = false
   public checkForDelete = false
@@ -58,6 +55,12 @@ export class BeastViewEditComponent implements OnInit {
 
   public variantController: FormControl;
   public variantsFiltered: Observable<any[]>;
+
+  public obstacleController: FormControl;
+  public obstaclesFiltered: Observable<any[]>;
+
+  public challengeController: FormControl;
+  public challengesFiltered: Observable<any[]>;
 
   public mental = {
     stress: null,
@@ -658,7 +661,7 @@ export class BeastViewEditComponent implements OnInit {
         startWith(''),
         debounceTime(400),
         switchMap(val => {
-          return this.filterAsync(val || '')
+          return this.filterAsync(val || '', 'searchName')
         })
       );
 
@@ -668,14 +671,34 @@ export class BeastViewEditComponent implements OnInit {
         startWith(''),
         debounceTime(400),
         switchMap(val => {
-          return this.filterAsync(val || '')
+          return this.filterAsync(val || '', 'searchName')
+        })
+      );
+
+    this.obstacleController = new FormControl('')
+    this.obstaclesFiltered = this.obstacleController.valueChanges
+      .pipe(
+        startWith(''),
+        debounceTime(400),
+        switchMap(val => {
+          return this.filterAsync(val || '', 'searchObstacle')
+        })
+      );
+
+    this.challengeController = new FormControl('')
+    this.challengesFiltered = this.challengeController.valueChanges
+      .pipe(
+        startWith(''),
+        debounceTime(400),
+        switchMap(val => {
+          return this.filterAsync(val || '', 'searchChallenge')
         })
       );
   }
 
-  filterAsync(val: string): Observable<any[]> {
+  filterAsync(val: string, searchMethod: string): Observable<any[]> {
     if (val !== '') {
-      return this.beastService.searchName(val)
+      return this.beastService[searchMethod](val)
         .pipe(
           map((response: any[]) => response)
         )
@@ -698,12 +721,12 @@ export class BeastViewEditComponent implements OnInit {
 
   captureVariant = (event) => {
     if (event.option.value.id && event.option.value.name) {
-      this.beast.variants.push({variantid: event.option.value.id, name: event.option.value.name})
-      
+      this.beast.variants.push({ variantid: event.option.value.id, name: event.option.value.name })
     }
   }
 
-  getDisplayVariant= (option) => {
+
+  getDisplayVariant = (option) => {
     return option.name
   }
 
@@ -1146,24 +1169,14 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureChallenge(event) {
-    this.newChallengeId = +event.target.value
-  }
-
-  captureObstacle(event) {
-    this.newObstacleId = +event.target.value
-  }
-
-  addChallengeById() {
-    if (this.newChallengeId) {
-      this.beast.challenges.push({ challengeid: this.newChallengeId })
-      this.newChallengeId = null;
+    if (event.option.value.id && event.option.value.name) {
+      this.beast.challenges.push({ challengeid: +event.option.value.id, name: event.option.value.name })
     }
   }
 
-  addObstacleById() {
-    if (this.newObstacleId) {
-      this.beast.obstacles.push({ obstacleid: this.newObstacleId })
-      this.newObstacleId = null;
+  captureObstacle(event) {
+    if (event.option.value.id && event.option.value.name) {
+      this.beast.obstacles.push({ obstacleid: +event.option.value.id, name: event.option.value.name })
     }
   }
 
