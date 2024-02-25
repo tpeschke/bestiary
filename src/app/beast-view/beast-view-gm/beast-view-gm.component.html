@@ -234,6 +234,23 @@
           </div>
         </div>
 
+        <div
+          *ngIf="(beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack)">
+          <h3 class="margin-top">Add. Attack Info</h3>
+          <div *ngIf="beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')">
+            <quill-view-html [content]="beast.sp_atk"></quill-view-html>
+          </div>
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].attack">
+            <quill-view-html [content]="beast.roleInfo[selectedRoleId].attack"></quill-view-html>
+          </div>
+        </div>
+
+        <div class="view-table-shell">
+          <div *ngFor="let table of beast.tables.attack; let i = index">
+            <app-view-table [table]="table"></app-view-table>
+          </div>
+        </div>
+        
         <div class="vitals-and-movement-shell {{aLotOfMovement ? 'alot-of-movement' : ''}}">
           <div class="vitals-shell">
             <div class="flex-row-opposite">
@@ -383,23 +400,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div
-          *ngIf="(beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack)">
-          <h3 class="margin-top">Add. Attack Info</h3>
-          <div *ngIf="beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')">
-            <quill-view-html [content]="beast.sp_atk"></quill-view-html>
-          </div>
-          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].attack">
-            <quill-view-html [content]="beast.roleInfo[selectedRoleId].attack"></quill-view-html>
-          </div>
-        </div>
-
-        <div class="view-table-shell">
-          <div *ngFor="let table of beast.tables.attack; let i = index">
-            <app-view-table [table]="table"></app-view-table>
           </div>
         </div>
 

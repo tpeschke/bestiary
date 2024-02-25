@@ -754,7 +754,7 @@
     <div class="info-shell">
       <h3>Add. Info</h3>
       <quill-editor [(ngModel)]="combatStats.info" (onContentChanged)="captureHTML($event, 'info')"></quill-editor>
-      <p class="character-counter">{{combatStats.info ? combatStats.info.length : 0}} / 300 <i
+      <p class="character-counter">{{combatStats.info ? combatStats.info.length : 0}} / 1,000 <i
           class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i>
       </p>
     </div>
