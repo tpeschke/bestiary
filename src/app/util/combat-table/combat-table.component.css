@@ -1,7 +1,6 @@
 .combat-table-shell {
     font-size: 12px;
     height: 195px;
-    width: 195px;
     display: flex;
 }
 
@@ -10,7 +9,7 @@
 }
 
 .combat-table-column {
-    width: 50%;
+    min-width: 98px;
     height: 100%;
 }
 

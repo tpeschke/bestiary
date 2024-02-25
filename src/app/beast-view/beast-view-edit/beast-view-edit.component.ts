@@ -1217,7 +1217,8 @@ export class BeastViewEditComponent implements OnInit {
           armor: null,
           defaultweaponname: null,
           adjustment: 0,
-          weaponname: null
+          weaponname: null,
+          equipmentBonuses: null
         })
       } else {
         let combatSquareCopy = { id: 0, weaponname: null, weapon: null, armor: null, shield: null, roleid: null }

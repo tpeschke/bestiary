@@ -240,40 +240,42 @@ module.exports = {
             result = result.filter(weapon => !weapon.roleid)
           }
 
-          let specialAbilities = []
-          beast.combatStatArray = result.map(combatSquare => {
-            let specialAbilities = {}
-            let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points: beast.combatpoints, size: beast.size, role: roleToUse })
-            let equipmentInfo = {}
-            if (combatSquare.weapon) {
-              equipmentInfo.weaponInfo = equipmentCtrl.getWeapon(combatSquare.weapon)
-            }
-            if (combatSquare.armor) {
-              equipmentInfo.armorInfo = equipmentCtrl.getArmor(combatSquare.armor)
-            }
-            if (combatSquare.shield) {
-              equipmentInfo.shieldInfo = equipmentCtrl.getShield(combatSquare.shield)
-            }
+          let equipmentInfo = {}
+          if (combatSquare.weapon) {
+            equipmentInfo.weaponInfo = equipmentCtrl.getWeapon(combatSquare.weapon)
+          }
+          if (combatSquare.armor) {
+            equipmentInfo.armorInfo = equipmentCtrl.getArmor(combatSquare.armor)
+          }
+          if (combatSquare.shield) {
+            equipmentInfo.shieldInfo = equipmentCtrl.getShield(combatSquare.shield)
+          }
 
-            if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong && (!combatSquare.weapon || combatSquare.weapon.includes(equipmentInfo.weaponInfo.name))) {
-              if (!specialAbilities[combatSquare.roleid]) {
-                specialAbilities[combatSquare.roleid] = []
-              }
-              specialAbilities[combatSquare.roleid].push(equipmentInfo.weaponInfo.bonusLong)
+          equipmentBonuses = null;
+          if (equipmentInfo.weaponInfo || equipmentInfo.armorInfo || equipmentInfo.shieldInfo) {
+            equipmentBonuses = ''
+            if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong) {
+              equipmentBonuses += equipmentInfo.weaponInfo.bonusLong
             }
-            if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong && (!combatSquare.shield || combatSquare.shield.includes(equipmentInfo.shieldInfo.name))) {
-              if (!specialAbilities[combatSquare.roleid]) {
-                specialAbilities[combatSquare.roleid] = []
-              }
-              specialAbilities[combatSquare.roleid].push(equipmentInfo.shieldInfo.bonusLong)
+            if (equipmentInfo.armorInfo && equipmentInfo.armorInfo.bonusLong) {
+              equipmentBonuses += equipmentInfo.armorInfo.bonusLong
             }
+            if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong) {
+              equipmentBonuses += equipmentInfo.shieldInfo.bonusLong
+            }
+          }
+
+          combatSquare.equipmentBonuses = equipmentBonuses
+
+          beast.combatStatArray = result.map(combatSquare => {
+            let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points: beast.combatpoints, size: beast.size, role: roleToUse })
 
             fullCombatSquare.weaponname = combatSquare.weaponname,
               fullCombatSquare.weapon = combatSquare.weapon,
               fullCombatSquare.armor = combatSquare.armor,
               fullCombatSquare.shield = combatSquare.shield
 
-            return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, tdr: combatSquare.tdr, weaponname: combatSquare.weaponname, weapon: combatSquare.weapon, armor: combatSquare.armor, shield: combatSquare.shield }
+            return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, tdr: combatSquare.tdr, info: combatSquare.info, weaponname: combatSquare.weaponname, weapon: combatSquare.weapon, armor: combatSquare.armor, shield: combatSquare.shield }
           })
 
           for (const key in specialAbilities) {
@@ -658,7 +660,6 @@ module.exports = {
                 const points = combatSquare.roleid ? beast.roleInfo[combatSquare.roleid].combatpoints : beast.combatpoints
                 const size = combatSquare.roleid && beast.roleInfo[combatSquare.roleid].size ? beast.roleInfo[combatSquare.roleid].size : beast.size ? beast.size : 'Medium'
                 const role = combatSquare.roleid ? beast.roleInfo[combatSquare.roleid].role : beast.role
-                let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points, size, role })
 
                 let equipmentInfo = {}
                 if (combatSquare.weapon) {
@@ -671,25 +672,30 @@ module.exports = {
                   equipmentInfo.shieldInfo = equipmentCtrl.getShield(combatSquare.shield)
                 }
 
-                if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong && (!combatSquare.weapon || combatSquare.weapon.includes(equipmentInfo.weaponInfo.name))) {
-                  if (!specialAbilities[combatSquare.roleid]) {
-                    specialAbilities[combatSquare.roleid] = []
+                equipmentBonuses = null;
+                if (equipmentInfo.weaponInfo || equipmentInfo.armorInfo || equipmentInfo.shieldInfo) {
+                  equipmentBonuses = ''
+                  if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong) {
+                    equipmentBonuses += equipmentInfo.weaponInfo.bonusLong
                   }
-                  specialAbilities[combatSquare.roleid].push(equipmentInfo.weaponInfo.bonusLong)
-                }
-                if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong && (!combatSquare.shield || combatSquare.shield.includes(equipmentInfo.shieldInfo.name))) {
-                  if (!specialAbilities[combatSquare.roleid]) {
-                    specialAbilities[combatSquare.roleid] = []
+                  if (equipmentInfo.armorInfo && equipmentInfo.armorInfo.bonusLong) {
+                    equipmentBonuses += equipmentInfo.armorInfo.bonusLong
                   }
-                  specialAbilities[combatSquare.roleid].push(equipmentInfo.shieldInfo.bonusLong)
+                  if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong) {
+                    equipmentBonuses += equipmentInfo.shieldInfo.bonusLong
+                  }
                 }
+
+                combatSquare.equipmentBonuses = equipmentBonuses
+
+                let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points, size, role })
 
                 fullCombatSquare.weaponname = combatSquare.weaponname,
                   fullCombatSquare.weapon = combatSquare.weapon,
                   fullCombatSquare.armor = combatSquare.armor,
                   fullCombatSquare.shield = combatSquare.shield
 
-                return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, tdr: combatSquare.tdr }
+                return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, tdr: combatSquare.tdr}
               })
 
               for (const key in specialAbilities) {

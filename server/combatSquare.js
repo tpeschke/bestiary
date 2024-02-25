@@ -73,9 +73,10 @@ const combatSquareController = {
             defaultweaponname: getDefaultName(combatStats),
             isspecial: combatStats.isspecial,
             eua: combatStats.eua,
-            tdr: combatStats.tdr
+            tdr: combatStats.tdr,
+            info: combatStats.info,
+            equipmentBonuses: combatStats.equipmentBonuses
         }
-
         return combatSquare
     },
     getSquare: (req, res) => {

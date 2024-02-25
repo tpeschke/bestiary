@@ -9,7 +9,7 @@
   </h3>
   <div class="combat-stat-shell">
     <div>
-      <app-combat-table [combatSquare]="combatSquare"></app-combat-table>
+      <app-combat-table [combatSquare]="combatSquare" [editing]="true"></app-combat-table>
       
       <br>
       <mat-form-field>
@@ -749,6 +749,14 @@
 
       <button class="trash-button" mat-raised-button (click)="removeCallback(index)" color="warn"><i
           class="fa-solid fa-trash"></i></button>
+    </div>
+
+    <div class="info-shell">
+      <h3>Add. Info</h3>
+      <quill-editor [(ngModel)]="combatStats.info" (onContentChanged)="captureHTML($event, 'info')"></quill-editor>
+      <p class="character-counter">{{combatStats.info ? combatStats.info.length : 0}} / 300 <i
+          class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i>
+      </p>
     </div>
   </div>
 </div>

@@ -28,6 +28,11 @@
     float: right;
 }
 
+.info-shell {
+    padding: 0 0 5px 5px;
+    height: 100%;
+}
+
 thead {
     background: #607d8b;
     color: whitesmoke;
