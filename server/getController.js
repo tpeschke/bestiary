@@ -240,20 +240,21 @@ module.exports = {
             result = result.filter(weapon => !weapon.roleid)
           }
 
-          let equipmentBonuses = { weaponInfo: null, armorInfo: null, shieldInfo: null }
-          if (combatSquare.weapon) {
-            equipmentBonuses.weaponInfo = equipmentCtrl.getWeapon(combatSquare.weapon).bonusLong
-          }
-          if (combatSquare.armor) {
-            equipmentBonuses.armorInfo = equipmentCtrl.getArmor(combatSquare.armor).bonusLong
-          }
-          if (combatSquare.shield) {
-            equipmentBonuses.shieldInfo = equipmentCtrl.getShield(combatSquare.shield).bonusLong
-          }
-
-          combatSquare.equipmentBonuses = equipmentBonuses
-
           beast.combatStatArray = result.map(combatSquare => {
+
+            let equipmentBonuses = { weaponInfo: null, armorInfo: null, shieldInfo: null }
+            if (combatSquare.weapon) {
+              equipmentBonuses.weaponInfo = equipmentCtrl.getWeapon(combatSquare.weapon).bonusLong
+            }
+            if (combatSquare.armor) {
+              equipmentBonuses.armorInfo = equipmentCtrl.getArmor(combatSquare.armor).bonusLong
+            }
+            if (combatSquare.shield) {
+              equipmentBonuses.shieldInfo = equipmentCtrl.getShield(combatSquare.shield).bonusLong
+            }
+  
+            combatSquare.equipmentBonuses = equipmentBonuses
+
             let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points: beast.combatpoints, size: beast.size, role: roleToUse })
 
             fullCombatSquare.weaponname = combatSquare.weaponname,
@@ -263,12 +264,6 @@ module.exports = {
 
             return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, tdr: combatSquare.tdr, info: combatSquare.info, weaponname: combatSquare.weaponname, weapon: combatSquare.weapon, armor: combatSquare.armor, shield: combatSquare.shield }
           })
-
-          for (const key in specialAbilities) {
-            let deduped = specialAbilities[key].filter((c, index) => specialAbilities[key].indexOf(c) === index)
-            specialAbilities[key] = deduped
-          }
-          beast.specialAbilities = specialAbilities;
 
           let armor = null
             , shield = null
@@ -281,7 +276,7 @@ module.exports = {
             beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, Math.max(beast.roleInfo[role].combatpoints, beast.roleInfo[role].skillpoints, beast.roleInfo[role].socialpoints), beast.roleInfo[role].role, { mental: beast.roleInfo[role].mental, panic: beast.roleInfo[role].panic, caution: beast.roleInfo[role].caution, fatigue: beast.roleInfo[role].fatigue, largeweapons: beast.roleInfo[role].largeweapons, singledievitality: beast.roleInfo[role].singledievitality, noknockback: beast.roleInfo[role].noknockback }, beast.roleInfo[role].secondaryrole, beast.roleInfo[role].knockback, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
           }
           return result
-        }).catch(e => sendErrorForward('combat', e, res)))
+        }).catch(e => sendErrorForward('quick view combat', e, res)))
 
         promiseArray.push(db.get.locationalvitality(beastid).then(result => {
           if (isARole) {
@@ -641,7 +636,6 @@ module.exports = {
             if (req.query.edit === 'true') {
               beast.combatStatArray = result
             } else {
-              let specialAbilities = {}
               beast.combatStatArray = result.map(combatSquare => {
                 const points = combatSquare.roleid ? beast.roleInfo[combatSquare.roleid].combatpoints : beast.combatpoints
                 const size = combatSquare.roleid && beast.roleInfo[combatSquare.roleid].size ? beast.roleInfo[combatSquare.roleid].size : beast.size ? beast.size : 'Medium'
@@ -669,12 +663,6 @@ module.exports = {
 
                 return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, tdr: combatSquare.tdr }
               })
-
-              for (const key in specialAbilities) {
-                let deduped = specialAbilities[key].filter((c, index) => specialAbilities[key].indexOf(c) === index)
-                specialAbilities[key] = deduped
-              }
-              beast.specialAbilities = specialAbilities;
 
               let armor = null
                 , shield = null

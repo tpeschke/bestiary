@@ -845,40 +845,6 @@ export class BeastViewGmComponent implements OnInit {
     } else if (square.showEquipmentSelection) {
       square.selectedweapon = this.newSelectedWeapon
 
-      if (this.selectedRoleId && !this.beast.specialAbilities[this.selectedRoleId]) {
-        this.beast.specialAbilities[this.selectedRoleId] = []
-      } else if (!this.selectedRoleId && !this.beast.specialAbilities.generic) {
-        this.beast.specialAbilities.generic = []
-      }
-
-      if (this.selectedRoleId) {
-        if (square.weaponInfo.bonusLong) {
-          this.beast.specialAbilities[this.selectedRoleId] = this.beast.specialAbilities[this.selectedRoleId].filter(bonus => bonus !== square.weaponInfo.bonusLong)
-        }
-        if (this.newWeaponInfo && this.newWeaponInfo.bonusLong) {
-          this.beast.specialAbilities[this.selectedRoleId].push(this.newWeaponInfo.bonusLong)
-        }
-        if (square.shieldInfo && square.shieldInfo.bonusLong) {
-          this.beast.specialAbilities[this.selectedRoleId] = this.beast.specialAbilities[this.selectedRoleId].filter(bonus => bonus !== square.shieldInfo.bonusLong)
-        }
-        if (this.newShieldInfo && this.newShieldInfo.bonusLong) {
-          this.beast.specialAbilities[this.selectedRoleId].push(this.newShieldInfo.bonusLong)
-        }
-      } else if (!this.selectedRoleId) {
-        if (square.weaponInfo.bonusLong) {
-          this.beast.specialAbilities.generic = this.beast.specialAbilities.generic.filter(bonus => bonus !== square.weaponInfo.bonusLong)
-        }
-        if (this.newWeaponInfo && this.newWeaponInfo.bonusLong) {
-          this.beast.specialAbilities.generic.push(this.newWeaponInfo.bonusLong)
-        }
-        if (square.shieldInfo && square.shieldInfo.bonusLong) {
-          this.beast.specialAbilities.generic = this.beast.specialAbilities.generic.filter(bonus => bonus !== square.shieldInfo.bonusLong)
-        }
-        if (this.newShieldInfo && this.newShieldInfo.bonusLong) {
-          this.beast.specialAbilities.generic.push(this.newShieldInfo.bonusLong)
-        }
-      }
-
       square.weaponInfo = this.newWeaponInfo
       if (square.weaponInfo.range) {
         square.weapontype = 'r'
@@ -1152,7 +1118,7 @@ export class BeastViewGmComponent implements OnInit {
   downloadJson() {
     const { id, name: basicName, senses, meta, sp_atk, sp_def, tactics, size: basicSize, role: basicRole,
       secondaryrole: basicSecondaryRole, socialrole: basicSocialRole, socialsecondary: basicSocialSecondary,
-      skillrole: basicSkillRole, notes, movement, rolenameorder, roleInfo, hash, combatStatArray, specialAbilities,
+      skillrole: basicSkillRole, notes, movement, rolenameorder, roleInfo, hash, combatStatArray,
       knockback: basicKnockback, notrauma: basicTrauma, noknockback: basicnoknockback, phyiscalAndStress, locationalvitality,
       spells, skills, challenges, obstacles, conflict, rollundertrauma: basicRollUnderTrauma } = this.beast
 
@@ -1175,7 +1141,6 @@ export class BeastViewGmComponent implements OnInit {
 
     const name = this.selectedRoleId ? this.getNameWithRole(rolenameorder, basicName, selectedRoleInfo.name) : this.formatNameWithCommas(basicName)
     const combatCounterHash = this.selectedRoleId ? selectedRoleInfo.hash : hash
-    const attacknotes = this.selectedRoleId && specialAbilities[this.selectedRoleId] ? sp_atk + '<br/>' + specialAbilities[this.selectedRoleId].join('<br/>') : sp_atk
     const size = this.selectedRoleId && selectedRoleInfo.size ? selectedRoleInfo.size : basicSize
     const role = this.selectedObstacleId ? selectedRoleInfo.role : basicRole
     const combatsecondary = this.selectedRoleId ? selectedRoleInfo.secondaryrole : basicSecondaryRole
@@ -1198,7 +1163,7 @@ export class BeastViewGmComponent implements OnInit {
         secondary: socialsecondary
       },
       combat: {
-        attacknotes, defensenotes: sp_def, tactics, combatCounterHash, 
+        attacknotes: sp_atk, defensenotes: sp_def, tactics, combatCounterHash, 
         role: role, 
         secondary: combatsecondary,
         attacks: combatStatArray.filter(combat => combat.roleid === this.selectedRoleId).map(combat => combat.combatSquare),

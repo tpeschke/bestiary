@@ -115,7 +115,7 @@
           </div>
 
           <div
-            *ngIf="(beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')) || beast.roleattack || beast.specialAbilities.length > 0">
+            *ngIf="(beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')) || beast.roleattack">
             <h2>Add. Attack Info</h2>
             <div class="divider"></div>
             <div *ngIf="beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')">
@@ -123,9 +123,6 @@
             </div>
             <div *ngIf="beast && beast.roleattack">
               <quill-view-html [content]="beast.roleattack"></quill-view-html>
-            </div>
-            <div *ngFor="let ability of beast.specialAbilities">
-              <quill-view-html [content]="ability"></quill-view-html>
             </div>
           </div>
 

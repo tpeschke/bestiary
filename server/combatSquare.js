@@ -54,6 +54,17 @@ const combatSquareController = {
         const damageAndRecovery = setDamageDice(combatStats, roleInfo, adjustedPoints)
         const initMod = combatStats.armor ? equipmentController.getArmor(combatStats.armor).init : 0
 
+        let equipmentBonuses = { weaponInfo: null, armorInfo: null, shieldInfo: null }
+        if (combatStats.weapon) {
+            equipmentBonuses.weaponInfo = equipmentController.getWeapon(combatStats.weapon).bonusLong
+        }
+        if (combatStats.armor) {
+            equipmentBonuses.armorInfo = equipmentController.getArmor(combatStats.armor).bonusLong
+        }
+        if (combatStats.shield) {
+            equipmentBonuses.shieldInfo = equipmentController.getShield(combatStats.shield).bonusLong
+        }
+
         let combatSquare = {
             weaponType,
             attack: !combatStats.showonlydefenses ? getModifiedStatsRounded('attack', combatStats, roleInfo, adjustedPoints) : '',
@@ -75,7 +86,7 @@ const combatSquareController = {
             eua: combatStats.eua,
             tdr: combatStats.tdr,
             info: combatStats.info,
-            equipmentBonuses: combatStats.equipmentBonuses
+            equipmentBonuses
         }
         return combatSquare
     },

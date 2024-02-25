@@ -86,22 +86,6 @@ export class QuickViewDrawerComponent implements OnInit {
     } else if (square.showEquipmentSelection) {
       square.selectedweapon = this.newSelectedWeapon
 
-      if (!this.beasts[beastIndex].specialAbilities) {
-        this.beasts[beastIndex].specialAbilities = []
-      }
-      if (square.weaponInfo.bonusLong) {
-        this.beasts[beastIndex].specialAbilities = this.beasts[beastIndex].specialAbilities.filter(bonus => bonus !== square.weaponInfo.bonusLong)
-      }
-      if (this.newWeaponInfo.bonusLong) {
-        this.beasts[beastIndex].specialAbilities.push(this.newWeaponInfo.bonusLong)
-      }
-      if (square.shieldInfo && square.shieldInfo.bonusLong) {
-        this.beasts[beastIndex].specialAbilities = this.beasts[beastIndex].specialAbilities.filter(bonus => bonus !== square.shieldInfo.bonusLong)
-      }
-      if (this.newShieldInfo && this.newShieldInfo.bonusLong) {
-        this.beasts[beastIndex].specialAbilities.push(this.newShieldInfo.bonusLong)
-      }
-
       square.weaponInfo = this.newWeaponInfo
       if (square.weaponInfo.range) {
         square.weapontype = 'r'

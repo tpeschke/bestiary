@@ -64,7 +64,6 @@ export class CombatSquareComponent implements OnInit {
   }
 
   getCombatSquare() {
-    console.log(this.combatStats)
     this.beastService.getCombatSquare(this.combatStats, this.primaryRole, this.points, this.size).subscribe(res => {
       this.combatSquare = { ...this.combatSquare, ...res }
     })
