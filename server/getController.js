@@ -240,29 +240,15 @@ module.exports = {
             result = result.filter(weapon => !weapon.roleid)
           }
 
-          let equipmentInfo = {}
+          let equipmentBonuses = { weaponInfo: null, armorInfo: null, shieldInfo: null }
           if (combatSquare.weapon) {
-            equipmentInfo.weaponInfo = equipmentCtrl.getWeapon(combatSquare.weapon)
+            equipmentBonuses.weaponInfo = equipmentCtrl.getWeapon(combatSquare.weapon).bonusLong
           }
           if (combatSquare.armor) {
-            equipmentInfo.armorInfo = equipmentCtrl.getArmor(combatSquare.armor)
+            equipmentBonuses.armorInfo = equipmentCtrl.getArmor(combatSquare.armor).bonusLong
           }
           if (combatSquare.shield) {
-            equipmentInfo.shieldInfo = equipmentCtrl.getShield(combatSquare.shield)
-          }
-
-          equipmentBonuses = null;
-          if (equipmentInfo.weaponInfo || equipmentInfo.armorInfo || equipmentInfo.shieldInfo) {
-            equipmentBonuses = ''
-            if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong) {
-              equipmentBonuses += equipmentInfo.weaponInfo.bonusLong
-            }
-            if (equipmentInfo.armorInfo && equipmentInfo.armorInfo.bonusLong) {
-              equipmentBonuses += equipmentInfo.armorInfo.bonusLong
-            }
-            if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong) {
-              equipmentBonuses += equipmentInfo.shieldInfo.bonusLong
-            }
+            equipmentBonuses.shieldInfo = equipmentCtrl.getShield(combatSquare.shield).bonusLong
           }
 
           combatSquare.equipmentBonuses = equipmentBonuses
@@ -661,31 +647,17 @@ module.exports = {
                 const size = combatSquare.roleid && beast.roleInfo[combatSquare.roleid].size ? beast.roleInfo[combatSquare.roleid].size : beast.size ? beast.size : 'Medium'
                 const role = combatSquare.roleid ? beast.roleInfo[combatSquare.roleid].role : beast.role
 
-                let equipmentInfo = {}
+                let equipmentBonuses = { weaponInfo: null, armorInfo: null, shieldInfo: null }
                 if (combatSquare.weapon) {
-                  equipmentInfo.weaponInfo = equipmentCtrl.getWeapon(combatSquare.weapon)
+                  equipmentBonuses.weaponInfo = equipmentCtrl.getWeapon(combatSquare.weapon).bonusLong
                 }
                 if (combatSquare.armor) {
-                  equipmentInfo.armorInfo = equipmentCtrl.getArmor(combatSquare.armor)
+                  equipmentBonuses.armorInfo = equipmentCtrl.getArmor(combatSquare.armor).bonusLong
                 }
                 if (combatSquare.shield) {
-                  equipmentInfo.shieldInfo = equipmentCtrl.getShield(combatSquare.shield)
+                  equipmentBonuses.shieldInfo = equipmentCtrl.getShield(combatSquare.shield).bonusLong
                 }
-
-                equipmentBonuses = null;
-                if (equipmentInfo.weaponInfo || equipmentInfo.armorInfo || equipmentInfo.shieldInfo) {
-                  equipmentBonuses = ''
-                  if (equipmentInfo.weaponInfo && equipmentInfo.weaponInfo.bonusLong) {
-                    equipmentBonuses += equipmentInfo.weaponInfo.bonusLong
-                  }
-                  if (equipmentInfo.armorInfo && equipmentInfo.armorInfo.bonusLong) {
-                    equipmentBonuses += equipmentInfo.armorInfo.bonusLong
-                  }
-                  if (equipmentInfo.shieldInfo && equipmentInfo.shieldInfo.bonusLong) {
-                    equipmentBonuses += equipmentInfo.shieldInfo.bonusLong
-                  }
-                }
-
+                
                 combatSquare.equipmentBonuses = equipmentBonuses
 
                 let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points, size, role })
@@ -695,7 +667,7 @@ module.exports = {
                   fullCombatSquare.armor = combatSquare.armor,
                   fullCombatSquare.shield = combatSquare.shield
 
-                return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, tdr: combatSquare.tdr}
+                return { combatSquare: fullCombatSquare, combatStats: combatSquare, roleid: combatSquare.roleid, isspecial: combatSquare.isspecial, eua: combatSquare.eua, tdr: combatSquare.tdr }
               })
 
               for (const key in specialAbilities) {

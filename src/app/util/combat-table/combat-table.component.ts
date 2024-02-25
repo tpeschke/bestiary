@@ -19,4 +19,19 @@ export class CombatTableComponent implements OnInit {
     this.isMelee = changes.combatSquare.currentValue.weaponType === 'm'
   }
 
+  formatEquipmentBonuses () {
+    let returnString = ''
+    if (this.combatSquare.equipmentBonuses.weaponInfo) {
+      returnString += this.combatSquare.equipmentBonuses.weaponInfo
+    }
+    if (this.combatSquare.equipmentBonuses.shieldInfo) {
+      returnString += this.combatSquare.equipmentBonuses.shieldInfo
+    }
+    if (this.combatSquare.equipmentBonuses.armorInfo) {
+      returnString += this.combatSquare.equipmentBonuses.armorInfo
+    }
+
+    return returnString
+  }
+
 }
