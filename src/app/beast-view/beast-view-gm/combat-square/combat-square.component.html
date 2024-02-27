@@ -1,4 +1,4 @@
-<div class="combat-square-shell">
+<div class="combat-square-shell {{combatSquare.info ? '' : 'min-width-on-square'}}">
   <h4 class="weaponName">{{combatSquare.weaponname ? combatSquare.weaponname :
     combatSquare.defaultweaponname}}
     <i *ngIf="(combatSquare.weapon || combatSquare.armor || combatSquare.shield) && !showEquipmentSelection"

@@ -22,6 +22,7 @@
 .combat-info {
     width: calc(100% - 195px);
     min-width: 195px;
+    margin-top: -10px;
 }
 
 .combat-table-shell .combat-table-column:nth-child(2) {

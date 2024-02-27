@@ -25,3 +25,7 @@ h4 i {
 .save-and-exit-shell i {
     font-size: 20px;
 }
+
+.min-width-on-square {
+    width: 195px
+}

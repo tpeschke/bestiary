@@ -81,7 +81,6 @@
 .combat-shell {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
 }
 
 .combat-square {
