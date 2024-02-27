@@ -1,6 +1,12 @@
+.combat-table-info-shell {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .combat-table-shell {
     font-size: 12px;
     height: 195px;
+    width: 195px;
     display: flex;
 }
 
@@ -9,8 +15,13 @@
 }
 
 .combat-table-column {
-    min-width: 98px;
+    min-width: 95px;
     height: 100%;
+}
+
+.combat-info {
+    width: calc(100% - 195px);
+    min-width: 195px;
 }
 
 .combat-table-shell .combat-table-column:nth-child(2) {

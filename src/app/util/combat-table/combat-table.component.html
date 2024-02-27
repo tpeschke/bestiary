@@ -62,7 +62,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!editing" class="combat-table-column">
+  <div *ngIf="!editing" class="combat-table-column combat-info">
     <quill-view-html *ngIf="combatSquare.info" [content]="combatSquare.info"></quill-view-html>
     <quill-view-html *ngIf="combatSquare.equipmentBonuses.weaponInfo || combatSquare.equipmentBonuses.armorInfo || combatSquare.equipmentBonuses.shieldInfo" [content]="formatEquipmentBonuses()"></quill-view-html>
   </div> 
