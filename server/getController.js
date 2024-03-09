@@ -112,7 +112,6 @@ module.exports = {
   getQuickView(req, res) {
     let { hash } = req.params
     let { secretKey, userpatreon, userid } = req.query
-    let { combat: combatReplacement } = req.body
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
@@ -242,7 +241,8 @@ module.exports = {
           }
 
           beast.combatStatArray = result.map(combatSquare => {
-            if (combatReplacement.length > 0) {
+            if (req.body.combat && req.body.combat.length > 0) {
+              let { combat: combatReplacement } = req.body
               const index = combatReplacement.findIndex(i => i.id === combatSquare.id)
               if (index > -1) {
                 combatSquare.weapon = combatReplacement[index].weapon
