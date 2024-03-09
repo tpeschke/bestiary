@@ -118,7 +118,7 @@ let controllerObj = {
     const db = req.app.get('db')
       , id = +req.params.id
     if (req.user) {
-      db.get.can_edit(id).then(result => {
+      db.get.canEdit(id).then(result => {
         if (result.length > 0) {
           checkForContentTypeBeforeSending(res, { canEdit: req.user.id === 1 || req.user.id === 21 || req.user.id === result[0].userid })
         } else {
@@ -311,21 +311,21 @@ let controllerObj = {
     db.delete.mainInfo(id).then(_ => {
       let promiseArray = []
 
-      promiseArray.push(db.delete.alltypes(id).catch(e => sendErrorForward('delete beast types', e, res)))
+      promiseArray.push(db.delete.all.types(id).catch(e => sendErrorForward('delete beast types', e, res)))
       promiseArray.push(db.delete.climate.allclimates(id).catch(e => sendErrorForward('delete beast climates', e, res)))
-      promiseArray.push(db.delete.allcombat(id).catch(e => sendErrorForward('delete beast combat', e, res)))
-      promiseArray.push(db.delete.allconflict(id).catch(e => sendErrorForward('delete beast confrontation', e, res)))
-      promiseArray.push(db.delete.allskill(id).catch(e => sendErrorForward('delete beast skill', e, res)))
-      promiseArray.push(db.delete.allloot(id).catch(e => sendErrorForward('delete beast loot', e, res)))
-      promiseArray.push(db.delete.allmovement(id).catch(e => sendErrorForward('delete beast movement', e, res)))
-      promiseArray.push(db.delete.allreagents(id).catch(e => sendErrorForward('delete beast reagents', e, res)))
+      promiseArray.push(db.delete.all.combat(id).catch(e => sendErrorForward('delete beast combat', e, res)))
+      promiseArray.push(db.delete.all.conflict(id).catch(e => sendErrorForward('delete beast confrontation', e, res)))
+      promiseArray.push(db.delete.all.skill(id).catch(e => sendErrorForward('delete beast skill', e, res)))
+      promiseArray.push(db.delete.all.loot(id).catch(e => sendErrorForward('delete beast loot', e, res)))
+      promiseArray.push(db.delete.all.movement(id).catch(e => sendErrorForward('delete beast movement', e, res)))
+      promiseArray.push(db.delete.all.reagents(id).catch(e => sendErrorForward('delete beast reagents', e, res)))
       promiseArray.push(db.delete.encounter.allNoun(id).catch(e => sendErrorForward('delete beast noun', e, res)))
       promiseArray.push(db.delete.encounter.allTemperament(id).catch(e => sendErrorForward('delete beast temp', e, res)))
       promiseArray.push(db.delete.encounter.allVerb(id).catch(e => sendErrorForward('delete beast verb', e, res)))
       promiseArray.push(db.delete.encounter.allNumbers(id).catch(e => sendErrorForward('delete beast numbers', e, res)))
       promiseArray.push(db.delete.encounter.allGroups(id).catch(e => sendErrorForward('delete beast groups', e, res)))
       promiseArray.push(db.delete.encounter.allGroupRoles(id).catch(e => sendErrorForward('delete beast group roles', e, res)))
-      promiseArray.push(db.delete.alllocationalvitality(id).catch(e => sendErrorForward('delete beast locational vitality', e, res)))
+      promiseArray.push(db.delete.all.locationalVitality(id).catch(e => sendErrorForward('delete beast locational vitality', e, res)))
       promiseArray.push(db.delete.loot.lairbasic(id).catch(e => sendErrorForward('delete beast basic', e, res)))
       promiseArray.push(db.delete.loot.lairallequipment(id).catch(e => sendErrorForward('delete beast equipment', e, res)))
       promiseArray.push(db.delete.loot.lairalltraited(id).catch(e => sendErrorForward('delete beast traits', e, res)))
@@ -336,7 +336,7 @@ let controllerObj = {
       promiseArray.push(db.delete.loot.carriedalltraited(id).catch(e => sendErrorForward('delete beast carried traited', e, res)))
       promiseArray.push(db.delete.loot.carriedallscrolls(id).catch(e => sendErrorForward('delete beast carried scrolls', e, res)))
       promiseArray.push(db.delete.loot.carriedallalms(id).catch(e => sendErrorForward('delete beast carried alms', e, res)))
-      promiseArray.push(db.delete.allfolklore(id).catch(e => sendErrorForward('delete beast folklore', e, res)))
+      promiseArray.push(db.delete.all.folklore(id).catch(e => sendErrorForward('delete beast folklore', e, res)))
       // promiseArray.push(db.delete.variants(id, variantid).then())
 
       Promise.all(promiseArray).then(_ => {

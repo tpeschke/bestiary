@@ -124,7 +124,7 @@ const saveUpdateFunctions = {
                 } else if (locationid && beastid) {
                     promiseArray.push(db.update.locationalvitality(beastid, location, vitality, locationid, roleid, allroles).catch(e => sendErrorForward('update beast update locational vitality', e, res)))
                 } else {
-                    promiseArray.push(db.add.locationalvitality(id, location, vitality, allroles, roleid).catch(e => sendErrorForward('update beast add locational vitality', e, res)))
+                    promiseArray.push(db.add.locationalVitality(id, location, vitality, allroles, roleid).catch(e => sendErrorForward('update beast add locational vitality', e, res)))
                 }
             })
         }
@@ -133,7 +133,7 @@ const saveUpdateFunctions = {
         let { id: dbid, artistid, artist, tooltip, link } = artistInfo;
         if (artist) {
             if (!artistid) {
-                promiseArray.push(db.add.allartists(artist, tooltip, link).then(result => {
+                promiseArray.push(db.add.all.artists(artist, tooltip, link).then(result => {
                     return promiseArray.push(db.add.artist(id, result[0].id).then(result => result).catch(e => sendErrorForward('update beast add artist 1', e, res)))
                 }).catch(e => sendErrorForward('update beast add all artists', e, res)))
             } else {
@@ -147,14 +147,14 @@ const saveUpdateFunctions = {
     upsertApperanceTable: (promiseArray, db, id, res, appearance) => {
         appearance.forEach(table => {
             if (table.id) {
-                promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast appearance all tables', e, res)))
+                promiseArray.push(db.update.all.tables(table.id, table.label).catch(e => sendErrorForward('update beast appearance all tables', e, res)))
                 db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
                     table.rows.forEach(({ weight, value, id: rowid }) => {
                         promiseArray.push(db.add.row(rowid, table.id, weight, value).catch(e => sendErrorForward('update beast appearance add rows', e, res)))
                     })
                 }).catch(e => sendErrorForward('update beast appearance delete row', e, res))
             } else {
-                promiseArray.push(db.add.alltables(table.label, 'ap').then(result => {
+                promiseArray.push(db.add.all.tables(table.label, 'ap').then(result => {
                     promiseArray.push(db.add.table(id, result[0].id).catch(e => sendErrorForward('update beast appearance add table2 ', e, res)))
                     db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
                         table.rows.forEach(({ weight, value, id: rowid }) => {
@@ -168,14 +168,14 @@ const saveUpdateFunctions = {
     upsertHabitatTable: (promiseArray, db, id, res, habitat) => {
         habitat.forEach(table => {
             if (table.id) {
-                promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast habitat all tables', e, res)))
+                promiseArray.push(db.update.all.tables(table.id, table.label).catch(e => sendErrorForward('update beast habitat all tables', e, res)))
                 db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
                     table.rows.forEach(({ weight, value, id: rowid }) => {
                         promiseArray.push(db.add.row(rowid, table.id, weight, value).catch(e => sendErrorForward('update beast habitat add rows', e, res)))
                     })
                 }).catch(e => sendErrorForward('update beast habitat delete rows', e, res))
             } else {
-                promiseArray.push(db.add.alltables(table.label, 'ha').then(result => {
+                promiseArray.push(db.add.all.tables(table.label, 'ha').then(result => {
                     promiseArray.push(db.add.table(id, result[0].id))
                     db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
                         table.rows.forEach(({ weight, value, id: rowid }) => {
@@ -189,14 +189,14 @@ const saveUpdateFunctions = {
     upsertAttackTable: (promiseArray, db, id, res, attack) => {
         attack.forEach(table => {
             if (table.id) {
-                promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast attack all tables', e, res)))
+                promiseArray.push(db.update.all.tables(table.id, table.label).catch(e => sendErrorForward('update beast attack all tables', e, res)))
                 db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
                     table.rows.forEach(({ weight, value, id: rowid }) => {
                         promiseArray.push(db.add.row(rowid, table.id, weight, value).catch(e => sendErrorForward('update beast attack add rows', e, res)))
                     })
                 }).catch(e => sendErrorForward('update beast attack delete rows', e, res))
             } else {
-                promiseArray.push(db.add.alltables(table.label, 'at').then(result => {
+                promiseArray.push(db.add.all.tables(table.label, 'at').then(result => {
                     promiseArray.push(db.add.table(id, result[0].id))
                     db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
                         table.rows.forEach(({ weight, value, id: rowid }) => {
@@ -210,14 +210,14 @@ const saveUpdateFunctions = {
     upsertDefenseTable: (promiseArray, db, id, res, defense) => {
         defense.forEach(table => {
             if (table.id) {
-                promiseArray.push(db.update.alltables(table.id, table.label).catch(e => sendErrorForward('update beast defense all tables', e, res)))
+                promiseArray.push(db.update.all.tables(table.id, table.label).catch(e => sendErrorForward('update beast defense all tables', e, res)))
                 db.delete.rows([table.id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
                     table.rows.forEach(({ weight, value, id: rowid }) => {
                         promiseArray.push(db.add.row(rowid, table.id, weight, value).catch(e => sendErrorForward('update beast defense add rows', e, res)))
                     })
                 }).catch(e => sendErrorForward('update beast defense delete rows', e, res))
             } else {
-                promiseArray.push(db.add.alltables(table.label, 'de').then(result => {
+                promiseArray.push(db.add.all.tables(table.label, 'de').then(result => {
                     promiseArray.push(db.add.table(id, result[0].id).catch(e => sendErrorForward('update beast defense all tables 2', e, res)))
                     db.delete.rows([result[0].id, [0, ...table.rows.map(row => row.id)]]).then(_ => {
                         table.rows.forEach(({ weight, value, id: rowid }) => {

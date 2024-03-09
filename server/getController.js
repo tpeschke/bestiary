@@ -82,7 +82,7 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole, s
 module.exports = {
   getSpells: (req, res) => {
     const db = req.app.get('db')
-    db.get.spells_by_count().then(result => {
+    db.get.spellsByCount().then(result => {
       checkForContentTypeBeforeSending(res, result)
     }).catch(e => sendErrorForward('get spells by count', e, res))
   },
@@ -90,7 +90,7 @@ module.exports = {
     const db = req.app.get('db')
       , id = req.params.id
 
-    db.get.artist_by_id(id).then(result => {
+    db.get.artistById(id).then(result => {
       checkForContentTypeBeforeSending(res, result)
     }).catch(e => sendErrorForward('get artist by id', e, res))
   },
@@ -105,7 +105,7 @@ module.exports = {
   },
   getAllClimates(req, res) {
     db = req.app.get('db')
-    db.get.all_climates().then(allclimates => {
+    db.get.all.climates().then(allclimates => {
       checkForContentTypeBeforeSending(res, allclimates)
     }).catch(e => sendErrorForward('beast all climates single', e, res))
   },
@@ -332,7 +332,7 @@ module.exports = {
 
         promiseArray.push(db.get.climates(id).then(result => {
           beast.climates = { beast: result }
-          return db.get.all_climates().then(allclimates => {
+          return db.get.all.climates().then(allclimates => {
             beast.climates.allclimates = allclimates
           }).catch(e => sendErrorForward('beast all climates', e, res))
         }).catch(e => sendErrorForward('beast climates', e, res)))
@@ -342,7 +342,7 @@ module.exports = {
           promiseArray.push(db.get.artist(id).then(result => {
             beast.artistInfo = { ...beast.artistInfo, ...result[0] }
           }).catch(e => sendErrorForward('beast artist', e, res)))
-          promiseArray.push(db.get.allartists(id).then(result => {
+          promiseArray.push(db.get.all.artists(id).then(result => {
             beast.artistInfo = { ...beast.artistInfo, allartists: [...result] }
           }).catch(e => sendErrorForward('beast all artists', e, res)))
         } else {

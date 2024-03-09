@@ -15,7 +15,7 @@ let catalogObj = {
         let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
         if (alphabet[index]) {
-            db.get.catalog_by_letter_custom(alphabet[index], req.user.id).then(result => {
+            db.get.catalogByLetterCustom(alphabet[index], req.user.id).then(result => {
                 let finalArray = []
                 if (result.length > 0) {
                     customCatalog.push(result)

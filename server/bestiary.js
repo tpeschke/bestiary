@@ -44,9 +44,9 @@ passport.use(new Auth0Strategy({
     let { displayName, user_id } = profile;
     const db = app.get('db');
 
-    db.get.find_User([user_id]).then(function (users) {
+    db.get.findUser([user_id]).then(function (users) {
         if (!users[0]) {
-            db.add.create_User([
+            db.add.createUser([
                 displayName,
                 user_id
             ]).then(users => {
@@ -69,7 +69,7 @@ passport.serializeUser((id, done) => {
     done(null, id)
 })
 passport.deserializeUser((id, done) => {
-    app.get('db').get.find_Session_User([id]).then((user) => {
+    app.get('db').get.findSessionUser([id]).then((user) => {
         return done(null, user[0]);
     })
 })
@@ -122,7 +122,7 @@ function ownerAuth(req, res, next) {
         const db = req.app.get('db')
         const id = req.body.id ? req.body.id : req.params.id
         if (id) {
-            db.get.can_edit(id).then(result => {
+            db.get.canEdit(id).then(result => {
                 const canEdit = req.user.id === 1 || req.user.id === 21 || req.user.id === result[0].userid
                 if (canEdit) {
                     next()

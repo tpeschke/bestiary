@@ -1,1 +1,0 @@
-select id, round(maxrange/6) as increment from ranges where weaponid = $1;
