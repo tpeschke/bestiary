@@ -1,1 +1,0 @@
-delete from bbbeasteviron where beastid = $1

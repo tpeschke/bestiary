@@ -1,1 +1,0 @@
-update bbindividualbeast set hr = $1 where id = $2

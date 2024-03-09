@@ -215,7 +215,7 @@ module.exports = {
       if (beastPatreon > patreonTestValue) {
         checkForContentTypeBeforeSending(res, { color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
-        promiseArray.push(db.get.beastmovement(beastid).then(result => {
+        promiseArray.push(db.get.movement(beastid).then(result => {
           if (roleid) {
             result = result.filter(movementType => movementType.roleid === roleid || movementType.allroles)
             if (result.length === 0) {
@@ -300,7 +300,7 @@ module.exports = {
     const id = +req.params.id
     let db
     req.db ? db = req.db : db = req.app.get('db')
-    db.get.beastmaininfo(id).then(result => {
+    db.get.maininfo(id).then(result => {
       let beast = result[0]
         , promiseArray = []
       let patreonTestValue = -1;
@@ -325,7 +325,7 @@ module.exports = {
       } else {
         beast.lairloot = {};
 
-        promiseArray.push(db.get.beasttypes(id).then(result => {
+        promiseArray.push(db.get.types(id).then(result => {
           beast.types = result
           return result
         }).catch(e => sendErrorForward('beast types', e, res)))
@@ -352,7 +352,7 @@ module.exports = {
         }
 
         if (req.query.edit === 'true') {
-          promiseArray.push(db.get.beastconflictedit(id).then(result => {
+          promiseArray.push(db.get.conflictedit(id).then(result => {
             beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [], burdens: [] }
             result.forEach(val => {
               if (val.type === 't' || val.type === 'c' || !val.type) {
@@ -370,7 +370,7 @@ module.exports = {
             return result
           }).catch(e => sendErrorForward('beast confrontation 1', e, res)))
         } else {
-          promiseArray.push(db.get.beastconflict(id).then(result => {
+          promiseArray.push(db.get.conflict(id).then(result => {
             beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [], burdens: [] }
             result.forEach(val => {
               if (val.type === 't' || val.type === 'c' || !val.type) {
@@ -407,7 +407,7 @@ module.exports = {
           }).catch(e => sendErrorForward('beast conflict', e, res)))
         }
 
-        promiseArray.push(db.get.beastskill(id).then(result => {
+        promiseArray.push(db.get.skill(id).then(result => {
           beast.skills = result.sort((a, b) => +b.rank - +a.rank)
           return result
         }).catch(e => sendErrorForward('beast skills', e, res)))
@@ -425,23 +425,23 @@ module.exports = {
         }
 
         if (req.user) {
-          promiseArray.push(db.get.beastnotes(id, req.user.id).then(result => {
+          promiseArray.push(db.get.notes(id, req.user.id).then(result => {
             beast.notes = result[0] || {}
             return result
           }).catch(e => sendErrorForward('beast notes', e, res)))
         }
 
-        promiseArray.push(db.get.beastvariants(id).then(result => {
+        promiseArray.push(db.get.variants(id).then(result => {
           beast.variants = result
           return result
         }).catch(e => sendErrorForward('beast variants', e, res)))
 
-        promiseArray.push(db.get.beastloot(id).then(result => {
+        promiseArray.push(db.get.loot(id).then(result => {
           beast.loot = result
           return result
         }).catch(e => sendErrorForward('beast loot', e, res)))
 
-        promiseArray.push(db.get.beastreagents(id).then(result => {
+        promiseArray.push(db.get.reagents(id).then(result => {
           beast.reagents = result
           return result
         }).catch(e => sendErrorForward('beast pleroma', e, res)))
@@ -551,7 +551,7 @@ module.exports = {
           }).catch(e => sendErrorForward('beast tables final promise', e, res))
         }).catch(e => sendErrorForward('beast tables', e, res)))
 
-        promiseArray.push(db.get.beastroles(id).then(result => {
+        promiseArray.push(db.get.roles(id).then(result => {
           beast.roles = result
 
           if (beast.name.includes('Template')) {
@@ -620,7 +620,7 @@ module.exports = {
           beast.tables.attack.sort((a, b) => a.label.localeCompare(b.label))
           beast.tables.defense.sort((a, b) => a.label.localeCompare(b.label))
 
-          finalPromise.push(db.get.beastmovement(id).then(result => {
+          finalPromise.push(db.get.movement(id).then(result => {
             beast.movement = result.map(movementType => {
               const points = movementType.roleid ? beast.roleInfo[movementType.roleid].combatpoints : beast.combatpoints
               const role = movementType.roleid ? beast.roleInfo[movementType.roleid].role : beast.role

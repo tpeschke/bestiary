@@ -143,7 +143,7 @@ let controllerObj = {
       , id = +req.params.id
     db.get.playerVersion(id).then(result => {
       if (req.user) {
-        db.get.beastnotes(id, req.user.id).then(notes => {
+        db.get.notes(id, req.user.id).then(notes => {
           result = result[0]
           result.notes = notes[0] || {}
           checkForContentTypeBeforeSending(res, result)
@@ -159,7 +159,7 @@ let controllerObj = {
 
     if (req.user) {
       if (noteId) {
-        db.update.beastnotes(noteId, notes).then(result => {
+        db.update.notes(noteId, notes).then(result => {
           checkForContentTypeBeforeSending(res, result[0])
         }).catch(e => sendErrorForward('update beast notes', e, res))
       } else {
@@ -168,7 +168,7 @@ let controllerObj = {
           if (count >= 50 || count >= (req.user.patreon * 30) + 50) {
             res.status(401).send('You need to upgrade your Patreon to add more notes')
           } else {
-            db.add.beastnotes(beastId, req.user.id, notes).then(result => {
+            db.add.notes(beastId, req.user.id, notes).then(result => {
               checkForContentTypeBeforeSending(res, result[0])
             }).catch(e => sendErrorForward('save beast notes', e, res))
           }
@@ -311,14 +311,14 @@ let controllerObj = {
     db.delete.beast(id).then(_ => {
       let promiseArray = []
 
-      promiseArray.push(db.delete.allbeasttypes(id).catch(e => sendErrorForward('delete beast types', e, res)))
+      promiseArray.push(db.delete.alltypes(id).catch(e => sendErrorForward('delete beast types', e, res)))
       promiseArray.push(db.delete.climate.allclimates(id).catch(e => sendErrorForward('delete beast climates', e, res)))
-      promiseArray.push(db.delete.allbeastcombat(id).catch(e => sendErrorForward('delete beast combat', e, res)))
-      promiseArray.push(db.delete.allbeastconflict(id).catch(e => sendErrorForward('delete beast confrontation', e, res)))
-      promiseArray.push(db.delete.allbeastskill(id).catch(e => sendErrorForward('delete beast skill', e, res)))
-      promiseArray.push(db.delete.allbeastloot(id).catch(e => sendErrorForward('delete beast loot', e, res)))
-      promiseArray.push(db.delete.allbeastmovement(id).catch(e => sendErrorForward('delete beast movement', e, res)))
-      promiseArray.push(db.delete.allbeastreagents(id).catch(e => sendErrorForward('delete beast reagents', e, res)))
+      promiseArray.push(db.delete.allcombat(id).catch(e => sendErrorForward('delete beast combat', e, res)))
+      promiseArray.push(db.delete.allconflict(id).catch(e => sendErrorForward('delete beast confrontation', e, res)))
+      promiseArray.push(db.delete.allskill(id).catch(e => sendErrorForward('delete beast skill', e, res)))
+      promiseArray.push(db.delete.allloot(id).catch(e => sendErrorForward('delete beast loot', e, res)))
+      promiseArray.push(db.delete.allmovement(id).catch(e => sendErrorForward('delete beast movement', e, res)))
+      promiseArray.push(db.delete.allreagents(id).catch(e => sendErrorForward('delete beast reagents', e, res)))
       promiseArray.push(db.delete.encounter.allNoun(id).catch(e => sendErrorForward('delete beast noun', e, res)))
       promiseArray.push(db.delete.encounter.allTemperament(id).catch(e => sendErrorForward('delete beast temp', e, res)))
       promiseArray.push(db.delete.encounter.allVerb(id).catch(e => sendErrorForward('delete beast verb', e, res)))
@@ -337,7 +337,7 @@ let controllerObj = {
       promiseArray.push(db.delete.loot.carriedallscrolls(id).catch(e => sendErrorForward('delete beast carried scrolls', e, res)))
       promiseArray.push(db.delete.loot.carriedallalms(id).catch(e => sendErrorForward('delete beast carried alms', e, res)))
       promiseArray.push(db.delete.allfolklore(id).catch(e => sendErrorForward('delete beast folklore', e, res)))
-      // promiseArray.push(db.delete.beastvariants(id, variantid).then())
+      // promiseArray.push(db.delete.variants(id, variantid).then())
       // promiseArray.push(db.delete.combatranges(id, variantid).then())
 
       Promise.all(promiseArray).then(_ => {

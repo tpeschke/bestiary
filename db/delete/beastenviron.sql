@@ -1,1 +1,0 @@
-delete from bbbeasteviron where id = $1

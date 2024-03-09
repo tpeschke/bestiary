@@ -1,1 +1,0 @@
-delete from bbcombatsquare where id = $1
