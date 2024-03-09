@@ -183,7 +183,7 @@ let controllerObj = {
     let { name, hr, intro, climates, habitat, ecology, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, vitality, panic, stress, types, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback, singledievitality, noknockback, tables, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource } = body
 
     const userid = user.id === 1 || user.id === 21 ? null : user.id
-    db.add.beast(userid, name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, panic, +stress, createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource).then(result => {
+    db.add.mainInfo(userid, name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, +subsystem, +patreon, vitality, panic, +stress, createHash(), lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, knockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource).then(result => {
       let id = result[0].id
         , promiseArray = []
 
@@ -246,7 +246,7 @@ let controllerObj = {
     const db = app.get('db')
     let { id, name, hr, intro, habitat, ecology, climates, number_min, number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem, patreon, largeweapons, panic, mental, types, movement, conflict, skills, variants, loot, reagents, lootnotes, traitlimit, devotionlimit, flawlimit, passionlimit, encounter, plural, thumbnail, rarity, locationalvitality, lairloot, roles, casting, spells, deletedSpellList, challenges, obstacles, caution, role, combatpoints, socialrole, socialpoints, secondaryrole, skillrole, skillpoints, fatigue, artistInfo, defaultrole, socialsecondary, notrauma, carriedloot, folklore, combatStatArray, knockback: mainknockback, singledievitality, noknockback, tables, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource } = body
 
-    db.update.beast(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, largeweapons, panic, mental, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, mainknockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource).then(result => {
+    db.update.mainInfo(name, hr, intro, habitat, ecology, +number_min, +number_max, senses, diet, meta, sp_atk, sp_def, tactics, size, subsystem ? +subsystem : null, +patreon, largeweapons, panic, mental, lootnotes, +traitlimit > 0 ? +traitlimit : null, +devotionlimit > 0 ? +devotionlimit : null, +flawlimit > 0 ? +flawlimit : null, +passionlimit > 0 ? +passionlimit : null, plural, thumbnail, rarity, caution, role, combatpoints, socialrole, socialpoints, id, secondaryrole, skillrole, skillpoints, fatigue, defaultrole, socialsecondary, notrauma, mainknockback, singledievitality, noknockback, rolenameorder, descriptionshare, convictionshare, devotionshare, rollundertrauma, imagesource).then(result => {
       let promiseArray = []
 
       upsertHelper.upsertRoles(promiseArray, db, id, res, roles)
@@ -308,7 +308,7 @@ let controllerObj = {
     const db = req.app.get('db')
     let id = +req.params.id
 
-    db.delete.beast(id).then(_ => {
+    db.delete.mainInfo(id).then(_ => {
       let promiseArray = []
 
       promiseArray.push(db.delete.alltypes(id).catch(e => sendErrorForward('delete beast types', e, res)))
@@ -338,7 +338,6 @@ let controllerObj = {
       promiseArray.push(db.delete.loot.carriedallalms(id).catch(e => sendErrorForward('delete beast carried alms', e, res)))
       promiseArray.push(db.delete.allfolklore(id).catch(e => sendErrorForward('delete beast folklore', e, res)))
       // promiseArray.push(db.delete.variants(id, variantid).then())
-      // promiseArray.push(db.delete.combatranges(id, variantid).then())
 
       Promise.all(promiseArray).then(_ => {
         catalogCtrl.collectCatalog(req.app)

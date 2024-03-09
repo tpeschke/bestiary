@@ -15,7 +15,7 @@ function rateMonster(monster) {
     hr += monster.stress ? figureOutStress(monster.stress) : 0
     hr += monster.combat ? figureOutCombat(monster.combat) : 0
     hr += monster.movement ? figureOutMovement(monster.movement) : 0
-    db.update.beastHR(hr, monster.id)
+    db.update.mainInfo(hr, monster.id)
 }
 
 function figureOutHealth(vitality) {
