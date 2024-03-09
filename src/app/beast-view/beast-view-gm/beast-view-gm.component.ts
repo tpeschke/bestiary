@@ -78,6 +78,8 @@ export class BeastViewGmComponent implements OnInit {
 
   public tokenExists: Boolean = false
 
+  public combatStatChanges = []
+
   public battlefieldPatternDictionary = {
     'Open Field': 'openfield',
     'Divide': 'divide',
@@ -133,7 +135,7 @@ export class BeastViewGmComponent implements OnInit {
     })
   }
 
-  onImageError (event) {
+  onImageError(event) {
     event.target.onerror = null;
     if (this.beast.imagesource) {
       event.target.src = this.imageBase + this.beast.imagesource + '?t=' + new Date().getTime()
@@ -829,8 +831,23 @@ export class BeastViewGmComponent implements OnInit {
     if (this.selectedRoleId) {
       hash = this.beast.roleInfo[this.selectedRoleId].hash
     }
-    this.quickViewService.addToQuickViewArray(hash)
+    this.quickViewService.addToQuickViewArray(hash, { combat: this.combatStatChanges })
   }
+
+  setEquipmentChangesUnbound(combatInfo) {
+    if (this.combatStatChanges.length === 0) {
+      this.combatStatChanges.push(combatInfo)
+    } else {
+      const index = this.combatStatChanges.findIndex(i => i.id === combatInfo.id)
+      if (index === -1) {
+        this.combatStatChanges.push(combatInfo)
+      } else {
+        this.combatStatChanges[index] = combatInfo
+      }
+    }
+  }
+
+  setEquipmentChanges = this.setEquipmentChangesUnbound.bind(this)
 
   toggleEquipmentSelection = (square) => {
     if (!square.showEquipmentSelection) {
@@ -1156,15 +1173,15 @@ export class BeastViewGmComponent implements OnInit {
 
     let beastObj = {
       portrait: 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + id + '-token',
-      name, metanotes: meta, mental, personalnotes: notes, 
+      name, metanotes: meta, mental, personalnotes: notes,
       confrontation: {
         ...confrontation,
         role: socialrole,
         secondary: socialsecondary
       },
       combat: {
-        attacknotes: sp_atk, defensenotes: sp_def, tactics, combatCounterHash, 
-        role: role, 
+        attacknotes: sp_atk, defensenotes: sp_def, tactics, combatCounterHash,
+        role: role,
         secondary: combatsecondary,
         attacks: combatStatArray.filter(combat => combat.roleid === this.selectedRoleId).map(combat => combat.combatSquare),
         physical: {
@@ -1182,7 +1199,7 @@ export class BeastViewGmComponent implements OnInit {
             rank: this.getSkillRank(skill.strength, skill.adjustment)
           }
         }),
-      } 
+      }
     }
 
     var sJson = JSON.stringify(beastObj);

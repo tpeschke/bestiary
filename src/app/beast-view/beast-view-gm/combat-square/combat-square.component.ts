@@ -19,6 +19,7 @@ export class CombatSquareComponent implements OnInit {
   @Input() skillpoints: any
   @Input() socialpoints: any
   @Input() size: any
+  @Input() passOnEquipmentChanges: Function
 
   weaponControl: any;
   weaponGroupOptions: Observable<any[]>;
@@ -228,6 +229,9 @@ export class CombatSquareComponent implements OnInit {
 
   saveEquipmentChange = () => {
     this.showEquipmentSelection = false
+    if (this.passOnEquipmentChanges) {
+      this.passOnEquipmentChanges({id: this.combatStats.id, weapon: this.combatStats.weapon, armor: this.combatStats.armor, shield: this.combatStats.shield})
+    }
   }
 
   backOutofSwap = () => {

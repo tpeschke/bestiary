@@ -16,8 +16,8 @@ export class QuickViewService {
   public quickViewArray: any = [];
   public combatRolesInfo = roles.combatRoles.primary
 
-  addToQuickViewArray(hash) {
-    this.beastService.getQuickView(hash).subscribe(results => {
+  addToQuickViewArray(hash, body = null) {
+    this.beastService.getQuickView(hash, body).subscribe(results => {
       if (!results.color) {
         results.vitalityArray = []
         if (results.role) {

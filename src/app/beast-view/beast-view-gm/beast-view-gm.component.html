@@ -228,7 +228,7 @@
                 [primaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role"
                 [secondaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].secondaryrole : beast.secondaryrole"
                 [size]="selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size ? beast.size : 'Medium'"
-                [points]="selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints">
+                [points]="selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints" [passOnEquipmentChanges]="setEquipmentChanges">
               </app-combat-square>
             </div>
           </div>

@@ -83,7 +83,6 @@ app.get('/auth/logout', function (req, res) {
 
 app.get('/api/beasts/catalog', (req, res) => res.send(catalogCtrl.catalogCache))
 app.get('/api/beasts/:id', getCtrl.getSingleBeast)
-app.get('/api/quickview/:hash', getCtrl.getQuickView)
 app.get('/api/beasts/player/:id', ctrl.getPlayerBeast)
 app.get('/api/auth/me', (req, res) => req.user ? res.send(req.user) : res.send({ id: 0 }))
 app.get('/api/canEdit/:id', ctrl.canEditMonster)
@@ -109,6 +108,7 @@ app.get('/api/encounter/edit/:beastid', ctrl.getEditEncounter)
 app.get('/api/encounter/:beastid', ctrl.getRandomEncounter)
 
 app.get('/api/combat/:hash', getCtrl.getQuickView)
+app.patch('/api/quickview/:hash', getCtrl.getQuickView)
 
 app.post('/api/beast/player', ctrl.addPlayerNotes)
 app.post('/api/favorite', ctrl.addFavorite)

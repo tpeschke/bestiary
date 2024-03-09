@@ -112,6 +112,7 @@ module.exports = {
   getQuickView(req, res) {
     let { hash } = req.params
     let { secretKey, userpatreon, userid } = req.query
+    let { combat: combatReplacement } = req.body
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
@@ -241,6 +242,14 @@ module.exports = {
           }
 
           beast.combatStatArray = result.map(combatSquare => {
+            if (combatReplacement.length > 0) {
+              const index = combatReplacement.findIndex(i => i.id === combatSquare.id)
+              if (index > -1) {
+                combatSquare.weapon = combatReplacement[index].weapon
+                combatSquare.armor = combatReplacement[index].armor
+                combatSquare.shield = combatReplacement[index].shield
+              }
+            }
 
             let equipmentBonuses = { weaponInfo: null, armorInfo: null, shieldInfo: null }
             if (combatSquare.weapon) {
@@ -252,7 +261,7 @@ module.exports = {
             if (combatSquare.shield) {
               equipmentBonuses.shieldInfo = equipmentCtrl.getShield(combatSquare.shield).bonusLong
             }
-  
+
             combatSquare.equipmentBonuses = equipmentBonuses
 
             let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points: beast.combatpoints, size: beast.size, role: roleToUse })
@@ -651,7 +660,7 @@ module.exports = {
                 if (combatSquare.shield) {
                   equipmentBonuses.shieldInfo = equipmentCtrl.getShield(combatSquare.shield).bonusLong
                 }
-                
+
                 combatSquare.equipmentBonuses = equipmentBonuses
 
                 let fullCombatSquare = combatSquareCtrl.getSquareDirectly({ combatStats: combatSquare, points, size, role })

@@ -255,8 +255,8 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
-  getQuickView(hash): any {
-    return this.http.get(`${local.endpointBase}/api/quickview/${hash}`)
+  getQuickView(hash, body = null): any {
+    return this.http.patch(`${local.endpointBase}/api/quickview/${hash}`, body)
       .pipe(tap(result => this.handleMessage(result)))
   }
 
