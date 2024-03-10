@@ -309,6 +309,7 @@ module.exports = {
     const id = +req.params.id
     let db
     req.db ? db = req.db : db = req.app.get('db')
+    
     db.get.mainInfo(id).then(result => {
       let beast = result[0]
         , promiseArray = []
