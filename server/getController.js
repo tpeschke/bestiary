@@ -310,7 +310,7 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
 
-    db.get.main_Info(id).then(result => {
+    db.get.mainInfo(id).then(result => {
       let beast = result[0]
         , promiseArray = []
       let patreonTestValue = -1;
