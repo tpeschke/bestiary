@@ -59,7 +59,7 @@
                 <h3>Vitality</h3>
                 <div class="input-shell">
                   <mat-form-field>
-                    <input matInput>
+                    <input matInput value="{{mainIndex === 0 ? quickViewService.quickViewArray[beastIndex].phyiscalAndStress.physical.currentDamage : null}}" type="number" min="0">
                   </mat-form-field>
                   <p> / ({{quickViewService.quickViewArray[beastIndex].phyiscalAndStress.physical.fatigue >= vitalities.vitality ? 'N' : quickViewService.quickViewArray[beastIndex].phyiscalAndStress.physical.fatigue}}) /
                     {{vitalities.vitality}}</p>
@@ -72,7 +72,7 @@
                     <strong>{{location.location}}</strong>
                     <div class="input-shell">
                       <mat-form-field>
-                        <input matInput>
+                        <input matInput value="{{mainIndex === 0 ? location.currentDamage : null}}" type="number" min="0">
                       </mat-form-field>
                       <p>/ {{location.vitality}}</p>
                     </div>
@@ -90,7 +90,7 @@
                   <h3>Stress Threshold</h3>
                   <div class="input-shell">
                     <mat-form-field>
-                      <input matInput>
+                      <input matInput value="{{mainIndex === 0 ? quickViewService.quickViewArray[beastIndex].phyiscalAndStress.mental.currentStress : null}}" type="number" min="0">
                     </mat-form-field>
                     <p>/ ({{quickViewService.quickViewArray[beastIndex].phyiscalAndStress.mental.panic}}) / {{quickViewService.quickViewArray[beastIndex].phyiscalAndStress.mental.stress}}</p>
                   </div>

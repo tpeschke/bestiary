@@ -267,7 +267,7 @@
             <div>
               <div *ngIf="displayedVitalityRoll" class="rolled-stats-shell">
                 <mat-form-field>
-                  <input matInput>
+                  <input matInput type="number" (change)="captureSimpleInput('vitalityToTransferToQuickview', $event)" min="0">
                 </mat-form-field>
                 <p> / </p>
                 <p matTooltip="This is the Fatigue Threshold based on the average Vitality">
@@ -289,20 +289,12 @@
                       <p class="vitality-flex-subtitle">{{location.vitality}} </p>
                     </span>
                   </div>
-                  <!-- <div class="checkboxShell"> -->
-                  <!-- <div *ngFor="let checkbox of locationCheckboxes[location.id].checkboxes; let i = index">
-                      <mat-checkbox matTooltip="{{i+1}}" *ngIf="!checkbox.value"
-                        (change)="checkCheckbox($event, i, location.id)" [(ngModel)]="checkbox.checked">
-                      </mat-checkbox>
-                      <p *ngIf="checkbox.value"> {{checkbox.value}} </p>
-                    </div> -->
                   <div class="rolled-stats-shell">
                     <mat-form-field>
-                      <input matInput>
+                      <input matInput type="number" (change)="captureLocationVitalityInput(location, $event)" min="0">
                     </mat-form-field>
                     <p> / {{location.rolled}}</p>
                   </div>
-                  <!-- </div> -->
                 </div>
               </div>
             </div>
@@ -329,7 +321,7 @@
               *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.stress !== 'N') || (!selectedRoleId && beast.phyiscalAndStress.mental.stress !== 'N')"
               class="rolled-stats-shell">
               <mat-form-field>
-                <input matInput>
+                <input matInput type="number" (change)="captureSimpleInput('stressToTransferToQuickview', $event)" min="0">
               </mat-form-field>
               <p> / </p>
               <p matTooltip="This is the Panic Threshold based on the Stress Threshold.">

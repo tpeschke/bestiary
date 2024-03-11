@@ -176,6 +176,8 @@ module.exports = {
         beast.largeweapons = rolelargeweapons
         beast.skillpoints = roleskillpoints
         beast.socialpoints = rolesocialpoints
+        beast.role = roleToUse
+        beast.secondaryrole = secondaryroletype
 
         if (roletype) {
           if (roleToUse !== '' && secondaryRoleToUse) {
@@ -281,8 +283,12 @@ module.exports = {
             shield = beast.combatStatArray[0].shield
           }
           beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, Math.max(beast.combatpoints, beast.skillpoints, beast.socialpoints), beast.role, { mental: beast.mental, panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons, singledievitality: beast.singledievitality, noknockback: beast.noknockback }, beast.secondaryrole, beast.knockback, beast.size ? beast.size : 'Medium', armor, shield)
-          for (let role in beast.roleInfo) {
-            beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, Math.max(beast.roleInfo[role].combatpoints, beast.roleInfo[role].skillpoints, beast.roleInfo[role].socialpoints), beast.roleInfo[role].role, { mental: beast.roleInfo[role].mental, panic: beast.roleInfo[role].panic, caution: beast.roleInfo[role].caution, fatigue: beast.roleInfo[role].fatigue, largeweapons: beast.roleInfo[role].largeweapons, singledievitality: beast.roleInfo[role].singledievitality, noknockback: beast.roleInfo[role].noknockback }, beast.roleInfo[role].secondaryrole, beast.roleInfo[role].knockback, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
+          let { physicalMental } = req.body
+          if (physicalMental.currentDamage) {
+            beast.phyiscalAndStress.physical.currentDamage = +physicalMental.currentDamage
+          }
+          if (physicalMental.currentStress) {
+            beast.phyiscalAndStress.mental.currentStress = +physicalMental.currentStress
           }
           return result
         }).catch(e => sendErrorForward('quick view combat', e, res)))
@@ -295,6 +301,16 @@ module.exports = {
             }
           } else {
             beast.locationalvitality = result
+          }
+
+          let { physicalMental } = req.body
+          if (!!Object.keys(physicalMental.locationalDamage).length) {
+            beast.locationalvitality.map(location => {
+              if (physicalMental.locationalDamage[location.id]) {
+                location.currentDamage = physicalMental.locationalDamage[location.id]
+              }
+              return location
+            })
           }
           return result
         }))

@@ -322,10 +322,6 @@ strong {
     font-family: 'know'; letter-spacing: 1px;
 }
 
-.locationVitality div:first-child .flex-row-opposite {
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-}
 .locationVitality div:last-child .flex-row-opposite {
     border-bottom: 1px solid white;
     padding-bottom: 10px;

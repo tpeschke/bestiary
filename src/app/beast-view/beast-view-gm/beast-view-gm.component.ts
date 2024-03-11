@@ -79,6 +79,9 @@ export class BeastViewGmComponent implements OnInit {
   public tokenExists: Boolean = false
 
   public combatStatChanges = []
+  public vitalityToTransferToQuickview = null;
+  public stressToTransferToQuickview = null
+  public locationDamageToTransferToQuickview = {}
 
   public battlefieldPatternDictionary = {
     'Open Field': 'openfield',
@@ -826,12 +829,20 @@ export class BeastViewGmComponent implements OnInit {
     this.setDisplayVitality()
   }
 
+  captureSimpleInput(key, event) {
+    this[key] = event.target.value
+  }
+
+  captureLocationVitalityInput(location, event) {
+    this.locationDamageToTransferToQuickview[location.id] = +event.target.value
+  }
+
   addToQuickView() {
     let hash = this.beast.hash
     if (this.selectedRoleId) {
       hash = this.beast.roleInfo[this.selectedRoleId].hash
     }
-    this.quickViewService.addToQuickViewArray(hash, { combat: this.combatStatChanges })
+    this.quickViewService.addToQuickViewArray(hash, { combat: this.combatStatChanges, physicalMental: {currentDamage: this.vitalityToTransferToQuickview, currentStress: this.stressToTransferToQuickview, locationalDamage: this.locationDamageToTransferToQuickview} })
   }
 
   setEquipmentChangesUnbound(combatInfo) {
