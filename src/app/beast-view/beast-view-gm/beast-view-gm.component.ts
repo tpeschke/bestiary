@@ -83,6 +83,14 @@ export class BeastViewGmComponent implements OnInit {
   public stressToTransferToQuickview = null
   public locationDamageToTransferToQuickview = {}
 
+  public modifier = null;
+  public modifierDictionary = {
+    'Unique': 3,
+    'Greater': 5,
+    'Dread': 10,
+    'THE': 15
+  }
+
   public battlefieldPatternDictionary = {
     'Open Field': 'openfield',
     'Divide': 'divide',
@@ -830,7 +838,90 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   captureSimpleInput(key, event) {
-    this[key] = event.target.value
+    if (event.target) {
+      this[key] = event.target.value
+    } else {
+      this[key] = event.value
+      if (key === 'modifier') {
+        this.beast.combatStatArray.forEach((combatSquare, index) => {
+          combatSquare.combatStats.modifier = this.modifier
+          const roleid = combatSquare.roleid
+          const combatpoints = (roleid ? this.beast.roleInfo[roleid].combatpoints : this.beast.combatpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+          const size = roleid && this.beast.roleInfo[roleid].size ? this.beast.roleInfo[roleid].size : this.beast.size ? this.beast.size : 'Medium'
+          const primaryRole = roleid ? this.beast.roleInfo[roleid].role : this.beast.role
+          this.beastService.getCombatSquare(combatSquare.combatStats, primaryRole, combatpoints, size).subscribe(res => {
+            const fullCombatSquare = { ...combatSquare.combatSquare, ...res }
+            const newCombatSquare = { ...combatSquare, combatSquare: fullCombatSquare }
+            this.beast.combatStatArray[index] = newCombatSquare
+          })
+        })
+
+        this.beast.roles.forEach((role, index) => {
+          const roleid = role.id
+          const roleInfo = this.beast.roleInfo[roleid]
+          const size = roleInfo.size ? roleInfo.size : this.beast.size ? this.beast.size : 'Medium'
+          const knockback = roleInfo.knockback ? roleInfo.knockback : this.beast.knockback
+          const combatStats = {
+            panic: roleInfo ? roleInfo.panic : this.beast.panic,
+            mental: roleInfo ? roleInfo.mental : this.beast.mental,
+            caution: roleInfo ? roleInfo.caution : this.beast.caution,
+            largeweapons: roleInfo ? roleInfo.largeweapons : this.beast.largeweapons,
+            fatigue: roleInfo ? roleInfo.fatigue : this.beast.fatigue,
+            singledievitality: roleInfo ? roleInfo.singledievitality : this.beast.singledievitality,
+            noknockback: roleInfo ? roleInfo.noknockback : this.beast.noknockback
+          }
+          const combatpoints = (roleInfo ? roleInfo.combatpoints : this.beast.combatpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+          const skillpoints = (roleInfo ? roleInfo.skillpoints : this.beast.skillpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+          const socialpoints = (roleInfo ? roleInfo.socialpoints : this.beast.socialpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+          const primaryrole = roleInfo ? roleInfo.role : this.beast.role
+          const secondaryrole = roleInfo ? roleInfo.secondaryrole : this.beast.secondaryrole
+          this.beastService.getVitalityAndStress(combatpoints, Math.max(combatpoints, skillpoints, socialpoints), primaryrole, combatStats, secondaryrole, knockback, size, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(newPhyiscalAndStress => {
+            this.beast.roleInfo[roleid].phyiscalAndStress = newPhyiscalAndStress
+            if (roleid === this.selectedRoleId) {
+              this.setDisplayVitality()
+            }
+          })
+        })
+
+        const size = this.beast.size ? this.beast.size : 'Medium'
+        const knockback = this.beast.knockback
+        const combatStats = {
+          panic: this.beast.panic,
+          mental: this.beast.mental,
+          caution: this.beast.caution,
+          largeweapons: this.beast.largeweapons,
+          fatigue: this.beast.fatigue,
+          singledievitality: this.beast.singledievitality,
+          noknockback: this.beast.noknockback
+        }
+        const combatpoints = this.beast.combatpoints + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+        const skillpoints = this.beast.skillpoints + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+        const socialpoints = this.beast.socialpoints + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+        const primaryrole = this.beast.role
+        const secondaryrole = this.beast.secondaryrole
+        this.beastService.getVitalityAndStress(combatpoints, Math.max(combatpoints, skillpoints, socialpoints), primaryrole, combatStats, secondaryrole, knockback, size, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(newPhyiscalAndStress => {
+          this.beast.phyiscalAndStress = newPhyiscalAndStress
+          if (!this.selectedRoleId) {
+            this.setDisplayVitality()
+          }
+        })
+
+        const newMovements = this.beast.movement.map(movementType => {
+          const points = (movementType.roleid ? this.beast.roleInfo[movementType.roleid].combatpoints : this.beast.combatpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+          const role = movementType.roleid ? this.beast.roleInfo[movementType.roleid].role : this.beast.role
+          movementType.role = role
+          movementType.points = points
+    
+          return movementType
+        })
+    
+        this.beastService.getMovement(newMovements).subscribe(res => {
+          this.beast.movement = res
+        })
+
+        // Skills and Characteristics are calculated dynamically on the front end so don't need to specifically be updated in the same way the combat squares do
+      }
+    }
   }
 
   captureLocationVitalityInput(location, event) {
@@ -842,7 +933,7 @@ export class BeastViewGmComponent implements OnInit {
     if (this.selectedRoleId) {
       hash = this.beast.roleInfo[this.selectedRoleId].hash
     }
-    this.quickViewService.addToQuickViewArray(hash, { combat: this.combatStatChanges, physicalMental: {currentDamage: this.vitalityToTransferToQuickview, currentStress: this.stressToTransferToQuickview, locationalDamage: this.locationDamageToTransferToQuickview} })
+    this.quickViewService.addToQuickViewArray(hash, { combat: this.combatStatChanges, physicalMental: { currentDamage: this.vitalityToTransferToQuickview, currentStress: this.stressToTransferToQuickview, locationalDamage: this.locationDamageToTransferToQuickview }, modifiers: {pointModifier: this.modifier ? this.modifierDictionary[this.modifier] : 0, modifierTerm: this.modifier} })
   }
 
   setEquipmentChangesUnbound(combatInfo) {
@@ -1035,12 +1126,12 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   getSocialRank(type, strength, adjustment = 0) {
-    const socialPoints = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].socialpoints : this.beast.socialpoints
+    const socialPoints = (this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].socialpoints : this.beast.socialpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
     return this.beastService.calculateRankForCharacteristic(type, +socialPoints, strength, adjustment)
   }
 
   getSkillRank(strength, adjustment = 0) {
-    const skillpoints = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].skillpoints : this.beast.skillpoints
+    const skillpoints = (this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].skillpoints : this.beast.skillpoints) + + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
     return this.beastService.calculateRankForSkill(+skillpoints, strength, adjustment)
   }
 
@@ -1167,7 +1258,7 @@ export class BeastViewGmComponent implements OnInit {
       flaws: conflict.flaws.filter(characteristic => characteristic.socialroleid === this.selectedObstacleId || characteristic.allroles).map(characteristic => characteristic.trait),
     }
 
-    const name = this.selectedRoleId ? this.getNameWithRole(rolenameorder, basicName, selectedRoleInfo.name) : this.formatNameWithCommas(basicName)
+    const name = `${this.modifier ? this.modifier + ' ' : ''}${this.selectedRoleId ? this.getNameWithRole(rolenameorder, basicName, selectedRoleInfo.name) : this.formatNameWithCommas(basicName)}`
     const combatCounterHash = this.selectedRoleId ? selectedRoleInfo.hash : hash
     const size = this.selectedRoleId && selectedRoleInfo.size ? selectedRoleInfo.size : basicSize
     const role = this.selectedObstacleId ? selectedRoleInfo.role : basicRole

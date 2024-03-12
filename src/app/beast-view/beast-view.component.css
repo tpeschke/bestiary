@@ -293,6 +293,10 @@ mat-toolbar {
     align-items: center;
 }
 
+.flex-row-opposite mat-form-field {
+    margin-right: 0;
+}
+
 .flex-row-opposite span {
     display: flex
 }

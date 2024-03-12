@@ -228,7 +228,8 @@
                 [primaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role"
                 [secondaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].secondaryrole : beast.secondaryrole"
                 [size]="selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size ? beast.size : 'Medium'"
-                [points]="selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints" [passOnEquipmentChanges]="setEquipmentChanges">
+                [points]="selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints"
+                [passOnEquipmentChanges]="setEquipmentChanges">
               </app-combat-square>
             </div>
           </div>
@@ -250,7 +251,7 @@
             <app-view-table [table]="table"></app-view-table>
           </div>
         </div>
-        
+
         <div class="vitals-and-movement-shell {{aLotOfMovement ? 'alot-of-movement' : ''}}">
           <div class="vitals-shell">
             <div class="flex-row-opposite">
@@ -267,11 +268,14 @@
             <div>
               <div *ngIf="displayedVitalityRoll" class="rolled-stats-shell">
                 <mat-form-field>
-                  <input matInput type="number" (change)="captureSimpleInput('vitalityToTransferToQuickview', $event)" min="0">
+                  <input matInput type="number" (change)="captureSimpleInput('vitalityToTransferToQuickview', $event)"
+                    min="0">
                 </mat-form-field>
                 <p> / </p>
                 <p matTooltip="This is the Fatigue Threshold based on the average Vitality">
-                  ({{displayService.getFatigueThresholdToShow(selectedRoleId, selectedRoleId ? beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.fatigue : null, beast.phyiscalAndStress.physical.fatigue, displayedVitalityRoll)}}) </p>
+                  ({{displayService.getFatigueThresholdToShow(selectedRoleId, selectedRoleId ?
+                  beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.fatigue : null,
+                  beast.phyiscalAndStress.physical.fatigue, displayedVitalityRoll)}}) </p>
                 <p> / </p>
                 <p> {{displayedVitalityRoll}} </p>
               </div>
@@ -321,7 +325,8 @@
               *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].phyiscalAndStress.mental.stress !== 'N') || (!selectedRoleId && beast.phyiscalAndStress.mental.stress !== 'N')"
               class="rolled-stats-shell">
               <mat-form-field>
-                <input matInput type="number" (change)="captureSimpleInput('stressToTransferToQuickview', $event)" min="0">
+                <input matInput type="number" (change)="captureSimpleInput('stressToTransferToQuickview', $event)"
+                  min="0">
               </mat-form-field>
               <p> / </p>
               <p matTooltip="This is the Panic Threshold based on the Stress Threshold.">
@@ -681,17 +686,43 @@
             <p>{{beast.rarity | rarityConverter}} <i class="fas fa-info-circle icon-small blue"
                 matTooltip="+{{getRarityModifier(beast.rarity)}} to Monster Craft Checks"></i></p>
           </div>
+          <div *ngIf="beast.rarity" class="flex-row-opposite">
+            <h3>Rating Modifier</h3>
+            <mat-form-field>
+              <mat-select (selectionChange)="captureSimpleInput('modifier', $event)">
+                <mat-option>
+                  None
+                </mat-option>
+                <mat-option matTooltip="There is something about this monster that stands out. Example: A bandit captain." matTooltipPosition="right"
+                  value="Unique">
+                  Unique
+                </mat-option>
+                <mat-option matTooltip="There is something about this monster that stands out. Example: A bandit captain." matTooltipPosition="right"
+                  value="Greater">
+                  Greater
+                </mat-option>
+                <mat-option matTooltip="This monster is particularly cruel and powerful. Example: A bandit king." matTooltipPosition="right"
+                  value="Dread">
+                  Dread
+                </mat-option>
+                <mat-option matTooltip="This monster is one in a million; either the progenitor of its kind or some stands alone in some way. Example: A legendary bandit." matTooltipPosition="right"
+                  value="THE">
+                  THE
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
           <div class="flex-row-opposite">
             <h3>Combat Rating</h3>
-            <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints}}</p>
+            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints) + (modifier ? modifierDictionary[modifier] : 0)}}</p>
           </div>
           <div class="flex-row-opposite">
             <h3>Confrontation Rating</h3>
-            <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints}}</p>
+            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints) + (modifier ? modifierDictionary[modifier] : 0)}}</p>
           </div>
           <div class="flex-row-opposite">
             <h3>Skill Rating</h3>
-            <p>{{selectedRoleId ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints}}</p>
+            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints)  + (modifier ? modifierDictionary[modifier] : 0)}}</p>
           </div>
           <div class="flex-row-opposite" *ngIf="beast.patreon >= 20">
             <h3>Access</h3>

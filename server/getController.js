@@ -112,16 +112,18 @@ module.exports = {
   getQuickView(req, res) {
     let { hash } = req.params
     let { secretKey, userpatreon, userid } = req.query
+    let { modifiers } = req.body
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
       let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons, rolenameorder, mainsocialpoints, rolesocialpoints, mainskillpoints, roleskillpoints } = result[0]
-      let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: rolepoints || rolepoints === 0 ? rolepoints : mainpoints, notrauma }
+      let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: (rolepoints || rolepoints === 0 ? rolepoints : mainpoints) + modifiers.pointModifier, notrauma }
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
       let secondaryRoleToUse = ''
 
       name = formatNameWithCommas(beast.name)
+
 
       if (!isARole) {
         beast.name = displayName(beast.name, baseroletype, basesecondaryrole, baseskillrole, basesocialrole, basesocialsecondary)
@@ -135,8 +137,8 @@ module.exports = {
         beast.stressstrength = mainstressstrength
         beast.mental = mainmental
         beast.largeweapons = mainlargeweapons
-        beast.skillpoints = mainskillpoints
-        beast.socialpoints = mainsocialpoints
+        beast.skillpoints = mainskillpoints + modifiers.pointModifier
+        beast.socialpoints = mainsocialpoints + modifiers.pointModifier
       }
 
       if (rolename && rolename.toUpperCase() !== "NONE") {
@@ -174,8 +176,8 @@ module.exports = {
         beast.stressstrength = rolestressstrength
         beast.mental = rolemental
         beast.largeweapons = rolelargeweapons
-        beast.skillpoints = roleskillpoints
-        beast.socialpoints = rolesocialpoints
+        beast.skillpoints = roleskillpoints + modifiers.pointModifier
+        beast.socialpoints = rolesocialpoints + modifiers.pointModifier
         beast.role = roleToUse
         beast.secondaryrole = secondaryroletype
 
@@ -191,6 +193,10 @@ module.exports = {
         if (roletype) {
           beast.role = roletype
         }
+      }
+
+      if (modifiers.modifierTerm) {
+        beast.name = `${modifiers.modifierTerm} ${beast.name}`
       }
 
       let promiseArray = []
