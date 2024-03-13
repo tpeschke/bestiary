@@ -504,11 +504,7 @@
               <h3>Main Players</h3>
               <p>{{createEncounterLabel(encounter.main.label, encounter.main.monsterRoles)}}
                 <span
-                  *ngFor="let player of encounter.main.monsterRoles | keyvalue; let i = index">{{getConnector(encounter.main.monsterRoles,
-                  i)}}{{player.value}} {{player.key !== 'None' ?
-                  (player.value === 1 ? player.key : player.key + "s") : player.value === 1 ?
-                  handleCommaInName(beast.name) :
-                  beast.plural ? beast.plural : handleCommaInName(beast.name) + "s"}}</span>
+                  *ngFor="let player of encounter.main.monsterRoles | keyvalue; let i = index">{{createLabel(player, encounter.main.monsterRoles, i)}}</span>
               </p>
             </div>
           </div>
@@ -566,7 +562,7 @@
               </div>
               <div *ngIf="complication.backup">
                 <h5>Back Up: </h5>
-                <p>{{complication.backup.number}} {{complication.backup.number > 1 ? complication.backup.rankplural :
+                <p>{{complication.backup.number}} {{complication.backup.number > 1 ? complication.backup.plural :
                   complication.backup.rank}}</p>
               </div>
               <div *ngIf="complication.time">

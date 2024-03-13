@@ -1153,6 +1153,41 @@ export class BeastViewGmComponent implements OnInit {
     this.dialog.open(ChallengePopUpComponent, { panelClass: 'my-class', data: { id } })
   }
 
+  createLabel(player, roles, index) {
+    const connector = this.getConnector(roles, index)
+    const number = player.value.number
+    const name = player.key !== 'None' ? (number === 1 ? player.key : player.key + "s") : number === 1 ? this.handleCommaInName(this.beast.name) : this.beast.plural ? this.beast.plural : this.handleCommaInName(this.beast.name) + "s"
+
+    let modifierString = ""
+    if (player.value.unique > 0) {
+      if (modifierString === "") {
+        modifierString = "("
+      }
+      modifierString += `${player.value.unique} Unique`
+    }
+    if (player.value.greater > 0) {
+      if (modifierString === "") {
+        modifierString = "("
+      } else {
+        modifierString += ", "
+      }
+      modifierString += `${player.value.greater} Greater`
+    }
+    if (player.value.dread > 0) {
+      if (modifierString === "") {
+        modifierString = "("
+      } else {
+        modifierString += ", "
+      }
+      modifierString += `${player.value.greater} Dread`
+    }
+    if (modifierString !== "") {
+      modifierString += ")"
+    }
+
+    return `${connector} ${number} ${name}` + (modifierString !== "" ? " " + modifierString : '')
+  }
+
   getConnector(object, index) {
     const length = Object.keys(object).length
 
@@ -1180,7 +1215,7 @@ export class BeastViewGmComponent implements OnInit {
     } else {
       let number = 0
       for (let key in roles) {
-        number = roles[key]
+        number = roles[key].number
       }
       if (number > 1) {
         return `${this.aOrAn(label)} ${label} of`

@@ -592,8 +592,8 @@ let controllerObj = {
       }).catch(e => sendErrorForward('get encounter numbers weighted 2', e, res)))
     }
 
-    let randomEncounter = Math.floor(Math.random() * 10) > 5
-    if (randomEncounter) {
+    let randomEncounterComplication = Math.floor(Math.random() * 10) > 5
+    if (randomEncounterComplication) {
       promiseArray.push(collectComplication(db, beastId).then(result => {
         let flatArray = []
         if (result && result.length) {
@@ -613,8 +613,39 @@ let controllerObj = {
     }
 
     Promise.all(promiseArray).then(_ => {
+      if (encounterObject.main.monsterRoles) {
+        getModifierNumber(encounterObject.main.monsterRoles, 'unique')
+        getModifierNumber(encounterObject.main.monsterRoles, 'greater')
+        getModifierNumber(encounterObject.main.monsterRoles, 'dread')
+      }
       checkForContentTypeBeforeSending(res, encounterObject)
     }).catch(e => sendErrorForward('get random encounter finall array', e, res))
+  }
+}
+
+function getModifierNumber(encounterRoles, modifierName) {
+  modifierChances = {
+    unique: .05,
+    greater: .01,
+    dread: .005
+  }
+
+  for (let key in encounterRoles) {
+    if (!encounterRoles[key].number) {
+      encounterRoles[key] = {number: encounterRoles[key]}
+    }
+    const number = encounterRoles[key].number
+
+    const trueChance = modifierChances[modifierName] * number
+    if (trueChance > 1) {
+      const numberOfAuto = Math.floor(trueChance / 1)
+      const leftOverChance = trueChance % 1
+      const chanceRoll = (Math.floor(Math.random() * 100) + 1) / 100
+      encounterRoles[key][modifierName] = numberOfAuto + (chanceRoll <= leftOverChance ? 1 : 0)
+    } else {
+      const chanceRoll = (Math.floor(Math.random() * 100) + 1) / 100
+      encounterRoles[key][modifierName] = chanceRoll <= trueChance ? 1 : 0
+    }
   }
 }
 
