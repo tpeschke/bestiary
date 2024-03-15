@@ -613,13 +613,13 @@ let controllerObj = {
     }
 
     Promise.all(promiseArray).then(_ => {
-      if (encounterObject.main.monsterRoles) {
+      if (encounterObject.main && encounterObject.main.monsterRoles) {
         getModifierNumber(encounterObject.main.monsterRoles, 'unique')
         getModifierNumber(encounterObject.main.monsterRoles, 'greater')
         getModifierNumber(encounterObject.main.monsterRoles, 'dread')
       }
       checkForContentTypeBeforeSending(res, encounterObject)
-    }).catch(e => sendErrorForward('get random encounter finall array', e, res))
+    }).catch(e => sendErrorForward('get random encounter finally array', e, res))
   }
 }
 
