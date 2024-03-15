@@ -1540,6 +1540,7 @@ export class BeastViewEditComponent implements OnInit {
 
   addOption(event, type) {
     const value = event.target.value
+    console.log(value)
     if (value) {
       let addOption = true
       const allType = `all${this.capitalizeFirstLetter(type)}`

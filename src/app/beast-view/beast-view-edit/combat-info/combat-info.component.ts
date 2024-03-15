@@ -398,4 +398,8 @@ export class CombatInfoComponent implements OnChanges {
   captureInput = (event, type) => {
     this.combatStats[type] = event.target.value
   }
+
+  captureHTML = (event, type) => {
+    this.combatStats[type] = event.html
+  }
 }
