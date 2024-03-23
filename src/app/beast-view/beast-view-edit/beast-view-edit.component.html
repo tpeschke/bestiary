@@ -281,11 +281,14 @@
       <mat-form-field>
         <mat-label>Name & Role Order</mat-label>
         <mat-select (selectionChange)="captureSelect($event, 'rolenameorder')" [value]="beast.rolenameorder">
-          <mat-option value="1">
+          <mat-option value="1" selected="selected">
             {{beast.name}} {{beast.roleInfo[selectedRoleId].name}}
           </mat-option>
           <mat-option value="2">
             {{beast.roleInfo[selectedRoleId].name}} {{beast.name}}
+          </mat-option>
+          <mat-option value="3">
+            {{beast.roleInfo[selectedRoleId].name}}
           </mat-option>
         </mat-select>
       </mat-form-field>

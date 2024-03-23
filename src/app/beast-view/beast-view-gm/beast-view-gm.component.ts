@@ -1256,6 +1256,8 @@ export class BeastViewGmComponent implements OnInit {
   getNameWithRole = (rolenameorder, name, rolename) => {
     if (rolenameorder === '1') {
       return this.formatNameWithCommas(name) + " " + rolename
+    } else if (rolenameorder === '3') {
+      return rolename
     } else {
       return rolename + " " + this.formatNameWithCommas(name)
     }

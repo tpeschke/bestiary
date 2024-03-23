@@ -113,6 +113,11 @@ module.exports = {
     let { hash } = req.params
     let { secretKey, userpatreon, userid } = req.query
     let { modifiers } = req.body
+    if (modifiers && !modifiers.pointModifier) {
+      modifiers.pointModifier = 0
+    } else if (!modifiers) {
+      modifiers = {pointModifier: 0}
+    }
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
@@ -123,7 +128,6 @@ module.exports = {
       let secondaryRoleToUse = ''
 
       name = formatNameWithCommas(beast.name)
-
 
       if (!isARole) {
         beast.name = displayName(beast.name, baseroletype, basesecondaryrole, baseskillrole, basesocialrole, basesocialsecondary)
@@ -144,6 +148,8 @@ module.exports = {
       if (rolename && rolename.toUpperCase() !== "NONE") {
         if (rolenameorder === '1') {
           name = name + " " + rolename
+        } else if (rolenameorder === '3') {
+          name = rolename
         } else {
           name = rolename + " " + name
         }
@@ -290,10 +296,10 @@ module.exports = {
           }
           beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, Math.max(beast.combatpoints, beast.skillpoints, beast.socialpoints), beast.role, { mental: beast.mental, panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons, singledievitality: beast.singledievitality, noknockback: beast.noknockback }, beast.secondaryrole, beast.knockback, beast.size ? beast.size : 'Medium', armor, shield)
           let { physicalMental } = req.body
-          if (physicalMental.currentDamage) {
+          if (physicalMental && physicalMental.currentDamage) {
             beast.phyiscalAndStress.physical.currentDamage = +physicalMental.currentDamage
           }
-          if (physicalMental.currentStress) {
+          if (physicalMental && physicalMental.currentStress) {
             beast.phyiscalAndStress.mental.currentStress = +physicalMental.currentStress
           }
           return result
@@ -310,7 +316,7 @@ module.exports = {
           }
 
           let { physicalMental } = req.body
-          if (!!Object.keys(physicalMental.locationalDamage).length) {
+          if (physicalMental && !!Object.keys(physicalMental.locationalDamage).length) {
             beast.locationalvitality.map(location => {
               if (physicalMental.locationalDamage[location.id]) {
                 location.currentDamage = physicalMental.locationalDamage[location.id]
@@ -323,7 +329,7 @@ module.exports = {
 
         Promise.all(promiseArray).then(finalArray => {
           checkForContentTypeBeforeSending(res, beast)
-        }).catch(e => sendErrorForward('final promise', e, res))
+        }).catch(e => sendErrorForward('quick view final promise', e, res))
       }
     }).catch(e => sendErrorForward('main', e, res))
   },
