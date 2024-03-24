@@ -13,6 +13,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.metaService.updateTag( { name:'og:description', content: `The Bestiary for the Bonfire TTRPG`});
-    this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/TWRealFire.png"});
+    this.metaService.updateTag( { name:'og:image', content: "https://bestiary.stone-fish.com/assets/TWRealFire.png"});
   }
 }

@@ -118,7 +118,7 @@ export class BeastViewGmComponent implements OnInit {
       this.handleAnyFlaws()
       this.titleService.setTitle(`${this.beast.name} - Bestiary`)
       // this.metaService.updateTag({ name: 'og:description', content: this.beast.name });
-      // this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/preview.png" });
+      // this.metaService.updateTag( { name:'og:image', content: "https://bestiary.stone-fish.com/assets/preview.png" });
       this.getRandomEncounter()
 
       this.getLoot()
@@ -770,7 +770,7 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   getUrl(id) {
-    return `https://bestiary.dragon-slayer.net/beast/${id}/gm`
+    return `https://bestiary.stone-fish.com/beast/${id}/gm`
   }
 
   getRarityModifier(rarity) {

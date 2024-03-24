@@ -41,6 +41,6 @@ export class ObstacleSearchResultsComponent implements OnInit {
     })
     this.titleService.setTitle('Obstacle Index')
     this.metaService.updateTag( { name:'og:description', content: 'An Index of Obstacle for the Bonfire TTRPG'});
-    this.metaService.updateTag( { name:'og:image', content: "https://bestiary.dragon-slayer.net/assets/TWRealFire.png"});
+    this.metaService.updateTag( { name:'og:image', content: "https://bestiary.stone-fish.com/assets/TWRealFire.png"});
   }
 }

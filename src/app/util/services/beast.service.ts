@@ -306,22 +306,22 @@ export class BeastService {
   }
 
   getPotions(number) {
-    return this.http.post('https://reliquary.dragon-slayer.net/api/getRandomPotions?numberOfItems=' + number, null)
+    return this.http.post('https://reliquary.stone-fish.com/api/getRandomPotions?numberOfItems=' + number, null)
       .pipe(tap(result => this.handleMessage(result)))
   }
 
   getTalismans(number) {
-    return this.http.post('https://reliquary.dragon-slayer.net/api/getTalismans?numberOfItems=' + number, null)
+    return this.http.post('https://reliquary.stone-fish.com/api/getTalismans?numberOfItems=' + number, null)
       .pipe(tap(result => this.handleMessage(result)))
   }
 
   getScrolls(number) {
-    return this.http.post('https://reliquary.dragon-slayer.net/api/getScrolls?numberOfItems=' + number, null)
+    return this.http.post('https://reliquary.stone-fish.com/api/getScrolls?numberOfItems=' + number, null)
       .pipe(tap(result => this.handleMessage(result)))
   }
 
   getEnchantedItem() {
-    return this.http.get('https://reliquary.dragon-slayer.net/api/getEnchantedItem')
+    return this.http.get('https://reliquary.stone-fish.com/api/getEnchantedItem')
       .pipe(tap(result => this.handleMessage(result)))
   }
 

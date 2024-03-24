@@ -41,7 +41,7 @@ export class ChallengeInnardsComponent implements OnInit {
         this.titleService.setTitle(this.challenge.name)
       }
       this.metaService.updateTag({ name: 'og:description', content: `${this.challenge.name} Skill Challenge` });
-      this.metaService.updateTag({ name: 'og:image', content: "https://bestiary.dragon-slayer.net/assets/TWRealFire.png" });
+      this.metaService.updateTag({ name: 'og:image', content: "https://bestiary.stone-fish.com/assets/TWRealFire.png" });
       setTimeout(() => this.initMermaid(this.challenge.flowchart), 500)
     })
     this.beastService.checkLogin().subscribe(result => {
