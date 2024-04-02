@@ -110,7 +110,7 @@ export class BeastViewEditComponent implements OnInit {
     {
       label: 'Mental',
       stat: 'mental',
-      tooltip: 'Stress Threshold'
+      tooltip: 'Nerve'
     },
     {
       label: 'Panic',

@@ -142,7 +142,7 @@ module.exports = {
                 shields: [],
             },
             'Defender': {
-                strengths: ['Defense', 'DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Stress Threshold', 'Caution Threshold'],
+                strengths: ['Defense', 'DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Nerve', 'Caution Threshold'],
                 weaknesses: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
                 description: "Defenders defend. They're tanky: able to take a large amount of damage but they're unable to deal it out or effectively move around.",
                 weapontype: 'm',
@@ -210,7 +210,7 @@ module.exports = {
                 shields: ['Heater', 'Figure Eight', 'Kite'],
             },
             'Duelist': {
-                strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Stress Threshold'],
+                strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Nerve'],
                 weaknesses: ['/DR', 'Melee Damage', 'Ranged Damage', 'Range Penalties'],
                 description: "The duelist is particularly good at one-on-one fights due to their fast attack and high parry but they tend to suffer from being out numbered or out ranged.",
                 weapontype: 'm',
@@ -362,7 +362,7 @@ module.exports = {
                 shields: []
             },
             'Skirmisher': {
-                strengths: ['Ranged Attack', 'Movement', 'Mobility Skills', 'Stress Threshold', 'Panic'],
+                strengths: ['Ranged Attack', 'Movement', 'Mobility Skills', 'Nerve', 'Panic'],
                 weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Ranged Damage', 'Melee Attack', 'Caution Threshold'],
                 description: 'Fast on their feet, the skirmisher focuses on hit-and-run tactics, although their focus on ranged combat makes them squishy in melee.',
                 weapontype: 'r',

@@ -150,20 +150,20 @@ export default {
             'Defender': {
                 strengths: ['Defensive', 'Powerful Characteristics'],
                 weaknesses: ['Offensive', 'Few Characteristics'],
-                description: "Defenders have a high Stress Threshold but few Characteristics, which are mostly Devotions. However, what Characteristics they do have have very high Ranks."
+                description: "Defenders have a high Nerve but few Characteristics, which are mostly Devotions. However, what Characteristics they do have have very high Ranks."
             },
             'Support': {
                 strengths: ['Buffing Others', 'Debuffing Others'],
                 weaknesses: ['Being Alone'],
-                description: "Supports have lots of Descriptions and Devotions but no Convictions and all their Characteristics have low Ranks. They also have low Stress Thresholds."
+                description: "Supports have lots of Descriptions and Devotions but no Convictions and all their Characteristics have low Ranks. They also have low Nerves."
             },
             'Corruptor': {
-                strengths: ['Stress Threshold', 'Flexible Characteristics'],
+                strengths: ['Nerve', 'Flexible Characteristics'],
                 weaknesses: ['Weak Characteristics'],
-                description: "Corruptors have high or non-existent Stress Thresholds but very low Ranks and very few Characteristics."
+                description: "Corruptors have high or non-existent Nerves but very low Ranks and very few Characteristics."
             },
             'Gaslighter': {
-                strengths: ['Debuffing Others', 'Stress Threshold'],
+                strengths: ['Debuffing Others', 'Nerve'],
                 weaknesses: ['Weak Characteristics', 'Few Characteristics'],
                 description: "Gaslighters have non-existent Characteristics but they also have a high Intuition which allows them to read their enemies and use their Characteristics."
             },
@@ -175,7 +175,7 @@ export default {
             'Opportunist': {
                 strengths: ['Capitalzing on Weaknesses'],
                 weaknesses: ['None'],
-                description: "Opportunists have low Stress Thresholds but high Characteristics so they can win a single Check easily but don't do well in drawn out encounters."
+                description: "Opportunists have low Nerves but high Characteristics so they can win a single Check easily but don't do well in drawn out encounters."
             },
             'Know-It-All': {
                 description: 'Know-it-alls are Skill-based. They roll a d12! when using Characteristics on a Confrontation Check but a d20! when using a Skill for a Confrontation Check.'
@@ -345,7 +345,7 @@ export default {
                 shields: [],
             },
             'Defender': {
-                strengths: ['Defense', 'DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Stress Threshold', 'Caution Threshold'],
+                strengths: ['Defense', 'DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Nerve', 'Caution Threshold'],
                 weaknesses: ['Melee Damage', 'Ranged Damage', 'Melee Attack', 'Ranged Attack', 'Ranged Penalties', 'Movement', 'Mobility Skills'],
                 description: "Defenders defend. They're tanky: able to take a large amount of damage but they're unable to deal it out or effectively move around.",
                 weapontype: 'm',
@@ -413,7 +413,7 @@ export default {
                 shields: ['Heater', 'Figure Eight', 'Kite'],
             },
             'Duelist': {
-                strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Stress Threshold'],
+                strengths: ['Parry', 'Recovery', 'Mobility Skills', 'Nerve'],
                 weaknesses: ['/DR', 'Melee Damage', 'Ranged Damage', 'Range Penalties'],
                 description: "The duelist is particularly good at one-on-one fights due to their fast attack and high parry but they tend to suffer from being out numbered or out ranged.",
                 weapontype: 'm',
@@ -565,7 +565,7 @@ export default {
                 shields: []
             },
             'Skirmisher': {
-                strengths: ['Ranged Attack', 'Movement', 'Mobility Skills', 'Stress Threshold', 'Panic'],
+                strengths: ['Ranged Attack', 'Movement', 'Mobility Skills', 'Nerve', 'Panic'],
                 weaknesses: ['DR', '/DR', 'Parry', 'Parry DR', 'Parry /DR', 'Melee Damage', 'Ranged Damage', 'Melee Attack', 'Caution Threshold'],
                 description: 'Fast on their feet, the skirmisher focuses on hit-and-run tactics, although their focus on ranged combat makes them squishy in melee.',
                 weapontype: 'r',
