@@ -235,26 +235,6 @@ mat-toolbar {
     position: relative;
 }
 
-.explaination-shell {
-    position: fixed;
-    bottom: 0;
-    left: 84px;
-    height: 46px;
-    background-color: rgba(211, 211, 211, 1);
-    border-right: 1px solid whitesmoke;
-    border-top: 1px solid whitesmoke;
-    z-index: 98;
-    border-top-right-radius: 25px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    flex-direction: column;
-    justify-content: flex-end;
-}
-
 .edit-content {
     flex-direction: column;
 }
