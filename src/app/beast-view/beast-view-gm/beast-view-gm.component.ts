@@ -411,7 +411,7 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (potionNumber > 0) {
         this.beastService.getPotions(potionNumber).subscribe((potions: any) => {
-          potions.forEach((potion) => { this.carriedLoot.push(potion) })
+          potions.forEach((potion) => { this.lairLoot.push(potion) })
         })
       }
     }
@@ -423,7 +423,7 @@ export class BeastViewGmComponent implements OnInit {
       }
       if (talismanNumber > 0) {
         this.beastService.getTalismans(talismanNumber).subscribe((talismans: any) => {
-          talismans.forEach((talisman) => { this.carriedLoot.push(talisman) })
+          talismans.forEach((talisman) => { this.lairLoot.push(talisman) })
         })
       }
     }
@@ -436,7 +436,7 @@ export class BeastViewGmComponent implements OnInit {
           if (number > 0) {
             this.beastService.getScrolls(number).subscribe((scrolls: any) => {
               scrolls.forEach(scroll => {
-                this.carriedLoot.push({ scroll: scroll.name, sp: power, breakdown: scroll.tooltip })
+                this.lairLoot.push({ scroll: scroll.name, sp: power, breakdown: scroll.tooltip })
               })
             })
           }
@@ -537,7 +537,7 @@ export class BeastViewGmComponent implements OnInit {
           let favor = rollDice(almsFavor[alms[x].favor])
             , number = rollDice(numberAppearing[alms[x].number])
           if (number > 0) {
-            this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
+            this.carriedLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
           }
         }
       }
