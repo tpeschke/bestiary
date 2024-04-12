@@ -970,7 +970,6 @@ setModifiedRecovery = (baseRecovery, combatStats, roleInfo, points) => {
         } else {
             scalingStrength = roleInfo.recovery
         }
-
         const scaling = getStatScaling('recovery')
         let unadjustedRecovery = 0
         if (scalingStrength === 'noneStr') {
@@ -982,7 +981,6 @@ setModifiedRecovery = (baseRecovery, combatStats, roleInfo, points) => {
         } else {
             unadjustedRecovery = Math.ceil((scaling.scaling[scalingStrength] * baseRecovery) - (scaling.bonus[scalingStrength] * points))
         }
-
         if (unadjustedRecovery <= 10) {
             unadjustedRecovery = unadjustedRecovery
         } else if (unadjustedRecovery <= 20) {
@@ -1524,11 +1522,11 @@ const scalingAndBases = {
             majWk: 2
         },
         scaling: {
-            majSt: .75,
-            minSt: .9,
+            majSt: .7,
+            minSt: .8,
             none: 1,
-            minWk: 1.35,
-            majWk: 1.7
+            minWk: .9,
+            majWk: 1
         },
         bonus: {
             majSt: .5,
