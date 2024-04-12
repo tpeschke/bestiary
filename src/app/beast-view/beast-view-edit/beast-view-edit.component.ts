@@ -4,7 +4,7 @@ import { BeastService } from '../../util/services/beast.service';
 import variables from '../../../local.js'
 import lootTables from "../loot-tables.js"
 import roles from '../roles.js'
-import { MatExpansionPanel, MatSelect } from '@angular/material';
+import { MatAutocomplete, MatAutocompleteTrigger, MatExpansionPanel, MatSelect } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map, switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -27,6 +27,9 @@ export class BeastViewEditComponent implements OnInit {
   @ViewChild('newConfRoleSelect') newConfRoleSelect: MatSelect;
   @ViewChild('newSkillRoleSelect') newSkillRoleSelect: MatSelect;
   @ViewChild('newSecondaryConfRoleSelect') newSecondaryConfRoleSelect: MatSelect;
+  @ViewChild('verbAutocomplete') verbAutocomplete: MatAutocomplete;
+  @ViewChild('nounAutocomplete') nounAutocomplete: MatAutocomplete;
+  @ViewChild('signAutocomplete') signAutocomplete: MatAutocomplete;
   mainImageObj: File;
   tokenImageObj: File
 
@@ -1511,6 +1514,25 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  jumpToOption = (type) => {
+    let lastItemValue;
+    if (type === 'sign' && this.encounter.signs.signs.length > 0) {
+      lastItemValue = this.encounter.signs.signs[this.encounter.signs.signs.length -1].sign
+    } else if (type !== 'sign' && this.encounter[type][type].length > 0) {
+      lastItemValue = this.encounter[type][type][this.encounter[type][type].length -1][type]
+    }
+    if (lastItemValue) {
+      let autocomplete = this[type + 'Autocomplete'];
+      if (autocomplete) {
+        autocomplete.options.forEach(item => {
+          if (item.value[type] === lastItemValue) {
+            document.getElementById(item.id).scrollIntoView();
+          }
+        })
+      }
+    }
+  }
+
   getDisplayTextTemp = (option) => {
     return this.getDisplayText(option, 'temperament')
   }
@@ -1540,7 +1562,6 @@ export class BeastViewEditComponent implements OnInit {
 
   addOption(event, type) {
     const value = event.target.value
-    console.log(value)
     if (value) {
       let addOption = true
       const allType = `all${this.capitalizeFirstLetter(type)}`

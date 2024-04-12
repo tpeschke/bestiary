@@ -1388,8 +1388,8 @@
                 <td>
                   <input class="table-input-clearable" placeholder="Verb" [matAutocomplete]="verbauto"
                     [formControl]="verbController" (blur)="addOption($event, 'verb')">
-                  <mat-autocomplete #verbauto="matAutocomplete" [displayWith]="getDisplayTextVerb"
-                    (optionSelected)="captureEncounterAutocomplete($event, 'verb', 'verb')">
+                  <mat-autocomplete #verbauto="matAutocomplete" #verbAutocomplete [displayWith]="getDisplayTextVerb" id="verb"
+                    (optionSelected)="captureEncounterAutocomplete($event, 'verb', 'verb')" (opened)="jumpToOption('verb')">
                     <mat-option *ngFor="let verb of verbFiltered | async" [value]="verb">
                       {{verb.verb}}
                     </mat-option>
@@ -1420,8 +1420,8 @@
                 <td>
                   <input class="table-input-clearable" placeholder="Noun" [matAutocomplete]="nounauto"
                     [formControl]="nounController" (blur)="addOption($event, 'noun')">
-                  <mat-autocomplete #nounauto="matAutocomplete" [displayWith]="getDisplayTextNoun"
-                    (optionSelected)="captureEncounterAutocomplete($event, 'noun', 'noun')">
+                  <mat-autocomplete #nounauto="matAutocomplete" #nounAutocomplete [displayWith]="getDisplayTextNoun"
+                    (optionSelected)="captureEncounterAutocomplete($event, 'noun', 'noun')" (opened)="jumpToOption('noun')">
                     <mat-option *ngFor="let noun of nounFiltered | async" [value]="noun">
                       {{noun.noun}}
                     </mat-option>
@@ -1460,8 +1460,8 @@
                 <td>
                   <input class="table-input-clearable" placeholder="Sign" [matAutocomplete]="signauto"
                     [formControl]="signsController" (blur)="addOption($event, 'signs')">
-                  <mat-autocomplete #signauto="matAutocomplete" [displayWith]="getDisplayTextSign"
-                    (optionSelected)="captureEncounterAutocomplete($event, 'signs', 'sign')">
+                  <mat-autocomplete #signauto="matAutocomplete" #signAutocomplete [displayWith]="getDisplayTextSign"
+                    (optionSelected)="captureEncounterAutocomplete($event, 'signs', 'sign')" (opened)="jumpToOption('sign')">
                     <mat-option matTooltip="{{sign.sign}}" *ngFor="let sign of signsFiltered | async" [value]="sign">
                       {{sign.sign}}
                     </mat-option>
