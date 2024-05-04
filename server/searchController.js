@@ -36,11 +36,23 @@ module.exports = {
                 case "body":
                     idArray.push(db.get.search.body(req.query.body).catch(e => sendErrorForward('search body', e, res)))
                     break;
-                case "minHr":
-                    idArray.push(db.get.search.minHr(req.query.minHr).catch(e => sendErrorForward('search min hr', e, res)))
+                case "minComRate":
+                    idArray.push(db.get.search.minComRate(req.query.minComRate).catch(e => sendErrorForward('search min combat rating', e, res)))
                     break;
-                case "maxHr":
-                    idArray.push(db.get.search.maxHr(req.query.maxHr).catch(e => sendErrorForward('search max hr', e, res)))
+                case "minChalRate":
+                    idArray.push(db.get.search.minChalRate(req.query.minChalRate).catch(e => sendErrorForward('search min challenge rating', e, res)))
+                    break;
+                case "minConfRate":
+                    idArray.push(db.get.search.minConfRate(req.query.minConfRate).catch(e => sendErrorForward('search min confrontation rating', e, res)))
+                    break;
+                case "maxComRate":
+                    idArray.push(db.get.search.maxComRate(req.query.maxComRate).catch(e => sendErrorForward('search max combat rating', e, res)))
+                    break;
+                case "maxChalRate":
+                    idArray.push(db.get.search.maxChalRate(req.query.maxChalRate).catch(e => sendErrorForward('search max challenge rating', e, res)))
+                    break;
+                case "maxConfRate":
+                    idArray.push(db.get.search.maxConfRate(req.query.maxConfRate).catch(e => sendErrorForward('search max confrontation rating', e, res)))
                     break;
                 case "size":
                     idArray.push(db.get.search.size(req.query.size).catch(e => sendErrorForward('search size', e, res)))

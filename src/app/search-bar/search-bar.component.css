@@ -98,6 +98,18 @@ button {
     margin: 0 15px;
   }
 
+.searchBody .ratingsSearch {
+  max-width: 100%;
+}
+
+.searchBody .ratingsSearch p:first-child {
+  margin-right: 0
+}
+
+.searchBody .ratingsSearch .searchCheckboxes {
+  margin: 0
+}
+
 @media (max-width: 699px) {
   .example-half-width {
     width: 100%;

@@ -119,12 +119,12 @@ export class SearchBarComponent implements OnInit {
     }
   }
 
-  enterSearchMinHr(e) {
+  enterRating(e, type) {
     if (e.target.value && e.target.value !== '') {
-      this.queryObject = { ...this.queryObject, minHr: e.target.value }
-      this.router.navigate(['/search', { ...this.queryObject, minHr: e.target.value }]);
+      this.queryObject = { ...this.queryObject, [type]: e.target.value }
+      this.router.navigate(['/search', { ...this.queryObject, [type]: e.target.value }]);
     } else if (e.target.value===undefined || e.target.value === '') {
-      delete this.queryObject.minHr
+      delete this.queryObject[type]
       this.router.navigate(['/search', { ...this.queryObject }]);
     }
   }
