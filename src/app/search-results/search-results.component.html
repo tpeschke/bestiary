@@ -45,15 +45,15 @@
           <div class="extra-info">
             <div>
               <h3>Combat Rating:</h3>
-              <p>{{toFixed(beast.combatpoints)}}</p>
+              <p>{{formatPoints(beast.mincombat, beast.maxcombat)}}</p>
             </div>
             <div>
               <h3>Confrontation Rating:</h3>
-              <p>{{toFixed(beast.socialpoints)}}</p>
+              <p>{{formatPoints(beast.minsocial, beast.maxsocial)}}</p>
             </div>
             <div>
               <h3>Challenge Rating:</h3>
-              <p>{{toFixed(beast.skillpoints)}}</p>
+              <p>{{formatPoints(beast.minskill, beast.maxskill)}}</p>
             </div>
             <div>
               <h3>Rarity:</h3>

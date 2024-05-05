@@ -101,7 +101,7 @@ export class SearchResultsComponent implements OnInit {
     document.body.removeChild(textArea);
   }
 
-  toFixed (value) {
-    return Math.floor(value)
+  formatPoints (min, max) {
+    return min === max ? min : `${min} - ${max}`
   }
 }

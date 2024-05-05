@@ -100,14 +100,7 @@ button {
 
 .searchBody .ratingsSearch {
   max-width: 100%;
-}
-
-.searchBody .ratingsSearch p:first-child {
-  margin-right: 0
-}
-
-.searchBody .ratingsSearch .searchCheckboxes {
-  margin: 0
+  flex-wrap: wrap;
 }
 
 @media (max-width: 699px) {

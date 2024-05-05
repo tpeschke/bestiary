@@ -1,7 +1,19 @@
-select t.id, name, intro, patreon, rarity, size, canplayerview, thumbnail, t.combatpoints, t.socialpoints, t.skillpoints from bbindividualbeast b
-join (select avg(combatpoints) as combatpoints, avg(socialpoints) as socialpoints, avg(skillpoints) as skillpoints, $1 as id from 
-(select combatpoints, socialpoints, skillpoints from bbindividualbeast b where b.id = $1
-union all
-select combatpoints, socialpoints, skillpoints from bbroles where beastid = $1) x) t
-on t.id = b.id
-where t.id = $1 and patreon < 20 and (userid is null or userid = $2);
+select b.id, name, intro, patreon, rarity, size, canplayerview, thumbnail, mincombat, maxcombat, minsocial, maxsocial, minskill, maxskill from bbindividualbeast b
+join (	select id, 	min(combatpoints) as mincombat, max(combatpoints) as maxcombat, 
+					min(socialpoints) as minsocial, max(socialpoints) as maxsocial, 
+					min(skillpoints) as minskill, max(skillpoints) as maxskill
+		from bbindividualbeast b
+		where b.socialpoints >= 0 and NOT EXISTS (	SELECT 1 
+                   									FROM   bbroles r 
+                  									WHERE  b.id = r.beastid
+                  									group by b.id)
+		group by b.id
+		union
+		select beastid as id, 	min(combatpoints) as mincombat, max(combatpoints) as maxcombat, 
+								min(socialpoints) as minsocial, max(socialpoints) as maxsocial, 
+								min(skillpoints) as minskill, max(skillpoints) as maxskill
+		from bbroles r
+		where r.socialpoints >= 0
+		group by r.beastid
+	) t on t.id = b.id
+where b.id = $1 and patreon < 20 and (userid is null or userid = $2)
