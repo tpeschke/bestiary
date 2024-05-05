@@ -54,8 +54,8 @@
           </div>
         </button>
       </div>
-      <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || !(beastService.loggedIn.id === 1 || beastService.loggedIn.id === 21)">
-        <button *ngIf="beast.patreon < 19 || (beastService.loggedIn.id === 1 || beastService.loggedIn.id === 21)"
+      <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || !(beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21)">
+        <button *ngIf="beast.patreon < 19 || (beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21)"
           [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
           (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.defaultrole); false">
           <div class="img-shell">
@@ -69,7 +69,7 @@
             <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
           </div>
         </button>
-        <button *ngIf="!(beastService.loggedIn.id === 1 || beastService.loggedIn.id === 21) && beast.patreon > 19" disabled class="beastButton" mat-button
+        <button *ngIf="!(beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21) && beast.patreon > 19" disabled class="beastButton" mat-button
           (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.defaultrole); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
@@ -91,7 +91,7 @@
     <mat-divider></mat-divider>
     <div class="beastDiv">
       <div *ngFor="let beast of category">
-        <div *ngIf="!(beastService.loggedIn.id === 1 || beastService.loggedIn.id === 21) && beast.patreon < 4" class="beast-outer-shell">
+        <div *ngIf="!(beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21) && beast.patreon < 4" class="beast-outer-shell">
           <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton"
             mat-button
             (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.defaultrole); false">
@@ -108,9 +108,9 @@
           </button>
         </div>
 
-        <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || (beastService.loggedIn.id === 1 || beastService.loggedIn.id === 21)"
+        <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || (beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21)"
           class="beast-outer-shell">
-          <button *ngIf="beast.patreon < 19 || (beastService.loggedIn.id === 1 || beastService.loggedIn.id === 21)"
+          <button *ngIf="beast.patreon < 19 || (beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21)"
             [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
             (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.defaultrole); false">
             <div class="img-shell">
@@ -125,7 +125,7 @@
               <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
             </div>
           </button>
-          <button *ngIf="!(beastService.loggedIn.id === 1 || beastService.loggedIn.id === 21) && beast.patreon > 19" disabled class="beastButton"
+          <button *ngIf="!(beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21) && beast.patreon > 19" disabled class="beastButton"
             mat-button
             (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.defaultrole); false">
             <div class="img-shell">
