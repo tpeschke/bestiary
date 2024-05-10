@@ -399,78 +399,6 @@
     <br>
   </div>
 
-  <div class="attack-and-defense-shell">
-    <div class="attack-and-defense-inner-shell">
-      <h2>Add. Attack Info</h2>
-      <div class="divider"></div>
-      <br>
-      <h3 *ngIf="selectedRoleId">Base Abilities</h3>
-      <div>
-        <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')"></quill-editor>
-        <p class="character-counter">{{beast.sp_atk ? beast.sp_atk.length : 0}} / 3,000 <i
-            class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i>
-        </p>
-      </div>
-
-      <div *ngIf="selectedRoleId">
-        <br>
-        <h3>Role-Specific Abilities</h3>
-        <div>
-          <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
-            (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
-          <p class="character-counter">{{beast.roleInfo[selectedRoleId].attack ?
-            beast.roleInfo[selectedRoleId].attack.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
-              matTooltip="This also counts the HTML tags which are invisible."></i></p>
-        </div>
-      </div>
-
-      <div class="edit-table-shell">
-        <div *ngIf="beast.tables">
-          <app-edit-table *ngFor="let table of beast.tables.attack; let i = index" [table]="table" [index]="i"
-            [removeTable]="removeTable('attack')"></app-edit-table>
-        </div>
-        <button mat-raised-button (click)="addNewTable('attack')" color="accent"><i
-            class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
-      </div>
-    </div>
-    <div class="attack-and-defense-inner-shell">
-      <h2>Add. Defense Info</h2>
-      <div class="divider"></div>
-      <br>
-      <h3 *ngIf="selectedRoleId">Base Abilities</h3>
-      <div>
-        <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')"></quill-editor>
-        <p class="character-counter">{{beast.sp_def ? beast.sp_def.length : 0}} / 3,000 <i
-            class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i>
-        </p>
-      </div>
-
-      <div *ngIf="selectedRoleId">
-        <br>
-        <h3>Role-Specific Abilities</h3>
-        <div>
-          <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense"
-            (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
-          <p class="character-counter">{{beast.roleInfo[selectedRoleId].defense ?
-            beast.roleInfo[selectedRoleId].defense.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
-              matTooltip="This also counts the HTML tags which are invisible."></i></p>
-        </div>
-      </div>
-
-      <div class="edit-table-shell">
-        <div *ngIf="beast.tables">
-          <app-edit-table *ngFor="let table of beast.tables.defense; let i = index" [table]="table" [index]="i"
-            [removeTable]="removeTable('defense')"></app-edit-table>
-        </div>
-        <button mat-raised-button (click)="addNewTable('defense')" color="accent"><i
-            class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
-      </div>
-    </div>
-
-  </div>
-
-  <br>
-
   <h2>Tactics & Strategy</h2>
   <div class="divider"></div>
   <div>
@@ -548,6 +476,62 @@
           </app-mental-physical-display>
         </div>
 
+        <br>
+        <div class="attack-and-defense-shell">
+          <div class="attack-and-defense-inner-shell">
+            <h2>Add. Confrontation Attack Info</h2>
+            <div class="divider"></div>
+            <br>
+            <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+            <div>
+              <quill-editor [(ngModel)]="beast.atk_conf" (onContentChanged)="captureHTML($event, 'atk_conf')">
+              </quill-editor>
+              <p class="character-counter">{{beast.atk_conf ? beast.atk_conf.length : 0}} / 3,000 <i
+                  class="fas fa-info-circle icon-small"
+                  matTooltip="This also counts the HTML tags which are invisible."></i>
+              </p>
+            </div>
+
+            <div *ngIf="selectedRoleId">
+              <br>
+              <h3>Role-Specific Abilities</h3>
+              <div>
+                <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack_conf"
+                  (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
+                <p class="character-counter">{{beast.roleInfo[selectedRoleId].attack_conf ?
+                  beast.roleInfo[selectedRoleId].attack_conf.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
+                    matTooltip="This also counts the HTML tags which are invisible."></i></p>
+              </div>
+            </div>
+          </div>
+          <div class="attack-and-defense-inner-shell">
+            <h2>Add. Confrontation Defense Info</h2>
+            <div class="divider"></div>
+            <br>
+            <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+            <div>
+              <quill-editor [(ngModel)]="beast.def_conf" (onContentChanged)="captureHTML($event, 'def_conf')">
+              </quill-editor>
+              <p class="character-counter">{{beast.def_conf ? beast.def_conf.length : 0}} / 3,000 <i
+                  class="fas fa-info-circle icon-small"
+                  matTooltip="This also counts the HTML tags which are invisible."></i>
+              </p>
+            </div>
+
+            <div *ngIf="selectedRoleId">
+              <br>
+              <h3>Role-Specific Abilities</h3>
+              <div>
+                <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].def_conf"
+                  (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
+                <p class="character-counter">{{beast.roleInfo[selectedRoleId].def_conf ?
+                  beast.roleInfo[selectedRoleId].def_conf.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
+                    matTooltip="This also counts the HTML tags which are invisible."></i></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
         <div>
           <h2>Descriptions</h2>
           <div class="divider"></div>
@@ -756,6 +740,62 @@
           </app-mental-physical-display>
         </div>
 
+        <br>
+        <div class="attack-and-defense-shell">
+          <div class="attack-and-defense-inner-shell">
+            <h2>Add. Skills Attack Info</h2>
+            <div class="divider"></div>
+            <br>
+            <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+            <div>
+              <quill-editor [(ngModel)]="beast.atk_skill" (onContentChanged)="captureHTML($event, 'atk_skill')">
+              </quill-editor>
+              <p class="character-counter">{{beast.atk_skill ? beast.atk_skill.length : 0}} / 3,000 <i
+                  class="fas fa-info-circle icon-small"
+                  matTooltip="This also counts the HTML tags which are invisible."></i>
+              </p>
+            </div>
+
+            <div *ngIf="selectedRoleId">
+              <br>
+              <h3>Role-Specific Abilities</h3>
+              <div>
+                <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack_skill"
+                  (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
+                <p class="character-counter">{{beast.roleInfo[selectedRoleId].attack_skill ?
+                  beast.roleInfo[selectedRoleId].attack_skill.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
+                    matTooltip="This also counts the HTML tags which are invisible."></i></p>
+              </div>
+            </div>
+          </div>
+          <div class="attack-and-defense-inner-shell">
+            <h2>Add. Skills Defense Info</h2>
+            <div class="divider"></div>
+            <br>
+            <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+            <div>
+              <quill-editor [(ngModel)]="beast.def_skill" (onContentChanged)="captureHTML($event, 'def_skill')">
+              </quill-editor>
+              <p class="character-counter">{{beast.def_skill ? beast.def_skill.length : 0}} / 3,000 <i
+                  class="fas fa-info-circle icon-small"
+                  matTooltip="This also counts the HTML tags which are invisible."></i>
+              </p>
+            </div>
+
+            <div *ngIf="selectedRoleId">
+              <br>
+              <h3>Role-Specific Abilities</h3>
+              <div>
+                <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense_skill"
+                  (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
+                <p class="character-counter">{{beast.roleInfo[selectedRoleId].defense_skill ?
+                  beast.roleInfo[selectedRoleId].defense_skill.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
+                    matTooltip="This also counts the HTML tags which are invisible."></i></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
         <h2>Skills</h2>
         <div class="divider"></div>
 
@@ -1067,6 +1107,82 @@
               <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent"><i
                   class="fa-solid fa-plus icon-medium"></i> Locational
                 Vitality</button>
+            </div>
+
+            <br>
+            <div class="attack-and-defense-shell">
+              <div class="attack-and-defense-inner-shell">
+                <h2>Add. Combat Attack Info</h2>
+                <div class="divider"></div>
+                <br>
+                <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+                <div>
+                  <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')">
+                  </quill-editor>
+                  <p class="character-counter">{{beast.sp_atk ? beast.sp_atk.length : 0}} / 3,000 <i
+                      class="fas fa-info-circle icon-small"
+                      matTooltip="This also counts the HTML tags which are invisible."></i>
+                  </p>
+                </div>
+
+                <div *ngIf="selectedRoleId">
+                  <br>
+                  <h3>Role-Specific Abilities</h3>
+                  <div>
+                    <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
+                      (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
+                    <p class="character-counter">{{beast.roleInfo[selectedRoleId].attack ?
+                      beast.roleInfo[selectedRoleId].attack.length : 0}} / 3,000 <i
+                        class="fas fa-info-circle icon-small"
+                        matTooltip="This also counts the HTML tags which are invisible."></i></p>
+                  </div>
+                </div>
+
+                <div class="edit-table-shell">
+                  <div *ngIf="beast.tables">
+                    <app-edit-table *ngFor="let table of beast.tables.attack; let i = index" [table]="table" [index]="i"
+                      [removeTable]="removeTable('attack')"></app-edit-table>
+                  </div>
+                  <button mat-raised-button (click)="addNewTable('attack')" color="accent"><i
+                      class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
+                </div>
+              </div>
+              <div class="attack-and-defense-inner-shell">
+                <h2>Add. Combat Defense Info</h2>
+                <div class="divider"></div>
+                <br>
+                <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+                <div>
+                  <quill-editor [(ngModel)]="beast.sp_def" (onContentChanged)="captureHTML($event, 'sp_def')">
+                  </quill-editor>
+                  <p class="character-counter">{{beast.sp_def ? beast.sp_def.length : 0}} / 3,000 <i
+                      class="fas fa-info-circle icon-small"
+                      matTooltip="This also counts the HTML tags which are invisible."></i>
+                  </p>
+                </div>
+
+                <div *ngIf="selectedRoleId">
+                  <br>
+                  <h3>Role-Specific Abilities</h3>
+                  <div>
+                    <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense"
+                      (onContentChanged)="captureHTML($event, 'role defense')"></quill-editor>
+                    <p class="character-counter">{{beast.roleInfo[selectedRoleId].defense ?
+                      beast.roleInfo[selectedRoleId].defense.length : 0}} / 3,000 <i
+                        class="fas fa-info-circle icon-small"
+                        matTooltip="This also counts the HTML tags which are invisible."></i></p>
+                  </div>
+                </div>
+
+                <div class="edit-table-shell">
+                  <div *ngIf="beast.tables">
+                    <app-edit-table *ngFor="let table of beast.tables.defense; let i = index" [table]="table"
+                      [index]="i" [removeTable]="removeTable('defense')"></app-edit-table>
+                  </div>
+                  <button mat-raised-button (click)="addNewTable('defense')" color="accent"><i
+                      class="fa-solid fa-plus icon-medium"></i><i class="fa-solid fa-table"></i></button>
+                </div>
+              </div>
             </div>
 
             <div class="combat-shell unset-width">
@@ -1388,8 +1504,9 @@
                 <td>
                   <input class="table-input-clearable" placeholder="Verb" [matAutocomplete]="verbauto"
                     [formControl]="verbController" (blur)="addOption($event, 'verb')">
-                  <mat-autocomplete #verbauto="matAutocomplete" #verbAutocomplete [displayWith]="getDisplayTextVerb" id="verb"
-                    (optionSelected)="captureEncounterAutocomplete($event, 'verb', 'verb')" (opened)="jumpToOption('verb')">
+                  <mat-autocomplete #verbauto="matAutocomplete" #verbAutocomplete [displayWith]="getDisplayTextVerb"
+                    id="verb" (optionSelected)="captureEncounterAutocomplete($event, 'verb', 'verb')"
+                    (opened)="jumpToOption('verb')">
                     <mat-option *ngFor="let verb of verbFiltered | async" [value]="verb">
                       {{verb.verb}}
                     </mat-option>
@@ -1421,7 +1538,8 @@
                   <input class="table-input-clearable" placeholder="Noun" [matAutocomplete]="nounauto"
                     [formControl]="nounController" (blur)="addOption($event, 'noun')">
                   <mat-autocomplete #nounauto="matAutocomplete" #nounAutocomplete [displayWith]="getDisplayTextNoun"
-                    (optionSelected)="captureEncounterAutocomplete($event, 'noun', 'noun')" (opened)="jumpToOption('noun')">
+                    (optionSelected)="captureEncounterAutocomplete($event, 'noun', 'noun')"
+                    (opened)="jumpToOption('noun')">
                     <mat-option *ngFor="let noun of nounFiltered | async" [value]="noun">
                       {{noun.noun}}
                     </mat-option>
@@ -1461,7 +1579,8 @@
                   <input class="table-input-clearable" placeholder="Sign" [matAutocomplete]="signauto"
                     [formControl]="signsController" (blur)="addOption($event, 'signs')">
                   <mat-autocomplete #signauto="matAutocomplete" #signAutocomplete [displayWith]="getDisplayTextSign"
-                    (optionSelected)="captureEncounterAutocomplete($event, 'signs', 'sign')" (opened)="jumpToOption('sign')">
+                    (optionSelected)="captureEncounterAutocomplete($event, 'signs', 'sign')"
+                    (opened)="jumpToOption('sign')">
                     <mat-option matTooltip="{{sign.sign}}" *ngFor="let sign of signsFiltered | async" [value]="sign">
                       {{sign.sign}}
                     </mat-option>

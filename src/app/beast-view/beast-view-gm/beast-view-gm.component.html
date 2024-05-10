@@ -146,6 +146,27 @@
         </div>
 
         <div
+          *ngIf="(beast.atk_conf && (beast.atk_conf !== 'None' || beast.atk_conf !== 'None.')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack_conf)">
+          <h3 class="margin-top">Confrontation Attack Info</h3>
+          <div *ngIf="beast.atk_conf && (beast.atk_conf !== 'None' || beast.atk_conf !== 'None.')">
+            <quill-view-html [content]="beast.atk_conf"></quill-view-html>
+          </div>
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].attack_conf">
+            <quill-view-html [content]="beast.roleInfo[selectedRoleId].attack_conf"></quill-view-html>
+          </div>
+        </div>
+        <div
+          *ngIf="(beast.def_conf && !beast.def_conf.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].defense_conf)">
+          <h3 class="margin-top">Confrontation Defense Info</h3>
+          <div *ngIf="beast.def_conf && (beast.def_conf !== 'None' || beast.def_conf !== 'None.')">
+            <quill-view-html [content]="beast.def_conf"></quill-view-html>
+          </div>
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].defense_conf">
+            <quill-view-html [content]="beast.roleInfo[selectedRoleId].defense_conf"></quill-view-html>
+          </div>
+        </div>
+
+        <div
           *ngIf="beast.skills.length > 0 || (selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)">
           <h2>Skills</h2>
           <div class="divider"></div>
@@ -193,6 +214,27 @@
           </mat-chip-list>
         </div>
 
+        <div
+          *ngIf="(beast.atk_skill && (beast.atk_skill !== 'None' || beast.atk_skill !== 'None.')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack_skill)">
+          <h3 class="margin-top">Skill Attack Info</h3>
+          <div *ngIf="beast.atk_skill && (beast.atk_skill !== 'None' || beast.atk_skill !== 'None.')">
+            <quill-view-html [content]="beast.atk_skill"></quill-view-html>
+          </div>
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].attack_skill">
+            <quill-view-html [content]="beast.roleInfo[selectedRoleId].attack_skill"></quill-view-html>
+          </div>
+        </div>
+        <div
+          *ngIf="(beast.def_skill && !beast.def_skill.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].defense_skill)">
+          <h3 class="margin-top">Skill Defense Info</h3>
+          <div *ngIf="beast.def_skill && (beast.def_skill !== 'None' || beast.def_skill !== 'None.')">
+            <quill-view-html [content]="beast.def_skill"></quill-view-html>
+          </div>
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].defense_skill">
+            <quill-view-html [content]="beast.roleInfo[selectedRoleId].defense_skill"></quill-view-html>
+          </div>
+        </div>
+
         <h2>Combat</h2>
         <div class="divider"></div>
         <div class="role-select"
@@ -237,7 +279,7 @@
 
         <div
           *ngIf="(beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack)">
-          <h3 class="margin-top">Add. Attack Info</h3>
+          <h3 class="margin-top">Combat Attack Info</h3>
           <div *ngIf="beast.sp_atk && (beast.sp_atk !== 'None' || beast.sp_atk !== 'None.')">
             <quill-view-html [content]="beast.sp_atk"></quill-view-html>
           </div>
@@ -402,7 +444,7 @@
 
         <div
           *ngIf="(beast.sp_def && !beast.sp_def.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].defense)">
-          <h3 class="margin-top">Add. Defense Info</h3>
+          <h3 class="margin-top">Combat Defense Info</h3>
           <div *ngIf="beast.sp_def && (beast.sp_def !== 'None' || beast.sp_def !== 'None.')">
             <quill-view-html [content]="beast.sp_def"></quill-view-html>
           </div>
@@ -503,8 +545,8 @@
             <div class="flex-row-together">
               <h3>Main Players</h3>
               <p>{{createEncounterLabel(encounter.main.label, encounter.main.monsterRoles)}}
-                <span
-                  *ngFor="let player of encounter.main.monsterRoles | keyvalue; let i = index">{{createLabel(player, encounter.main.monsterRoles, i)}}</span>
+                <span *ngFor="let player of encounter.main.monsterRoles | keyvalue; let i = index">{{createLabel(player,
+                  encounter.main.monsterRoles, i)}}</span>
               </p>
             </div>
           </div>
@@ -689,20 +731,23 @@
                 <mat-option>
                   None
                 </mat-option>
-                <mat-option matTooltip="There is something about this monster that stands out. Example: A bandit captain." matTooltipPosition="right"
-                  value="Unique">
+                <mat-option
+                  matTooltip="There is something about this monster that stands out. Example: A bandit captain."
+                  matTooltipPosition="right" value="Unique">
                   Unique
                 </mat-option>
-                <mat-option matTooltip="There is something about this monster that stands out. Example: A bandit captain." matTooltipPosition="right"
-                  value="Greater">
+                <mat-option
+                  matTooltip="There is something about this monster that stands out. Example: A bandit captain."
+                  matTooltipPosition="right" value="Greater">
                   Greater
                 </mat-option>
-                <mat-option matTooltip="This monster is particularly cruel and powerful. Example: A bandit king." matTooltipPosition="right"
-                  value="Dread">
+                <mat-option matTooltip="This monster is particularly cruel and powerful. Example: A bandit king."
+                  matTooltipPosition="right" value="Dread">
                   Dread
                 </mat-option>
-                <mat-option matTooltip="This monster is one in a million; either the progenitor of its kind or some stands alone in some way. Example: A legendary bandit." matTooltipPosition="right"
-                  value="THE">
+                <mat-option
+                  matTooltip="This monster is one in a million; either the progenitor of its kind or some stands alone in some way. Example: A legendary bandit."
+                  matTooltipPosition="right" value="THE">
                   THE
                 </mat-option>
               </mat-select>
@@ -710,15 +755,18 @@
           </div>
           <div class="flex-row-opposite">
             <h3>Combat Rating</h3>
-            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints) + (modifier ? modifierDictionary[modifier] : 0)}}</p>
+            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints) + (modifier ?
+              modifierDictionary[modifier] : 0)}}</p>
           </div>
           <div class="flex-row-opposite">
             <h3>Confrontation Rating</h3>
-            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints) + (modifier ? modifierDictionary[modifier] : 0)}}</p>
+            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints) + (modifier ?
+              modifierDictionary[modifier] : 0)}}</p>
           </div>
           <div class="flex-row-opposite">
             <h3>Skill Rating</h3>
-            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints)  + (modifier ? modifierDictionary[modifier] : 0)}}</p>
+            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints) + (modifier ?
+              modifierDictionary[modifier] : 0)}}</p>
           </div>
           <div class="flex-row-opposite" *ngIf="beast.patreon >= 20">
             <h3>Access</h3>
