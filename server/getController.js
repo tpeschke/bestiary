@@ -628,7 +628,11 @@ module.exports = {
               descriptionshare: result[i].descriptionshare,
               convictionshare: result[i].convictionshare,
               devotionshare: result[i].devotionshare,
-              rollundertrauma: result[i].rollundertrauma
+              rollundertrauma: result[i].rollundertrauma,
+              attack_conf: result[i].attack_conf,
+              defense_conf: result[i].defense_conf,
+              attack_skill: result[i].attack_skill,
+              defense_skill: result[i].defense_skill,
             }
           }
           return result

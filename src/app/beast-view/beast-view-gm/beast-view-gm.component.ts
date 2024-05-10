@@ -1316,10 +1316,13 @@ export class BeastViewGmComponent implements OnInit {
       confrontation: {
         ...confrontation,
         role: socialrole,
-        secondary: socialsecondary
+        secondary: socialsecondary,
+        roleattacks: selectedRoleInfo.attack_conf,
+        roledefenses: selectedRoleInfo.defenses_conf
       },
       combat: {
-        attacknotes: sp_atk, defensenotes: sp_def, tactics, combatCounterHash,
+        attacknotes: sp_atk, defensenotes: sp_def, tactics, combatCounterHash, roleattacks: selectedRoleInfo.attack,
+        roledefenses: selectedRoleInfo.defense,
         role: role,
         secondary: combatsecondary,
         attacks: combatStatArray.filter(combat => combat.roleid === this.selectedRoleId).map(combat => combat.combatSquare),
@@ -1338,6 +1341,8 @@ export class BeastViewGmComponent implements OnInit {
             rank: this.getSkillRank(skill.strength, skill.adjustment)
           }
         }),
+        roleattacks: selectedRoleInfo.attack_skill,
+        roledefenses: selectedRoleInfo.defenses_skill
       }
     }
 

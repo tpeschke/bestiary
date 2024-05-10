@@ -790,6 +790,14 @@ export class BeastViewEditComponent implements OnInit {
             this.beast.roles[i].attack = event.html
           } else if (type === 'role defense') {
             this.beast.roles[i].defense = event.html
+          } else if (type === 'role conf attack') {
+            this.beast.roles[i].attack_conf = event.html
+          } else if (type === 'role conf defense') {
+            this.beast.roles[i].defense_conf = event.html
+          } else           if (type === 'role skill attack') {
+            this.beast.roles[i].attack_skill = event.html
+          } else if (type === 'role skill defense') {
+            this.beast.roles[i].defense_skill = event.html
           }
           i = this.beast.roles.length
         }
@@ -1517,9 +1525,9 @@ export class BeastViewEditComponent implements OnInit {
   jumpToOption = (type) => {
     let lastItemValue;
     if (type === 'sign' && this.encounter.signs.signs.length > 0) {
-      lastItemValue = this.encounter.signs.signs[this.encounter.signs.signs.length -1].sign
+      lastItemValue = this.encounter.signs.signs[this.encounter.signs.signs.length - 1].sign
     } else if (type !== 'sign' && this.encounter[type][type].length > 0) {
-      lastItemValue = this.encounter[type][type][this.encounter[type][type].length -1][type]
+      lastItemValue = this.encounter[type][type][this.encounter[type][type].length - 1][type]
     }
     if (lastItemValue) {
       let autocomplete = this[type + 'Autocomplete'];
