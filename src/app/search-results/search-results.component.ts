@@ -112,4 +112,24 @@ export class SearchResultsComponent implements OnInit {
   formatPoints (min, max) {
     return min === max ? min : `${min} - ${max}`
   }
+
+  returnAtkDefNotation = (attack, defense) => {
+    if (attack && defense) {
+      return 'AD'
+    } else if (attack) {
+      return 'A'
+    } else if (defense) {
+      return 'D'
+    }
+  }
+
+  returnAtkDefTooltip = (type, attack, defense) => {
+    if (attack && defense) {
+      return `This monster has additional ${type} attack & defense abilities that will make them stronger than their raw stats might suggestion.`
+    } else if (attack) {
+      return `This monster has additional ${type} attack abilities that will make them stronger than their raw stats might suggestion.`
+    } else if (defense) {
+      return `This monster has additional ${type} defense abilities that will make them stronger than their raw stats might suggestion.`
+    }
+  }
 }

@@ -755,18 +755,18 @@
           </div>
           <div class="flex-row-opposite">
             <h3>Combat Rating</h3>
-            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints) + (modifier ?
-              modifierDictionary[modifier] : 0)}}</p>
+            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints) + (modifier ?
+              modifierDictionary[modifier] : 0)}}<span [matTooltip]="returnAtkDefTooltip('Combat')">{{returnAtkDefNotation('Combat')}}</span></p>
           </div>
           <div class="flex-row-opposite">
             <h3>Confrontation Rating</h3>
-            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints) + (modifier ?
-              modifierDictionary[modifier] : 0)}}</p>
+            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints) + (modifier ?
+              modifierDictionary[modifier] : 0)}}<span [matTooltip]="returnAtkDefTooltip('Confrontation')">{{returnAtkDefNotation('Confrontation')}}</span></p>
           </div>
           <div class="flex-row-opposite">
             <h3>Skill Rating</h3>
-            <p>{{(selectedRoleId ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints) + (modifier ?
-              modifierDictionary[modifier] : 0)}}</p>
+            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints) + (modifier ?
+              modifierDictionary[modifier] : 0)}}<span [matTooltip]="returnAtkDefTooltip('Skill')">{{returnAtkDefNotation('Skill')}}</span></p>
           </div>
           <div class="flex-row-opposite" *ngIf="beast.patreon >= 20">
             <h3>Access</h3>

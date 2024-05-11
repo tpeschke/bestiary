@@ -19,6 +19,14 @@ mat-card {
     color: whitesmoke;
 }
 
+.with-super-script {
+    display: flex;
+}
+
+.with-super-script span {
+    font-size: 10px;
+}
+
 img {
     width: 150px;
     margin-right: 10px;

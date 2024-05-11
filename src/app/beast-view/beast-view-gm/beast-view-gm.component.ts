@@ -911,10 +911,10 @@ export class BeastViewGmComponent implements OnInit {
           const role = movementType.roleid ? this.beast.roleInfo[movementType.roleid].role : this.beast.role
           movementType.role = role
           movementType.points = points
-    
+
           return movementType
         })
-    
+
         this.beastService.getMovement(newMovements).subscribe(res => {
           this.beast.movement = res
         })
@@ -933,7 +933,7 @@ export class BeastViewGmComponent implements OnInit {
     if (this.selectedRoleId) {
       hash = this.beast.roleInfo[this.selectedRoleId].hash
     }
-    this.quickViewService.addToQuickViewArray(hash, { combat: this.combatStatChanges, physicalMental: { currentDamage: this.vitalityToTransferToQuickview, currentStress: this.stressToTransferToQuickview, locationalDamage: this.locationDamageToTransferToQuickview }, modifiers: {pointModifier: this.modifier ? this.modifierDictionary[this.modifier] : 0, modifierTerm: this.modifier} })
+    this.quickViewService.addToQuickViewArray(hash, { combat: this.combatStatChanges, physicalMental: { currentDamage: this.vitalityToTransferToQuickview, currentStress: this.stressToTransferToQuickview, locationalDamage: this.locationDamageToTransferToQuickview }, modifiers: { pointModifier: this.modifier ? this.modifierDictionary[this.modifier] : 0, modifierTerm: this.modifier } })
   }
 
   setEquipmentChangesUnbound(combatInfo) {
@@ -1271,6 +1271,82 @@ export class BeastViewGmComponent implements OnInit {
     return name
   }
 
+  returnAtkDefNotation = (type) => {
+    let hasAttackNotation = false;
+    let hasDefenseNotation = false;
+    let typeAttackKeyMain = 'sp_atk'
+    let typeAttackKeyRole = 'attack'
+    let typeDefenseKeyMain = 'sp_def'
+    let typeDefenseKeyRole = 'defense'
+
+    if (type === 'Skill') {
+      typeAttackKeyMain = 'atk_skill'
+      typeAttackKeyRole = 'attack_skill'
+      typeDefenseKeyMain = 'def_skill'
+      typeDefenseKeyRole = 'defense_skill'
+    } else if (type === 'Confrontation') {
+      typeAttackKeyMain = 'atk_conf'
+      typeAttackKeyRole = 'attack_conf'
+      typeDefenseKeyMain = 'def_conf'
+      typeDefenseKeyRole = 'defense_conf'
+    }
+
+    this.beast[typeAttackKeyMain] && (this.beast[typeAttackKeyMain] !== 'None' || this.beast[typeAttackKeyMain] !== 'None.') ? hasAttackNotation = true : null
+    this.beast[typeDefenseKeyMain] && (this.beast[typeDefenseKeyMain] !== 'None' || this.beast[typeDefenseKeyMain] !== 'None.') ? hasDefenseNotation = true : null
+
+    if (this.selectedRoleId) {
+      const currentdRole = this.beast.roleInfo[this.selectedRoleId]
+      currentdRole[typeAttackKeyRole] && (currentdRole[typeAttackKeyRole] !== 'None' || currentdRole[typeAttackKeyRole] !== 'None.') ? hasAttackNotation = true : null
+      currentdRole[typeDefenseKeyRole] && (currentdRole[typeDefenseKeyRole] !== 'None' || this.beast[typeDefenseKeyRole] !== 'None.') ? hasDefenseNotation = true : null
+    }
+
+    if (hasAttackNotation && hasDefenseNotation) {
+      return 'AD'
+    } else if (hasAttackNotation) {
+      return 'A'
+    } else if (hasDefenseNotation) {
+      return 'D'
+    }
+  }
+
+  returnAtkDefTooltip = (type) => {
+    let hasAttackTooltip = false;
+    let hasDefenseTooltip = false;
+    let typeAttackKeyMain = 'sp_atk'
+    let typeAttackKeyRole = 'attack'
+    let typeDefenseKeyMain = 'sp_def'
+    let typeDefenseKeyRole = 'defense'
+
+    if (type === 'Skill') {
+      typeAttackKeyMain = 'atk_skill'
+      typeAttackKeyRole = 'attack_skill'
+      typeDefenseKeyMain = 'def_skill'
+      typeDefenseKeyRole = 'defense_skill'
+    } else if (type === 'Confrontation') {
+      typeAttackKeyMain = 'atk_conf'
+      typeAttackKeyRole = 'attack_conf'
+      typeDefenseKeyMain = 'def_conf'
+      typeDefenseKeyRole = 'defense_conf'
+    }
+
+    this.beast[typeAttackKeyMain] && (this.beast[typeAttackKeyMain] !== 'None' || this.beast[typeAttackKeyMain] !== 'None.') ? hasAttackTooltip = true : null
+    this.beast[typeDefenseKeyMain] && (this.beast[typeDefenseKeyMain] !== 'None' || this.beast[typeDefenseKeyMain] !== 'None.') ? hasDefenseTooltip = true : null
+
+    if (this.selectedRoleId) {
+      const currentdRole = this.beast.roleInfo[this.selectedRoleId]
+      currentdRole[typeAttackKeyRole] && (currentdRole[typeAttackKeyRole] !== 'None' || currentdRole[typeAttackKeyRole] !== 'None.') ? hasAttackTooltip = true : null
+      currentdRole[typeDefenseKeyRole] && (currentdRole[typeDefenseKeyRole] !== 'None' || this.beast[typeDefenseKeyRole] !== 'None.') ? hasDefenseTooltip = true : null
+    }
+
+    if (hasAttackTooltip && hasDefenseTooltip) {
+      return `This monster has additional ${type} attack & defense abilities that will make them stronger than their raw stats might suggestion.`
+    } else if (hasAttackTooltip) {
+      return `This monster has additional ${type} attack abilities that will make them stronger than their raw stats might suggestion.`
+    } else if (hasDefenseTooltip) {
+      return `This monster has additional ${type} defense abilities that will make them stronger than their raw stats might suggestion.`
+    }
+  }
+  
   downloadJson() {
     const { id, name: basicName, senses, meta, sp_atk, sp_def, tactics, size: basicSize, role: basicRole,
       secondaryrole: basicSecondaryRole, socialrole: basicSocialRole, socialsecondary: basicSocialSecondary,

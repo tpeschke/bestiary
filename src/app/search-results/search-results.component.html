@@ -45,15 +45,15 @@
           <div class="extra-info">
             <div>
               <h3>Combat Rating:</h3>
-              <p>{{formatPoints(beast.mincombat, beast.maxcombat)}}</p>
+              <p class="with-super-script">{{formatPoints(beast.mincombat, beast.maxcombat)}}<span [matTooltip]="returnAtkDefTooltip('Combat', beast.hascombatattack, beast.hascombatdefense)">{{returnAtkDefNotation(beast.hascombatattack, beast.hascombatdefense)}}</span></p>
             </div>
             <div>
               <h3>Confrontation Rating:</h3>
-              <p>{{formatPoints(beast.minsocial, beast.maxsocial)}}</p>
+              <p class="with-super-script">{{formatPoints(beast.minsocial, beast.maxsocial)}}<span [matTooltip]="returnAtkDefTooltip('Confrontation', beast.hasconfattack, beast.hasdonfdefense)">{{returnAtkDefNotation(beast.hasconfattack, beast.hasdonfdefense)}}</span></p>
             </div>
             <div>
               <h3>Challenge Rating:</h3>
-              <p>{{formatPoints(beast.minskill, beast.maxskill)}}</p>
+              <p class="with-super-script">{{formatPoints(beast.minskill, beast.maxskill)}}<span [matTooltip]="returnAtkDefTooltip('Skill', beast.hasskillattack, beast.hasskilldefense)">{{returnAtkDefNotation(beast.hasskillattack, beast.hasskilldefense)}}</span></p>
             </div>
             <div>
               <h3>Rarity:</h3>

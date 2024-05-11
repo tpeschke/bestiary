@@ -210,6 +210,14 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     background-color: #607d8b;
 }
 
+.with-super-script {
+    display: flex;
+}
+
+.with-super-script span {
+    font-size: 10px;
+}
+
 .inline-loading .spinner {
     display: flex;
     width: 10%;
