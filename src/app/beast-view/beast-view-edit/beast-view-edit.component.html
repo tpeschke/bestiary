@@ -522,10 +522,10 @@
               <br>
               <h3>Role-Specific Abilities</h3>
               <div>
-                <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].def_conf"
+                <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense_conf"
                   (onContentChanged)="captureHTML($event, 'role conf defense')"></quill-editor>
-                <p class="character-counter">{{beast.roleInfo[selectedRoleId].def_conf ?
-                  beast.roleInfo[selectedRoleId].def_conf.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
+                <p class="character-counter">{{beast.roleInfo[selectedRoleId].defense_conf ?
+                  beast.roleInfo[selectedRoleId].defense_conf.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
                     matTooltip="This also counts the HTML tags which are invisible."></i></p>
               </div>
             </div>
@@ -1130,7 +1130,7 @@
                   <h3>Role-Specific Abilities</h3>
                   <div>
                     <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack"
-                      (onContentChanged)="captureHTML($event, 'role conf attack')"></quill-editor>
+                      (onContentChanged)="captureHTML($event, 'role attack')"></quill-editor>
                     <p class="character-counter">{{beast.roleInfo[selectedRoleId].attack ?
                       beast.roleInfo[selectedRoleId].attack.length : 0}} / 3,000 <i
                         class="fas fa-info-circle icon-small"
