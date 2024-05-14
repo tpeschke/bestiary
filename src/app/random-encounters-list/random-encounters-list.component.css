@@ -1,0 +1,13 @@
+h1 {
+    margin: 10px 0;
+}
+
+i {
+    font-size: unset;
+}
+
+.add-button-shell {
+    display: flex;
+    justify-content: end;
+    margin-top: 15px;
+}

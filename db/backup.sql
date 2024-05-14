@@ -499,3 +499,16 @@ create table bbbeastclimate (
 	beastid int,
 	climateid int
 )
+
+create table bblist (
+    id serial primary key,
+    userid int,
+    name varchar(500)
+);
+
+create table bblistbeast (
+    id serial primary key,
+    beastid int,
+    listid int,
+    rarity int
+);

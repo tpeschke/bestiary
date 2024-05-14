@@ -79,6 +79,8 @@ import {MatSliderModule} from '@angular/material/slider';
 import { CustomCatalogComponent } from './custom-catalog/custom-catalog.component';
 import { PatreonAuthService } from './util/guards-resolvers/patreon-auth.service';
 import { PleromaDisplayComponent } from './beast-view/beast-view-edit/pleroma-display/pleroma-display.component';
+import { RandomEncountersListComponent } from './random-encounters-list/random-encounters-list.component';
+import { RandomEncounterListService } from './util/guards-resolvers/random-encounter-list.service';
 
 const routes: Routes = [
   {
@@ -103,6 +105,7 @@ const routes: Routes = [
     { path: 'beast/:id/edit', component: BeastViewEditComponent, canActivate: [NoNonOwnerService], resolve: { beast: SingleBeastResolverService } },
     { path: 'search', component: SearchResultsComponent },
     { path: 'search/:savedRoute', component: SearchResultsComponent },
+    { path: 'lists', component: RandomEncountersListComponent, resolve: { lists: RandomEncounterListService } },
     { path: 'custom', component: CustomCatalogComponent, canActivate: [PatreonAuthService] },
     { path: '**', redirectTo: '' }
     ]
@@ -111,7 +114,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [	
+  declarations: [		
     AppComponent,
     SearchBarComponent,
     SearchResultsComponent,
@@ -151,7 +154,8 @@ const routes: Routes = [
     ViewTableComponent,
     CombatTableComponent,
     CustomCatalogComponent,
-    PleromaDisplayComponent
+    PleromaDisplayComponent,
+      RandomEncountersListComponent
    ],
   imports: [
     BrowserModule,

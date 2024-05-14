@@ -172,22 +172,37 @@ export class BeastService {
 
   checkToken = (id: number) => {
     return this.http.get(local.endpointBase + '/api/checkToken/' + id)
-      .pipe(catchError(this.handleError));
+      .pipe(tap(result => this.handleMessage(result)));
   }
 
   getCatalog(): any {
     return this.http.get(local.endpointBase + '/api/beasts/catalog')
-      .pipe(catchError(this.handleError))
+      .pipe(tap(result => this.handleMessage(result)))
   }
 
   getCustomCatalog(): any {
     return this.http.get(local.endpointBase + '/api/customCatalog')
-      .pipe(catchError(this.handleError))
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
+  getLists(): any {
+    return this.http.get(local.endpointBase + '/api/getList')
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
+  addList(): any {
+    return this.http.patch(local.endpointBase + '/api/addList', {})
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
+  updateListName(changes): any {
+    return this.http.patch(local.endpointBase + '/api/updateListName', changes)
+      .pipe(tap(result => this.handleMessage(result)))
   }
 
   checkPlayerCanView(id): any {
     return this.http.get(local.endpointBase + '/api/playerCanView/' + id)
-      .pipe(catchError(this.handleError))
+      .pipe(tap(result => this.handleMessage(result)))
   }
 
   getSingleBeast(id, edit): any {

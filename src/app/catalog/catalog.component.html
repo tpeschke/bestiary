@@ -1,8 +1,9 @@
-<mat-card>
-  <h2>Favorites</h2>
-  <mat-divider></mat-divider>
-  <div *ngIf="favorites.length === 0" class="beastDiv">
-    <h1>{{message}}</h1>
+<div class="navigation-shell">
+  <div [routerLink]="['/lists']" class="custom-catalog-shell" matTooltip="Go to your random encounter lists">
+    <div class="custom-catalog-icons">
+      <i class="fa-solid fa-table"></i>
+      <i class="fa-solid fa-shuffle"></i>
+    </div>
   </div>
 
   <div [routerLink]="['/custom']" class="custom-catalog-shell" matTooltip="Go to your custom monsters">
@@ -10,6 +11,14 @@
       <i class="fa-solid fa-list"></i>
       <i class="fa-solid fa-arrow-right"></i>
     </div>
+  </div>
+</div>
+
+<mat-card>
+  <h2>Favorites</h2>
+  <mat-divider></mat-divider>
+  <div *ngIf="favorites.length === 0" class="beastDiv">
+    <h1>{{message}}</h1>
   </div>
 
   <div class="context-menu" *ngIf="isDisplayContextMenu" [ngStyle]="getRightClickMenuStyle()">

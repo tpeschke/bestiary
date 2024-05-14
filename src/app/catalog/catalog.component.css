@@ -127,19 +127,20 @@ div {
 }
 
 .custom-catalog-shell {
-  position: absolute;
-  right: 0;
-  top: 0;
   height: 37px;
   width: 75px;
-  border-top-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  z-index: 95;
-  background: #607d8b;
+  border-radius: 5px;
+  background: #795548;
   display: flex;
   justify-content: space-around;
   align-items: center;
   cursor: pointer;
+}
+
+.navigation-shell {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 
 .custom-catalog-icons {
