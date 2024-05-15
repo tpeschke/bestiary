@@ -17,7 +17,7 @@
   <div *ngIf="lists.length > 0">
     <mat-accordion>
       <mat-expansion-panel *ngFor="let list of lists" [disabled]="list.beasts.length === 0">
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header (keydown.Space)="$event.stopImmediatePropagation();">
           <mat-panel-title>
             <input [value]="list.name" (blur)="updateName(list.id, $event)">
           </mat-panel-title>

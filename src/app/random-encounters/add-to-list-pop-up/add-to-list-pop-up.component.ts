@@ -26,6 +26,10 @@ export class AddToListPopUpComponent implements OnInit {
     })
   }
 
+  stopProp(event) {
+    event.stopPropagation()
+  }
+
   addToList(listid) {
     this.isLoading = true
     if (this.data.beastid) {
