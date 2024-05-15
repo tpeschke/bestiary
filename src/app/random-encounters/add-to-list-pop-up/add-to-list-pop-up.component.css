@@ -9,3 +9,7 @@ i {
 .list-row-button:hover {
     background-color: lightgray;
 }
+
+.spinner>div {
+    background-color: #607d8b;
+  }

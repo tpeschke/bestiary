@@ -127,7 +127,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   openRandomListsPopUp() {
-    const beastidarray = this.beasts.map(beast => +beast.id)
+    const beastidarray = this.beasts.map(beast => {return {beastid: +beast.id, rarity: beast.rarity}})
     this.dialog.open(AddToListPopUpComponent, { width: '400px', data: { beastidarray } });
   }
 

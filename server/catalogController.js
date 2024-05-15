@@ -34,6 +34,7 @@ let catalogObj = {
                                     beast.secondaryrole = beast.roles[i].secondaryrole
                                     beast.socialrole = beast.roles[i].socialrole
                                     beast.skillrole = beast.roles[i].skillrole
+                                    beast.rarity = beast.roles[i].rarity
                                     i = beast.roles.length
                                 }
                             }
@@ -71,6 +72,7 @@ let catalogObj = {
                                 beast.secondaryrole = beast.roles[i].secondaryrole
                                 beast.socialrole = beast.roles[i].socialrole
                                 beast.skillrole = beast.roles[i].skillrole
+                                beast.rarity = beast.roles[i].rarity
                                 i = beast.roles.length
                             }
                         }
@@ -99,6 +101,7 @@ let catalogObj = {
                                         beast.secondaryrole = beast.roles[i].secondaryrole
                                         beast.socialrole = beast.roles[i].socialrole
                                         beast.skillrole = beast.roles[i].skillrole
+                                        beast.rarity = beast.roles[i].rarity
                                         i = beast.roles.length
                                     }
                                 }
@@ -138,6 +141,7 @@ let catalogObj = {
                                     beast.secondaryrole = beast.roles[i].secondaryrole
                                     beast.socialrole = beast.roles[i].socialrole
                                     beast.skillrole = beast.roles[i].skillrole
+                                    beast.rarity = beast.roles[i].rarity
                                     i = beast.roles.length
                                 }
                             }

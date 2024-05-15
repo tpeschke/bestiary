@@ -42,6 +42,7 @@ export class CatalogComponent implements OnInit {
   targetSocialSecondary: string;
   targetDefaultRole: string
   targetHasToken: any = false
+  targetRarity: any
   public loggedIn:any = false;
 
   ngOnInit() {
@@ -91,10 +92,10 @@ export class CatalogComponent implements OnInit {
   }
 
   openRandomListsPopUp() {
-    this.dialog.open(AddToListPopUpComponent, { width: '400px', data: {beastid: this.targetBeast} });
+    this.dialog.open(AddToListPopUpComponent, { width: '400px', data: {beastid: this.targetBeast, rarity: this.targetRarity} });
   }
 
-  displayContextMenu(event, beastid, name, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary, defaultrole) {
+  displayContextMenu(event, beastid, name, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary, defaultrole, rarity) {
     this.isDisplayContextMenu = true;
     this.rightClickMenuPositionX = event.clientX;
     this.rightClickMenuPositionY = event.clientY;
@@ -109,6 +110,7 @@ export class CatalogComponent implements OnInit {
     this.targetSocialSecondary = socialsecondary
     this.targetDefaultRole = defaultrole
     this.targetHasToken = false
+    this.targetRarity = rarity
     this.beastService.checkToken(beastid).subscribe(res => {
       this.targetHasToken = res
     })

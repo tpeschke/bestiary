@@ -11,12 +11,13 @@ import { BeastService } from 'src/app/util/services/beast.service';
 export class AddToListPopUpComponent implements OnInit {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { beastid: string, beastidarray: [] },
+    @Inject(MAT_DIALOG_DATA) public data: { beastid: string, beastidarray: [], rarity: string },
     public dialogRef: MatDialogRef<AddToListPopUpComponent>,
     private beastService: BeastService
   ) { }
 
   public lists = []
+  public newRarity = null
   public isLoading = true;
 
   ngOnInit() {
@@ -30,10 +31,14 @@ export class AddToListPopUpComponent implements OnInit {
     event.stopPropagation()
   }
 
+  captureRarity = (event) => {
+    this.newRarity = event.value
+  }
+
   addToList(listid) {
     this.isLoading = true
     if (this.data.beastid) {
-      this.beastService.addBeastToList({ beastid: this.data.beastid, listid }).subscribe(results => {
+      this.beastService.addBeastToList({ beastid: this.data.beastid, listid, rarity: this.newRarity }).subscribe(results => {
         if (results.color === 'green') {
           this.dialogRef.close();
         } else {
@@ -41,7 +46,7 @@ export class AddToListPopUpComponent implements OnInit {
         }
       })
     } else if (this.data.beastidarray) {
-      this.beastService.addBeastToList({ beastidarray: this.data.beastidarray, listid }).subscribe(results => {
+      this.beastService.addBeastToList({ beastidarray: this.data.beastidarray, listid, rarity: this.newRarity }).subscribe(results => {
         if (results.color === 'green') {
           this.dialogRef.close();
         } else {
@@ -54,7 +59,7 @@ export class AddToListPopUpComponent implements OnInit {
   addToNewList() {
     this.isLoading = true
     if (this.data.beastid) {
-      this.beastService.addBeastToList({ beastid: this.data.beastid }).subscribe(results => {
+      this.beastService.addBeastToList({ beastid: this.data.beastid, rarity: this.newRarity }).subscribe(results => {
         if (results.color === 'green') {
           this.dialogRef.close();
         } else {
@@ -62,7 +67,7 @@ export class AddToListPopUpComponent implements OnInit {
         }
       })
     } else if (this.data.beastidarray) {
-      this.beastService.addBeastToList({ beastidarray: this.data.beastidarray }).subscribe(results => {
+      this.beastService.addBeastToList({ beastidarray: this.data.beastidarray, rarity: this.newRarity }).subscribe(results => {
         if (results.color === 'green') {
           this.dialogRef.close();
         } else {

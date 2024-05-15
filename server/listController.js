@@ -39,12 +39,12 @@ let listController = {
     },
     addBeastToList: ({app, body, user}, res) => {
         const db = app.get('db')
-        const {beastid, listid, beastidarray} = body
+        const {beastid, listid, beastidarray, rarity} = body
         if (listid) {
-            addBeasts(res, db, beastidarray ? beastidarray : [beastid], listid, false)
+            addBeasts(res, db, beastidarray ? beastidarray : [{beastid, rarity}], listid, false)
         } else {
             db.add.list(user.id).then(newList => {
-                addBeasts(res, db, beastidarray ? beastidarray : [beastid], newList[0].id, true)
+                addBeasts(res, db, beastidarray ? beastidarray : [{beastid, rarity}], newList[0].id, true)
             }).catch(e => sendErrorForward('add list 2', e, res))
         }
     }
@@ -54,7 +54,7 @@ addBeasts = (res, db, beastidarray, listid, isNewList) => {
     let promiseArray = [];
 
     for (i = 0; i < beastidarray.length; i++) {
-        promiseArray.push(db.add.beastToList(beastidarray[i], listid, null).catch(e => sendErrorForward('add beast to list', e, res)))
+        promiseArray.push(db.add.beastToList(beastidarray[i].beastid, listid, beastidarray[i].rarity).catch(e => sendErrorForward('add beast to list', e, res)))
     }
 
     Promise.all(promiseArray).then(_ => {

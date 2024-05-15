@@ -31,6 +31,7 @@ export class CustomCatalogComponent implements OnInit {
   rightClickMenuPositionX: number;
   rightClickMenuPositionY: number;
   targetBeast: number;
+  targetRarity;
   targetName: string;
   targetHash: string;
   targetRoles: any[];
@@ -90,7 +91,7 @@ export class CustomCatalogComponent implements OnInit {
     this.quickViewService.addToQuickViewArray(this.targetRoles[randomIndex].hash)
   }
 
-  displayContextMenu(event, beastid, name, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary, defaultrole) {
+  displayContextMenu(event, beastid, name, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary, defaultrole, rarity) {
     this.isDisplayContextMenu = true;
     this.rightClickMenuPositionX = event.clientX;
     this.rightClickMenuPositionY = event.clientY;
@@ -105,6 +106,7 @@ export class CustomCatalogComponent implements OnInit {
     this.targetSocialSecondary = socialsecondary
     this.targetDefaultRole = defaultrole
     this.targetHasToken = false
+    this.targetRarity = rarity
     this.beastService.checkToken(beastid).subscribe(res => {
       this.targetHasToken = res
     })

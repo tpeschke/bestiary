@@ -1,7 +1,35 @@
-<p *ngIf="isLoading">Loading</p>
+<div *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
 
 <div *ngIf="!isLoading">
-  <h3>Add to:</h3>
+  <div *ngIf="data.beastid">
+    <h3>Rarity</h3>
+    <p>This uses the monster's base rarity unless you select something else.</p>
+    <mat-form-field>
+      <mat-label>Rarity</mat-label>
+      <mat-select [(value)]="'' + rarity" (selectionChange)="captureRarity($event)">
+        <mat-option value="10">
+          Common
+        </mat-option>
+        <mat-option value="5">
+          Uncommon
+        </mat-option>
+        <mat-option value="3">
+          Rare
+        </mat-option>
+        <mat-option value="1">
+          Legendary
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <h3>Add {{data.beastidarray ? 'All' : ''}} To:</h3>
   <div *ngFor="let list of lists" class="list-row-button" (click)="addToList(list.id)">
     <p>- {{list.name}}</p>
   </div>

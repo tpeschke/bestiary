@@ -1227,7 +1227,7 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   openRandomListsPopUp() {
-    this.dialog.open(AddToListPopUpComponent, { width: '400px', data: {beastid: this.beast.id} });
+    this.dialog.open(AddToListPopUpComponent, { width: '400px', data: {beastid: this.beast.id, rarity: this.beast.rarity} });
   }
 
   goToVariant(variantid) {
