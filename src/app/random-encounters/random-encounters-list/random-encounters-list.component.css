@@ -13,6 +13,7 @@ select {
     background: unset;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 13px;
+    cursor: pointer;
 }
 
 strong {

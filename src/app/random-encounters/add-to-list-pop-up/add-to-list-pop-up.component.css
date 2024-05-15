@@ -8,6 +8,7 @@ i {
 
 .list-row-button:hover {
     background-color: lightgray;
+    cursor: pointer !important;
 }
 
 .spinner>div {
