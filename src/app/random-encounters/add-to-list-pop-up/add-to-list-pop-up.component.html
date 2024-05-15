@@ -1,6 +1,6 @@
-<p *ngIf="lists.length === 0">Loading</p>
+<p *ngIf="isLoading">Loading</p>
 
-<div *ngIf="lists.length > 0">
+<div *ngIf="!isLoading">
   <h3>Add to:</h3>
   <div *ngFor="let list of lists" class="list-row-button" (click)="addToList(list.id)">
     <p>- {{list.name}}</p>

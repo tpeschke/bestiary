@@ -17,34 +17,54 @@ export class AddToListPopUpComponent implements OnInit {
   ) { }
 
   public lists = []
+  public isLoading = true;
 
   ngOnInit() {
     this.beastService.getLists().subscribe(results => {
       this.lists = results
+      this.isLoading = false
     })
   }
 
   addToList(listid) {
+    this.isLoading = true
     if (this.data.beastid) {
       this.beastService.addBeastToList({ beastid: this.data.beastid, listid }).subscribe(results => {
         if (results.color === 'green') {
           this.dialogRef.close();
+        } else {
+          this.isLoading = false
         }
       })
     } else if (this.data.beastidarray) {
       this.beastService.addBeastToList({ beastidarray: this.data.beastidarray, listid }).subscribe(results => {
         if (results.color === 'green') {
           this.dialogRef.close();
+        } else {
+          this.isLoading = false
         }
       })
     }
   }
 
   addToNewList() {
-    this.beastService.addBeastToList({ beastid: this.data.beastid }).subscribe(results => {
-      if (results.color === 'green') {
-        this.dialogRef.close();
-      }
-    })
+    this.isLoading = true
+    if (this.data.beastid) {
+      this.beastService.addBeastToList({ beastid: this.data.beastid }).subscribe(results => {
+        if (results.color === 'green') {
+          this.dialogRef.close();
+        } else {
+          this.isLoading = false
+        }
+      })
+    } else if (this.data.beastidarray) {
+      this.beastService.addBeastToList({ beastidarray: this.data.beastidarray }).subscribe(results => {
+        if (results.color === 'green') {
+          this.dialogRef.close();
+        } else {
+          this.isLoading = false
+        }
+      })
+    }
   }
 }

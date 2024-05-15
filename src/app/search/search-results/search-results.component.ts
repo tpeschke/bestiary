@@ -4,7 +4,7 @@ import { BeastService } from 'src/app/util/services/beast.service';
 import variables from '../../../local.js'
 import { Title, Meta } from "@angular/platform-browser";
 import { MatDialog } from '@angular/material';
-import { AddToListPopUpComponent } from 'src/app/random-encounters/add-to-list-pop-up/add-to-list-pop-up.component.js';
+import { AddToListPopUpComponent } from '../../random-encounters/add-to-list-pop-up/add-to-list-pop-up.component';
 
 @Component({
   selector: 'app-search-results',
