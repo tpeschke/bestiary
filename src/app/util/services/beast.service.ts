@@ -205,6 +205,11 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
+  updateBeastRarity(changes): any {
+    return this.http.patch(local.endpointBase + '/api/updateBeastRarity', changes)
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
   addBeastToList(body): any {
     return this.http.patch(local.endpointBase + '/api/addBeastToList', body)
       .pipe(tap(result => this.handleMessage(result)))

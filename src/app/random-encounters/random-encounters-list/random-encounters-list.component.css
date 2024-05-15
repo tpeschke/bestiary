@@ -8,6 +8,17 @@ input {
     background: unset;
 }
 
+select {
+    border: unset;
+    background: unset;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+
+strong {
+    font-weight: bold;
+}
+
 i {
     font-size: unset;
 }
@@ -21,4 +32,24 @@ i {
 .mat-expansion-panel {
     box-shadow: none;
     background: rgba(211, 211, 211, 0.5);
+}
+
+.beasts-in-list-shell {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 1px 0;
+}
+
+.beasts-in-list-shell div {
+    width: 33%
+}
+
+.list-header {
+    margin-top: 5px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.list-header p {
+    font-size: 12px;
 }

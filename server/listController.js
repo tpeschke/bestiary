@@ -33,9 +33,16 @@ let listController = {
     },
     updateListName: ({app, body}, res) => {
         const db = app.get('db')
-        db.update.listName(body.name, body.id).then(result => {
+        db.update.list.name(body.name, body.id).then(result => {
             checkForContentTypeBeforeSending(res, result)
         }).catch(e => sendErrorForward('update list name', e, res))
+    },
+    updateBeastRarity: ({app, body}, res) => {
+        const db = app.get('db')
+        const {rarity, entryid} = body
+        db.update.list.rarity(+rarity, entryid).then(result => {
+            checkForContentTypeBeforeSending(res, result)
+        }).catch(e => sendErrorForward('update beast rarity', e, res))
     },
     addBeastToList: ({app, body, user}, res) => {
         const db = app.get('db')

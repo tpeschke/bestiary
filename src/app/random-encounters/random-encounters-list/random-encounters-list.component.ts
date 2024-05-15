@@ -39,4 +39,8 @@ export class RandomEncountersListComponent implements OnInit {
     })
   }
 
+  captureRarity(event, entryid) {
+    this.beastService.updateBeastRarity({rarity: event.target.value, entryid}).subscribe()
+  }
+
 }

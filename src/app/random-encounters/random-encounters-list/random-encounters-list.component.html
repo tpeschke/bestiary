@@ -25,9 +25,30 @@
             {{list.beasts.length}} Entries
           </mat-panel-description>
         </mat-expansion-panel-header>
-    
-        <br>
-        <p *ngFor="let beast of list.beasts">{{beast.name}} ({{beast.rarity | rarityConverter}})</p>
+
+        <div class="beasts-in-list-shell list-header">
+          <div>
+            <p><strong>Entry</strong></p>
+          </div>
+          <div>
+            <p><strong>Rarity</strong></p>
+          </div>
+          <div></div>
+        </div>
+        <div class="beasts-in-list-shell" *ngFor="let beast of list.beasts">
+          <div>
+            <p >{{beast.name}}</p>
+          </div>
+          <div>
+            <select name="Rarity" [value]="beast.rarity" (change)="captureRarity($event, beast.id)">
+              <option value="10">Common</option>
+              <option value="5">Uncommon</option>
+              <option value="3">Rare</option>
+              <option value="1">Legendary</option>
+            </select>
+          </div>
+          <div></div>
+        </div>
 
       </mat-expansion-panel>
     </mat-accordion>
