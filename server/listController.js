@@ -61,6 +61,15 @@ let listController = {
         db.delete.list.entry(id).then(_ => {
             checkForContentTypeBeforeSending(res, { message: `Entry was successfully deleted from list`, color: 'green' })
         }).catch(e => sendErrorForward('delete beast', e, res))
+    },
+    deleteList: (req, res) => {
+        const db = req.app.get('db')
+        let id = +req.params.id
+        db.delete.list.allEntries(id).then(_ => {
+            db.delete.list.list(id).then(_ => {
+                checkForContentTypeBeforeSending(res, { message: `List was successfully deleted`, color: 'green' })
+            }).catch(e => sendErrorForward('delete list', e, res))
+        }).catch(e => sendErrorForward('delete all beasts in list', e, res))
     }
 }
 

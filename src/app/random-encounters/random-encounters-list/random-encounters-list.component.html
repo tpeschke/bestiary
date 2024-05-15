@@ -48,16 +48,32 @@
             </select>
           </div>
           <div class="trash-shell-div">
-            <div *ngIf="checkForDelete[beast.id]" class="delete-buttons-shell">
+            <div *ngIf="checkForEntryDelete[beast.id]" class="delete-buttons-shell">
               <div class="trash-shell-button confirmation" matTooltip="Yes, Remove this Entry from the List" (click)="removeThisEntry(beast.id, list.id)">
                 <i class="fa-solid fa-check"></i>
               </div>
-              <div class="trash-shell-button confirmation" matTooltip="Nevermind" (click)="toggleCheckDelete(beast.id)">
+              <div class="trash-shell-button confirmation" matTooltip="Nevermind" (click)="toggleCheckEntryDelete(beast.id)">
                 <i class="fa-solid fa-x"></i>
               </div>
             </div>
-            <div *ngIf="!checkForDelete[beast.id]" class="trash-shell-button" (click)="toggleCheckDelete(beast.id)">
+            <div *ngIf="!checkForEntryDelete[beast.id]" class="trash-shell-button" (click)="toggleCheckEntryDelete(beast.id)">
               <i class="fa-solid fa-trash"></i>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="trash-shell-div list-trash-shell-div">
+            <div *ngIf="checkForListDelete[list.id]" class="delete-buttons-shell list-delete-buttons-shell">
+              <div class="trash-shell-button list-trash-shell-button confirmation" matTooltip="Yes, Remove this List" (click)="removeThisList(list.id)">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="trash-shell-button list-trash-shell-button confirmation" matTooltip="Nevermind" (click)="toggleCheckListDelete(list.id)">
+                <i class="fa-solid fa-x"></i>
+              </div>
+            </div>
+            <div *ngIf="!checkForListDelete[list.id]" class="trash-shell-button list-trash-shell-button" (click)="toggleCheckListDelete(list.id)">
+              <i class="fa-solid fa-trash"></i> Delete This List
             </div>
           </div>
         </div>

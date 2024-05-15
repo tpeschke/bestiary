@@ -66,8 +66,21 @@ i {
     padding-top: 3px;
 }
 
+.list-trash-shell-button {
+    padding: 3px 10px;
+    align-items: center;
+}
+
+.list-trash-shell-button i {
+    margin-right: 5px;
+}
+
 .delete-buttons-shell .confirmation {
     width: 45% !important
+}
+
+.list-delete-buttons-shell {
+    width: 25%;
 }
 
 .trash-shell-button:hover {
