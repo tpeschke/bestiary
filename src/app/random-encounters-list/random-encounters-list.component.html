@@ -13,10 +13,24 @@
     <h1>You have no random encounter lists!</h1>
     <p>Click on the "<i class="fa-solid fa-plus"></i> List" button below to get started!</p>
   </div>
+  
   <div *ngIf="lists.length > 0">
-    <div *ngFor="let list of lists">
-      <input [value]="list.name" (blur)="updateName(list.id, $event)">
-    </div>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let list of lists" [disabled]="list.beasts.length === 0">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <input [value]="list.name" (blur)="updateName(list.id, $event)">
+          </mat-panel-title>
+          <mat-panel-description>
+            {{list.beasts.length}} Entries
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <br>
+        <p *ngFor="let beast of list.beasts">{{beast.name}} ({{beast.rarity | rarityConverter}})</p>
+
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
   <div class="add-button-shell">
     <button mat-raised-button (click)="addNewTest('habitat')" color="accent"><i class="fa-solid fa-plus"></i>

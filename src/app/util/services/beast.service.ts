@@ -186,7 +186,12 @@ export class BeastService {
   }
 
   getLists(): any {
-    return this.http.get(local.endpointBase + '/api/getList')
+    return this.http.get(local.endpointBase + '/api/getLists')
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
+  getListsWithBeasts(): any {
+    return this.http.get(local.endpointBase + '/api/getListsWithBeasts')
       .pipe(tap(result => this.handleMessage(result)))
   }
 

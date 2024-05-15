@@ -16,7 +16,7 @@ export class RandomEncounterListService implements Resolve<any> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any> {
-    return this.beastService.getLists();
+    return this.beastService.getListsWithBeasts();
   }
 
 }

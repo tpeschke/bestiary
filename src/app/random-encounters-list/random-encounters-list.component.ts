@@ -32,7 +32,6 @@ export class RandomEncountersListComponent implements OnInit {
 
   updateName(listid, event) {
     const value = event.target.value
-    console.log(value)
     this.lists.forEach(list => {
       if (list.id === listid && list.name !== value) {
         this.beastService.updateListName({name: value, id: listid}).subscribe(result => {

@@ -9,6 +9,21 @@ let listController = {
             checkForContentTypeBeforeSending(res, results)
         }).catch(e => sendErrorForward('get list for user', e, res))
     },
+    getListsWithBeasts: (req, res) => {
+        const db = req.app.get('db')
+        db.get.lists(req.user.id).then(lists => {
+            promiseArray = []
+            lists.forEach(list => {
+                promiseArray.push(db.get.beastsInList(list.id).then(beasts => {
+                    list.beasts = beasts
+                    return true
+                }))
+            })
+            Promise.all(promiseArray).then(_=>{
+                checkForContentTypeBeforeSending(res, lists)
+            })
+        }).catch(e => sendErrorForward('get list for user 3', e, res))
+    },
     addList: (req, res) => {
         const db = req.app.get('db')
         db.add.list(req.user.id).then(result => {

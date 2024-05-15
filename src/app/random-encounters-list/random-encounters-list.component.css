@@ -2,6 +2,12 @@ h1 {
     margin: 10px 0;
 }
 
+input {
+    border: unset;
+    border-bottom: 1px solid;
+    background: unset;
+}
+
 i {
     font-size: unset;
 }
@@ -10,4 +16,9 @@ i {
     display: flex;
     justify-content: end;
     margin-top: 15px;
+}
+
+.mat-expansion-panel {
+    box-shadow: none;
+    background: rgba(211, 211, 211, 0.5);
 }
