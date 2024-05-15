@@ -5,4 +5,7 @@
   <div *ngFor="let list of lists" class="list-row-button" (click)="addToList(list.id)">
     <p>- {{list.name}}</p>
   </div>
+  <div class="list-row-button" (click)="addToNewList()">
+    <p><i class="fa-solid fa-plus"></i> Add to a New List</p>
+  </div>
 </div>

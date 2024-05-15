@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BeastService } from 'src/app/util/services/beast.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { BeastService } from 'src/app/util/services/beast.service';
 export class AddToListPopUpComponent implements OnInit {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {beastid: string},
+    @Inject(MAT_DIALOG_DATA) public data: { beastid: string },
     public dialogRef: MatDialogRef<AddToListPopUpComponent>,
     private beastService: BeastService
   ) { }
@@ -25,11 +25,18 @@ export class AddToListPopUpComponent implements OnInit {
   }
 
   addToList(listid) {
-    this.beastService.addBeastToList({beastid: this.data.beastid, listid}).subscribe(results => {
+    this.beastService.addBeastToList({ beastid: this.data.beastid, listid }).subscribe(results => {
       if (results.color === 'green') {
         this.dialogRef.close();
       }
     })
   }
 
+  addToNewList() {
+    this.beastService.addBeastToList({ beastid: this.data.beastid }).subscribe(results => {
+      if (results.color === 'green') {
+        this.dialogRef.close();
+      }
+    })
+  }
 }

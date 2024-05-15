@@ -21,11 +21,19 @@ let listController = {
             checkForContentTypeBeforeSending(res, result)
         }).catch(e => sendErrorForward('update list name', e, res))
     },
-    addBeastToList: ({app, body}, res) => {
+    addBeastToList: ({app, body, user}, res) => {
         const db = app.get('db')
-        db.add.beastToList(body.beastid, body.listid, null).then(result => {
-            checkForContentTypeBeforeSending(res, { message: `Monster was added to random encounter list`, color: 'green' })
-        }).catch(e => sendErrorForward('add beast to list', e, res))
+        if (body.listid) {
+            db.add.beastToList(body.beastid, body.listid, null).then(result => {
+                checkForContentTypeBeforeSending(res, { message: `Monster was added to random encounter list`, color: 'green' })
+            }).catch(e => sendErrorForward('add beast to list', e, res))
+        } else {
+            db.add.list(user.id).then(newList => {
+                db.add.beastToList(body.beastid, newList[0].id, null).then(result => {
+                    checkForContentTypeBeforeSending(res, { message: `Monster was added to a new random encounter list`, color: 'green' })
+                }).catch(e => sendErrorForward('add beast to list 2', e, res))
+            }).catch(e => sendErrorForward('add list 2', e, res))
+        }
     }
 }
 
