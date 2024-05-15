@@ -1,0 +1,7 @@
+.list-row-button {
+    padding: 5px
+}
+
+.list-row-button:hover {
+    background-color: lightgray;
+}

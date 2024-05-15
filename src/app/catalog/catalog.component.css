@@ -190,6 +190,10 @@ div {
   top: -11px;
 }
 
+.fa-plus {
+  font-size: unset;
+}
+
 @media (max-width: 699px) {
   .img-shell {
     height: 200px;

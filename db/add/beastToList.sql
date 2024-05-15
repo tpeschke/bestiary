@@ -1,0 +1,1 @@
+insert into bblistbeast (beastid, listid, rarity) values ($1, $2, $3)

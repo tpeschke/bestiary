@@ -200,6 +200,11 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
+  addBeastToList(body): any {
+    return this.http.patch(local.endpointBase + '/api/addBeastToList', body)
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
   checkPlayerCanView(id): any {
     return this.http.get(local.endpointBase + '/api/playerCanView/' + id)
       .pipe(tap(result => this.handleMessage(result)))

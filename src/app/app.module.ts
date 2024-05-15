@@ -81,6 +81,7 @@ import { PatreonAuthService } from './util/guards-resolvers/patreon-auth.service
 import { PleromaDisplayComponent } from './beast-view/beast-view-edit/pleroma-display/pleroma-display.component';
 import { RandomEncountersListComponent } from './random-encounters-list/random-encounters-list.component';
 import { RandomEncounterListService } from './util/guards-resolvers/random-encounter-list.service';
+import { AddToListPopUpComponent } from './catalog/add-to-list-pop-up/add-to-list-pop-up.component';
 
 const routes: Routes = [
   {
@@ -135,6 +136,7 @@ const routes: Routes = [
     ObstacleHomeComponent,
     ObstacleEditComponent,
     ObstaclePopUpComponent,
+    AddToListPopUpComponent,
     ObstacleSearchComponent,
     ObstacleSearchResultsComponent,
     DifficultyMatrixComponent,
@@ -155,7 +157,7 @@ const routes: Routes = [
     CombatTableComponent,
     CustomCatalogComponent,
     PleromaDisplayComponent,
-      RandomEncountersListComponent
+    RandomEncountersListComponent
    ],
   imports: [
     BrowserModule,
@@ -183,7 +185,7 @@ const routes: Routes = [
     QuillModule.forRoot(),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })
   ],
-  entryComponents: [ObstaclePopUpComponent, DifficultyMatrixComponent, ChallengePopUpComponent],
+  entryComponents: [ObstaclePopUpComponent, AddToListPopUpComponent, DifficultyMatrixComponent, ChallengePopUpComponent],
   providers: [BeastService, CalculatorService],
   bootstrap: [AppComponent]
 })

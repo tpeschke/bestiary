@@ -163,6 +163,7 @@ app.get('/api/getAllClimates', getCtrl.getAllClimates)
 app.get('/api/getList', listCtrl.getLists)
 app.patch('/api/addList', listCtrl.addList)
 app.patch('/api/updateListName', listCtrl.updateListName)
+app.patch('/api/addBeastToList', listCtrl.addBeastToList)
 
 app.get('/api/customCatalog', catalogCtrl.getCustomCatalog)
 

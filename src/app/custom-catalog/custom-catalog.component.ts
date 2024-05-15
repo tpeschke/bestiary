@@ -4,6 +4,8 @@ import { BeastService } from '../util/services/beast.service'
 import variables from '../../local.js'
 import { Title } from "@angular/platform-browser";
 import { QuickViewService } from '../util/services/quick-view.service';
+import { MatDialog } from '@angular/material';
+import { AddToListPopUpComponent } from '../catalog/add-to-list-pop-up/add-to-list-pop-up.component';
 
 @Component({
   selector: 'app-custom-catalog',
@@ -16,6 +18,7 @@ export class CustomCatalogComponent implements OnInit {
     private route: ActivatedRoute,
     private beastService: BeastService,
     private titleService: Title,
+    private dialog: MatDialog,
     private quickViewService: QuickViewService,
   ) { }
 
@@ -151,6 +154,10 @@ export class CustomCatalogComponent implements OnInit {
       ...xOffsetStyling,
       ...yOffsetStyling
     }
+  }
+
+  openRandomListsPopUp() {
+    this.dialog.open(AddToListPopUpComponent, { width: '400px', data: {beastid: this.targetBeast} });
   }
 
   @HostListener('document:click')

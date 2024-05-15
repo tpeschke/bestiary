@@ -4,6 +4,8 @@ import { BeastService } from '../util/services/beast.service'
 import variables from '../../local.js'
 import {Title, Meta} from "@angular/platform-browser";
 import { QuickViewService } from '../util/services/quick-view.service';
+import { MatDialog } from '@angular/material';
+import { AddToListPopUpComponent } from './add-to-list-pop-up/add-to-list-pop-up.component';
 
 @Component({
   selector: 'app-catalog',
@@ -14,6 +16,7 @@ export class CatalogComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private dialog: MatDialog,
     private beastService: BeastService,
     private titleService: Title,
     private quickViewService: QuickViewService,
@@ -85,6 +88,10 @@ export class CatalogComponent implements OnInit {
   addRandomRoleToQuickView() {
     let randomIndex = Math.floor(Math.random() * this.targetRoles.length)
     this.quickViewService.addToQuickViewArray(this.targetRoles[randomIndex].hash)
+  }
+
+  openRandomListsPopUp() {
+    this.dialog.open(AddToListPopUpComponent, { width: '400px', data: {beastid: this.targetBeast} });
   }
 
   displayContextMenu(event, beastid, name, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary, defaultrole) {
