@@ -5,7 +5,7 @@ import variables from '../../../local.js'
 import { Title } from "@angular/platform-browser";
 import { QuickViewService } from '../../util/services/quick-view.service';
 import { MatDialog } from '@angular/material';
-import { AddToListPopUpComponent } from '../catalog/add-to-list-pop-up/add-to-list-pop-up.component';
+import { AddToListPopUpComponent } from '../../random-encounters/add-to-list-pop-up/add-to-list-pop-up.component';
 
 @Component({
   selector: 'app-custom-catalog',

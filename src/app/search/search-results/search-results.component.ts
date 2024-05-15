@@ -4,6 +4,7 @@ import { BeastService } from 'src/app/util/services/beast.service';
 import variables from '../../../local.js'
 import { Title, Meta } from "@angular/platform-browser";
 import { MatDialog } from '@angular/material';
+import { AddToListPopUpComponent } from 'src/app/random-encounters/add-to-list-pop-up/add-to-list-pop-up.component.js';
 
 @Component({
   selector: 'app-search-results',
@@ -20,6 +21,7 @@ export class SearchResultsComponent implements OnInit {
     public adventureService: BeastService,
     public titleService: Title,
     public beastService: BeastService,
+    private dialog: MatDialog,
     public metaService: Meta
   ) { }
 
@@ -126,6 +128,7 @@ export class SearchResultsComponent implements OnInit {
 
   openRandomListsPopUp() {
     const beastidarray = this.beasts.map(beast => +beast.id)
+    this.dialog.open(AddToListPopUpComponent, { width: '400px', data: { beastidarray } });
   }
 
   returnAtkDefTooltip = (type, attack, defense) => {

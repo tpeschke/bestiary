@@ -78,9 +78,9 @@ import { MatSliderModule } from '@angular/material/slider';
 import { CustomCatalogComponent } from './catalogs/custom-catalog/custom-catalog.component';
 import { PatreonAuthService } from './util/guards-resolvers/patreon-auth.service';
 import { PleromaDisplayComponent } from './beast-view/beast-view-edit/pleroma-display/pleroma-display.component';
-import { RandomEncountersListComponent } from './random-encounters-list/random-encounters-list.component';
+import { RandomEncountersListComponent } from './random-encounters/random-encounters-list/random-encounters-list.component';
 import { RandomEncounterListService } from './util/guards-resolvers/random-encounter-list.service';
-import { AddToListPopUpComponent } from './catalogs/catalog/add-to-list-pop-up/add-to-list-pop-up.component';
+import { AddToListPopUpComponent } from './random-encounters/add-to-list-pop-up/add-to-list-pop-up.component';
 import { CatalogComponent } from './catalogs/catalog/catalog.component';
 
 const routes: Routes = [

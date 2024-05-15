@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BeastService } from '../services/beast.service';
 
@@ -12,10 +12,7 @@ export class RandomEncounterListService implements Resolve<any> {
     private beastService: BeastService
   ) { }
 
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<any> {
+  resolve(  ): Observable<any> {
     return this.beastService.getListsWithBeasts();
   }
 

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
-import { BeastService } from '../util/services/beast.service';
+import { BeastService } from '../../util/services/beast.service';
 
 @Component({
   selector: 'app-random-encounters-list',
   templateUrl: './random-encounters-list.component.html',
-  styleUrls: ['./random-encounters-list.component.css', '../catalogs/catalog/catalog.component.css']
+  styleUrls: ['./random-encounters-list.component.css', '../../catalogs/catalog/catalog.component.css']
 })
 export class RandomEncountersListComponent implements OnInit {
 
