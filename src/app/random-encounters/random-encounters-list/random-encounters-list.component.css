@@ -53,3 +53,28 @@ i {
 .list-header p {
     font-size: 12px;
 }
+
+.trash-shell-div {
+    display: flex;
+    justify-content: end;
+}
+
+.trash-shell-button {
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 3px;
+}
+
+.delete-buttons-shell .confirmation {
+    width: 45% !important
+}
+
+.trash-shell-button:hover {
+    background: lightgray
+}
+
+.delete-buttons-shell {
+    display: flex;
+    justify-content: space-between;
+}

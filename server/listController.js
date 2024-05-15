@@ -31,6 +31,17 @@ let listController = {
             checkForContentTypeBeforeSending(res, result)
         }).catch(e => sendErrorForward('add list', e, res))
     },
+    addBeastToList: ({app, body, user}, res) => {
+        const db = app.get('db')
+        const {beastid, listid, beastidarray, rarity} = body
+        if (listid) {
+            addBeasts(res, db, beastidarray ? beastidarray : [{beastid, rarity}], listid, false)
+        } else {
+            db.add.list(user.id).then(newList => {
+                addBeasts(res, db, beastidarray ? beastidarray : [{beastid, rarity}], newList[0].id, true)
+            }).catch(e => sendErrorForward('add list 2', e, res))
+        }
+    },
     updateListName: ({app, body}, res) => {
         const db = app.get('db')
         db.update.list.name(body.name, body.id).then(result => {
@@ -44,16 +55,12 @@ let listController = {
             checkForContentTypeBeforeSending(res, result)
         }).catch(e => sendErrorForward('update beast rarity', e, res))
     },
-    addBeastToList: ({app, body, user}, res) => {
-        const db = app.get('db')
-        const {beastid, listid, beastidarray, rarity} = body
-        if (listid) {
-            addBeasts(res, db, beastidarray ? beastidarray : [{beastid, rarity}], listid, false)
-        } else {
-            db.add.list(user.id).then(newList => {
-                addBeasts(res, db, beastidarray ? beastidarray : [{beastid, rarity}], newList[0].id, true)
-            }).catch(e => sendErrorForward('add list 2', e, res))
-        }
+    deleteBeastFromList: (req, res) => {
+        const db = req.app.get('db')
+        let id = +req.params.id
+        db.delete.list.entry(id).then(_ => {
+            checkForContentTypeBeforeSending(res, { message: `Entry was successfully deleted from list`, color: 'green' })
+        }).catch(e => sendErrorForward('delete beast', e, res))
     }
 }
 
@@ -65,7 +72,7 @@ addBeasts = (res, db, beastidarray, listid, isNewList) => {
     }
 
     Promise.all(promiseArray).then(_ => {
-        checkForContentTypeBeforeSending(res, { message: `Monster was added to ${isNewList ? 'new' : ''} random encounter list`, color: 'green' })
+        checkForContentTypeBeforeSending(res, { message: `Entry was added to ${isNewList ? 'new' : ''} random encounter list`, color: 'green' })
     })
 }
 

@@ -166,7 +166,7 @@ app.patch('/api/addList', listCtrl.addList)
 app.patch('/api/updateListName', listCtrl.updateListName)
 app.patch('/api/updateBeastRarity', listCtrl.updateBeastRarity)
 app.patch('/api/addBeastToList', listCtrl.addBeastToList)
-
+app.delete('/api/deleteBeastFromList/:id', listCtrl.deleteBeastFromList)
 
 app.get('/api/customCatalog', catalogCtrl.getCustomCatalog)
 

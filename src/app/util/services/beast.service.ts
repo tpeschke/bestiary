@@ -210,6 +210,11 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
+  deleteBeastFromList(id): any {
+    return this.http.delete(local.endpointBase + '/api/deleteBeastFromList/' + id)
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
   addBeastToList(body): any {
     return this.http.patch(local.endpointBase + '/api/addBeastToList', body)
       .pipe(tap(result => this.handleMessage(result)))

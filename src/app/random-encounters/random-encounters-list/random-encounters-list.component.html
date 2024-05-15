@@ -47,7 +47,19 @@
               <option value="1">Legendary</option>
             </select>
           </div>
-          <div></div>
+          <div class="trash-shell-div">
+            <div *ngIf="checkForDelete[beast.id]" class="delete-buttons-shell">
+              <div class="trash-shell-button confirmation" matTooltip="Yes, Remove this Entry from the List" (click)="removeThisEntry(beast.id, list.id)">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="trash-shell-button confirmation" matTooltip="Nevermind" (click)="toggleCheckDelete(beast.id)">
+                <i class="fa-solid fa-x"></i>
+              </div>
+            </div>
+            <div *ngIf="!checkForDelete[beast.id]" class="trash-shell-button" (click)="toggleCheckDelete(beast.id)">
+              <i class="fa-solid fa-trash"></i>
+            </div>
+          </div>
         </div>
 
       </mat-expansion-panel>

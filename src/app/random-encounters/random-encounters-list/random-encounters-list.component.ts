@@ -15,6 +15,7 @@ export class RandomEncountersListComponent implements OnInit {
   ) { }
 
   public lists = []
+  public checkForDelete = {}
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -41,6 +42,21 @@ export class RandomEncountersListComponent implements OnInit {
 
   captureRarity(event, entryid) {
     this.beastService.updateBeastRarity({rarity: event.target.value, entryid}).subscribe()
+  }
+
+  toggleCheckDelete = (id) => {
+    this.checkForDelete[id] = !this.checkForDelete[id]
+  }
+
+  removeThisEntry = (entryid, listid) => {
+    this.beastService.deleteBeastFromList(entryid).subscribe(_ => {
+      this.lists = this.lists.map(list => {
+        if (list.id === listid) {
+          list.beasts = list.beasts.filter(beast => beast.id !== entryid)
+        }
+        return list
+      })
+    })
   }
 
 }
