@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BeastService } from 'src/app/util/services/beast.service';
-import variables from '../../local.js'
+import variables from '../../../local.js'
 import { Title, Meta } from "@angular/platform-browser";
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-search-results',
@@ -22,7 +23,7 @@ export class SearchResultsComponent implements OnInit {
     public metaService: Meta
   ) { }
 
-  public beasts = 'loading'
+  public beasts: any = 'loading'
 
   ngOnInit() {
     let { params } = this.currentRoute.snapshot
@@ -121,6 +122,10 @@ export class SearchResultsComponent implements OnInit {
     } else if (defense) {
       return 'D'
     }
+  }
+
+  openRandomListsPopUp() {
+    const beastidarray = this.beasts.map(beast => +beast.id)
   }
 
   returnAtkDefTooltip = (type, attack, defense) => {

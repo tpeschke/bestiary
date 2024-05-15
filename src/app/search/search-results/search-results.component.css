@@ -11,8 +11,16 @@ mat-card {
     align-items: center;
 }
 
-.copyURLButton {
+.fa-plus {
+    font-size: unset;
+}
+
+.option-buttons-shell button {
     margin-left: 15px;
+}
+
+.option-buttons-shell button:first-child {
+    margin-left: 0;
 }
 
 .results-card h3 {

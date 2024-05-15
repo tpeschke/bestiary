@@ -5,7 +5,7 @@ import { BeastService } from '../util/services/beast.service';
 @Component({
   selector: 'app-random-encounters-list',
   templateUrl: './random-encounters-list.component.html',
-  styleUrls: ['./random-encounters-list.component.css', '../catalog/catalog.component.css']
+  styleUrls: ['./random-encounters-list.component.css', '../catalogs/catalog/catalog.component.css']
 })
 export class RandomEncountersListComponent implements OnInit {
 
@@ -34,9 +34,7 @@ export class RandomEncountersListComponent implements OnInit {
     const value = event.target.value
     this.lists.forEach(list => {
       if (list.id === listid && list.name !== value) {
-        this.beastService.updateListName({name: value, id: listid}).subscribe(result => {
-          console.log(result)
-        })
+        this.beastService.updateListName({name: value, id: listid}).subscribe()
       }
     })
   }

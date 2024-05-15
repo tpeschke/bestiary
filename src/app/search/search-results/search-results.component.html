@@ -9,9 +9,11 @@
 <div *ngIf="beasts.length > 0 && beasts !== 'loading'">
   <div class="results-card">
     <h3>Results: {{beasts.length}}</h3>
-    <div>
+    <div class="option-buttons-shell">
       <button mat-raised-button (click)="getRandom()" color="warn" matTooltip="Get Random Monster from List"><i
           class="fas fa-dice"></i></button>
+      <button mat-raised-button matTooltip="Add Entry to Random List" (click)="openRandomListsPopUp()" color="primary"><i
+          class="fa-solid fa-plus"></i> <i class="fa-solid fa-table"></i><i class="fa-solid fa-shuffle"></i></button>
       <button color="primary" mat-raised-button (click)="getShortCutURL()"
         matTooltip="This creates a URL that will go directly to a random monster from this list"
         class="copyURLButton"><i class="fas fa-link"></i></button>
@@ -20,7 +22,8 @@
 
   <mat-card *ngFor="let beast of beasts" [routerLink]="['/beast', beast.id, 'player']">
     <div class="img-shell">
-      <img *ngIf="beast.id" [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" [src]="imageBase + beast.id  " [alt]="beast.name">
+      <img *ngIf="beast.id" [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}"
+        [src]="imageBase + beast.id  " [alt]="beast.name">
     </div>
 
     <div class="info-shell">
@@ -45,15 +48,21 @@
           <div class="extra-info">
             <div>
               <h3>Combat Rating:</h3>
-              <p class="with-super-script">{{formatPoints(beast.mincombat, beast.maxcombat)}}<span [matTooltip]="returnAtkDefTooltip('Combat', beast.hascombatattack, beast.hascombatdefense)">{{returnAtkDefNotation(beast.hascombatattack, beast.hascombatdefense)}}</span></p>
+              <p class="with-super-script">{{formatPoints(beast.mincombat, beast.maxcombat)}}<span
+                  [matTooltip]="returnAtkDefTooltip('Combat', beast.hascombatattack, beast.hascombatdefense)">{{returnAtkDefNotation(beast.hascombatattack,
+                  beast.hascombatdefense)}}</span></p>
             </div>
             <div>
               <h3>Confrontation Rating:</h3>
-              <p class="with-super-script">{{formatPoints(beast.minsocial, beast.maxsocial)}}<span [matTooltip]="returnAtkDefTooltip('Confrontation', beast.hasconfattack, beast.hasdonfdefense)">{{returnAtkDefNotation(beast.hasconfattack, beast.hasdonfdefense)}}</span></p>
+              <p class="with-super-script">{{formatPoints(beast.minsocial, beast.maxsocial)}}<span
+                  [matTooltip]="returnAtkDefTooltip('Confrontation', beast.hasconfattack, beast.hasdonfdefense)">{{returnAtkDefNotation(beast.hasconfattack,
+                  beast.hasdonfdefense)}}</span></p>
             </div>
             <div>
               <h3>Challenge Rating:</h3>
-              <p class="with-super-script">{{formatPoints(beast.minskill, beast.maxskill)}}<span [matTooltip]="returnAtkDefTooltip('Skill', beast.hasskillattack, beast.hasskilldefense)">{{returnAtkDefNotation(beast.hasskillattack, beast.hasskilldefense)}}</span></p>
+              <p class="with-super-script">{{formatPoints(beast.minskill, beast.maxskill)}}<span
+                  [matTooltip]="returnAtkDefTooltip('Skill', beast.hasskillattack, beast.hasskilldefense)">{{returnAtkDefNotation(beast.hasskillattack,
+                  beast.hasskilldefense)}}</span></p>
             </div>
             <div>
               <h3>Rarity:</h3>

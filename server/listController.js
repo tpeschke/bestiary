@@ -1,3 +1,4 @@
+const { promise } = require('protractor')
 const { sendErrorForwardNoFile, checkForContentTypeBeforeSending } = require('./helpers')
 
 const sendErrorForward = sendErrorForwardNoFile('list controller')
@@ -38,18 +39,27 @@ let listController = {
     },
     addBeastToList: ({app, body, user}, res) => {
         const db = app.get('db')
-        if (body.listid) {
-            db.add.beastToList(body.beastid, body.listid, null).then(result => {
-                checkForContentTypeBeforeSending(res, { message: `Monster was added to random encounter list`, color: 'green' })
-            }).catch(e => sendErrorForward('add beast to list', e, res))
+        const {beastid, listid, beastidarray} = body
+        if (listid) {
+            addBeasts(res, db, beastidarray ? beastidarray : [beastid], listid, false)
         } else {
             db.add.list(user.id).then(newList => {
-                db.add.beastToList(body.beastid, newList[0].id, null).then(result => {
-                    checkForContentTypeBeforeSending(res, { message: `Monster was added to a new random encounter list`, color: 'green' })
-                }).catch(e => sendErrorForward('add beast to list 2', e, res))
+                addBeasts(res, db, beastidarray ? beastidarray : [beastid], newList[0].id, true)
             }).catch(e => sendErrorForward('add list 2', e, res))
         }
     }
+}
+
+addBeasts = (res, db, beastidarray, listid, isNewList) => {
+    let promiseArray = [];
+
+    for (i = 0; i < beastidarray.length; i++) {
+        promiseArray.push(db.add.beastToList(beastidarray[i], listid, null).catch(e => sendErrorForward('add beast to list', e, res)))
+    }
+
+    Promise.all(promiseArray).then(_ => {
+        checkForContentTypeBeforeSending(res, { message: `Monster was added to ${isNewList ? 'new' : ''} random encounter list`, color: 'green' })
+    })
 }
 
 module.exports = listController

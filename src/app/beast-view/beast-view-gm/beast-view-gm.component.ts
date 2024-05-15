@@ -10,7 +10,7 @@ import roles from '../roles.js'
 import { DisplayServiceService } from 'src/app/util/services/displayService.service';
 import { MatDialog } from '@angular/material';
 import { ChallengePopUpComponent } from '../../obstacle-index/view/challenge-pop-up/challenge-pop-up.component'
-import { AddToListPopUpComponent } from 'src/app/catalog/add-to-list-pop-up/add-to-list-pop-up.component';
+import { AddToListPopUpComponent } from 'src/app/catalogs/catalog/add-to-list-pop-up/add-to-list-pop-up.component';
 
 @Component({
   selector: 'app-beast-view-gm',

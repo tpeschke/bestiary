@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { MatCheckbox, MatExpansionPanel } from '@angular/material';
-import { BeastService } from '../util/services/beast.service';
+import { BeastService } from '../../util/services/beast.service';
 
 class QueryObject {
   name?: string

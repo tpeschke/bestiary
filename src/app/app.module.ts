@@ -18,9 +18,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-import { SearchBarComponent } from './search-bar/search-bar.component';
-import { SearchResultsComponent } from './search-results/search-results.component';
-import { CatalogComponent } from './catalog/catalog.component';
+import { SearchBarComponent } from './search/search-bar/search-bar.component';
+import { SearchResultsComponent } from './search/search-results/search-results.component';
 import { BeastViewPlayerComponent } from './beast-view/beast-view-player/beast-view-player.component';
 import { BeastViewGmComponent } from './beast-view/beast-view-gm/beast-view-gm.component';
 import { BeastViewEditComponent } from './beast-view/beast-view-edit/beast-view-edit.component';
@@ -75,13 +74,14 @@ import { EditTableComponent } from './beast-view/beast-view-edit/edit-table/edit
 import { ViewTableComponent } from './beast-view/beast-view-gm/view-table/view-table.component';
 import { CombatTableComponent } from './util/combat-table/combat-table.component';
 import { CharacteristicDisplayComponent } from './beast-view/beast-view-edit/characteristic-display/characteristic-display.component';
-import {MatSliderModule} from '@angular/material/slider';
-import { CustomCatalogComponent } from './custom-catalog/custom-catalog.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { CustomCatalogComponent } from './catalogs/custom-catalog/custom-catalog.component';
 import { PatreonAuthService } from './util/guards-resolvers/patreon-auth.service';
 import { PleromaDisplayComponent } from './beast-view/beast-view-edit/pleroma-display/pleroma-display.component';
 import { RandomEncountersListComponent } from './random-encounters-list/random-encounters-list.component';
 import { RandomEncounterListService } from './util/guards-resolvers/random-encounter-list.service';
-import { AddToListPopUpComponent } from './catalog/add-to-list-pop-up/add-to-list-pop-up.component';
+import { AddToListPopUpComponent } from './catalogs/catalog/add-to-list-pop-up/add-to-list-pop-up.component';
+import { CatalogComponent } from './catalogs/catalog/catalog.component';
 
 const routes: Routes = [
   {
@@ -115,7 +115,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [		
+  declarations: [
     AppComponent,
     SearchBarComponent,
     SearchResultsComponent,
@@ -158,7 +158,7 @@ const routes: Routes = [
     CustomCatalogComponent,
     PleromaDisplayComponent,
     RandomEncountersListComponent
-   ],
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

@@ -1,11 +1,11 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
-import { BeastService } from '../util/services/beast.service'
-import variables from '../../local.js'
+import variables from '../../../local.js'
 import {Title, Meta} from "@angular/platform-browser";
-import { QuickViewService } from '../util/services/quick-view.service';
 import { MatDialog } from '@angular/material';
 import { AddToListPopUpComponent } from './add-to-list-pop-up/add-to-list-pop-up.component';
+import { BeastService } from 'src/app/util/services/beast.service.js';
+import { QuickViewService } from 'src/app/util/services/quick-view.service.js';
 
 @Component({
   selector: 'app-catalog',
