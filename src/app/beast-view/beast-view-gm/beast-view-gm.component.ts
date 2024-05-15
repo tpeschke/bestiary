@@ -10,6 +10,7 @@ import roles from '../roles.js'
 import { DisplayServiceService } from 'src/app/util/services/displayService.service';
 import { MatDialog } from '@angular/material';
 import { ChallengePopUpComponent } from '../../obstacle-index/view/challenge-pop-up/challenge-pop-up.component'
+import { AddToListPopUpComponent } from 'src/app/catalog/add-to-list-pop-up/add-to-list-pop-up.component';
 
 @Component({
   selector: 'app-beast-view-gm',
@@ -1223,6 +1224,10 @@ export class BeastViewGmComponent implements OnInit {
         return ``
       }
     }
+  }
+
+  openRandomListsPopUp() {
+    this.dialog.open(AddToListPopUpComponent, { width: '400px', data: {beastid: this.beast.id} });
   }
 
   goToVariant(variantid) {
