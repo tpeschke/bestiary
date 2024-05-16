@@ -195,6 +195,11 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
+  getListByHash(listid): any {
+    return this.http.get(local.endpointBase + '/api/getListByHash/' + listid)
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
   addList(): any {
     return this.http.patch(local.endpointBase + '/api/addList', {})
       .pipe(tap(result => this.handleMessage(result)))

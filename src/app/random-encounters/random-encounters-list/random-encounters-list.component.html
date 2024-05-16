@@ -15,7 +15,7 @@
   
   <div *ngIf="lists.length > 0">
     <mat-accordion>
-      <mat-expansion-panel *ngFor="let list of lists" [disabled]="list.beasts.length === 0">
+      <mat-expansion-panel *ngFor="let list of lists">
         <mat-expansion-panel-header (keydown.Space)="$event.stopImmediatePropagation();">
           <mat-panel-title>
             <input [value]="list.name" (blur)="updateName(list.id, $event)">
@@ -24,6 +24,12 @@
             {{list.beasts.length}} Entries
           </mat-panel-description>
         </mat-expansion-panel-header>
+
+        <div>
+          <div class="fake-icon-button">
+            <i (click)="getShortCutURL(list.url)" matTooltip="Copy link to random encounter list" class="fa-solid fa-link"></i>
+          </div>
+        </div>
 
         <div class="beasts-in-list-shell list-header">
           <div>

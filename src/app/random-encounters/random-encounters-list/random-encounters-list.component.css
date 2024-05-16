@@ -1,3 +1,8 @@
+textarea {
+    height: 0;
+    width: 0;
+}
+
 h1 {
     margin: 10px 0;
 }
@@ -67,9 +72,15 @@ i {
     padding-top: 3px;
 }
 
-.list-trash-shell-button {
+.list-trash-shell-button, .fake-icon-button {
     padding: 3px 10px;
     align-items: center;
+}
+
+.fake-icon-button {
+    border-radius: 5px;
+    width: 35px;
+    text-align: center;
 }
 
 .list-trash-shell-button i {
@@ -84,7 +95,7 @@ i {
     width: 25%;
 }
 
-.trash-shell-button:hover {
+.trash-shell-button:hover, .fake-icon-button:hover {
     background: lightgray
 }
 

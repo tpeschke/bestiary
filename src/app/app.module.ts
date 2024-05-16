@@ -82,6 +82,7 @@ import { RandomEncountersListComponent } from './random-encounters/random-encoun
 import { RandomEncounterListService } from './util/guards-resolvers/random-encounter-list.service';
 import { AddToListPopUpComponent } from './random-encounters/add-to-list-pop-up/add-to-list-pop-up.component';
 import { CatalogComponent } from './catalogs/catalog/catalog.component';
+import { ListViewPopUpComponent } from './random-encounters/list-view-pop-up/list-view-pop-up.component';
 
 const routes: Routes = [
   {
@@ -107,6 +108,7 @@ const routes: Routes = [
     { path: 'search', component: SearchResultsComponent },
     { path: 'search/:savedRoute', component: SearchResultsComponent },
     { path: 'lists', component: RandomEncountersListComponent, resolve: { lists: RandomEncounterListService } },
+    { path: 'lists/:listid', component: RandomEncountersListComponent, resolve: { lists: RandomEncounterListService } },
     { path: 'custom', component: CustomCatalogComponent, canActivate: [PatreonAuthService] },
     { path: '**', redirectTo: '' }
     ]
@@ -142,6 +144,7 @@ const routes: Routes = [
     DifficultyMatrixComponent,
     ChallengeEditComponent,
     EditHomeComponent,
+    ListViewPopUpComponent,
     ChallengePopUpComponent,
     ChallengeShellComponent,
     ObstacleInnardsComponent,
@@ -185,7 +188,7 @@ const routes: Routes = [
     QuillModule.forRoot(),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })
   ],
-  entryComponents: [ObstaclePopUpComponent, AddToListPopUpComponent, DifficultyMatrixComponent, ChallengePopUpComponent],
+  entryComponents: [ObstaclePopUpComponent, AddToListPopUpComponent, ListViewPopUpComponent, DifficultyMatrixComponent, ChallengePopUpComponent],
   providers: [BeastService, CalculatorService],
   bootstrap: [AppComponent]
 })

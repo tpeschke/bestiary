@@ -162,6 +162,7 @@ app.get('/api/getAllClimates', getCtrl.getAllClimates)
 
 app.get('/api/getLists', listCtrl.getLists)
 app.get('/api/getListsWithBeasts', listCtrl.getListsWithBeasts)
+app.get('/api/getListByHash/:id', listCtrl.getListByHash)
 app.patch('/api/addList', listCtrl.addList)
 app.patch('/api/updateListName', listCtrl.updateListName)
 app.patch('/api/updateBeastRarity', listCtrl.updateBeastRarity)

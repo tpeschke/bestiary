@@ -1,4 +1,4 @@
-const { promise } = require('protractor')
+const { createHash } = require('./helpers')
 const { sendErrorForwardNoFile, checkForContentTypeBeforeSending } = require('./helpers')
 
 const sendErrorForward = sendErrorForwardNoFile('list controller')
@@ -6,13 +6,29 @@ const sendErrorForward = sendErrorForwardNoFile('list controller')
 let listController = {
     getLists: (req, res) => {
         const db = req.app.get('db')
-        db.get.lists(req.user.id).then(results => {
+        db.get.list.lists(req.user.id).then(results => {
             checkForContentTypeBeforeSending(res, results)
         }).catch(e => sendErrorForward('get list for user', e, res))
     },
+    getListByHash: (req, res) => {
+        const db = req.app.get('db')
+        let id = req.params.id
+        db.get.list.byHash(id).then(lists => {
+            promiseArray = []
+            lists.forEach(list => {
+                promiseArray.push(db.get.beastsInList(list.id).then(beasts => {
+                    list.beasts = beasts
+                    return true
+                }))
+            })
+            Promise.all(promiseArray).then(_=>{
+                checkForContentTypeBeforeSending(res, lists[0])
+            })
+        }).catch(e => sendErrorForward('get list by hash', e, res))
+    },
     getListsWithBeasts: (req, res) => {
         const db = req.app.get('db')
-        db.get.lists(req.user.id).then(lists => {
+        db.get.list.lists(req.user.id).then(lists => {
             promiseArray = []
             lists.forEach(list => {
                 promiseArray.push(db.get.beastsInList(list.id).then(beasts => {
@@ -27,7 +43,7 @@ let listController = {
     },
     addList: (req, res) => {
         const db = req.app.get('db')
-        db.add.list(req.user.id).then(result => {
+        db.add.list(req.user.id, createHash()).then(result => {
             checkForContentTypeBeforeSending(res, result)
         }).catch(e => sendErrorForward('add list', e, res))
     },

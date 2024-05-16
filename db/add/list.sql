@@ -1,2 +1,2 @@
-insert into bblist (name, userid) values ('New List', $1)
+insert into bblist (name, userid, url) values ('New List', $1, $2)
 returning id

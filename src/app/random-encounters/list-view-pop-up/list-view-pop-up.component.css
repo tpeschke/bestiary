@@ -1,0 +1,12 @@
+.spinner>div {
+    background-color: #607d8b;
+}
+
+.beasts-in-list-shell {
+    display: flex;
+    justify-content: space-between;
+}
+
+.beasts-in-list-shell p {
+    padding: 3px 0
+}
