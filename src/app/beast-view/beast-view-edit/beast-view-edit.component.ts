@@ -4,10 +4,10 @@ import { BeastService } from '../../util/services/beast.service';
 import variables from '../../../local.js'
 import lootTables from "../loot-tables.js"
 import roles from '../roles.js'
-import { MatAutocomplete, MatAutocompleteTrigger, MatExpansionPanel, MatSelect } from '@angular/material';
+import { MatAutocomplete, MatExpansionPanel, MatSelect } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { startWith, map, switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { startWith, map, switchMap, debounceTime } from 'rxjs/operators';
 import { CalculatorService } from 'src/app/util/services/calculator.service';
 
 @Component({

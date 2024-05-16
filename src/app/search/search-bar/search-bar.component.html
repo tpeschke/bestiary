@@ -108,7 +108,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-    
+
                 <div>
                     <p>Challenge Rating</p>
                     <div>
@@ -120,7 +120,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-    
+
                 <div>
                     <p>Confrontation Rating</p>
                     <div>
@@ -231,9 +231,11 @@
             </mat-expansion-panel-header>
 
             <div class="searchCheckboxes climateShell extratall">
-                <mat-checkbox *ngFor="let climate of climateList" color='primary' (change)="enterSearchClimate(climate.id, $event)">
+                <mat-checkbox *ngFor="let climate of climateList" color='primary'
+                    (change)="enterSearchClimate(climate.id, $event)">
                     <span matTooltip="{{climate.examples}} 
-                    {{climate.code ? 'Köppen Climate Classification: ' + climate.code : ''}}" matTooltipPosition="after">
+                    {{climate.code ? 'Köppen Climate Classification: ' + climate.code : ''}}"
+                        matTooltipPosition="after">
                         {{climate.climate}}</span>
                 </mat-checkbox>
             </div>
@@ -242,3 +244,25 @@
         <button color="primary" mat-raised-button (click)="getRandom()" color="warn">I'm Feeling Really Lucky</button>
     </mat-expansion-panel>
 </mat-card>
+
+<div class="navigation-shell">
+    <div [routerLink]="['/']" [class]="isCatalog ? 'noDisplay' : 'custom-catalog-shell'" matTooltip="Go to the main Catalog">
+        <div class="custom-catalog-icons">
+            <i class="fa-solid fa-list"></i>
+        </div>
+    </div>
+
+    <div [routerLink]="['/lists']" [class]="isLists ? 'noDisplay' : 'custom-catalog-shell'" matTooltip="Go to your random encounter lists">
+        <div class="custom-catalog-icons">
+            <i class="fa-solid fa-table"></i>
+            <i class="fa-solid fa-shuffle"></i>
+        </div>
+    </div>
+
+    <div [routerLink]="['/custom']" [class]="isCustomCatalog ? 'noDisplay' : 'custom-catalog-shell'" matTooltip="Go to your custom monsters">
+        <div class="custom-catalog-icons user-catalog-shell">
+            <i class="fa-solid fa-user"></i>
+            <i class="fa-solid fa-list"></i>
+        </div>
+    </div>
+</div>

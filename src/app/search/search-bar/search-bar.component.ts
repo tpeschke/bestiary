@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { MatCheckbox, MatExpansionPanel } from '@angular/material';
 import { BeastService } from '../../util/services/beast.service';
 
@@ -31,6 +31,7 @@ export class SearchBarComponent implements OnInit {
   
   constructor(
     public router: Router,
+    public activatedRoute: ActivatedRoute,
     public beastService: BeastService
   ) { }
 
@@ -38,6 +39,9 @@ export class SearchBarComponent implements OnInit {
   public climate = []
   public types = []
   public roles = []
+  public isCatalog = this.router.url === '/';
+  public isCustomCatalog = this.router.url === '/custom';
+  public isLists = this.router.url.includes('/list')
 
   public climateList = [
     {id: 1, code: 'Af', climate: 'Tropical Rainforest', examples: 'Indonesia, Colombia, North DRC'},
@@ -83,7 +87,6 @@ export class SearchBarComponent implements OnInit {
     {id: 41, code: null, climate: 'Ruin', examples: 'Anything the Romans built'}
   ]
 
-
   ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -95,6 +98,10 @@ export class SearchBarComponent implements OnInit {
           this.viewPanels.forEach(p => p.close());
           this.checkBoxes.forEach(p => p.checked = false)
         }
+
+        this.isCatalog = event.url === '/'
+        this.isCustomCatalog = event.url === '/custom';
+        this.isLists = event.url.includes('/list')
       }
     });
   }
