@@ -43,10 +43,14 @@ export class RandomEncountersListComponent implements OnInit {
 
   randomlyRoll(event, url) {
     event.stopImmediatePropagation()
-    
+
     this.beastService.getRandomMonsterFromList(url).subscribe(beast => {
       this.router.navigate(['/beast', beast.beastid, 'gm']);
     })
+  }
+
+  goToEntry(beastid) {
+    this.router.navigate(['/beast', beastid, 'gm']);
   }
 
   addNewTest() {

@@ -49,8 +49,8 @@
           <div></div>
         </div>
         <div class="beasts-in-list-shell" *ngFor="let beast of list.beasts">
-          <div>
-            <p >{{beast.name}}</p>
+          <div matTooltip="Go to Entry" class="trash-shell-button name-button" (click)="goToEntry(beast.beastid)">
+            <p>{{beast.name}} <i class="fa-solid fa-up-right-from-square"></i></p>
           </div>
           <div>
             <select name="Rarity" [value]="beast.rarity" (change)="captureRarity($event, beast.id)">

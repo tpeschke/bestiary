@@ -132,3 +132,13 @@ i {
     display: flex;
     justify-content: space-between;
 }
+
+.name-button {
+    justify-content: unset;
+    padding-left: 5px;
+}
+
+.name-button i {
+    color: grey;
+    font-size: 10px;
+}
