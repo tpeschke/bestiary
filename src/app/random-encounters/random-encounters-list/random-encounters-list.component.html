@@ -22,12 +22,20 @@
           </mat-panel-title>
           <mat-panel-description>
             {{list.beasts.length}} Entries
+
+            <div matTooltip="Randomly roll on this list and go to the entry" (click)="randomlyRoll($event, list.url)" class="fake-icon-button">
+              <i class="fa-solid fa-dice"></i>
+            </div>
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <div>
-          <div class="fake-icon-button">
-            <i (click)="getShortCutURL(list.url)" matTooltip="Copy link to random encounter list" class="fa-solid fa-link"></i>
+        <div class="button-shell">
+          <div matTooltip="Copy link to random encounter list" (click)="getShortCutURL(list.url, false)" class="fake-icon-button">
+            <i class="fa-solid fa-link"></i>
+          </div>
+          <div matTooltip="Copy link to random encounter list that randomly rolls on it and takes you to the entry" (click)="getShortCutURL(list.url, true)" class="fake-icon-button fake-icon-double-width">
+            <i class="fa-solid fa-link"></i>
+            <i class="fa-solid fa-dice"></i>
           </div>
         </div>
 

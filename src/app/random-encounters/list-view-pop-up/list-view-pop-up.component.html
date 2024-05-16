@@ -12,4 +12,10 @@
     <p>{{beast.name}}</p>
     <p>{{beast.rarity | rarityConverter}}</p>
   </div>
+
+  <div class="button-shell">
+    <div matTooltip="Randomly roll on this list and go to the entry" (click)="randomlyRoll(list.url)" class="fake-icon-button">
+      <i class="fa-solid fa-dice"></i>
+    </div>
+  </div>
 </div>

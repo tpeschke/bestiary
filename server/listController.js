@@ -16,12 +16,12 @@ let listController = {
         db.get.list.byHash(id).then(lists => {
             promiseArray = []
             lists.forEach(list => {
-                promiseArray.push(db.get.beastsInList(list.id).then(beasts => {
+                promiseArray.push(db.get.list.beasts(list.id).then(beasts => {
                     list.beasts = beasts
                     return true
                 }))
             })
-            Promise.all(promiseArray).then(_=>{
+            Promise.all(promiseArray).then(_ => {
                 checkForContentTypeBeforeSending(res, lists[0])
             })
         }).catch(e => sendErrorForward('get list by hash', e, res))
@@ -31,15 +31,22 @@ let listController = {
         db.get.list.lists(req.user.id).then(lists => {
             promiseArray = []
             lists.forEach(list => {
-                promiseArray.push(db.get.beastsInList(list.id).then(beasts => {
+                promiseArray.push(db.get.list.beasts(list.id).then(beasts => {
                     list.beasts = beasts
                     return true
                 }))
             })
-            Promise.all(promiseArray).then(_=>{
+            Promise.all(promiseArray).then(_ => {
                 checkForContentTypeBeforeSending(res, lists)
             })
         }).catch(e => sendErrorForward('get list for user 3', e, res))
+    },
+    getRandomMonsterFromList: (req, res) => {
+        const db = req.app.get('db')
+        let id = req.params.id
+        db.get.list.randomBeast(id).then(beast => {
+            checkForContentTypeBeforeSending(res, beast[0])
+        }).catch(e => sendErrorForward('get random beast', e, res))
     },
     addList: (req, res) => {
         const db = req.app.get('db')
@@ -47,26 +54,26 @@ let listController = {
             checkForContentTypeBeforeSending(res, result)
         }).catch(e => sendErrorForward('add list', e, res))
     },
-    addBeastToList: ({app, body, user}, res) => {
+    addBeastToList: ({ app, body, user }, res) => {
         const db = app.get('db')
-        const {beastid, listid, beastidarray, rarity} = body
+        const { beastid, listid, beastidarray, rarity } = body
         if (listid) {
-            addBeasts(res, db, beastidarray ? beastidarray : [{beastid, rarity}], listid, false)
+            addBeasts(res, db, beastidarray ? beastidarray : [{ beastid, rarity }], listid, false)
         } else {
             db.add.list(user.id).then(newList => {
-                addBeasts(res, db, beastidarray ? beastidarray : [{beastid, rarity}], newList[0].id, true)
+                addBeasts(res, db, beastidarray ? beastidarray : [{ beastid, rarity }], newList[0].id, true)
             }).catch(e => sendErrorForward('add list 2', e, res))
         }
     },
-    updateListName: ({app, body}, res) => {
+    updateListName: ({ app, body }, res) => {
         const db = app.get('db')
         db.update.list.name(body.name, body.id).then(result => {
             checkForContentTypeBeforeSending(res, result)
         }).catch(e => sendErrorForward('update list name', e, res))
     },
-    updateBeastRarity: ({app, body}, res) => {
+    updateBeastRarity: ({ app, body }, res) => {
         const db = app.get('db')
-        const {rarity, entryid} = body
+        const { rarity, entryid } = body
         db.update.list.rarity(+rarity, entryid).then(result => {
             checkForContentTypeBeforeSending(res, result)
         }).catch(e => sendErrorForward('update beast rarity', e, res))

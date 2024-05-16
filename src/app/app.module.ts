@@ -109,6 +109,7 @@ const routes: Routes = [
     { path: 'search/:savedRoute', component: SearchResultsComponent },
     { path: 'lists', component: RandomEncountersListComponent, resolve: { lists: RandomEncounterListService } },
     { path: 'lists/:listid', component: RandomEncountersListComponent, resolve: { lists: RandomEncounterListService } },
+    { path: 'lists/:listid/directlyTo', component: RandomEncountersListComponent, resolve: { lists: RandomEncounterListService } },
     { path: 'custom', component: CustomCatalogComponent, canActivate: [PatreonAuthService] },
     { path: '**', redirectTo: '' }
     ]

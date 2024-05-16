@@ -200,6 +200,11 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
+  getRandomMonsterFromList(listid): any {
+    return this.http.get(local.endpointBase + '/api/getRandomMonsterFromList/' + listid)
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
   addList(): any {
     return this.http.patch(local.endpointBase + '/api/addList', {})
       .pipe(tap(result => this.handleMessage(result)))

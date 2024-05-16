@@ -1,3 +1,12 @@
+.mat-expansion-panel-header-description {
+    display: flex;
+    align-items: center;
+}
+
+.mat-expansion-panel-header-description .fake-icon-button {
+    margin-left: 5px;
+}
+
 textarea {
     height: 0;
     width: 0;
@@ -33,6 +42,10 @@ i {
     display: flex;
     justify-content: end;
     margin-top: 15px;
+}
+
+.button-shell {
+    display: flex;
 }
 
 .mat-expansion-panel {
@@ -79,8 +92,24 @@ i {
 
 .fake-icon-button {
     border-radius: 5px;
-    width: 35px;
+    width: 37px;
     text-align: center;
+    background: lightgray;
+    display: flex;
+    margin-right: 5px;
+}
+
+.fake-icon-double-width {
+    width: 58px;
+}
+
+.fake-icon-double-width i:first-child {
+    margin-right: 5px;
+}
+
+.fake-icon-button:hover {
+    background: grey;
+    color: whitesmoke
 }
 
 .list-trash-shell-button i {
@@ -95,7 +124,7 @@ i {
     width: 25%;
 }
 
-.trash-shell-button:hover, .fake-icon-button:hover {
+.trash-shell-button:hover {
     background: lightgray
 }
 

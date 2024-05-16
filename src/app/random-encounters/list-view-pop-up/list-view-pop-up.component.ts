@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Router } from '@angular/router';
 import { BeastService } from 'src/app/util/services/beast.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class ListViewPopUpComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { listid: string },
     public dialogRef: MatDialogRef<ListViewPopUpComponent>,
-    private beastService: BeastService
+    private beastService: BeastService,
+    private router: Router,
   ) { }
 
   public isLoading = true;
@@ -24,5 +26,13 @@ export class ListViewPopUpComponent implements OnInit {
       this.isLoading = false;
     })
   }
+
+  randomlyRoll(url) {
+    this.beastService.getRandomMonsterFromList(url).subscribe(beast => {
+      this.dialogRef.close();
+      this.router.navigate(['/beast', beast.beastid, 'gm']);
+    })
+  }
+
 
 }

@@ -27,12 +27,26 @@ export class RandomEncountersListComponent implements OnInit {
       this.lists = data['lists']
     })
 
-    if ((this.router.url.match(new RegExp("\/", "g")) || []).length === 2) {
+    const urlMatch = this.router.url.match(new RegExp("\/", "g")) || []
+    if (urlMatch.length === 2) {
       const listid = this.router.url.split('/')[2]
       if (listid) {
-        this.dialog.open(ListViewPopUpComponent, { width: '400px', data: { listid }});
+        this.dialog.open(ListViewPopUpComponent, { width: '400px', data: { listid } });
       }
+    } else if (urlMatch.length === 3 && this.router.url.split('/')[3] === 'directlyTo') {
+      const listid = this.router.url.split('/')[2]
+      this.beastService.getRandomMonsterFromList(listid).subscribe(beast => {
+        this.router.navigate(['/beast', beast.beastid, 'gm']);
+      })
     }
+  }
+
+  randomlyRoll(event, url) {
+    event.stopImmediatePropagation()
+    
+    this.beastService.getRandomMonsterFromList(url).subscribe(beast => {
+      this.router.navigate(['/beast', beast.beastid, 'gm']);
+    })
   }
 
   addNewTest() {
@@ -47,13 +61,13 @@ export class RandomEncountersListComponent implements OnInit {
     const value = event.target.value
     this.lists.forEach(list => {
       if (list.id === listid && list.name !== value) {
-        this.beastService.updateListName({name: value, id: listid}).subscribe()
+        this.beastService.updateListName({ name: value, id: listid }).subscribe()
       }
     })
   }
 
   captureRarity(event, entryid) {
-    this.beastService.updateBeastRarity({rarity: event.target.value, entryid}).subscribe()
+    this.beastService.updateBeastRarity({ rarity: event.target.value, entryid }).subscribe()
   }
 
   toggleCheckEntryDelete = (id) => {
@@ -81,14 +95,14 @@ export class RandomEncountersListComponent implements OnInit {
     })
   }
 
-  getShortCutURL(urlstubb) {
+  getShortCutURL(urlstubb, isDirectlyTo) {
     let textArea = document.createElement("textarea");
 
     textArea.style.position = 'fixed';
     textArea.style.top = '0';
     textArea.style.left = '0';
 
-    let url = `${window.location.origin}/lists/${urlstubb}`
+    let url = `${window.location.origin}/lists/${urlstubb}${isDirectlyTo ? '/directlyTo' : ''}`
     textArea.value = url;
 
     document.body.appendChild(textArea);
