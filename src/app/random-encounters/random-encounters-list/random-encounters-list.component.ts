@@ -23,6 +23,7 @@ export class RandomEncountersListComponent implements OnInit {
   public checkForListDelete = {}
 
   ngOnInit() {
+    console.log(this.beastService.loggedIn)
     this.route.data.subscribe(data => {
       if (!data.message) {
         this.lists = data['lists']

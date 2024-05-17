@@ -178,7 +178,7 @@ function checkIfOwnerOfList (req, res, next) {
         } else {
             next()
         }
-    })
+    }).catch(e => sendErrorForward('check if owner', e, res))
 }
 
 function checkIfOwnerOfListViaBeast (req, res, next) {
@@ -190,17 +190,64 @@ function checkIfOwnerOfListViaBeast (req, res, next) {
         } else {
             next()
         }
-    })
+    }).catch(e => sendErrorForward('check if owner via beast', e, res))
+}
+
+function checkListNumber (req, res, next) {
+    const db = req.app.get('db')
+    db.get.list.count(req.user.id).then(result => {
+        const count = result[0].count
+        let canAddToList = false;
+        if (req.user.patreon) {
+            canAddToList = count < req.user.patreon
+        } else {
+            canAddToList = count < 0
+        }
+
+        if (req.user.id === 1) {
+            canAddToList = true
+        }
+
+        if (canAddToList) {
+            next()
+        } else {
+            checkForContentTypeBeforeSending(res, { message: `You need to upgrade your Patreon to add more lists`, color: 'red' })
+        }
+    }).catch(e => sendErrorForward('list count', e, res))
+}
+
+function checkBeastNumber (req, res, next) {
+    const db = req.app.get('db')
+    const listid = req.body.listid ? req.body.listid : req.params.listid
+    db.get.list.beastCount(listid).then(result => {
+        const count = result[0].count
+        let canAddToList = false;
+        if (req.user.patreon) {
+            canAddToList = count < (req.user.patreon * 25) + 50
+        } else {
+            canAddToList = count < 50
+        }
+
+        if (req.user.id === 1) {
+            canAddToList = true
+        }
+
+        if (canAddToList) {
+            next()
+        } else {
+            checkForContentTypeBeforeSending(res, { message: `You need to upgrade your Patreon to add more entries to this list`, color: 'red' })
+        }
+    }).catch(e => sendErrorForward('beast count', e, res))
 }
 
 app.get('/api/getLists', listCtrl.getLists)
 app.get('/api/getListsWithBeasts', listCtrl.getListsWithBeasts)
 app.get('/api/getListByHash/:hash', listCtrl.getListByHash)
 app.get('/api/getRandomMonsterFromList/:listid', listCtrl.getRandomMonsterFromList)
-app.patch('/api/addList', testIfLoggedIn, listCtrl.addList)
+app.patch('/api/addList', testIfLoggedIn, checkListNumber, listCtrl.addList)
 app.patch('/api/updateListName', testIfLoggedIn, checkIfOwnerOfList, listCtrl.updateListName)
 app.patch('/api/updateBeastRarity', testIfLoggedIn, checkIfOwnerOfListViaBeast, listCtrl.updateBeastRarity)
-app.patch('/api/addBeastToList', testIfLoggedIn, checkIfOwnerOfList, listCtrl.addBeastToList)
+app.patch('/api/addBeastToList', testIfLoggedIn, checkIfOwnerOfList, checkBeastNumber, listCtrl.addBeastToList)
 app.delete('/api/deleteBeastFromList/:entryid', testIfLoggedIn, checkIfOwnerOfListViaBeast, listCtrl.deleteBeastFromList)
 app.delete('/api/deleteList/:listid', testIfLoggedIn, checkIfOwnerOfList, listCtrl.deleteList)
 

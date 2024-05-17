@@ -16,7 +16,7 @@
             <input [value]="list.name" (blur)="updateName(list.id, $event)">
           </mat-panel-title>
           <mat-panel-description>
-            {{list.beasts.length}} Entries
+            {{list.beasts.length}} / {{beastService.loggedIn && beastService.loggedIn.patreon ? (beastService.loggedIn.patreon * 25) + 50 : 50}} Entries
 
             <div matTooltip="Randomly roll on this list and go to the entry" (click)="randomlyRoll($event, list.url)" class="fake-icon-button">
               <i class="fa-solid fa-dice"></i>
@@ -91,6 +91,9 @@
   </div>
 
   <div *ngIf="(lists.length === 0 && beastService.loggedIn) || lists.length > 0" class="add-button-shell">
+    <div class="list-number-shell" *ngIf="beastService.loggedIn && beastService.loggedIn.patreon">
+        <p>{{lists.length}} / {{beastService.loggedIn.patreon}}</p>
+    </div>
     <button mat-raised-button (click)="addNewTest('habitat')" color="accent"><i class="fa-solid fa-plus"></i>
       List</button>
   </div>

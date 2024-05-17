@@ -32,6 +32,7 @@
   <h3>Add {{data.beastidarray ? 'All' : ''}} To:</h3>
   <div *ngFor="let list of lists" class="list-row-button" (click)="addToList(list.id)">
     <p>- {{list.name}}</p>
+    <p>{{list.count}} / {{beastService.loggedIn && beastService.loggedIn.patreon ? (beastService.loggedIn.patreon * 25) + 50 : 50}}</p>
   </div>
   <div class="list-row-button" (click)="addToNewList()">
     <p><i class="fa-solid fa-plus"></i> Add to a New List</p>
