@@ -99,7 +99,7 @@ app.get('/api/spellsForPleroma', getCtrl.getSpells)
 app.get('/api/randomMonster', searchCtrl.getRandomMonster)
 app.get('/api/playerCanView/:id', ctrl.checkIfPlayerView)
 app.get('/api/favorites', ctrl.getUsersFavorites)
-app.get('/api/checkCustomCatalogAccess', (req, res) => req.user && req.user.patreon >=5 ? res.send({canGo: true}) : res.send({color: 'red', message: "You need to increase your Patreon donation to access the custom monster tools"}))
+app.get('/api/checkCustomCatalogAccess', (req, res) => req.user && req.user.patreon >= 5 ? res.send({ canGo: true }) : res.send({ color: 'red', message: "You need to increase your Patreon donation to access the custom monster tools" }))
 
 app.get('/api/obstacles/catalog', (req, res) => res.send(obstCtrl.catalogCache))
 app.get('/api/obstacles/single/:id', obstCtrl.get)
@@ -160,16 +160,49 @@ app.get('/api/equipment', equipmentCtrl.getAllEquipment)
 app.get('/api/checkToken/:id', getCtrl.checkToken)
 app.get('/api/getAllClimates', getCtrl.getAllClimates)
 
+
+function testIfLoggedIn (req, res, next) {
+    if (!req.user || !req.user.id) {
+        checkForContentTypeBeforeSending(res, { message: `You need to log in to access this list`, color: 'red' })
+    } else {
+        next()
+    }
+}
+
+function checkIfOwnerOfList (req, res, next) {
+    const db = req.app.get('db')
+    const listid = req.body.listid ? req.body.listid : req.params.listid
+    db.get.list.owner(listid).then(ownerid => {
+        if (req.user.id !== ownerid[0].userid) {
+            checkForContentTypeBeforeSending(res, { message: `You don't own this list so can't edit it`, color: 'red' })
+        } else {
+            next()
+        }
+    })
+}
+
+function checkIfOwnerOfListViaBeast (req, res, next) {
+    const db = req.app.get('db')
+    const entryid = req.body.entryid ? req.body.entryid : req.params.entryid
+    db.get.list.ownerViaBeast(entryid).then(ownerid => {
+        if (req.user.id !== ownerid[0].userid) {
+            checkForContentTypeBeforeSending(res, { message: `You don't own this list so can't edit it`, color: 'red' })
+        } else {
+            next()
+        }
+    })
+}
+
 app.get('/api/getLists', listCtrl.getLists)
 app.get('/api/getListsWithBeasts', listCtrl.getListsWithBeasts)
-app.get('/api/getListByHash/:id', listCtrl.getListByHash)
-app.get('/api/getRandomMonsterFromList/:id', listCtrl.getRandomMonsterFromList)
-app.patch('/api/addList', listCtrl.addList)
-app.patch('/api/updateListName', listCtrl.updateListName)
-app.patch('/api/updateBeastRarity', listCtrl.updateBeastRarity)
-app.patch('/api/addBeastToList', listCtrl.addBeastToList)
-app.delete('/api/deleteBeastFromList/:id', listCtrl.deleteBeastFromList)
-app.delete('/api/deleteList/:id', listCtrl.deleteList)
+app.get('/api/getListByHash/:hash', listCtrl.getListByHash)
+app.get('/api/getRandomMonsterFromList/:listid', listCtrl.getRandomMonsterFromList)
+app.patch('/api/addList', testIfLoggedIn, listCtrl.addList)
+app.patch('/api/updateListName', testIfLoggedIn, checkIfOwnerOfList, listCtrl.updateListName)
+app.patch('/api/updateBeastRarity', testIfLoggedIn, checkIfOwnerOfListViaBeast, listCtrl.updateBeastRarity)
+app.patch('/api/addBeastToList', testIfLoggedIn, checkIfOwnerOfList, listCtrl.addBeastToList)
+app.delete('/api/deleteBeastFromList/:entryid', testIfLoggedIn, checkIfOwnerOfListViaBeast, listCtrl.deleteBeastFromList)
+app.delete('/api/deleteList/:listid', testIfLoggedIn, checkIfOwnerOfList, listCtrl.deleteList)
 
 app.get('/api/customCatalog', catalogCtrl.getCustomCatalog)
 
@@ -180,16 +213,16 @@ app.patch('/api/movement', squareCtrl.getMovement)
 
 app.post('/api/beasts/add', ownerAuth, limitAuth, ctrl.addBeast)
 app.post('/api/obstacles/add', ownerAuth, obstCtrl.add)
-app.post('/api/v1/upload/:id', ownerAuth, uploadMain.array('image', 1), (req, res) =>{ 
+app.post('/api/v1/upload/:id', ownerAuth, uploadMain.array('image', 1), (req, res) => {
     if (!req.file) {
-        res.send({message: 'Wrong file type, only upload JPEG and/or PNG', color: 'red'})
+        res.send({ message: 'Wrong file type, only upload JPEG and/or PNG', color: 'red' })
     } else {
         res.send({ image: req.file })
     }
 });
-app.post('/api/v1/uploadToken/:id', ownerAuth, uploadToken.array('image', 1), (req, res) =>{ 
+app.post('/api/v1/uploadToken/:id', ownerAuth, uploadToken.array('image', 1), (req, res) => {
     if (!req.file) {
-        res.send({message: 'Wrong file type, only upload JPEG and/or PNG', color: 'red'})
+        res.send({ message: 'Wrong file type, only upload JPEG and/or PNG', color: 'red' })
     } else {
         res.send({ image: req.file })
     }

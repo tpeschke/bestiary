@@ -1,7 +1,11 @@
 <mat-card>
-  <div *ngIf="lists.length === 0">
+  <div *ngIf="lists.length === 0 && beastService.loggedIn">
     <h1>You have no random encounter lists!</h1>
     <p>Click on the "<i class="fa-solid fa-plus"></i> List" button below to get started!</p>
+  </div>
+
+  <div *ngIf="lists.length === 0 && !beastService.loggedIn">
+    <h1>You need to log in to view your lists</h1>
   </div>
   
   <div *ngIf="lists.length > 0">
@@ -85,7 +89,8 @@
       </mat-expansion-panel>
     </mat-accordion>
   </div>
-  <div class="add-button-shell">
+
+  <div *ngIf="(lists.length === 0 && beastService.loggedIn) || lists.length > 0" class="add-button-shell">
     <button mat-raised-button (click)="addNewTest('habitat')" color="accent"><i class="fa-solid fa-plus"></i>
       List</button>
   </div>

@@ -1,19 +1,24 @@
 const { createHash } = require('./helpers')
 const { sendErrorForwardNoFile, checkForContentTypeBeforeSending } = require('./helpers')
+const { callback } = require('./server-config')
 
 const sendErrorForward = sendErrorForwardNoFile('list controller')
 
 let listController = {
     getLists: (req, res) => {
         const db = req.app.get('db')
-        db.get.list.lists(req.user.id).then(results => {
-            checkForContentTypeBeforeSending(res, results)
-        }).catch(e => sendErrorForward('get list for user', e, res))
+        if (req.user && req.user.id) {
+            db.get.list.lists(req.user.id).then(results => {
+                checkForContentTypeBeforeSending(res, results)
+            }).catch(e => sendErrorForward('get list for user', e, res))
+        } else {
+            checkForContentTypeBeforeSending(res, [])
+        }
     },
     getListByHash: (req, res) => {
         const db = req.app.get('db')
-        let id = req.params.id
-        db.get.list.byHash(id).then(lists => {
+        let hash = req.params.hash
+        db.get.list.byHash(hash).then(lists => {
             promiseArray = []
             lists.forEach(list => {
                 promiseArray.push(db.get.list.beasts(list.id).then(beasts => {
@@ -28,23 +33,27 @@ let listController = {
     },
     getListsWithBeasts: (req, res) => {
         const db = req.app.get('db')
-        db.get.list.lists(req.user.id).then(lists => {
-            promiseArray = []
-            lists.forEach(list => {
-                promiseArray.push(db.get.list.beasts(list.id).then(beasts => {
-                    list.beasts = beasts
-                    return true
-                }))
-            })
-            Promise.all(promiseArray).then(_ => {
-                checkForContentTypeBeforeSending(res, lists)
-            })
-        }).catch(e => sendErrorForward('get list for user 3', e, res))
+        if (req.user && req.user.id) {
+            db.get.list.lists(req.user.id).then(lists => {
+                promiseArray = []
+                lists.forEach(list => {
+                    promiseArray.push(db.get.list.beasts(list.id).then(beasts => {
+                        list.beasts = beasts
+                        return true
+                    }))
+                })
+                Promise.all(promiseArray).then(_ => {
+                    checkForContentTypeBeforeSending(res, lists)
+                })
+            }).catch(e => sendErrorForward('get list for user 3', e, res))
+        } else {
+            checkForContentTypeBeforeSending(res, [])
+        }
     },
     getRandomMonsterFromList: (req, res) => {
         const db = req.app.get('db')
-        let id = req.params.id
-        db.get.list.randomBeast(id).then(beast => {
+        let listid = req.params.listid
+        db.get.list.randomBeast(listid).then(beast => {
             checkForContentTypeBeforeSending(res, beast[0])
         }).catch(e => sendErrorForward('get random beast', e, res))
     },
@@ -67,7 +76,7 @@ let listController = {
     },
     updateListName: ({ app, body }, res) => {
         const db = app.get('db')
-        db.update.list.name(body.name, body.id).then(result => {
+        db.update.list.name(body.name, body.listid).then(result => {
             checkForContentTypeBeforeSending(res, result)
         }).catch(e => sendErrorForward('update list name', e, res))
     },
@@ -80,14 +89,14 @@ let listController = {
     },
     deleteBeastFromList: (req, res) => {
         const db = req.app.get('db')
-        let id = +req.params.id
+        let id = +req.params.entryid
         db.delete.list.entry(id).then(_ => {
             checkForContentTypeBeforeSending(res, { message: `Entry was successfully deleted from list`, color: 'green' })
         }).catch(e => sendErrorForward('delete beast', e, res))
     },
     deleteList: (req, res) => {
         const db = req.app.get('db')
-        let id = +req.params.id
+        let id = +req.params.listid
         db.delete.list.allEntries(id).then(_ => {
             db.delete.list.list(id).then(_ => {
                 checkForContentTypeBeforeSending(res, { message: `List was successfully deleted`, color: 'green' })

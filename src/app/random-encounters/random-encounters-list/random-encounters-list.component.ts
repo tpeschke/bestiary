@@ -24,7 +24,9 @@ export class RandomEncountersListComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      this.lists = data['lists']
+      if (!data.message) {
+        this.lists = data['lists']
+      }
     })
 
     const urlMatch = this.router.url.match(new RegExp("\/", "g")) || []
@@ -65,7 +67,7 @@ export class RandomEncountersListComponent implements OnInit {
     const value = event.target.value
     this.lists.forEach(list => {
       if (list.id === listid && list.name !== value) {
-        this.beastService.updateListName({ name: value, id: listid }).subscribe()
+        this.beastService.updateListName({ name: value, listid: listid }).subscribe()
       }
     })
   }

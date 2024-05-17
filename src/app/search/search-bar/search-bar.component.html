@@ -252,7 +252,13 @@
         </div>
     </div>
 
-    <div [routerLink]="['/lists']" [class]="isLists ? 'noDisplay' : 'custom-catalog-shell'" matTooltip="Go to your random encounter lists">
+    <div [routerLink]="['/lists']" *ngIf="beastService.loggedIn" [class]="isLists ? 'noDisplay' : 'custom-catalog-shell'" matTooltip="Go to your random encounter lists">
+        <div class="custom-catalog-icons">
+            <i class="fa-solid fa-table"></i>
+            <i class="fa-solid fa-shuffle"></i>
+        </div>
+    </div>
+    <div *ngIf="!beastService.loggedIn" [class]="isLists ? 'noDisplay' : 'custom-catalog-shell disabled'" matTooltip="You need to log in to go to your random encounter lists">
         <div class="custom-catalog-icons">
             <i class="fa-solid fa-table"></i>
             <i class="fa-solid fa-shuffle"></i>

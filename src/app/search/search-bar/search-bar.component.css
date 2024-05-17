@@ -139,6 +139,10 @@ button {
   flex-wrap: wrap;
 }
 
+.disabled {
+  background-color: grey;
+}
+
 @media (max-width: 699px) {
   .example-half-width {
     width: 100%;
