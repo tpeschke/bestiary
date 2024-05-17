@@ -13,7 +13,7 @@
             <i class="fas fa-exclamation-triangle"></i>
             {{obstacle.name}}
           </button>
-          <button *ngIf="obstacle.type === 'challenge'" class="obstacle-button" mat-raised-button color="accent"
+          <button *ngIf="obstacle.type === 'challenge'" class="obstacle-button" mat-raised-button color="primary"
           [routerLink]="['/obstacle', 'view', obstacle.id]">
             <i class="fas fa-project-diagram"></i>
             {{obstacle.name}}

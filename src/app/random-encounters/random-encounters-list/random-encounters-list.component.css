@@ -40,7 +40,7 @@ i {
 
 .add-button-shell {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     margin-top: 15px;
     align-items: center;
 }
@@ -76,7 +76,7 @@ i {
 
 .trash-shell-div {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .trash-shell-button {
