@@ -1357,7 +1357,8 @@ export class BeastViewGmComponent implements OnInit {
       secondaryrole: basicSecondaryRole, socialrole: basicSocialRole, socialsecondary: basicSocialSecondary,
       skillrole: basicSkillRole, notes, movement, rolenameorder, roleInfo, hash, combatStatArray,
       knockback: basicKnockback, notrauma: basicTrauma, noknockback: basicnoknockback, phyiscalAndStress, locationalvitality,
-      spells, skills, challenges, obstacles, conflict, rollundertrauma: basicRollUnderTrauma } = this.beast
+      spells, skills, challenges, obstacles, conflict, rollundertrauma: basicRollUnderTrauma, atk_skill, 
+      def_skill, atk_conf, def_conf } = this.beast
 
     const selectedRoleInfo = roleInfo[this.selectedRoleId]
 
@@ -1398,12 +1399,15 @@ export class BeastViewGmComponent implements OnInit {
         ...confrontation,
         role: socialrole,
         secondary: socialsecondary,
-        roleattacks: selectedRoleInfo.attack_conf,
-        roledefenses: selectedRoleInfo.defenses_conf
+        attacknotes: atk_conf,
+        defensenotes: def_conf,
+        roleattacks: selectedRoleInfo ? selectedRoleInfo.attack_conf : null,
+        roledefenses: selectedRoleInfo ? selectedRoleInfo.defense_conf : null,
       },
       combat: {
-        attacknotes: sp_atk, defensenotes: sp_def, tactics, combatCounterHash, roleattacks: selectedRoleInfo.attack,
-        roledefenses: selectedRoleInfo.defense,
+        attacknotes: sp_atk, defensenotes: sp_def, tactics, combatCounterHash, 
+        roleattacks: selectedRoleInfo ? selectedRoleInfo.attack : null,
+        roledefenses: selectedRoleInfo ? selectedRoleInfo.defense : null,
         role: role,
         secondary: combatsecondary,
         attacks: combatStatArray.filter(combat => combat.roleid === this.selectedRoleId).map(combat => combat.combatSquare),
@@ -1422,8 +1426,10 @@ export class BeastViewGmComponent implements OnInit {
             rank: this.getSkillRank(skill.strength, skill.adjustment)
           }
         }),
-        roleattacks: selectedRoleInfo.attack_skill,
-        roledefenses: selectedRoleInfo.defenses_skill
+        attacknotes: atk_skill,
+        defensenotes: def_skill,
+        roleattacks: selectedRoleInfo ? selectedRoleInfo.attack_skill : null,
+        roledefenses: selectedRoleInfo ? selectedRoleInfo.defense_skill : null,
       }
     }
 
