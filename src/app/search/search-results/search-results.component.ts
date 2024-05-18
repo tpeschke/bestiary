@@ -29,14 +29,6 @@ export class SearchResultsComponent implements OnInit {
 
   ngOnInit() {
     let { params } = this.currentRoute.snapshot
-    if (params.savedRoute) {
-      const routeDictionary = {
-        wisthulzLowlandGeneral: {climate: 13},
-        wisthulzPrenMire: {climate: 9},
-        wisthulzHighlandGeneral: {climate: 10}
-      }
-      params = {...routeDictionary[params.savedRoute], goDirectlyTo: true}
-    }
     this.adventureService.searchBeasts(params).subscribe(incomingBeasts => {
       this.beasts = incomingBeasts
       if (params.goDirectlyTo) {

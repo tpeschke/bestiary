@@ -173,7 +173,7 @@ function checkIfOwnerOfList (req, res, next) {
     const db = req.app.get('db')
     const listid = req.body.listid ? req.body.listid : req.params.listid
     db.get.list.owner(listid).then(ownerid => {
-        if (req.user.id !== ownerid[0].userid) {
+        if (ownerid.length > 0 && req.user.id !== ownerid[0].userid) {
             checkForContentTypeBeforeSending(res, { message: `You don't own this list so can't edit it`, color: 'red' })
         } else {
             next()

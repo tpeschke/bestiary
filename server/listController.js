@@ -67,12 +67,12 @@ let listController = {
         const db = app.get('db')
         const { beastid, listid, beastidarray, rarity } = body
         db.get.list.beastCount(listid).then(result => {
-            const stopsLeft = (req.user.patreon ? (req.user.patreon * 25) + 50 : 50) - result[0].count 
+            const spotsLeft = (user.id === 1 ? 1000 : user.patreon ? (user.patreon * 25) + 50 : 50) - result[0].count 
             if (listid) {
-                addBeasts(res, db, beastidarray ? beastidarray : [{ beastid, rarity }], listid, false, stopsLeft)
+                addBeasts(res, db, beastidarray ? beastidarray : [{ beastid, rarity }], listid, false, spotsLeft)
             } else {
-                db.add.list(user.id).then(newList => {
-                    addBeasts(res, db, beastidarray ? beastidarray : [{ beastid, rarity }], newList[0].id, true, stopsLeft)
+                db.add.list(user.id, createHash()).then(newList => {
+                    addBeasts(res, db, beastidarray ? beastidarray : [{ beastid, rarity }], newList[0].id, true, spotsLeft)
                 }).catch(e => sendErrorForward('add list 2', e, res))
             }
         })
@@ -108,10 +108,9 @@ let listController = {
     }
 }
 
-addBeasts = (res, db, beastidarray, listid, isNewList, stopsLeft) => {
+addBeasts = (res, db, beastidarray, listid, isNewList, spotsLeft) => {
     let promiseArray = [];
-
-    for (i = 0; i < beastidarray.length || i < stopsLeft; i++) {
+    for (i = 0; i < Math.min(spotsLeft - 1, beastidarray.length); i++) {
         promiseArray.push(db.add.beastToList(beastidarray[i].beastid, listid, beastidarray[i].rarity).catch(e => sendErrorForward('add beast to list', e, res)))
     }
 
