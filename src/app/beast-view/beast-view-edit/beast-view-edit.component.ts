@@ -168,6 +168,8 @@ export class BeastViewEditComponent implements OnInit {
     },
   ]
 
+  public templateIds = [503, 504, 494, 505, 492, 508, 502, 491, 498, 512, 511, 507, 513, 496, 499, 501, 500, 497, 493, 509, 515, 514, 510]
+
   public temperament = {
     temperament: null,
     tooltip: null,
@@ -1331,6 +1333,18 @@ export class BeastViewEditComponent implements OnInit {
 
   removeChip(type, index) {
     this.beast[type].splice(index, 1)
+  }
+
+  checkIfValidTemplate = () => {
+    const TEMPLATE = 'TEMPLATE'
+    if (this.beast.name && this.beast.name.substring(0, TEMPLATE.length).toUpperCase() === TEMPLATE) {
+      if (this.templateIds.indexOf(this.beast.id) > -1) {
+        return true
+      } else {
+        return false
+      }
+    }
+    return true
   }
 
   onMainImagePicked(event: Event): void {
