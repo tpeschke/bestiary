@@ -539,6 +539,11 @@ let controllerObj = {
       return result
     }).catch(e => sendErrorForward('get encounter all groups', e, res)))
 
+    encounterObject.objective = {
+      player: getObjective(),
+      enemy: getObjective()
+    }
+
     if (+req.query.groupId) {
       promiseArray.push(db.get.encounter.numbers(beastId).then(numbers => {
         if (numbers.length > 0) {
@@ -623,6 +628,75 @@ let controllerObj = {
   }
 }
 
+function getObjective() {
+  const ROUTE = 'Route'
+    , DESTROY = {
+      item: 'Destroy',
+      person: 'Kill'
+    }
+    , DEFEND = 'Defend'
+    , TAKENHOLD = 'Take & Hold'
+    , BRINGXTOY = 'Bring X to Y'
+    , KEEPX = {
+      item: 'Keep X Intact',
+      person: 'Keep X Alive'
+    }
+
+  const verbs = [ROUTE, DESTROY, DEFEND, TAKENHOLD, BRINGXTOY, KEEPX]
+
+  const ALLENEMIES = {
+    target: 'All Enemies',
+    type: 'person'
+  }
+    , SPECIFICENEMY = {
+      target: 'Specific Enemy',
+      type: 'person'
+    }
+    , CAPTAIN = {
+      target: 'Captain',
+      type: 'person'
+    }
+    , ITEM = {
+      target: 'Item',
+      type: 'item'
+    }
+    , ZONE = {
+      target: 'Zone',
+      type: 'item'
+    }
+    , ALLIES = {
+      target: 'Ally',
+      type: 'person'
+    }
+
+  const targets = [ALLENEMIES, SPECIFICENEMY, CAPTAIN, ITEM, ZONE, ALLIES]
+
+  const NONE = 'In Any Number of Seconds'
+    , UNDER = 'Under Time Limit'
+    , LONGER = 'For Longer Than Time Limit'
+    , BEFORE = 'Before Other Side Completes Their Objective'
+
+  const timelimits = [NONE, UNDER, LONGER, BEFORE]
+
+  let verb = verbs[Math.floor(Math.random() * verbs.length)]
+  let target = targets[Math.floor(Math.random() * targets.length)]
+  let timelimit = timelimits[Math.floor(Math.random() * timelimits.length)]
+
+  if (!!verb.person) {
+    verb = verb[target.type]
+  }
+
+  if (verb.includes('X')) {
+    const secondTarget = targets[Math.floor(Math.random() * targets.length)]
+
+    verb = verb.replace('X', target.target).replace('Y', secondTarget.target)
+
+    return `${verb} ${timelimit}`
+  } else {
+    return `${verb} ${target.target} ${timelimit}`
+  }
+}
+
 function getModifierNumber(encounterRoles, modifierName) {
   modifierChances = {
     unique: .05,
@@ -632,7 +706,7 @@ function getModifierNumber(encounterRoles, modifierName) {
 
   for (let key in encounterRoles) {
     if (!encounterRoles[key].number) {
-      encounterRoles[key] = {number: encounterRoles[key]}
+      encounterRoles[key] = { number: encounterRoles[key] }
     }
     const number = encounterRoles[key].number
 

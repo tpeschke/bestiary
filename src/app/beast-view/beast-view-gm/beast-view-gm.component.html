@@ -550,6 +550,14 @@
               </p>
             </div>
           </div>
+          <div *ngIf="encounter.objective.enemy" class="flex-row-opposite">
+            <h3>Enemy Objective</h3>
+            <p>{{encounter.objective.enemy}}</p>
+          </div>
+          <div *ngIf="encounter.objective.player" class="flex-row-opposite">
+            <h3>Player Objective</h3>
+            <p>{{encounter.objective.player}}</p>
+          </div>
           <div *ngIf="encounter.verb" class="flex-row-opposite">
             <h3>Verb</h3>
             <p>{{encounter.verb}}</p>
