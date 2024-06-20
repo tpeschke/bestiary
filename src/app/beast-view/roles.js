@@ -150,12 +150,12 @@ export default {
             'Defender': {
                 strengths: ['Defensive', 'Powerful Characteristics'],
                 weaknesses: ['Offensive', 'Few Characteristics'],
-                description: "Defenders have a high Nerve but few Characteristics, which are mostly Devotions. However, what Characteristics they do have have very high Ranks."
+                description: "Defenders have a high Nerve but few Characteristics, which are mostly Relationships. However, what Characteristics they do have have very high Ranks."
             },
             'Support': {
                 strengths: ['Buffing Others', 'Debuffing Others'],
                 weaknesses: ['Being Alone'],
-                description: "Supports have lots of Descriptions and Devotions but no Convictions and all their Characteristics have low Ranks. They also have low Nerves."
+                description: "Supports have lots of Descriptions and Relationships but no Convictions and all their Characteristics have low Ranks. They also have low Nerves."
             },
             'Corruptor': {
                 strengths: ['Nerve', 'Flexible Characteristics'],

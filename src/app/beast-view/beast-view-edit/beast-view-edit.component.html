@@ -568,7 +568,7 @@
           </mat-form-field>
           <br />
 
-          <h2>Devotions</h2>
+          <h2>Relationships</h2>
           <div class="divider"></div>
           <app-characteristic-display [selectedRoleId]="selectedRoleId"
             [removeNewSecondaryItem]="removeNewSecondaryItem" [characteristicInfo]='beast.conflict.devotions'
@@ -578,11 +578,11 @@
 
           <button mat-raised-button (click)="addNewSecondaryItem('conflict', 'devotions')" color="accent"><i
               class="fa-solid fa-plus icon-medium"></i>
-            Devotion</button>
+            Relationship</button>
           <br *ngIf="beast.conflict.devotions.length > 0" />
           <br />
           <mat-form-field class="characteristics-appearing" *ngIf="beast.conflict.devotions.length > 0">
-            <input matInput placeholder="Max Devotions Appearing" [value]="beast.devotionlimit"
+            <input matInput placeholder="Max Relationships Appearing" [value]="beast.devotionlimit"
               (change)="captureInput($event, 'devotionlimit')" type="number">
           </mat-form-field>
           <br />
