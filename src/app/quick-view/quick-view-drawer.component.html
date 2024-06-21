@@ -81,8 +81,13 @@
               </div>
 
               <div class="flex-row-opposite">
-                <strong>Trauma Threshold</strong>
-                <p>{{vitalities.trauma}}</p>
+                <strong>Trauma Threshold  <span *ngIf="!beast.notrauma">(<i
+                                              matTooltip="What you need to roll under for the Trauma Check"
+                                              class="fa-solid fa-down-long"></i>)</span></strong>
+                <span>
+                  <p>{{vitalities.trauma }}</p>
+                  <p *ngIf="!beast.notrauma" matTooltip="What you need to roll under for the Trauma Check"> ({{beast.rollundertrauma}})</p>
+                </span>
               </div>
 
               <div *ngIf="quickViewService.quickViewArray[beastIndex].phyiscalAndStress.mental.stress">

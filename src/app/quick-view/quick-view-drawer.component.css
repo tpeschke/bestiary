@@ -449,6 +449,14 @@ strong {
     left: 0px;
 }
 
+.flex-row-opposite span, .flex-row-opposite strong {
+    display: flex;
+}
+
+.flex-row-opposite strong span, .flex-row-opposite span p:last-child {
+    margin-left: 5px;
+}
+
 @media (max-width: 750px) {
     .quick-view-drawer {
         min-width: unset;
