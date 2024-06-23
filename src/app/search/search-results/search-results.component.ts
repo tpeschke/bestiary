@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BeastService } from 'src/app/util/services/beast.service';
 import variables from '../../../local.js'
@@ -39,6 +39,11 @@ export class SearchResultsComponent implements OnInit {
     this.router.events.subscribe(p => {
       if (p instanceof NavigationEnd) {
         params = this.currentRoute.snapshot.params
+
+        if (Object.keys(params).length === 0) {
+          this.router.navigate(['/']);
+        }
+
         this.beasts = 'loading'
         this.adventureService.searchBeasts(params).subscribe(incomingBeasts => {
           this.beasts = incomingBeasts
@@ -48,6 +53,10 @@ export class SearchResultsComponent implements OnInit {
     this.titleService.setTitle('Bestiary')
     this.metaService.updateTag( { name:'og:description', content: 'The Bestiary for the Bonfire TTRPG'});
     this.metaService.updateTag( { name:'og:image', content: "https://bestiary.stone-fish.com/assets/TWRealFire.png"});
+  }
+
+  ngOnDestroy() {
+    document.getElementById('searchInputs').querySelectorAll('input').forEach(input => input.value = '')
   }
 
   getRandom() {
