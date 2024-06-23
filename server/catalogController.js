@@ -8,45 +8,55 @@ let catalogObj = {
     newCache: [],
     getCustomCatalog: (req, res) => {
         let customCatalog = []
-        catalogObj.collectCustomCatalog(req, res, 0, customCatalog)
+        catalogObj.collectCustomCatalog(req, res, 0, [[]])
     },
     collectCustomCatalog: (req, res, index = 0, customCatalog) => {
         const db = req.app.get('db')
         let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
         if (alphabet[index]) {
-            db.get.catalogByLetterCustom(alphabet[index], req.user.id).then(result => {
+            db.get.catalog_all(req.user.id).then(results => {
                 let finalArray = []
-                if (result.length > 0) {
-                    customCatalog.push(result)
-                }
 
-                result = result.map(beast => {
-                    finalArray.push(db.get.rolesforcatalog(beast.id).then(result => {
-                        beast.roles = result
-                        if (!beast.defaultrole && beast.roles.length > 0) {
-                            beast.defaultrole = beast.roles[0].id
-                        }
-                        if (beast.defaultrole) {
-                            for (let i = 0; i < beast.roles.length; i++) {
-                                if (beast.roles[i].id === beast.defaultrole) {
-                                    beast.role = beast.roles[i].role
-                                    beast.secondaryrole = beast.roles[i].secondaryrole
-                                    beast.socialrole = beast.roles[i].socialrole
-                                    beast.skillrole = beast.roles[i].skillrole
-                                    beast.rarity = beast.roles[i].rarity
-                                    i = beast.roles.length
+                let currentAlphabetLetter = results[0].name.substring(0,1).toUpperCase();
+                let currentIndex = 0;
+
+                results.forEach(beast => {
+                    if (beast.name.substring(0,1).toUpperCase() !== currentAlphabetLetter) {
+                        currentIndex++
+                        customCatalog[currentIndex] = []
+                    }
+                    customCatalog[currentIndex].push(beast)
+                })
+
+                customCatalog.forEach(alphaElement => {
+                    alphaElement.forEach(beast => {
+                        finalArray.push(db.get.rolesforcatalog(beast.id).then(roles => {
+                            beast.roles = roles
+                            if (!beast.defaultrole && beast.roles.length > 0) {
+                                beast.defaultrole = beast.roles[0].id
+                            }
+                            if (beast.defaultrole) {
+                                for (let i = 0; i < beast.roles.length; i++) {
+                                    if (beast.roles[i].id === beast.defaultrole) {
+                                        beast.role = beast.roles[i].role
+                                        beast.secondaryrole = beast.roles[i].secondaryrole
+                                        beast.socialrole = beast.roles[i].socialrole
+                                        beast.skillrole = beast.roles[i].skillrole
+                                        beast.rarity = beast.roles[i].rarity
+                                        i = beast.roles.length
+                                    }
                                 }
                             }
-                        }
-                        return result
-                    }).catch(e => sendErrorForward('roles for custom catalog by alpha', e)))
+                            return roles
+                        }).catch(e => sendErrorForward('roles for custom catalog by alpha', e)))
+                    })
                 })
 
                 Promise.all(finalArray).then(_ => {
-                    catalogObj.collectCustomCatalog(req, res, ++index, customCatalog)
+                    checkForContentTypeBeforeSending(res, customCatalog)
                 }).catch(e => sendErrorForward('custom collect cache final promise', e))
-            }).catch(e => sendErrorForward('custom catalog by letter', e))
+            }).catch(e => sendErrorForward('collect all', e))
         } else {
             checkForContentTypeBeforeSending(res, customCatalog)
         }
