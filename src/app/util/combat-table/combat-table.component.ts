@@ -8,6 +8,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 export class CombatTableComponent implements OnInit {
   @Input() combatSquare: any
   @Input() editing: boolean
+  @Input() increaseInitiative: Function
 
   constructor() { }
 

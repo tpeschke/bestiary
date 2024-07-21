@@ -79,3 +79,7 @@ p {
     display: flex;
     justify-content: flex-start;
 }
+
+.rec-shell:hover i {
+    color: rgb(0, 245, 0)
+}

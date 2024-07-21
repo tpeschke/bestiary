@@ -20,6 +20,7 @@ export class CombatSquareComponent implements OnInit {
   @Input() socialpoints: any
   @Input() size: any
   @Input() passOnEquipmentChanges: Function
+  @Input() increaseInitiative: Function
 
   weaponControl: any;
   weaponGroupOptions: Observable<any[]>;

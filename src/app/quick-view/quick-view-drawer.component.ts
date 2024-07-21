@@ -52,6 +52,14 @@ export class QuickViewDrawerComponent implements OnInit {
     }
   }
 
+  setInitiative = (newSecond, beastIndex, mainIndex) => {
+    this.quickViewService.setInitiative(newSecond, beastIndex, mainIndex)
+  }
+
+  increaseInitiative = (seconds, beastIndex, mainIndex) => {
+    this.quickViewService.increaseInitiative(seconds, beastIndex, mainIndex)
+  }
+
   isNumber(val): boolean {
     return !isNaN(+val);
   }

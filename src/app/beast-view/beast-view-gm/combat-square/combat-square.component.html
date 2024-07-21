@@ -6,7 +6,7 @@
       matTooltip="Click to swap out gear." matTooltipClass="my-tooltip"></i>
     <i *ngIf="isASwarmBonus(combatSquare.weaponname ? combatSquare.weaponname : combatSquare.defaultweaponname)" class="fas fa-info-circle icon-small blue icon-small" matTooltip="For more information on what 'Swarm Bonus' means, see 'Swarm' in the Types section."></i>
   </h4>
-  <app-combat-table [combatSquare]="combatSquare" [editing]="false"></app-combat-table>
+  <app-combat-table [combatSquare]="combatSquare" [increaseInitiative]="increaseInitiative" [editing]="false"></app-combat-table>
 
   <div *ngIf="showEquipmentSelection">
     <mat-form-field>

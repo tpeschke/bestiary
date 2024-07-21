@@ -62,11 +62,19 @@ export class QuickViewService {
       })
       this.quickViewArray[beastIndex].locationalvitalities = locationalvitalities
     }
-    this.quickViewArray[beastIndex].vitalityArray.push({ vitality, trauma, label: "" })
+    this.quickViewArray[beastIndex].vitalityArray.push({ vitality, trauma, label: "", initiative: 0 })
   }
 
   removeVitalityFromBeast(beastIndex, vitalityIndex) {
     this.quickViewArray[beastIndex].vitalityArray.splice(vitalityIndex, 1)
+  }
+
+  setInitiative = (newSecond, beastIndex, mainIndex) => {
+    this.quickViewArray[beastIndex].vitalityArray[mainIndex].initiative = +newSecond
+  }
+
+  increaseInitiative = (seconds, beastIndex, mainIndex) => {
+    this.quickViewArray[beastIndex].vitalityArray[mainIndex].initiative += +seconds
   }
 
   checkCheckbox(event, index, location, beastIndex, vitalityIndex) {

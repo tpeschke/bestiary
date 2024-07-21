@@ -457,6 +457,17 @@ strong {
     margin-left: 5px;
 }
 
+.input-buttons button {
+    border: none;
+    margin-left: 3px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+
+.input-buttons button:hover {
+    background: whitesmoke;
+}
+
 @media (max-width: 750px) {
     .quick-view-drawer {
         min-width: unset;

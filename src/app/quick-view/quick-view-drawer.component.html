@@ -29,9 +29,7 @@
 
           <div class="tracked-in-combat-shell">
             <h3>Tracked in Combat Counter? </h3>
-
-            <mat-checkbox (change)="trackedInCombatCounter($event)">
-            </mat-checkbox>
+            <mat-checkbox (change)="trackedInCombatCounter($event)"></mat-checkbox>
           </div>
 
           <div *ngIf="!isTrackedInCombatCounter">
@@ -45,6 +43,18 @@
 
                 <div class="remove-button-shell" (click)="removeVitality(beastIndex, mainIndex)"><i
                     class="fa-solid fa-trash"></i></div>
+              </div>
+
+              <div class="flex-row-opposite">
+                <h3>Count</h3>
+                <div class="input-shell input-buttons">
+                  <mat-form-field>
+                    <input matInput [value]="vitalities.initiative" type="number" min="0" (change)="setInitiative($event.target.value, beastIndex, mainIndex)">
+                  </mat-form-field>
+                  <button (click)="increaseInitiative(1, beastIndex,  mainIndex)">+1</button>
+                  <button (click)="increaseInitiative(3, beastIndex,  mainIndex)">+3</button>
+                  <button (click)="increaseInitiative(5, beastIndex,  mainIndex)">+5</button>
+                </div>
               </div>
 
               <div class="flex-row-opposite">
@@ -111,7 +121,7 @@
           <div *ngIf="!isTrackedInCombatCounter" class="combat-shell">
             <div *ngFor="let combatSquare of beast.combatStatArray">
               <app-combat-square [baseCombatSquare]="combatSquare.combatSquare"
-                [combatStats]="combatSquare.combatStats"
+                [combatStats]="combatSquare.combatStats" [increaseInitiative]="increaseInitiative"
                 [primaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role"
                 [secondaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].secondaryrole : beast.secondaryrole"
                 [size]="selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size ? beast.size : 'Medium'"
