@@ -19,7 +19,9 @@ export class CombatTableComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    this.isMelee = changes.combatSquare.currentValue.weaponType === 'm'
+    if (changes.combatSquare) {
+      this.isMelee = changes.combatSquare.currentValue.weaponType === 'm'
+    }
   }
 
   formatEquipmentBonuses () {
