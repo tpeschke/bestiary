@@ -736,36 +736,61 @@ export class BeastViewGmComponent implements OnInit {
     })
   }
 
-  handleReagentPrice(harvest, difficulty) {
-    if (!difficulty || difficulty.toUpperCase() === 'N/A') {
-      difficulty = '0'
+  getIDDifficulty(difficulty, rarity) {
+    if (difficulty.toUpperCase() === 'N/A') {
+      return 'N/A'
     }
-    if (harvest && harvest.toUpperCase() === 'N/A') {
-      harvest = '0'
-    } else if (!harvest) {
+    const rarityModifier = this.getRarityModifier(rarity) !== '0' ? '+' + this.getRarityModifier(rarity) : ''
+    return '+' + difficulty + rarityModifier
+  }
+
+  getHarvest(difficulty, harvest) {
+    if (!harvest) {
+      harvest = difficulty 
+    }
+    if (harvest.toUpperCase() === 'N/A') {
+      return 'N/A'
+    } else {
+      return '+' + harvest
+    }
+  }
+
+  handleReagentPrice(harvest, difficulty) {
+    if (!harvest) {
       harvest = difficulty
+    }
+    if (difficulty && difficulty.toUpperCase() === 'N/A' && harvest && harvest.toUpperCase() === 'N/A') {
+      return 'Priceless'
+    }
+    if (!difficulty || difficulty.toUpperCase() === 'N/A') {
+      difficulty = 0
+    }
+    if (harvest.toUpperCase() === 'N/A') {
+      harvest = 0
     }
 
     let harvestAndDifficulty = this.calculatorService.calculateAverageOfDice(harvest + "+" + difficulty + '+' + this.getRarityModifier(this.beast.rarity))
       , justDifficulty = this.calculatorService.calculateAverageOfDice(difficulty + "+" + difficulty + '+' + this.getRarityModifier(this.beast.rarity))
       , price;
-    if (isNaN(harvestAndDifficulty) && !difficulty.includes("!") || !difficulty.includes("d")) {
-      if (difficulty === '0') {
-        price = 5
-      } else {
-        price = difficulty;
-      }
-    } else if (isNaN(harvestAndDifficulty) && harvest !== 'n/a') {
-      price = justDifficulty * 2
-    } else if (isNaN(harvestAndDifficulty) && harvest === 'n/a') {
-      price = this.calculatorService.calculateAverageOfDice(difficulty) * 2
+    if (harvestAndDifficulty === 0) {
+      price = 5
     } else {
       price = harvestAndDifficulty * 2
     }
 
-    if (harvest === '0' && difficulty === '0') {
-      return 'Priceless'
-    }
+    // if (isNaN(harvestAndDifficulty) && !difficulty.includes("!") || !difficulty.includes("d")) {
+    //   if (difficulty === '0') {
+    //     price = 5
+    //   } else {
+    //     price = difficulty;
+    //   }
+    // } else if (isNaN(harvestAndDifficulty) && harvest !== 'n/a') {
+    //   price = justDifficulty * 2
+    // } else if (isNaN(harvestAndDifficulty) && harvest === 'n/a') {
+    //   price = this.calculatorService.calculateAverageOfDice(difficulty) * 2
+    // } else {
+    //   price = harvestAndDifficulty * 2
+    // }
 
     return price + ' sc'
   }

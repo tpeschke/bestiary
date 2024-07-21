@@ -38,6 +38,9 @@ export class QuickViewDrawerComponent implements OnInit {
   public newShieldInfo;
   public showAllEquipment;
 
+  public selectedEntryIndex = 0;
+  public selectedVitalityIndex = 0;
+
   ngOnInit() {}
 
   toggleQuickViewList() {
@@ -53,11 +56,20 @@ export class QuickViewDrawerComponent implements OnInit {
   }
 
   setInitiative = (newSecond, beastIndex, mainIndex) => {
+    this.selectedEntryIndex = beastIndex;
+    this.selectedVitalityIndex = mainIndex;
     this.quickViewService.setInitiative(newSecond, beastIndex, mainIndex)
   }
 
   increaseInitiative = (seconds, beastIndex, mainIndex) => {
+    this.selectedEntryIndex = beastIndex;
+    this.selectedVitalityIndex = mainIndex;
     this.quickViewService.increaseInitiative(seconds, beastIndex, mainIndex)
+  }
+
+  setSelected = (beastIndex, mainIndex) => {
+    this.selectedEntryIndex = beastIndex;
+    this.selectedVitalityIndex = mainIndex;
   }
 
   isNumber(val): boolean {

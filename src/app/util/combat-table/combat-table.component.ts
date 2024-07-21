@@ -9,6 +9,8 @@ export class CombatTableComponent implements OnInit {
   @Input() combatSquare: any
   @Input() editing: boolean
   @Input() increaseInitiative: Function
+  @Input() selectedEntryIndex: any
+  @Input() selectedVitalityIndex: any
 
   constructor() { }
 

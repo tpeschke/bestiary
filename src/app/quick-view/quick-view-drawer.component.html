@@ -33,11 +33,11 @@
           </div>
 
           <div *ngIf="!isTrackedInCombatCounter">
-            <div class="vitals-shell" *ngFor="let vitalities of beast.vitalityArray; let mainIndex = index">
+            <div (click)="setSelected(beastIndex, mainIndex)" class="vitals-shell {{selectedEntryIndex === beastIndex && selectedVitalityIndex === mainIndex ? 'highlighted' : 'lowlighted'}}" *ngFor="let vitalities of beast.vitalityArray; let mainIndex = index">
               <div class="flex-row-opposite label-shell">
                 <mat-form-field floatLabel=never>
                   <h2>
-                    <input placeholder="Creature Label" matInput [value]="vitalities.label">
+                    <input placeholder="{{beast.name}} {{mainIndex + 1}}" matInput [value]="vitalities.label">
                   </h2>
                 </mat-form-field>
 
@@ -122,6 +122,7 @@
             <div *ngFor="let combatSquare of beast.combatStatArray">
               <app-combat-square [baseCombatSquare]="combatSquare.combatSquare"
                 [combatStats]="combatSquare.combatStats" [increaseInitiative]="increaseInitiative"
+                [selectedEntryIndex]="selectedEntryIndex" [selectedVitalityIndex]="selectedVitalityIndex"
                 [primaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role"
                 [secondaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].secondaryrole : beast.secondaryrole"
                 [size]="selectedRoleId && beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size ? beast.size : 'Medium'"

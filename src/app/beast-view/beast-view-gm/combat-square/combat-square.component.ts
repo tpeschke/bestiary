@@ -21,6 +21,8 @@ export class CombatSquareComponent implements OnInit {
   @Input() size: any
   @Input() passOnEquipmentChanges: Function
   @Input() increaseInitiative: Function
+  @Input() selectedEntryIndex: any
+  @Input() selectedVitalityIndex: any
 
   weaponControl: any;
   weaponGroupOptions: Observable<any[]>;

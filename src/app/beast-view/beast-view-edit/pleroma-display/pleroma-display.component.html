@@ -16,9 +16,6 @@
     <mat-label>Identification</mat-label>
     <mat-select (selectionChange)="captureEncounterSecondary($event, 'reagents', i, 'difficulty')"
       [value]="reagent.difficulty">
-      <mat-option value="Depends">
-        Depends
-      </mat-option>
       <mat-option value="n/a">
         n/a
       </mat-option>
@@ -57,9 +54,6 @@
       [value]="reagent.harvest">
       <mat-option>
         Same as Identification
-      </mat-option>
-      <mat-option value="Depends">
-        Depends
       </mat-option>
       <mat-option value="n/a">
         n/a

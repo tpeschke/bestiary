@@ -468,6 +468,14 @@ strong {
     background: whitesmoke;
 }
 
+.highlighted {
+    border-left: 4px solid #607d8b;
+}
+
+.lowlighted {
+    border-left: 4px solid rgb(233 233 233);
+}
+
 @media (max-width: 750px) {
     .quick-view-drawer {
         min-width: unset;

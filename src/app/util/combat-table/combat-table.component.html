@@ -20,15 +20,11 @@
         <p class='first-cell'>Type</p>
         <p>{{combatSquare.damageType}}</p>
       </div>
-      <!-- <div *ngIf="increaseInitiative" class="rec-shell" (click)="increaseInitiative(combatSquare.recovery)" matTooltip="Increase their current Count by {{combatSquare.recovery}} seconds">
+      <div *ngIf="(selectedEntryIndex || selectedEntryIndex === 0) && (selectedVitalityIndex || selectedVitalityIndex === 0) && increaseInitiative" class="rec-shell" (click)="increaseInitiative(combatSquare.recovery, +selectedEntryIndex, +selectedVitalityIndex)" matTooltip="Increase the selected's current Count by {{combatSquare.recovery}} seconds">
         <p class='first-cell'>Rec</p>
         <p>{{combatSquare.recovery}} <i class="fa-solid fa-forward-step"></i></p>
       </div>
-      <div *ngIf="!increaseInitiative">
-        <p class='first-cell'>Rec</p>
-        <p>{{combatSquare.recovery}}</p>
-      </div> -->
-      <div>
+      <div *ngIf="(!selectedEntryIndex && selectedEntryIndex !== 0) || (!selectedVitalityIndex && selectedVitalityIndex !== 0) || !increaseInitiative">
         <p class='first-cell'>Rec</p>
         <p>{{combatSquare.recovery}}</p>
       </div>
