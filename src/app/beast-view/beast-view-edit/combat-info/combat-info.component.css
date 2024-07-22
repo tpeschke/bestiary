@@ -37,7 +37,8 @@ thead {
     background: #607d8b;
     color: whitesmoke;
     text-align: center;
-    font-family: 'know'; letter-spacing: 1px;
+    font-family: 'know'; 
+    letter-spacing: 1px;
 }
 
 thead tr td {
@@ -47,7 +48,8 @@ thead tr td {
 tbody tr th {
     background: gray;
     color: whitesmoke;
-    font-family: 'know'; letter-spacing: 1px;
+    font-family: 'know'; 
+    letter-spacing: 1px;
     text-align: center;
 }
 

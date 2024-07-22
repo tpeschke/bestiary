@@ -74,7 +74,8 @@
     background: #607d8b;
     color: whitesmoke;
     text-align: center;
-    font-family: 'know'; letter-spacing: 1px;
+    font-family: 'know'; 
+    letter-spacing: 1px;
 }
 
 .checkbox-table thead tr td {
