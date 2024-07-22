@@ -103,6 +103,7 @@ const routes: Routes = [
     children: [{ path: '', component: CatalogComponent, resolve: { catalog: CatalogResolverService } },
     { path: 'beast/:id/gm', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: { beast: SingleBeastResolverService } },
     { path: 'beast/:id/gm/:role', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: { beast: SingleBeastResolverService } },
+    { path: 'beast/:id/gm/:role/:modifier', component: BeastViewGmComponent, canActivate: [NoPlayerAuthService], resolve: { beast: SingleBeastResolverService } },
     { path: 'beast/:id/player', component: BeastViewPlayerComponent, canActivate: [NoGmAuthService], resolve: { beast: PlayerBeastResolverService } },
     { path: 'beast/:id/edit', component: BeastViewEditComponent, canActivate: [NoNonOwnerService], resolve: { beast: SingleBeastResolverService } },
     { path: 'search', component: SearchResultsComponent },

@@ -138,9 +138,13 @@ export class BeastViewGmComponent implements OnInit {
       this.setDisplayVitality()
       this.setLocationalVitality()
 
-      let roleParameter = this.router.url.split('/')[4]
+      const roleParameter = this.router.url.split('/')[4]
       if (roleParameter) {
         this.setRoleViaParameter(roleParameter)
+        const roleModifier = this.router.url.split('/')[5]
+        if (roleModifier) {
+          this.captureSimpleInput('modifier', {value: roleModifier})
+        }
       } else {
         this.setRoleToDefault()
       }
@@ -1134,6 +1138,9 @@ export class BeastViewGmComponent implements OnInit {
 
     let urlArray = this.router.url.split('/')
     let url = `${window.location.origin}/beast/${urlArray[2]}/gm/${this.selectedRoleId}`
+    if (this.modifier) {
+      url += `/${this.modifier}`
+    }
     textArea.value = url;
 
     document.body.appendChild(textArea);

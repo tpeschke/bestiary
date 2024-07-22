@@ -735,7 +735,7 @@
           <div *ngIf="beast.rarity" class="flex-row-opposite">
             <h3>Rating Modifier</h3>
             <mat-form-field>
-              <mat-select (selectionChange)="captureSimpleInput('modifier', $event)">
+              <mat-select [value]="modifier" (selectionChange)="captureSimpleInput('modifier', $event)">
                 <mat-option>
                   None
                 </mat-option>
