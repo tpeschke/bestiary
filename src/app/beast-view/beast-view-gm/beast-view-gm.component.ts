@@ -139,7 +139,10 @@ export class BeastViewGmComponent implements OnInit {
       this.setLocationalVitality()
 
       const roleParameter = this.router.url.split('/')[4]
-      if (roleParameter) {
+      if (roleParameter && ['Unique', 'Greater', 'Dread', 'THE'].includes(roleParameter)) {
+        this.captureSimpleInput('modifier', {value: roleParameter})
+        this.setRoleToDefault()
+      } else if (roleParameter) {
         this.setRoleViaParameter(roleParameter)
         const roleModifier = this.router.url.split('/')[5]
         if (roleModifier) {
@@ -1129,18 +1132,17 @@ export class BeastViewGmComponent implements OnInit {
     return nameString
   }
 
-  getShortCutURL() {
+  createTextArea() {
     let textArea = document.createElement("textarea");
 
     textArea.style.position = 'fixed';
     textArea.style.top = '0';
     textArea.style.left = '0';
 
-    let urlArray = this.router.url.split('/')
-    let url = `${window.location.origin}/beast/${urlArray[2]}/gm/${this.selectedRoleId}`
-    if (this.modifier) {
-      url += `/${this.modifier}`
-    }
+    return textArea
+  }
+
+  copyURLFromTextArea(textArea, url) {
     textArea.value = url;
 
     document.body.appendChild(textArea);
@@ -1156,6 +1158,27 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     document.body.removeChild(textArea);
+  }
+
+  getRoleShortCutURL() {
+    const textArea = this.createTextArea()
+   
+    let urlArray = this.router.url.split('/')
+    let url = `${window.location.origin}/beast/${urlArray[2]}/gm/${this.selectedRoleId}`
+    if (this.modifier) {
+      url += `/${this.modifier}`
+    }
+    
+    this.copyURLFromTextArea(textArea, url)
+  }
+
+  getModifierShortCutURL() {
+    const textArea = this.createTextArea()
+   
+    let urlArray = this.router.url.split('/')
+    let url = `${window.location.origin}/beast/${urlArray[2]}/gm/${this.modifier}`
+    
+    this.copyURLFromTextArea(textArea, url)
   }
 
   getSocialRank(type, strength, adjustment = 0) {

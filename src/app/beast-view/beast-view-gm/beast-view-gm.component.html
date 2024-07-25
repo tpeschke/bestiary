@@ -48,7 +48,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <button (click)="getShortCutURL()" matTooltip="This creates a URL that will go directly to this Role"
+          <button (click)="getRoleShortCutURL()" matTooltip="This creates a link that will go directly to this Role"
             class="copyURLButton"><i class="fas fa-link"></i></button>
         </div>
 
@@ -734,47 +734,57 @@
           </div>
           <div *ngIf="beast.rarity" class="flex-row-opposite">
             <h3>Rating Modifier</h3>
-            <mat-form-field>
-              <mat-select [value]="modifier" (selectionChange)="captureSimpleInput('modifier', $event)">
-                <mat-option>
-                  None
-                </mat-option>
-                <mat-option
-                  matTooltip="There is something about this monster that stands out. Example: A bandit captain."
-                  matTooltipPosition="right" value="Unique">
-                  Unique
-                </mat-option>
-                <mat-option
-                  matTooltip="There is something about this monster that stands out. Example: A bandit captain."
-                  matTooltipPosition="right" value="Greater">
-                  Greater
-                </mat-option>
-                <mat-option matTooltip="This monster is particularly cruel and powerful. Example: A bandit king."
-                  matTooltipPosition="right" value="Dread">
-                  Dread
-                </mat-option>
-                <mat-option
-                  matTooltip="This monster is one in a million; either the progenitor of its kind or some stands alone in some way. Example: A legendary bandit."
-                  matTooltipPosition="right" value="THE">
-                  THE
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div>
+              <mat-form-field>
+                <mat-select [value]="modifier" (selectionChange)="captureSimpleInput('modifier', $event)">
+                  <mat-option>
+                    None
+                  </mat-option>
+                  <mat-option
+                    matTooltip="There is something about this monster that stands out. Example: A bandit captain."
+                    matTooltipPosition="right" value="Unique">
+                    Unique
+                  </mat-option>
+                  <mat-option
+                    matTooltip="There is something about this monster that stands out. Example: A bandit captain."
+                    matTooltipPosition="right" value="Greater">
+                    Greater
+                  </mat-option>
+                  <mat-option matTooltip="This monster is particularly cruel and powerful. Example: A bandit king."
+                    matTooltipPosition="right" value="Dread">
+                    Dread
+                  </mat-option>
+                  <mat-option
+                    matTooltip="This monster is one in a million; either the progenitor of its kind or some stands alone in some way. Example: A legendary bandit."
+                    matTooltipPosition="right" value="THE">
+                    THE
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button *ngIf="modifier" (click)="getModifierShortCutURL()" matTooltip="This creates a link that will go directly to this Role"
+                class="copyURLButton"><i class="fas fa-link"></i></button>
+            </div>
           </div>
           <div class="flex-row-opposite">
             <h3>Combat Rating</h3>
-            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints) + (modifier ?
-              modifierDictionary[modifier] : 0)}}<span [matTooltip]="returnAtkDefTooltip('Combat')">{{returnAtkDefNotation('Combat')}}</span></p>
+            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints :
+              beast.combatpoints) + (modifier ?
+              modifierDictionary[modifier] : 0)}}<span
+                [matTooltip]="returnAtkDefTooltip('Combat')">{{returnAtkDefNotation('Combat')}}</span></p>
           </div>
           <div class="flex-row-opposite">
             <h3>Confrontation Rating</h3>
-            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints) + (modifier ?
-              modifierDictionary[modifier] : 0)}}<span [matTooltip]="returnAtkDefTooltip('Confrontation')">{{returnAtkDefNotation('Confrontation')}}</span></p>
+            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints :
+              beast.socialpoints) + (modifier ?
+              modifierDictionary[modifier] : 0)}}<span
+                [matTooltip]="returnAtkDefTooltip('Confrontation')">{{returnAtkDefNotation('Confrontation')}}</span></p>
           </div>
           <div class="flex-row-opposite">
             <h3>Skill Rating</h3>
-            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints) + (modifier ?
-              modifierDictionary[modifier] : 0)}}<span [matTooltip]="returnAtkDefTooltip('Skill')">{{returnAtkDefNotation('Skill')}}</span></p>
+            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].skillpoints :
+              beast.skillpoints) + (modifier ?
+              modifierDictionary[modifier] : 0)}}<span
+                [matTooltip]="returnAtkDefTooltip('Skill')">{{returnAtkDefNotation('Skill')}}</span></p>
           </div>
           <div class="flex-row-opposite" *ngIf="beast.patreon >= 20">
             <h3>Access</h3>
@@ -786,7 +796,9 @@
           </div>
           <div class="flex-row-opposite">
             <h3></h3>
-            <button mat-raised-button matTooltip="Add Entry to Random Encounter List" (click)="openRandomListsPopUp()" color="warn"><i class="fa-solid fa-plus"></i> <i class="fa-solid fa-table"></i><i class="fa-solid fa-shuffle"></i></button>
+            <button mat-raised-button matTooltip="Add Entry to Random Encounter List" (click)="openRandomListsPopUp()"
+              color="warn"><i class="fa-solid fa-plus"></i> <i class="fa-solid fa-table"></i><i
+                class="fa-solid fa-shuffle"></i></button>
           </div>
         </div>
 
