@@ -1,0 +1,1 @@
+select * from bbspells b where beastid = $1 and (roleid = $2 or allroles is true);

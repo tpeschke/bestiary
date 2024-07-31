@@ -153,6 +153,8 @@
             </div>
           </div>
 
+          <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells" [selectedRoleId]="beast.roleid"></app-weird-shaping-display>
+
           <div class="vitals-shell">
             <h3 class="blue movement-margin">Movement</h3>
             <div *ngIf="beast.movement.length == 0">

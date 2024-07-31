@@ -981,8 +981,7 @@
       </div>
     </div>
 
-    <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells" [selectedRoleId]="selectedRoleId">
-    </app-weird-shaping-display>
+    <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells" [selectedRoleId]="selectedRoleId"></app-weird-shaping-display>
 
     <button *ngIf="loggedIn.id === 1 || loggedIn.id === 21 || beast.userid === loggedIn.id" mat-raised-button
       color="warn" [routerLink]="['/beast', beast.id, 'edit']">Edit</button>

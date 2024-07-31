@@ -122,7 +122,7 @@ module.exports = {
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
       let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons, rolenameorder, mainsocialpoints, rolesocialpoints, mainskillpoints, roleskillpoints, mainrollundertrauma, rolerollundertrauma } = result[0]
-      let beast = { name, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: (rolepoints || rolepoints === 0 ? rolepoints : mainpoints) + modifiers.pointModifier, notrauma }
+      let beast = { name, roleid, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: (rolepoints || rolepoints === 0 ? rolepoints : mainpoints) + modifiers.pointModifier, notrauma }
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
       let secondaryRoleToUse = ''
@@ -231,6 +231,18 @@ module.exports = {
       if (beastPatreon > patreonTestValue) {
         checkForContentTypeBeforeSending(res, { color: 'red', message: 'You need to update your Patreon tier to access this monster' })
       } else {
+        promiseArray.push(db.get.spellsByRole(beastid, roleid).then(spells => {
+          if (spells.length > 0) {
+            return db.get.casting(beastid).then(castingTypes => {
+              beast.casting = castingTypes[0]
+              beast.spells = spells
+              return true
+            })
+          } else {
+            return true
+          }
+        }))
+
         promiseArray.push(db.get.movement(beastid).then(result => {
           if (roleid) {
             result = result.filter(movementType => movementType.roleid === roleid || movementType.allroles)
