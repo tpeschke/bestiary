@@ -119,7 +119,7 @@
           </div>
 
           <div *ngIf="!isTrackedInCombatCounter" class="combat-shell">
-            <div *ngFor="let combatSquare of beast.combatStatArray">
+            <div class="combat-square-shell" *ngFor="let combatSquare of beast.combatStatArray">
               <app-combat-square [baseCombatSquare]="combatSquare.combatSquare"
                 [combatStats]="combatSquare.combatStats" [increaseInitiative]="increaseInitiative"
                 [selectedEntryIndex]="selectedEntryIndex" [selectedVitalityIndex]="selectedVitalityIndex"

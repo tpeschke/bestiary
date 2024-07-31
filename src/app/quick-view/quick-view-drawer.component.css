@@ -83,6 +83,10 @@
     flex-wrap: wrap;
 }
 
+.combat-shell .combat-square-shell {
+    margin-right: 15px;
+}
+
 .combat-square {
     margin-top: 10px;
     padding-right: 15px
