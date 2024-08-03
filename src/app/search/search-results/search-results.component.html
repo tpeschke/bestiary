@@ -1,4 +1,4 @@
-<div *ngIf="beasts === 'loading'">
+<div *ngIf="filteredBeasts === 'loading'">
   <div class="spinner">
     <div class="bounce1"></div>
     <div class="bounce2"></div>
@@ -6,9 +6,9 @@
   </div>
 </div>
 
-<div *ngIf="beasts.length > 0 && beasts !== 'loading'">
+<div *ngIf="filteredBeasts.length > 0 && filteredBeasts !== 'loading'">
   <div class="results-card">
-    <h3>Results: {{beasts.length}}</h3>
+    <h3>Results: {{filteredBeasts.length}}</h3>
     <div class="option-buttons-shell">
       <button mat-raised-button (click)="getRandom()" color="warn" matTooltip="Get Random Monster from List"><i
           class="fas fa-dice"></i></button>
@@ -20,7 +20,28 @@
     </div>
   </div>
 
-  <mat-card *ngFor="let beast of beasts" [routerLink]="['/beast', beast.id, 'player']">
+  <div class="filter-card">
+    <p><i class="fa-solid fa-sort"></i></p>
+    <button [class]="filter === 'name' ? 'selected' : ''" (click)="setFilter('name')">Name <i [class]="filter === 'name' && direction === 'desc' ? 'fa-solid fa-arrow-up-z-a' : filter === 'name' && direction === 'asc' ? 'fa-solid fa-arrow-up-a-z' : ''"></i></button>
+    <p>|</p>
+    <button [class]="filter === 'combat' ? 'selected' : ''" (click)="setFilter('combat')">Combat Rating <i [class]="filter === 'combat' && direction === 'desc' ? 'fa-solid fa-arrow-up-9-1' : filter === 'combat' && direction === 'asc' ? 'fa-solid fa-arrow-up-1-9' : ''"></i></button>
+    <button [class]="filter === 'combat' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('A')">A <i [class]="checkForAttack ? 'fa-solid fa-check' : ''"></i></button>
+    <button [class]="filter === 'combat' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('D')">D <i [class]="checkForDefense ? 'fa-solid fa-check' : ''"></i></button>
+    <p>|</p>
+    <button [class]="filter === 'conf' ? 'selected' : ''" (click)="setFilter('conf')">Conf. Rating <i [class]="filter === 'conf' && direction === 'desc' ? 'fa-solid fa-arrow-up-9-1' : filter === 'conf' && direction === 'asc' ? 'fa-solid fa-arrow-up-1-9' : ''"></i></button>
+    <button [class]="filter === 'conf' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('A')">A <i [class]="checkForAttack ? 'fa-solid fa-check' : ''"></i></button>
+    <button [class]="filter === 'conf' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('D')">D <i [class]="checkForDefense ? 'fa-solid fa-check' : ''"></i></button>
+    <p>|</p>
+    <button [class]="filter === 'skill' ? 'selected' : ''" (click)="setFilter('skill')">Skill Rating <i [class]="filter === 'skill' && direction === 'desc' ? 'fa-solid fa-arrow-up-9-1' : filter === 'skill' && direction === 'asc' ? 'fa-solid fa-arrow-up-1-9' : ''"></i></button>
+    <button [class]="filter === 'skill' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('A')">A <i [class]="checkForAttack ? 'fa-solid fa-check' : ''"></i></button>
+    <button [class]="filter === 'skill' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('D')">D <i [class]="checkForDefense ? 'fa-solid fa-check' : ''"></i></button>
+    <p>|</p>
+    <button [class]="filter === 'rarity' ? 'selected' : ''" (click)="setFilter('rarity')">Rarity <i [class]="filter === 'rarity' && direction === 'desc' ? 'fa-solid fa-arrow-up-z-a' : filter === 'rarity' && direction === 'asc' ? 'fa-solid fa-arrow-up-a-z' : ''"></i></button>
+    <p>|</p>
+    <button [class]="filter === 'size' ? 'selected' : ''" (click)="setFilter('size')">Size <i [class]="filter === 'size' && direction === 'desc' ? 'fa-solid fa-arrow-up-z-a' : filter === 'size' && direction === 'asc' ? 'fa-solid fa-arrow-up-a-z' : ''"></i></button>
+  </div>
+  
+  <mat-card *ngFor="let beast of filteredBeasts" [routerLink]="['/beast', beast.id, 'player']">
     <div class="img-shell">
       <img *ngIf="beast.id" [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}"
         [src]="imageBase + beast.id  " [alt]="beast.name">
@@ -81,7 +102,7 @@
   </mat-card>
 </div>
 
-<div *ngIf="beasts.length === 0 && beast !== 'loading'">
+<div *ngIf="filteredBeasts.length === 0 && filteredBeasts !== 'loading'">
   <mat-card>
     <h2>No Results Found</h2>
   </mat-card>

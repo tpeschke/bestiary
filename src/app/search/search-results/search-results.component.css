@@ -9,6 +9,56 @@ mat-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+.filter-card {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    color: whitesmoke
+}
+
+.filter-card p {
+    margin: 5px 5px 0;
+}
+
+.filter-card button {
+    margin-top: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: whitesmoke;
+    border-radius: 5px;
+    padding: 2px 3px
+}
+
+.filter-card button:hover {
+    background-color: lightgray;
+    color: black
+}
+
+.filter-card button:first-child {
+    margin-left: 0px;
+}
+
+.special-button {
+    width: 35px;
+    position: relative;
+}
+
+.special-button i {
+    position: absolute;
+    font-size: 10px;
+}
+
+.selected {
+    background: #ff5722 !important;
+}
+
+.noDisplay {
+    display: none;
 }
 
 .fa-plus {
@@ -139,5 +189,9 @@ img {
 
     h3 {
         font-size: 25px;
+    }
+
+    .results-card, .filter-card {
+        justify-content: center;
     }
  }
