@@ -156,13 +156,16 @@
           </div>
         </div>
         <div
-          *ngIf="(beast.def_conf && !beast.def_conf.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].defense_conf)">
+          *ngIf="(beast.def_conf && !beast.def_conf.includes('None')) || (selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].defense_conf) || isNaturalCreatureOrInsect">
           <h3 class="margin-top">Confrontation Defense Info</h3>
           <div *ngIf="beast.def_conf && (beast.def_conf !== 'None' || beast.def_conf !== 'None.')">
             <quill-view-html [content]="beast.def_conf"></quill-view-html>
           </div>
           <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].defense_conf">
             <quill-view-html [content]="beast.roleInfo[selectedRoleId].defense_conf"></quill-view-html>
+          </div>
+          <div *ngIf="isNaturalCreatureOrInsect" class="ql-editor">
+            <p>When this creature gains an Emotional State, it doubles its current Rank in that Emotional State and doubles the Rank it's gaining.</p>
           </div>
         </div>
 

@@ -74,6 +74,7 @@ export class BeastViewGmComponent implements OnInit {
   public showDevotions = false
   public showFlaws = false
   public showBurdens = false
+  public isNaturalCreatureOrInsect = false;
 
   public groupId = null
 
@@ -128,6 +129,8 @@ export class BeastViewGmComponent implements OnInit {
         this.equipmentLists = res.lists
         this.equipmentObjects = res.objects
       })
+
+      this.isNaturalCreatureOrInsect = this.beast.types.some(typeInfo => typeInfo.typeid === 5)
 
       if (this.beast.role) {
         this.selectedRole = this.combatRolesInfo[this.beast.role]
