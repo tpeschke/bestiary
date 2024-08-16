@@ -896,15 +896,15 @@ setNoWeaponDamage = (combatStats, roleInfo, points) => {
             diceObject.d6s += 1
         }
     } else {
-        if (modifiedPoints < 2) {
+        if (modifiedPoints >= 1) {
             diceObject.d4s += 1
-        } else if (modifiedPoints < 3) {
+        } else if (modifiedPoints === 2) {
             diceObject.d6s += 1
-        } else if (modifiedPoints < 4) {
+        } else if (modifiedPoints === 3) {
             diceObject.d8s += 1
-        } else if (modifiedPoints < 5) {
+        } else if (modifiedPoints === 4) {
             diceObject.d10s += 1
-        } else if (modifiedPoints < 6) {
+        } else if (modifiedPoints === 5) {
             diceObject.d12s += 1
         } else {
             diceObject.d20s += 1
