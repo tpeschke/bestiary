@@ -1163,11 +1163,11 @@ const minSpeedDictionary = {
 const scalingAndBases = {
     piercingweapons: {
         scaling: {
-            majSt: 6,
-            minSt: 5,
-            none: 4,
-            minWk: 3,
-            majWk: 2
+            majSt: 5,
+            minSt: 4,
+            none: 3,
+            minWk: 2,
+            majWk: 1
         },
         bonus: {
             majSt: 1,
@@ -1179,18 +1179,18 @@ const scalingAndBases = {
     },
     slashingweapons: {
         scaling: {
-            majSt: 7,
-            minSt: 6,
-            none: 5,
-            minWk: 4,
-            majWk: 3
+            majSt: 5,
+            minSt: 4,
+            none: 3,
+            minWk: 2,
+            majWk: 1
         },
         bonus: {
-            majSt: 1.25,
-            minSt: 1,
+            majSt: 1,
+            minSt: .75,
             none: 0,
-            minWk: .75,
-            majWk: .5
+            minWk: .5,
+            majWk: .25
         }
     },
     crushingweapons: {
@@ -1202,10 +1202,10 @@ const scalingAndBases = {
             majWk: 1
         },
         bonus: {
-            majSt: .85,
-            minSt: .60,
+            majSt: 1,
+            minSt: .75,
             none: 0,
-            minWk: .35,
+            minWk: .5,
             majWk: .25
         }
     },
