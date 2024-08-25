@@ -607,7 +607,7 @@ export class BeastViewEditComponent implements OnInit {
             commanding: null,
             bloodpact: null
           },
-          rollundertrauma: 5,
+          rollundertrauma: 10,
           challenges: [],
           obstacles: [],
           artistInfo: {},
@@ -2003,7 +2003,7 @@ export class BeastViewEditComponent implements OnInit {
         largeweapons: null,
         mental: null,
         fatigue: null,
-        rollundertrauma: 5,
+        rollundertrauma: 10,
         ...rolesToAdd
       }
 

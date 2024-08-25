@@ -358,14 +358,14 @@ export class BeastViewGmComponent implements OnInit {
         diceToRoll = diceToRoll.split('(')[0]
       }
       this.displayedVitalityRoll = this.calculatorService.rollDice(diceToRoll)
-      this.trauma = +(this.beast.roleInfo[this.selectedRoleId].phyiscalAndStress.physical.largeweapons / 2).toFixed(0)
+      this.trauma = +(this.beast.roleInfo[this.selectedRoleId].phyiscalAndStress.physical.largeweapons / 4).toFixed(0)
     } else {
       let diceToRoll = this.beast.phyiscalAndStress.physical.diceString
       if (diceToRoll.includes('(KB')) {
         diceToRoll = diceToRoll.split('(')[0]
       }
       this.displayedVitalityRoll = this.calculatorService.rollDice(diceToRoll)
-      this.trauma = +(this.beast.phyiscalAndStress.physical.largeweapons / 2).toFixed(0)
+      this.trauma = +(this.beast.phyiscalAndStress.physical.largeweapons / 4).toFixed(0)
     }
   }
 
