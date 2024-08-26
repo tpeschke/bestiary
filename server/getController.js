@@ -116,7 +116,7 @@ module.exports = {
     if (modifiers && !modifiers.pointModifier) {
       modifiers.pointModifier = 0
     } else if (!modifiers) {
-      modifiers = {pointModifier: 0}
+      modifiers = { pointModifier: 0 }
     }
     let db
     req.db ? db = req.db : db = req.app.get('db')
@@ -542,6 +542,17 @@ module.exports = {
           beast.carriedloot = { alms: result, ...beast.carriedloot }
           return result
         }).catch(e => sendErrorForward('beast carried alms', e, res)))
+
+        beast.carriedloot = {
+          items: [{
+            itemCategory: 8,
+            materialRarity: 'U',
+            detailing: 'L',
+            wear: '1d4',
+            chance: 15,
+            number: 2,
+          }], ...beast.carriedloot
+        }
 
         promiseArray.push(db.get.loot.carriedequipment(id).then(result => {
           beast.carriedloot = { equipment: result, ...beast.carriedloot }

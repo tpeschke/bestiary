@@ -499,7 +499,8 @@
                 <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack_conf"
                   (onContentChanged)="captureHTML($event, 'role conf attack')"></quill-editor>
                 <p class="character-counter">{{beast.roleInfo[selectedRoleId].attack_conf ?
-                  beast.roleInfo[selectedRoleId].attack_conf.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
+                  beast.roleInfo[selectedRoleId].attack_conf.length : 0}} / 3,000 <i
+                    class="fas fa-info-circle icon-small"
                     matTooltip="This also counts the HTML tags which are invisible."></i></p>
               </div>
             </div>
@@ -525,7 +526,8 @@
                 <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense_conf"
                   (onContentChanged)="captureHTML($event, 'role conf defense')"></quill-editor>
                 <p class="character-counter">{{beast.roleInfo[selectedRoleId].defense_conf ?
-                  beast.roleInfo[selectedRoleId].defense_conf.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
+                  beast.roleInfo[selectedRoleId].defense_conf.length : 0}} / 3,000 <i
+                    class="fas fa-info-circle icon-small"
                     matTooltip="This also counts the HTML tags which are invisible."></i></p>
               </div>
             </div>
@@ -701,278 +703,280 @@
     </mat-tab>
     <mat-tab label="Skills">
       <ng-template matTabContent>
-      <div class="tab-wrapper">
-        <mat-form-field>
-          <mat-label>Change Role Type</mat-label>
-          <mat-select
-            [(value)]="selectedRoleId && beast.roleInfo[selectedRoleId].skillrole ? beast.roleInfo[selectedRoleId].skillrole : selectedRoleId ? null : beast.skillrole"
-            (selectionChange)="setSkillRoleType($event)">
-            <mat-option>
-              No Role
-            </mat-option>
-            <mat-option *ngFor="let role of objectKeys(skillRolesInfo)" [value]="role">
-              {{role}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div class="tab-wrapper">
+          <mat-form-field>
+            <mat-label>Change Role Type</mat-label>
+            <mat-select
+              [(value)]="selectedRoleId && beast.roleInfo[selectedRoleId].skillrole ? beast.roleInfo[selectedRoleId].skillrole : selectedRoleId ? null : beast.skillrole"
+              (selectionChange)="setSkillRoleType($event)">
+              <mat-option>
+                No Role
+              </mat-option>
+              <mat-option *ngFor="let role of objectKeys(skillRolesInfo)" [value]="role">
+                {{role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <div *ngIf="selectedSkillRole && selectedSkillRole.description">
-          <p><strong>Description: </strong> {{selectedSkillRole.description}}</p>
-        </div>
-
-        <br>
-        <mat-form-field>
-          <input placeholder="Skill Points" matInput
-            [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints"
-            (change)="captureBasicInput($event, 'skillpoints')" type="number">
-        </mat-form-field>
-
-        <div class="vitals-shell" *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role">
-          <div class="long-field">
-            <p><strong>Panic: </strong> {{mental.panic}}</p>
-            <p><strong>Nerve: </strong> {{mental.stress}}</p>
-            <p><strong>Caution: </strong> {{mental.caution}}</p>
+          <div *ngIf="selectedSkillRole && selectedSkillRole.description">
+            <p><strong>Description: </strong> {{selectedSkillRole.description}}</p>
           </div>
 
           <br>
-          <app-mental-physical-display [statInfo]="mentalStats"
-            [primaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role" [checkStat]="checkStat"
-            [stats]="selectedRoleId ? beast.roleInfo[selectedRoleId] : beast">
-          </app-mental-physical-display>
-        </div>
+          <mat-form-field>
+            <input placeholder="Skill Points" matInput
+              [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints"
+              (change)="captureBasicInput($event, 'skillpoints')" type="number">
+          </mat-form-field>
 
-        <br>
-        <div class="attack-and-defense-shell">
-          <div class="attack-and-defense-inner-shell">
-            <h2>Add. Skills Attack Info</h2>
-            <div class="divider"></div>
-            <br>
-            <h3 *ngIf="selectedRoleId">Base Abilities</h3>
-            <div>
-              <quill-editor [(ngModel)]="beast.atk_skill" (onContentChanged)="captureHTML($event, 'atk_skill')">
-              </quill-editor>
-              <p class="character-counter">{{beast.atk_skill ? beast.atk_skill.length : 0}} / 3,000 <i
-                  class="fas fa-info-circle icon-small"
-                  matTooltip="This also counts the HTML tags which are invisible."></i>
-              </p>
+          <div class="vitals-shell" *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role">
+            <div class="long-field">
+              <p><strong>Panic: </strong> {{mental.panic}}</p>
+              <p><strong>Nerve: </strong> {{mental.stress}}</p>
+              <p><strong>Caution: </strong> {{mental.caution}}</p>
             </div>
 
-            <div *ngIf="selectedRoleId">
+            <br>
+            <app-mental-physical-display [statInfo]="mentalStats"
+              [primaryRole]="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role" [checkStat]="checkStat"
+              [stats]="selectedRoleId ? beast.roleInfo[selectedRoleId] : beast">
+            </app-mental-physical-display>
+          </div>
+
+          <br>
+          <div class="attack-and-defense-shell">
+            <div class="attack-and-defense-inner-shell">
+              <h2>Add. Skills Attack Info</h2>
+              <div class="divider"></div>
               <br>
-              <h3>Role-Specific Abilities</h3>
+              <h3 *ngIf="selectedRoleId">Base Abilities</h3>
               <div>
-                <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack_skill"
-                  (onContentChanged)="captureHTML($event, 'role skill attack')"></quill-editor>
-                <p class="character-counter">{{beast.roleInfo[selectedRoleId].attack_skill ?
-                  beast.roleInfo[selectedRoleId].attack_skill.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
-                    matTooltip="This also counts the HTML tags which are invisible."></i></p>
+                <quill-editor [(ngModel)]="beast.atk_skill" (onContentChanged)="captureHTML($event, 'atk_skill')">
+                </quill-editor>
+                <p class="character-counter">{{beast.atk_skill ? beast.atk_skill.length : 0}} / 3,000 <i
+                    class="fas fa-info-circle icon-small"
+                    matTooltip="This also counts the HTML tags which are invisible."></i>
+                </p>
+              </div>
+
+              <div *ngIf="selectedRoleId">
+                <br>
+                <h3>Role-Specific Abilities</h3>
+                <div>
+                  <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].attack_skill"
+                    (onContentChanged)="captureHTML($event, 'role skill attack')"></quill-editor>
+                  <p class="character-counter">{{beast.roleInfo[selectedRoleId].attack_skill ?
+                    beast.roleInfo[selectedRoleId].attack_skill.length : 0}} / 3,000 <i
+                      class="fas fa-info-circle icon-small"
+                      matTooltip="This also counts the HTML tags which are invisible."></i></p>
+                </div>
+              </div>
+            </div>
+            <div class="attack-and-defense-inner-shell">
+              <h2>Add. Skills Defense Info</h2>
+              <div class="divider"></div>
+              <br>
+              <h3 *ngIf="selectedRoleId">Base Abilities</h3>
+              <div>
+                <quill-editor [(ngModel)]="beast.def_skill" (onContentChanged)="captureHTML($event, 'def_skill')">
+                </quill-editor>
+                <p class="character-counter">{{beast.def_skill ? beast.def_skill.length : 0}} / 3,000 <i
+                    class="fas fa-info-circle icon-small"
+                    matTooltip="This also counts the HTML tags which are invisible."></i>
+                </p>
+              </div>
+
+              <div *ngIf="selectedRoleId">
+                <br>
+                <h3>Role-Specific Abilities</h3>
+                <div>
+                  <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense_skill"
+                    (onContentChanged)="captureHTML($event, 'role skill defense')"></quill-editor>
+                  <p class="character-counter">{{beast.roleInfo[selectedRoleId].defense_skill ?
+                    beast.roleInfo[selectedRoleId].defense_skill.length : 0}} / 3,000 <i
+                      class="fas fa-info-circle icon-small"
+                      matTooltip="This also counts the HTML tags which are invisible."></i></p>
+                </div>
               </div>
             </div>
           </div>
-          <div class="attack-and-defense-inner-shell">
-            <h2>Add. Skills Defense Info</h2>
-            <div class="divider"></div>
-            <br>
-            <h3 *ngIf="selectedRoleId">Base Abilities</h3>
-            <div>
-              <quill-editor [(ngModel)]="beast.def_skill" (onContentChanged)="captureHTML($event, 'def_skill')">
-              </quill-editor>
-              <p class="character-counter">{{beast.def_skill ? beast.def_skill.length : 0}} / 3,000 <i
-                  class="fas fa-info-circle icon-small"
-                  matTooltip="This also counts the HTML tags which are invisible."></i>
-              </p>
-            </div>
+          <br>
+          <h2>Skills</h2>
+          <div class="divider"></div>
 
-            <div *ngIf="selectedRoleId">
-              <br>
-              <h3>Role-Specific Abilities</h3>
-              <div>
-                <quill-editor [(ngModel)]="beast.roleInfo[selectedRoleId].defense_skill"
-                  (onContentChanged)="captureHTML($event, 'role skill defense')"></quill-editor>
-                <p class="character-counter">{{beast.roleInfo[selectedRoleId].defense_skill ?
-                  beast.roleInfo[selectedRoleId].defense_skill.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
-                    matTooltip="This also counts the HTML tags which are invisible."></i></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <br>
-        <h2>Skills</h2>
-        <div class="divider"></div>
-
-        <div class="characteristic-edit-shell">
-          <div *ngFor="let skill of beast.skills; let i = index"
-            [ngClass]="{'noDisplay': !(!skill.deleted && (selectedRoleId === skill.skillroleid || skill.allroles))}">
-
-          </div>
-        </div>
-
-        <table class="checkbox-table">
-          <thead>
-            <tr>
-              <th colspan="4">
-              </th>
-              <th colspan="4">
-                Scaling
-              </th>
-              <th colspan="4">
-                No Scaling
-              </th>
-              <th>
-              </th>
-            </tr>
-            <tr>
-              <td> </td>
-              <td>All Roles</td>
-              <td>Rank</td>
-              <td class="border-left">Adj</td>
-              <td class="border-left">Major Strength</td>
-              <td>Minor Strength</td>
-              <td>Minor Weakness</td>
-              <td>Major Weakness</td>
-              <td class="border-left">5</td>
-              <td>3</td>
-              <td>1</td>
-              <td>0</td>
-              <td> </td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let skill of beast.skills; let i = index"
+          <div class="characteristic-edit-shell">
+            <div *ngFor="let skill of beast.skills; let i = index"
               [ngClass]="{'noDisplay': !(!skill.deleted && (selectedRoleId === skill.skillroleid || skill.allroles))}">
-              <td>
-                <app-skill-display [skillInfo]="skill" [captureInput]="captureInput" [i]="i"
-                  [selectedSkillRole]="selectedSkillRole">
-                </app-skill-display>
-              </td>
-              <td matTooltip="Skill is added to all Roles." matTooltipClass="my-tooltip">
-                <mat-checkbox [checked]="skill.allroles" (change)="checkAllRoles('skills', i, $event.checked)">
-                </mat-checkbox>
-              </td>
-              <td>{{getSkillRank(skill.strength, skill.adjustment)}}</td>
-              <td><input class="table-input text-center" [value]="skill.adjustment"
-                  (change)="captureInput($event, 'skills', i, 'adjustment')" type="number"></td>
-              <td class="border-left">
-                <mat-checkbox [ngClass]="skill && skill[skill] === 'majSt' ? 'checkmark-role-background' : ''"
-                  (change)="checkSkill('majSt', i, $event)"
-                  [checked]="!skill.strength ? skill && skill[skill] === 'majSt' : skill.strength === 'majSt'"
-                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                  [matTooltipDisabled]="skill && skill[skill] !== 'majSt'">
-                </mat-checkbox>
-              </td>
-              <td>
-                <mat-checkbox [ngClass]="skill && skill[skill] === 'minSt' ? 'checkmark-role-background' : ''"
-                  (change)="checkSkill('minSt', i, $event)"
-                  [checked]="!skill.strength ? skill && skill[skill] === 'minSt' : skill.strength === 'minSt'"
-                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                  [matTooltipDisabled]="skill && skill[skill] !== 'minSt'">
-                </mat-checkbox>
-              </td>
-              <td>
-                <mat-checkbox [ngClass]="skill && skill[skill] === 'minWk' ? 'checkmark-role-background' : ''"
-                  (change)="checkSkill('minWk', i, $event)"
-                  [checked]="!skill.strength ? skill && skill[skill] === 'minWk' : skill.strength === 'minWk'"
-                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                  [matTooltipDisabled]="skill && skill[skill] !== 'minWk'">
-                </mat-checkbox>
-              </td>
-              <td>
-                <mat-checkbox [ngClass]="skill && skill[skill] === 'majWk' ? 'checkmark-role-background' : ''"
-                  (change)="checkSkill('majWk', i, $event)"
-                  [checked]="!skill.strength ? skill && skill[skill] === 'majWk' : skill.strength === 'majWk'"
-                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                  [matTooltipDisabled]="skill && skill[skill] !== 'majWk'">
-                </mat-checkbox>
-              </td>
-              <td class="border-left">
-                <mat-checkbox [ngClass]="skill && skill[skill] === 'noneStr' ? 'checkmark-role-background' : ''"
-                  (change)="checkSkill('noneStr', i, $event)"
-                  [checked]="!skill.strength ? skill && skill[skill] === 'noneStr' : skill.strength === 'noneStr'"
-                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                  [matTooltipDisabled]="skill && skill[skill] !== 'noneStr'">
-                </mat-checkbox>
-              </td>
-              <td>
-                <mat-checkbox [ngClass]="skill && !skill[skill] ? 'checkmark-role-background' : ''"
-                  (change)="checkSkill('none', i, $event)"
-                  [checked]="!skill.strength ? skill && (skill[skill] === 'none' || !skill[skill]) : skill.strength === 'none'"
-                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                  [matTooltipDisabled]="skill && skill[skill]">
-                </mat-checkbox>
-              </td>
-              <td>
-                <mat-checkbox [ngClass]="skill && skill[skill] === 'one' ? 'checkmark-role-background' : ''"
-                  (change)="checkSkill('one', i, $event)"
-                  [checked]="!skill.strength ? skill && skill[skill] === 'one' : skill.strength === 'one'"
-                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                  [matTooltipDisabled]="skill && skill[skill] !== 'one'">
-                </mat-checkbox>
-              </td>
-              <td>
-                <mat-checkbox [ngClass]="skill && skill[skill] === 'noneWk' ? 'checkmark-role-background' : ''"
-                  (change)="checkSkill('noneWk', i, $event)"
-                  [checked]="!skill.strength ? skill && skill[skill] === 'noneWk' : skill.strength === 'noneWk'"
-                  matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
-                  [matTooltipDisabled]="skill && skill[skill] !== 'noneWk'">
-                </mat-checkbox>
-              </td>
-              <td>
-                <i mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn"
-                  class="fa-solid fa-trash"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent"><i
-            class="fa-solid fa-plus icon-medium"></i> Skill</button>
 
-        <br>
-        <br>
-        <br>
-
-        <h2>Single Obstacles</h2>
-        <div class="divider"></div>
-        <mat-chip-list>
-          <div *ngFor="let obstacle of beast.obstacles; let i = index">
-            <mat-chip (click)="removeChip('obstacles', i)" color="warn" selected>
-              {{obstacle.name}}</mat-chip>
+            </div>
           </div>
-        </mat-chip-list>
 
-        <mat-form-field>
-          <input matInput placeholder="Name of Obstacle" [matAutocomplete]="obstacleauto"
-            [formControl]="obstacleController">
-          <mat-autocomplete #obstacleauto="matAutocomplete" (optionSelected)="captureObstacle($event)"
-            [displayWith]="getDisplayVariant">
-            <mat-option *ngFor="let obstacle of obstaclesFiltered | async" [value]="obstacle">
-              {{obstacle.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <br>
-        <br>
-        <h2>Skill Challenges</h2>
-        <div class="divider"></div>
-        <mat-chip-list>
-          <div *ngFor="let challenge of beast.challenges; let i = index">
-            <mat-chip (click)="removeChip('challenges', i)" color="warn" selected>
-              {{challenge.name}}</mat-chip>
-          </div>
-        </mat-chip-list>
+          <table class="checkbox-table">
+            <thead>
+              <tr>
+                <th colspan="4">
+                </th>
+                <th colspan="4">
+                  Scaling
+                </th>
+                <th colspan="4">
+                  No Scaling
+                </th>
+                <th>
+                </th>
+              </tr>
+              <tr>
+                <td> </td>
+                <td>All Roles</td>
+                <td>Rank</td>
+                <td class="border-left">Adj</td>
+                <td class="border-left">Major Strength</td>
+                <td>Minor Strength</td>
+                <td>Minor Weakness</td>
+                <td>Major Weakness</td>
+                <td class="border-left">5</td>
+                <td>3</td>
+                <td>1</td>
+                <td>0</td>
+                <td> </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let skill of beast.skills; let i = index"
+                [ngClass]="{'noDisplay': !(!skill.deleted && (selectedRoleId === skill.skillroleid || skill.allroles))}">
+                <td>
+                  <app-skill-display [skillInfo]="skill" [captureInput]="captureInput" [i]="i"
+                    [selectedSkillRole]="selectedSkillRole">
+                  </app-skill-display>
+                </td>
+                <td matTooltip="Skill is added to all Roles." matTooltipClass="my-tooltip">
+                  <mat-checkbox [checked]="skill.allroles" (change)="checkAllRoles('skills', i, $event.checked)">
+                  </mat-checkbox>
+                </td>
+                <td>{{getSkillRank(skill.strength, skill.adjustment)}}</td>
+                <td><input class="table-input text-center" [value]="skill.adjustment"
+                    (change)="captureInput($event, 'skills', i, 'adjustment')" type="number"></td>
+                <td class="border-left">
+                  <mat-checkbox [ngClass]="skill && skill[skill] === 'majSt' ? 'checkmark-role-background' : ''"
+                    (change)="checkSkill('majSt', i, $event)"
+                    [checked]="!skill.strength ? skill && skill[skill] === 'majSt' : skill.strength === 'majSt'"
+                    matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                    [matTooltipDisabled]="skill && skill[skill] !== 'majSt'">
+                  </mat-checkbox>
+                </td>
+                <td>
+                  <mat-checkbox [ngClass]="skill && skill[skill] === 'minSt' ? 'checkmark-role-background' : ''"
+                    (change)="checkSkill('minSt', i, $event)"
+                    [checked]="!skill.strength ? skill && skill[skill] === 'minSt' : skill.strength === 'minSt'"
+                    matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                    [matTooltipDisabled]="skill && skill[skill] !== 'minSt'">
+                  </mat-checkbox>
+                </td>
+                <td>
+                  <mat-checkbox [ngClass]="skill && skill[skill] === 'minWk' ? 'checkmark-role-background' : ''"
+                    (change)="checkSkill('minWk', i, $event)"
+                    [checked]="!skill.strength ? skill && skill[skill] === 'minWk' : skill.strength === 'minWk'"
+                    matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                    [matTooltipDisabled]="skill && skill[skill] !== 'minWk'">
+                  </mat-checkbox>
+                </td>
+                <td>
+                  <mat-checkbox [ngClass]="skill && skill[skill] === 'majWk' ? 'checkmark-role-background' : ''"
+                    (change)="checkSkill('majWk', i, $event)"
+                    [checked]="!skill.strength ? skill && skill[skill] === 'majWk' : skill.strength === 'majWk'"
+                    matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                    [matTooltipDisabled]="skill && skill[skill] !== 'majWk'">
+                  </mat-checkbox>
+                </td>
+                <td class="border-left">
+                  <mat-checkbox [ngClass]="skill && skill[skill] === 'noneStr' ? 'checkmark-role-background' : ''"
+                    (change)="checkSkill('noneStr', i, $event)"
+                    [checked]="!skill.strength ? skill && skill[skill] === 'noneStr' : skill.strength === 'noneStr'"
+                    matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                    [matTooltipDisabled]="skill && skill[skill] !== 'noneStr'">
+                  </mat-checkbox>
+                </td>
+                <td>
+                  <mat-checkbox [ngClass]="skill && !skill[skill] ? 'checkmark-role-background' : ''"
+                    (change)="checkSkill('none', i, $event)"
+                    [checked]="!skill.strength ? skill && (skill[skill] === 'none' || !skill[skill]) : skill.strength === 'none'"
+                    matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                    [matTooltipDisabled]="skill && skill[skill]">
+                  </mat-checkbox>
+                </td>
+                <td>
+                  <mat-checkbox [ngClass]="skill && skill[skill] === 'one' ? 'checkmark-role-background' : ''"
+                    (change)="checkSkill('one', i, $event)"
+                    [checked]="!skill.strength ? skill && skill[skill] === 'one' : skill.strength === 'one'"
+                    matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                    [matTooltipDisabled]="skill && skill[skill] !== 'one'">
+                  </mat-checkbox>
+                </td>
+                <td>
+                  <mat-checkbox [ngClass]="skill && skill[skill] === 'noneWk' ? 'checkmark-role-background' : ''"
+                    (change)="checkSkill('noneWk', i, $event)"
+                    [checked]="!skill.strength ? skill && skill[skill] === 'noneWk' : skill.strength === 'noneWk'"
+                    matTooltip="This is the preferred scale for their Role" matTooltipClass="my-tooltip"
+                    [matTooltipDisabled]="skill && skill[skill] !== 'noneWk'">
+                  </mat-checkbox>
+                </td>
+                <td>
+                  <i mat-raised-button (click)="removeNewSecondaryItem('skills', i)" color="warn"
+                    class="fa-solid fa-trash"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button mat-raised-button (click)="addNewSecondaryItem('skills')" color="accent"><i
+              class="fa-solid fa-plus icon-medium"></i> Skill</button>
 
-        <mat-form-field>
-          <input matInput placeholder="Name of Challenge" [matAutocomplete]="challengeauto"
-            [formControl]="challengeController">
-          <mat-autocomplete #challengeauto="matAutocomplete" (optionSelected)="captureChallenge($event)"
-            [displayWith]="getDisplayVariant">
-            <mat-option *ngFor="let challenge of challengesFiltered | async" [value]="challenge">
-              {{challenge.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-      
-    </ng-template>
+          <br>
+          <br>
+          <br>
+
+          <h2>Single Obstacles</h2>
+          <div class="divider"></div>
+          <mat-chip-list>
+            <div *ngFor="let obstacle of beast.obstacles; let i = index">
+              <mat-chip (click)="removeChip('obstacles', i)" color="warn" selected>
+                {{obstacle.name}}</mat-chip>
+            </div>
+          </mat-chip-list>
+
+          <mat-form-field>
+            <input matInput placeholder="Name of Obstacle" [matAutocomplete]="obstacleauto"
+              [formControl]="obstacleController">
+            <mat-autocomplete #obstacleauto="matAutocomplete" (optionSelected)="captureObstacle($event)"
+              [displayWith]="getDisplayVariant">
+              <mat-option *ngFor="let obstacle of obstaclesFiltered | async" [value]="obstacle">
+                {{obstacle.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <br>
+          <br>
+          <h2>Skill Challenges</h2>
+          <div class="divider"></div>
+          <mat-chip-list>
+            <div *ngFor="let challenge of beast.challenges; let i = index">
+              <mat-chip (click)="removeChip('challenges', i)" color="warn" selected>
+                {{challenge.name}}</mat-chip>
+            </div>
+          </mat-chip-list>
+
+          <mat-form-field>
+            <input matInput placeholder="Name of Challenge" [matAutocomplete]="challengeauto"
+              [formControl]="challengeController">
+            <mat-autocomplete #challengeauto="matAutocomplete" (optionSelected)="captureChallenge($event)"
+              [displayWith]="getDisplayVariant">
+              <mat-option *ngFor="let challenge of challengesFiltered | async" [value]="challenge">
+                {{challenge.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+      </ng-template>
     </mat-tab>
     <mat-tab label="Combat">
       <ng-template matTabContent>
@@ -1673,113 +1677,150 @@
           <br />
 
           <div class="lair-loot-shell">
-            <div class="lair-loot-category-shell">
-              <h3>Coins</h3>
-              <div class="loot-inner-shell">
-                <mat-form-field>
-                  <mat-label>Copper</mat-label>
-                  <mat-select [value]="beast.carriedloot.copper"
-                    (selectionChange)="captureSelectForObject($event, 'copper', 'carriedloot')">
-                    <mat-option>
-                      Nothing
-                    </mat-option>
-                    <mat-option value="a">
-                      {{lootTables.staticValues.a}}
-                    </mat-option>
-                    <mat-option value="b">
-                      {{lootTables.staticValues.b}}
-                    </mat-option>
-                    <mat-option value="c">
-                      {{lootTables.staticValues.c}}
-                    </mat-option>
-                    <mat-option value="d">
-                      {{lootTables.staticValues.d}}
-                    </mat-option>
-                    <mat-option value="e">
-                      {{lootTables.staticValues.e}}
-                    </mat-option>
-                    <mat-option value="f">
-                      {{lootTables.staticValues.f}}
-                    </mat-option>
-                    <mat-option value="g">
-                      {{lootTables.staticValues.g}}
-                    </mat-option>
-                    <mat-option value="h">
-                      {{lootTables.staticValues.h}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+            <div class="coins-and-enchanted-shell">
+              <div class="lair-loot-category-shell">
+                <h3>Coins</h3>
+                <div class="loot-inner-shell">
+                  <mat-form-field>
+                    <mat-label>Copper</mat-label>
+                    <mat-select [value]="beast.carriedloot.copper"
+                      (selectionChange)="captureSelectForObject($event, 'copper', 'carriedloot')">
+                      <mat-option>
+                        Nothing
+                      </mat-option>
+                      <mat-option value="a">
+                        {{lootTables.staticValues.a}}
+                      </mat-option>
+                      <mat-option value="b">
+                        {{lootTables.staticValues.b}}
+                      </mat-option>
+                      <mat-option value="c">
+                        {{lootTables.staticValues.c}}
+                      </mat-option>
+                      <mat-option value="d">
+                        {{lootTables.staticValues.d}}
+                      </mat-option>
+                      <mat-option value="e">
+                        {{lootTables.staticValues.e}}
+                      </mat-option>
+                      <mat-option value="f">
+                        {{lootTables.staticValues.f}}
+                      </mat-option>
+                      <mat-option value="g">
+                        {{lootTables.staticValues.g}}
+                      </mat-option>
+                      <mat-option value="h">
+                        {{lootTables.staticValues.h}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
 
-                <mat-form-field>
-                  <mat-label>Silver</mat-label>
-                  <mat-select [value]="beast.carriedloot.silver"
-                    (selectionChange)="captureSelectForObject($event, 'silver', 'carriedloot')">
-                    <mat-option>
-                      Nothing
-                    </mat-option>
-                    <mat-option value="a">
-                      {{lootTables.staticValues.a}}
-                    </mat-option>
-                    <mat-option value="b">
-                      {{lootTables.staticValues.b}}
-                    </mat-option>
-                    <mat-option value="c">
-                      {{lootTables.staticValues.c}}
-                    </mat-option>
-                    <mat-option value="d">
-                      {{lootTables.staticValues.d}}
-                    </mat-option>
-                    <mat-option value="e">
-                      {{lootTables.staticValues.e}}
-                    </mat-option>
-                    <mat-option value="f">
-                      {{lootTables.staticValues.f}}
-                    </mat-option>
-                    <mat-option value="g">
-                      {{lootTables.staticValues.g}}
-                    </mat-option>
-                    <mat-option value="h">
-                      {{lootTables.staticValues.h}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Silver</mat-label>
+                    <mat-select [value]="beast.carriedloot.silver"
+                      (selectionChange)="captureSelectForObject($event, 'silver', 'carriedloot')">
+                      <mat-option>
+                        Nothing
+                      </mat-option>
+                      <mat-option value="a">
+                        {{lootTables.staticValues.a}}
+                      </mat-option>
+                      <mat-option value="b">
+                        {{lootTables.staticValues.b}}
+                      </mat-option>
+                      <mat-option value="c">
+                        {{lootTables.staticValues.c}}
+                      </mat-option>
+                      <mat-option value="d">
+                        {{lootTables.staticValues.d}}
+                      </mat-option>
+                      <mat-option value="e">
+                        {{lootTables.staticValues.e}}
+                      </mat-option>
+                      <mat-option value="f">
+                        {{lootTables.staticValues.f}}
+                      </mat-option>
+                      <mat-option value="g">
+                        {{lootTables.staticValues.g}}
+                      </mat-option>
+                      <mat-option value="h">
+                        {{lootTables.staticValues.h}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
 
-                <mat-form-field>
-                  <mat-label>Gold</mat-label>
-                  <mat-select [value]="beast.carriedloot.gold"
-                    (selectionChange)="captureSelectForObject($event, 'gold', 'carriedloot')">
-                    <mat-option>
-                      Nothing
-                    </mat-option>
-                    <mat-option value="a">
-                      {{lootTables.staticValues.a}}
-                    </mat-option>
-                    <mat-option value="b">
-                      {{lootTables.staticValues.b}}
-                    </mat-option>
-                    <mat-option value="c">
-                      {{lootTables.staticValues.c}}
-                    </mat-option>
-                    <mat-option value="d">
-                      {{lootTables.staticValues.d}}
-                    </mat-option>
-                    <mat-option value="e">
-                      {{lootTables.staticValues.e}}
-                    </mat-option>
-                    <mat-option value="f">
-                      {{lootTables.staticValues.f}}
-                    </mat-option>
-                    <mat-option value="g">
-                      {{lootTables.staticValues.g}}
-                    </mat-option>
-                    <mat-option value="h">
-                      {{lootTables.staticValues.h}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Gold</mat-label>
+                    <mat-select [value]="beast.carriedloot.gold"
+                      (selectionChange)="captureSelectForObject($event, 'gold', 'carriedloot')">
+                      <mat-option>
+                        Nothing
+                      </mat-option>
+                      <mat-option value="a">
+                        {{lootTables.staticValues.a}}
+                      </mat-option>
+                      <mat-option value="b">
+                        {{lootTables.staticValues.b}}
+                      </mat-option>
+                      <mat-option value="c">
+                        {{lootTables.staticValues.c}}
+                      </mat-option>
+                      <mat-option value="d">
+                        {{lootTables.staticValues.d}}
+                      </mat-option>
+                      <mat-option value="e">
+                        {{lootTables.staticValues.e}}
+                      </mat-option>
+                      <mat-option value="f">
+                        {{lootTables.staticValues.f}}
+                      </mat-option>
+                      <mat-option value="g">
+                        {{lootTables.staticValues.g}}
+                      </mat-option>
+                      <mat-option value="h">
+                        {{lootTables.staticValues.h}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="lair-loot-category-shell">
+                <h3>Enchanted Items</h3>
+                <div class="loot-inner-shell">
+                  <mat-form-field>
+                    <mat-label>Chance</mat-label>
+                    <mat-select [value]="beast.carriedloot.enchanted"
+                      (selectionChange)="captureSelectForObject($event, 'enchanted', 'carriedloot')">
+                      <mat-option>
+                        No Chance
+                      </mat-option>
+                      <mat-option value="a">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.a)}}
+                      </mat-option>
+                      <mat-option value="b">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.b)}}
+                      </mat-option>
+                      <mat-option value="c">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.c)}}
+                      </mat-option>
+                      <mat-option value="d">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.d)}}
+                      </mat-option>
+                      <mat-option value="e">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.e)}}
+                      </mat-option>
+                      <mat-option value="f">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.f)}}
+                      </mat-option>
+                      <mat-option value="g">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.g)}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
-
             <div class="lair-loot-category-shell">
               <h3>Talismans, Potions, Scrolls, Alm Scripts</h3>
               <div>
@@ -2015,215 +2056,132 @@
                   [disabled]="!alm.number || !alm.favor"><i class="fa-solid fa-plus"></i></button>
               </div>
             </div>
+          </div>
 
-
-            <div class="lair-loot-category-shell">
-              <h3>Equipment</h3>
-              <br />
-              <div>
-                <table class="first-column-left">
-                  <thead>
-                    <th colspan="3">Mundane Equipment</th>
-                  </thead>
-                  <tr>
-                    <th>Value</th>
-                    <th>Number (sc)</th>
-                    <th></th>
-                  </tr>
-                  <tr *ngFor="let equipment of beast.carriedloot.equipment; let i = index"
-                    [ngClass]="{'noDisplay': equipment.deleted }">
-                    <td>{{lootTables.staticValues[equipment.value]}}</td>
-                    <td>{{lootTables.numberAppearing[equipment.number]}}</td>
-                    <td><i (click)="removeEqupment(i, 'carriedloot')" class="fa-solid fa-trash"></i>
-                    </td>
-                  </tr>
-                </table>
-                <div>
-                  <mat-form-field>
-                    <mat-label>Equipment Value</mat-label>
-                    <mat-select (selectionChange)="captureEquipment($event, 'value')">
-                      <mat-option>
-                        No Value
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.staticValues.a}} sc
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.staticValues.b}} sc
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.staticValues.c}} sc
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.staticValues.d}} sc
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.staticValues.e}} sc
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.staticValues.f}} sc
-                      </mat-option>
-                      <mat-option value="g">
-                        {{lootTables.staticValues.g}} sc
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.staticValues.h}} sc
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Equipment Number</mat-label>
-                    <mat-select (selectionChange)="captureEquipment($event, 'number')">
-                      <mat-option>
-                        None
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.numberAppearing.a}}
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.numberAppearing.b}}
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.numberAppearing.c}}
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.numberAppearing.d}}
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.numberAppearing.e}}
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.numberAppearing.f}}
-                      </mat-option>
-                      <mat-option value="g">
-                        {{lootTables.numberAppearing.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.numberAppearing.h}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <button mat-raised-button (click)="captureAddEquipment('carriedloot')" color="accent"
-                  [disabled]="!equipment.value || !equipment.number"><i class="fa-solid fa-plus"></i></button>
-
-                <div class="divider white"></div>
-
-                <table class="first-column-left">
-                  <thead>
-                    <th colspan="3">Superior Equipment</th>
-                  </thead>
-                  <tr>
-                    <th>Chance</th>
-                    <th>Value (sc)</th>
-                    <th></th>
-                  </tr>
-                  <tr *ngFor="let traited of beast.carriedloot.traited; let i = index"
-                    [ngClass]="{'noDisplay': traited.deleted }">
-                    <td>{{lootTables.traitedChance[traited.chancetable]}}</td>
-                    <td>{{lootTables.staticValues[traited.value]}}</td>
-                    <td><i (click)="removeTraited(i, 'carriedloot')" class="fa-solid fa-trash"></i>
-                    </td>
-                  </tr>
-                </table>
-                <div>
-                  <mat-form-field>
-                    <mat-label>Superior Equipment Value</mat-label>
-                    <mat-select (selectionChange)="captureTraited($event, 'value')">
-                      <mat-option>
-                        No Value
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.staticValues.a}} sc
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.staticValues.b}} sc
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.staticValues.c}} sc
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.staticValues.d}} sc
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.staticValues.e}} sc
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.staticValues.f}} sc
-                      </mat-option>
-                      <mat-option value="g">
-                        {{lootTables.staticValues.g}} sc
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.staticValues.h}} sc
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Superior Equipment Chance Table</mat-label>
-                    <mat-select (selectionChange)="captureTraited($event, 'chancetable')">
-                      <mat-option>
-                        None
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.traitedChance.a}}
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.traitedChance.b}}
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.traitedChance.c}}
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.traitedChance.d}}
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.traitedChance.e}}
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.traitedChance.f}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <button mat-raised-button (click)="captureAddTraited('carriedloot')" color="accent"
-                  [disabled]="!traited.value || !traited.chancetable"><i class="fa-solid fa-plus"></i></button>
-              </div>
-            </div>
-
-            <div class="lair-loot-category-shell">
-              <h3>Enchanted Items</h3>
-              <div class="loot-inner-shell">
+          <div class="item-shell">
+            <h3>Equipment</h3>
+            <div>
+              <div class="loot-inner-shell" *ngFor="let item of beast.carriedloot.items; let i = index">
                 <mat-form-field>
-                  <mat-label>Chance</mat-label>
-                  <mat-select [value]="beast.carriedloot.enchanted"
-                    (selectionChange)="captureSelectForObject($event, 'enchanted', 'carriedloot')">
-                    <mat-option>
-                      No Chance
-                    </mat-option>
-                    <mat-option value="a">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.a)}}
-                    </mat-option>
-                    <mat-option value="b">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.b)}}
-                    </mat-option>
-                    <mat-option value="c">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.c)}}
-                    </mat-option>
-                    <mat-option value="d">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.d)}}
-                    </mat-option>
-                    <mat-option value="e">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.e)}}
-                    </mat-option>
-                    <mat-option value="f">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.f)}}
-                    </mat-option>
-                    <mat-option value="g">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.g)}}
+                  <mat-label>Item Category</mat-label>
+                  <mat-select [value]="item.itemCategory" (selectionChange)="updateItem($event, 'carriedloot', 'itemCategory', i)">
+                    <mat-option *ngFor="let category of itemCategories" [value]="category.id">
+                      {{category.label}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
+                <mat-form-field>
+                  <input [value]="item.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
+                    (change)="updateItem($event, 'carriedloot', 'chance', i)">
+                </mat-form-field>
+                <mat-form-field>
+                  <input  [value]="item.number" placeholder="Number" type="number" min="1" max="25" matInput
+                    (change)="updateItem($event, 'carriedloot', 'number', i)">
+                </mat-form-field>
+                <div class="loot-inner-shell">
+                  <mat-form-field>
+                    <mat-label>Material Rarity</mat-label>
+                    <mat-select [value]="item.materialRarity" (selectionChange)="updateItem($event, 'carriedloot', 'materialRarity', i)">
+                      <mat-option value="C">
+                        Common
+                      </mat-option>
+                      <mat-option value="U">
+                        Uncommon
+                      </mat-option>
+                      <mat-option value="R">
+                        Rare
+                      </mat-option>
+                      <mat-option value="L">
+                        Legendary
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="loot-inner-shell">
+                  <mat-form-field>
+                    <mat-label>Detail Level</mat-label>
+                    <mat-select [value]="item.detailing" (selectionChange)="updateItem($event, 'carriedloot', 'detailing', i)">
+                      <mat-option value="N">
+                        None
+                      </mat-option>
+                      <mat-option value="L">
+                        Low
+                      </mat-option>
+                      <mat-option value="M">
+                        Normal
+                      </mat-option>
+                      <mat-option value="H">
+                        High
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <mat-form-field>
+                  <input [value]="item.wear" placeholder="Wear (in Dice)" value="1d4" matInput (change)="updateItem($event, 'carriedloot', 'wear', i)">
+                </mat-form-field>
+                <button mat-raised-button (click)="removeItem(i, 'carriedloot')" color="warn"><i class="fa-solid fa-trash"></i></button>
+              </div>
+
+              <div class="loot-inner-shell">
+                <mat-form-field>
+                  <mat-label>Item Category</mat-label>
+                  <mat-select [value]="item.itemCategory" (selectionChange)="captureItem($event, 'itemCategory')">
+                    <mat-option *ngFor="let category of itemCategories" [value]="category.id">
+                      {{category.label}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <input [value]="item.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
+                    (change)="captureItem($event, 'chance')">
+                </mat-form-field>
+                <mat-form-field>
+                  <input [value]="item.number" placeholder="Number" type="number" min="1" max="25" matInput
+                    (change)="captureItem($event, 'number')">
+                </mat-form-field>
+                <div class="loot-inner-shell">
+                  <mat-form-field>
+                    <mat-label>Material Rarity</mat-label>
+                    <mat-select [value]="item.materialRarity" (selectionChange)="captureItem($event, 'materialRarity')">
+                      <mat-option value="C">
+                        Common
+                      </mat-option>
+                      <mat-option value="U">
+                        Uncommon
+                      </mat-option>
+                      <mat-option value="R">
+                        Rare
+                      </mat-option>
+                      <mat-option value="L">
+                        Legendary
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="loot-inner-shell">
+                  <mat-form-field>
+                    <mat-label>Detail Level</mat-label>
+                    <mat-select [value]="item.detailing" (selectionChange)="captureItem($event, 'detailing')">
+                      <mat-option value="N">
+                        None
+                      </mat-option>
+                      <mat-option value="L">
+                        Low
+                      </mat-option>
+                      <mat-option value="M">
+                        Normal
+                      </mat-option>
+                      <mat-option value="H">
+                        High
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <mat-form-field>
+                  <input placeholder="Wear (in Dice)" value="1d4" matInput (change)="captureItem($event, 'wear')">
+                </mat-form-field>
+                <button mat-raised-button (click)="captureAddItem('carriedloot')" color="accent"
+                  [disabled]="!item.itemCategory || !item.materialRarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
               </div>
             </div>
           </div>
@@ -3118,7 +3076,8 @@
   <br>
 
   <button (click)="saveChanges()" mat-raised-button color="primary" [disabled]="!beast.name || !checkIfValidTemplate()">
-    {{!beast.name ? 'Your beast needs a name to save it' : !checkIfValidTemplate() ? "You cannot have Template at the start of your monster's name" : beast.name ? 'Save Monster' : 'Unknown Naming Error'}}</button>
+    {{!beast.name ? 'Your beast needs a name to save it' : !checkIfValidTemplate() ? "You cannot have Template at the
+    start of your monster's name" : beast.name ? 'Save Monster' : 'Unknown Naming Error'}}</button>
   <div *ngIf="beast.id">
     <div *ngIf="checkForDelete" class="deleteButton">
       <button mat-raised-button (click)="deleteThisBeast()" color="warn" matTooltip="Yes, Delete this Monster"><i

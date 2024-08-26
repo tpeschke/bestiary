@@ -829,6 +829,18 @@ a {
     height: 100%;
 }
 
+.coins-and-enchanted-shell {
+    display: flex;
+    flex-wrap: wrap;
+    width: 49%;
+    height: 100%;
+}
+
+.coins-and-enchanted-shell .lair-loot-category-shell {
+    width: 100%;
+    height: unset;
+}
+
 .lair-loot-category-shell button {
     margin: 0
 }
@@ -845,6 +857,27 @@ a {
     display: flex;
     flex-direction: column;
     margin: 15px 0;
+}
+
+.item-shell {
+    background: rgba(211, 211, 211, 0.5);
+    padding: 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+    overflow: auto;
+}
+
+.item-shell .loot-inner-shell {
+    display: flex;
+    align-content: center;
+}
+
+.item-shell button {
+    margin: 0;
+}
+
+.item-shell mat-form-field {
+    min-width: 125px
 }
 
 input[type="file"] {
