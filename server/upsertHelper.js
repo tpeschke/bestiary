@@ -420,6 +420,17 @@ const saveUpdateFunctions = {
             }
         })
     },
+    upsertItemsCarried: (promiseArray, db, id, res, citems = []) => {
+        citems.forEach(({ id: itemid, beastid: cbeastid, itemcategory, materialRarity, detailing, wear, chance, number }) => {
+            if (deleted) {
+                promiseArray.push(db.delete.loot.carrieditems(cbeastid, itemid).catch(e => sendErrorForward('update beast delete carried items', e, res)))
+            } else if (itemid && cbeastid) {
+                promiseArray.push(db.update.loot.carrieditems(itemid, itemcategory, materialRarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast update carried items', e, res)))
+            } else {
+                promiseArray.push(db.add.loot.carrieditems(id, itemcategory, materialRarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast add carried items', e, res)))
+            }
+        })
+    },
     upsertAlmsCarried: (promiseArray, db, id, res, calms = []) => {
         calms.forEach(({ id: almid, beastid: cbeastid, number, favor, deleted }) => {
             if (deleted) {

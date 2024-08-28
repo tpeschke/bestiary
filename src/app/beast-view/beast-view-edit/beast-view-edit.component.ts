@@ -239,7 +239,7 @@ export class BeastViewEditComponent implements OnInit {
 
   public item = {
     itemCategory: null,
-    materialRarity: null,
+    materialrarity: null,
     detailing: null,
     wear: '1d4',
     chance: null,
@@ -1314,7 +1314,7 @@ export class BeastViewEditComponent implements OnInit {
     }
     this.item = {
       itemCategory: null,
-      materialRarity: null,
+      materialrarity: null,
       detailing: null,
       wear: '1d4',
       chance: null,

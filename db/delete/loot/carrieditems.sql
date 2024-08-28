@@ -1,0 +1,1 @@
+delete from bbcarrieditems where beastid = $1 and id = $2

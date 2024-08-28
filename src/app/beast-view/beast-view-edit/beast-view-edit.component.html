@@ -2081,7 +2081,7 @@
                 <div class="loot-inner-shell">
                   <mat-form-field>
                     <mat-label>Material Rarity</mat-label>
-                    <mat-select [value]="item.materialRarity" (selectionChange)="updateItem($event, 'carriedloot', 'materialRarity', i)">
+                    <mat-select [value]="item.materialrarity" (selectionChange)="updateItem($event, 'carriedloot', 'materialrarity', i)">
                       <mat-option value="C">
                         Common
                       </mat-option>
@@ -2142,7 +2142,7 @@
                 <div class="loot-inner-shell">
                   <mat-form-field>
                     <mat-label>Material Rarity</mat-label>
-                    <mat-select [value]="item.materialRarity" (selectionChange)="captureItem($event, 'materialRarity')">
+                    <mat-select [value]="item.materialrarity" (selectionChange)="captureItem($event, 'materialrarity')">
                       <mat-option value="C">
                         Common
                       </mat-option>
@@ -2181,7 +2181,7 @@
                   <input placeholder="Wear (in Dice)" value="1d4" matInput (change)="captureItem($event, 'wear')">
                 </mat-form-field>
                 <button mat-raised-button (click)="captureAddItem('carriedloot')" color="accent"
-                  [disabled]="!item.itemCategory || !item.materialRarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
+                  [disabled]="!item.itemCategory || !item.materialrarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
               </div>
             </div>
           </div>
@@ -2635,7 +2635,7 @@
                   <div class="loot-inner-shell">
                     <mat-form-field>
                       <mat-label>Material Rarity</mat-label>
-                      <mat-select [value]="item.materialRarity" (selectionChange)="updateItem($event, 'lairloot', 'materialRarity', i)">
+                      <mat-select [value]="item.materialrarity" (selectionChange)="updateItem($event, 'lairloot', 'materialrarity', i)">
                         <mat-option value="C">
                           Common
                         </mat-option>
@@ -2696,7 +2696,7 @@
                   <div class="loot-inner-shell">
                     <mat-form-field>
                       <mat-label>Material Rarity</mat-label>
-                      <mat-select [value]="item.materialRarity" (selectionChange)="captureItem($event, 'materialRarity')">
+                      <mat-select [value]="item.materialrarity" (selectionChange)="captureItem($event, 'materialrarity')">
                         <mat-option value="C">
                           Common
                         </mat-option>
@@ -2735,7 +2735,7 @@
                     <input placeholder="Wear (in Dice)" value="1d4" matInput (change)="captureItem($event, 'wear')">
                   </mat-form-field>
                   <button mat-raised-button (click)="captureAddItem('lairloot')" color="accent"
-                    [disabled]="!item.itemCategory || !item.materialRarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
+                    [disabled]="!item.itemCategory || !item.materialrarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
                 </div>
               </div>
             </div>

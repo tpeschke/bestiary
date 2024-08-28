@@ -222,12 +222,13 @@ let controllerObj = {
       upsertHelper.upsertScrollsLair(promiseArray, db, id, res, scrolls)
       upsertHelper.upsertAlmsLair(promiseArray, db, id, res, alms)
 
-      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms, talisman: ctalisman } = carriedloot
+      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms, items: citems, talisman: ctalisman } = carriedloot
       upsertHelper.upsertBasicCarried(promiseArray, db, id, res, cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman)
       upsertHelper.upsertEquipmentCarried(promiseArray, db, id, res, cequipment)
       upsertHelper.upsertTraitedCarried(promiseArray, db, id, res, ctraited)
       upsertHelper.upsertScrollsCarried(promiseArray, db, id, res, cscrolls)
       upsertHelper.upsertAlmsCarried(promiseArray, db, id, res, calms)
+      upsertHelper.upsertItemsCarried(promiseArray, db, id, res, citems)
 
       upsertHelper.upsertCasting(promiseArray, db, id, res, casting)
       upsertHelper.deleteFromSpellList(promiseArray, db, id, res, deletedSpellList)
@@ -284,12 +285,13 @@ let controllerObj = {
       upsertHelper.upsertScrollsLair(promiseArray, db, id, res, scrolls)
       upsertHelper.upsertAlmsLair(promiseArray, db, id, res, alms)
 
-      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms, talisman: ctalisman } = carriedloot
+      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms, items: citems, talisman: ctalisman } = carriedloot
       upsertHelper.upsertBasicCarried(promiseArray, db, id, res, cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman)
       upsertHelper.upsertEquipmentCarried(promiseArray, db, id, res, cequipment)
       upsertHelper.upsertTraitedCarried(promiseArray, db, id, res, ctraited)
       upsertHelper.upsertScrollsCarried(promiseArray, db, id, res, cscrolls)
       upsertHelper.upsertAlmsCarried(promiseArray, db, id, res, calms)
+      upsertHelper.upsertItemsCarried(promiseArray, db, id, res, citems)
 
       upsertHelper.upsertCasting(promiseArray, db, id, res, casting)
       upsertHelper.deleteFromSpellList(promiseArray, db, id, res, deletedSpellList)

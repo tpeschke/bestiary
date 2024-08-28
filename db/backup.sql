@@ -512,3 +512,14 @@ create table bblistbeast (
     listid int,
     rarity int
 );
+
+create table bbcarrieditems (
+    id serial primary key,
+    beastid int,
+    itemcategory int,
+    materialRarity varchar(1),
+    detailing varchar(1),
+    wear varchar(5),
+    chance int,
+    number int
+);
