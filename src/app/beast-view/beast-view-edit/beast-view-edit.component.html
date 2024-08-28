@@ -2189,128 +2189,165 @@
           <h2>Lair Loot</h2>
           <div class="divider"></div>
           <div class="lair-loot-shell">
-            <div class="lair-loot-category-shell">
-              <h3>Coins</h3>
-              <div class="loot-inner-shell">
-                <mat-form-field>
-                  <mat-label>Copper</mat-label>
-                  <mat-select [value]="beast.lairloot.copper"
-                    (selectionChange)="captureSelectForObject($event, 'copper', 'lairloot')">
-                    <mat-option>
-                      Nothing
-                    </mat-option>
-                    <mat-option value="a">
-                      {{lootTables.staticValues.a}}
-                    </mat-option>
-                    <mat-option value="b">
-                      {{lootTables.staticValues.b}}
-                    </mat-option>
-                    <mat-option value="c">
-                      {{lootTables.staticValues.c}}
-                    </mat-option>
-                    <mat-option value="d">
-                      {{lootTables.staticValues.d}}
-                    </mat-option>
-                    <mat-option value="e">
-                      {{lootTables.staticValues.e}}
-                    </mat-option>
-                    <mat-option value="f">
-                      {{lootTables.staticValues.f}}
-                    </mat-option>
-                    <mat-option value="g">
-                      {{lootTables.staticValues.g}}
-                    </mat-option>
-                    <mat-option value="h">
-                      {{lootTables.staticValues.h}}
-                    </mat-option>
-                    <mat-option value="i">
-                      {{lootTables.staticValues.i}}
-                    </mat-option>
-                    <mat-option value="j">
-                      {{lootTables.staticValues.j}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <mat-form-field>
-                  <mat-label>Silver</mat-label>
-                  <mat-select [value]="beast.lairloot.silver"
-                    (selectionChange)="captureSelectForObject($event, 'silver', 'lairloot')">
-                    <mat-option>
-                      Nothing
-                    </mat-option>
-                    <mat-option value="a">
-                      {{lootTables.staticValues.a}}
-                    </mat-option>
-                    <mat-option value="b">
-                      {{lootTables.staticValues.b}}
-                    </mat-option>
-                    <mat-option value="c">
-                      {{lootTables.staticValues.c}}
-                    </mat-option>
-                    <mat-option value="d">
-                      {{lootTables.staticValues.d}}
-                    </mat-option>
-                    <mat-option value="e">
-                      {{lootTables.staticValues.e}}
-                    </mat-option>
-                    <mat-option value="f">
-                      {{lootTables.staticValues.f}}
-                    </mat-option>
-                    <mat-option value="g">
-                      {{lootTables.staticValues.g}}
-                    </mat-option>
-                    <mat-option value="h">
-                      {{lootTables.staticValues.h}}
-                    </mat-option>
-                    <mat-option value="i">
-                      {{lootTables.staticValues.i}}
-                    </mat-option>
-                    <mat-option value="j">
-                      {{lootTables.staticValues.j}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <mat-form-field>
-                  <mat-label>Gold</mat-label>
-                  <mat-select [value]="beast.lairloot.gold"
-                    (selectionChange)="captureSelectForObject($event, 'gold', 'lairloot')">
-                    <mat-option>
-                      Nothing
-                    </mat-option>
-                    <mat-option value="a">
-                      {{lootTables.staticValues.a}}
-                    </mat-option>
-                    <mat-option value="b">
-                      {{lootTables.staticValues.b}}
-                    </mat-option>
-                    <mat-option value="c">
-                      {{lootTables.staticValues.c}}
-                    </mat-option>
-                    <mat-option value="d">
-                      {{lootTables.staticValues.d}}
-                    </mat-option>
-                    <mat-option value="e">
-                      {{lootTables.staticValues.e}}
-                    </mat-option>
-                    <mat-option value="f">
-                      {{lootTables.staticValues.f}}
-                    </mat-option>
-                    <mat-option value="g">
-                      {{lootTables.staticValues.g}}
-                    </mat-option>
-                    <mat-option value="h">
-                      {{lootTables.staticValues.h}}
-                    </mat-option>
-                    <mat-option value="i">
-                      {{lootTables.staticValues.i}}
-                    </mat-option>
-                    <mat-option value="j">
-                      {{lootTables.staticValues.j}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+            <div class="coins-and-enchanted-shell">
+              <div class="lair-loot-category-shell">
+                <h3>Coins</h3>
+                <div class="loot-inner-shell">
+                  <mat-form-field>
+                    <mat-label>Copper</mat-label>
+                    <mat-select [value]="beast.lairloot.copper"
+                      (selectionChange)="captureSelectForObject($event, 'copper', 'lairloot')">
+                      <mat-option>
+                        Nothing
+                      </mat-option>
+                      <mat-option value="a">
+                        {{lootTables.staticValues.a}}
+                      </mat-option>
+                      <mat-option value="b">
+                        {{lootTables.staticValues.b}}
+                      </mat-option>
+                      <mat-option value="c">
+                        {{lootTables.staticValues.c}}
+                      </mat-option>
+                      <mat-option value="d">
+                        {{lootTables.staticValues.d}}
+                      </mat-option>
+                      <mat-option value="e">
+                        {{lootTables.staticValues.e}}
+                      </mat-option>
+                      <mat-option value="f">
+                        {{lootTables.staticValues.f}}
+                      </mat-option>
+                      <mat-option value="g">
+                        {{lootTables.staticValues.g}}
+                      </mat-option>
+                      <mat-option value="h">
+                        {{lootTables.staticValues.h}}
+                      </mat-option>
+                      <mat-option value="i">
+                        {{lootTables.staticValues.i}}
+                      </mat-option>
+                      <mat-option value="j">
+                        {{lootTables.staticValues.j}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+  
+                  <mat-form-field>
+                    <mat-label>Silver</mat-label>
+                    <mat-select [value]="beast.lairloot.silver"
+                      (selectionChange)="captureSelectForObject($event, 'silver', 'lairloot')">
+                      <mat-option>
+                        Nothing
+                      </mat-option>
+                      <mat-option value="a">
+                        {{lootTables.staticValues.a}}
+                      </mat-option>
+                      <mat-option value="b">
+                        {{lootTables.staticValues.b}}
+                      </mat-option>
+                      <mat-option value="c">
+                        {{lootTables.staticValues.c}}
+                      </mat-option>
+                      <mat-option value="d">
+                        {{lootTables.staticValues.d}}
+                      </mat-option>
+                      <mat-option value="e">
+                        {{lootTables.staticValues.e}}
+                      </mat-option>
+                      <mat-option value="f">
+                        {{lootTables.staticValues.f}}
+                      </mat-option>
+                      <mat-option value="g">
+                        {{lootTables.staticValues.g}}
+                      </mat-option>
+                      <mat-option value="h">
+                        {{lootTables.staticValues.h}}
+                      </mat-option>
+                      <mat-option value="i">
+                        {{lootTables.staticValues.i}}
+                      </mat-option>
+                      <mat-option value="j">
+                        {{lootTables.staticValues.j}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+  
+                  <mat-form-field>
+                    <mat-label>Gold</mat-label>
+                    <mat-select [value]="beast.lairloot.gold"
+                      (selectionChange)="captureSelectForObject($event, 'gold', 'lairloot')">
+                      <mat-option>
+                        Nothing
+                      </mat-option>
+                      <mat-option value="a">
+                        {{lootTables.staticValues.a}}
+                      </mat-option>
+                      <mat-option value="b">
+                        {{lootTables.staticValues.b}}
+                      </mat-option>
+                      <mat-option value="c">
+                        {{lootTables.staticValues.c}}
+                      </mat-option>
+                      <mat-option value="d">
+                        {{lootTables.staticValues.d}}
+                      </mat-option>
+                      <mat-option value="e">
+                        {{lootTables.staticValues.e}}
+                      </mat-option>
+                      <mat-option value="f">
+                        {{lootTables.staticValues.f}}
+                      </mat-option>
+                      <mat-option value="g">
+                        {{lootTables.staticValues.g}}
+                      </mat-option>
+                      <mat-option value="h">
+                        {{lootTables.staticValues.h}}
+                      </mat-option>
+                      <mat-option value="i">
+                        {{lootTables.staticValues.i}}
+                      </mat-option>
+                      <mat-option value="j">
+                        {{lootTables.staticValues.j}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="lair-loot-category-shell">
+                <h3>Enchanted Items</h3>
+                <div class="loot-inner-shell">
+                  <mat-form-field>
+                    <mat-label>Chance</mat-label>
+                    <mat-select [value]="beast.lairloot.enchanted"
+                      (selectionChange)="captureSelectForObject($event, 'enchanted', 'lairloot')">
+                      <mat-option>
+                        No Chance
+                      </mat-option>
+                      <mat-option value="a">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.a)}}
+                      </mat-option>
+                      <mat-option value="b">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.b)}}
+                      </mat-option>
+                      <mat-option value="c">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.c)}}
+                      </mat-option>
+                      <mat-option value="d">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.d)}}
+                      </mat-option>
+                      <mat-option value="e">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.e)}}
+                      </mat-option>
+                      <mat-option value="f">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.f)}}
+                      </mat-option>
+                      <mat-option value="g">
+                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.g)}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
 
@@ -2575,239 +2612,134 @@
             </div>
 
 
-            <div class="lair-loot-category-shell">
+            <div class="item-shell">
               <h3>Equipment</h3>
-              <br />
               <div>
-                <table class="first-column-left">
-                  <thead>
-                    <th colspan="3">Mundane Equipment</th>
-                  </thead>
-                  <tr>
-                    <th>Value</th>
-                    <th>Number (sc)</th>
-                    <th></th>
-                  </tr>
-                  <tr *ngFor="let equipment of beast.lairloot.equipment; let i = index"
-                    [ngClass]="{'noDisplay': equipment.deleted }">
-                    <td>{{lootTables.staticValues[equipment.value]}}</td>
-                    <td>{{lootTables.numberAppearing[equipment.number]}}</td>
-                    <td><i (click)="removeEqupment(i, 'lairloot')" class="fa-solid fa-trash"></i>
-                    </td>
-                  </tr>
-                </table>
-                <div>
+                <div class="loot-inner-shell" *ngFor="let item of beast.lairloot.items; let i = index">
                   <mat-form-field>
-                    <mat-label>Equipment Value</mat-label>
-                    <mat-select (selectionChange)="captureEquipment($event, 'value')">
-                      <mat-option>
-                        No Value
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.staticValues.a}} sc
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.staticValues.b}} sc
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.staticValues.c}} sc
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.staticValues.d}} sc
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.staticValues.e}} sc
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.staticValues.f}} sc
-                      </mat-option>
-                      <mat-option value="g">
-                        {{lootTables.staticValues.g}} sc
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.staticValues.h}} sc
-                      </mat-option>
-                      <mat-option value="i">
-                        {{lootTables.staticValues.i}} sc
-                      </mat-option>
-                      <mat-option value="j">
-                        {{lootTables.staticValues.j}} sc
+                    <mat-label>Item Category</mat-label>
+                    <mat-select [value]="item.itemCategory" (selectionChange)="updateItem($event, 'lairloot', 'itemCategory', i)">
+                      <mat-option *ngFor="let category of itemCategories" [value]="category.id">
+                        {{category.label}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field>
-                    <mat-label>Equipment Number</mat-label>
-                    <mat-select (selectionChange)="captureEquipment($event, 'number')">
-                      <mat-option>
-                        None
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.numberAppearing.a}}
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.numberAppearing.b}}
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.numberAppearing.c}}
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.numberAppearing.d}}
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.numberAppearing.e}}
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.numberAppearing.f}}
-                      </mat-option>
-                      <mat-option value="g">
-                        {{lootTables.numberAppearing.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.numberAppearing.h}}
-                      </mat-option>
-                      <mat-option value="i">
-                        {{lootTables.numberAppearing.i}}
-                      </mat-option>
-                      <mat-option value="j">
-                        {{lootTables.numberAppearing.j}}
-                      </mat-option>
-                    </mat-select>
+                    <input [value]="item.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
+                      (change)="updateItem($event, 'lairloot', 'chance', i)">
                   </mat-form-field>
+                  <mat-form-field>
+                    <input  [value]="item.number" placeholder="Number" type="number" min="1" max="25" matInput
+                      (change)="updateItem($event, 'lairloot', 'number', i)">
+                  </mat-form-field>
+                  <div class="loot-inner-shell">
+                    <mat-form-field>
+                      <mat-label>Material Rarity</mat-label>
+                      <mat-select [value]="item.materialRarity" (selectionChange)="updateItem($event, 'lairloot', 'materialRarity', i)">
+                        <mat-option value="C">
+                          Common
+                        </mat-option>
+                        <mat-option value="U">
+                          Uncommon
+                        </mat-option>
+                        <mat-option value="R">
+                          Rare
+                        </mat-option>
+                        <mat-option value="L">
+                          Legendary
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="loot-inner-shell">
+                    <mat-form-field>
+                      <mat-label>Detail Level</mat-label>
+                      <mat-select [value]="item.detailing" (selectionChange)="updateItem($event, 'lairloot', 'detailing', i)">
+                        <mat-option value="N">
+                          None
+                        </mat-option>
+                        <mat-option value="L">
+                          Low
+                        </mat-option>
+                        <mat-option value="M">
+                          Normal
+                        </mat-option>
+                        <mat-option value="H">
+                          High
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <mat-form-field>
+                    <input [value]="item.wear" placeholder="Wear (in Dice)" value="1d4" matInput (change)="updateItem($event, 'lairloot', 'wear', i)">
+                  </mat-form-field>
+                  <button mat-raised-button (click)="removeItem(i, 'lairloot')" color="warn"><i class="fa-solid fa-trash"></i></button>
                 </div>
-                <button mat-raised-button (click)="captureAddEquipment('lairloot')" color="accent"
-                  [disabled]="!equipment.value || !equipment.number"><i class="fa-solid fa-plus"></i></button>
-
-                <div class="divider white"></div>
-
-                <table class="first-column-left">
-                  <thead>
-                    <th colspan="3">Superior Equipment</th>
-                  </thead>
-                  <tr>
-                    <th>Chance</th>
-                    <th>Value (sc)</th>
-                    <th></th>
-                  </tr>
-                  <tr *ngFor="let traited of beast.lairloot.traited; let i = index"
-                    [ngClass]="{'noDisplay': traited.deleted }">
-                    <td>{{lootTables.traitedChance[traited.chancetable]}}</td>
-                    <td>{{lootTables.staticValues[traited.value]}}</td>
-                    <td><i (click)="removeTraited(i, 'lairloot')" class="fa-solid fa-trash"></i>
-                    </td>
-                  </tr>
-                </table>
-                <div>
+  
+                <div class="loot-inner-shell">
                   <mat-form-field>
-                    <mat-label>Superior Equipment Value</mat-label>
-                    <mat-select (selectionChange)="captureTraited($event, 'value')">
-                      <mat-option>
-                        No Value
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.staticValues.a}} sc
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.staticValues.b}} sc
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.staticValues.c}} sc
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.staticValues.d}} sc
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.staticValues.e}} sc
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.staticValues.f}} sc
-                      </mat-option>
-                      <mat-option value="g">
-                        {{lootTables.staticValues.g}} sc
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.staticValues.h}} sc
-                      </mat-option>
-                      <mat-option value="i">
-                        {{lootTables.staticValues.i}} sc
-                      </mat-option>
-                      <mat-option value="j">
-                        {{lootTables.staticValues.j}} sc
+                    <mat-label>Item Category</mat-label>
+                    <mat-select [value]="item.itemCategory" (selectionChange)="captureItem($event, 'itemCategory')">
+                      <mat-option *ngFor="let category of itemCategories" [value]="category.id">
+                        {{category.label}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field>
-                    <mat-label>Superior Equipment Chance Table</mat-label>
-                    <mat-select (selectionChange)="captureTraited($event, 'chancetable')">
-                      <mat-option>
-                        None
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.traitedChance.a}}
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.traitedChance.b}}
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.traitedChance.c}}
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.traitedChance.d}}
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.traitedChance.e}}
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.traitedChance.f}}
-                      </mat-option>
-                      <mat-option value="g">
-                        {{lootTables.traitedChance.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.traitedChance.h}}
-                      </mat-option>
-                    </mat-select>
+                    <input [value]="item.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
+                      (change)="captureItem($event, 'chance')">
                   </mat-form-field>
+                  <mat-form-field>
+                    <input [value]="item.number" placeholder="Number" type="number" min="1" max="25" matInput
+                      (change)="captureItem($event, 'number')">
+                  </mat-form-field>
+                  <div class="loot-inner-shell">
+                    <mat-form-field>
+                      <mat-label>Material Rarity</mat-label>
+                      <mat-select [value]="item.materialRarity" (selectionChange)="captureItem($event, 'materialRarity')">
+                        <mat-option value="C">
+                          Common
+                        </mat-option>
+                        <mat-option value="U">
+                          Uncommon
+                        </mat-option>
+                        <mat-option value="R">
+                          Rare
+                        </mat-option>
+                        <mat-option value="L">
+                          Legendary
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="loot-inner-shell">
+                    <mat-form-field>
+                      <mat-label>Detail Level</mat-label>
+                      <mat-select [value]="item.detailing" (selectionChange)="captureItem($event, 'detailing')">
+                        <mat-option value="N">
+                          None
+                        </mat-option>
+                        <mat-option value="L">
+                          Low
+                        </mat-option>
+                        <mat-option value="M">
+                          Normal
+                        </mat-option>
+                        <mat-option value="H">
+                          High
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <mat-form-field>
+                    <input placeholder="Wear (in Dice)" value="1d4" matInput (change)="captureItem($event, 'wear')">
+                  </mat-form-field>
+                  <button mat-raised-button (click)="captureAddItem('lairloot')" color="accent"
+                    [disabled]="!item.itemCategory || !item.materialRarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
                 </div>
-                <button mat-raised-button (click)="captureAddTraited('lairloot')" color="accent"
-                  [disabled]="!traited.value || !traited.chancetable"><i class="fa-solid fa-plus"></i></button>
               </div>
             </div>
 
-            <div class="lair-loot-category-shell">
-              <h3>Enchanted Items</h3>
-              <div class="loot-inner-shell">
-                <mat-form-field>
-                  <mat-label>Chance</mat-label>
-                  <mat-select [value]="beast.lairloot.enchanted"
-                    (selectionChange)="captureSelectForObject($event, 'enchanted', 'lairloot')">
-                    <mat-option>
-                      No Chance
-                    </mat-option>
-                    <mat-option value="a">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.a)}}
-                    </mat-option>
-                    <mat-option value="b">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.b)}}
-                    </mat-option>
-                    <mat-option value="c">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.c)}}
-                    </mat-option>
-                    <mat-option value="d">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.d)}}
-                    </mat-option>
-                    <mat-option value="e">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.e)}}
-                    </mat-option>
-                    <mat-option value="f">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.f)}}
-                    </mat-option>
-                    <mat-option value="g">
-                      {{formatRelicAndEnchantedChange(lootTables.enchantedTable.g)}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
           </div>
         </div>
       </ng-template>

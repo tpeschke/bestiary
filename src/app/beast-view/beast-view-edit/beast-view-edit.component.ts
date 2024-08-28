@@ -1310,9 +1310,7 @@ export class BeastViewEditComponent implements OnInit {
   captureAddItem(type) {
     this.beast[type].items.push(this.item)
     if (type === 'carriedloot') {
-      // const letterIndex = this.alphabet.indexOf(this.alm.number)
-      // const newLetter = this.alphabet[letterIndex + 2]
-      // this.beast.lairloot.alms.push({ ...this.alm, number: newLetter })
+        this.beast.lairloot.items.push({ ...this.item, chance: this.item.chance * 2 })
     }
     this.item = {
       itemCategory: null,
