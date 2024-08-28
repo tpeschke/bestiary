@@ -380,6 +380,17 @@ const saveUpdateFunctions = {
             }
         })
     },
+    upsertItemsLair: (promiseArray, db, id, res, citems = []) => {
+        citems.forEach(({ id: itemid, beastid: cbeastid, itemcategory, materialrarity, detailing, wear, chance, number, deleted }) => {
+            if (deleted) {
+                promiseArray.push(db.delete.loot.lairitems(cbeastid, itemid).catch(e => sendErrorForward('update beast delete lair items', e, res)))
+            } else if (itemid && cbeastid) {
+                promiseArray.push(db.update.loot.lairitems(itemid, itemcategory, materialrarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast update lair items', e, res)))
+            } else {
+                promiseArray.push(db.add.loot.lairitems(id, itemcategory, materialrarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast add lair items', e, res)))
+            }
+        })
+    },
     upsertBasicCarried: (promiseArray, db, id, res, cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman) => {
         if (!cbeastid) {
             promiseArray.push(db.add.loot.carriedbasic(id, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman).catch(e => sendErrorForward('update beast add carried basic', e, res)))
@@ -421,13 +432,13 @@ const saveUpdateFunctions = {
         })
     },
     upsertItemsCarried: (promiseArray, db, id, res, citems = []) => {
-        citems.forEach(({ id: itemid, beastid: cbeastid, itemcategory, materialRarity, detailing, wear, chance, number }) => {
+        citems.forEach(({ id: itemid, beastid: cbeastid, itemcategory, materialrarity, detailing, wear, chance, number, deleted  }) => {
             if (deleted) {
                 promiseArray.push(db.delete.loot.carrieditems(cbeastid, itemid).catch(e => sendErrorForward('update beast delete carried items', e, res)))
             } else if (itemid && cbeastid) {
-                promiseArray.push(db.update.loot.carrieditems(itemid, itemcategory, materialRarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast update carried items', e, res)))
+                promiseArray.push(db.update.loot.carrieditems(itemid, itemcategory, materialrarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast update carried items', e, res)))
             } else {
-                promiseArray.push(db.add.loot.carrieditems(id, itemcategory, materialRarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast add carried items', e, res)))
+                promiseArray.push(db.add.loot.carrieditems(id, itemcategory, materialrarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast add carried items', e, res)))
             }
         })
     },

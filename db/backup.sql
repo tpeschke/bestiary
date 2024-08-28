@@ -517,7 +517,18 @@ create table bbcarrieditems (
     id serial primary key,
     beastid int,
     itemcategory int,
-    materialRarity varchar(1),
+    materialrarity varchar(1),
+    detailing varchar(1),
+    wear varchar(5),
+    chance int,
+    number int
+);
+
+create table bblairitems (
+    id serial primary key,
+    beastid int,
+    itemcategory int,
+    materialrarity varchar(1),
     detailing varchar(1),
     wear varchar(5),
     chance int,

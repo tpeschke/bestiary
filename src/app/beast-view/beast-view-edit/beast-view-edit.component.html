@@ -2061,10 +2061,10 @@
           <div class="item-shell">
             <h3>Equipment</h3>
             <div>
-              <div class="loot-inner-shell" *ngFor="let item of beast.carriedloot.items; let i = index">
+              <div class="loot-inner-shell" *ngFor="let item of beast.carriedloot.items; let i = index" [ngClass]="{'noDisplay': item.deleted}">
                 <mat-form-field>
                   <mat-label>Item Category</mat-label>
-                  <mat-select [value]="item.itemCategory" (selectionChange)="updateItem($event, 'carriedloot', 'itemCategory', i)">
+                  <mat-select [value]="item.itemcategory" (selectionChange)="updateItem($event, 'carriedloot', 'itemcategory', i)">
                     <mat-option *ngFor="let category of itemCategories" [value]="category.id">
                       {{category.label}}
                     </mat-option>
@@ -2125,7 +2125,7 @@
               <div class="loot-inner-shell">
                 <mat-form-field>
                   <mat-label>Item Category</mat-label>
-                  <mat-select [value]="item.itemCategory" (selectionChange)="captureItem($event, 'itemCategory')">
+                  <mat-select [value]="item.itemcategory" (selectionChange)="captureItem($event, 'itemcategory')">
                     <mat-option *ngFor="let category of itemCategories" [value]="category.id">
                       {{category.label}}
                     </mat-option>
@@ -2181,7 +2181,7 @@
                   <input placeholder="Wear (in Dice)" value="1d4" matInput (change)="captureItem($event, 'wear')">
                 </mat-form-field>
                 <button mat-raised-button (click)="captureAddItem('carriedloot')" color="accent"
-                  [disabled]="!item.itemCategory || !item.materialrarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
+                  [disabled]="!item.itemcategory || !item.materialrarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
               </div>
             </div>
           </div>
@@ -2615,10 +2615,10 @@
             <div class="item-shell">
               <h3>Equipment</h3>
               <div>
-                <div class="loot-inner-shell" *ngFor="let item of beast.lairloot.items; let i = index">
+                <div class="loot-inner-shell" *ngFor="let item of beast.lairloot.items; let i = index" [ngClass]="{'noDisplay': item.deleted }">
                   <mat-form-field>
                     <mat-label>Item Category</mat-label>
-                    <mat-select [value]="item.itemCategory" (selectionChange)="updateItem($event, 'lairloot', 'itemCategory', i)">
+                    <mat-select [value]="item.itemcategory" (selectionChange)="updateItem($event, 'lairloot', 'itemcategory', i)">
                       <mat-option *ngFor="let category of itemCategories" [value]="category.id">
                         {{category.label}}
                       </mat-option>
@@ -2679,7 +2679,7 @@
                 <div class="loot-inner-shell">
                   <mat-form-field>
                     <mat-label>Item Category</mat-label>
-                    <mat-select [value]="item.itemCategory" (selectionChange)="captureItem($event, 'itemCategory')">
+                    <mat-select [value]="item.itemcategory" (selectionChange)="captureItem($event, 'itemcategory')">
                       <mat-option *ngFor="let category of itemCategories" [value]="category.id">
                         {{category.label}}
                       </mat-option>
@@ -2735,7 +2735,7 @@
                     <input placeholder="Wear (in Dice)" value="1d4" matInput (change)="captureItem($event, 'wear')">
                   </mat-form-field>
                   <button mat-raised-button (click)="captureAddItem('lairloot')" color="accent"
-                    [disabled]="!item.itemCategory || !item.materialrarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
+                    [disabled]="!item.itemcategory || !item.materialrarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
                 </div>
               </div>
             </div>

@@ -215,12 +215,13 @@ let controllerObj = {
       upsertHelper.upsertVerb(promiseArray, db, id, res, verb)
       upsertHelper.upsertNoun(promiseArray, db, id, res, noun)
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms, talisman } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms, talisman, items } = lairloot
       upsertHelper.upsertLairBasic(promiseArray, db, id, res, beastid, copper, silver, gold, potion, relic, enchanted, talisman)
       upsertHelper.upsertEquipmentLair(promiseArray, db, id, res, equipment)
       upsertHelper.upsertTraitedLair(promiseArray, db, id, res, traited)
       upsertHelper.upsertScrollsLair(promiseArray, db, id, res, scrolls)
       upsertHelper.upsertAlmsLair(promiseArray, db, id, res, alms)
+      upsertHelper.upsertItemsLair(promiseArray, db, id, res, items)
 
       let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms, items: citems, talisman: ctalisman } = carriedloot
       upsertHelper.upsertBasicCarried(promiseArray, db, id, res, cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman)
@@ -278,12 +279,13 @@ let controllerObj = {
       upsertHelper.upsertVerb(promiseArray, db, id, res, verb)
       upsertHelper.upsertNoun(promiseArray, db, id, res, noun)
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms, talisman } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms, talisman, items } = lairloot
       upsertHelper.upsertLairBasic(promiseArray, db, id, res, beastid, copper, silver, gold, potion, relic, enchanted, talisman)
       upsertHelper.upsertEquipmentLair(promiseArray, db, id, res, equipment)
       upsertHelper.upsertTraitedLair(promiseArray, db, id, res, traited)
       upsertHelper.upsertScrollsLair(promiseArray, db, id, res, scrolls)
       upsertHelper.upsertAlmsLair(promiseArray, db, id, res, alms)
+      upsertHelper.upsertItemsLair(promiseArray, db, id, res, items)
 
       let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms, items: citems, talisman: ctalisman } = carriedloot
       upsertHelper.upsertBasicCarried(promiseArray, db, id, res, cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman)
@@ -333,11 +335,13 @@ let controllerObj = {
       promiseArray.push(db.delete.loot.lairalltraited(id).catch(e => sendErrorForward('delete beast traits', e, res)))
       promiseArray.push(db.delete.loot.lairallscrolls(id).catch(e => sendErrorForward('delete beast scrolls', e, res)))
       promiseArray.push(db.delete.loot.lairallalms(id).catch(e => sendErrorForward('delete beast alms', e, res)))
+      promiseArray.push(db.delete.loot.lairallitems(id).catch(e => sendErrorForward('delete beast items', e, res)))
       promiseArray.push(db.delete.loot.carriedbasic(id).catch(e => sendErrorForward('delete beast carried basic', e, res)))
       promiseArray.push(db.delete.loot.carriedallequipment(id).catch(e => sendErrorForward('delete beast carred equipment', e, res)))
       promiseArray.push(db.delete.loot.carriedalltraited(id).catch(e => sendErrorForward('delete beast carried traited', e, res)))
       promiseArray.push(db.delete.loot.carriedallscrolls(id).catch(e => sendErrorForward('delete beast carried scrolls', e, res)))
       promiseArray.push(db.delete.loot.carriedallalms(id).catch(e => sendErrorForward('delete beast carried alms', e, res)))
+      promiseArray.push(db.delete.loot.carriedallitems(id).catch(e => sendErrorForward('delete beast carried items', e, res)))
       promiseArray.push(db.delete.all.folklore(id).catch(e => sendErrorForward('delete beast folklore', e, res)))
       // promiseArray.push(db.delete.variants(id, variantid).then())
 

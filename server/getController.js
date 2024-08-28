@@ -518,16 +518,10 @@ module.exports = {
           return result
         }).catch(e => sendErrorForward('beast alms', e, res)))
 
-        beast.lairloot = {
-          items: [{
-            itemCategory: 8,
-            materialrarity: 'U',
-            detailing: 'L',
-            wear: '1d4',
-            chance: 15,
-            number: 2,
-          }], ...beast.lairloot
-        }
+        promiseArray.push(db.get.loot.lairitems(id).then(result => {
+          beast.lairloot = { items: result, ...beast.lairloot }
+          return result
+        }).catch(e => sendErrorForward('beast items', e, res)))
 
         promiseArray.push(db.get.loot.lairequipment(id).then(result => {
           beast.lairloot = { equipment: result, ...beast.lairloot }
@@ -557,7 +551,7 @@ module.exports = {
         promiseArray.push(db.get.loot.carrieditems(id).then(result => {
           beast.carriedloot = { items: result, ...beast.carriedloot }
           return result
-        }).catch(e => sendErrorForward('beast carried alms', e, res)))
+        }).catch(e => sendErrorForward('beast carried items', e, res)))
 
         promiseArray.push(db.get.loot.carriedequipment(id).then(result => {
           beast.carriedloot = { equipment: result, ...beast.carriedloot }

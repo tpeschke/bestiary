@@ -1,0 +1,1 @@
+delete from bblairitems where beastid = $1 and id = $2

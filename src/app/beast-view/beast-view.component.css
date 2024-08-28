@@ -639,7 +639,7 @@ mat-toolbar {
 }
 
 .noDisplay {
-    display: none;
+    display: none !important;
 }
 
 .role-shell {

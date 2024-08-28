@@ -238,7 +238,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   public item = {
-    itemCategory: null,
+    itemcategory: null,
     materialrarity: null,
     detailing: null,
     wear: '1d4',
@@ -1313,7 +1313,7 @@ export class BeastViewEditComponent implements OnInit {
         this.beast.lairloot.items.push({ ...this.item, chance: this.item.chance * 2 })
     }
     this.item = {
-      itemCategory: null,
+      itemcategory: null,
       materialrarity: null,
       detailing: null,
       wear: '1d4',
@@ -1337,6 +1337,7 @@ export class BeastViewEditComponent implements OnInit {
     } else {
       items.splice(index, 1)
     }
+    console.log(items)
   }
 
   captureChip(event, type) {
