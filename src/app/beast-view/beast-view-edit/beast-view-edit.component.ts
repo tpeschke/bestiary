@@ -193,16 +193,6 @@ export class BeastViewEditComponent implements OnInit {
     noun: null
   }
 
-  public equipment = {
-    number: null,
-    value: null
-  }
-
-  public traited = {
-    chancetable: null,
-    value: null
-  }
-
   public scroll = {
     number: null,
     power: null
@@ -556,18 +546,6 @@ export class BeastViewEditComponent implements OnInit {
         delete this.beast.lairloot.id
         delete this.beast.lairloot.beastid
 
-        this.beast.lairloot.traited = this.beast.lairloot.traited.map(item => {
-          delete item.id
-          delete item.beastid
-          return item
-        })
-
-        this.beast.lairloot.equipment = this.beast.lairloot.equipment.map(item => {
-          delete item.id
-          delete item.beastid
-          return item
-        })
-
         this.beast.lairloot.scrolls = this.beast.lairloot.scrolls.map(item => {
           delete item.id
           delete item.beastid
@@ -582,18 +560,6 @@ export class BeastViewEditComponent implements OnInit {
 
         delete this.beast.carriedloot.id
         delete this.beast.carriedloot.beastid
-
-        this.beast.carriedloot.traited = this.beast.carriedloot.traited.map(item => {
-          delete item.id
-          delete item.beastid
-          return item
-        })
-
-        this.beast.carriedloot.equipment = this.beast.carriedloot.equipment.map(item => {
-          delete item.id
-          delete item.beastid
-          return item
-        })
 
         this.beast.carriedloot.scrolls = this.beast.carriedloot.scrolls.map(item => {
           delete item.id
@@ -1210,58 +1176,6 @@ export class BeastViewEditComponent implements OnInit {
     this.scroll = {
       number: null,
       power: null
-    }
-  }
-
-  captureEquipment(event, type) {
-    this.equipment[type] = event.value
-  }
-
-  captureAddEquipment(type) {
-    this.beast[type].equipment.push(this.equipment)
-    if (type === 'carriedloot') {
-      const letterIndex = this.alphabet.indexOf(this.equipment.number)
-      const newLetter = this.alphabet[letterIndex + 2]
-      this.beast.lairloot.equipment.push({ ...this.equipment, number: newLetter })
-    }
-    this.equipment = {
-      number: null,
-      value: null
-    }
-  }
-
-  removeEqupment(index, type) {
-    let { equipment } = this.beast[type]
-    if (equipment[index].beastid) {
-      equipment[index].deleted = true
-    } else {
-      equipment.splice(index, 1)
-    }
-  }
-
-  captureTraited(event, type) {
-    this.traited[type] = event.value
-  }
-
-  captureAddTraited(type) {
-    this.beast[type].traited.push(this.traited)
-    if (type === 'carriedloot') {
-      const letterIndex = this.alphabet.indexOf(this.traited.chancetable)
-      const newLetter = this.alphabet[letterIndex + 2]
-      this.beast.lairloot.traited.push({ ...this.traited, chancetable: newLetter })
-    }
-    this.traited = {
-      chancetable: null,
-      value: null
-    }
-  }
-
-  removeTraited(index, type) {
-    let { traited } = this.beast[type]
-    if (traited[index].beastid) {
-      traited[index].deleted = true
-    } else {
-      traited.splice(index, 1)
     }
   }
 

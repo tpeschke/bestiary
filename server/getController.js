@@ -523,20 +523,10 @@ module.exports = {
           return result
         }).catch(e => sendErrorForward('beast items', e, res)))
 
-        promiseArray.push(db.get.loot.lairequipment(id).then(result => {
-          beast.lairloot = { equipment: result, ...beast.lairloot }
-          return result
-        }).catch(e => sendErrorForward('beast equipment', e, res)))
-
         promiseArray.push(db.get.loot.lairscrolls(id).then(result => {
           beast.lairloot = { scrolls: result, ...beast.lairloot }
           return result
         }).catch(e => sendErrorForward('beast scrolls', e, res)))
-
-        promiseArray.push(db.get.loot.lairtraited(id).then(result => {
-          beast.lairloot = { traited: result, ...beast.lairloot }
-          return result
-        }).catch(e => sendErrorForward('beast superior', e, res)))
 
         promiseArray.push(db.get.loot.carriedbasic(id).then(result => {
           beast.carriedloot = { ...result[0], ...beast.carriedloot }
@@ -553,20 +543,10 @@ module.exports = {
           return result
         }).catch(e => sendErrorForward('beast carried items', e, res)))
 
-        promiseArray.push(db.get.loot.carriedequipment(id).then(result => {
-          beast.carriedloot = { equipment: result, ...beast.carriedloot }
-          return result
-        }).catch(e => sendErrorForward('beast carried equipment', e, res)))
-
         promiseArray.push(db.get.loot.carriedscrolls(id).then(result => {
           beast.carriedloot = { scrolls: result, ...beast.carriedloot }
           return result
         }).catch(e => sendErrorForward('beast carried scrolls', e, res)))
-
-        promiseArray.push(db.get.loot.carriedtraited(id).then(result => {
-          beast.carriedloot = { traited: result, ...beast.carriedloot }
-          return result
-        }).catch(e => sendErrorForward('beast carried superior', e, res)))
 
         promiseArray.push(db.get.ranks(id).then(result => {
           beast.ranks = result

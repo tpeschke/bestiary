@@ -215,18 +215,14 @@ let controllerObj = {
       upsertHelper.upsertVerb(promiseArray, db, id, res, verb)
       upsertHelper.upsertNoun(promiseArray, db, id, res, noun)
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms, talisman, items } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, scrolls, alms, talisman, items } = lairloot
       upsertHelper.upsertLairBasic(promiseArray, db, id, res, beastid, copper, silver, gold, potion, relic, enchanted, talisman)
-      upsertHelper.upsertEquipmentLair(promiseArray, db, id, res, equipment)
-      upsertHelper.upsertTraitedLair(promiseArray, db, id, res, traited)
       upsertHelper.upsertScrollsLair(promiseArray, db, id, res, scrolls)
       upsertHelper.upsertAlmsLair(promiseArray, db, id, res, alms)
       upsertHelper.upsertItemsLair(promiseArray, db, id, res, items)
 
-      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms, items: citems, talisman: ctalisman } = carriedloot
+      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, scrolls: cscrolls, alms: calms, items: citems, talisman: ctalisman } = carriedloot
       upsertHelper.upsertBasicCarried(promiseArray, db, id, res, cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman)
-      upsertHelper.upsertEquipmentCarried(promiseArray, db, id, res, cequipment)
-      upsertHelper.upsertTraitedCarried(promiseArray, db, id, res, ctraited)
       upsertHelper.upsertScrollsCarried(promiseArray, db, id, res, cscrolls)
       upsertHelper.upsertAlmsCarried(promiseArray, db, id, res, calms)
       upsertHelper.upsertItemsCarried(promiseArray, db, id, res, citems)
@@ -279,18 +275,14 @@ let controllerObj = {
       upsertHelper.upsertVerb(promiseArray, db, id, res, verb)
       upsertHelper.upsertNoun(promiseArray, db, id, res, noun)
 
-      let { beastid, copper, silver, gold, potion, relic, enchanted, equipment, traited, scrolls, alms, talisman, items } = lairloot
+      let { beastid, copper, silver, gold, potion, relic, enchanted, scrolls, alms, talisman, items } = lairloot
       upsertHelper.upsertLairBasic(promiseArray, db, id, res, beastid, copper, silver, gold, potion, relic, enchanted, talisman)
-      upsertHelper.upsertEquipmentLair(promiseArray, db, id, res, equipment)
-      upsertHelper.upsertTraitedLair(promiseArray, db, id, res, traited)
       upsertHelper.upsertScrollsLair(promiseArray, db, id, res, scrolls)
       upsertHelper.upsertAlmsLair(promiseArray, db, id, res, alms)
       upsertHelper.upsertItemsLair(promiseArray, db, id, res, items)
 
-      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, equipment: cequipment, traited: ctraited, scrolls: cscrolls, alms: calms, items: citems, talisman: ctalisman } = carriedloot
+      let { beastid: cbeastid, copper: ccopper, silver: csilver, gold: cgold, potion: cpotion, relic: crelic, enchanted: cenchanted, scrolls: cscrolls, alms: calms, items: citems, talisman: ctalisman } = carriedloot
       upsertHelper.upsertBasicCarried(promiseArray, db, id, res, cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman)
-      upsertHelper.upsertEquipmentCarried(promiseArray, db, id, res, cequipment)
-      upsertHelper.upsertTraitedCarried(promiseArray, db, id, res, ctraited)
       upsertHelper.upsertScrollsCarried(promiseArray, db, id, res, cscrolls)
       upsertHelper.upsertAlmsCarried(promiseArray, db, id, res, calms)
       upsertHelper.upsertItemsCarried(promiseArray, db, id, res, citems)

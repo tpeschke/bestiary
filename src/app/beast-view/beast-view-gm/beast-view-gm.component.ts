@@ -509,7 +509,7 @@ export class BeastViewGmComponent implements OnInit {
     let { copper, silver, gold, enchanted, potion, items, scrolls, alms, talisman } = this.beast.carriedloot
 
     this.carriedlootpresent = copper || silver || gold || enchanted || potion || talisman || items.length > 0 || scrolls > 0 || alms > 0
-    let { staticValues, numberAppearing, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
+    let { staticValues, numberAppearing, enchantedTable, scrollPower, almsFavor } = lootTables
       , { rollDice } = this.calculatorService
 
     if (alms.length > 0) {

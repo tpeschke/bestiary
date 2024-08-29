@@ -336,28 +336,6 @@ const saveUpdateFunctions = {
             promiseArray.push(db.update.loot.lairbasic(id, copper, silver, gold, potion, relic, enchanted, talisman).catch(e => sendErrorForward('update beast update basic lair', e, res)))
         }
     },
-    upsertEquipmentLair: (promiseArray, db, id, res, equipment = []) => {
-        equipment.forEach(({ id: equipid, beastid, value, number, deleted }) => {
-            if (deleted) {
-                promiseArray.push(db.delete.loot.lairequipment(beastid, equipid).catch(e => sendErrorForward('update beast delete lair equipment', e, res)))
-            } else if (equipid && beastid) {
-                promiseArray.push(db.update.loot.lairequipment(equipid, value, number).catch(e => sendErrorForward('update beast update lair equipment', e, res)))
-            } else {
-                promiseArray.push(db.add.loot.lairequipment(id, value, number).catch(e => sendErrorForward('update beast add lair equipment', e, res)))
-            }
-        })
-    },
-    upsertTraitedLair: (promiseArray, db, id, res, traited = []) => {
-        traited.forEach(({ id: traitedid, beastid, value, chancetable, deleted }) => {
-            if (deleted) {
-                promiseArray.push(db.delete.loot.lairtraited(beastid, traitedid).catch(e => sendErrorForward('update beast delete lair traited equipment', e, res)))
-            } else if (traitedid && beastid) {
-                promiseArray.push(db.update.loot.lairtraited(traitedid, value, chancetable).catch(e => sendErrorForward('update beast update lair equipment', e, res)))
-            } else {
-                promiseArray.push(db.add.loot.lairtraited(id, value, chancetable).catch(e => sendErrorForward('update beast add lair equipment', e, res)))
-            }
-        })
-    },
     upsertScrollsLair: (promiseArray, db, id, res, scrolls = []) => {
         scrolls.forEach(({ id: scrollid, beastid, number, power, deleted }) => {
             if (deleted) {
@@ -397,28 +375,6 @@ const saveUpdateFunctions = {
         } else {
             promiseArray.push(db.update.loot.carriedbasic(cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman).catch(e => sendErrorForward('update beast update carried basic', e, res)))
         }
-    },
-    upsertEquipmentCarried: (promiseArray, db, id, res, cequipment = []) => {
-        cequipment.forEach(({ id: equipid, beastid: cbeastid, value, number, deleted }) => {
-            if (deleted) {
-                promiseArray.push(db.delete.loot.carriedequipment(cbeastid, equipid).catch(e => sendErrorForward('update beast delete carried equipment', e, res)))
-            } else if (equipid && cbeastid) {
-                promiseArray.push(db.update.loot.carriedequipment(equipid, value, number).catch(e => sendErrorForward('update beast update carried equipment', e, res)))
-            } else {
-                promiseArray.push(db.add.loot.carriedequipment(id, value, number).catch(e => sendErrorForward('update beast add carried equipment', e, res)))
-            }
-        })
-    },
-    upsertTraitedCarried: (promiseArray, db, id, res, ctraited = []) => {
-        ctraited.forEach(({ id: traitedid, beastid: cbeastid, value, chancetable, deleted }) => {
-            if (deleted) {
-                promiseArray.push(db.delete.loot.carriedtraited(cbeastid, traitedid).catch(e => sendErrorForward('update beast delete carried equipment', e, res)))
-            } else if (traitedid && cbeastid) {
-                promiseArray.push(db.update.loot.carriedtraited(traitedid, value, chancetable).catch(e => sendErrorForward('update beast update carried equipment', e, res)))
-            } else {
-                promiseArray.push(db.add.loot.carriedtraited(id, value, chancetable).catch(e => sendErrorForward('update beast add carried equipment', e, res)))
-            }
-        })
     },
     upsertScrollsCarried: (promiseArray, db, id, res, cscrolls = []) => {
         cscrolls.forEach(({ id: scrollid, beastid: cbeastid, number, power, deleted }) => {
