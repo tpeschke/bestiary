@@ -386,10 +386,10 @@ export class BeastViewGmComponent implements OnInit {
   getLairLoot() {
     this.lairLoot = []
     let timesToRoll = this.monsterNumber ? this.monsterNumber : 1;
-    let { copper, silver, gold, enchanted, potion, equipment, traited, scrolls, alms, talisman } = this.beast.lairloot
+    let { copper, silver, gold, enchanted, potion, items, scrolls, alms, talisman } = this.beast.lairloot
 
-    this.lairlootpresent = copper || silver || gold || enchanted || potion || talisman || equipment.length > 0 || traited > 0 || scrolls > 0 || alms > 0
-    let { staticValues, numberAppearing, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
+    this.lairlootpresent = copper || silver || gold || enchanted || potion || talisman || items.length > 0 || scrolls > 0 || alms > 0
+    let { staticValues, numberAppearing, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
       , { rollDice } = this.calculatorService
 
     if (alms.length > 0) {
@@ -455,50 +455,20 @@ export class BeastViewGmComponent implements OnInit {
       }
     }
 
-    if (traited.length > 0) {
-      let equipmentToGetArray = []
-      let descriptions = []
+    if (items.length > 0) {
+      let itemsToGetArray = []
       for (let y = 0; y < timesToRoll; y++) {
-        for (let i = 0; i < traited.length; i++) {
-          let traitChance = Math.floor(Math.random() * 101)
-            , table = traitedChance[traited[i].chancetable]
-            , valueOfItem = staticValues[traited[i].value]
-          for (let x = 0; x < table.length; x++) {
-            if (traitChance <= table[x]) {
-              let value = rollDice(valueOfItem)
-              if (value > 0) {
-                descriptions.push(traitDice[x])
-                equipmentToGetArray.push(value)
+        for (let i = 0; i < items.length; i++) {
+          const {number, chance, detailing, itemcategory, materialrarity, wear} = items[i]
+          for (let n = 0; n < number; n++) {
+              if (rollDice('1d100') <= chance) {
+                itemsToGetArray.push({detailing, itemcategory, materialrarity, wear: wear.split('d')[1]})
               }
-              x = table.length
-            }
           }
         }
       }
-      if (equipmentToGetArray.length > 0) {
-        this.beastService.getUniqueEquipment({ "budgets": equipmentToGetArray }).subscribe(result => {
-          for (let i = 0; i < result.length; i++) {
-            this.lairLoot.push(result[i] + ` It also has a total of ${descriptions[i]} in Descriptions`)
-          }
-        })
-      }
-    }
-
-    if (equipment.length > 0) {
-      let equipmentToGetArray = []
-      for (let y = 0; y < timesToRoll; y++) {
-        for (let i = 0; i < equipment.length; i++) {
-          let number = rollDice(numberAppearing[equipment[i].number])
-          for (let x = 0; x < number; x++) {
-            let value = rollDice(staticValues[equipment[i].value])
-            if (value > 0) {
-              equipmentToGetArray.push(value)
-            }
-          }
-        }
-      }
-      if (equipmentToGetArray.length > 0) {
-        this.beastService.getUniqueEquipment({ "budgets": equipmentToGetArray }).subscribe(results => {
+      if (itemsToGetArray.length > 0) {
+        this.beastService.getItems({ items: itemsToGetArray }).subscribe(results => {
           results.forEach(equipment => { this.lairLoot.push(equipment) })
         })
       }
@@ -536,9 +506,9 @@ export class BeastViewGmComponent implements OnInit {
   getCarriedLoot() {
     this.carriedLoot = []
     let timesToRoll = this.monsterNumber ? this.monsterNumber : 1;
-    let { copper, silver, gold, enchanted, potion, equipment, traited, scrolls, alms, talisman } = this.beast.carriedloot
+    let { copper, silver, gold, enchanted, potion, items, scrolls, alms, talisman } = this.beast.carriedloot
 
-    this.carriedlootpresent = copper || silver || gold || enchanted || potion || talisman || equipment.length > 0 || traited > 0 || scrolls > 0 || alms > 0
+    this.carriedlootpresent = copper || silver || gold || enchanted || potion || talisman || items.length > 0 || scrolls > 0 || alms > 0
     let { staticValues, numberAppearing, traitedChance, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
       , { rollDice } = this.calculatorService
 
@@ -606,51 +576,21 @@ export class BeastViewGmComponent implements OnInit {
       }
     }
 
-    if (traited.length > 0) {
-      let equipmentToGetArray = []
-      let descriptions = []
+    if (items.length > 0) {
+      let itemsToGetArray = []
       for (let y = 0; y < timesToRoll; y++) {
-        for (let i = 0; i < traited.length; i++) {
-          let traitChance = Math.floor(Math.random() * 101)
-            , table = traitedChance[traited[i].chancetable]
-            , valueOfItem = staticValues[traited[i].value]
-          for (let x = 0; x < table.length; x++) {
-            if (traitChance <= table[x]) {
-              let value = rollDice(valueOfItem)
-              if (value > 0) {
-                descriptions.push(traitDice[x])
-                equipmentToGetArray.push(value)
+        for (let i = 0; i < items.length; i++) {
+          const {number, chance, detailing, itemcategory, materialrarity, wear} = items[i]
+          for (let n = 0; n < number; n++) {
+              if (rollDice('1d100') <= chance) {
+                itemsToGetArray.push({detailing, itemcategory, materialrarity, wear: wear.split('d')[1]})
               }
-              x = table.length
-            }
           }
         }
       }
-      if (equipmentToGetArray.length > 0) {
-        this.beastService.getUniqueEquipment({ "budgets": equipmentToGetArray }).subscribe(result => {
-          for (let i = 0; i < result.length; i++) {
-            this.carriedLoot.push(result[i] + ` It also has a total of ${descriptions[i]} in Descriptions`)
-          }
-        })
-      }
-    }
-
-    if (equipment.length > 0) {
-      let equipmentToGetArray = []
-      for (let y = 0; y < timesToRoll; y++) {
-        for (let i = 0; i < equipment.length; i++) {
-          let number = rollDice(numberAppearing[equipment[i].number])
-          for (let x = 0; x < number; x++) {
-            let value = rollDice(staticValues[equipment[i].value])
-            if (value > 0) {
-              equipmentToGetArray.push(value)
-            }
-          }
-        }
-      }
-      if (equipmentToGetArray.length > 0) {
-        this.beastService.getUniqueEquipment({ "budgets": equipmentToGetArray }).subscribe(result => {
-          this.carriedLoot = [...this.carriedLoot, ...result]
+      if (itemsToGetArray.length > 0) {
+        this.beastService.getItems({ items: itemsToGetArray }).subscribe(results => {
+          results.forEach(equipment => { this.carriedLoot.push(equipment) })
         })
       }
     }

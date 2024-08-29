@@ -2178,7 +2178,21 @@
                   </mat-form-field>
                 </div>
                 <mat-form-field>
-                  <input placeholder="Wear (in Dice)" value="1d4" matInput (change)="captureItem($event, 'wear')">
+                  <mat-label>Wear</mat-label>
+                  <mat-select [value]="item.wear" (selectionChange)="updateItem($event, 'carriedloot', 'wear', i)">
+                    <mat-option value="1d4">
+                      1d4
+                    </mat-option>
+                    <mat-option value="1d6">
+                      1d6
+                    </mat-option>
+                    <mat-option value="1d8">
+                      1d8
+                    </mat-option>
+                    <mat-option value="1d10">
+                      1d10
+                    </mat-option>
+                  </mat-select>
                 </mat-form-field>
                 <button mat-raised-button (click)="captureAddItem('carriedloot')" color="accent"
                   [disabled]="!item.itemcategory || !item.materialrarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
@@ -2671,7 +2685,21 @@
                     </mat-form-field>
                   </div>
                   <mat-form-field>
-                    <input [value]="item.wear" placeholder="Wear (in Dice)" value="1d4" matInput (change)="updateItem($event, 'lairloot', 'wear', i)">
+                    <mat-label>Wear</mat-label>
+                    <mat-select [value]="item.wear" (selectionChange)="updateItem($event, 'lairloot', 'wear', i)">
+                      <mat-option value="1d4">
+                        1d4
+                      </mat-option>
+                      <mat-option value="1d6">
+                        1d6
+                      </mat-option>
+                      <mat-option value="1d8">
+                        1d8
+                      </mat-option>
+                      <mat-option value="1d10">
+                        1d10
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
                   <button mat-raised-button (click)="removeItem(i, 'lairloot')" color="warn"><i class="fa-solid fa-trash"></i></button>
                 </div>

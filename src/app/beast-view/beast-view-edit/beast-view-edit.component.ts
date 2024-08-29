@@ -1337,7 +1337,6 @@ export class BeastViewEditComponent implements OnInit {
     } else {
       items.splice(index, 1)
     }
-    console.log(items)
   }
 
   captureChip(event, type) {
