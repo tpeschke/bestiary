@@ -358,16 +358,18 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertItemsLair: (promiseArray, db, id, res, citems = []) => {
-        citems.forEach(({ id: itemid, beastid: cbeastid, itemcategory, materialrarity, detailing, wear, chance, number, deleted }) => {
-            if (deleted) {
-                promiseArray.push(db.delete.loot.lairitems(cbeastid, itemid).catch(e => sendErrorForward('update beast delete lair items', e, res)))
-            } else if (itemid && cbeastid) {
+    upsertItemsLair: (promiseArray, db, id, res, items) => {
+        let keyArray = []
+        for (let key in items) {
+            const { id: itemid, beastid: cbeastid, itemcategory, materialrarity, detailing, wear, chance, number } = items[key]
+            keyArray.push(key)
+            if (itemid && cbeastid) {
                 promiseArray.push(db.update.loot.lairitems(itemid, itemcategory, materialrarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast update lair items', e, res)))
             } else {
                 promiseArray.push(db.add.loot.lairitems(id, itemcategory, materialrarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast add lair items', e, res)))
             }
-        })
+        }
+        promiseArray.push(db.delete.loot.lairitems([id, [0, ...keyArray]]).catch(e => sendErrorForward('update beast delete lair items', e, res)))
     },
     upsertBasicCarried: (promiseArray, db, id, res, cbeastid, ccopper, csilver, cgold, cpotion, crelic, cenchanted, ctalisman) => {
         if (!cbeastid) {
@@ -387,16 +389,18 @@ const saveUpdateFunctions = {
             }
         })
     },
-    upsertItemsCarried: (promiseArray, db, id, res, citems = []) => {
-        citems.forEach(({ id: itemid, beastid: cbeastid, itemcategory, materialrarity, detailing, wear, chance, number, deleted  }) => {
-            if (deleted) {
-                promiseArray.push(db.delete.loot.carrieditems(cbeastid, itemid).catch(e => sendErrorForward('update beast delete carried items', e, res)))
-            } else if (itemid && cbeastid) {
+    upsertItemsCarried: (promiseArray, db, id, res, citems) => {
+        let keyArray = []
+        for (let key in citems) {
+            const { id: itemid, beastid: cbeastid, itemcategory, materialrarity, detailing, wear, chance, number } = citems[key]
+            keyArray.push(key)
+            if (itemid && cbeastid) {
                 promiseArray.push(db.update.loot.carrieditems(itemid, itemcategory, materialrarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast update carried items', e, res)))
             } else {
                 promiseArray.push(db.add.loot.carrieditems(id, itemcategory, materialrarity, detailing, wear, chance, number).catch(e => sendErrorForward('update beast add carried items', e, res)))
             }
-        })
+        }
+        promiseArray.push(db.delete.loot.carrieditems([id, [0, ...keyArray]]).catch(e => sendErrorForward('update beast delete carried items', e, res)))
     },
     upsertAlmsCarried: (promiseArray, db, id, res, calms = []) => {
         calms.forEach(({ id: almid, beastid: cbeastid, number, favor, deleted }) => {

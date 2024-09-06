@@ -2060,144 +2060,8 @@
 
           <div class="item-shell">
             <h3>Equipment</h3>
-            <div>
-              <div class="loot-inner-shell" *ngFor="let item of beast.carriedloot.items; let i = index" [ngClass]="{'noDisplay': item.deleted}">
-                <mat-form-field>
-                  <mat-label>Item Category</mat-label>
-                  <mat-select [value]="item.itemcategory" (selectionChange)="updateItem($event, 'carriedloot', 'itemcategory', i)">
-                    <mat-option *ngFor="let category of itemCategories" [value]="category.id">
-                      {{category.label}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <mat-form-field>
-                  <input [value]="item.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
-                    (change)="updateItem($event, 'carriedloot', 'chance', i)">
-                </mat-form-field>
-                <mat-form-field>
-                  <input  [value]="item.number" placeholder="Number" type="number" min="1" max="25" matInput
-                    (change)="updateItem($event, 'carriedloot', 'number', i)">
-                </mat-form-field>
-                <div class="loot-inner-shell">
-                  <mat-form-field>
-                    <mat-label>Material Rarity</mat-label>
-                    <mat-select [value]="item.materialrarity" (selectionChange)="updateItem($event, 'carriedloot', 'materialrarity', i)">
-                      <mat-option value="C">
-                        Common
-                      </mat-option>
-                      <mat-option value="U">
-                        Uncommon
-                      </mat-option>
-                      <mat-option value="R">
-                        Rare
-                      </mat-option>
-                      <mat-option value="L">
-                        Legendary
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="loot-inner-shell">
-                  <mat-form-field>
-                    <mat-label>Detail Level</mat-label>
-                    <mat-select [value]="item.detailing" (selectionChange)="updateItem($event, 'carriedloot', 'detailing', i)">
-                      <mat-option value="N">
-                        None
-                      </mat-option>
-                      <mat-option value="L">
-                        Low
-                      </mat-option>
-                      <mat-option value="M">
-                        Normal
-                      </mat-option>
-                      <mat-option value="H">
-                        High
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <mat-form-field>
-                  <input [value]="item.wear" placeholder="Wear (in Dice)" value="1d4" matInput (change)="updateItem($event, 'carriedloot', 'wear', i)">
-                </mat-form-field>
-                <button mat-raised-button (click)="removeItem(i, 'carriedloot')" color="warn"><i class="fa-solid fa-trash"></i></button>
-              </div>
-
-              <div class="loot-inner-shell">
-                <mat-form-field>
-                  <mat-label>Item Category</mat-label>
-                  <mat-select [value]="item.itemcategory" (selectionChange)="captureItem($event, 'itemcategory')">
-                    <mat-option *ngFor="let category of itemCategories" [value]="category.id">
-                      {{category.label}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <mat-form-field>
-                  <input [value]="item.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
-                    (change)="captureItem($event, 'chance')">
-                </mat-form-field>
-                <mat-form-field>
-                  <input [value]="item.number" placeholder="Number" type="number" min="1" max="25" matInput
-                    (change)="captureItem($event, 'number')">
-                </mat-form-field>
-                <div class="loot-inner-shell">
-                  <mat-form-field>
-                    <mat-label>Material Rarity</mat-label>
-                    <mat-select [value]="item.materialrarity" (selectionChange)="captureItem($event, 'materialrarity')">
-                      <mat-option value="C">
-                        Common
-                      </mat-option>
-                      <mat-option value="U">
-                        Uncommon
-                      </mat-option>
-                      <mat-option value="R">
-                        Rare
-                      </mat-option>
-                      <mat-option value="L">
-                        Legendary
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="loot-inner-shell">
-                  <mat-form-field>
-                    <mat-label>Detail Level</mat-label>
-                    <mat-select [value]="item.detailing" (selectionChange)="captureItem($event, 'detailing')">
-                      <mat-option value="N">
-                        None
-                      </mat-option>
-                      <mat-option value="L">
-                        Low
-                      </mat-option>
-                      <mat-option value="M">
-                        Normal
-                      </mat-option>
-                      <mat-option value="H">
-                        High
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <mat-form-field>
-                  <mat-label>Wear</mat-label>
-                  <mat-select [value]="item.wear" (selectionChange)="updateItem($event, 'carriedloot', 'wear', i)">
-                    <mat-option value="1d4">
-                      1d4
-                    </mat-option>
-                    <mat-option value="1d6">
-                      1d6
-                    </mat-option>
-                    <mat-option value="1d8">
-                      1d8
-                    </mat-option>
-                    <mat-option value="1d10">
-                      1d10
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <button mat-raised-button (click)="captureAddItem('carriedloot')" color="accent"
-                  [disabled]="!item.itemcategory || !item.materialrarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
-              </div>
-            </div>
+            <app-equipment-display [items]="beast.carriedloot.items" [updateItem]="updateItem" [captureAddItem]="captureAddItem" [removeItem]="removeItem" [lootLocation]="'carriedloot'">
+            </app-equipment-display>
           </div>
 
           <h2>Lair Loot</h2>
@@ -2246,7 +2110,7 @@
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-  
+
                   <mat-form-field>
                     <mat-label>Silver</mat-label>
                     <mat-select [value]="beast.lairloot.silver"
@@ -2286,7 +2150,7 @@
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-  
+
                   <mat-form-field>
                     <mat-label>Gold</mat-label>
                     <mat-select [value]="beast.lairloot.gold"
@@ -2625,161 +2489,9 @@
               </div>
             </div>
 
-
             <div class="item-shell">
               <h3>Equipment</h3>
-              <div>
-                <div class="loot-inner-shell" *ngFor="let item of beast.lairloot.items; let i = index" [ngClass]="{'noDisplay': item.deleted }">
-                  <mat-form-field>
-                    <mat-label>Item Category</mat-label>
-                    <mat-select [value]="item.itemcategory" (selectionChange)="updateItem($event, 'lairloot', 'itemcategory', i)">
-                      <mat-option *ngFor="let category of itemCategories" [value]="category.id">
-                        {{category.label}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input [value]="item.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
-                      (change)="updateItem($event, 'lairloot', 'chance', i)">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input  [value]="item.number" placeholder="Number" type="number" min="1" max="25" matInput
-                      (change)="updateItem($event, 'lairloot', 'number', i)">
-                  </mat-form-field>
-                  <div class="loot-inner-shell">
-                    <mat-form-field>
-                      <mat-label>Material Rarity</mat-label>
-                      <mat-select [value]="item.materialrarity" (selectionChange)="updateItem($event, 'lairloot', 'materialrarity', i)">
-                        <mat-option value="C">
-                          Common
-                        </mat-option>
-                        <mat-option value="U">
-                          Uncommon
-                        </mat-option>
-                        <mat-option value="R">
-                          Rare
-                        </mat-option>
-                        <mat-option value="L">
-                          Legendary
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div class="loot-inner-shell">
-                    <mat-form-field>
-                      <mat-label>Detail Level</mat-label>
-                      <mat-select [value]="item.detailing" (selectionChange)="updateItem($event, 'lairloot', 'detailing', i)">
-                        <mat-option value="N">
-                          None
-                        </mat-option>
-                        <mat-option value="L">
-                          Low
-                        </mat-option>
-                        <mat-option value="M">
-                          Normal
-                        </mat-option>
-                        <mat-option value="H">
-                          High
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <mat-form-field>
-                    <mat-label>Wear</mat-label>
-                    <mat-select [value]="item.wear" (selectionChange)="updateItem($event, 'lairloot', 'wear', i)">
-                      <mat-option value="1d4">
-                        1d4
-                      </mat-option>
-                      <mat-option value="1d6">
-                        1d6
-                      </mat-option>
-                      <mat-option value="1d8">
-                        1d8
-                      </mat-option>
-                      <mat-option value="1d10">
-                        1d10
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <button mat-raised-button (click)="removeItem(i, 'lairloot')" color="warn"><i class="fa-solid fa-trash"></i></button>
-                </div>
-  
-                <div class="loot-inner-shell">
-                  <mat-form-field>
-                    <mat-label>Item Category</mat-label>
-                    <mat-select [value]="item.itemcategory" (selectionChange)="captureItem($event, 'itemcategory')">
-                      <mat-option *ngFor="let category of itemCategories" [value]="category.id">
-                        {{category.label}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input [value]="item.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
-                      (change)="captureItem($event, 'chance')">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input [value]="item.number" placeholder="Number" type="number" min="1" max="25" matInput
-                      (change)="captureItem($event, 'number')">
-                  </mat-form-field>
-                  <div class="loot-inner-shell">
-                    <mat-form-field>
-                      <mat-label>Material Rarity</mat-label>
-                      <mat-select [value]="item.materialrarity" (selectionChange)="captureItem($event, 'materialrarity')">
-                        <mat-option value="C">
-                          Common
-                        </mat-option>
-                        <mat-option value="U">
-                          Uncommon
-                        </mat-option>
-                        <mat-option value="R">
-                          Rare
-                        </mat-option>
-                        <mat-option value="L">
-                          Legendary
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div class="loot-inner-shell">
-                    <mat-form-field>
-                      <mat-label>Detail Level</mat-label>
-                      <mat-select [value]="item.detailing" (selectionChange)="captureItem($event, 'detailing')">
-                        <mat-option value="N">
-                          None
-                        </mat-option>
-                        <mat-option value="L">
-                          Low
-                        </mat-option>
-                        <mat-option value="M">
-                          Normal
-                        </mat-option>
-                        <mat-option value="H">
-                          High
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <mat-form-field>
-                    <mat-label>Wear</mat-label>
-                    <mat-select [value]="item.wear" (selectionChange)="captureItem($event, 'wear')">
-                      <mat-option value="1d4">
-                        1d4
-                      </mat-option>
-                      <mat-option value="1d6">
-                        1d6
-                      </mat-option>
-                      <mat-option value="1d8">
-                        1d8
-                      </mat-option>
-                      <mat-option value="1d10">
-                        1d10
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <button mat-raised-button (click)="captureAddItem('lairloot')" color="accent"
-                    [disabled]="!item.itemcategory || !item.materialrarity || !item.detailing || !item.wear || !item.chance || !item.number"><i class="fa-solid fa-plus"></i></button>
-                </div>
-              </div>
+              <app-equipment-display [items]="beast.lairloot.items" [updateItem]="updateItem" [captureAddItem]="captureAddItem" [removeItem]="removeItem" [lootLocation]="'lairloot'"></app-equipment-display>
             </div>
 
           </div>

@@ -1,1 +1,1 @@
-delete from bbcarrieditems where beastid = $1 and id = $2
+delete from bbcarrieditems where beastid = $1 and Not (id = any($2))

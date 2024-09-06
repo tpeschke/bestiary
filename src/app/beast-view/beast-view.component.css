@@ -867,19 +867,6 @@ a {
     overflow: auto;
 }
 
-.item-shell .loot-inner-shell {
-    display: flex;
-    align-content: center;
-}
-
-.item-shell button {
-    margin: 0;
-}
-
-.item-shell mat-form-field {
-    min-width: 125px
-}
-
 input[type="file"] {
     display: none;
 }

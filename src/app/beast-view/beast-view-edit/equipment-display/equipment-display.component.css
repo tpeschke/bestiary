@@ -1,0 +1,23 @@
+h4 {
+    min-width: 185px;
+}
+
+.loot-inner-shell, .loot-inner-shell div {
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+.loot-inner-shell button {
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+.loot-inner-shell mat-form-field {
+    min-width: 125px
+}
+
+.underline {
+    border-bottom: 2px solid whitesmoke;
+    margin-bottom: 15px;
+}

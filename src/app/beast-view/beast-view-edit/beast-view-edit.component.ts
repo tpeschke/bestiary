@@ -227,170 +227,6 @@ export class BeastViewEditComponent implements OnInit {
     truth: null
   }
 
-  public item = {
-    itemcategory: null,
-    materialrarity: null,
-    detailing: null,
-    wear: '1d4',
-    chance: null,
-    number: null,
-  }
-
-  public itemCategories = [
-    {
-      "label": "Academic Tools",
-      "id": 29
-    },
-    {
-      "label": "Accessories",
-      "id": 6
-    },
-    {
-      "label": "Adventuring Gear",
-      "id": 37
-    },
-    {
-      "label": "Alchemical Substances",
-      "id": 30
-    },
-    {
-      "label": "Armor, Large",
-      "id": 4
-    },
-    {
-      "label": "Armor, Light",
-      "id": 2
-    },
-    {
-      "label": "Armor, Medium",
-      "id": 3
-    },
-    {
-      "label": "Beverages",
-      "id": 14
-    },
-    {
-      "label": "Clothing, Body",
-      "id": 34
-    },
-    {
-      "label": "Clothing, Footwear",
-      "id": 35
-    },
-    {
-      "label": "Clothing, Headgear",
-      "id": 23
-    },
-    {
-      "label": "Entertainment",
-      "id": 7
-    },
-    {
-      "label": "Fabrics & Ropes",
-      "id": 25
-    },
-    {
-      "label": "Food, Bread",
-      "id": 9
-    },
-    {
-      "label": "Food, Fruit & Vegetables",
-      "id": 36
-    },
-    {
-      "label": "Food, Nuts",
-      "id": 10
-    },
-    {
-      "label": "Food, Prepped",
-      "id": 16
-    },
-    {
-      "label": "Food, Protein",
-      "id": 12
-    },
-    {
-      "label": "Food, Spices & Seasonings",
-      "id": 21
-    },
-    {
-      "label": "Household Items",
-      "id": 15
-    },
-    {
-      "label": "Illumination",
-      "id": 22
-    },
-    {
-      "label": "Jewelry",
-      "id": 24
-    },
-    {
-      "label": "Medical Tools",
-      "id": 33
-    },
-    {
-      "label": "Musical Instruments",
-      "id": 5
-    },
-    {
-      "label": "Personal Containers",
-      "id": 1
-    },
-    {
-      "label": "Raw Goods",
-      "id": 38
-    },
-    {
-      "label": "Religious Items",
-      "id": 26
-    },
-    {
-      "label": "Shields",
-      "id": 11
-    },
-    {
-      "label": "Trade Tools",
-      "id": 31
-    },
-    {
-      "label": "Weapons, Axes",
-      "id": 32
-    },
-    {
-      "label": "Weapons, Firearms",
-      "id": 13
-    },
-    {
-      "label": "Weapons, Mechanical Ranged",
-      "id": 18
-    },
-    {
-      "label": "Weapons, Polearms",
-      "id": 27
-    },
-    {
-      "label": "Weapons, Sidearms",
-      "id": 8
-    },
-    {
-      "label": "Weapons, Swords",
-      "id": 19
-    },
-    {
-      "label": "Weapons, Thrown",
-      "id": 17
-    },
-    {
-      "label": "Weapons, Trauma",
-      "id": 20
-    },
-    {
-      "label": "Works of Art",
-      "id": 28
-    }
-  ]
-
   public weights = []
 
   combatRolesInfo = roles.combatRoles.primary;
@@ -1213,45 +1049,37 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  captureItem(event, type) {
+  captureItemUnbound(event, type) {
+    // if (event.value) {
+    //   this.item[type] = event.value
+    // } else {
+    //   this.item[type] = event.target.value
+    // }
+  }
+  public captureItem = this.captureItemUnbound.bind(this)
+
+  captureAddItemUnbound(item, lootLocation) {
+    this.beast[lootLocation].items[item.itemcategory] = item
+    if (lootLocation === 'carriedloot' && !this.beast.lairloot.items[item.itemcategory]) {
+      this.beast.lairloot.items[item.itemcategory] = { ...item, chance: item.chance * 2 }
+    }
+  }
+  public captureAddItem = this.captureAddItemUnbound.bind(this)
+
+  updateItemUnbound(event, location, type, categoryId) {
     if (event.value) {
-      this.item[type] = event.value
+      this.beast[location].items[categoryId][type] = event.value
     } else {
-      this.item[type] = event.target.value
+      this.beast[location].items[categoryId][type] = event.target.value
     }
   }
+  public updateItem = this.updateItemUnbound.bind(this)
 
-  captureAddItem(type) {
-    this.beast[type].items.push(this.item)
-    if (type === 'carriedloot') {
-        this.beast.lairloot.items.push({ ...this.item, chance: this.item.chance * 2 })
-    }
-    this.item = {
-      itemcategory: null,
-      materialrarity: null,
-      detailing: null,
-      wear: '1d4',
-      chance: null,
-      number: null,
-    }
+  removeItemUnbound(location, categoryId) {
+    let { items } = this.beast[location]
+    delete items[categoryId]
   }
-
-  updateItem(event, location, type, index) {
-    if (event.value) {
-      this.beast[location].items[index][type] = event.value
-    } else {
-      this.beast[location].items[index][type] = event.target.value
-    }
-  }
-
-  removeItem(index, type) {
-    let { items } = this.beast[type]
-    if (items[index].beastid) {
-      items[index].deleted = true
-    } else {
-      items.splice(index, 1)
-    }
-  }
+  public removeItem = this.removeItemUnbound.bind(this)
 
   captureChip(event, type) {
     if (type === 'types') {

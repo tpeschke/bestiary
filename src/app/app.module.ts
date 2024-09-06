@@ -83,6 +83,7 @@ import { RandomEncounterListService } from './util/guards-resolvers/random-encou
 import { AddToListPopUpComponent } from './random-encounters/add-to-list-pop-up/add-to-list-pop-up.component';
 import { CatalogComponent } from './catalogs/catalog/catalog.component';
 import { ListViewPopUpComponent } from './random-encounters/list-view-pop-up/list-view-pop-up.component';
+import { EquipmentDisplayComponent } from './beast-view/beast-view-edit/equipment-display/equipment-display.component';
 
 const routes: Routes = [
   {
@@ -162,7 +163,8 @@ const routes: Routes = [
     CombatTableComponent,
     CustomCatalogComponent,
     PleromaDisplayComponent,
-    RandomEncountersListComponent
+    RandomEncountersListComponent,
+    EquipmentDisplayComponent
   ],
   imports: [
     BrowserModule,

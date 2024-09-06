@@ -79,6 +79,14 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole, s
   return nameString
 }
 
+function objectifyItemArray (itemArray) {
+  let itemObject = {}
+  itemArray.forEach(item => {
+    itemObject[item.itemcategory] = item
+  })
+  return itemObject
+}
+
 module.exports = {
   getSpells: (req, res) => {
     const db = req.app.get('db')
@@ -519,7 +527,11 @@ module.exports = {
         }).catch(e => sendErrorForward('beast alms', e, res)))
 
         promiseArray.push(db.get.loot.lairitems(id).then(result => {
-          beast.lairloot = { items: result, ...beast.lairloot }
+          if (req.query.edit === 'true') { 
+            beast.lairloot = { items: objectifyItemArray(result), ...beast.lairloot }
+          } else {
+            beast.lairloot = { items: result, ...beast.lairloot }
+          }
           return result
         }).catch(e => sendErrorForward('beast items', e, res)))
 
@@ -539,7 +551,11 @@ module.exports = {
         }).catch(e => sendErrorForward('beast carried alms', e, res)))
 
         promiseArray.push(db.get.loot.carrieditems(id).then(result => {
-          beast.carriedloot = { items: result, ...beast.carriedloot }
+          if (req.query.edit === 'true') { 
+            beast.carriedloot = { items: objectifyItemArray(result), ...beast.carriedloot }
+          } else {
+            beast.carriedloot = { items: result, ...beast.carriedloot }
+          }
           return result
         }).catch(e => sendErrorForward('beast carried items', e, res)))
 

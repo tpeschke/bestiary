@@ -1,0 +1,119 @@
+<div>
+  <div class="loot-inner-shell underline">
+    <h4>Default</h4>
+    <mat-form-field>
+      <input [value]="defaultItem.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
+        (change)="updateDefault($event, 'chance')">
+    </mat-form-field>
+    <mat-form-field>
+      <input [value]="defaultItem.number" placeholder="Number" type="number" min="1" max="25" matInput
+        (change)="updateDefault($event, 'number')">
+    </mat-form-field>
+    <div class="loot-inner-shell">
+      <mat-form-field>
+        <mat-label>Material Rarity</mat-label>
+        <mat-select [value]="defaultItem.materialrarity" (selectionChange)="updateDefault($event, 'materialrarity')">
+          <mat-option value="C">
+            Common
+          </mat-option>
+          <mat-option value="U">
+            Uncommon
+          </mat-option>
+          <mat-option value="R">
+            Rare
+          </mat-option>
+          <mat-option value="L">
+            Legendary
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="loot-inner-shell">
+      <mat-form-field>
+        <mat-label>Detail Level</mat-label>
+        <mat-select [value]="defaultItem.detailing" (selectionChange)="updateDefault($event, 'detailing')">
+          <mat-option value="N">
+            None
+          </mat-option>
+          <mat-option value="L">
+            Low
+          </mat-option>
+          <mat-option value="M">
+            Normal
+          </mat-option>
+          <mat-option value="H">
+            High
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-form-field>
+      <input [value]="defaultItem.wear" placeholder="Wear (in Dice)" value="1d4" matInput
+        (change)="updateDefault($event, 'wear')">
+    </mat-form-field>
+  </div>
+
+
+  <div class="loot-inner-shell" *ngFor="let category of itemCategories; let i = index">
+    <h4>{{category.label}}</h4>
+    <div *ngIf="items[category.id]?.itemcategory || items[category.id]?.materialrarity || items[category.id]?.detailing || items[category.id]?.wear || items[category.id]?.chance || items[category.id]?.number">
+      <mat-form-field>
+        <input [value]="items[category.id]?.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
+          (change)="updateItem($event, lootLocation, 'chance', category.id)">
+      </mat-form-field>
+      <mat-form-field>
+        <input [value]="items[category.id]?.number" placeholder="Number" type="number" min="1" max="25" matInput
+          (change)="updateItem($event, lootLocation, 'number', category.id)">
+      </mat-form-field>
+      <div class="loot-inner-shell">
+        <mat-form-field>
+          <mat-label>Material Rarity</mat-label>
+          <mat-select [value]="items[category.id]?.materialrarity"
+            (selectionChange)="updateItem($event, lootLocation, 'materialrarity', category.id)">
+            <mat-option value="C">
+              Common
+            </mat-option>
+            <mat-option value="U">
+              Uncommon
+            </mat-option>
+            <mat-option value="R">
+              Rare
+            </mat-option>
+            <mat-option value="L">
+              Legendary
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="loot-inner-shell">
+        <mat-form-field>
+          <mat-label>Detail Level</mat-label>
+          <mat-select [value]="items[category.id]?.detailing"
+            (selectionChange)="updateItem($event, lootLocation, 'detailing', category.id)">
+            <mat-option value="N">
+              None
+            </mat-option>
+            <mat-option value="L">
+              Low
+            </mat-option>
+            <mat-option value="M">
+              Normal
+            </mat-option>
+            <mat-option value="H">
+              High
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <input [value]="items[category.id]?.wear" placeholder="Wear (in Dice)" value="1d4" matInput
+          (change)="updateItem($event, lootLocation, 'wear', category.id)">
+      </mat-form-field>
+      <button mat-raised-button (click)="removeItem(lootLocation, category.id)" color="warn"><i
+          class="fa-solid fa-trash"></i></button>
+    </div>
+    <div *ngIf="!items[category.id]?.itemcategory || !items[category.id]?.materialrarity || !items[category.id]?.detailing || !items[category.id]?.wear || !items[category.id]?.chance || !items[category.id]?.number">
+      <button mat-raised-button (click)="addItem(category.id)" color="accent"><i class="fa-solid fa-plus"></i></button>
+    </div>
+  </div>
+</div>
