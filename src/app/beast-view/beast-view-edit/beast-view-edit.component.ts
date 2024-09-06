@@ -1049,15 +1049,6 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  captureItemUnbound(event, type) {
-    // if (event.value) {
-    //   this.item[type] = event.value
-    // } else {
-    //   this.item[type] = event.target.value
-    // }
-  }
-  public captureItem = this.captureItemUnbound.bind(this)
-
   captureAddItemUnbound(item, lootLocation) {
     this.beast[lootLocation].items[item.itemcategory] = item
     if (lootLocation === 'carriedloot' && !this.beast.lairloot.items[item.itemcategory]) {
