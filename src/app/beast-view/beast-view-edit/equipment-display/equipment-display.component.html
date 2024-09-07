@@ -48,15 +48,35 @@
       </mat-form-field>
     </div>
     <mat-form-field>
-      <input [value]="defaultItem.wear" placeholder="Wear (in Dice)" value="1d4" matInput
-        (change)="updateDefault($event, 'wear')">
+      <mat-label>Wear</mat-label>
+      <mat-select [value]="defaultItem.wear" (selectionChange)="updateDefault($event, 'wear')">
+        <mat-option value="1d4">
+          1d4
+        </mat-option>
+        <mat-option value="1d6">
+          1d6
+        </mat-option>
+        <mat-option value="1d8">
+          1d8
+        </mat-option>
+        <mat-option value="1d10">
+          1d10
+        </mat-option>
+        <mat-option value="1d12">
+          1d12
+        </mat-option>
+        <mat-option value="1d20">
+          1d20
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
 
 
   <div class="loot-inner-shell" *ngFor="let category of itemCategories; let i = index">
     <h4>{{category.label}}</h4>
-    <div *ngIf="items[category.id]?.itemcategory || items[category.id]?.materialrarity || items[category.id]?.detailing || items[category.id]?.wear || items[category.id]?.chance || items[category.id]?.number">
+    <div
+      *ngIf="items[category.id]?.itemcategory || items[category.id]?.materialrarity || items[category.id]?.detailing || items[category.id]?.wear || items[category.id]?.chance || items[category.id]?.number">
       <mat-form-field>
         <input [value]="items[category.id]?.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
           (change)="updateItem($event, lootLocation, 'chance', category.id)">
@@ -106,13 +126,33 @@
         </mat-form-field>
       </div>
       <mat-form-field>
-        <input [value]="items[category.id]?.wear" placeholder="Wear (in Dice)" value="1d4" matInput
-          (change)="updateItem($event, lootLocation, 'wear', category.id)">
+        <mat-label>Wear</mat-label>
+        <mat-select [value]="items[category.id]?.wear" (selectionChange)="updateItem($event, lootLocation, 'wear', category.id)">
+          <mat-option value="1d4">
+            1d4
+          </mat-option>
+          <mat-option value="1d6">
+            1d6
+          </mat-option>
+          <mat-option value="1d8">
+            1d8
+          </mat-option>
+          <mat-option value="1d10">
+            1d10
+          </mat-option>
+          <mat-option value="1d12">
+            1d12
+          </mat-option>
+          <mat-option value="1d20">
+            1d20
+          </mat-option>
+        </mat-select>
       </mat-form-field>
       <button mat-raised-button (click)="removeItem(lootLocation, category.id)" color="warn"><i
           class="fa-solid fa-trash"></i></button>
     </div>
-    <div *ngIf="!items[category.id]?.itemcategory || !items[category.id]?.materialrarity || !items[category.id]?.detailing || !items[category.id]?.wear || !items[category.id]?.chance || !items[category.id]?.number">
+    <div
+      *ngIf="!items[category.id]?.itemcategory || !items[category.id]?.materialrarity || !items[category.id]?.detailing || !items[category.id]?.wear || !items[category.id]?.chance || !items[category.id]?.number">
       <button mat-raised-button (click)="addItem(category.id)" color="accent"><i class="fa-solid fa-plus"></i></button>
     </div>
   </div>
