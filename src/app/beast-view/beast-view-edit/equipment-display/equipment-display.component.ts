@@ -30,7 +30,7 @@ export class EquipmentDisplayComponent implements OnInit {
       "id": 30
     },
     {
-      "label": "Armor, Large",
+      "label": "Armor, Heavy",
       "id": 4
     },
     {
