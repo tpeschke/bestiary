@@ -896,7 +896,7 @@ setNoWeaponDamage = (combatStats, roleInfo, points) => {
             diceObject.d6s += 1
         }
     } else {
-        if (modifiedPoints >= 1) {
+        if (modifiedPoints <= 1) {
             diceObject.d4s += 1
         } else if (modifiedPoints === 2) {
             diceObject.d6s += 1
