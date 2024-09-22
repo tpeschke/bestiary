@@ -165,7 +165,8 @@
             <quill-view-html [content]="beast.roleInfo[selectedRoleId].defense_conf"></quill-view-html>
           </div>
           <div *ngIf="isNaturalCreatureOrInsect" class="ql-editor">
-            <p>When this creature gains an Emotional State, it doubles its current Rank in that Emotional State and doubles the Rank it's gaining.</p>
+            <p>When this creature gains an Emotional State, it doubles its current Rank in that Emotional State and
+              doubles the Rank it's gaining.</p>
           </div>
         </div>
 
@@ -764,8 +765,9 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <button *ngIf="modifier" (click)="getModifierShortCutURL()" matTooltip="This creates a link that will go directly to this Role"
-                class="copyURLButton"><i class="fas fa-link"></i></button>
+              <button *ngIf="modifier" (click)="getModifierShortCutURL()"
+                matTooltip="This creates a link that will go directly to this Role" class="copyURLButton"><i
+                  class="fas fa-link"></i></button>
             </div>
           </div>
           <div class="flex-row-opposite">
@@ -836,10 +838,6 @@
             <span *ngIf="loot.scroll">{{loot.scroll}} ({{loot.sp}} SP) </span>
             <i *ngIf="loot.scroll" class="fas fa-info-circle icon-small blue" matTooltip="Requires Literacy in the language and takes 2 Sec / SP to read, after which, it shapes the spell. The scroll is destroyed on shape.
               Rudiment Breakdown: {{loot.breakdown}}"></i>
-
-            <i *ngIf="(!loot.name && !loot.skill && !loot.scroll) && loot.includes('Trait')"
-              class="fas fa-info-circle icon-small blue"
-              matTooltip="Use the sc price as the base price and then add the Description on top."></i>
           </li>
         </ul>
 
@@ -880,14 +878,50 @@
             <span *ngIf="loot.scroll">{{loot.scroll}} ({{loot.sp}} SP) </span>
             <i *ngIf="loot.scroll" class="fas fa-info-circle icon-small blue" matTooltip="Requires Literacy in the language and takes 2 Sec / SP to read, after which, it shapes the spell. The scroll is destroyed on shape.
               Rudiment Breakdown: {{loot.breakdown}}"></i>
-
-            <i *ngIf="(!loot.name && !loot.skill && !loot.scroll) && loot.includes('Trait')"
-              class="fas fa-info-circle icon-small blue"
-              matTooltip="Use the sc price as the base price and then add the Description on top."></i>
           </li>
         </ul>
         <div *ngIf="lairLoot.length == 0" class="box-padding">
           <p class="text-indent">This creature has no loot at their lair.</p>
+        </div>
+
+        <p class="token-download-shell loot-tables" (click)="toggleLootTables()">{{lootTablesAreShow ? 'Hide' : 'Show'}}
+          Loot Tables</p>
+        <div *ngIf="lootTablesAreShow">
+          <table class="first-column-left">
+            <thead>
+              <th>Carried Loot</th>
+            </thead>
+            <tr *ngFor="let item of beast.carriedloot.items">
+              <td>{{itemCategories[item.itemcategory]}} - {{item.chance}}% x{{item.number}} / <span matTooltip="This is the material rarity of the item(s)
+                C: Common
+                U: Uncommon
+                R: Rare
+                L: Legendary">{{item.materialrarity}}</span> / <span matTooltip="This is the detailing of the item(s)
+                N: None
+                L: Low
+                N: Normal
+                H: High">{{item.detailing}}</span> / {{item.wear}} Wear
+              </td>
+            </tr>
+          </table>
+
+          <table class="first-column-left">
+            <thead>
+              <th>Lair Loot</th>
+            </thead>
+            <tr *ngFor="let item of beast.lairloot.items">
+              <td>{{itemCategories[item.itemcategory]}} - {{item.chance}}% x{{item.number}} / <span matTooltip="This is the material rarity of the item(s)
+                C: Common
+                U: Uncommon
+                R: Rare
+                L: Legendary">{{item.materialrarity}}</span> / <span matTooltip="This is the detailing of the item(s)
+                N: None
+                L: Low
+                N: Normal
+                H: High">{{item.detailing}}</span> / {{item.wear}} Wear
+              </td>
+            </tr>
+          </table>
         </div>
 
         <div *ngIf="lairlootpresent" class="loot-regenerate-shell">
@@ -984,7 +1018,8 @@
       </div>
     </div>
 
-    <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells" [selectedRoleId]="selectedRoleId"></app-weird-shaping-display>
+    <app-weird-shaping-display [casting]="beast.casting" [spells]="beast.spells" [selectedRoleId]="selectedRoleId">
+    </app-weird-shaping-display>
 
     <button *ngIf="loggedIn.id === 1 || loggedIn.id === 21 || beast.userid === loggedIn.id" mat-raised-button
       color="warn" [routerLink]="['/beast', beast.id, 'edit']">Edit</button>

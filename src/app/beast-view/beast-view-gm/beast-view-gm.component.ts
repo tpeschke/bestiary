@@ -42,6 +42,8 @@ export class BeastViewGmComponent implements OnInit {
   public monsterNumber = null;
   public lairLoot = []
   public lairlootpresent = false
+  public lootTablesAreShow = false
+  public itemCategories = {}
   public carriedLoot = []
   public carriedlootpresent = false
   public selectedRoleId = null;
@@ -109,6 +111,9 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   ngOnInit() {
+    lootTables.itemCategories.forEach(category => {
+      this.itemCategories[category.id] = category.label
+    })
     this.route.data.subscribe(data => {
       this.beast = data['beast']
 
@@ -473,6 +478,8 @@ export class BeastViewGmComponent implements OnInit {
         })
       }
     }
+    console.log(this.beast.lairloot.items)
+    console.log(this.beast.carriedloot.items)
 
     if (copper) {
       let copperNumber = 0
@@ -955,6 +962,10 @@ export class BeastViewGmComponent implements OnInit {
       square.shieldInfo = this.newShieldInfo
     }
     square.showEquipmentSelection = !square.showEquipmentSelection
+  }
+
+  toggleLootTables = () => {
+    this.lootTablesAreShow = !this.lootTablesAreShow
   }
 
   backoutOfEquipmentSelection = (square) => {

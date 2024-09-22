@@ -175,7 +175,8 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
 
 .artist-credits p {
     font-size: 16px;
-    font-family: 'know'; letter-spacing: 1px;
+    font-family: 'know';
+    letter-spacing: 1px;
 }
 
 .artist-credits i {
@@ -253,7 +254,8 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
 
 .token-download-shell {
     font-size: 16px;
-    font-family: 'know'; letter-spacing: 1px;
+    font-family: 'know';
+    letter-spacing: 1px;
     cursor: pointer;
     transition: .6s;
     padding: 0 5px;
@@ -264,6 +266,12 @@ mat-chip .fa-chevron-up, mat-chip .fa-chevron-down, mat-chip .fa-expand {
     float: right;
     margin-top: 15px;
     padding: 5px 10px;
+}
+
+.loot-tables {
+    margin-top: 15px;
+    padding: 5px 10px;
+    width: 140px;
 }
 
 .fa-down-long {
@@ -289,6 +297,11 @@ h3 span {
 .json-download:hover {
     background: #607d8b;
     color: whitesmoke
+}
+
+.loot-tables:hover {
+    background: #607d8b;
+    color: whitesmoke    
 }
 
 .view-table-shell {
@@ -320,5 +333,5 @@ h3 span {
     .vitals-and-movement-shell .vitals-shell {
         width: 100%;
         min-width: unset;
-    }    
+    }
 }
