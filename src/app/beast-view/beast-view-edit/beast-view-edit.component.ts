@@ -564,8 +564,12 @@ export class BeastViewEditComponent implements OnInit {
           lootnotes: '',
           reagents: [],
           locationalvitality: [],
-          lairloot: {},
-          carriedloot: {},
+          lairloot: {
+            items: {}
+          },
+          carriedloot: {
+            items: {}
+          },
           roles: [],
           folklore: [],
           roleInfo: {},
