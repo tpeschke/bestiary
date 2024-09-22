@@ -884,7 +884,7 @@
           <p class="text-indent">This creature has no loot at their lair.</p>
         </div>
 
-        <p class="token-download-shell loot-tables" (click)="toggleLootTables()">{{lootTablesAreShow ? 'Hide' : 'Show'}}
+        <p *ngIf="beast.carriedloot.items.length > 0 || beast.lairloot.items.length > 0" class="token-download-shell loot-tables" (click)="toggleLootTables()">{{lootTablesAreShow ? 'Hide' : 'Show'}}
           Loot Tables</p>
         <div *ngIf="lootTablesAreShow">
           <table class="first-column-left">
