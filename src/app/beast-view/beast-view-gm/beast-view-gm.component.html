@@ -165,8 +165,8 @@
             <quill-view-html [content]="beast.roleInfo[selectedRoleId].defense_conf"></quill-view-html>
           </div>
           <div *ngIf="isNaturalCreatureOrInsect" class="ql-editor">
-            <p>When this creature gains an Emotional State, it doubles its current Rank in that Emotional State and
-              doubles the Rank it's gaining.</p>
+            <p>When this creature gains a negative Emotional State, it doubles its current Rank in that Emotional State and
+              doubles the Rank it's gaining. Any positive Emotinoal State gain is halved (rounded up).</p>
           </div>
         </div>
 
