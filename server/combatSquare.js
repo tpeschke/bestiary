@@ -52,7 +52,7 @@ const combatSquareController = {
             }
         }
         const damageAndRecovery = setDamageDice(combatStats, roleInfo, adjustedPoints)
-        const initMod = combatStats.armor ? equipmentController.getArmor(combatStats.armor).init : 0
+        const initMod = combatStats.armor ? equipmentController.getArmor(combatStats.armor).init + 3 : 3
 
         let equipmentBonuses = { weaponInfo: null, armorInfo: null, shieldInfo: null }
         if (combatStats.weapon) {
