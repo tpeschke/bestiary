@@ -39,6 +39,6 @@
     </div>
   </div>
 
-  <button class="new-button right-most-buttom" *ngIf="loggedIn.id === 1 || loggedIn.id === 21" mat-raised-button color="warn"
+  <button class="new-button right-most-buttom" *ngIf="loggedIn && (loggedIn.id === 1 || loggedIn.id === 21)" mat-raised-button color="warn"
     (click)="goToEditChallenge()">Edit</button>
 </div>
