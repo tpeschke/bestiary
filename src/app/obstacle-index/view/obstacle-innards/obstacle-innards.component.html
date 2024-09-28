@@ -14,18 +14,46 @@
 
   <div *ngIf="obstacle.difficulty" class="striped-background pair-shell">
     <strong>Difficulty</strong>
-    <p>{{obstacle.difficulty}} <i (click)="openMatrix()" *ngIf="obstacle.difficulty.toUpperCase().includes('by'.toUpperCase())" class="fas fa-dice-d20"></i></p>
+    <span class="difficulty-span">
+      <p>{{obstacle.difficulty}} <i (click)="openMatrix()"
+          *ngIf="obstacle.difficulty.toUpperCase().includes('by'.toUpperCase())" class="fas fa-dice-d20"></i></p>
+      <select (change)="captureDifficulty($event)" [value]="difficulty">
+        <option value="">Change Difficulty</option>
+        <optgroup label="Novice">
+          <option *ngFor="let difficulty of noviceDifficulties; let i = index" [value]="difficulty">{{difficulty}} {{getDifficultyDescriptor(i)}} for a Novice</option>
+        </optgroup>
+        <optgroup label="Journeyman">
+          <option *ngFor="let difficulty of journeymanDifficulties; let i = index" [value]="difficulty">{{difficulty}} {{getDifficultyDescriptor(i)}} for a Journey</option>
+        </optgroup>
+        <optgroup label="Expert">
+          <option *ngFor="let difficulty of expertDifficulties; let i = index" [value]="difficulty">{{difficulty}} {{getDifficultyDescriptor(i)}} for a Expert</option>
+        </optgroup>
+        <optgroup label="Master">
+          <option *ngFor="let difficulty of masterDifficulties; let i = index" [value]="difficulty">{{difficulty}} {{getDifficultyDescriptor(i)}} for a Master</option>
+        </optgroup>
+        <optgroup label="Grandmaster">
+          <option *ngFor="let difficulty of grandmasterDifficulties; let i = index" [value]="difficulty">{{difficulty}} {{getDifficultyDescriptor(i)}} for a GM</option>
+        </optgroup>
+        <optgroup label="Legendary">
+          <option *ngFor="let difficulty of legendDifficulties; let i = index" [value]="difficulty">{{difficulty}} {{getDifficultyDescriptor(i)}} for a Legend</option>
+        </optgroup>
+        <optgroup label="Mythical">
+          <option *ngFor="let difficulty of mythDifficulties; let i = index" [value]="difficulty">{{difficulty}} {{getDifficultyDescriptor(i)}} for a Myth</option>
+        </optgroup>
+      </select>
+    </span>
   </div>
+
   <div *ngIf="obstacle.time" class="striped-background pair-shell">
     <strong>Time</strong>
     <p>{{obstacle.time}}</p>
   </div>
-  
+
   <div *ngFor="let pair of obstacle.pairtwo" class="striped-background pair-shell">
     <strong>{{pair.name}}</strong>
     <p>{{pair.body}}</p>
   </div>
-  
+
   <div *ngIf="obstacle.threshold" class="striped-background pair-shell">
     <strong>Failure Threshold</strong>
     <p>{{obstacle.threshold}}</p>
@@ -60,7 +88,7 @@
     <p>{{pair.body}}</p>
   </span>
 
-  <div  *ngIf="obstacle.information" class="striped-background quill-obstacle-view">
+  <div *ngIf="obstacle.information" class="striped-background quill-obstacle-view">
     <quill-view-html *ngIf="obstacle.information" [content]="obstacle.information"></quill-view-html>
   </div>
 
@@ -71,10 +99,11 @@
 
   <div class="copy-link-shell">
     <button class="new-button" *ngIf="loggedIn.id === 1 || loggedIn.id === 21" mat-raised-button color="warn"
-    (click)="goToEdit()"><i class="fa-solid fa-pen-to-square"></i></button>
+      (click)="goToEdit()"><i class="fa-solid fa-pen-to-square"></i></button>
     <div *ngIf="!(loggedIn.id === 1 || loggedIn.id === 21)"></div>
 
-    <button class="new-button" mat-raised-button color="accent" matTooltip="Get Quick Link for Obstacle (id: {{obstacle.id}})"
-    (click)="copyLink(obstacle.id)"><i class="fa-solid fa-link"></i></button>
+    <button class="new-button" mat-raised-button color="accent"
+      matTooltip="Get Quick Link for Obstacle (id: {{obstacle.id}})" (click)="copyLink(obstacle.id)"><i
+        class="fa-solid fa-link"></i></button>
   </div>
 </div>

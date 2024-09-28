@@ -478,8 +478,6 @@ export class BeastViewGmComponent implements OnInit {
         })
       }
     }
-    console.log(this.beast.lairloot.items)
-    console.log(this.beast.carriedloot.items)
 
     if (copper) {
       let copperNumber = 0

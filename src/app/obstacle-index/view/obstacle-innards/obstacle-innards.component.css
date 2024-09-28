@@ -96,3 +96,25 @@ tr td:nth-child(2), tr th:nth-child(2) {
     justify-content: space-between;
     padding-top: 5px;
 }
+
+.difficulty-span {
+    width: 100%;
+}
+
+.difficulty-span select {
+    float: right;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    border: 1px solid lightgray;
+    margin-top: 5px;
+}
+
+.difficulty-span option {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+
+.option-border {
+    border-top: 1px solid grey;
+    background: lightgray;
+}

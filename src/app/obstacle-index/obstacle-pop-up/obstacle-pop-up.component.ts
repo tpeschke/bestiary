@@ -11,12 +11,12 @@ import { Router } from '@angular/router';
 export class ObstaclePopUpComponent implements OnInit {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {id: string},
+    @Inject(MAT_DIALOG_DATA) public data: {id: string, difficulty: string},
     public dialogRef: MatDialogRef<ObstaclePopUpComponent>,
     private router: Router,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onNoClick(): void {
     this.dialogRef.close();

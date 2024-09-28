@@ -31,10 +31,11 @@ export class ObstacleCatalogComponent implements OnInit {
       this.obstacles = data['catalog']
     })
 
-    if ((this.router.url.match(new RegExp("\/", "g")) || []).length === 2) {
-      let id = +this.router.url.split('/')[2]
+    if ((this.router.url.match(new RegExp("\/", "g")) || []).length >= 2) {
+      const id = +this.router.url.split('/')[2]
+      const difficulty = this.router.url.split('/')[3]
       if (!isNaN(id)) {
-        this.dialog.open(ObstaclePopUpComponent, { width: '400px', data: { id }});
+        this.dialog.open(ObstaclePopUpComponent, { width: '400px', data: { id, difficulty }});
       }
     }
   }
