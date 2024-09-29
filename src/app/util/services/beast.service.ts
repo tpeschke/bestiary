@@ -340,6 +340,11 @@ export class BeastService {
       .pipe(tap(result => this.handleMessage(result)))
   }
 
+  getTreasure(treasure): any {
+    return this.http.post('https://reliquary.stone-fish.com/api/treasure', treasure)
+      .pipe(tap(result => this.handleMessage(result)))
+  }
+
   getAnyBurdens(number) {
     return this.http.get(local.srdBase + '/getRandomIB/' + number)
       .pipe(tap(result => this.handleMessage(result)))

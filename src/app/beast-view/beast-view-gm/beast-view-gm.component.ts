@@ -148,13 +148,13 @@ export class BeastViewGmComponent implements OnInit {
 
       const roleParameter = this.router.url.split('/')[4]
       if (roleParameter && ['Unique', 'Greater', 'Dread', 'THE'].includes(roleParameter)) {
-        this.captureSimpleInput('modifier', {value: roleParameter})
+        this.captureSimpleInput('modifier', { value: roleParameter })
         this.setRoleToDefault()
       } else if (roleParameter) {
         this.setRoleViaParameter(roleParameter)
         const roleModifier = this.router.url.split('/')[5]
         if (roleModifier) {
-          this.captureSimpleInput('modifier', {value: roleModifier})
+          this.captureSimpleInput('modifier', { value: roleModifier })
         }
       } else {
         this.setRoleToDefault()
@@ -384,17 +384,23 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   getLoot() {
-    this.getLairLoot()
-    this.getCarriedLoot()
+    const lairLoot = this.getLairLoot()
+    const carriedLoot = this.getCarriedLoot()
+
+    this.beastService.getTreasure({ requestArray: [lairLoot, carriedLoot] }).subscribe(treasure => {
+      this.lairLoot = [...this.lairLoot, ...treasure[0]]
+      this.carriedLoot = [...this.carriedLoot, ...treasure[1]]
+    })
   }
 
   getLairLoot() {
     this.lairLoot = []
+    let lootToRequest: any = {}
     let timesToRoll = this.monsterNumber ? this.monsterNumber : 1;
     let { copper, silver, gold, enchanted, potion, items, scrolls, alms, talisman } = this.beast.lairloot
 
     this.lairlootpresent = copper || silver || gold || enchanted || potion || talisman || items.length > 0 || scrolls > 0 || alms > 0
-    let { staticValues, numberAppearing, traitDice, enchantedTable, scrollPower, almsFavor } = lootTables
+    let { staticValues, numberAppearing, enchantedTable, scrollPower, almsFavor } = lootTables
       , { rollDice } = this.calculatorService
 
     if (alms.length > 0) {
@@ -410,72 +416,65 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     if (enchanted) {
+      let numberOfItems = 0
       for (let i = 0; i < timesToRoll; i++) {
         let enchantedChance = Math.floor(Math.random() * 101);
         if (enchantedTable[enchanted].minor >= enchantedChance) {
-          this.beastService.getEnchantedItem().subscribe((item: any) => {
-            this.lairLoot.push(item[0])
-          })
+          numberOfItems++
         }
+      }
+      if (numberOfItems > 0) {
+        lootToRequest.enchanted = { numberOfItems }
       }
     }
 
     if (potion) {
-      let potionNumber = 0
+      let numberOfItems = 0
       for (let i = 0; i < timesToRoll; i++) {
-        potionNumber += Math.min(rollDice(numberAppearing[potion]), 4)
+        numberOfItems += Math.min(rollDice(numberAppearing[potion]), 4)
       }
-      if (potionNumber > 0) {
-        this.beastService.getPotions(potionNumber).subscribe((potions: any) => {
-          potions.forEach((potion) => { this.lairLoot.push(potion) })
-        })
+      if (numberOfItems > 0) {
+        lootToRequest.potions = { numberOfItems }
       }
     }
 
     if (talisman) {
-      let talismanNumber = 0
+      let numberOfItems = 0
       for (let i = 0; i < timesToRoll; i++) {
-        talismanNumber += Math.min(rollDice(numberAppearing[talisman]), 4)
+        numberOfItems += Math.min(rollDice(numberAppearing[talisman]), 4)
       }
-      if (talismanNumber > 0) {
-        this.beastService.getTalismans(talismanNumber).subscribe((talismans: any) => {
-          talismans.forEach((talisman) => { this.lairLoot.push(talisman) })
-        })
+      if (numberOfItems > 0) {
+        lootToRequest.talismans = { numberOfItems }
       }
     }
 
     if (scrolls.length > 0) {
+      let scrollsArray = []
       for (let y = 0; y < timesToRoll; y++) {
         for (let i = 0; i < scrolls.length; i++) {
           let power = rollDice(scrollPower[scrolls[i].power])
-            , number = rollDice(numberAppearing[scrolls[i].number])
-          if (number > 0) {
-            this.beastService.getScrolls(number).subscribe((scrolls: any) => {
-              scrolls.forEach(scroll => {
-                this.lairLoot.push({ scroll: scroll.name, sp: power, breakdown: scroll.tooltip })
-              })
-            })
+            , numberOfItems = rollDice(numberAppearing[scrolls[i].number])
+          if (numberOfItems > 0) {
+            scrollsArray.push({ numberOfItems, power })
           }
         }
       }
     }
 
     if (items.length > 0) {
-      let itemsToGetArray = []
+      let itemArray = []
       for (let y = 0; y < timesToRoll; y++) {
         for (let i = 0; i < items.length; i++) {
-          const {number, chance, detailing, itemcategory, materialrarity, wear} = items[i]
+          const { number, chance, detailing, itemcategory, materialrarity, wear } = items[i]
           for (let n = 0; n < number; n++) {
-              if (rollDice('1d100') <= chance) {
-                itemsToGetArray.push({detailing, itemcategory, materialrarity, wear: wear.split('d')[1]})
-              }
+            if (rollDice('1d100') <= chance) {
+              itemArray.push({ detailing, itemcategory, materialrarity, wear: wear.split('d')[1] })
+            }
           }
         }
       }
-      if (itemsToGetArray.length > 0) {
-        this.beastService.getItems({ items: itemsToGetArray }).subscribe(results => {
-          results.forEach(equipment => { this.lairLoot.push(equipment) })
-        })
+      if (itemArray.length > 0) {
+        lootToRequest.items = { itemArray }
       }
     }
 
@@ -506,10 +505,13 @@ export class BeastViewGmComponent implements OnInit {
         this.lairLoot.push(goldNumber + " gc in coin")
       }
     }
+
+    return lootToRequest
   }
 
   getCarriedLoot() {
     this.carriedLoot = []
+    let lootToRequest: any = {}
     let timesToRoll = this.monsterNumber ? this.monsterNumber : 1;
     let { copper, silver, gold, enchanted, potion, items, scrolls, alms, talisman } = this.beast.carriedloot
 
@@ -530,73 +532,65 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     if (enchanted) {
+      let numberOfItems = 0
       for (let i = 0; i < timesToRoll; i++) {
         let enchantedChance = Math.floor(Math.random() * 101);
         if (enchantedTable[enchanted].minor >= enchantedChance) {
-          this.beastService.getEnchantedItem().subscribe((item: any) => {
-            this.carriedLoot.push(item[0])
-          })
+          numberOfItems++
         }
+      }
+      if (numberOfItems > 0) {
+        lootToRequest.enchanted = { numberOfItems }
       }
     }
 
     if (potion) {
-      let potionNumber = 0
+      let numberOfItems = 0
       for (let i = 0; i < timesToRoll; i++) {
-        potionNumber += Math.min(rollDice(numberAppearing[potion]), 4)
+        numberOfItems += Math.min(rollDice(numberAppearing[potion]), 4)
       }
-      if (potionNumber > 0) {
-        this.beastService.getPotions(potionNumber).subscribe((potions: any) => {
-          potions.forEach(potion => this.carriedLoot.push(potion))
-        })
+      if (numberOfItems > 0) {
+        lootToRequest.potions = { numberOfItems }
       }
     }
 
     if (talisman) {
-      let talismanNumber = 0
+      let numberOfItems = 0
       for (let i = 0; i < timesToRoll; i++) {
-        talismanNumber += Math.min(rollDice(numberAppearing[talisman]), 4)
+        numberOfItems += Math.min(rollDice(numberAppearing[talisman]), 4)
       }
-
-      if (talismanNumber > 0) {
-        this.beastService.getTalismans(talismanNumber).subscribe((talismans: any) => {
-          talismans.forEach(talisman => this.carriedLoot.push(talisman))
-        })
+      if (numberOfItems > 0) {
+        lootToRequest.talismans = { numberOfItems }
       }
     }
 
     if (scrolls.length > 0) {
+      let scrollsArray = []
       for (let y = 0; y < timesToRoll; y++) {
         for (let i = 0; i < scrolls.length; i++) {
           let power = rollDice(scrollPower[scrolls[i].power])
-            , number = Math.min(rollDice(numberAppearing[scrolls[i].number]))
-          if (number > 0) {
-            this.beastService.getScrolls(number).subscribe((scrolls: any) => {
-              scrolls.forEach(scroll => {
-                this.carriedLoot.push({ scroll: scroll.name, sp: power, breakdown: scroll.tooltip })
-              })
-            })
+            , numberOfItems = rollDice(numberAppearing[scrolls[i].number])
+          if (numberOfItems > 0) {
+            scrollsArray.push({ numberOfItems, power })
           }
         }
       }
     }
 
     if (items.length > 0) {
-      let itemsToGetArray = []
+      let itemArray = []
       for (let y = 0; y < timesToRoll; y++) {
         for (let i = 0; i < items.length; i++) {
-          const {number, chance, detailing, itemcategory, materialrarity, wear} = items[i]
+          const { number, chance, detailing, itemcategory, materialrarity, wear } = items[i]
           for (let n = 0; n < number; n++) {
-              if (rollDice('1d100') <= chance) {
-                itemsToGetArray.push({detailing, itemcategory, materialrarity, wear: wear.split('d')[1]})
-              }
+            if (rollDice('1d100') <= chance) {
+              itemArray.push({ detailing, itemcategory, materialrarity, wear: wear.split('d')[1] })
+            }
           }
         }
       }
-      if (itemsToGetArray.length > 0) {
-        this.beastService.getItems({ items: itemsToGetArray }).subscribe(results => {
-          results.forEach(equipment => { this.carriedLoot.push(equipment) })
-        })
+      if (itemArray.length > 0) {
+        lootToRequest.items = { itemArray }
       }
     }
 
@@ -627,6 +621,8 @@ export class BeastViewGmComponent implements OnInit {
         this.carriedLoot.push(goldNumber + " gc in coin")
       }
     }
+
+    return lootToRequest
   }
 
   navigateToSearch(type, search) {
@@ -701,7 +697,7 @@ export class BeastViewGmComponent implements OnInit {
 
   getHarvest(difficulty, harvest) {
     if (!harvest) {
-      harvest = difficulty 
+      harvest = difficulty
     }
     if (harvest.toUpperCase() === 'N/A') {
       return 'N/A'
@@ -1114,22 +1110,22 @@ export class BeastViewGmComponent implements OnInit {
 
   getRoleShortCutURL() {
     const textArea = this.createTextArea()
-   
+
     let urlArray = this.router.url.split('/')
     let url = `${window.location.origin}/beast/${urlArray[2]}/gm/${this.selectedRoleId}`
     if (this.modifier) {
       url += `/${this.modifier}`
     }
-    
+
     this.copyURLFromTextArea(textArea, url)
   }
 
   getModifierShortCutURL() {
     const textArea = this.createTextArea()
-   
+
     let urlArray = this.router.url.split('/')
     let url = `${window.location.origin}/beast/${urlArray[2]}/gm/${this.modifier}`
-    
+
     this.copyURLFromTextArea(textArea, url)
   }
 
@@ -1234,7 +1230,7 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   openRandomListsPopUp() {
-    this.dialog.open(AddToListPopUpComponent, { width: '400px', data: {beastid: this.beast.id, rarity: this.beast.rarity} });
+    this.dialog.open(AddToListPopUpComponent, { width: '400px', data: { beastid: this.beast.id, rarity: this.beast.rarity } });
   }
 
   goToVariant(variantid) {
@@ -1358,13 +1354,13 @@ export class BeastViewGmComponent implements OnInit {
       return `This monster has additional ${type} defense abilities that will make them stronger than their raw stats might suggestion.`
     }
   }
-  
+
   downloadJson() {
     const { id, name: basicName, senses, meta, sp_atk, sp_def, tactics, size: basicSize, role: basicRole,
       secondaryrole: basicSecondaryRole, socialrole: basicSocialRole, socialsecondary: basicSocialSecondary,
       skillrole: basicSkillRole, notes, movement, rolenameorder, roleInfo, hash, combatStatArray,
       knockback: basicKnockback, notrauma: basicTrauma, noknockback: basicnoknockback, phyiscalAndStress, locationalvitality,
-      spells, skills, challenges, obstacles, conflict, rollundertrauma: basicRollUnderTrauma, atk_skill, 
+      spells, skills, challenges, obstacles, conflict, rollundertrauma: basicRollUnderTrauma, atk_skill,
       def_skill, atk_conf, def_conf } = this.beast
 
     const selectedRoleInfo = roleInfo[this.selectedRoleId]
@@ -1412,7 +1408,7 @@ export class BeastViewGmComponent implements OnInit {
         roledefenses: selectedRoleInfo ? selectedRoleInfo.defense_conf : null,
       },
       combat: {
-        attacknotes: sp_atk, defensenotes: sp_def, tactics, combatCounterHash, 
+        attacknotes: sp_atk, defensenotes: sp_def, tactics, combatCounterHash,
         roleattacks: selectedRoleInfo ? selectedRoleInfo.attack : null,
         roledefenses: selectedRoleInfo ? selectedRoleInfo.defense : null,
         role: role,
