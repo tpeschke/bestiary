@@ -24,6 +24,7 @@ export class QuickViewService {
           results.roleinfo = this.combatRolesInfo[results.role]
         }
         this.quickViewArray.push(results)
+        this.addAnotherVitalityToBeast(this.quickViewArray.length - 1)
         this.quickViewArray.sort((a, b) => {
           const nameA = a.name.toUpperCase();
           const nameB = b.name.toUpperCase();
@@ -34,7 +35,6 @@ export class QuickViewService {
           }
           return 0;
         })
-        this.addAnotherVitalityToBeast(this.quickViewArray.length - 1)
         this.beastService.handleMessage({ message: `${results.name} have been added to your quick view`, color: "green" })
       }
     })
