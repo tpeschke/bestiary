@@ -329,6 +329,17 @@ h3 span {
     border-radius: 5px;
 }
 
+.chip-button:hover {
+    background-color: #DEDEDE;
+}
+
+.chip-button-anchor {
+    font-family: unset;
+    letter-spacing: unset;
+    font-size: unset;
+    text-decoration: none;
+}
+
 @media (max-width: 1246px) {
     .vitals-and-movement-shell .vitals-shell {
         width: 100%;

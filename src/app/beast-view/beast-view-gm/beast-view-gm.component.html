@@ -165,7 +165,8 @@
             <quill-view-html [content]="beast.roleInfo[selectedRoleId].defense_conf"></quill-view-html>
           </div>
           <div *ngIf="isNaturalCreatureOrInsect" class="ql-editor">
-            <p>When this creature gains a negative Emotional State, it doubles its current Rank in that Emotional State and
+            <p>When this creature gains a negative Emotional State, it doubles its current Rank in that Emotional State
+              and
               doubles the Rank it's gaining. Any positive Emotinoal State gain is halved (rounded up).</p>
           </div>
         </div>
@@ -884,7 +885,8 @@
           <p class="text-indent">This creature has no loot at their lair.</p>
         </div>
 
-        <p *ngIf="beast.carriedloot.items.length > 0 || beast.lairloot.items.length > 0" class="token-download-shell loot-tables" (click)="toggleLootTables()">{{lootTablesAreShow ? 'Hide' : 'Show'}}
+        <p *ngIf="beast.carriedloot.items.length > 0 || beast.lairloot.items.length > 0"
+          class="token-download-shell loot-tables" (click)="toggleLootTables()">{{lootTablesAreShow ? 'Hide' : 'Show'}}
           Loot Tables</p>
         <div *ngIf="lootTablesAreShow">
           <table class="first-column-left">
@@ -996,7 +998,19 @@
           </div>
         </div>
 
-        <!-- <h2>Special Harvest</h2> -->
+        <div *ngIf="beast.locations && beast.locations.length > 0">
+          <h2>Welgryf Sagas Locations</h2>
+          <div class="divider"></div>
+          <p>See this monster in action.</p>
+          <br>
+          <div class="chip-shell">
+            <a class="chip-button-anchor" *ngFor="let location of beast.locations" href="{{location.link}}" target="_blank">
+              <div class="chip-button">
+                <p>{{location.location}}</p>
+              </div>
+            </a>
+          </div>
+        </div>
 
         <div *ngIf="beast.meta && beast.meta.length > 0">
           <h2>Meta Notes</h2>

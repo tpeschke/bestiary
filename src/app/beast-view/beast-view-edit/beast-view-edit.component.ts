@@ -20,6 +20,8 @@ export class BeastViewEditComponent implements OnInit {
   @ViewChild('newRoleName') newRoleName;
   @ViewChild('artistName') artistName;
   @ViewChild('artistLink') artistLink;
+  @ViewChild('locationLocation') locationLocation;
+  @ViewChild('locationLink') locationLink;
   @ViewChild('artistTooltip') artistTooltip;
   @ViewChild('roleSelect') roleSelect;
   @ViewChild('newCombatRoleSelect') newCombatRoleSelect: MatSelect;
@@ -210,6 +212,12 @@ export class BeastViewEditComponent implements OnInit {
     link: null
   }
 
+  public location = {
+    id: null,
+    location: null,
+    link: null
+  }
+
   public numbers = {
     numbers: null,
     miles: null,
@@ -252,6 +260,9 @@ export class BeastViewEditComponent implements OnInit {
 
   public artistController = new FormControl('');
   public artistFiltered: Observable<any[]>;
+
+  public locationController = new FormControl('');
+  public locationFiltered: Observable<any[]>;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -726,6 +737,12 @@ export class BeastViewEditComponent implements OnInit {
       map((value: string) => this._filter(value || '', this.beast.artistInfo.allartists, 'artist')),
     );
     this.artistController.setValue(this.beast.artistInfo)
+
+    this.locationFiltered = this.locationController.valueChanges.pipe(
+      startWith(''),
+      map((value: string) => this._filter(value || '', this.beast.allLocations, 'location')),
+    );
+    this.locationController.setValue(this.beast.allLocations)
   }
 
   bootUpEncounterAutoComplete() {
@@ -1534,6 +1551,10 @@ export class BeastViewEditComponent implements OnInit {
     return option.artist
   }
 
+  getDisplayTextLocation = (option) => {
+    return option.location
+  }
+
   addOption(event, type) {
     const value = event.target.value
     if (value) {
@@ -1653,6 +1674,35 @@ export class BeastViewEditComponent implements OnInit {
     this.beast.artistInfo.link = link
   }
 
+  setLocation(event) {
+    let { location, link, id: locationid } = event.option.value
+    this.beast.locations.push({ location, link, locationid })
+  }
+
+  captureNewLocation(type, event) {
+    if (event.target) {
+      this.location[type] = event.target.value
+    } else {
+      this.location[type] = event.value
+    }
+  }
+
+  addNewLocation() {
+    let { location, link } = this.location
+    this.beast.locations.push({ location, link })
+    
+    this.location = {
+      id: null,
+      location: null,
+      link: null
+    }
+
+    this.viewPanels.forEach(p => p.close());
+    this.artistName.nativeElement.value = null
+    this.artistLink.nativeElement.value = null
+    this.artistTooltip.nativeElement.value = null
+  }
+
   captureNewArtist(type, event) {
     if (event.target) {
       this.artist[type] = event.target.value
@@ -1684,9 +1734,8 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     this.viewPanels.forEach(p => p.close());
-    this.artistName.nativeElement.value = null
-    this.artistLink.nativeElement.value = null
-    this.artistTooltip.nativeElement.value = null
+    this.locationLocation.nativeElement.value = null
+    this.locationLink.nativeElement.value = null
   }
 
   setRole(event) {

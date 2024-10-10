@@ -356,6 +356,18 @@ create table bbbeastartist (
     artistid int
 );
 
+create table bblocations (
+    id serial primary key,
+    location varchar(500),
+    link varchar(500)
+);
+
+create table bbbeastlocation (
+    id serial primary key,
+    beastid int,
+    locationid int
+);
+
 create table bbroleweights (
     id serial primary key,
     beastid int,

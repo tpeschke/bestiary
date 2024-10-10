@@ -2060,7 +2060,8 @@
 
           <div class="item-shell">
             <h3>Equipment</h3>
-            <app-equipment-display [items]="beast.carriedloot.items" [updateItem]="updateItem" [captureAddItem]="captureAddItem" [removeItem]="removeItem" [lootLocation]="'carriedloot'">
+            <app-equipment-display [items]="beast.carriedloot.items" [updateItem]="updateItem"
+              [captureAddItem]="captureAddItem" [removeItem]="removeItem" [lootLocation]="'carriedloot'">
             </app-equipment-display>
           </div>
 
@@ -2491,7 +2492,9 @@
 
             <div class="item-shell">
               <h3>Equipment</h3>
-              <app-equipment-display [items]="beast.lairloot.items" [updateItem]="updateItem" [captureAddItem]="captureAddItem" [removeItem]="removeItem" [lootLocation]="'lairloot'"></app-equipment-display>
+              <app-equipment-display [items]="beast.lairloot.items" [updateItem]="updateItem"
+                [captureAddItem]="captureAddItem" [removeItem]="removeItem" [lootLocation]="'lairloot'">
+              </app-equipment-display>
             </div>
 
           </div>
@@ -2743,6 +2746,57 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+        </div>
+
+        <h2>Welgryf Sagas Location(s)</h2>
+        <br>
+        <div class="chip-shell">
+          <mat-chip-list>
+            <div *ngFor="let location of beast.locations; let i = index">
+              <mat-chip *ngIf="!location.deleted" (click)="removeNewSecondaryItem('locations', i)" color="warn"
+                selected>
+                {{location.location}}
+              </mat-chip>
+            </div>
+          </mat-chip-list>
+        </div>
+
+        <div>
+          <br>
+          <mat-form-field>
+            <input placeholder="Location" matInput [matAutocomplete]="locationauto" [formControl]="locationController">
+            <mat-autocomplete #locationauto="matAutocomplete" [displayWith]="getDisplayTextLocation"
+              (optionSelected)="setLocation($event)">
+              <mat-option *ngFor="let location of locationFiltered | async" [value]="location">
+                {{location.location}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <br>
+
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <h3><i class="fa-solid fa-plus icon-medium"></i> New Location</h3>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+    
+              <div class="new-roll-shell">
+                <mat-form-field>
+                  <input #locationLocation placeholder="Location" matInput (change)="captureNewLocation('location', $event)">
+                </mat-form-field>
+      
+                <mat-form-field>
+                  <input #locationLink placeholder="Link" matInput (change)="captureNewLocation('link', $event)">
+                </mat-form-field>
+      
+                <button mat-raised-button (click)="addNewLocation()" color="accent"><i
+                    class="fa-solid fa-plus icon-medium"></i> Location</button>
+              </div>
+    
+            </mat-expansion-panel>
+          </mat-accordion>
         </div>
 
         <h2>Meta Notes</h2>

@@ -31,6 +31,21 @@ const saveUpdateFunctions = {
             }
         })
     },
+    upsertLocations: (promiseArray, db, id, res, locations) => {
+        locations.forEach(({ deleted, id: uniqueid, locationid, location, link }) => {
+            if (deleted) {
+                promiseArray.push(db.delete.location(uniqueid).catch(e => sendErrorForward('update beast delete location', e, res)))
+            } else {
+                if (!locationid) {
+                    promiseArray.push(db.add.all.locations(location, link).then(result => {
+                        return db.add.location(id, result[0].id).catch(e => sendErrorForward('update beast add location', e, res))
+                    }).catch(e => sendErrorForward('update beast add location to list', e, res)))
+                } else {
+                    promiseArray.push(db.add.location(id, locationid).catch(e => sendErrorForward('update beast add location 2', e, res)))
+                }
+            }
+        })
+    },
     upsertCombats: (promiseArray, db, id, res, combatStatArray) => {
         promiseArray.push(db.delete.combatStats([id, [0, ...combatStatArray.map(combatStat => combatStat.id)]]).then(_ => {
             return combatStatArray.map(({ id: uniqueid, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,

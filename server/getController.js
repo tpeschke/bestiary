@@ -79,7 +79,7 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole, s
   return nameString
 }
 
-function objectifyItemArray (itemArray) {
+function objectifyItemArray(itemArray) {
   let itemObject = {}
   itemArray.forEach(item => {
     itemObject[item.itemcategory] = item
@@ -412,6 +412,20 @@ module.exports = {
         }
 
         if (req.query.edit === 'true') {
+          promiseArray.push(db.get.location(id).then(result => {
+            beast.locations = result
+          }).catch(e => sendErrorForward('beast location 2', e, res)))
+
+          promiseArray.push(db.get.all.locations(id).then(result => {
+            beast.allLocations = result
+          }).catch(e => sendErrorForward('beast all locations', e, res)))
+        } else {
+          promiseArray.push(db.get.location(id).then(result => {
+            beast.locations = result
+          }).catch(e => sendErrorForward('beast location 2', e, res)))
+        }
+
+        if (req.query.edit === 'true') {
           promiseArray.push(db.get.conflictedit(id).then(result => {
             beast.conflict = { descriptions: [], convictions: [], devotions: [], flaws: [], burdens: [] }
             result.forEach(val => {
@@ -527,7 +541,7 @@ module.exports = {
         }).catch(e => sendErrorForward('beast alms', e, res)))
 
         promiseArray.push(db.get.loot.lairitems(id).then(result => {
-          if (req.query.edit === 'true') { 
+          if (req.query.edit === 'true') {
             beast.lairloot = { items: objectifyItemArray(result), ...beast.lairloot }
           } else {
             beast.lairloot = { items: result, ...beast.lairloot }
@@ -551,7 +565,7 @@ module.exports = {
         }).catch(e => sendErrorForward('beast carried alms', e, res)))
 
         promiseArray.push(db.get.loot.carrieditems(id).then(result => {
-          if (req.query.edit === 'true') { 
+          if (req.query.edit === 'true') {
             beast.carriedloot = { items: objectifyItemArray(result), ...beast.carriedloot }
           } else {
             beast.carriedloot = { items: result, ...beast.carriedloot }
