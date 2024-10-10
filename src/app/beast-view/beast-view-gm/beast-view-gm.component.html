@@ -949,7 +949,7 @@
                   <h3>{{reagent.name}}</h3>
                 </mat-panel-title>
                 <mat-panel-description>
-                  ID Difficulty: {{getIDDifficulty(reagent.difficulty, beast.rarity)}}
+                  ID Risk: {{getIDDifficulty(reagent.difficulty, beast.rarity)}}
                 </mat-panel-description>
               </mat-expansion-panel-header>
 
@@ -959,7 +959,7 @@
                   <p>{{reagent.spell}}</p>
                 </div>
                 <div class="flex-row-opposite">
-                  <h3>Harvest Diff.</h3>
+                  <h3>Harvest Risk</h3>
                   <p>{{getHarvest(reagent.difficulty, reagent.harvest)}} <i *ngIf="reagent.harvest === 'n/a'"
                       class="fas fa-info-circle icon-small blue" matTooltip="No Check is needed"></i></p>
                 </div>

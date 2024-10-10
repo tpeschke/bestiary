@@ -729,20 +729,6 @@ export class BeastViewGmComponent implements OnInit {
       price = harvestAndDifficulty * 2
     }
 
-    // if (isNaN(harvestAndDifficulty) && !difficulty.includes("!") || !difficulty.includes("d")) {
-    //   if (difficulty === '0') {
-    //     price = 5
-    //   } else {
-    //     price = difficulty;
-    //   }
-    // } else if (isNaN(harvestAndDifficulty) && harvest !== 'n/a') {
-    //   price = justDifficulty * 2
-    // } else if (isNaN(harvestAndDifficulty) && harvest === 'n/a') {
-    //   price = this.calculatorService.calculateAverageOfDice(difficulty) * 2
-    // } else {
-    //   price = harvestAndDifficulty * 2
-    // }
-
     return price + ' sc'
   }
 
