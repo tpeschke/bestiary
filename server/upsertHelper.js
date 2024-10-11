@@ -40,7 +40,7 @@ const saveUpdateFunctions = {
                     promiseArray.push(db.add.all.locations(location, link).then(result => {
                         return db.add.location(id, result[0].id).catch(e => sendErrorForward('update beast add location', e, res))
                     }).catch(e => sendErrorForward('update beast add location to list', e, res)))
-                } else {
+                } else if (!uniqueid) {
                     promiseArray.push(db.add.location(id, locationid).catch(e => sendErrorForward('update beast add location 2', e, res)))
                 }
             }

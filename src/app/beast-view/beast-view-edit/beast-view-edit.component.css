@@ -125,3 +125,7 @@
 .checkmark-role-background ::ng-deep .mat-checkbox-background {
     background-color: #a9a9a9 !important;
 }
+
+.new-location-accordion-shell {
+    width: 50%;
+}

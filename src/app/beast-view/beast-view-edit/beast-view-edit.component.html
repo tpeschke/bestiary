@@ -2774,29 +2774,31 @@
           </mat-form-field>
           <br>
 
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <h3><i class="fa-solid fa-plus icon-medium"></i> New Location</h3>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-    
-              <div class="new-roll-shell">
-                <mat-form-field>
-                  <input #locationLocation placeholder="Location" matInput (change)="captureNewLocation('location', $event)">
-                </mat-form-field>
+          <div class="new-location-accordion-shell">
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <h3><i class="fa-solid fa-plus icon-medium"></i> New Location</h3>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
       
-                <mat-form-field>
-                  <input #locationLink placeholder="Link" matInput (change)="captureNewLocation('link', $event)">
-                </mat-form-field>
+                <div class="new-roll-shell">
+                  <mat-form-field>
+                    <input #locationLocation placeholder="Location" matInput (change)="captureNewLocation('location', $event)">
+                  </mat-form-field>
+        
+                  <mat-form-field>
+                    <input #locationLink placeholder="Link" matInput (change)="captureNewLocation('link', $event)">
+                  </mat-form-field>
+        
+                  <button mat-raised-button (click)="addNewLocation()" color="accent"><i
+                      class="fa-solid fa-plus icon-medium"></i> Location</button>
+                </div>
       
-                <button mat-raised-button (click)="addNewLocation()" color="accent"><i
-                    class="fa-solid fa-plus icon-medium"></i> Location</button>
-              </div>
-    
-            </mat-expansion-panel>
-          </mat-accordion>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
         </div>
 
         <h2>Meta Notes</h2>
