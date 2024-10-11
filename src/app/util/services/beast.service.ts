@@ -161,7 +161,7 @@ export class BeastService {
   uploadMainImage = (imageForm: FormData, id: number) => {
     this.toastr.warning('', `Image Uploading`)
     return this.http.post(local.endpointBase + '/api/v1/upload/' + id, imageForm)
-      .pipe(tap((result: any) => this.handleMessage(result.image ? { message: 'Token Uploaded', color: 'green' } : result)))
+      .pipe(tap((result: any) => this.handleMessage(result.image ? { message: 'Image Uploaded', color: 'green' } : result)))
   }
 
   uploadTokenImage = (imageForm: FormData, id: number) => {

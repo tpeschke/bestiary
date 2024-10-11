@@ -596,6 +596,7 @@ export class BeastViewEditComponent implements OnInit {
           rollundertrauma: 10,
           challenges: [],
           obstacles: [],
+          locations: [],
           artistInfo: {},
           plural: null,
           rarity: 10,
