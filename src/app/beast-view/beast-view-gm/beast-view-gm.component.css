@@ -301,7 +301,7 @@ h3 span {
 
 .loot-tables:hover {
     background: #607d8b;
-    color: whitesmoke    
+    color: whitesmoke
 }
 
 .view-table-shell {
@@ -338,6 +338,49 @@ h3 span {
     letter-spacing: unset;
     font-size: unset;
     text-decoration: none;
+}
+
+.loading-sign {
+    float: right;
+    padding: 5px 10px;
+    font-size: 10px;
+    color: gray;
+}
+
+.letter-holder {
+    display: flex;
+    justify-content: end;
+    font-size: 10px;
+    color: gray;
+}
+
+.letter {
+    animation-name: loadingF;
+    animation-duration: 1.6s;
+    animation-iteration-count: infinite;
+    animation-direction: linear;
+}
+
+.l-1 {
+    animation-delay: 0.48s;
+}
+
+.l-2 {
+    animation-delay: 0.6s;
+}
+
+.l-3 {
+    animation-delay: 0.72s;
+}
+
+@keyframes loadingF {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 @media (max-width: 1246px) {

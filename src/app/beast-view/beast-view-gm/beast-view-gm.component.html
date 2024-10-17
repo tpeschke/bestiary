@@ -842,6 +842,15 @@
           </li>
         </ul>
 
+        <div *ngIf="isCarriedEquipmentLoading">
+          <div class="letter-holder">
+            <div>Loading Equipment</div>
+            <div class="l-1 letter">.</div>
+            <div class="l-2 letter">.</div>
+            <div class="l-3 letter">.</div>
+          </div>
+        </div>
+
         <div *ngIf="beast.lootnotes">
           <div *ngIf="beast.lootnotes">
             <h3 *ngIf="beast.lootnotes" class="loot-notes-subtitle">Additional Notes</h3>
@@ -881,6 +890,16 @@
               Rudiment Breakdown: {{loot.breakdown}}"></i>
           </li>
         </ul>
+
+        <div *ngIf="isLairEquipmentLoading">
+          <div class="letter-holder">
+            <div>Loading Equipment</div>
+            <div class="l-1 letter">.</div>
+            <div class="l-2 letter">.</div>
+            <div class="l-3 letter">.</div>
+          </div>
+        </div>
+
         <div *ngIf="lairLoot.length == 0" class="box-padding">
           <p class="text-indent">This creature has no loot at their lair.</p>
         </div>
@@ -1004,7 +1023,8 @@
           <p>See this monster in action.</p>
           <br>
           <div class="chip-shell">
-            <a class="chip-button-anchor" *ngFor="let location of beast.locations" href="{{location.link}}" target="_blank">
+            <a class="chip-button-anchor" *ngFor="let location of beast.locations" href="{{location.link}}"
+              target="_blank">
               <div class="chip-button">
                 <p>{{location.location}}</p>
               </div>

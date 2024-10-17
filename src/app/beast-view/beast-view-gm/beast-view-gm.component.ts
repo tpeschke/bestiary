@@ -77,6 +77,8 @@ export class BeastViewGmComponent implements OnInit {
   public showFlaws = false
   public showBurdens = false
   public isNaturalCreatureOrInsect = false;
+  public isCarriedEquipmentLoading = false;
+  public isLairEquipmentLoading = false;
 
   public groupId = null
 
@@ -387,10 +389,14 @@ export class BeastViewGmComponent implements OnInit {
     const lairLoot = this.getLairLoot()
     const carriedLoot = this.getCarriedLoot()
 
-    this.beastService.getTreasure({ requestArray: [lairLoot, carriedLoot] }).subscribe(treasure => {
-      this.lairLoot = [...this.lairLoot, ...treasure[0]]
-      this.carriedLoot = [...this.carriedLoot, ...treasure[1]]
-    })
+    setTimeout(_=> {
+      this.beastService.getTreasure({ requestArray: [lairLoot, carriedLoot] }).subscribe(treasure => {
+        this.isCarriedEquipmentLoading = false;
+        this.isLairEquipmentLoading = false;
+        this.lairLoot = [...this.lairLoot, ...treasure[0]]
+        this.carriedLoot = [...this.carriedLoot, ...treasure[1]]
+      })
+    }, 10000)
   }
 
   getLairLoot() {
@@ -468,6 +474,7 @@ export class BeastViewGmComponent implements OnInit {
           const { number, chance, detailing, itemcategory, materialrarity, wear } = items[i]
           for (let n = 0; n < number; n++) {
             if (rollDice('1d100') <= chance) {
+              this.isLairEquipmentLoading = true
               itemArray.push({ detailing, itemcategory, materialrarity, wear: wear.split('d')[1] })
             }
           }
@@ -584,6 +591,7 @@ export class BeastViewGmComponent implements OnInit {
           const { number, chance, detailing, itemcategory, materialrarity, wear } = items[i]
           for (let n = 0; n < number; n++) {
             if (rollDice('1d100') <= chance) {
+              this.isCarriedEquipmentLoading = true
               itemArray.push({ detailing, itemcategory, materialrarity, wear: wear.split('d')[1] })
             }
           }
