@@ -104,7 +104,7 @@ module.exports = {
                     flanks: 'majWk',
                     rangeddefense: 'majWk',
                     alldefense: 'majWk',
-                    attack: 'majSt',
+                    attack: 'majWk',
                     caution: 'minSt',
                     fatigue: 'minSt',
                     initiative: 'minWk',
