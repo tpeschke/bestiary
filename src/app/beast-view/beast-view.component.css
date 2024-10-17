@@ -25,7 +25,7 @@ strong {
     margin: 5px 0;
 }
 
-.belief-display {
+.belief-display, .scenario-display {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -33,12 +33,17 @@ strong {
     padding: 0 10px;
 }
 
-.belief-display:nth-child(even) {
+.belief-display:nth-child(even), .scenario-display:nth-child(even) {
     background: lightgray;
 }
 
 .belief-display mat-form-field {
     width: 47%;
+    margin-right: 0;
+}
+
+.scenario-display mat-form-field {
+    width: 95%;
     margin-right: 0;
 }
 

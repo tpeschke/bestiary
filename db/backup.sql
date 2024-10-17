@@ -546,3 +546,9 @@ create table bblairitems (
     chance int,
     number int
 );
+
+create table bbscenarios (
+    id serial primary key,
+    beastid int,
+    scenario varchar(500)
+); 

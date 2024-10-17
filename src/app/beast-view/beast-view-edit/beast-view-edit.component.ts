@@ -235,6 +235,8 @@ export class BeastViewEditComponent implements OnInit {
     truth: null
   }
 
+  public scenario = null
+
   public weights = []
 
   combatRolesInfo = roles.combatRoles.primary;
@@ -605,7 +607,8 @@ export class BeastViewEditComponent implements OnInit {
             habitat: [],
             attack: [],
             defense: []
-          }
+          },
+          scenarios: []
         }
       }
 
@@ -2122,6 +2125,24 @@ export class BeastViewEditComponent implements OnInit {
         belief: null,
         truth: null
       }
+    }
+  }
+
+  captureScenario(index, event) {
+    this.scenario[index].scenario = event.target.value
+  }
+
+  deleteScenarioEntry(index) {
+    this.beast.scenarios.splice(index, 1)
+  }
+
+  captureNewScenario(event) {
+    this.scenario = event.target.value
+
+    if (this.scenario) {
+      this.beast.scenarios.push({ scenario: this.scenario})
+      event.target.value = null
+      this.scenario = null
     }
   }
 

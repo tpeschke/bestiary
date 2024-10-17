@@ -583,6 +583,11 @@ module.exports = {
           return result
         }).catch(e => sendErrorForward('beast carried ranks', e, res)))
 
+        promiseArray.push(db.get.scenarios(id).then(result => {
+          beast.scenarios = result
+          return result
+        }).catch(e => sendErrorForward('beast carried scenarios', e, res)))
+
         beast.tables = {
           habitat: [],
           attack: [],

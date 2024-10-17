@@ -1351,8 +1351,10 @@
         </div>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Random Encounters">
+    <mat-tab label="Encounters">
       <div class="tab-wrapper" id="random-encounter-tab">
+        <h2>Random Encounters</h2>
+        <div class="divider"></div>
         <div *ngIf="encounter" class="random-encounters">
           <div class="random-container">
             <table class="first-column-left">
@@ -1634,6 +1636,27 @@
               [disabled]="!signs.sign || !signs.weight"><i class="fa-solid fa-plus"></i></button> -->
           </div>
         </div>
+
+        <h2>Scenarios</h2>
+        <div class="divider"></div>
+        <div>
+          <div *ngFor="let scenario of beast.scenarios; let i = index" class="scenario-display">
+            <mat-form-field>
+              <input matInput placeholder="Scenario" [value]="scenario.scenario" max="500"
+                (input)="captureScenario(i, $event)">
+              <mat-hint align="end">{{scenario.scenario.length}}/500</mat-hint>
+            </mat-form-field>
+            <i (click)="deleteScenarioEntry(i)" class="fa-solid fa-trash"></i>
+          </div>
+          <div class="scenario-display">
+            <mat-form-field>
+              <input matInput placeholder="Scenario" [value]="scenario" max="500"
+                (blur)="captureNewScenario($event)">
+              <mat-hint align="end">{{scenario ? scenario.length : 0}}/500</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+
       </div>
     </mat-tab>
     <mat-tab label="Loot">
@@ -2782,20 +2805,21 @@
                     <h3><i class="fa-solid fa-plus icon-medium"></i> New Location</h3>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
-      
+
                 <div class="new-roll-shell">
                   <mat-form-field>
-                    <input #locationLocation placeholder="Location" matInput (change)="captureNewLocation('location', $event)">
+                    <input #locationLocation placeholder="Location" matInput
+                      (change)="captureNewLocation('location', $event)">
                   </mat-form-field>
-        
+
                   <mat-form-field>
                     <input #locationLink placeholder="Link" matInput (change)="captureNewLocation('link', $event)">
                   </mat-form-field>
-        
+
                   <button mat-raised-button (click)="addNewLocation()" color="accent"><i
                       class="fa-solid fa-plus icon-medium"></i> Location</button>
                 </div>
-      
+
               </mat-expansion-panel>
             </mat-accordion>
           </div>

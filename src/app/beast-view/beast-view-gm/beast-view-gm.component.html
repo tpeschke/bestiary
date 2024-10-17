@@ -675,6 +675,16 @@
           <p class="text-indent">This Monster Currently Has No Random Encounter Information.</p>
         </div>
 
+        <div *ngIf="beast.scenarios.length">
+          <div class="divider"></div>
+          <div class="box-padding">
+            <h3>Scenarios</h3>
+            <div *ngFor="let scenario of beast.scenarios" class="belief-display-view">
+              <p><i class="fa-solid fa-star-of-life"></i> {{scenario.scenario}}</p>
+            </div>
+          </div>
+        </div>
+
         <div class="divider"></div>
         <div class="flex-row-opposite padding-without-flex">
           <h3>Combat Hash</h3>

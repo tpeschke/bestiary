@@ -46,6 +46,17 @@ const saveUpdateFunctions = {
             }
         })
     },
+    upsertScenarios: (promiseArray, db, id, res, scenarios) => {
+        promiseArray.push(db.delete.scenarios([id, [0, ...scenarios.map(scenario => scenario.id)]]).then(_ => {
+            return scenarios.map(({ id: uniqueid, scenario }) => {
+                if (!uniqueid) {
+                    return db.add.scenario(id, scenario).catch(e => sendErrorForward('update beast add scenario', e, res))
+                } else {
+                    return db.update.scenario(uniqueid, scenario).catch(e => sendErrorForward('update beast update scenario', e, res))
+                }
+            })
+        }).catch(e => sendErrorForward('update beast delete folkore', e, res)))
+    },
     upsertCombats: (promiseArray, db, id, res, combatStatArray) => {
         promiseArray.push(db.delete.combatStats([id, [0, ...combatStatArray.map(combatStat => combatStat.id)]]).then(_ => {
             return combatStatArray.map(({ id: uniqueid, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing,
