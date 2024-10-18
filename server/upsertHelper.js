@@ -47,6 +47,7 @@ const saveUpdateFunctions = {
         })
     },
     upsertScenarios: (promiseArray, db, id, res, scenarios) => {
+        console.log(scenarios)
         promiseArray.push(db.delete.scenarios([id, [0, ...scenarios.map(scenario => scenario.id)]]).then(_ => {
             return scenarios.map(({ id: uniqueid, scenario }) => {
                 if (!uniqueid) {

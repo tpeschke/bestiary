@@ -2129,7 +2129,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   captureScenario(index, event) {
-    this.scenario[index].scenario = event.target.value
+    this.beast.scenarios[index].scenario = event.target.value
   }
 
   deleteScenarioEntry(index) {
