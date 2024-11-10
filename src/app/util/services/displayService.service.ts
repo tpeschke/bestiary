@@ -79,4 +79,44 @@ export class DisplayServiceService {
     }
   }
 
+  tooltipName(combatrole, secondarycombat, socialrole, socialsecondary, skillrole) {
+    let nameString = ''
+    let roles = false
+
+    let name = ''
+
+    if (combatrole || socialrole || skillrole) {
+      nameString += ' ['
+      roles = true
+    }
+    if (combatrole) {
+      nameString += `${combatrole}`
+      if (secondarycombat) {
+        nameString += ` (${secondarycombat})`
+      }
+    }
+    if (socialrole) {
+      if (nameString.length > name.length + 3) {
+        nameString += '/'
+      }
+      nameString += `${socialrole}`
+      if (socialsecondary) {
+        nameString += ` (${socialsecondary})`
+      }
+    }
+    if (skillrole) {
+      if (nameString.length > name.length + 3) {
+        nameString += '/'
+      }
+      nameString += `${skillrole}`
+    }
+
+    if (roles) {
+      nameString += ']'
+    }
+
+    return nameString
+  }
+
+
 }

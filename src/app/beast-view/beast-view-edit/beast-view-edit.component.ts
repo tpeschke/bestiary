@@ -9,6 +9,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map, switchMap, debounceTime } from 'rxjs/operators';
 import { CalculatorService } from 'src/app/util/services/calculator.service';
+import { DisplayServiceService } from 'src/app/util/services/displayService.service';
 
 @Component({
   selector: 'app-beast-view-edit',
@@ -40,6 +41,7 @@ export class BeastViewEditComponent implements OnInit {
     private router: Router,
     private beastService: BeastService,
     private calculatorService: CalculatorService,
+    private displayService: DisplayServiceService
   ) { }
 
   objectKeys = Object.keys;

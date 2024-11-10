@@ -19,7 +19,7 @@ export class EquipmentDisplayComponent implements OnInit {
     materialrarity: 'C',
     detailing: 'N',
     wear: '1d4',
-    chance: 10,
+    chance: 5,
     number: 1,
   }
 

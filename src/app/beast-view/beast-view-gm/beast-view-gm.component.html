@@ -41,10 +41,12 @@
           <h2>Role</h2>
           <mat-form-field>
             <mat-select (selectionChange)="setRole($event)" [(value)]="selectedRoleId">
-              <mat-option
-                matTooltip="{{(tooltipName(role.role, role.secondaryrole, role.socialrole, role.socialsecondary, role.skillrole))}}"
-                matTooltipPosition="right" *ngFor="let role of beast.roles" [value]="role.id">
-                {{role.name}}
+              <mat-select-trigger>{{beast.roleInfo[selectedRoleId].name}}</mat-select-trigger>
+              <mat-option *ngFor="let role of beast.roles" [value]="role.id">
+                <span class="role-select-span">
+                  {{role.name}}
+                  <p class="role-select-subtitle">{{(displayService.tooltipName(role.role, role.secondaryrole, role.socialrole, role.socialsecondary, role.skillrole))}}</p>
+                </span>
               </mat-option>
             </mat-select>
           </mat-form-field>

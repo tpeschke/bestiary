@@ -1132,6 +1132,15 @@ mat-form-field.fatigue-field {
     font-size: 12px;
 }
 
+.role-select-span {
+    display: flex;
+    justify-content: space-between;
+}
+
+.role-select-subtitle {
+    font-size: 10px;
+}
+
 @media (max-width: 1295px) {
     .lairLoot li {
         width: 45%;

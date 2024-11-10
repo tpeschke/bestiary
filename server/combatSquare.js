@@ -1230,8 +1230,8 @@ const scalingAndBases = {
             majSt: 3,
             minSt: 2,
             none: 0,
-            minWk: -2,
-            majWk: -4
+            minWk: -3,
+            majWk: -5
         },
         bonus: {
             majSt: 1.1,
@@ -1390,8 +1390,8 @@ const scalingAndBases = {
             majSt: 5,
             minSt: 3,
             none: 0,
-            minWk: -3,
-            majWk: -5
+            minWk: -2,
+            majWk: -3
         },
         bonus: {
             majSt: 1.25,
