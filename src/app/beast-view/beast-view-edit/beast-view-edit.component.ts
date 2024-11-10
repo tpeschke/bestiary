@@ -2119,10 +2119,11 @@ export class BeastViewEditComponent implements OnInit {
 
   captureNewFolklore(type, event) {
     this.folklore[type] = event.target.value
+  }
 
+  addNewFolklore() {
     if (this.folklore.belief && this.folklore.truth) {
       this.beast.folklore.push(this.folklore)
-      event.target.value = null
       this.folklore = {
         belief: null,
         truth: null
@@ -2140,10 +2141,11 @@ export class BeastViewEditComponent implements OnInit {
 
   captureNewScenario(event) {
     this.scenario = event.target.value
+  }
 
+  addNewScenario() {
     if (this.scenario) {
       this.beast.scenarios.push({ scenario: this.scenario})
-      event.target.value = null
       this.scenario = null
     }
   }
