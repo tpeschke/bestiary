@@ -83,3 +83,10 @@ p {
 .rec-shell:hover i {
     color: rgb(0, 245, 0)
 }
+
+
+@media (max-width: 1136px) {
+    .combat-info {
+        width: 100%;
+    }
+}
