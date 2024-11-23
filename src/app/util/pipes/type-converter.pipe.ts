@@ -43,7 +43,7 @@ export class TypeConverterPipe implements PipeTransform {
         return 'Symbiote';
       case 18:
         return 'Ooze';
-      case 19:
+      case 51:
         return 'Giant';
       default:
         return value;
