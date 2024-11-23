@@ -50,7 +50,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <button (click)="getRoleShortCutURL()" matTooltip="This creates a link that will go directly to this Role"
+          <button (click)="getRoleShortCutURL()" [matTooltip]="modifier ? 'This creates a link that will go directly to this Role with the ' + modifier + ' Rating Modifier' : 'This creates a link that will go directly to this Role'"
             class="copyURLButton"><i class="fas fa-link"></i></button>
         </div>
 
@@ -306,8 +306,12 @@
             <div class="flex-row-opposite">
               <h3>Vitality</h3>
               <span class="vitality-flex">
-                <p>
-                  {{findWhatToDisplay('physical', 'largeweapons', 'N/A')}}</p>
+                <span>
+                  <p>
+                    {{findWhatToDisplay('physical', 'largeweapons', 'N/A')}}</p>
+                  <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].isincorporeal : beast.isincorporeal" class="vitality-marker" matTooltip="This creature takes no damage from any source except those specifically called out" src="./assets/incorporeal.png" alt="Incorporeal">
+                  <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].weaponbreakagevitality : beast.weaponbreakagevitality" class="vitality-marker" matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis" src="./assets/weapon-breakage.png" alt="Weapon Breakage Vitality">
+                </span>
                 <p class="vitality-flex-subtitle">{{selectedRoleId ?
                   beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.diceString :
                   beast.phyiscalAndStress.physical.diceString}}</p>
@@ -327,6 +331,8 @@
                   beast.phyiscalAndStress.physical.fatigue, displayedVitalityRoll)}}) </p>
                 <p> / </p>
                 <p> {{displayedVitalityRoll}} </p>
+                <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].isincorporeal : beast.isincorporeal" class="vitality-marker" matTooltip="This creature takes no damage from any source except those specifically called out" src="./assets/incorporeal.png" alt="Incorporeal">
+                <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].weaponbreakagevitality : beast.weaponbreakagevitality" class="vitality-marker" matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis" src="./assets/weapon-breakage.png" alt="Weapon Breakage Vitality">
               </div>
             </div>
 
@@ -749,7 +755,7 @@
             <p>{{beast.rarity | rarityConverter}} <i class="fas fa-info-circle icon-small blue"
                 matTooltip="+{{getRarityModifier(beast.rarity)}} to Monster Craft Checks"></i></p>
           </div>
-          <div *ngIf="beast.rarity" class="flex-row-opposite">
+          <div class="flex-row-opposite">
             <h3>Rating Modifier</h3>
             <div>
               <mat-form-field>
@@ -779,7 +785,7 @@
                 </mat-select>
               </mat-form-field>
               <button *ngIf="modifier" (click)="getModifierShortCutURL()"
-                matTooltip="This creates a link that will go directly to this Role" class="copyURLButton"><i
+                matTooltip="This creates a link that will go directly to this Role with this modifer" class="copyURLButton"><i
                   class="fas fa-link"></i></button>
             </div>
           </div>

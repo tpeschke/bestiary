@@ -129,7 +129,7 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons, rolenameorder, mainsocialpoints, rolesocialpoints, mainskillpoints, roleskillpoints, mainrollundertrauma, rolerollundertrauma } = result[0]
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons, rolenameorder, mainsocialpoints, rolesocialpoints, mainskillpoints, roleskillpoints, mainrollundertrauma, rolerollundertrauma, mainisincorporeal, roleisincorporeal, mainweaponbreakagevitality, roleweaponbreakagevitality } = result[0]
       let beast = { name, roleid, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: (rolepoints || rolepoints === 0 ? rolepoints : mainpoints) + modifiers.pointModifier, notrauma }
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
@@ -142,6 +142,8 @@ module.exports = {
         beast.role = baseroletype
         beast.secondaryrole = basesecondaryrole
         beast.singledievitality = mainsingledievitality
+        beast.isincorporeal = mainisincorporeal
+        beast.weaponbreakagevitality = mainweaponbreakagevitality
         beast.knockback = mainknockback
         beast.panicstrength = mainpanicstrength
         beast.cautionstrength = maincautionstrength
@@ -184,6 +186,8 @@ module.exports = {
         secondaryRoleToUse = secondaryroletype
 
         beast.singledievitality = rolesingledievitality
+        beast.isincorporeal = roleisincorporeal
+        beast.weaponbreakagevitality = roleweaponbreakagevitality
         beast.knockback = roleknockback
         beast.panicstrength = rolepanicstrength
         beast.cautionstrength = rolecautionstrength
@@ -663,6 +667,8 @@ module.exports = {
               knockback: result[i].knockback,
               largeweapons: result[i].largeweapons,
               singledievitality: result[i].singledievitality,
+              isincorporeal: result[i].isincorporeal,
+              weaponbreakagevitality: result[i].weaponbreakagevitality,
               noknockback: result[i].noknockback,
               descriptionshare: result[i].descriptionshare,
               convictionshare: result[i].convictionshare,

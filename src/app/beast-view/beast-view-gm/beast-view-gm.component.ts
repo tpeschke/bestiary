@@ -839,6 +839,8 @@ export class BeastViewGmComponent implements OnInit {
             largeweapons: roleInfo ? roleInfo.largeweapons : this.beast.largeweapons,
             fatigue: roleInfo ? roleInfo.fatigue : this.beast.fatigue,
             singledievitality: roleInfo ? roleInfo.singledievitality : this.beast.singledievitality,
+            isincorporeal: roleInfo ? roleInfo.isincorporeal : this.beast.isincorporeal,
+            weaponbreakagevitality: roleInfo ? roleInfo.weaponbreakagevitality : this.beast.weaponbreakagevitality,
             noknockback: roleInfo ? roleInfo.noknockback : this.beast.noknockback
           }
           const combatpoints = (roleInfo ? roleInfo.combatpoints : this.beast.combatpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
@@ -863,6 +865,8 @@ export class BeastViewGmComponent implements OnInit {
           largeweapons: this.beast.largeweapons,
           fatigue: this.beast.fatigue,
           singledievitality: this.beast.singledievitality,
+          isincorporeal: this.beast.isincorporeal,
+          weaponbreakagevitality: this.beast.weaponbreakagevitality,
           noknockback: this.beast.noknockback
         }
         const combatpoints = this.beast.combatpoints + (this.modifier ? this.modifierDictionary[this.modifier] : 0)

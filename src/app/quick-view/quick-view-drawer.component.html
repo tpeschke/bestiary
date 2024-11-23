@@ -73,6 +73,8 @@
                   </mat-form-field>
                   <p> / ({{quickViewService.quickViewArray[beastIndex].phyiscalAndStress.physical.fatigue >= vitalities.vitality ? 'N' : quickViewService.quickViewArray[beastIndex].phyiscalAndStress.physical.fatigue}}) /
                     {{vitalities.vitality}}</p>
+                  <img *ngIf="beast.isincorporeal" class="vitality-marker" matTooltip="This creature takes no damage from any source except those specifically called out" src="./assets/incorporeal.png" alt="Incorporeal">
+                  <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].weaponbreakagevitality : beast.weaponbreakagevitality" class="vitality-marker" matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis" src="./assets/weapon-breakage.png" alt="Weapon Breakage Vitality">
                 </div>
               </div>
 

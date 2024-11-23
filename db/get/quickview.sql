@@ -10,7 +10,8 @@ r.singledievitality as rolesingledievitality, r.knockback as roleknockback, r.pa
 r.fatiguestrength as rolefatiguestrength, r.stressstrength as rolestressstrength, r.mental as rolemental, 
 r.largeweapons as rolelargeweapons, rolenameorder, main.socialpoints as mainsocialpoints, r.socialpoints as rolesocialpoints, 
 main.skillpoints as mainskillpoints, r.skillpoints as roleskillpoints, main.rollundertrauma as mainrollundertrauma, 
-r.rollundertrauma as rolerollundertrauma
+r.rollundertrauma as rolerollundertrauma, main.isIncorporeal as mainisIncorporeal, r.isIncorporeal as roleisIncorporeal,
+r.weaponbreakagevitality as roleweaponbreakagevitality, main.weaponbreakagevitality as mainweaponbreakagevitality
 from bbindividualbeast main
 left join bbroles r on main.id = r.beastid
 where main.hash = $1 or r.hash = $1

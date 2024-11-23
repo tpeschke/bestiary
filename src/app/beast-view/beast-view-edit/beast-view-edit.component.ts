@@ -1353,6 +1353,8 @@ export class BeastViewEditComponent implements OnInit {
       role.skillpoints = roleInfo.skillpoints
       role.knockback = roleInfo.knockback
       role.singledievitality = roleInfo.singledievitality
+      role.isIncorporeal = roleInfo.isIncorporeal
+      role.weaponbreakagevitality = roleInfo.weaponbreakagevitality
       role.noknockback = roleInfo.noknockback
       role.rollundertrauma = roleInfo.rollundertrauma
       roles.attack = roleInfo.attack
@@ -2237,6 +2239,8 @@ export class BeastViewEditComponent implements OnInit {
       largeweapons: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].largeweapons : this.beast.largeweapons,
       fatigue: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].fatigue : this.beast.fatigue,
       singledievitality: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].singledievitality : this.beast.singledievitality,
+      isincorporeal: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].isincorporeal : this.beast.isincorporeal,
+      weaponbreakagevitality: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].weaponbreakagevitality : this.beast.weaponbreakagevitality,
       noknockback: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].noknockback : this.beast.noknockback
     }
 
