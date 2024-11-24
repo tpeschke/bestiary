@@ -1320,7 +1320,7 @@ export class BeastViewGmComponent implements OnInit {
       skillrole: basicSkillRole, notes, movement, rolenameorder, roleInfo, hash, combatStatArray,
       knockback: basicKnockback, notrauma: basicTrauma, noknockback: basicnoknockback, phyiscalAndStress, locationalvitality,
       spells, skills, challenges, obstacles, conflict, rollundertrauma: basicRollUnderTrauma, atk_skill,
-      def_skill, atk_conf, def_conf } = this.beast
+      def_skill, atk_conf, def_conf, isincorporeal: basicisincorporeal, weaponbreakagevitality: basicweaponbreakagevitality } = this.beast
 
     const selectedRoleInfo = roleInfo[this.selectedRoleId]
 
@@ -1353,6 +1353,8 @@ export class BeastViewGmComponent implements OnInit {
     const noknockback = this.selectedRoleId ? selectedRoleInfo.noknockback : basicnoknockback
     const physical = this.selectedRoleId ? selectedRoleInfo.phyiscalAndStress.physical : phyiscalAndStress.physical
     const mental = this.selectedRoleId ? selectedRoleInfo.phyiscalAndStress.mental : phyiscalAndStress.mental
+    const isincorporeal = this.selectedRoleId && selectedRoleInfo.isincorporeal ? selectedRoleInfo.isincorporeal : basicisincorporeal
+    const weaponbreakagevitality = this.selectedRoleId && selectedRoleInfo.weaponbreakagevitality ? selectedRoleInfo.weaponbreakagevitality : basicweaponbreakagevitality
 
     let beastObj = {
       portrait: 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + id + '-token',
@@ -1374,9 +1376,10 @@ export class BeastViewGmComponent implements OnInit {
         secondary: combatsecondary,
         attacks: combatStatArray.filter(combat => combat.roleid === this.selectedRoleId).map(combat => combat.combatSquare),
         physical: {
-          ...physical, knockback, notrauma, noknockback, size, senses, rollundertrauma,
+          ...physical, knockback, notrauma, noknockback, size, senses, rollundertrauma, isincorporeal, weaponbreakagevitality,
           locationalvitality: locationalvitality.filter(location => location.roleid === this.selectedRoleId || location.allroles),
           movement: movement.filter(move => move.roleid === this.selectedRoleId || move.allroles),
+
         },
       },
       spells: spells.filter(spell => spell.roleid === this.selectedRoleId || spell.allroles),
