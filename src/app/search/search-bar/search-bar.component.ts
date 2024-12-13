@@ -63,7 +63,7 @@ export class SearchBarComponent implements OnInit {
     {id: 17, code: 'Dsd', climate: 'Mediterranean Freezing Subartic', examples: 'Russia'},
     {id: 18, code: 'Dwa', climate: 'Monsoon Hot-Summer Humid', examples: 'South Korea, China, Nebraska'},
     {id: 19, code: 'Dwb', climate: 'Monsoon Warm-Summer Humid', examples: 'Mongolia, Calgary, Irkutsk'},
-    {id: 20, code: 'Dwc', climate: 'Monsoon Subartic, Russia, Alaska'},
+    {id: 20, code: 'Dwc', climate: 'Monsoon Subartic', examples: 'Russia, Alaska'},
     {id: 21, code: 'Dwd', climate: 'Monsoon Freezing Subartic', examples: 'Russia'},
     {id: 22, code: 'Dfa', climate: 'Hot-Summer Humid Continental', examples: 'Kazakhstan, Chicago, Ontario'},
     {id: 23, code: 'Dfb', climate: 'Warm-Summer Humid Continental', examples: 'Chamonix, Alberta, Quebec'},
