@@ -76,6 +76,7 @@ export class BeastViewGmComponent implements OnInit {
   public showDevotions = false
   public showFlaws = false
   public showBurdens = false
+  public showCharacteristicsAnyway= false;
   public isNaturalCreatureOrInsect = false;
   public isCarriedEquipmentLoading = false;
   public isLairEquipmentLoading = false;
@@ -958,6 +959,10 @@ export class BeastViewGmComponent implements OnInit {
 
   toggleLootTables = () => {
     this.lootTablesAreShow = !this.lootTablesAreShow
+  }
+
+  toggleShowCharacteristics = () => {
+    this.showCharacteristicsAnyway = !this.showCharacteristicsAnyway
   }
 
   backoutOfEquipmentSelection = (square) => {

@@ -92,26 +92,12 @@ i {
     align-items: center;
 }
 
-.fake-icon-button {
-    border-radius: 5px;
-    width: 37px;
-    text-align: center;
-    background: lightgray;
-    display: flex;
-    margin-right: 5px;
-}
-
 .fake-icon-double-width {
     width: 58px;
 }
 
 .fake-icon-double-width i:first-child {
     margin-right: 5px;
-}
-
-.fake-icon-button:hover {
-    background: grey;
-    color: whitesmoke
 }
 
 .list-trash-shell-button i {

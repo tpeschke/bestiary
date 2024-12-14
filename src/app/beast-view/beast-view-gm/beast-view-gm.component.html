@@ -45,12 +45,14 @@
               <mat-option *ngFor="let role of beast.roles" [value]="role.id">
                 <span class="role-select-span">
                   {{role.name}}
-                  <p class="role-select-subtitle">{{(displayService.tooltipName(role.role, role.secondaryrole, role.socialrole, role.socialsecondary, role.skillrole))}}</p>
+                  <p class="role-select-subtitle">{{(displayService.tooltipName(role.role, role.secondaryrole,
+                    role.socialrole, role.socialsecondary, role.skillrole))}}</p>
                 </span>
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <button (click)="getRoleShortCutURL()" [matTooltip]="modifier ? 'This creates a link that will go directly to this Role with the ' + modifier + ' Rating Modifier' : 'This creates a link that will go directly to this Role'"
+          <button (click)="getRoleShortCutURL()"
+            [matTooltip]="modifier ? 'This creates a link that will go directly to this Role with the ' + modifier + ' Rating Modifier' : 'This creates a link that will go directly to this Role'"
             class="copyURLButton"><i class="fas fa-link"></i></button>
         </div>
 
@@ -73,80 +75,103 @@
               matTooltipClass="my-tooltip"></i></p>
         </div>
 
-        <div class="conflict-shell unset-width" *ngIf="showCharacteristicsSection">
-          <div class="conflict-inner-shell box-padding" *ngIf="showDescriptions">
-            <h3>Descriptions</h3>
-            <div class="divider white"></div>
-            <div *ngFor="let trait of beast.conflict.descriptions; let i = index">
-              <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
-                <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{getSocialRank('Descriptions', trait.strength, trait.adjustment)}}</h5>
+        <div class="conflict-shell unset-width"
+          *ngIf="showCharacteristicsSection || (selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes)">
+          <div *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes">
+            <div class="flex-row-opposite">
+              <p><i *ngIf="beast.archetype.reverse" class="fa-solid fa-right-left blue" matTooltip="Completely reverse this Archetype.
+                Example: 'Rogue with a heart of gold' > 'A nice guy with a vile heart'">
+                </i>
+                <i *ngIf="beast.archetype.deviation" class="fa-solid fa-arrows-split-up-and-left blue" matTooltip="Change one thing about this Archetype.
+                Example: 'Rogue with a heart of gold' > 'A rogue with a vile heart'"></i>
+                {{beast.archetype.archetype}}
+              </p>
+              <div>
+                <p>{{beastService.getDiceFromPoints((selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints :
+                  beast.socialpoints) + (modifier && modifier !== 'Unique' ?
+                  modifierDictionary[modifier] : 0))}}{{modifier === 'Unique' ? ', roll twice, take highest result' :
+                  ''}}
+                  <i *ngIf="showCharacteristicsSection" (click)="toggleShowCharacteristics()"
+                    class="fa-solid fa-chevron-down fake-icon-button" matTooltip="Generate a full set of Characteristics"></i>
+                </p>
               </div>
             </div>
           </div>
-
-          <div class="conflict-inner-shell box-padding" *ngIf="showConvictions">
-            <h3>Convictions</h3>
-            <div class="divider white"></div>
-            <div *ngFor="let trait of beast.conflict.convictions; let i = index">
-              <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
-                <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{getSocialRank('Convictions', trait.strength, trait.adjustment)}}</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="conflict-inner-shell box-padding" *ngIf="showDevotions">
-            <h3>Relationships</h3>
-            <div class="divider white"></div>
-            <div *ngFor="let trait of beast.conflict.devotions; let i = index">
-              <div *ngIf="selectedRoleId === trait.socialroleid || trait.allroles" class="flex-row-opposite">
-                <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{getSocialRank('Devotions', trait.strength, trait.adjustment)}}</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="conflict-inner-shell box-padding" *ngIf="showFlaws">
-            <h3>Flaws</h3>
-            <div class="divider white"></div>
-            <div *ngFor="let trait of beast.conflict.flaws; let i = index">
-              <div *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait !== 'Any'"
-                class="flex-row-opposite">
-                <h5>{{trait.trait | titlecase}}</h5>
-              </div>
-              <div class="inline-loading"
-                *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait === 'Any'">
-                <div class="spinner">
-                  <div class="bounce1"></div>
-                  <div class="bounce2"></div>
-                  <div class="bounce3"></div>
+          <div
+            *ngIf="showCharacteristicsSection && (!(selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes) || showCharacteristicsAnyway)">
+            <div class="conflict-inner-shell box-padding" *ngIf="showDescriptions">
+              <h3>Descriptions</h3>
+              <div class="divider white"></div>
+              <div *ngFor="let trait of beast.conflict.descriptions; let i = index">
+                <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
+                  <h5>{{trait.trait | titlecase}}</h5>
+                  <h5>{{getSocialRank('Descriptions', trait.strength, trait.adjustment)}}</h5>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="conflict-inner-shell box-padding" *ngIf="showBurdens">
-            <h3>Burdens & Injuries</h3>
-            <div class="divider white"></div>
-            <div *ngFor="let trait of beast.conflict.burdens; let i = index">
-              <div *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait !== 'Any'"
-                class="flex-row-opposite">
-                <h5>{{trait.trait | titlecase}}</h5>
-                <h5>{{trait.value ? trait.value : ''}}</h5>
+            <div class="conflict-inner-shell box-padding" *ngIf="showConvictions">
+              <h3>Convictions</h3>
+              <div class="divider white"></div>
+              <div *ngFor="let trait of beast.conflict.convictions; let i = index">
+                <div class="flex-row-opposite" *ngIf="selectedRoleId === trait.socialroleid || trait.allroles">
+                  <h5>{{trait.trait | titlecase}}</h5>
+                  <h5>{{getSocialRank('Convictions', trait.strength, trait.adjustment)}}</h5>
+                </div>
               </div>
-              <div class="inline-loading"
-                *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait === 'Any'">
-                <div class="spinner">
-                  <div class="bounce1"></div>
-                  <div class="bounce2"></div>
-                  <div class="bounce3"></div>
+            </div>
+
+            <div class="conflict-inner-shell box-padding" *ngIf="showDevotions">
+              <h3>Relationships</h3>
+              <div class="divider white"></div>
+              <div *ngFor="let trait of beast.conflict.devotions; let i = index">
+                <div *ngIf="selectedRoleId === trait.socialroleid || trait.allroles" class="flex-row-opposite">
+                  <h5>{{trait.trait | titlecase}}</h5>
+                  <h5>{{getSocialRank('Devotions', trait.strength, trait.adjustment)}}</h5>
+                </div>
+              </div>
+            </div>
+
+            <div class="conflict-inner-shell box-padding" *ngIf="showFlaws">
+              <h3>Flaws</h3>
+              <div class="divider white"></div>
+              <div *ngFor="let trait of beast.conflict.flaws; let i = index">
+                <div *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait !== 'Any'"
+                  class="flex-row-opposite">
+                  <h5>{{trait.trait | titlecase}}</h5>
+                </div>
+                <div class="inline-loading"
+                  *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait === 'Any'">
+                  <div class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="conflict-inner-shell box-padding" *ngIf="showBurdens">
+              <h3>Burdens & Injuries</h3>
+              <div class="divider white"></div>
+              <div *ngFor="let trait of beast.conflict.burdens; let i = index">
+                <div *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait !== 'Any'"
+                  class="flex-row-opposite">
+                  <h5>{{trait.trait | titlecase}}</h5>
+                  <h5>{{trait.value ? trait.value : ''}}</h5>
+                </div>
+                <div class="inline-loading"
+                  *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait === 'Any'">
+                  <div class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
         <div
           *ngIf="(beast.atk_conf && (beast.atk_conf !== 'None' || beast.atk_conf !== 'None.')) || (selectedRoleId && beast.roleInfo[selectedRoleId].attack_conf)">
           <h3 class="margin-top">Confrontation Attack Info</h3>
@@ -309,8 +334,15 @@
                 <span>
                   <p>
                     {{findWhatToDisplay('physical', 'largeweapons', 'N/A')}}</p>
-                  <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].isincorporeal : beast.isincorporeal" class="vitality-marker" matTooltip="This creature takes no damage from any source except those specifically called out" src="./assets/incorporeal.png" alt="Incorporeal">
-                  <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].weaponbreakagevitality : beast.weaponbreakagevitality" class="vitality-marker" matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis" src="./assets/weapon-breakage.png" alt="Weapon Breakage Vitality">
+                  <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].isincorporeal : beast.isincorporeal"
+                    class="vitality-marker"
+                    matTooltip="This creature takes no damage from any source except those specifically called out"
+                    src="./assets/incorporeal.png" alt="Incorporeal">
+                  <img
+                    *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].weaponbreakagevitality : beast.weaponbreakagevitality"
+                    class="vitality-marker"
+                    matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis"
+                    src="./assets/weapon-breakage.png" alt="Weapon Breakage Vitality">
                 </span>
                 <p class="vitality-flex-subtitle">{{selectedRoleId ?
                   beast.roleInfo[selectedRoleId].phyiscalAndStress.physical.diceString :
@@ -331,8 +363,15 @@
                   beast.phyiscalAndStress.physical.fatigue, displayedVitalityRoll)}}) </p>
                 <p> / </p>
                 <p> {{displayedVitalityRoll}} </p>
-                <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].isincorporeal : beast.isincorporeal" class="vitality-marker" matTooltip="This creature takes no damage from any source except those specifically called out" src="./assets/incorporeal.png" alt="Incorporeal">
-                <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].weaponbreakagevitality : beast.weaponbreakagevitality" class="vitality-marker" matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis" src="./assets/weapon-breakage.png" alt="Weapon Breakage Vitality">
+                <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].isincorporeal : beast.isincorporeal"
+                  class="vitality-marker"
+                  matTooltip="This creature takes no damage from any source except those specifically called out"
+                  src="./assets/incorporeal.png" alt="Incorporeal">
+                <img
+                  *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].weaponbreakagevitality : beast.weaponbreakagevitality"
+                  class="vitality-marker"
+                  matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis"
+                  src="./assets/weapon-breakage.png" alt="Weapon Breakage Vitality">
               </div>
             </div>
 
@@ -785,8 +824,8 @@
                 </mat-select>
               </mat-form-field>
               <button *ngIf="modifier" (click)="getModifierShortCutURL()"
-                matTooltip="This creates a link that will go directly to this Role with this modifer" class="copyURLButton"><i
-                  class="fas fa-link"></i></button>
+                matTooltip="This creates a link that will go directly to this Role with this modifer"
+                class="copyURLButton"><i class="fas fa-link"></i></button>
             </div>
           </div>
           <div class="flex-row-opposite">

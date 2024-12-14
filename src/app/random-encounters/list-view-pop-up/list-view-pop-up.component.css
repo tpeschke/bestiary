@@ -11,21 +11,7 @@
     padding: 3px 0
 }
 
-.fake-icon-button {
-    width: 50px;
-    background: lightgray;
-    border-radius: 5px;
-    text-align: center;
-    padding: 5px 0px;
-    margin-top: 5px;
-}
-
 .button-shell {
     display: flex;
     justify-content: flex-end;
-}
-
-.fake-icon-button:hover {
-    background: gray;
-    color: whitesmoke
 }

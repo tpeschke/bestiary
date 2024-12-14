@@ -270,16 +270,16 @@ table {
   background: grey;
 }
 
-.fa-dice-d20 {
-  font-size: 25px;
-}
-
-.fa-plus {
+.fa-dice-d20, .fa-plus {
   font-size: 25px;
 }
 
 .icon-white {
   color: whitesmoke;
+}
+
+.icon-big {
+  font-size: 25px;
 }
 
 .icon-small {
@@ -293,6 +293,20 @@ table {
 .icon-blue {
   color: #607d8b;
   font-size: 15px
+}
+
+.fake-icon-button {
+  width: 50px;
+  background: lightgray;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5px 0px;
+  margin-top: 5px;
+}
+
+.fake-icon-button:hover {
+  background: gray;
+  color: whitesmoke
 }
 
 .ql-editor {

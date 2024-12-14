@@ -1157,6 +1157,20 @@ mat-form-field.fatigue-field {
     margin-top: 5px !important;
 }
 
+.redo-button:hover {
+    background: #d8481c;
+}
+
+.fake-icon-button {
+    width: unset;
+    padding: 0 5px;
+    background: unset;
+}
+
+.fake-icon-button:hover {
+    background: gray;
+}
+
 @media (max-width: 1295px) {
     .lairLoot li {
         width: 45%;
