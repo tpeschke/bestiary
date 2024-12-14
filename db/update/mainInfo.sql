@@ -6,5 +6,5 @@ plural = $25, thumbnail = $26, rarity = $27, cautionstrength = $28, role = $29, 
 secondaryrole = $34, skillrole = $35, skillpoints = $36, fatiguestrength = $37, defaultrole = $38, socialsecondary = $39, noTrauma = $40, 
 knockback = $41, singledievitality = $42, noknockback = $43, rolenameorder = $44, descriptionshare = $45, convictionshare = $46, 
 devotionshare = $47, rollundertrauma = $48, imagesource = $49, atk_skill = $50, def_skill = $51, atk_conf = $52, def_conf = $53, 
-isIncorporeal = $54, weaponbreakagevitality = $55, hasarchetypes = $54
+isIncorporeal = $54, weaponbreakagevitality = $55, hasarchetypes = $56
 where id = $33

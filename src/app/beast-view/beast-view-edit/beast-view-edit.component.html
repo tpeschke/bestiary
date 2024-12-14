@@ -548,6 +548,9 @@
             (change)="checkCheckBox($event.checked, 'hasarchetypes')"> This entry generates a character Archetype by
             default. </mat-checkbox>
           <br>
+          <button mat-raised-button *ngIf="beast.roles.length > 0" (click)="toggleArchetypesForAllRoles()" color="accent">Toggle
+            Archetypes for All Roles</button>
+          <br>
           <br>
           <mat-form-field *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes">
             <mat-label>Archetype Difficulty</mat-label>

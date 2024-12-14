@@ -2370,6 +2370,14 @@ export class BeastViewEditComponent implements OnInit {
     this.checkForDeleteRole = !this.checkForDeleteRole
   }
 
+  toggleArchetypesForAllRoles = () => {
+    this.beast.roles = this.beast.roles.map(role => {
+      role.hasarchetypes = !role.hasarchetypes
+      this.beast.roleInfo[role.id].hasarchetypes = role.hasarchetypes
+      return role
+    })
+  }
+
   deleteRole() {
     this.checkForDeleteRole = false
     this.beast.conflict.devotions.forEach((subcat, index) => {
