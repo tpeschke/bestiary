@@ -969,7 +969,19 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type] = checked
     }
 
+    if (type === 'hasarchetypes' && checked) {
+      if (this.selectedRoleId) {
+        this.beast.roleInfo[this.selectedRoleId].socialpoints = this.roundby5s(this.beast.roleInfo[this.selectedRoleId].socialpoints)
+      } else {
+        this.beast.socialpoints = this.roundby5s(this.beast.socialpoints)
+      }
+    }
+
     this.setVitalityAndStress()
+  }
+
+  roundby5s (amount) {
+    return Math.ceil(amount / 5) * 5;
   }
 
   checkAllRoles = (type, index, checked) => {
@@ -1357,12 +1369,14 @@ export class BeastViewEditComponent implements OnInit {
       role.weaponbreakagevitality = roleInfo.weaponbreakagevitality
       role.noknockback = roleInfo.noknockback
       role.rollundertrauma = roleInfo.rollundertrauma
-      roles.attack = roleInfo.attack
-      roles.defense = roleInfo.defense
-      roles.attack_conf = roleInfo.attack_conf
-      roles.defense_conf = roleInfo.defense_conf
-      roles.attack_skill = roleInfo.attack_skill
-      roles.defense_skill = roleInfo.defense_skill
+      role.attack = roleInfo.attack
+      role.defense = roleInfo.defense
+      role.attack_conf = roleInfo.attack_conf
+      role.defense_conf = roleInfo.defense_conf
+      role.attack_skill = roleInfo.attack_skill
+      role.defense_skill = roleInfo.defense_skill
+      role.hasarchetypes = roleInfo.hasarchetypes
+
       return role
     })
 
@@ -1698,7 +1712,7 @@ export class BeastViewEditComponent implements OnInit {
   addNewLocation() {
     let { location, link } = this.location
     this.beast.locations.push({ location, link })
-    
+
     this.location = {
       id: null,
       location: null,
@@ -1880,6 +1894,21 @@ export class BeastViewEditComponent implements OnInit {
     } else {
       this.beast.skillrole = event.value
       this.selectedSkillRole = this.skillRolesInfo[event.value]
+    }
+  }
+
+  setSocialPoints(event) {
+    const value = +event.value
+    if (this.selectedRoleId) {
+      for (let i = 0; i < this.beast.roles.length; i++) {
+        if (this.selectedRoleId === this.beast.roles[i].id) {
+          this.beast.roles[i].socialpoints = value
+          this.beast.roleInfo[this.selectedRoleId].socialpoints = value
+          i = this.beast.roles.length
+        }
+      }
+    } else {
+      this.beast.socialpoints = value
     }
   }
 
@@ -2147,7 +2176,7 @@ export class BeastViewEditComponent implements OnInit {
 
   addNewScenario() {
     if (this.scenario) {
-      this.beast.scenarios.push({ scenario: this.scenario})
+      this.beast.scenarios.push({ scenario: this.scenario })
       this.scenario = null
     }
   }

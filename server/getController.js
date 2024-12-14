@@ -632,6 +632,17 @@ module.exports = {
           }).catch(e => sendErrorForward('beast tables final promise', e, res))
         }).catch(e => sendErrorForward('beast tables', e, res)))
 
+        if (req.query.edit !== 'true') {
+          promiseArray.push(db.get.archetype().then(result => {
+            const chance = Math.floor(Math.random() * 100)
+            beast.archetype = {
+              archetype: result[0].archetype,
+              deviation: chance > 51 && chance < 75,
+              reverse: chance > 75
+            }
+          }))
+        }
+
         promiseArray.push(db.get.roles(id).then(result => {
           beast.roles = result
 
@@ -678,6 +689,7 @@ module.exports = {
               defense_conf: result[i].defense_conf,
               attack_skill: result[i].attack_skill,
               defense_skill: result[i].defense_skill,
+              hasarchetypes: result[i].hasarchetypes
             }
           }
           return result

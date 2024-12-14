@@ -668,7 +668,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <button mat-raised-button (click)="getRandomEncounter()" color="warn"><i class="fas fa-redo"></i></button>
+          <button class="redo-button" (click)="getRandomEncounter()"><i class="fas fa-redo"></i></button>
         </div>
 
         <div class="box-padding encounterShell" *ngIf="encounter === 'loading'">
@@ -970,8 +970,7 @@
               max="25" />
             <p>monsters</p>
           </div>
-          <button color="primary" mat-raised-button (click)="getLoot()" color="warn"><i
-              class="fas fa-redo"></i></button>
+          <button class="redo-button" (click)="getLoot()"><i class="fas fa-redo"></i></button>
         </div>
 
         <h2>

@@ -125,6 +125,21 @@ export class BeastService {
     }
   }
 
+  getDiceFromPoints (points) {
+    const pointDiceDictionary = {
+      0: '+0',
+      5: '+d10!',
+      10: '+d20!',
+      15: '+d20!+d10!',
+      20: '+2d20!',
+      25: '+2d20!+d10!',
+      30: '+3d20!',
+      35: '+4d20!+d10!',
+      40: '+3d20!'
+    }
+    return pointDiceDictionary[points]
+  }
+
   checkLogin() {
     return this.http.get(local.endpointBase + '/api/auth/me').pipe(
       map((result: User) => {

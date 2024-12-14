@@ -215,14 +215,12 @@
         <div class="belief-display">
           <mat-form-field>
             <input matInput placeholder="Belief" [value]="folklore.belief" max="500"
-              (input)="captureNewFolklore('belief', $event)"
-              (blur)="addNewFolklore()">
+              (input)="captureNewFolklore('belief', $event)" (blur)="addNewFolklore()">
             <mat-hint align="end">{{folklore.belief ? folklore.belief.length : 0}}/500</mat-hint>
           </mat-form-field>
           <mat-form-field>
             <input matInput placeholder="Truth" [value]="folklore.truth" max="500"
-              (input)="captureNewFolklore('truth', $event)"
-              (blur)="addNewFolklore()">
+              (input)="captureNewFolklore('truth', $event)" (blur)="addNewFolklore()">
             <mat-hint align="end">{{folklore.truth ? folklore.truth.length : 0}}/500</mat-hint>
           </mat-form-field>
         </div>
@@ -257,7 +255,8 @@
           <mat-option *ngFor="let role of beast.roles" [value]="role.id">
             <span class="role-select-span">
               {{role.name}}
-              <p class="role-select-subtitle">{{(displayService.tooltipName(role.role, role.secondaryrole, role.socialrole, role.socialsecondary, role.skillrole))}}</p>
+              <p class="role-select-subtitle">{{(displayService.tooltipName(role.role, role.secondaryrole,
+                role.socialrole, role.socialsecondary, role.skillrole))}}</p>
             </span>
           </mat-option>
         </mat-select>
@@ -281,7 +280,8 @@
 
       <mat-form-field>
         <mat-label>Name & Role Order</mat-label>
-        <mat-select (selectionChange)="captureSelect($event, 'rolenameorder')" [value]="beast.rolenameorder ? beast.rolenameorder : '1'">
+        <mat-select (selectionChange)="captureSelect($event, 'rolenameorder')"
+          [value]="beast.rolenameorder ? beast.rolenameorder : '1'">
           <mat-option value="1" selected="selected">
             {{beast.name}} {{beast.roleInfo[selectedRoleId].name}}
           </mat-option>
@@ -464,6 +464,7 @@
         <br>
         <mat-form-field>
           <input placeholder="Confrontation Points" matInput
+            [disabled]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes"
             [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints"
             (change)="captureBasicInput($event, 'socialpoints')" type="number">
         </mat-form-field>
@@ -538,6 +539,50 @@
               </div>
             </div>
           </div>
+        </div>
+        <br>
+        <div>
+          <h2>Archetype</h2>
+          <div class="divider"></div>
+          <mat-checkbox [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes"
+            (change)="checkCheckBox($event.checked, 'hasarchetypes')"> This entry generates a character Archetype by
+            default. </mat-checkbox>
+          <br>
+          <br>
+          <mat-form-field *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes">
+            <mat-label>Archetype Difficulty</mat-label>
+            <mat-select
+              [value]="(beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints) + ''"
+              (selectionChange)="setSocialPoints($event)">
+              <mat-option value="0">
+                {{beastService.getDiceFromPoints(0)}}
+              </mat-option>
+              <mat-option value="5">
+                {{beastService.getDiceFromPoints(5)}}
+              </mat-option>
+              <mat-option value="10">
+                {{beastService.getDiceFromPoints(10)}}
+              </mat-option>
+              <mat-option value="15">
+                {{beastService.getDiceFromPoints(15)}}
+              </mat-option>
+              <mat-option value="20">
+                {{beastService.getDiceFromPoints(20)}}
+              </mat-option>
+              <mat-option value="25">
+                {{beastService.getDiceFromPoints(25)}}
+              </mat-option>
+              <mat-option value="30">
+                {{beastService.getDiceFromPoints(30)}}
+              </mat-option>
+              <mat-option value="35">
+                {{beastService.getDiceFromPoints(35)}}
+              </mat-option>
+              <mat-option value="40">
+                {{beastService.getDiceFromPoints(40)}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
         <br>
         <div>
@@ -1048,8 +1093,15 @@
                 <p><strong>Fatigue: </strong> {{physical.fatigue}}</p>
                 <span class="vitality-span-tag">
                   <p><strong>Vitality: </strong> {{physical.largeweapons}}</p>
-                  <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].isincorporeal : beast.isincorporeal" class="vitality-marker" matTooltip="This creature takes no damage from any source except those specifically called out" src="./assets/incorporeal.png" alt="Incorporeal">
-                  <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].weaponbreakagevitality : beast.weaponbreakagevitality" class="vitality-marker" matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis" src="./assets/weapon-breakage.png" alt="Weapon Breakage Vitality">
+                  <img *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].isincorporeal : beast.isincorporeal"
+                    class="vitality-marker"
+                    matTooltip="This creature takes no damage from any source except those specifically called out"
+                    src="./assets/incorporeal.png" alt="Incorporeal">
+                  <img
+                    *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].weaponbreakagevitality : beast.weaponbreakagevitality"
+                    class="vitality-marker"
+                    matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis"
+                    src="./assets/weapon-breakage.png" alt="Weapon Breakage Vitality">
                   <p>{{physical.diceString}}</p>
                 </span>
                 <p><strong>Caution: </strong> {{mental.caution}}</p>
@@ -1070,15 +1122,19 @@
                 <div>
                   <mat-checkbox
                     [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].isincorporeal : beast.isincorporeal"
-                    (change)="checkCheckBox($event.checked, 'isincorporeal')">Incorporeal? <i class="fas fa-info-circle icon-small blue"
-                    matTooltip="This creature takes no damage from any source except those specifically called out" matTooltipClass="my-tooltip"></i>
+                    (change)="checkCheckBox($event.checked, 'isincorporeal')">Incorporeal? <i
+                      class="fas fa-info-circle icon-small blue"
+                      matTooltip="This creature takes no damage from any source except those specifically called out"
+                      matTooltipClass="my-tooltip"></i>
                   </mat-checkbox>
                 </div>
                 <div>
                   <mat-checkbox
                     [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].weaponbreakagevitality : beast.weaponbreakagevitality"
-                    (change)="checkCheckBox($event.checked, 'weaponbreakagevitality')">Weapon Breakage Vitality? <i class="fas fa-info-circle icon-small blue"
-                    matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis" matTooltipClass="my-tooltip"></i>
+                    (change)="checkCheckBox($event.checked, 'weaponbreakagevitality')">Weapon Breakage Vitality? <i
+                      class="fas fa-info-circle icon-small blue"
+                      matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis"
+                      matTooltipClass="my-tooltip"></i>
                   </mat-checkbox>
                 </div>
                 <div>
@@ -1388,8 +1444,7 @@
           </div>
           <div class="scenario-display">
             <mat-form-field>
-              <input matInput placeholder="Scenario" [value]="scenario" max="500"
-                (input)="captureNewScenario($event)"
+              <input matInput placeholder="Scenario" [value]="scenario" max="500" (input)="captureNewScenario($event)"
                 (blur)="addNewScenario($event)">
               <mat-hint align="end">{{scenario ? scenario.length : 0}}/500</mat-hint>
             </mat-form-field>
@@ -2665,7 +2720,7 @@
             <div>
               <mat-form-field>
                 <mat-label>Size</mat-label>
-                <mat-select 
+                <mat-select
                   [value]="selectedRoleId ? beast.roleInfo[selectedRoleId].size ? beast.roleInfo[selectedRoleId].size : beast.size : beast.size"
                   (selectionChange)="captureSelectWithRoleConsideration($event, 'size')">
                   <mat-option value="Fine">
