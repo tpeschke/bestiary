@@ -155,13 +155,13 @@
               <h3>Burdens & Injuries</h3>
               <div class="divider white"></div>
               <div *ngFor="let trait of beast.conflict.burdens; let i = index">
-                <div *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait !== 'Any'"
+                <div *ngIf="((selectedRoleId && selectedRoleId === trait.socialroleid) || trait.allroles) && trait.trait !== 'Any'"
                   class="flex-row-opposite">
                   <h5>{{trait.trait | titlecase}}</h5>
-                  <h5>{{trait.value ? trait.value : ''}}</h5>
+                  <h5>{{trait.severity}}</h5>
                 </div>
                 <div class="inline-loading"
-                  *ngIf="(selectedRoleId === trait.socialroleid || trait.allroles) && trait.trait === 'Any'">
+                  *ngIf="((selectedRoleId && selectedRoleId === trait.socialroleid) || trait.allroles) && trait.trait === 'Any'">
                   <div class="spinner">
                     <div class="bounce1"></div>
                     <div class="bounce2"></div>

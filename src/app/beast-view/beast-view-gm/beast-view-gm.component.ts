@@ -300,45 +300,38 @@ export class BeastViewGmComponent implements OnInit {
 
   handleAnyBurdens = () => {
     let anyCount = 0
-    this.beast.conflict.burdens.forEach(burden => burden.trait === 'Any' ? anyCount++ : null)
+    this.beast.conflict.burdens = this.beast.conflict.burdens.map(burden => {
+      burden.trait === 'Any' ? anyCount++ : null
+      const chance = Math.floor(Math.random() * 100);
+      const isRandom = +burden.value === 1
+      const isHigh = +burden.value === 2
+      const isMed = +burden.value === 3
+      const isLow = +burden.value === 4
+      if ((isRandom && chance > 33 && chance <= 66) || (isMed && chance >= 50) || (isLow && chance >= 50)) {
+        burden.severity = 'Minor'
+      } else if ((isRandom && chance > 66 && chance <= 100) || isHigh || (isMed && chance < 50)) {
+        burden.severity = 'Major'
+      } else {
+        burden.severity = null
+      }
+      return burden
+    })
     if (anyCount) {
       this.beastService.getAnyBurdens(anyCount).subscribe((result: any[]) => {
-        this.beast.conflict.burdens.map(burden => {
+        let newBurdenArray = []
+        this.beast.conflict.burdens.forEach(burden => {
           if (burden.trait === 'Any') {
             let rolledBurden = result.shift().ib
-            const severity = this.getBurdenSeverity(rolledBurden, burden.value)
             burden.trait = `${rolledBurden.ib}`
-            burden.severity ? null : burden.severity = severity
           }
-          return burden
+          if (burden.severity) {
+            newBurdenArray.push(burden)
+          }
         })
+        this.beast.conflict.burden = newBurdenArray
         this.beast.conflict.burdens = this.beast.conflict.burdens.sort((a, b) => +b.value - +a.value)
       })
     }
-  }
-
-  getBurdenSeverity = (burden, modifier) => {
-    if (burden.cap === 'n/a') {
-      burden.cap = 20
-    }
-    let severity = +Math.floor(Math.random() * Math.floor(burden.cap)) + 1
-
-    if (modifier === '2') {
-      severity = Math.floor(severity / 3)
-    } else if (modifier === '3') {
-      if (severity > (burden.cap / 2)) {
-        severity = severity - Math.ceil(severity / 3)
-      } else if (severity < (burden.cap / 2)) {
-        severity = severity + Math.ceil(severity / 3)
-      }
-    } else if (modifier === '4') {
-      severity *= 2
-      if (severity > burden.cap) {
-        severity = burden.cap
-      }
-    }
-
-    return severity
   }
 
   setLocationalVitality = () => {
