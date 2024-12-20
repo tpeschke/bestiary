@@ -88,6 +88,7 @@ export class BeastViewEditComponent implements OnInit {
   public selectedSkillRole = {}
   public imageUrl = null;
   public tokenExists: Boolean = false;
+  public roleTokenExists: Boolean = false
   public unusedRolesForEncounters = []
   public allBurdens;
   public allSpells;
@@ -1361,6 +1362,16 @@ export class BeastViewEditComponent implements OnInit {
     });
   }
 
+  onTokenRoleImagePicked(event: Event): void {
+    const FILE = (event.target as HTMLInputElement).files[0];
+    this.tokenImageObj = FILE;
+    const imageForm = new FormData();
+    imageForm.append('image', this.tokenImageObj);
+    this.beastService.uploadTokenImage(imageForm, `${this.beast.id}${this.selectedRoleId}`).subscribe(res => {
+      this.seeIfTokenExists()
+    });
+  }
+
   saveChanges() {
     this.beastService.handleMessage({ message: 'Saving Monster', color: 'yellow' })
     let id = this.route.snapshot.paramMap.get('id');
@@ -1828,6 +1839,7 @@ export class BeastViewEditComponent implements OnInit {
     }
 
     this.getImageUrl()
+    this.seeIfRoleTokenExists()
     this.setVitalityAndStress()
   }
 
@@ -2342,7 +2354,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   getImageUrl() {
-    this.imageUrl = this.imageBase + this.beast.id + (this.selectedRoleId ? `${this.selectedRoleId}` : '') + '?t=' + new Date().getTime()
+    this.imageUrl = this.imageBase + this.beast.id + (this.selectedRoleId ? `${this.selectedRoleId}` : '')
   }
 
   onImageError(event) {
@@ -2366,11 +2378,19 @@ export class BeastViewEditComponent implements OnInit {
     this.beastService.checkToken(this.beast.id).subscribe((res: Boolean) => {
       this.tokenExists = res
     })
+    this.seeIfRoleTokenExists()
   }
 
-  forceDownload() {
+  seeIfRoleTokenExists() {
+    this.beastService.checkToken(`${this.beast.id}${this.selectedRoleId}`).subscribe((res: Boolean) => {
+      this.roleTokenExists = res
+    })
+  }
+
+  forceDownload(isRole) {
     var xhr = new XMLHttpRequest();
-    const idToUse = this.tokenExists ? this.beast.id : this.beast.imagesource
+    const idBase = isRole ? this.beast.id + this.selectedRoleId : this.beast.id
+    const idToUse = this.tokenExists ? idBase : this.beast.imagesource
     xhr.open("GET", 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + idToUse + '-token', true);
     xhr.responseType = "blob";
     const beastName = this.beast.name

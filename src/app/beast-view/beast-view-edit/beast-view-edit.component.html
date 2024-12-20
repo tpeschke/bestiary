@@ -109,7 +109,7 @@
         <div>
           <h3>Preview</h3>
           <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" class="preview"
-            *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name" (error)="onImageError($event);">
+            *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name" (error)="onImageError($event);">
         </div>
       </div>
 
@@ -121,8 +121,21 @@
           <input id="file-upload-token" type="file" (change)="onTokenImagePicked($event)" />
         </div>
 
-        <div *ngIf="tokenExists || beast.imagesource" (click)="forceDownload()">
+        <div *ngIf="tokenExists || beast.imagesource" (click)="forceDownload(false)">
           <button mat-raised-button color="accent"><i class="fa-solid fa-download"></i> Download Token</button>
+        </div>
+      </div>
+      <br>
+      <div class="download-token-shell" *ngIf="beast.id && selectedRoleId">
+        <div>
+          <label mat-raised-button color="accent" for="file-upload-role-token" class="custom-file-upload">
+            <i class="fa fa-cloud-upload"></i> Upload Role Token
+          </label>
+          <input id="file-upload-role-token" type="file" (change)="onTokenRoleImagePicked($event)" />
+        </div>
+
+        <div *ngIf="roleTokenExists" (click)="forceDownload(true)">
+          <button mat-raised-button color="accent"><i class="fa-solid fa-download"></i> Download Role Token</button>
         </div>
       </div>
       <br>
