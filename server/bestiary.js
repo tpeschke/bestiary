@@ -260,14 +260,14 @@ app.patch('/api/movement', squareCtrl.getMovement)
 
 app.post('/api/beasts/add', ownerAuth, limitAuth, ctrl.addBeast)
 app.post('/api/obstacles/add', ownerAuth, obstCtrl.add)
-app.post('/api/v1/upload/:id', ownerAuth, uploadMain.array('image', 1), (req, res) => {
+app.post('/api/v1/upload/:beastid', ownerAuth, uploadMain.array('image', 1), (req, res) => {
     if (!req.file) {
         res.send({ message: 'Wrong file type, only upload JPEG and/or PNG', color: 'red' })
     } else {
         res.send({ image: req.file })
     }
 });
-app.post('/api/v1/uploadToken/:id', ownerAuth, uploadToken.array('image', 1), (req, res) => {
+app.post('/api/v1/uploadToken/:beastid', ownerAuth, uploadToken.array('image', 1), (req, res) => {
     if (!req.file) {
         res.send({ message: 'Wrong file type, only upload JPEG and/or PNG', color: 'red' })
     } else {

@@ -44,11 +44,20 @@
         <img *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name" (error)="onImageError($event);">
       </div>
 
-      <div class="margin-spacing" *ngIf="beast.id">
-        <label mat-raised-button color="accent" for="file-upload" class="custom-file-upload" matTooltip="10 MB limit">
-          <i class="fa fa-cloud-upload"></i> Upload Image
-        </label>
-        <input id="file-upload" type="file" (change)="onMainImagePicked($event)" />
+      <div class="margin-spacing flex-row-opposite" *ngIf="beast.id">
+        <div>
+          <label mat-raised-button color="accent" for="file-upload" class="custom-file-upload" matTooltip="10 MB limit">
+            <i class="fa fa-cloud-upload"></i> Upload Image
+          </label>
+          <input id="file-upload" type="file" (change)="onMainImagePicked($event)" />
+        </div>
+
+        <div *ngIf="selectedRoleId">
+          <label mat-raised-button color="accent" for="file-upload-role" class="custom-file-upload" matTooltip="10 MB limit">
+            <i class="fa fa-cloud-upload"></i> Upload Role Image
+          </label>
+          <input id="file-upload-role" type="file" (change)="onRoleImagePicked($event)" />
+        </div>
       </div>
 
       <br>

@@ -59,6 +59,7 @@ export class BeastViewEditComponent implements OnInit {
 
   public imageController: FormControl;
   public imagesFiltered: Observable<any[]>;
+  public hasNoBaseImage = false;
 
   public variantController: FormControl;
   public variantsFiltered: Observable<any[]>;
@@ -1339,6 +1340,17 @@ export class BeastViewEditComponent implements OnInit {
     });
   }
 
+  onRoleImagePicked(event: Event): void {
+    const FILE = (event.target as HTMLInputElement).files[0];
+    this.mainImageObj = FILE;
+    const imageForm = new FormData();
+    imageForm.append('image', this.mainImageObj);
+    this.beastService.uploadMainImage(imageForm, `${this.beast.id}${this.selectedRoleId}`).subscribe(res => {
+      this.beast.image = res['image']
+      this.getImageUrl()
+    });
+  }
+
   onTokenImagePicked(event: Event): void {
     const FILE = (event.target as HTMLInputElement).files[0];
     this.tokenImageObj = FILE;
@@ -1815,6 +1827,7 @@ export class BeastViewEditComponent implements OnInit {
       }
     }
 
+    this.getImageUrl()
     this.setVitalityAndStress()
   }
 
@@ -2329,15 +2342,23 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   getImageUrl() {
-    this.imageUrl = this.imageBase + this.beast.id + '?t=' + new Date().getTime()
+    this.imageUrl = this.imageBase + this.beast.id + (this.selectedRoleId ? `${this.selectedRoleId}` : '') + '?t=' + new Date().getTime()
   }
 
   onImageError(event) {
     event.target.onerror = null;
-    if (this.beast.imagesource) {
-      event.target.src = this.imageBase + this.beast.imagesource + '?t=' + new Date().getTime()
-    } else {
-      event.target.src = '/assets/404.png';
+    const baseImage = this.imageBase + this.beast.id
+    const imageSource = this.imageBase + this.beast.imagesource
+    const error404 = '/assets/404.png'
+    if (event.target.src === baseImage) {
+      this.hasNoBaseImage = true
+      if (this.beast.imagesource) {
+        event.target.src = imageSource
+      } else {
+        event.target.src = error404;
+      }
+    } else if (event.target.src !== imageSource || event.target.src !== error404) {
+      event.target.src = baseImage
     }
   }
 

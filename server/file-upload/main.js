@@ -27,8 +27,8 @@ const upload = multer({
         s3,
         bucket: bucketName,
         key: function (req, file, cb) {
-            req.file = req.params.id;
-            cb(null, req.params.id);
+            req.file = req.params.beastid;
+            cb(null, req.params.beastid);
         }
     })
 });
