@@ -16,8 +16,8 @@
         {{beast.name}}
       </h1>
 
-      <div *ngIf="tokenExists || beast.imagesource" class="token-download-shell" (click)="forceDownload()">
-        <span><i class="fa-solid fa-download"></i> Download Token</span>
+      <div *ngIf="tokenExists || roleTokenExists || beast.imagesource" class="token-download-shell" (click)="forceDownload()">
+        <span><i class="fa-solid fa-download"></i> Download {{roleTokenExists && selectedRoleId ? 'Role' : ''}} Token</span>
       </div>
     </mat-toolbar>
 
@@ -25,7 +25,7 @@
 
       <div class="left">
         <div>
-          <img class="beastImg" *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name"
+          <img class="beastImg" *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name"
             (error)="onImageError($event);">
           <div *ngIf="beast.artistInfo.artist" class="artist-credits">
             <p *ngIf="!beast.artistInfo.link">Artist: {{beast.artistInfo.artist}}<i *ngIf="beast.artistInfo.tooltip"
@@ -1101,9 +1101,7 @@
         </div>
 
         <div class="token-download-shell json-download" (click)="downloadJson()">
-          <span><i class="fa-solid fa-download"></i> Download JSON for {{selectedRoleId ?
-            getNameWithRole(beast.rolenameorder, beast.name, beast.roleInfo[selectedRoleId].name) :
-            formatNameWithCommas(beast.name)}}</span>
+          <span><i class="fa-solid fa-download"></i> Download JSON for {{getNameWithRole()}}</span>
         </div>
       </div>
     </div>

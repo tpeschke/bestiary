@@ -84,6 +84,9 @@ export class BeastViewGmComponent implements OnInit {
   public groupId = null
 
   public tokenExists: Boolean = false
+  public hasNoBaseImage = false;
+  public imageUrl = null;
+  public roleTokenExists: Boolean = false
 
   public combatStatChanges = []
   public vitalityToTransferToQuickview = null;
@@ -120,9 +123,7 @@ export class BeastViewGmComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.beast = data['beast']
 
-      this.beastService.checkToken(this.beast.id).subscribe((res: Boolean) => {
-        this.tokenExists = res
-      })
+      this.handleImages()
 
       this.handleAnyBurdens()
       this.handleAnyFlaws()
@@ -165,21 +166,76 @@ export class BeastViewGmComponent implements OnInit {
     })
   }
 
+  handleImages() {
+    this.beastService.checkToken(this.beast.id).subscribe((res: Boolean) => {
+      this.tokenExists = res
+    })
+    this.seeIfRoleTokenExists()
+    this.getImageUrl()
+  }
+
+  seeIfRoleTokenExists() {
+    this.beastService.checkToken(`${this.beast.id}${this.selectedRoleId}`).subscribe((res: Boolean) => {
+      this.roleTokenExists = res
+    })
+  }
+
+  getImageUrl() {
+    this.imageUrl = this.imageBase + this.beast.id + (this.selectedRoleId ? `${this.selectedRoleId}` : '')
+  }
+
   onImageError(event) {
     event.target.onerror = null;
-    if (this.beast.imagesource) {
-      event.target.src = this.imageBase + this.beast.imagesource + '?t=' + new Date().getTime()
+    const baseImage = this.imageBase + this.beast.id
+    const imageSource = this.imageBase + this.beast.imagesource
+    const error404 = '/assets/404.png'
+    if (event.target.src === baseImage) {
+      this.hasNoBaseImage = true
+      if (this.beast.imagesource) {
+        event.target.src = imageSource
+      } else {
+        event.target.src = error404;
+      }
+    } else if (event.target.src !== imageSource || event.target.src !== error404) {
+      event.target.src = baseImage
+    }
+  }
+
+  getNameWithRole = () => {
+    if (this.selectedRoleId) {
+      return this.processNameAndRoleOrder(this.beast.name, this.beast.roleInfo[this.selectedRoleId].name, this.beast.rolenameorder ? this.beast.rolenameorder : '1')
     } else {
-      event.target.src = '/assets/404.png';
+      return this.formatNameWithCommas(this.beast.name)
+    }
+  }
+
+  formatNameWithCommas = (name) => {
+    if (name.includes(',')) {
+      let nameArray = name.split(', ')
+      return `${nameArray[1]} ${nameArray[0]}`
+    }
+    return name
+  }
+
+  processNameAndRoleOrder(name, rolename, rolenameorder) {
+    if (rolename && rolename.toUpperCase() !== "NONE") {
+      if (rolenameorder === '1') {
+        return name + " " + rolename
+      } else if (rolenameorder === '3') {
+        return rolename
+      } else {
+        return rolename + " " + name
+      }
     }
   }
 
   forceDownload() {
     var xhr = new XMLHttpRequest();
-    const idToUse = this.tokenExists ? this.beast.id : this.beast.imagesource
+    const idBase = this.roleTokenExists && this.selectedRoleId ? this.beast.id + this.selectedRoleId : this.beast.id
+    const idToUse = this.tokenExists ? idBase : this.beast.imagesource
     xhr.open("GET", 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + idToUse + '-token', true);
     xhr.responseType = "blob";
-    const beastName = this.beast.name
+    const beastName = this.roleTokenExists && this.selectedRoleId ? this.processNameAndRoleOrder(this.beast.name, this.beast.roleInfo[this.selectedRoleId].name, this.beast.rolenameorder ? this.beast.rolenameorder : '1') : this.beast.name
     xhr.onload = function () {
       var urlCreator = window.URL || window.webkitURL;
       var imageUrl = urlCreator.createObjectURL(this.response);
@@ -795,6 +851,9 @@ export class BeastViewGmComponent implements OnInit {
       }
     }
 
+    this.getImageUrl()
+    this.seeIfRoleTokenExists()
+
     this.determineIfSkillsShouldBeShown()
     this.determineIfCharacteristicsShouldBeShown()
     this.determineIfAlotOfMovement()
@@ -1218,24 +1277,6 @@ export class BeastViewGmComponent implements OnInit {
     this.router.navigate(['/beast', variantid, 'gm'])
   }
 
-  getNameWithRole = (rolenameorder, name, rolename) => {
-    if (rolenameorder === '1') {
-      return this.formatNameWithCommas(name) + " " + rolename
-    } else if (rolenameorder === '3') {
-      return rolename
-    } else {
-      return rolename + " " + this.formatNameWithCommas(name)
-    }
-  }
-
-  formatNameWithCommas = (name) => {
-    if (name.includes(',')) {
-      let nameArray = name.split(', ')
-      return `${nameArray[1]} ${nameArray[0]}`
-    }
-    return name
-  }
-
   returnAtkDefNotation = (type) => {
     let hasAttackNotation = false;
     let hasDefenseNotation = false;
@@ -1337,7 +1378,7 @@ export class BeastViewGmComponent implements OnInit {
       flaws: conflict.flaws.filter(characteristic => characteristic.socialroleid === this.selectedObstacleId || characteristic.allroles).map(characteristic => characteristic.trait),
     }
 
-    const name = `${this.modifier ? this.modifier + ' ' : ''}${this.selectedRoleId ? this.getNameWithRole(rolenameorder, basicName, selectedRoleInfo.name) : this.formatNameWithCommas(basicName)}`
+    const name = `${this.modifier ? this.modifier + ' ' : ''}${this.selectedRoleId ? this.getNameWithRole() : this.formatNameWithCommas(basicName)}`
     const combatCounterHash = this.selectedRoleId ? selectedRoleInfo.hash : hash
     const size = this.selectedRoleId && selectedRoleInfo.size ? selectedRoleInfo.size : basicSize
     const role = this.selectedObstacleId ? selectedRoleInfo.role : basicRole
@@ -1354,8 +1395,11 @@ export class BeastViewGmComponent implements OnInit {
     const isincorporeal = this.selectedRoleId && selectedRoleInfo.isincorporeal ? selectedRoleInfo.isincorporeal : basicisincorporeal
     const weaponbreakagevitality = this.selectedRoleId && selectedRoleInfo.weaponbreakagevitality ? selectedRoleInfo.weaponbreakagevitality : basicweaponbreakagevitality
 
+    const tokenBase = this.roleTokenExists && this.selectedRoleId ? this.beast.id + this.selectedRoleId : this.beast.id
+    const tokenId = this.tokenExists ? tokenBase : this.beast.imagesource
+
     let beastObj = {
-      portrait: 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + id + '-token',
+      portrait: 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + tokenId + '-token',
       name, metanotes: meta, mental, personalnotes: notes,
       confrontation: {
         ...confrontation,

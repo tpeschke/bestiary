@@ -2387,13 +2387,25 @@ export class BeastViewEditComponent implements OnInit {
     })
   }
 
+  processNameAndRoleOrder(name, rolename, rolenameorder) {
+    if (rolename && rolename.toUpperCase() !== "NONE") {
+      if (rolenameorder === '1') {
+        return name + " " + rolename
+      } else if (rolenameorder === '3') {
+        return rolename
+      } else {
+        return rolename + " " + name
+      }
+    }
+  }
+
   forceDownload(isRole) {
     var xhr = new XMLHttpRequest();
     const idBase = isRole ? this.beast.id + this.selectedRoleId : this.beast.id
     const idToUse = this.tokenExists ? idBase : this.beast.imagesource
     xhr.open("GET", 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + idToUse + '-token', true);
     xhr.responseType = "blob";
-    const beastName = this.beast.name
+    const beastName = isRole ? this.processNameAndRoleOrder(this.beast.name, this.beast.roleInfo[this.selectedRoleId].name, this.beast.rolenameorder ? this.beast.rolenameorder : '1') : this.beast.name
     xhr.onload = function () {
       var urlCreator = window.URL || window.webkitURL;
       var imageUrl = urlCreator.createObjectURL(this.response);
