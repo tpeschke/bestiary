@@ -109,7 +109,7 @@
         <div>
           <h3>Preview</h3>
           <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" class="preview"
-            *ngIf="beast.id" [src]="imageBase + beast.id" [alt]="beast.name" (error)="onImageError($event);">
+            *ngIf="beast.id" [src]="previewUrl" [alt]="beast.name" (error)="onImageError($event);">
         </div>
       </div>
 

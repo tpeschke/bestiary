@@ -87,6 +87,7 @@ export class BeastViewEditComponent implements OnInit {
   public selectedSocialRole = {}
   public selectedSkillRole = {}
   public imageUrl = null;
+  public previewUrl = null
   public tokenExists: Boolean = false;
   public roleTokenExists: Boolean = false
   public unusedRolesForEncounters = []
@@ -2354,7 +2355,8 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   getImageUrl() {
-    this.imageUrl = this.imageBase + this.beast.id + (this.selectedRoleId ? `${this.selectedRoleId}` : '')
+    this.imageUrl = this.imageBase + this.beast.id + (this.selectedRoleId ? `${this.selectedRoleId}` : '')  + '?t=' + new Date().getSeconds()
+    this.previewUrl = this.imageBase + this.beast.id + '?t=' + new Date().getSeconds()
   }
 
   onImageError(event) {
