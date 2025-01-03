@@ -700,3 +700,11 @@ values ('Absentminded genius who’s let his obsession overshadow everything els
 ('Naïve-looking, young person who watches and knows more than they let on'),
 ('Career-focused busy-body with a love of fine things'),
 ('Astute, cunning servant')
+
+create table bbmonsterarchetypes (
+    id serial primary key,
+    archetype varchar(500)
+); 
+
+insert into bbmonsterarchetypes (archetype)
+values ('Abusive Authority Figure'),('Unapologetically Hedonist'),('So Insane, They’re Sane'),('Scheming Weasel'),('Arrogantly Honest but Lying to Themselves'),('Vain about Looks and Intelligence'),('Mad Inventor'),('Addicted to Corruption'),('Willfully and Compulsively Defiant'),('Unthinking Brute'),('Eerily in Control'),('Minion with no Backbone'),('Heartless Mercenary'),('Ignorant and Proud of It'),('Angerly Fearful'),('Unquestioning Zealot'),('Wishes for Everyone to be as Miserable as Them'),('Believes They’re Above Good & Evil'),('Cordially Sociopathic'),('Aggressively Lazy'),('Bucket Crab Mentality'),('Ambitious with no Bounds'),('Uses Sympathy as a Shield'),('Uncontrolled, Uncontrollable Addict'),('Happy to Watch the World Burn'),('Convinced of Elitist Birthright'),('Compulsive Liar'),('Covetous of All They Don’t Have'),('Believes it is Necessity'),('Believes They Have Moral High Ground'),('Theatrically Mustache-Twirling'),('Compulsive Boundary Pusher'),('Munchausen Syndrome with Their Own Poor Choices'),('Delights in Causing Others to Fail'),('Loud and Militant Jingoist'),('Witch-hunting Hypocrite'),('Two-Faced Backbiter'),('Imperial Supremist'),('Scheming Under Miner'),('Reveals in Destruction'),('Negatively Impulsive'),('Social Darwinist and Xenophobe'),('Hardliner with Twisted Warrior Code'),('Ends Always Justify Means'),('Power-Hungry Defiler'),('Dark Messiah'),('Profits for a Bad Situation'),('Hyper Controlling Solipsist'),('Unapologetically Cruel'),('Tribe-Based Morality')

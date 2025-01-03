@@ -641,6 +641,10 @@ module.exports = {
               reverse: chance > 75
             }
           }))
+
+          promiseArray.push(db.get.monsterArchetype().then(result => {
+            beast.archetypemonster = result
+          }))
         }
 
         promiseArray.push(db.get.roles(id).then(result => {
@@ -689,7 +693,8 @@ module.exports = {
               defense_conf: result[i].defense_conf,
               attack_skill: result[i].attack_skill,
               defense_skill: result[i].defense_skill,
-              hasarchetypes: result[i].hasarchetypes
+              hasarchetypes: result[i].hasarchetypes,
+              hasmonsterarchetypes: result[i].hasmonsterarchetypes
             }
           }
           return result

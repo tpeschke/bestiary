@@ -53,7 +53,8 @@
         </div>
 
         <div *ngIf="selectedRoleId">
-          <label mat-raised-button color="accent" for="file-upload-role" class="custom-file-upload" matTooltip="10 MB limit">
+          <label mat-raised-button color="accent" for="file-upload-role" class="custom-file-upload"
+            matTooltip="10 MB limit">
             <i class="fa fa-cloud-upload"></i> Upload Role Image
           </label>
           <input id="file-upload-role" type="file" (change)="onRoleImagePicked($event)" />
@@ -486,7 +487,7 @@
         <br>
         <mat-form-field>
           <input placeholder="Confrontation Points" matInput
-            [disabled]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes"
+            [disabled]="beast.roleInfo[selectedRoleId] ? (beast.roleInfo[selectedRoleId].hasarchetypes || beast.roleInfo[selectedRoleId].hasmonsterarchetypes) : (beast.hasarchetypes || beast.hasmonsterarchetypes)"
             [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints"
             (change)="captureBasicInput($event, 'socialpoints')" type="number">
         </mat-form-field>
@@ -570,11 +571,21 @@
             (change)="checkCheckBox($event.checked, 'hasarchetypes')"> This entry generates a character Archetype by
             default. </mat-checkbox>
           <br>
-          <button mat-raised-button *ngIf="beast.roles.length > 0" (click)="toggleArchetypesForAllRoles()" color="accent">Toggle
+          <button mat-raised-button *ngIf="beast.roles.length > 0 && (selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes)" (click)="toggleArchetypesForAllRoles('hasarchetypes')"
+            color="accent">Toggle
             Archetypes for All Roles</button>
           <br>
+          <mat-checkbox
+            [checked]="selectedRoleId ? beast.roleInfo[selectedRoleId].hasmonsterarchetypes : beast.hasmonsterarchetypes"
+            (change)="checkCheckBox($event.checked, 'hasmonsterarchetypes')"> This entry generates a monster Archetype
+            by
+            default. </mat-checkbox>
           <br>
-          <mat-form-field *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes">
+          <button mat-raised-button *ngIf="beast.roles.length > 0 && (selectedRoleId ? beast.roleInfo[selectedRoleId].hasmonsterarchetypes : beast.hasmonsterarchetypes)" (click)="toggleArchetypesForAllRoles('hasmonsterarchetypes')"
+            color="accent">Toggle Monster
+            Archetypes for All Roles</button>
+          <br>
+          <mat-form-field *ngIf="selectedRoleId ? (beast.roleInfo[selectedRoleId].hasarchetypes || beast.roleInfo[selectedRoleId].hasmonsterarchetypes) : (beast.hasarchetypes || beast.hasmonsterarchetypes)">
             <mat-label>Archetype Difficulty</mat-label>
             <mat-select
               [value]="(beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints) + ''"

@@ -5,11 +5,11 @@ const sendErrorForward = sendErrorForwardNoFile('upsert helper')
 const saveUpdateFunctions = {
     upsertRoles: (promiseArray, db, id, res, roles) => {
         db.delete.roles([id, ['', ...roles.map(roles => roles.roleid)]]).then(_ => {
-            roles.forEach(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback, rollundertrauma, attack_skill, defense_skill, attack_conf, defense_conf, isincorporeal, weaponbreakagevitality, hasarchetypes }) => {
+            roles.forEach(({ id: roleid, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback, rollundertrauma, attack_skill, defense_skill, attack_conf, defense_conf, isincorporeal, weaponbreakagevitality, hasarchetypes, hasmonsterarchetypes }) => {
                 if (!hash) {
                     hash = createHash()
                 }
-                promiseArray.push(db.add.roles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback, rollundertrauma, attack_skill, defense_skill, attack_conf, defense_conf, isincorporeal, weaponbreakagevitality, hasarchetypes ).catch(e => sendErrorForward('update beast add roles', e, res)))
+                promiseArray.push(db.add.roles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback, rollundertrauma, attack_skill, defense_skill, attack_conf, defense_conf, isincorporeal, weaponbreakagevitality, hasarchetypes, hasmonsterarchetypes ).catch(e => sendErrorForward('update beast add roles', e, res)))
             })
         }).catch(e => sendErrorForward('update beast delete roles', e, res))
     },

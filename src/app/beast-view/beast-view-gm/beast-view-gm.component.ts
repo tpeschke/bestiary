@@ -76,7 +76,6 @@ export class BeastViewGmComponent implements OnInit {
   public showDevotions = false
   public showFlaws = false
   public showBurdens = false
-  public showCharacteristicsAnyway= false;
   public isNaturalCreatureOrInsect = false;
   public isCarriedEquipmentLoading = false;
   public isLairEquipmentLoading = false;
@@ -1013,10 +1012,6 @@ export class BeastViewGmComponent implements OnInit {
     this.lootTablesAreShow = !this.lootTablesAreShow
   }
 
-  toggleShowCharacteristics = () => {
-    this.showCharacteristicsAnyway = !this.showCharacteristicsAnyway
-  }
-
   backoutOfEquipmentSelection = (square) => {
     this.newSelectedWeapon = null
     this.newWeaponInfo = null
@@ -1359,7 +1354,8 @@ export class BeastViewGmComponent implements OnInit {
       skillrole: basicSkillRole, notes, movement, rolenameorder, roleInfo, hash, combatStatArray,
       knockback: basicKnockback, notrauma: basicTrauma, noknockback: basicnoknockback, phyiscalAndStress, locationalvitality,
       spells, skills, challenges, obstacles, conflict, rollundertrauma: basicRollUnderTrauma, atk_skill,
-      def_skill, atk_conf, def_conf, isincorporeal: basicisincorporeal, weaponbreakagevitality: basicweaponbreakagevitality } = this.beast
+      def_skill, atk_conf, def_conf, isincorporeal: basicisincorporeal, weaponbreakagevitality: basicweaponbreakagevitality,
+      hasarchetypes, hasmonsterarchetypes, archetype, archetypemonster } = this.beast
 
     const selectedRoleInfo = roleInfo[this.selectedRoleId]
 
@@ -1397,6 +1393,24 @@ export class BeastViewGmComponent implements OnInit {
 
     const tokenBase = this.roleTokenExists && this.selectedRoleId ? this.beast.id + this.selectedRoleId : this.beast.id
     const tokenId = this.tokenExists ? tokenBase : this.beast.imagesource
+    
+    let archetypes = []
+    if ((this.selectedRoleId && selectedRoleInfo.hasarchetypes) || hasarchetypes) {
+      if (this.selectedRoleId) {
+        archetypes.push(selectedRoleInfo.hasarchetypes)
+      } else {
+        archetypes.push(archetype.archetype)
+      }
+    }
+    if ((this.selectedRoleId && selectedRoleInfo.hasmonsterarchetypes) || hasmonsterarchetypes) {
+      if (this.selectedRoleId) {
+        archetypes.push(archetypemonster[0].archetype)
+        archetypes.push(archetypemonster[1].archetype)
+      } else {
+        archetypes.push(selectedRoleInfo.archetypemonster[0].archetype)
+        archetypes.push(selectedRoleInfo.archetypemonster[1].archetype)
+      }
+    }
 
     let beastObj = {
       portrait: 'https://bonfire-beastiary.s3-us-west-1.amazonaws.com/' + tokenId + '-token',
@@ -1409,6 +1423,7 @@ export class BeastViewGmComponent implements OnInit {
         defensenotes: def_conf,
         roleattacks: selectedRoleInfo ? selectedRoleInfo.attack_conf : null,
         roledefenses: selectedRoleInfo ? selectedRoleInfo.defense_conf : null,
+        archetypes
       },
       combat: {
         attacknotes: sp_atk, defensenotes: sp_def, tactics, combatCounterHash,

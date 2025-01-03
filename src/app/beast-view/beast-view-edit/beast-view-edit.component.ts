@@ -972,7 +972,7 @@ export class BeastViewEditComponent implements OnInit {
       this.beast[type] = checked
     }
 
-    if (type === 'hasarchetypes' && checked) {
+    if ((type === 'hasarchetypes' || type === 'hasmonsterarchetypes') && checked) {
       if (this.selectedRoleId) {
         this.beast.roleInfo[this.selectedRoleId].socialpoints = this.roundby5s(this.beast.roleInfo[this.selectedRoleId].socialpoints)
       } else {
@@ -1400,6 +1400,7 @@ export class BeastViewEditComponent implements OnInit {
       role.attack_skill = roleInfo.attack_skill
       role.defense_skill = roleInfo.defense_skill
       role.hasarchetypes = roleInfo.hasarchetypes
+      role.hasmonsterarchetypes = roleInfo.hasmonsterarchetypes
 
       return role
     })
@@ -2425,10 +2426,10 @@ export class BeastViewEditComponent implements OnInit {
     this.checkForDeleteRole = !this.checkForDeleteRole
   }
 
-  toggleArchetypesForAllRoles = () => {
+  toggleArchetypesForAllRoles = (type) => {
     this.beast.roles = this.beast.roles.map(role => {
-      role.hasarchetypes = !role.hasarchetypes
-      this.beast.roleInfo[role.id].hasarchetypes = role.hasarchetypes
+      role[type] = !role[type]
+      this.beast.roleInfo[role.id][type] = role[type]
       return role
     })
   }

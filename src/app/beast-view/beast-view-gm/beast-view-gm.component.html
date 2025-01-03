@@ -76,29 +76,32 @@
         </div>
 
         <div class="conflict-shell unset-width"
-          *ngIf="showCharacteristicsSection || (selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes)">
-          <div *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes">
+          *ngIf="showCharacteristicsSection || (selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes) || (selectedRoleId ? beast.roleInfo[selectedRoleId].hasmonsterarchetypes : beast.hasmonsterarchetypes)">
+          <div *ngIf="(selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes) || (selectedRoleId ? beast.roleInfo[selectedRoleId].hasmonsterarchetypes : beast.hasmonsterarchetypes)">
             <div class="flex-row-opposite">
-              <p><i *ngIf="beast.archetype.reverse" class="fa-solid fa-right-left blue" matTooltip="Completely reverse this Archetype.
+              <p *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes"><i *ngIf="beast.archetype.reverse" class="fa-solid fa-right-left blue" matTooltip="Completely reverse this Archetype.
                 Example: 'Rogue with a heart of gold' > 'A nice guy with a vile heart'">
                 </i>
                 <i *ngIf="beast.archetype.deviation" class="fa-solid fa-arrows-split-up-and-left blue" matTooltip="Change one thing about this Archetype.
                 Example: 'Rogue with a heart of gold' > 'A rogue with a vile heart'"></i>
                 {{beast.archetype.archetype}}
               </p>
+              <ul *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].hasmonsterarchetypes : beast.hasmonsterarchetypes">
+                <li>{{beast.archetypemonster[0].archetype}}</li>
+                <li>{{beast.archetypemonster[1].archetype}}</li>
+              </ul>
               <div>
                 <p>{{beastService.getDiceFromPoints((selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints :
                   beast.socialpoints) + (modifier && modifier !== 'Unique' ?
                   modifierDictionary[modifier] : 0))}}{{modifier === 'Unique' ? ', roll twice, take highest result' :
                   ''}}
-                  <i *ngIf="showCharacteristicsSection" (click)="toggleShowCharacteristics()"
-                    class="fa-solid fa-chevron-down fake-icon-button" matTooltip="Generate a full set of Characteristics"></i>
                 </p>
               </div>
             </div>
+            <br *ngIf="(selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes) && showCharacteristicsSection">
           </div>
           <div
-            *ngIf="showCharacteristicsSection && (!(selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes) || showCharacteristicsAnyway)">
+            *ngIf="showCharacteristicsSection">
             <div class="conflict-inner-shell box-padding" *ngIf="showDescriptions">
               <h3>Descriptions</h3>
               <div class="divider white"></div>
