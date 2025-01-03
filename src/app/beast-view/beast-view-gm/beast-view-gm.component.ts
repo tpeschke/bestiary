@@ -372,8 +372,8 @@ export class BeastViewGmComponent implements OnInit {
       return burden
     })
     if (anyCount) {
+      let newBurdenArray = []
       this.beastService.getAnyBurdens(anyCount).subscribe((result: any[]) => {
-        let newBurdenArray = []
         this.beast.conflict.burdens.forEach(burden => {
           if (burden.trait === 'Any') {
             let rolledBurden = result.shift().ib
@@ -384,9 +384,10 @@ export class BeastViewGmComponent implements OnInit {
           }
         })
         this.beast.conflict.burden = newBurdenArray
-        this.beast.conflict.burdens = this.beast.conflict.burdens.sort((a, b) => +b.value - +a.value)
       })
     }
+    this.beast.conflict.burdens = this.beast.conflict.burdens.sort((a, b) => +b.trait - +a.trait)
+    console.log(this.beast.conflict.burdens)
   }
 
   setLocationalVitality = () => {

@@ -757,21 +757,16 @@
                   </mat-checkbox>
                 </td>
 
-                <td colspan="4" *ngIf="burden.trait !== 'Any'">
-                  <input class="table-input" matInput placeholder="Rank"
-                    (change)="captureInput($event, 'conflict', i, 'burdens', 'rank')" [value]="burden.value">
-                </td>
-
-                <td *ngIf="burden.trait === 'Any'">
+                <td>
                   <mat-checkbox [checked]="burden.value == 1" (change)="checkBurden(burden, 1, $event)"></mat-checkbox>
                 </td>
-                <td *ngIf="burden.trait === 'Any'">
+                <td>
                   <mat-checkbox [checked]="burden.value == 2" (change)="checkBurden(burden, 2, $event)"></mat-checkbox>
                 </td>
-                <td *ngIf="burden.trait === 'Any'">
+                <td>
                   <mat-checkbox [checked]="burden.value == 3" (change)="checkBurden(burden, 3, $event)"></mat-checkbox>
                 </td>
-                <td *ngIf="burden.trait === 'Any'">
+                <td>
                   <mat-checkbox [checked]="burden.value == 4" (change)="checkBurden(burden, 4, $event)"></mat-checkbox>
                 </td>
 

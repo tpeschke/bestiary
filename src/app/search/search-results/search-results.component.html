@@ -12,8 +12,9 @@
     <div class="option-buttons-shell">
       <button mat-raised-button (click)="getRandom()" color="warn" matTooltip="Get Random Monster from List"><i
           class="fas fa-dice"></i></button>
-      <button mat-raised-button matTooltip="Add These Results to Random Encounter List" (click)="openRandomListsPopUp()" color="primary"><i
-          class="fa-solid fa-plus"></i> <i class="fa-solid fa-table"></i><i class="fa-solid fa-shuffle"></i></button>
+      <button mat-raised-button matTooltip="Add These Results to Random Encounter List" (click)="openRandomListsPopUp()"
+        color="primary"><i class="fa-solid fa-plus"></i> <i class="fa-solid fa-table"></i><i
+          class="fa-solid fa-shuffle"></i></button>
       <button color="primary" mat-raised-button (click)="getShortCutURL()"
         matTooltip="This creates a link that will go directly to a random monster from this list"
         class="copyURLButton"><i class="fas fa-link"></i></button>
@@ -22,87 +23,101 @@
 
   <div class="filter-card">
     <p><i class="fa-solid fa-sort"></i></p>
-    <button [class]="filter === 'name' ? 'selected' : ''" (click)="setFilter('name')">Name <i [class]="filter === 'name' && direction === 'desc' ? 'fa-solid fa-arrow-up-z-a' : filter === 'name' && direction === 'asc' ? 'fa-solid fa-arrow-up-a-z' : ''"></i></button>
+    <button [class]="filter === 'name' ? 'selected' : ''" (click)="setFilter('name')">Name <i
+        [class]="filter === 'name' && direction === 'desc' ? 'fa-solid fa-arrow-up-z-a' : filter === 'name' && direction === 'asc' ? 'fa-solid fa-arrow-up-a-z' : ''"></i></button>
     <p>|</p>
-    <button [class]="filter === 'combat' ? 'selected' : ''" (click)="setFilter('combat')">Combat Rating <i [class]="filter === 'combat' && direction === 'desc' ? 'fa-solid fa-arrow-up-9-1' : filter === 'combat' && direction === 'asc' ? 'fa-solid fa-arrow-up-1-9' : ''"></i></button>
-    <button [class]="filter === 'combat' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('A')">A <i [class]="checkForAttack ? 'fa-solid fa-check' : ''"></i></button>
-    <button [class]="filter === 'combat' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('D')">D <i [class]="checkForDefense ? 'fa-solid fa-check' : ''"></i></button>
+    <button [class]="filter === 'combat' ? 'selected' : ''" (click)="setFilter('combat')">Combat Rating <i
+        [class]="filter === 'combat' && direction === 'desc' ? 'fa-solid fa-arrow-up-9-1' : filter === 'combat' && direction === 'asc' ? 'fa-solid fa-arrow-up-1-9' : ''"></i></button>
+    <button [class]="filter === 'combat' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('A')">A <i
+        [class]="checkForAttack ? 'fa-solid fa-check' : ''"></i></button>
+    <button [class]="filter === 'combat' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('D')">D <i
+        [class]="checkForDefense ? 'fa-solid fa-check' : ''"></i></button>
     <p>|</p>
-    <button [class]="filter === 'conf' ? 'selected' : ''" (click)="setFilter('conf')">Conf. Rating <i [class]="filter === 'conf' && direction === 'desc' ? 'fa-solid fa-arrow-up-9-1' : filter === 'conf' && direction === 'asc' ? 'fa-solid fa-arrow-up-1-9' : ''"></i></button>
-    <button [class]="filter === 'conf' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('A')">A <i [class]="checkForAttack ? 'fa-solid fa-check' : ''"></i></button>
-    <button [class]="filter === 'conf' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('D')">D <i [class]="checkForDefense ? 'fa-solid fa-check' : ''"></i></button>
+    <button [class]="filter === 'conf' ? 'selected' : ''" (click)="setFilter('conf')">Conf. Rating <i
+        [class]="filter === 'conf' && direction === 'desc' ? 'fa-solid fa-arrow-up-9-1' : filter === 'conf' && direction === 'asc' ? 'fa-solid fa-arrow-up-1-9' : ''"></i></button>
+    <button [class]="filter === 'conf' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('A')">A <i
+        [class]="checkForAttack ? 'fa-solid fa-check' : ''"></i></button>
+    <button [class]="filter === 'conf' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('D')">D <i
+        [class]="checkForDefense ? 'fa-solid fa-check' : ''"></i></button>
     <p>|</p>
-    <button [class]="filter === 'skill' ? 'selected' : ''" (click)="setFilter('skill')">Skill Rating <i [class]="filter === 'skill' && direction === 'desc' ? 'fa-solid fa-arrow-up-9-1' : filter === 'skill' && direction === 'asc' ? 'fa-solid fa-arrow-up-1-9' : ''"></i></button>
-    <button [class]="filter === 'skill' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('A')">A <i [class]="checkForAttack ? 'fa-solid fa-check' : ''"></i></button>
-    <button [class]="filter === 'skill' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('D')">D <i [class]="checkForDefense ? 'fa-solid fa-check' : ''"></i></button>
+    <button [class]="filter === 'skill' ? 'selected' : ''" (click)="setFilter('skill')">Skill Rating <i
+        [class]="filter === 'skill' && direction === 'desc' ? 'fa-solid fa-arrow-up-9-1' : filter === 'skill' && direction === 'asc' ? 'fa-solid fa-arrow-up-1-9' : ''"></i></button>
+    <button [class]="filter === 'skill' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('A')">A <i
+        [class]="checkForAttack ? 'fa-solid fa-check' : ''"></i></button>
+    <button [class]="filter === 'skill' ? 'special-button' : 'noDisplay'" (click)="checkForSpecial('D')">D <i
+        [class]="checkForDefense ? 'fa-solid fa-check' : ''"></i></button>
     <p>|</p>
-    <button [class]="filter === 'rarity' ? 'selected' : ''" (click)="setFilter('rarity')">Rarity <i [class]="filter === 'rarity' && direction === 'desc' ? 'fa-solid fa-arrow-up-z-a' : filter === 'rarity' && direction === 'asc' ? 'fa-solid fa-arrow-up-a-z' : ''"></i></button>
+    <button [class]="filter === 'rarity' ? 'selected' : ''" (click)="setFilter('rarity')">Rarity <i
+        [class]="filter === 'rarity' && direction === 'desc' ? 'fa-solid fa-arrow-up-z-a' : filter === 'rarity' && direction === 'asc' ? 'fa-solid fa-arrow-up-a-z' : ''"></i></button>
     <p>|</p>
-    <button [class]="filter === 'size' ? 'selected' : ''" (click)="setFilter('size')">Size <i [class]="filter === 'size' && direction === 'desc' ? 'fa-solid fa-arrow-up-z-a' : filter === 'size' && direction === 'asc' ? 'fa-solid fa-arrow-up-a-z' : ''"></i></button>
+    <button [class]="filter === 'size' ? 'selected' : ''" (click)="setFilter('size')">Size <i
+        [class]="filter === 'size' && direction === 'desc' ? 'fa-solid fa-arrow-up-z-a' : filter === 'size' && direction === 'asc' ? 'fa-solid fa-arrow-up-a-z' : ''"></i></button>
   </div>
-  
-  <a *ngFor="let beast of filteredBeasts" href="javascript:void(0)" (click)="stopProp()">
-    <mat-card [routerLink]="['/beast', beast.id, 'player']">
-      <div class="img-shell">
-        <img *ngIf="beast.id" [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}"
-          [src]="imageBase + beast.id  " [alt]="beast.name">
-      </div>
-  
-      <div class="info-shell">
-        <div>
-          <div class="header-shell">
-            <div class="header-info">
-              <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
-              <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
-              <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
-              <h3>{{beast.name}}</h3>
-            </div>
-            <div class="add-to-quick-view" matTooltip="Click to Add to Quick View" (click)="addToQuickView($event, beast.hash)"><i
-              class="fa-solid fa-square-plus"></i><i class="fa-solid fa-rectangle-list"></i></div>
+
+  <mat-card *ngFor="let beast of filteredBeasts" [routerLink]="['/beast', beast.id, 'player']">
+    <div class="img-shell">
+      <img *ngIf="beast.id" [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}"
+        [src]="imageBase + beast.id  " [alt]="beast.name">
+    </div>
+
+    <div class="info-shell">
+      <div>
+        <div class="header-shell">
+          <div class="header-info">
+            <i *ngIf="beast.canplayerview" matTooltip="Anyone Can View" class="fa fa-eye icon-blue"></i>
+            <i *ngIf="beast.patreon >= 20" matTooltip="Early Access" class="fas fa-dice-d20 icon-blue"></i>
+            <i *ngIf="beast.patreon >= 2 && beast.patreon < 20" matTooltip="Deluxe" class="fas fa-plus icon-blue"></i>
+            <h3>{{beast.name}}</h3>
           </div>
-          <div *ngIf="beast.intro" class="divider"></div>
-  
-          <div class="extra-info-shell">
-            <div *ngIf="beast.intro" class="intro-shell">
-              <div class="div-intro-overlay"></div>
-              <quill-view-html [content]="beast.intro"></quill-view-html>
+          <div class="icon-shell">
+            <div class="add-to-quick-view" matTooltip="Click to Add to Quick View"
+              (click)="addToQuickView($event, beast.hash)"><i class="fa-solid fa-square-plus"></i><i
+                class="fa-solid fa-rectangle-list"></i></div>
+            <i (click)="openNewTab($event, beast.id)" matTooltip="Open Entry in New Tab" class="fa-solid fa-arrow-up-right-from-square"></i>
+          </div>
+        </div>
+        <div *ngIf="beast.intro" class="divider"></div>
+
+        <div class="extra-info-shell">
+          <div *ngIf="beast.intro" class="intro-shell">
+            <div class="div-intro-overlay"></div>
+            <quill-view-html [content]="beast.intro"></quill-view-html>
+          </div>
+
+          <div class="extra-info">
+            <div>
+              <h3>Combat Rating:</h3>
+              <p class="with-super-script">{{formatPoints(beast.mincombat, beast.maxcombat)}}<span
+                  [matTooltip]="returnAtkDefTooltip('Combat', beast.hascombatattack, beast.hascombatdefense)">{{returnAtkDefNotation(beast.hascombatattack,
+                  beast.hascombatdefense)}}</span></p>
             </div>
-  
-            <div class="extra-info">
-              <div>
-                <h3>Combat Rating:</h3>
-                <p class="with-super-script">{{formatPoints(beast.mincombat, beast.maxcombat)}}<span
-                    [matTooltip]="returnAtkDefTooltip('Combat', beast.hascombatattack, beast.hascombatdefense)">{{returnAtkDefNotation(beast.hascombatattack,
-                    beast.hascombatdefense)}}</span></p>
-              </div>
-              <div>
-                <h3>Confrontation Rating:</h3>
-                <p class="with-super-script">{{formatPoints(beast.minsocial, beast.maxsocial)}}<span
-                    [matTooltip]="returnAtkDefTooltip('Confrontation', beast.hasconfattack, beast.hasdonfdefense)">{{returnAtkDefNotation(beast.hasconfattack,
-                    beast.hasdonfdefense)}}</span></p>
-              </div>
-              <div>
-                <h3>Challenge Rating:</h3>
-                <p class="with-super-script">{{formatPoints(beast.minskill, beast.maxskill)}}<span
-                    [matTooltip]="returnAtkDefTooltip('Skill', beast.hasskillattack, beast.hasskilldefense)">{{returnAtkDefNotation(beast.hasskillattack,
-                    beast.hasskilldefense)}}</span></p>
-              </div>
-              <div>
-                <h3>Rarity:</h3>
-                <p>{{beast.rarity | rarityConverter}}</p>
-              </div>
-              <div>
-                <h3>Size:</h3>
-                <p>{{beast.size}}</p>
-              </div>
+            <div>
+              <h3>Confrontation Rating:</h3>
+              <p class="with-super-script">{{formatPoints(beast.minsocial, beast.maxsocial)}}<span
+                  [matTooltip]="returnAtkDefTooltip('Confrontation', beast.hasconfattack, beast.hasdonfdefense)">{{returnAtkDefNotation(beast.hasconfattack,
+                  beast.hasdonfdefense)}}</span></p>
+            </div>
+            <div>
+              <h3>Challenge Rating:</h3>
+              <p class="with-super-script">{{formatPoints(beast.minskill, beast.maxskill)}}<span
+                  [matTooltip]="returnAtkDefTooltip('Skill', beast.hasskillattack, beast.hasskilldefense)">{{returnAtkDefNotation(beast.hasskillattack,
+                  beast.hasskilldefense)}}</span></p>
+            </div>
+            <div>
+              <h3>Rarity:</h3>
+              <p>{{beast.rarity | rarityConverter}}</p>
+            </div>
+            <div>
+              <h3>Size:</h3>
+              <p>{{beast.size}}</p>
             </div>
           </div>
         </div>
-  
       </div>
-  
-    </mat-card>
-  </a>
+
+    </div>
+
+  </mat-card>
 </div>
 
 <div *ngIf="filteredBeasts.length === 0 && filteredBeasts !== 'loading'">

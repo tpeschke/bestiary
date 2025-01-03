@@ -100,7 +100,7 @@ export class SearchResultsComponent implements OnInit {
     }
     return this.sortBySize(a, b)
   }
-  
+
   filterDictionary = {
     name: 'name',
     combat: 'maxcombat',
@@ -126,7 +126,7 @@ export class SearchResultsComponent implements OnInit {
     return this.checkIfSpecial(a, b, key)
   }
 
-  
+
   sortbyAlphabet(a, b, key) {
     const upperA = a[key].toUpperCase()
     const upperB = b[key].toUpperCase()
@@ -146,7 +146,7 @@ export class SearchResultsComponent implements OnInit {
     return 0
   }
 
-  sortBySize (a, b) {
+  sortBySize(a, b) {
     const listToSortBy = ['Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Giant', 'Enormous', 'Colossal']
     const aIndex = listToSortBy.indexOf(a.size)
     const bIndex = listToSortBy.indexOf(b.size)
@@ -183,9 +183,9 @@ export class SearchResultsComponent implements OnInit {
 
     if (this.checkForAttack && this.checkForDefense) {
       if ((a[attackKey] && a[defenseKey]) && (!b[attackKey] || !b[defenseKey])) {
-       return -1
+        return -1
       } else if ((b[attackKey] && b[defenseKey]) && (!a[attackKey] || !a[defenseKey])) {
-       return 1
+        return 1
       }
     } else if (this.checkForAttack && !this.checkForDefense) {
       if (a[attackKey] && !b[attackKey]) {
@@ -295,14 +295,15 @@ export class SearchResultsComponent implements OnInit {
     }
   }
 
-  stopProp (event) {
-    event.stopPropagation()
-  }
-
   addToQuickView(event, hash) {
     event.stopPropagation()
     if (hash) {
       this.quickViewService.addToQuickViewArray(hash)
     }
+  }
+
+  openNewTab(event, beastid) {
+    event.stopPropagation()
+    window.open('/beast/' + beastid + '/gm', '_blank');
   }
 }

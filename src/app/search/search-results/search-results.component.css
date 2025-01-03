@@ -167,9 +167,20 @@ img {
     transition: .6s;
 }
 
-.add-to-quick-view:hover i {
+.fa-arrow-up-right-from-square {
+    transition: .6s;
+}
+
+.add-to-quick-view:hover i, .fa-arrow-up-right-from-square:hover {
     cursor: pointer;
     color: #ffd740 !important;
+}
+
+.icon-shell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50px;
 }
 
 @media (max-width: 699px) {

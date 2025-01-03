@@ -86,7 +86,7 @@
                 Example: 'Rogue with a heart of gold' > 'A rogue with a vile heart'"></i>
                 {{beast.archetype.archetype}}
               </p>
-              <ul *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].hasmonsterarchetypes : beast.hasmonsterarchetypes">
+              <ul class="column-display" *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].hasmonsterarchetypes : beast.hasmonsterarchetypes">
                 <li>{{beast.archetypemonster[0].archetype}}</li>
                 <li>{{beast.archetypemonster[1].archetype}}</li>
               </ul>
@@ -157,8 +157,8 @@
             <div class="conflict-inner-shell box-padding" *ngIf="showBurdens">
               <h3>Burdens & Injuries</h3>
               <div class="divider white"></div>
-              <div *ngFor="let trait of beast.conflict.burdens; let i = index">
-                <div *ngIf="((selectedRoleId && selectedRoleId === trait.socialroleid) || trait.allroles) && trait.trait !== 'Any'"
+              <div *ngFor="let trait of beast.conflict.burdens">
+                <div *ngIf="((selectedRoleId && selectedRoleId === trait.socialroleid) || trait.allroles) || trait.trait !== 'Any'"
                   class="flex-row-opposite">
                   <h5>{{trait.trait | titlecase}}</h5>
                   <h5>{{trait.severity}}</h5>
