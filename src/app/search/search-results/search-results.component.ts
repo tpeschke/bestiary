@@ -5,6 +5,7 @@ import variables from '../../../local.js'
 import { Title, Meta } from "@angular/platform-browser";
 import { MatDialog } from '@angular/material';
 import { AddToListPopUpComponent } from '../../random-encounters/add-to-list-pop-up/add-to-list-pop-up.component';
+import { QuickViewService } from 'src/app/util/services/quick-view.service';
 
 @Component({
   selector: 'app-search-results',
@@ -22,7 +23,8 @@ export class SearchResultsComponent implements OnInit {
     public titleService: Title,
     public beastService: BeastService,
     private dialog: MatDialog,
-    public metaService: Meta
+    public metaService: Meta,
+    public quickViewService: QuickViewService,
   ) { }
 
   public beasts: any = 'loading'
@@ -290,6 +292,17 @@ export class SearchResultsComponent implements OnInit {
       return `This monster has additional ${type} attack abilities that will make them stronger than their raw stats might suggestion.`
     } else if (defense) {
       return `This monster has additional ${type} defense abilities that will make them stronger than their raw stats might suggestion.`
+    }
+  }
+
+  stopProp (event) {
+    event.stopPropagation()
+  }
+
+  addToQuickView(event, hash) {
+    event.stopPropagation()
+    if (hash) {
+      this.quickViewService.addToQuickViewArray(hash)
     }
   }
 }

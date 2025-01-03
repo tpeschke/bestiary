@@ -1,3 +1,10 @@
+a {
+    font-family: unset;
+    letter-spacing: unset;
+    font-size: unset;
+    text-decoration: none;
+}
+
 mat-card {
     margin-bottom: 15px;
     display: flex;
@@ -142,8 +149,27 @@ img {
     margin-top: 10px
 }
 
-.spinner > div {
-  background-color: whitesmoke;
+.spinner>div {
+    background-color: whitesmoke;
+}
+
+.add-to-quick-view {
+    position: relative;
+}
+
+.add-to-quick-view .fa-square-plus {
+    position: absolute;
+    left: -13px;
+}
+
+.add-to-quick-view i {
+    font-size: 20px;
+    transition: .6s;
+}
+
+.add-to-quick-view:hover i {
+    cursor: pointer;
+    color: #ffd740 !important;
 }
 
 @media (max-width: 699px) {
@@ -194,4 +220,4 @@ img {
     .results-card, .filter-card {
         justify-content: center;
     }
- }
+}
