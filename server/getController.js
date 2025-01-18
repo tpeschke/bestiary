@@ -404,14 +404,14 @@ module.exports = {
         beast.artistInfo = {}
         if (req.query.edit === 'true') {
           promiseArray.push(db.get.artist(id).then(result => {
-            beast.artistInfo = { ...beast.artistInfo, ...result[0] }
+            beast.artistInfo = { ...beast.artistInfo, ...result[0], roleartists: result.splice(1) }
           }).catch(e => sendErrorForward('beast artist', e, res)))
           promiseArray.push(db.get.all.artists(id).then(result => {
             beast.artistInfo = { ...beast.artistInfo, allartists: [...result] }
           }).catch(e => sendErrorForward('beast all artists', e, res)))
         } else {
           promiseArray.push(db.get.artist(id).then(result => {
-            beast.artistInfo = { ...beast.artistInfo, ...result[0] }
+            beast.artistInfo = { ...beast.artistInfo, ...result[0], roleartists: result.splice(1) }
           }).catch(e => sendErrorForward('beast artist 2', e, res)))
         }
 

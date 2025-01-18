@@ -148,10 +148,20 @@
 
       <div *ngIf="beast.id && !beast.imagesource">
         <mat-form-field>
-          <input placeholder="Artist" matInput [matAutocomplete]="artistauto" [formControl]="artistController">
+          <input placeholder="Default Artist" matInput [matAutocomplete]="artistauto" [formControl]="artistController">
           <mat-autocomplete #artistauto="matAutocomplete" [displayWith]="getDisplayTextArtist"
             (optionSelected)="setArtist($event)">
             <mat-option *ngFor="let artist of artistFiltered | async" [value]="artist">
+              {{artist.artist}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="selectedRoleId">
+          <input placeholder="Role Artist" matInput [matAutocomplete]="artistroleauto" [formControl]="artistRoleController">
+          <mat-autocomplete #artistroleauto="matAutocomplete" [displayWith]="getDisplayTextArtist"
+            (optionSelected)="setRoleArtist($event)">
+            <mat-option *ngFor="let artist of artistRoleFiltered | async" [value]="artist">
               {{artist.artist}}
             </mat-option>
           </mat-autocomplete>

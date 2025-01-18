@@ -92,6 +92,8 @@ export class BeastViewGmComponent implements OnInit {
   public stressToTransferToQuickview = null
   public locationDamageToTransferToQuickview = {}
 
+  public artistInfo = {}
+
   public modifier = null;
   public modifierDictionary = {
     'Unique': 3,
@@ -387,7 +389,20 @@ export class BeastViewGmComponent implements OnInit {
       })
     }
     this.beast.conflict.burdens = this.beast.conflict.burdens.sort((a, b) => +b.trait - +a.trait)
-    console.log(this.beast.conflict.burdens)
+  }
+
+  setArtistToDisplay = () => {
+    let { artist, tooltip, link, roleartists } = this.beast.artistInfo
+    const roleIndex = roleartists.findIndex(role => role.roleid === this.selectedRoleId)
+
+    if (roleIndex === -1 && artist) {
+      this.artistInfo = {artist, tooltip, link}
+    } else if (roleIndex > -1 && roleartists[roleIndex].artist) {
+      let { artist, tooltip, link} = roleartists[roleIndex]
+      this.artistInfo = {artist, tooltip, link}
+    } else { 
+      this.artistInfo = {}
+    }
   }
 
   setLocationalVitality = () => {
@@ -851,6 +866,7 @@ export class BeastViewGmComponent implements OnInit {
       }
     }
 
+    this.setArtistToDisplay()
     this.getImageUrl()
     this.seeIfRoleTokenExists()
 

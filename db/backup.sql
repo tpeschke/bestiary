@@ -353,7 +353,8 @@ create table bbartists (
 create table bbbeastartist (
     id serial primary key,
     beastid int,
-    artistid int
+    artistid int,
+    roleid varchar(250)
 );
 
 create table bblocations (

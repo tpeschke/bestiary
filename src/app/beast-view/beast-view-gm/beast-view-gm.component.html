@@ -27,13 +27,14 @@
         <div>
           <img class="beastImg" *ngIf="beast.id" [src]="imageUrl" [alt]="beast.name"
             (error)="onImageError($event);">
-          <div *ngIf="beast.artistInfo.artist" class="artist-credits">
-            <p *ngIf="!beast.artistInfo.link">Artist: {{beast.artistInfo.artist}}<i *ngIf="beast.artistInfo.tooltip"
-                class="fas fa-info-circle icon-small blue" matTooltip="{{beast.artistInfo.tooltip}}"
+
+          <div *ngIf="artistInfo.artist" class="artist-credits">
+            <p *ngIf="!artistInfo.link">Artist: {{artistInfo.artist}}<i *ngIf="artistInfo.tooltip"
+                class="fas fa-info-circle icon-small blue" matTooltip="{{artistInfo.tooltip}}"
                 matTooltipClass="my-tooltip"></i></p>
-            <a *ngIf="beast.artistInfo.link" target="_blank" href="{{beast.artistInfo.link}}">Artist:
-              {{beast.artistInfo.artist}}<i *ngIf="beast.artistInfo.tooltip" class="fas fa-info-circle icon-small blue"
-                matTooltip="{{beast.artistInfo.tooltip}}" matTooltipClass="my-tooltip"></i></a>
+            <a *ngIf="artistInfo.link" target="_blank" href="{{artistInfo.link}}">Artist:
+              {{artistInfo.artist}}<i *ngIf="artistInfo.tooltip" class="fas fa-info-circle icon-small blue"
+                matTooltip="{{artistInfo.tooltip}}" matTooltipClass="my-tooltip"></i></a>
           </div>
         </div>
 

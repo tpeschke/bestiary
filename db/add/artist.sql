@@ -1,5 +1,2 @@
-INSERT INTO bbbeastartist (beastid, artistid)
-VALUES($1, $2) 
-ON CONFLICT (beastid)
-DO 
-   UPDATE SET artistid = $2;
+insert into bbbeastartist (beastid, artistid, roleid)
+values ($1, $2, $3)

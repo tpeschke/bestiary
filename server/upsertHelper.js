@@ -9,7 +9,7 @@ const saveUpdateFunctions = {
                 if (!hash) {
                     hash = createHash()
                 }
-                promiseArray.push(db.add.roles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback, rollundertrauma, attack_skill, defense_skill, attack_conf, defense_conf, isincorporeal, weaponbreakagevitality, hasarchetypes, hasmonsterarchetypes ).catch(e => sendErrorForward('update beast add roles', e, res)))
+                promiseArray.push(db.add.roles(roleid, id, vitality, hash, name, role, attack, defense, secondaryrole, combatpoints, stress, panic, caution, socialrole, socialpoints, skillrole, skillpoints, socialsecondary, size, fatigue, largeweapons, mental, knockback, singledievitality, noknockback, rollundertrauma, attack_skill, defense_skill, attack_conf, defense_conf, isincorporeal, weaponbreakagevitality, hasarchetypes, hasmonsterarchetypes).catch(e => sendErrorForward('update beast add roles', e, res)))
             })
         }).catch(e => sendErrorForward('update beast delete roles', e, res))
     },
@@ -156,15 +156,34 @@ const saveUpdateFunctions = {
         }
     },
     upsertArtist: (promiseArray, db, id, res, artistInfo) => {
-        let { id: dbid, artistid, artist, tooltip, link } = artistInfo;
-        if (artist) {
-            if (!artistid) {
-                promiseArray.push(db.add.all.artists(artist, tooltip, link).then(result => {
-                    return promiseArray.push(db.add.artist(id, result[0].id).then(result => result).catch(e => sendErrorForward('update beast add artist 1', e, res)))
-                }).catch(e => sendErrorForward('update beast add all artists', e, res)))
-            } else {
-                promiseArray.push(db.add.artist(id, artistid).then(result => result).catch(e => sendErrorForward('update beast add artist 2', e, res)))
+        function updateArtist (artistInfo) {
+            let { id: dbid, artistid, artist, tooltip, link, roleid } = artistInfo;
+            if (artist) {
+                if (!artistid) {
+                    promiseArray.push(db.add.all.artists(artist, tooltip, link).then(result => {
+                        return addOrUpdateBeastArtistInfo(dbid, id, artistid, roleid)
+                    }).catch(e => sendErrorForward('update beast add all artists', e, res)))
+                } else {
+                    addOrUpdateBeastArtistInfo(dbid, id, artistid, roleid)
+                }
             }
+        }
+
+        function addOrUpdateBeastArtistInfo (dbid, beastId, artistId, roleId) {
+            if (dbid) {
+                promiseArray.push(db.update.artist(beastId, artistId, roleId).then(result => result).catch(e => sendErrorForward('update beast update artist', e, res)))
+            } else {
+                promiseArray.push(db.add.artist(beastId, artistId, roleId).then(result => result).catch(e => sendErrorForward('update beast add artist', e, res)))
+            }
+        }
+
+        updateArtist(artistInfo)
+
+        const { roleartists } = artistInfo
+        if (roleartists && roleartists.length > 0) {
+            roleartists.forEach(role => {
+                updateArtist(role)
+            })
         }
     },
     deleteTables: (promiseArray, db, id, res, appearance, habitat, attack, defense) => {

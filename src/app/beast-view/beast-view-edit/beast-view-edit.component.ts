@@ -268,6 +268,9 @@ export class BeastViewEditComponent implements OnInit {
   public artistController = new FormControl('');
   public artistFiltered: Observable<any[]>;
 
+  public artistRoleController = new FormControl('');
+  public artistRoleFiltered: Observable<any[]>;
+
   public locationController = new FormControl('');
   public locationFiltered: Observable<any[]>;
 
@@ -747,6 +750,19 @@ export class BeastViewEditComponent implements OnInit {
     );
     this.artistController.setValue(this.beast.artistInfo)
 
+    this.artistRoleFiltered = this.artistRoleController.valueChanges.pipe(
+      startWith(''),
+      map((value: string) => this._filter(value || '', this.beast.artistInfo.allartists, 'artist')),
+    );
+    if (this.selectedRoleId) {
+      const indexToChange = this.beast.artistInfo.roleartists.findIndex(role => role.roleid === this.selectedRoleId)
+      if (indexToChange > -1) {
+        this.artistRoleController.setValue(this.beast.artistInfo.roleartists[indexToChange])
+      } else {
+        this.artistRoleController.setValue('')
+      }
+    }
+
     this.locationFiltered = this.locationController.valueChanges.pipe(
       startWith(''),
       map((value: string) => this._filter(value || '', this.beast.allLocations, 'location')),
@@ -983,7 +999,7 @@ export class BeastViewEditComponent implements OnInit {
     this.setVitalityAndStress()
   }
 
-  roundby5s (amount) {
+  roundby5s(amount) {
     return Math.ceil(amount / 5) * 5;
   }
 
@@ -1721,6 +1737,15 @@ export class BeastViewEditComponent implements OnInit {
     this.beast.artistInfo.link = link
   }
 
+  setRoleArtist() {
+    let { artist, tooltip, link, id: artistid } = this.beast.artistInfo
+    const indexToChange = this.beast.artistInfo.roleartists.findIndex(role => role.roleid === this.selectedRoleId)
+
+    if (indexToChange === -1) {
+      this.beast.artistInfo.roleartists.push({ artistid, artist, tooltip, link, roleid: this.selectedRoleId })
+    }
+  }
+
   setLocation(event) {
     let { location, link, id: locationid } = event.option.value
     this.beast.locations.push({ location, link, locationid })
@@ -1837,6 +1862,15 @@ export class BeastViewEditComponent implements OnInit {
         this.selectedSkillRole = this.skillRolesInfo[this.beast.killrole]
       } else {
         this.selectedSkillRole = {}
+      }
+    }
+
+    if (this.selectedRoleId) {
+      const indexToChange = this.beast.artistInfo.roleartists.findIndex(role => role.roleid === this.selectedRoleId)
+      if (indexToChange > -1) {
+        this.artistRoleController.setValue(this.beast.artistInfo.roleartists[indexToChange])
+      } else {
+        this.artistRoleController.setValue('')
       }
     }
 
@@ -2356,7 +2390,7 @@ export class BeastViewEditComponent implements OnInit {
   }
 
   getImageUrl() {
-    this.imageUrl = this.imageBase + this.beast.id + (this.selectedRoleId ? `${this.selectedRoleId}` : '')  + '?t=' + new Date().getSeconds()
+    this.imageUrl = this.imageBase + this.beast.id + (this.selectedRoleId ? `${this.selectedRoleId}` : '') + '?t=' + new Date().getSeconds()
     this.previewUrl = this.imageBase + this.beast.id + '?t=' + new Date().getSeconds()
   }
 
