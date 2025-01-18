@@ -1737,13 +1737,15 @@ export class BeastViewEditComponent implements OnInit {
     this.beast.artistInfo.link = link
   }
 
-  setRoleArtist() {
-    let { artist, tooltip, link, id: artistid } = this.beast.artistInfo
+  setRoleArtist(event) {
+    let { artist, tooltip, link, id: artistid } = event.option.value
     const indexToChange = this.beast.artistInfo.roleartists.findIndex(role => role.roleid === this.selectedRoleId)
 
     if (indexToChange === -1) {
       this.beast.artistInfo.roleartists.push({ artistid, artist, tooltip, link, roleid: this.selectedRoleId })
     }
+
+    console.log(this.beast.artistInfo)
   }
 
   setLocation(event) {
