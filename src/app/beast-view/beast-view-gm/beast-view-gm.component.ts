@@ -150,6 +150,7 @@ export class BeastViewGmComponent implements OnInit {
       this.determineIfCharacteristicsShouldBeShown()
       this.setDisplayVitality()
       this.setLocationalVitality()
+      this.setArtistToDisplay()
 
       const roleParameter = this.router.url.split('/')[4]
       if (roleParameter && ['Unique', 'Greater', 'Dread', 'THE'].includes(roleParameter)) {
@@ -393,14 +394,18 @@ export class BeastViewGmComponent implements OnInit {
 
   setArtistToDisplay = () => {
     let { artist, tooltip, link, roleartists } = this.beast.artistInfo
-    const roleIndex = roleartists.findIndex(role => role.roleid === this.selectedRoleId)
 
-    if (roleIndex === -1 && artist) {
+    if (this.selectedRoleId) {
+      const roleIndex = roleartists.findIndex(role => role.roleid === this.selectedRoleId)
+      if (roleIndex > -1 && roleartists[roleIndex].artist) {
+        let { artist, tooltip, link} = roleartists[roleIndex]
+        this.artistInfo = {artist, tooltip, link}
+      } else { 
+        this.artistInfo = {}
+      }
+    } else if (artist) {
       this.artistInfo = {artist, tooltip, link}
-    } else if (roleIndex > -1 && roleartists[roleIndex].artist) {
-      let { artist, tooltip, link} = roleartists[roleIndex]
-      this.artistInfo = {artist, tooltip, link}
-    } else { 
+    } else {
       this.artistInfo = {}
     }
   }
