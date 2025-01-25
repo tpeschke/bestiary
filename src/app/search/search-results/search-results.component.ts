@@ -46,14 +46,10 @@ export class SearchResultsComponent implements OnInit {
 
     this.router.events.subscribe(p => {
       if (p instanceof NavigationEnd) {
-        params = this.currentRoute.snapshot.params
-
-        if (Object.keys(params).length === 0) {
-          this.router.navigate(['/']);
-        }
-
         this.filteredBeasts = 'loading'
+        let { params } = this.currentRoute.snapshot
         this.adventureService.searchBeasts(params).subscribe(incomingBeasts => {
+          console.log(incomingBeasts)
           this.beasts = incomingBeasts
           this.filterBy()
         })
