@@ -1115,6 +1115,40 @@
             <p class="top-margin"><strong>Secondary Description: </strong>
               {{combatRolesSecondaryInfo[beast.secondaryrole].description}}</p>
           </div>
+          <div *ngIf="checkIfSoloOrElite()" class="top-margin">
+            <p>{{produceEliteOrSoloAdditionalExplanation()}}</p>
+            <ul>
+              <li>
+                Movement
+                <ul>
+                  <li>Move away from enemies</li>
+                  <li>Move enemies</li>
+                  <li>Pin enemies</li>
+                </ul>
+              </li>
+              <li>
+                Attack
+                <ul>
+                  <li>Damage multiple enemies</li>
+                  <li>Multiple attacks</li>
+                  <li>Faster attacks</li>
+                </ul>
+              </li>
+              <li>
+                Defense
+                <ul>
+                  <li>Parry multiple enemies (not Defense)</li>
+                </ul>
+              </li>
+              <li>
+                Allies
+                <ul>
+                  <li>Apply any of the above to multiple allies</li>
+                </ul>
+              </li>
+            </ul>
+            <p *ngIf="addExtraIfSolo()">And have an ability that triggers when they become Wounded / Shaken</p>
+          </div>
 
           <div
             *ngIf="!(selectedRoleId && beast.roleInfo[selectedRoleId].role ? beast.roleInfo[selectedRoleId].role : selectedRoleId ? null : beast.role)">

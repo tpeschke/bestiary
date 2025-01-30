@@ -57,6 +57,7 @@ strong {
 
 .top-margin {
     margin-top: 5px;
+    white-space: break-spaces;
 }
 
 .flex-opposite {

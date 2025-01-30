@@ -225,7 +225,9 @@ getRoleName = (val) => {
         case 29:
             return 'Hazard'
         case 30:
-            return 'Fodder'
+            return 'Fodder'       
+        case 31:
+            return 'Elite'
         default:
             return ''
     }

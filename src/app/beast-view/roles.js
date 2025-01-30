@@ -653,9 +653,12 @@ export default {
                     },
                 ]
             },
+            'Elite': {
+                description: 'Elites are a real threat to a single character so they must be faught by multiple characters at the same time. They have special abilities that keep them dangerous and the fight interesting.',
+            },
             'Solo': {
                 description: 'Solos fight alone against the party. They have special abilities that keep them dangerous and the fight interesting.',
-            }
+            },
         }
     }
 }

@@ -1759,6 +1759,38 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  checkIfSoloOrElite () {
+    let secondaryRole = null
+    if (this.selectedRoleId) {
+      secondaryRole = this.beast.roleInfo[this.selectedRoleId].secondaryrole
+    } else {
+      secondaryRole = this.beast.secondaryrole
+    }
+
+    return secondaryRole && (secondaryRole === 'Elite' || secondaryRole === 'Solo')
+  }
+
+  produceEliteOrSoloAdditionalExplanation () {
+    let secondaryRole = null
+    if (this.selectedRoleId) {
+      secondaryRole = this.beast.roleInfo[this.selectedRoleId].secondaryrole
+    } else {
+      secondaryRole = this.beast.secondaryrole
+    }
+
+    return `${secondaryRole}s should have 1 - ${secondaryRole === 'Solo' ? '3' : '2'} of the following types of abilities:`
+  }
+
+  addExtraIfSolo () {
+    let secondaryRole = null
+    if (this.selectedRoleId) {
+      secondaryRole = this.beast.roleInfo[this.selectedRoleId].secondaryrole
+    } else {
+      secondaryRole = this.beast.secondaryrole
+    }
+    return secondaryRole === 'Solo'
+  }
+
   addNewLocation() {
     let { location, link } = this.location
     this.beast.locations.push({ location, link })

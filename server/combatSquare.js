@@ -206,8 +206,10 @@ setVitalityDieAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryro
         if (secondaryrole) {
             if (secondaryrole === 'Fodder') {
                 numberOfIncreases = Math.ceil(numberOfIncreases / 2)
+            } else if (secondaryrole === 'Elite') {
+                numberOfIncreases *= 2.5
             } else if (secondaryrole === 'Solo') {
-                numberOfIncreases *= 3
+                numberOfIncreases *= 3.5
             }
         }
 
@@ -285,8 +287,10 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole,
     if (secondaryrole && physical.largeweapons !== 'N') {
         if (secondaryrole === 'Fodder' && physical.largeweapons !== 1) {
             physical.largeweapons = Math.ceil(physical.largeweapons / 2)
+        } else if (secondaryrole === 'Elite') {
+            physical.largeweapons *= 2.5
         } else if (secondaryrole === 'Solo') {
-            physical.largeweapons *= 3
+            physical.largeweapons *= 3.5
         }
     }
     physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatpoints, armor, shield, physical.largeweapons, sizeMod, noknockback)
