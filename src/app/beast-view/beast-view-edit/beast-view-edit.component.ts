@@ -1587,6 +1587,20 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  displayNameForLootValue (value) {
+    const dictionary = {
+      a: 'None',
+      b: 'Low',
+      c: 'Medium',
+      d: 'High',
+      e: 'Low, Nonscaling',
+      f: 'Medium, Nonscaling',
+      g: 'High, Nonscaling' 
+    }
+
+    return dictionary[value]
+  }
+
   getDisplayTextTemp = (option) => {
     return this.getDisplayText(option, 'temperament')
   }

@@ -1,10 +1,34 @@
 <div>
   <div class="loot-inner-shell underline">
     <h4>Default</h4>
+    
     <mat-form-field>
-      <input [value]="defaultItem.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
-        (change)="updateDefault($event, 'chance')">
+      <mat-label>Chance</mat-label>
+      <mat-select [value]="defaultItem.chance" (selectionChange)="updateDefault($event, 'chance')">
+        <mat-option>
+          None
+        </mat-option>
+        <mat-option value="b">
+          Low
+        </mat-option>
+        <mat-option value="c">
+          Medium
+        </mat-option>
+        <mat-option value="d">
+          High
+        </mat-option>
+        <mat-option value="e">
+          Low, Nonscaling
+        </mat-option>
+        <mat-option value="f">
+          Medium, Nonscaling
+        </mat-option>
+        <mat-option value="g">
+          High, Nonscaling
+        </mat-option>
+      </mat-select>
     </mat-form-field>
+
     <mat-form-field>
       <input [value]="defaultItem.number" placeholder="Number" type="number" min="1" max="25" matInput
         (change)="updateDefault($event, 'number')">
@@ -78,9 +102,32 @@
     <div
       *ngIf="items[category.id]?.itemcategory || items[category.id]?.materialrarity || items[category.id]?.detailing || items[category.id]?.wear || items[category.id]?.chance || items[category.id]?.number">
       <mat-form-field>
-        <input [value]="items[category.id]?.chance" placeholder="Chance (%)" type="number" min="1" max="99" matInput
-          (change)="updateItem($event, lootLocation, 'chance', category.id)">
+        <mat-label>Chance</mat-label>
+        <mat-select [value]="items[category.id]?.chance" (selectionChange)="updateItem($event, lootLocation, 'chance', category.id)">
+          <mat-option>
+            None
+          </mat-option>
+          <mat-option value="b">
+            Low
+          </mat-option>
+          <mat-option value="c">
+            Medium
+          </mat-option>
+          <mat-option value="d">
+            High
+          </mat-option>
+          <mat-option value="e">
+            Low, Nonscaling
+          </mat-option>
+          <mat-option value="f">
+            Medium, Nonscaling
+          </mat-option>
+          <mat-option value="g">
+            High, Nonscaling
+          </mat-option>
+        </mat-select>
       </mat-form-field>
+      
       <mat-form-field>
         <input [value]="items[category.id]?.number" placeholder="Number" type="number" min="1" max="25" matInput
           (change)="updateItem($event, lootLocation, 'number', category.id)">

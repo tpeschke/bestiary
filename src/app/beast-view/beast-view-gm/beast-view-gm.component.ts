@@ -398,13 +398,13 @@ export class BeastViewGmComponent implements OnInit {
     if (this.selectedRoleId) {
       const roleIndex = roleartists.findIndex(role => role.roleid === this.selectedRoleId)
       if (roleIndex > -1 && roleartists[roleIndex].artist) {
-        let { artist, tooltip, link} = roleartists[roleIndex]
-        this.artistInfo = {artist, tooltip, link}
-      } else { 
+        let { artist, tooltip, link } = roleartists[roleIndex]
+        this.artistInfo = { artist, tooltip, link }
+      } else {
         this.artistInfo = {}
       }
     } else if (artist) {
-      this.artistInfo = {artist, tooltip, link}
+      this.artistInfo = { artist, tooltip, link }
     } else {
       this.artistInfo = {}
     }
@@ -459,7 +459,7 @@ export class BeastViewGmComponent implements OnInit {
     const lairLoot = this.getLairLoot()
     const carriedLoot = this.getCarriedLoot()
 
-    setTimeout(_=> {
+    setTimeout(_ => {
       this.beastService.getTreasure({ requestArray: [lairLoot, carriedLoot] }).subscribe(treasure => {
         this.isCarriedEquipmentLoading = false;
         this.isLairEquipmentLoading = false;
@@ -473,29 +473,18 @@ export class BeastViewGmComponent implements OnInit {
     this.lairLoot = []
     let lootToRequest: any = {}
     let timesToRoll = this.monsterNumber ? this.monsterNumber : 1;
-    let { copper, silver, gold, enchanted, potion, items, scrolls, alms, talisman } = this.beast.lairloot
+    let { copper, enchanted, potion, items, scrolls, alms, talisman } = this.beast.lairloot
 
-    this.lairlootpresent = copper || silver || gold || enchanted || potion || talisman || items.length > 0 || scrolls > 0 || alms > 0
-    let { staticValues, numberAppearing, enchantedTable, scrollPower, almsFavor } = lootTables
-      , { rollDice } = this.calculatorService
+    this.lairlootpresent = copper || enchanted || potion || talisman || items.length > 0 || scrolls > 0 || alms > 0
 
-    if (alms.length > 0) {
-      for (let i = 0; i < timesToRoll; i++) {
-        for (let x = 0; x < alms.length; x++) {
-          let favor = rollDice(almsFavor[alms[x].favor])
-            , number = rollDice(numberAppearing[alms[x].number])
-          if (number > 0) {
-            this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
-          }
-        }
-      }
-    }
+    const monsterMax = Math.max(this.beast.combatpoints, this.beast.socialpoints, this.beast.skillpoints)
 
     if (enchanted) {
       let numberOfItems = 0
+      const baseChance = this.generateEnchantedItem(monsterMax, enchanted)
       for (let i = 0; i < timesToRoll; i++) {
         let enchantedChance = Math.floor(Math.random() * 101);
-        if (enchantedTable[enchanted].minor >= enchantedChance) {
+        if (baseChance >= enchantedChance) {
           numberOfItems++
         }
       }
@@ -504,46 +493,14 @@ export class BeastViewGmComponent implements OnInit {
       }
     }
 
-    if (potion) {
-      let numberOfItems = 0
-      for (let i = 0; i < timesToRoll; i++) {
-        numberOfItems += Math.min(rollDice(numberAppearing[potion]), 4)
-      }
-      if (numberOfItems > 0) {
-        lootToRequest.potions = { numberOfItems }
-      }
-    }
-
-    if (talisman) {
-      let numberOfItems = 0
-      for (let i = 0; i < timesToRoll; i++) {
-        numberOfItems += Math.min(rollDice(numberAppearing[talisman]), 4)
-      }
-      if (numberOfItems > 0) {
-        lootToRequest.talismans = { numberOfItems }
-      }
-    }
-
-    if (scrolls.length > 0) {
-      let scrollsArray = []
-      for (let y = 0; y < timesToRoll; y++) {
-        for (let i = 0; i < scrolls.length; i++) {
-          let power = rollDice(scrollPower[scrolls[i].power])
-            , numberOfItems = rollDice(numberAppearing[scrolls[i].number])
-          if (numberOfItems > 0) {
-            scrollsArray.push({ numberOfItems, power })
-          }
-        }
-      }
-    }
-
     if (items.length > 0) {
       let itemArray = []
       for (let y = 0; y < timesToRoll; y++) {
         for (let i = 0; i < items.length; i++) {
           const { number, chance, detailing, itemcategory, materialrarity, wear } = items[i]
+          const baseChance = this.generateUniqueItem(monsterMax, chance)
           for (let n = 0; n < number; n++) {
-            if (rollDice('1d100') <= chance) {
+            if (this.calculatorService.rollDice('1d100') <= baseChance) {
               this.isLairEquipmentLoading = true
               itemArray.push({ detailing, itemcategory, materialrarity, wear: wear.split('d')[1] })
             }
@@ -555,31 +512,67 @@ export class BeastViewGmComponent implements OnInit {
       }
     }
 
+    if (alms.length > 0) {
+      for (let i = 0; i < timesToRoll; i++) {
+        for (let x = 0; x < alms.length; x++) {
+          const favor = this.generateScriptFavor(monsterMax, alms[x].favor)
+            , number = this.generateScriptNumber(monsterMax, alms[x].number)
+          if (number > 0) {
+            this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
+          }
+        }
+      }
+    }
+
+    if (scrolls.length > 0) {
+      let scrollsArray = []
+      for (let y = 0; y < timesToRoll; y++) {
+        for (let i = 0; i < scrolls.length; i++) {
+          const power = this.generateScrollPower(monsterMax, scrolls[i].power)
+            , numberOfItems = this.generateScriptNumber(monsterMax, scrolls[i].number)
+          if (numberOfItems > 0) {
+            scrollsArray.push({ numberOfItems, power })
+          }
+        }
+      }
+    }
+
+    if (potion) {
+      let numberOfItems = 0
+      for (let i = 0; i < timesToRoll; i++) {
+        numberOfItems += this.generatePotion(monsterMax, potion)
+      }
+      if (numberOfItems > 0) {
+        lootToRequest.potions = { numberOfItems }
+      }
+    }
+
+    if (talisman) {
+      let numberOfItems = 0
+      for (let i = 0; i < timesToRoll; i++) {
+        numberOfItems += this.generateTalisman(monsterMax, talisman)
+      }
+      if (numberOfItems > 0) {
+        lootToRequest.talismans = { numberOfItems }
+      }
+    }
+
     if (copper) {
-      let copperNumber = 0
+      let coinNumber = []
       for (let i = 0; i < timesToRoll; i++) {
-        copperNumber += rollDice(staticValues[copper]);
+        const coinArray = this.generateCoin(monsterMax, copper);
+        coinNumber[0] += coinArray[0]
+        coinNumber[1] += coinArray[1]
+        coinNumber[2] += coinArray[2]
       }
-      if (copperNumber > 0) {
-        this.lairLoot.push(copperNumber + " cc in coin")
+      if (coinNumber[0] > 0) {
+        this.lairLoot.push(coinNumber[0] + " gc in coin")
       }
-    }
-    if (silver) {
-      let silverNumber = 0
-      for (let i = 0; i < timesToRoll; i++) {
-        silverNumber += rollDice(staticValues[silver]);
+      if (coinNumber[1] > 0) {
+        this.lairLoot.push(coinNumber[1] + " sc in coin")
       }
-      if (silverNumber > 0) {
-        this.lairLoot.push(silverNumber + " sc in coin")
-      }
-    }
-    if (gold) {
-      let goldNumber = 0
-      for (let i = 0; i < timesToRoll; i++) {
-        goldNumber += rollDice(staticValues[gold]);
-      }
-      if (goldNumber > 0) {
-        this.lairLoot.push(goldNumber + " gc in coin")
+      if (coinNumber[2] > 0) {
+        this.lairLoot.push(coinNumber[2] + " cc in coin")
       }
     }
 
@@ -590,29 +583,18 @@ export class BeastViewGmComponent implements OnInit {
     this.carriedLoot = []
     let lootToRequest: any = {}
     let timesToRoll = this.monsterNumber ? this.monsterNumber : 1;
-    let { copper, silver, gold, enchanted, potion, items, scrolls, alms, talisman } = this.beast.carriedloot
+    let { copper, enchanted, potion, items, scrolls, alms, talisman } = this.beast.carriedloot
 
-    this.carriedlootpresent = copper || silver || gold || enchanted || potion || talisman || items.length > 0 || scrolls > 0 || alms > 0
-    let { staticValues, numberAppearing, enchantedTable, scrollPower, almsFavor } = lootTables
-      , { rollDice } = this.calculatorService
+    this.carriedlootpresent = copper || enchanted || potion || talisman || items.length > 0 || scrolls > 0 || alms > 0
 
-    if (alms.length > 0) {
-      for (let i = 0; i < timesToRoll; i++) {
-        for (let x = 0; x < alms.length; x++) {
-          let favor = rollDice(almsFavor[alms[x].favor])
-            , number = rollDice(numberAppearing[alms[x].number])
-          if (number > 0) {
-            this.carriedLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
-          }
-        }
-      }
-    }
+    const monsterMax = Math.max(this.beast.combatpoints, this.beast.socialpoints, this.beast.skillpoints)
 
     if (enchanted) {
       let numberOfItems = 0
+      const baseChance = this.generateEnchantedItem(monsterMax, enchanted) * 2
       for (let i = 0; i < timesToRoll; i++) {
         let enchantedChance = Math.floor(Math.random() * 101);
-        if (enchantedTable[enchanted].minor >= enchantedChance) {
+        if (baseChance >= enchantedChance) {
           numberOfItems++
         }
       }
@@ -621,47 +603,15 @@ export class BeastViewGmComponent implements OnInit {
       }
     }
 
-    if (potion) {
-      let numberOfItems = 0
-      for (let i = 0; i < timesToRoll; i++) {
-        numberOfItems += Math.min(rollDice(numberAppearing[potion]), 4)
-      }
-      if (numberOfItems > 0) {
-        lootToRequest.potions = { numberOfItems }
-      }
-    }
-
-    if (talisman) {
-      let numberOfItems = 0
-      for (let i = 0; i < timesToRoll; i++) {
-        numberOfItems += Math.min(rollDice(numberAppearing[talisman]), 4)
-      }
-      if (numberOfItems > 0) {
-        lootToRequest.talismans = { numberOfItems }
-      }
-    }
-
-    if (scrolls.length > 0) {
-      let scrollsArray = []
-      for (let y = 0; y < timesToRoll; y++) {
-        for (let i = 0; i < scrolls.length; i++) {
-          let power = rollDice(scrollPower[scrolls[i].power])
-            , numberOfItems = rollDice(numberAppearing[scrolls[i].number])
-          if (numberOfItems > 0) {
-            scrollsArray.push({ numberOfItems, power })
-          }
-        }
-      }
-    }
-
     if (items.length > 0) {
       let itemArray = []
       for (let y = 0; y < timesToRoll; y++) {
         for (let i = 0; i < items.length; i++) {
           const { number, chance, detailing, itemcategory, materialrarity, wear } = items[i]
+          const baseChance = this.generateUniqueItem(monsterMax, chance) * 3
           for (let n = 0; n < number; n++) {
-            if (rollDice('1d100') <= chance) {
-              this.isCarriedEquipmentLoading = true
+            if (this.calculatorService.rollDice('1d100') <= baseChance) {
+              this.isLairEquipmentLoading = true
               itemArray.push({ detailing, itemcategory, materialrarity, wear: wear.split('d')[1] })
             }
           }
@@ -672,35 +622,211 @@ export class BeastViewGmComponent implements OnInit {
       }
     }
 
+    if (alms.length > 0) {
+      for (let i = 0; i < timesToRoll; i++) {
+        for (let x = 0; x < alms.length; x++) {
+          const favor = this.generateScriptFavor(monsterMax, alms[x].favor)
+            , number = this.generateScriptNumber(monsterMax, alms[x].number)
+          if (number > 0) {
+            this.lairLoot.push(`${number} alm script${number > 1 ? 's' : ''} (${favor} Favor)`)
+          }
+        }
+      }
+    }
+
+    if (scrolls.length > 0) {
+      let scrollsArray = []
+      for (let y = 0; y < timesToRoll; y++) {
+        for (let i = 0; i < scrolls.length; i++) {
+          const power = this.generateScrollPower(monsterMax, scrolls[i].power)
+            , numberOfItems = this.generateScrollNumber(monsterMax, scrolls[i].number)
+          if (numberOfItems > 0) {
+            scrollsArray.push({ numberOfItems, power })
+          }
+        }
+      }
+    }
+
+    if (potion) {
+      let numberOfItems = 0
+      for (let i = 0; i < timesToRoll; i++) {
+        numberOfItems += this.generatePotion(monsterMax, potion) * 3
+      }
+      if (numberOfItems > 0) {
+        lootToRequest.potions = { numberOfItems }
+      }
+    }
+
+    if (talisman) {
+      let numberOfItems = 0
+      for (let i = 0; i < timesToRoll; i++) {
+        numberOfItems += this.generateTalisman(monsterMax, talisman) * 3
+      }
+      if (numberOfItems > 0) {
+        lootToRequest.talismans = { numberOfItems }
+      }
+    }
+
     if (copper) {
-      let copperNumber = 0
+      let coinNumber = []
       for (let i = 0; i < timesToRoll; i++) {
-        copperNumber += rollDice(staticValues[copper]);
+        const coinArray = this.generateCoin(monsterMax, copper);
+        coinNumber[0] += coinArray[0]
+        coinNumber[1] += coinArray[1]
+        coinNumber[2] += coinArray[2]
       }
-      if (copperNumber > 0) {
-        this.carriedLoot.push(copperNumber + " cc in coin")
+      if (coinNumber[0] > 0) {
+        this.lairLoot.push(coinNumber[0] * 3 + " gc in coin")
       }
-    }
-    if (silver) {
-      let silverNumber = 0
-      for (let i = 0; i < timesToRoll; i++) {
-        silverNumber += rollDice(staticValues[silver]);
+      if (coinNumber[1] > 0) {
+        this.lairLoot.push(coinNumber[1] * 3 + " sc in coin")
       }
-      if (silverNumber > 0) {
-        this.carriedLoot.push(silverNumber + " sc in coin")
-      }
-    }
-    if (gold) {
-      let goldNumber = 0
-      for (let i = 0; i < timesToRoll; i++) {
-        goldNumber += rollDice(staticValues[gold]);
-      }
-      if (goldNumber > 0) {
-        this.carriedLoot.push(goldNumber + " gc in coin")
+      if (coinNumber[2] > 0) {
+        this.lairLoot.push(coinNumber[2] * 3 + " cc in coin")
       }
     }
 
     return lootToRequest
+  }
+
+  generateCoin = (monsterMax, frequency) => {
+    let { coinScaling } = lootTables
+    const coinAmount = (this.calculatorService.rollDice('1d6') + this.calculatorService.rollDice('1d6')) * this.calculatorService.rollDice('1d20')
+
+    const isNonScaling = frequency === coinScaling.e || frequency === coinScaling.f || frequency === coinScaling.g
+
+    let finalCoinAmount = 0
+    if (isNonScaling) {
+      finalCoinAmount = coinAmount * coinScaling[frequency]
+    } else {
+      finalCoinAmount = coinAmount * (monsterMax + 1) * coinScaling[frequency]
+    }
+
+    const gold = Math.floor(finalCoinAmount / 100)
+      , silver = Math.floor(finalCoinAmount / 10) - (gold * 10)
+      , copper = finalCoinAmount - (gold * 100) - (silver * 10)
+
+    return [gold, silver, copper]
+  }
+
+  generateEnchantedItem = (monsterMax, frequency) => {
+    let { enchantedItemChanceScaling } = lootTables
+    const isNonScaling = frequency === enchantedItemChanceScaling.e || frequency === enchantedItemChanceScaling.f || frequency === enchantedItemChanceScaling.g
+
+    let finalChance = 0
+    if (isNonScaling) {
+      finalChance = enchantedItemChanceScaling[frequency]
+    } else {
+      finalChance = (monsterMax + 1) * enchantedItemChanceScaling[frequency]
+    }
+
+    return finalChance
+  }
+
+  generateUniqueItem = (monsterMax, frequency) => {
+    let { uniqueItemChanceScaling } = lootTables
+    const isNonScaling = frequency === uniqueItemChanceScaling.e || frequency === uniqueItemChanceScaling.f || frequency === uniqueItemChanceScaling.g
+
+    let finalChance = 0
+    if (isNonScaling) {
+      finalChance = uniqueItemChanceScaling[frequency]
+    } else {
+      finalChance = (monsterMax + 1) * uniqueItemChanceScaling[frequency]
+    }
+
+    return finalChance
+  }
+
+  generateScriptNumber = (monsterMax, frequency) => {
+    let { talismanPotionScrollAlmScriptScaling } = lootTables
+    const scrollAmount = this.calculatorService.rollDice('1d8') - 2
+    const isNonScaling = frequency === talismanPotionScrollAlmScriptScaling.e || frequency === talismanPotionScrollAlmScriptScaling.f || frequency === talismanPotionScrollAlmScriptScaling.g
+
+    const monsterAmountModifier = 4 - (Math.floor(monsterMax / 5))
+
+    if (isNonScaling) {
+      return Math.max(scrollAmount + talismanPotionScrollAlmScriptScaling[frequency], 0)
+    } else {
+      return Math.max((scrollAmount + talismanPotionScrollAlmScriptScaling[frequency]) - monsterAmountModifier, 0)
+    }
+  }
+
+  generateScriptFavor = (monsterMax, frequency) => {
+    let { spellPointsFavorScaling } = lootTables
+    const spAmount = this.calculatorService.rollDice('1d3')
+
+    const isNonScaling = frequency === spellPointsFavorScaling.e || frequency === spellPointsFavorScaling.f || frequency === spellPointsFavorScaling.g
+
+    const monsterAmountModifier = Math.floor(monsterMax / 5)
+
+    if (isNonScaling) {
+      return Math.max(Math.floor(spAmount * spellPointsFavorScaling[frequency]), 1)
+    } else {
+      return Math.max((Math.floor(spAmount * spellPointsFavorScaling[frequency])) + monsterAmountModifier, 1)
+    }
+  }
+
+  generateScrollNumber = (monsterMax, frequency) => {
+    let { talismanPotionScrollAlmScriptScaling } = lootTables
+    const scrollAmount = this.calculatorService.rollDice('1d8') - 3
+
+    const isNonScaling = frequency === talismanPotionScrollAlmScriptScaling.e || frequency === talismanPotionScrollAlmScriptScaling.f || frequency === talismanPotionScrollAlmScriptScaling.g
+
+    const monsterAmountModifier = 4 - (Math.floor(monsterMax / 5))
+
+    if (isNonScaling) {
+      return Math.max(scrollAmount + talismanPotionScrollAlmScriptScaling[frequency], 0)
+    } else {
+      return Math.max((scrollAmount + talismanPotionScrollAlmScriptScaling[frequency]) - monsterAmountModifier, 0)
+    }
+  }
+
+  generateScrollPower = (monsterMax, frequency) => {
+    let { spellPointsFavorScaling } = lootTables
+    const spAmount = Math.floor(Math.random() * (10 - 5 + 1) + 5);
+
+    const isNonScaling = frequency === spellPointsFavorScaling.e || frequency === spellPointsFavorScaling.f || frequency === spellPointsFavorScaling.g
+
+    if (isNonScaling) {
+      return Math.max(Math.floor(spAmount * spellPointsFavorScaling[frequency]), 5)
+    } else {
+      return Math.max((Math.floor(spAmount * spellPointsFavorScaling[frequency])) + monsterMax, 5)
+    }
+  }
+
+  generatePotion = (monsterMax, frequency) => {
+    let { talismanPotionScrollAlmScriptScaling } = lootTables
+    const talismanAmount = this.calculatorService.rollDice('1d8') - 4
+    const isNonScaling = frequency === talismanPotionScrollAlmScriptScaling.e || frequency === talismanPotionScrollAlmScriptScaling.f || frequency === talismanPotionScrollAlmScriptScaling.g
+
+    const monsterModifier = 4 - (Math.floor(monsterMax / 5))
+
+    let finalTalismanAmount = 0
+    if (isNonScaling) {
+      finalTalismanAmount = Math.max(talismanAmount + talismanPotionScrollAlmScriptScaling[frequency], 0)
+    } else {
+      finalTalismanAmount = Math.max((talismanAmount + talismanPotionScrollAlmScriptScaling[frequency]) - monsterModifier, 0)
+    }
+
+    return finalTalismanAmount
+  }
+
+  generateTalisman = (monsterMax, frequency) => {
+    let { talismanPotionScrollAlmScriptScaling } = lootTables
+    const talismanAmount = this.calculatorService.rollDice('1d8') - 4
+
+    const isNonScaling = frequency === talismanPotionScrollAlmScriptScaling.e || frequency === talismanPotionScrollAlmScriptScaling.f || frequency === talismanPotionScrollAlmScriptScaling.g
+
+    const monsterModifier = 4 - (Math.floor(monsterMax / 5))
+
+    let finalTalismanAmount = 0
+    if (isNonScaling) {
+      finalTalismanAmount = Math.max(talismanAmount + talismanPotionScrollAlmScriptScaling[frequency], 0)
+    } else {
+      finalTalismanAmount = Math.max((talismanAmount + talismanPotionScrollAlmScriptScaling[frequency]) - monsterModifier, 0)
+    }
+
+    return finalTalismanAmount
   }
 
   navigateToSearch(type, search) {
@@ -1415,7 +1541,7 @@ export class BeastViewGmComponent implements OnInit {
 
     const tokenBase = this.roleTokenExists && this.selectedRoleId ? this.beast.id + this.selectedRoleId : this.beast.id
     const tokenId = this.tokenExists ? tokenBase : this.beast.imagesource
-    
+
     let archetypes = []
     if ((this.selectedRoleId && selectedRoleInfo.hasarchetypes) || hasarchetypes) {
       if (this.selectedRoleId) {

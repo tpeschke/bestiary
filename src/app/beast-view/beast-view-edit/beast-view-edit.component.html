@@ -158,7 +158,8 @@
         </mat-form-field>
 
         <mat-form-field *ngIf="selectedRoleId">
-          <input placeholder="Role Artist" matInput [matAutocomplete]="artistroleauto" [formControl]="artistRoleController">
+          <input placeholder="Role Artist" matInput [matAutocomplete]="artistroleauto"
+            [formControl]="artistRoleController">
           <mat-autocomplete #artistroleauto="matAutocomplete" [displayWith]="getDisplayTextArtist"
             (optionSelected)="setRoleArtist($event)">
             <mat-option *ngFor="let artist of artistRoleFiltered | async" [value]="artist">
@@ -581,8 +582,9 @@
             (change)="checkCheckBox($event.checked, 'hasarchetypes')"> This entry generates a character Archetype by
             default. </mat-checkbox>
           <br>
-          <button mat-raised-button *ngIf="beast.roles.length > 0 && (selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes)" (click)="toggleArchetypesForAllRoles('hasarchetypes')"
-            color="accent">Toggle
+          <button mat-raised-button
+            *ngIf="beast.roles.length > 0 && (selectedRoleId ? beast.roleInfo[selectedRoleId].hasarchetypes : beast.hasarchetypes)"
+            (click)="toggleArchetypesForAllRoles('hasarchetypes')" color="accent">Toggle
             Archetypes for All Roles</button>
           <br>
           <mat-checkbox
@@ -591,11 +593,13 @@
             by
             default. </mat-checkbox>
           <br>
-          <button mat-raised-button *ngIf="beast.roles.length > 0 && (selectedRoleId ? beast.roleInfo[selectedRoleId].hasmonsterarchetypes : beast.hasmonsterarchetypes)" (click)="toggleArchetypesForAllRoles('hasmonsterarchetypes')"
-            color="accent">Toggle Monster
+          <button mat-raised-button
+            *ngIf="beast.roles.length > 0 && (selectedRoleId ? beast.roleInfo[selectedRoleId].hasmonsterarchetypes : beast.hasmonsterarchetypes)"
+            (click)="toggleArchetypesForAllRoles('hasmonsterarchetypes')" color="accent">Toggle Monster
             Archetypes for All Roles</button>
           <br>
-          <mat-form-field *ngIf="selectedRoleId ? (beast.roleInfo[selectedRoleId].hasarchetypes || beast.roleInfo[selectedRoleId].hasmonsterarchetypes) : (beast.hasarchetypes || beast.hasmonsterarchetypes)">
+          <mat-form-field
+            *ngIf="selectedRoleId ? (beast.roleInfo[selectedRoleId].hasarchetypes || beast.roleInfo[selectedRoleId].hasmonsterarchetypes) : (beast.hasarchetypes || beast.hasmonsterarchetypes)">
             <mat-label>Archetype Difficulty</mat-label>
             <mat-select
               [value]="(beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints) + ''"
@@ -1858,103 +1862,28 @@
                 <h3>Coins</h3>
                 <div class="loot-inner-shell">
                   <mat-form-field>
-                    <mat-label>Copper</mat-label>
                     <mat-select [value]="beast.carriedloot.copper"
                       (selectionChange)="captureSelectForObject($event, 'copper', 'carriedloot')">
                       <mat-option>
                         Nothing
                       </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.staticValues.a}}
-                      </mat-option>
                       <mat-option value="b">
-                        {{lootTables.staticValues.b}}
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{lootTables.staticValues.c}}
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{lootTables.staticValues.d}}
+                        High
                       </mat-option>
                       <mat-option value="e">
-                        {{lootTables.staticValues.e}}
+                        Low, Nonscaling
                       </mat-option>
                       <mat-option value="f">
-                        {{lootTables.staticValues.f}}
+                        Medium, Nonscaling
                       </mat-option>
                       <mat-option value="g">
-                        {{lootTables.staticValues.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.staticValues.h}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-
-                  <mat-form-field>
-                    <mat-label>Silver</mat-label>
-                    <mat-select [value]="beast.carriedloot.silver"
-                      (selectionChange)="captureSelectForObject($event, 'silver', 'carriedloot')">
-                      <mat-option>
-                        Nothing
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.staticValues.a}}
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.staticValues.b}}
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.staticValues.c}}
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.staticValues.d}}
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.staticValues.e}}
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.staticValues.f}}
-                      </mat-option>
-                      <mat-option value="g">
-                        {{lootTables.staticValues.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.staticValues.h}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-
-                  <mat-form-field>
-                    <mat-label>Gold</mat-label>
-                    <mat-select [value]="beast.carriedloot.gold"
-                      (selectionChange)="captureSelectForObject($event, 'gold', 'carriedloot')">
-                      <mat-option>
-                        Nothing
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.staticValues.a}}
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.staticValues.b}}
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.staticValues.c}}
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.staticValues.d}}
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.staticValues.e}}
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.staticValues.f}}
-                      </mat-option>
-                      <mat-option value="g">
-                        {{lootTables.staticValues.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.staticValues.h}}
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -1971,26 +1900,23 @@
                       <mat-option>
                         No Chance
                       </mat-option>
-                      <mat-option value="a">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.a)}}
-                      </mat-option>
                       <mat-option value="b">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.b)}}
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.c)}}
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.d)}}
+                        High
                       </mat-option>
                       <mat-option value="e">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.e)}}
+                        Low, Nonscaling
                       </mat-option>
                       <mat-option value="f">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.f)}}
+                        Medium, Nonscaling
                       </mat-option>
                       <mat-option value="g">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.g)}}
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -2008,29 +1934,23 @@
                     <mat-option>
                       None
                     </mat-option>
-                    <mat-option value="a">
-                      {{lootTables.numberAppearing.a}} (Max 4)
-                    </mat-option>
                     <mat-option value="b">
-                      {{lootTables.numberAppearing.b}} (Max 4)
+                      Low
                     </mat-option>
                     <mat-option value="c">
-                      {{lootTables.numberAppearing.c}} (Max 4)
+                      Medium
                     </mat-option>
                     <mat-option value="d">
-                      {{lootTables.numberAppearing.d}} (Max 4)
+                      High
                     </mat-option>
                     <mat-option value="e">
-                      {{lootTables.numberAppearing.e}} (Max 4)
+                      Low, Nonscaling
                     </mat-option>
                     <mat-option value="f">
-                      {{lootTables.numberAppearing.f}} (Max 4)
+                      Medium, Nonscaling
                     </mat-option>
                     <mat-option value="g">
-                      {{lootTables.numberAppearing.g}} (Max 4)
-                    </mat-option>
-                    <mat-option value="h">
-                      {{lootTables.numberAppearing.h}} (Max 4)
+                      High, Nonscaling
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -2044,29 +1964,23 @@
                     <mat-option>
                       None
                     </mat-option>
-                    <mat-option value="a">
-                      {{lootTables.numberAppearing.a}} (Max 4)
-                    </mat-option>
                     <mat-option value="b">
-                      {{lootTables.numberAppearing.b}} (Max 4)
+                      Low
                     </mat-option>
                     <mat-option value="c">
-                      {{lootTables.numberAppearing.c}} (Max 4)
+                      Medium
                     </mat-option>
                     <mat-option value="d">
-                      {{lootTables.numberAppearing.d}} (Max 4)
+                      High
                     </mat-option>
                     <mat-option value="e">
-                      {{lootTables.numberAppearing.e}} (Max 4)
+                      Low, Nonscaling
                     </mat-option>
                     <mat-option value="f">
-                      {{lootTables.numberAppearing.f}} (Max 4)
+                      Medium, Nonscaling
                     </mat-option>
                     <mat-option value="g">
-                      {{lootTables.numberAppearing.g}} (Max 4)
-                    </mat-option>
-                    <mat-option value="h">
-                      {{lootTables.numberAppearing.h}} (Max 4)
+                      High, Nonscaling
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -2084,8 +1998,8 @@
                   </tr>
                   <tr *ngFor="let scroll of beast.carriedloot.scrolls; let i = index"
                     [ngClass]="{'noDisplay': scroll.deleted }">
-                    <td>{{lootTables.numberAppearing[scroll.number]}}</td>
-                    <td>{{lootTables.scrollPower[scroll.power]}}</td>
+                    <td>{{displayNameForLootValue(scroll.number)}}</td>
+                    <td>{{displayNameForLootValue(scroll.power)}}</td>
                     <td><i (click)="removeScroll(i, 'carriedloot')" class="fa-solid fa-trash"></i>
                     </td>
                   </tr>
@@ -2097,29 +2011,23 @@
                       <mat-option>
                         None
                       </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.numberAppearing.a}} (Max 4)
-                      </mat-option>
                       <mat-option value="b">
-                        {{lootTables.numberAppearing.b}} (Max 4)
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{lootTables.numberAppearing.c}} (Max 4)
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{lootTables.numberAppearing.d}} (Max 4)
+                        High
                       </mat-option>
                       <mat-option value="e">
-                        {{lootTables.numberAppearing.e}} (Max 4)
+                        Low, Nonscaling
                       </mat-option>
                       <mat-option value="f">
-                        {{lootTables.numberAppearing.f}} (Max 4)
+                        Medium, Nonscaling
                       </mat-option>
                       <mat-option value="g">
-                        {{lootTables.numberAppearing.g}} (Max 4)
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.numberAppearing.h}} (Max 4)
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -2129,17 +2037,23 @@
                       <mat-option>
                         None
                       </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.scrollPower.a}} SP
-                      </mat-option>
                       <mat-option value="b">
-                        {{lootTables.scrollPower.b}} SP
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{lootTables.scrollPower.c}} SP
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{lootTables.scrollPower.d}} SP
+                        High
+                      </mat-option>
+                      <mat-option value="e">
+                        Low, Nonscaling
+                      </mat-option>
+                      <mat-option value="f">
+                        Medium, Nonscaling
+                      </mat-option>
+                      <mat-option value="g">
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -2159,8 +2073,8 @@
                     <th></th>
                   </tr>
                   <tr *ngFor="let alm of beast.carriedloot.alms; let i = index" [ngClass]="{'noDisplay': alm.deleted }">
-                    <td>{{lootTables.numberAppearing[alm.number]}}</td>
-                    <td>{{lootTables.almsFavor[alm.favor]}}</td>
+                    <td>{{displayNameForLootValue(alm.number)}}</td>
+                    <td>{{displayNameForLootValue(alm.favor)}}</td>
                     <td><i (click)="removeAlm(i, 'carriedloot')" class="fa-solid fa-trash"></i>
                     </td>
                   </tr>
@@ -2172,29 +2086,23 @@
                       <mat-option>
                         None
                       </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.numberAppearing.a}}
-                      </mat-option>
                       <mat-option value="b">
-                        {{lootTables.numberAppearing.b}}
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{lootTables.numberAppearing.c}}
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{lootTables.numberAppearing.d}}
+                        High
                       </mat-option>
                       <mat-option value="e">
-                        {{lootTables.numberAppearing.e}}
+                        Low, Nonscaling
                       </mat-option>
                       <mat-option value="f">
-                        {{lootTables.numberAppearing.f}}
+                        Medium, Nonscaling
                       </mat-option>
                       <mat-option value="g">
-                        {{lootTables.numberAppearing.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.numberAppearing.h}}
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -2204,26 +2112,23 @@
                       <mat-option>
                         None
                       </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.almsFavor.a}}
-                      </mat-option>
                       <mat-option value="b">
-                        {{lootTables.almsFavor.b}}
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{lootTables.almsFavor.c}}
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{lootTables.almsFavor.d}}
+                        High
                       </mat-option>
                       <mat-option value="e">
-                        {{lootTables.almsFavor.e}}
+                        Low, Nonscaling
                       </mat-option>
                       <mat-option value="f">
-                        {{lootTables.almsFavor.f}}
+                        Medium, Nonscaling
                       </mat-option>
                       <mat-option value="g">
-                        {{lootTables.almsFavor.g}}
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -2255,115 +2160,23 @@
                       <mat-option>
                         Nothing
                       </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.staticValues.a}}
-                      </mat-option>
                       <mat-option value="b">
-                        {{lootTables.staticValues.b}}
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{lootTables.staticValues.c}}
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{lootTables.staticValues.d}}
+                        High
                       </mat-option>
                       <mat-option value="e">
-                        {{lootTables.staticValues.e}}
+                        Low, Nonscaling
                       </mat-option>
                       <mat-option value="f">
-                        {{lootTables.staticValues.f}}
+                        Medium, Nonscaling
                       </mat-option>
                       <mat-option value="g">
-                        {{lootTables.staticValues.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.staticValues.h}}
-                      </mat-option>
-                      <mat-option value="i">
-                        {{lootTables.staticValues.i}}
-                      </mat-option>
-                      <mat-option value="j">
-                        {{lootTables.staticValues.j}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-
-                  <mat-form-field>
-                    <mat-label>Silver</mat-label>
-                    <mat-select [value]="beast.lairloot.silver"
-                      (selectionChange)="captureSelectForObject($event, 'silver', 'lairloot')">
-                      <mat-option>
-                        Nothing
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.staticValues.a}}
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.staticValues.b}}
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.staticValues.c}}
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.staticValues.d}}
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.staticValues.e}}
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.staticValues.f}}
-                      </mat-option>
-                      <mat-option value="g">
-                        {{lootTables.staticValues.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.staticValues.h}}
-                      </mat-option>
-                      <mat-option value="i">
-                        {{lootTables.staticValues.i}}
-                      </mat-option>
-                      <mat-option value="j">
-                        {{lootTables.staticValues.j}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-
-                  <mat-form-field>
-                    <mat-label>Gold</mat-label>
-                    <mat-select [value]="beast.lairloot.gold"
-                      (selectionChange)="captureSelectForObject($event, 'gold', 'lairloot')">
-                      <mat-option>
-                        Nothing
-                      </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.staticValues.a}}
-                      </mat-option>
-                      <mat-option value="b">
-                        {{lootTables.staticValues.b}}
-                      </mat-option>
-                      <mat-option value="c">
-                        {{lootTables.staticValues.c}}
-                      </mat-option>
-                      <mat-option value="d">
-                        {{lootTables.staticValues.d}}
-                      </mat-option>
-                      <mat-option value="e">
-                        {{lootTables.staticValues.e}}
-                      </mat-option>
-                      <mat-option value="f">
-                        {{lootTables.staticValues.f}}
-                      </mat-option>
-                      <mat-option value="g">
-                        {{lootTables.staticValues.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.staticValues.h}}
-                      </mat-option>
-                      <mat-option value="i">
-                        {{lootTables.staticValues.i}}
-                      </mat-option>
-                      <mat-option value="j">
-                        {{lootTables.staticValues.j}}
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -2379,26 +2192,23 @@
                       <mat-option>
                         No Chance
                       </mat-option>
-                      <mat-option value="a">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.a)}}
-                      </mat-option>
                       <mat-option value="b">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.b)}}
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.c)}}
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.d)}}
+                        High
                       </mat-option>
                       <mat-option value="e">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.e)}}
+                        Low, Nonscaling
                       </mat-option>
                       <mat-option value="f">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.f)}}
+                        Medium, Nonscaling
                       </mat-option>
                       <mat-option value="g">
-                        {{formatRelicAndEnchantedChange(lootTables.enchantedTable.g)}}
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -2417,35 +2227,23 @@
                     <mat-option>
                       None
                     </mat-option>
-                    <mat-option value="a">
-                      {{lootTables.numberAppearing.a}} (Max 4)
-                    </mat-option>
                     <mat-option value="b">
-                      {{lootTables.numberAppearing.b}} (Max 4)
+                      Low
                     </mat-option>
                     <mat-option value="c">
-                      {{lootTables.numberAppearing.c}} (Max 4)
+                      Medium
                     </mat-option>
                     <mat-option value="d">
-                      {{lootTables.numberAppearing.d}} (Max 4)
+                      High
                     </mat-option>
                     <mat-option value="e">
-                      {{lootTables.numberAppearing.e}} (Max 4)
+                      Low, Nonscaling
                     </mat-option>
                     <mat-option value="f">
-                      {{lootTables.numberAppearing.f}} (Max 4)
+                      Medium, Nonscaling
                     </mat-option>
                     <mat-option value="g">
-                      {{lootTables.numberAppearing.g}} (Max 4)
-                    </mat-option>
-                    <mat-option value="h">
-                      {{lootTables.numberAppearing.h}} (Max 4)
-                    </mat-option>
-                    <mat-option value="i">
-                      {{lootTables.numberAppearing.i}} (Max 4)
-                    </mat-option>
-                    <mat-option value="j">
-                      {{lootTables.numberAppearing.j}} (Max 4)
+                      High, Nonscaling
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -2459,35 +2257,23 @@
                     <mat-option>
                       None
                     </mat-option>
-                    <mat-option value="a">
-                      {{lootTables.numberAppearing.a}} (Max 4)
-                    </mat-option>
                     <mat-option value="b">
-                      {{lootTables.numberAppearing.b}} (Max 4)
+                      Low
                     </mat-option>
                     <mat-option value="c">
-                      {{lootTables.numberAppearing.c}} (Max 4)
+                      Medium
                     </mat-option>
                     <mat-option value="d">
-                      {{lootTables.numberAppearing.d}} (Max 4)
+                      High
                     </mat-option>
                     <mat-option value="e">
-                      {{lootTables.numberAppearing.e}} (Max 4)
+                      Low, Nonscaling
                     </mat-option>
                     <mat-option value="f">
-                      {{lootTables.numberAppearing.f}} (Max 4)
+                      Medium, Nonscaling
                     </mat-option>
                     <mat-option value="g">
-                      {{lootTables.numberAppearing.g}} (Max 4)
-                    </mat-option>
-                    <mat-option value="h">
-                      {{lootTables.numberAppearing.h}} (Max 4)
-                    </mat-option>
-                    <mat-option value="i">
-                      {{lootTables.numberAppearing.i}} (Max 4)
-                    </mat-option>
-                    <mat-option value="j">
-                      {{lootTables.numberAppearing.j}} (Max 4)
+                      High, Nonscaling
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -2505,8 +2291,8 @@
                   </tr>
                   <tr *ngFor="let scroll of beast.lairloot.scrolls; let i = index"
                     [ngClass]="{'noDisplay': scroll.deleted }">
-                    <td>{{lootTables.numberAppearing[scroll.number]}}</td>
-                    <td>{{lootTables.scrollPower[scroll.power]}}</td>
+                    <td>{{displayNameForLootValue(scroll.number)}}</td>
+                    <td>{{displayNameForLootValue(scroll.power)}}</td>
                     <td><i (click)="removeScroll(i, 'lairloot')" class="fa-solid fa-trash"></i>
                     </td>
                   </tr>
@@ -2518,35 +2304,23 @@
                       <mat-option>
                         None
                       </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.numberAppearing.a}}
-                      </mat-option>
                       <mat-option value="b">
-                        {{lootTables.numberAppearing.b}}
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{lootTables.numberAppearing.c}}
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{lootTables.numberAppearing.d}}
+                        High
                       </mat-option>
                       <mat-option value="e">
-                        {{lootTables.numberAppearing.e}}
+                        Low, Nonscaling
                       </mat-option>
                       <mat-option value="f">
-                        {{lootTables.numberAppearing.f}}
+                        Medium, Nonscaling
                       </mat-option>
                       <mat-option value="g">
-                        {{lootTables.numberAppearing.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.numberAppearing.h}}
-                      </mat-option>
-                      <mat-option value="i">
-                        {{lootTables.numberAppearing.i}}
-                      </mat-option>
-                      <mat-option value="j">
-                        {{lootTables.numberAppearing.j}}
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -2556,17 +2330,23 @@
                       <mat-option>
                         None
                       </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.scrollPower.a}} SP
-                      </mat-option>
                       <mat-option value="b">
-                        {{lootTables.scrollPower.b}} SP
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{lootTables.scrollPower.c}} SP
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{lootTables.scrollPower.d}} SP
+                        High
+                      </mat-option>
+                      <mat-option value="e">
+                        Low, Nonscaling
+                      </mat-option>
+                      <mat-option value="f">
+                        Medium, Nonscaling
+                      </mat-option>
+                      <mat-option value="g">
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -2586,8 +2366,8 @@
                     <th></th>
                   </tr>
                   <tr *ngFor="let alm of beast.lairloot.alms; let i = index" [ngClass]="{'noDisplay': alm.deleted }">
-                    <td>{{lootTables.numberAppearing[alm.number]}}</td>
-                    <td>{{lootTables.almsFavor[alm.favor]}}</td>
+                    <td>{{displayNameForLootValue(alm.number)}}</td>
+                    <td>{{displayNameForLootValue(alm.favor)}}</td>
                     <td><i (click)="removeAlm(i, 'lairloot')" class="fa-solid fa-trash"></i>
                     </td>
                   </tr>
@@ -2599,35 +2379,23 @@
                       <mat-option>
                         None
                       </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.numberAppearing.a}}
-                      </mat-option>
                       <mat-option value="b">
-                        {{lootTables.numberAppearing.b}}
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{lootTables.numberAppearing.c}}
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{lootTables.numberAppearing.d}}
+                        High
                       </mat-option>
                       <mat-option value="e">
-                        {{lootTables.numberAppearing.e}}
+                        Low, Nonscaling
                       </mat-option>
                       <mat-option value="f">
-                        {{lootTables.numberAppearing.f}}
+                        Medium, Nonscaling
                       </mat-option>
                       <mat-option value="g">
-                        {{lootTables.numberAppearing.g}}
-                      </mat-option>
-                      <mat-option value="h">
-                        {{lootTables.numberAppearing.h}}
-                      </mat-option>
-                      <mat-option value="i">
-                        {{lootTables.numberAppearing.i}}
-                      </mat-option>
-                      <mat-option value="j">
-                        {{lootTables.numberAppearing.j}}
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -2637,26 +2405,23 @@
                       <mat-option>
                         None
                       </mat-option>
-                      <mat-option value="a">
-                        {{lootTables.almsFavor.a}}
-                      </mat-option>
                       <mat-option value="b">
-                        {{lootTables.almsFavor.b}}
+                        Low
                       </mat-option>
                       <mat-option value="c">
-                        {{lootTables.almsFavor.c}}
+                        Medium
                       </mat-option>
                       <mat-option value="d">
-                        {{lootTables.almsFavor.d}}
+                        High
                       </mat-option>
                       <mat-option value="e">
-                        {{lootTables.almsFavor.e}}
+                        Low, Nonscaling
                       </mat-option>
                       <mat-option value="f">
-                        {{lootTables.almsFavor.f}}
+                        Medium, Nonscaling
                       </mat-option>
                       <mat-option value="g">
-                        {{lootTables.almsFavor.g}}
+                        High, Nonscaling
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
