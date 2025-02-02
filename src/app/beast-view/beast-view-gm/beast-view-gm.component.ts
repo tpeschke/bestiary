@@ -394,11 +394,12 @@ export class BeastViewGmComponent implements OnInit {
 
   setArtistToDisplay = () => {
     let { artist, tooltip, link, roleartists } = this.beast.artistInfo
-
     if (this.selectedRoleId) {
       const roleIndex = roleartists.findIndex(role => role.roleid === this.selectedRoleId)
       if (roleIndex > -1 && roleartists[roleIndex].artist) {
         let { artist, tooltip, link } = roleartists[roleIndex]
+        this.artistInfo = { artist, tooltip, link }
+      } else if (artist) {
         this.artistInfo = { artist, tooltip, link }
       } else {
         this.artistInfo = {}
