@@ -10,21 +10,21 @@ export default {
     },
     enchantedItemChanceScaling: {
         a: 0,
-        b: 1,
-        c: 2,
-        d: 3,
-        e: 1,
-        f: 2,
-        g: 3
+        b: .5,
+        c: 1,
+        d: 1.5,
+        e: .5,
+        f: 1,
+        g: 1.5
     },
     talismanPotionScrollAlmScriptScaling: {
         a: -20,
-        b: -2,
-        c: 0,
-        d: 2,
-        e: -2,
-        f: 0,
-        g: 2
+        b: -4,
+        c: -2,
+        d: 0,
+        e: -4,
+        f: -2,
+        g: 0
     },
     spellPointsFavorScaling: {
         a: 0,
@@ -37,12 +37,12 @@ export default {
     },
     uniqueItemChanceScaling: {
         a: 0,
-        b: 1,
-        c: 2,
-        d: 3,
-        e: 1,
-        f: 2,
-        g: 3
+        b: .5,
+        c: 1,
+        d: 1.5,
+        e: .5,
+        f: 1,
+        g: 1.5
     },
     itemCategories: [
         {
