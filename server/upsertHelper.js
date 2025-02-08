@@ -157,11 +157,12 @@ const saveUpdateFunctions = {
     },
     upsertArtist: (promiseArray, db, id, res, artistInfo) => {
         function updateArtist (artistInfo) {
+            console.log(artistInfo)
             let { id: dbid, artistid, artist, tooltip, link, roleid } = artistInfo;
             if (artist) {
                 if (!artistid) {
                     promiseArray.push(db.add.all.artists(artist, tooltip, link).then(result => {
-                        return addOrUpdateBeastArtistInfo(dbid, id, artistid, roleid)
+                        return addOrUpdateBeastArtistInfo(dbid, id, result[0].id, roleid)
                     }).catch(e => sendErrorForward('update beast add all artists', e, res)))
                 } else {
                     addOrUpdateBeastArtistInfo(dbid, id, artistid, roleid)
@@ -171,7 +172,7 @@ const saveUpdateFunctions = {
 
         function addOrUpdateBeastArtistInfo (dbid, beastId, artistId, roleId) {
             if (dbid) {
-                promiseArray.push(db.update.artist(beastId, artistId, roleId).then(result => result).catch(e => sendErrorForward('update beast update artist', e, res)))
+                promiseArray.push(db.update.artist(dbid, artistId).then(result => result).catch(e => sendErrorForward('update beast update artist', e, res)))
             } else {
                 promiseArray.push(db.add.artist(beastId, artistId, roleId).then(result => result).catch(e => sendErrorForward('update beast add artist', e, res)))
             }
