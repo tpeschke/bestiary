@@ -1050,9 +1050,7 @@ export class BeastViewEditComponent implements OnInit {
     this.beast[secondaryType][type] = event.value
 
     if (secondaryType === "carriedloot") {
-      const letterIndex = this.alphabet.indexOf(event.value)
-      const newLetter = this.alphabet[letterIndex + 2]
-      this.captureSelectForObject({ value: newLetter }, type, 'lairloot')
+      this.captureSelectForObject({ value: event.value }, type, 'lairloot')
     }
   }
 
@@ -1063,9 +1061,7 @@ export class BeastViewEditComponent implements OnInit {
   captureAddScroll(type) {
     this.beast[type].scrolls.push(this.scroll)
     if (type === 'carriedloot') {
-      const letterIndex = this.alphabet.indexOf(this.scroll.number)
-      const newLetter = this.alphabet[letterIndex + 2]
-      this.beast.lairloot.scrolls.push({ ...this.scroll, number: newLetter })
+      this.beast.lairloot.scrolls.push({ ...this.scroll })
     }
     this.scroll = {
       number: null,
@@ -1088,9 +1084,7 @@ export class BeastViewEditComponent implements OnInit {
   captureAddAlm(type) {
     this.beast[type].alms.push(this.alm)
     if (type === 'carriedloot') {
-      const letterIndex = this.alphabet.indexOf(this.alm.number)
-      const newLetter = this.alphabet[letterIndex + 2]
-      this.beast.lairloot.alms.push({ ...this.alm, number: newLetter })
+      this.beast.lairloot.alms.push({ ...this.alm })
     }
     this.alm = {
       number: null,
@@ -1110,7 +1104,7 @@ export class BeastViewEditComponent implements OnInit {
   captureAddItemUnbound(item, lootLocation) {
     this.beast[lootLocation].items[item.itemcategory] = item
     if (lootLocation === 'carriedloot' && !this.beast.lairloot.items[item.itemcategory]) {
-      this.beast.lairloot.items[item.itemcategory] = { ...item, chance: item.chance * 2 }
+      this.beast.lairloot.items[item.itemcategory] = { ...item }
     }
   }
   public captureAddItem = this.captureAddItemUnbound.bind(this)
