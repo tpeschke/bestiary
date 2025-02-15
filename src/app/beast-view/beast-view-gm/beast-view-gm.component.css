@@ -354,7 +354,7 @@ h3 span {
 
 .letter-holder {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     font-size: 10px;
     color: gray;
 }

@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { startWith, map, switchMap, debounceTime } from 'rxjs/operators';
 import { CalculatorService } from 'src/app/util/services/calculator.service';
 import { DisplayServiceService } from 'src/app/util/services/displayService.service';
+import ratings from '../../util/ratings'
 
 @Component({
   selector: 'app-beast-view-edit',
@@ -103,6 +104,9 @@ export class BeastViewEditComponent implements OnInit {
   };
   public deletedSpellList = null;
 
+  
+  public ratingsObject = ratings.ratingsObject
+  public ratingsArray = ratings.ratingsArray
   public sizeDictionary = {
     Fine: 1,
     Diminutive: 5,
@@ -1998,20 +2002,21 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  setSocialPoints(event) {
+  setPoints(event, pointType) {
     const value = +event.value
     if (this.selectedRoleId) {
       for (let i = 0; i < this.beast.roles.length; i++) {
         if (this.selectedRoleId === this.beast.roles[i].id) {
-          this.beast.roles[i].socialpoints = value
-          this.beast.roleInfo[this.selectedRoleId].socialpoints = value
+          this.beast.roles[i][pointType] = value
+          this.beast.roleInfo[this.selectedRoleId][pointType] = value
           i = this.beast.roles.length
         }
       }
     } else {
-      this.beast.socialpoints = value
+      this.beast[pointType] = value
     }
   }
+
 
   captureNewRole(type, event) {
     if (event.target) {
@@ -2637,5 +2642,9 @@ export class BeastViewEditComponent implements OnInit {
     return (index) => {
       this.beast.tables[table].splice(index, 1)
     }
+  }
+
+  formatPoints(pointsType) {
+    return this.ratingsObject[this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId][pointsType] : this.beast[pointsType] ? this.beast[pointsType] : 0]
   }
 }

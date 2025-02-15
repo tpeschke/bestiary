@@ -1,19 +1,4 @@
 <mat-card>
-  <div class="point-shell">
-    <h4>Points</h4>
-    <h5>Combat</h5>
-    <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].combatpoints :
-      beast.combatpoints ? beast.combatpoints : 0}}</p>
-
-    <h5>Confrontation</h5>
-    <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints :
-      beast.socialpoints}}</p>
-
-    <h5>Skills</h5>
-    <p>{{selectedRoleId && beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].skillpoints :
-      beast.skillpoints}}</p>
-  </div>
-
   <mat-toolbar color="warn" class="top-toolbar">
     <h1>
       <input [value]="beast.name" (change)="captureInput($event, 'name')" placeholder="Name">
@@ -497,10 +482,13 @@
 
         <br>
         <mat-form-field>
-          <input placeholder="Confrontation Points" matInput
-            [disabled]="beast.roleInfo[selectedRoleId] ? (beast.roleInfo[selectedRoleId].hasarchetypes || beast.roleInfo[selectedRoleId].hasmonsterarchetypes) : (beast.hasarchetypes || beast.hasmonsterarchetypes)"
-            [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints"
-            (change)="captureBasicInput($event, 'socialpoints')" type="number">
+          <mat-label>Confrontation Points</mat-label>
+          <mat-select (selectionChange)="setPoints($event, 'socialpoints')"
+            [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints">
+            <mat-option *ngFor="let rating of ratingsArray" [value]="rating.value">
+              {{rating.label}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
 
         <div class="vitals-shell" *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role">
@@ -598,41 +586,6 @@
             (click)="toggleArchetypesForAllRoles('hasmonsterarchetypes')" color="accent">Toggle Monster
             Archetypes for All Roles</button>
           <br>
-          <mat-form-field
-            *ngIf="selectedRoleId ? (beast.roleInfo[selectedRoleId].hasarchetypes || beast.roleInfo[selectedRoleId].hasmonsterarchetypes) : (beast.hasarchetypes || beast.hasmonsterarchetypes)">
-            <mat-label>Archetype Difficulty</mat-label>
-            <mat-select
-              [value]="(beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].socialpoints : beast.socialpoints) + ''"
-              (selectionChange)="setSocialPoints($event)">
-              <mat-option value="0">
-                {{beastService.getDiceFromPoints(0)}}
-              </mat-option>
-              <mat-option value="5">
-                {{beastService.getDiceFromPoints(5)}}
-              </mat-option>
-              <mat-option value="10">
-                {{beastService.getDiceFromPoints(10)}}
-              </mat-option>
-              <mat-option value="15">
-                {{beastService.getDiceFromPoints(15)}}
-              </mat-option>
-              <mat-option value="20">
-                {{beastService.getDiceFromPoints(20)}}
-              </mat-option>
-              <mat-option value="25">
-                {{beastService.getDiceFromPoints(25)}}
-              </mat-option>
-              <mat-option value="30">
-                {{beastService.getDiceFromPoints(30)}}
-              </mat-option>
-              <mat-option value="35">
-                {{beastService.getDiceFromPoints(35)}}
-              </mat-option>
-              <mat-option value="40">
-                {{beastService.getDiceFromPoints(40)}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
         </div>
         <br>
         <div>
@@ -820,9 +773,13 @@
 
           <br>
           <mat-form-field>
-            <input placeholder="Skill Points" matInput
-              [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints"
-              (change)="captureBasicInput($event, 'skillpoints')" type="number">
+            <mat-label>Skill Points</mat-label>
+            <mat-select (selectionChange)="setPoints($event, 'skillpoints')"
+              [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].skillpoints : beast.skillpoints">
+              <mat-option *ngFor="let rating of ratingsArray" [value]="rating.value">
+                {{rating.label}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <div class="vitals-shell" *ngIf="selectedRoleId ? beast.roleInfo[selectedRoleId].role : beast.role">
@@ -1162,9 +1119,13 @@
             *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].role ? beast.roleInfo[selectedRoleId].role : selectedRoleId ? null : beast.role">
             <br>
             <mat-form-field>
-              <input placeholder="Combat Points" matInput
-                [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints"
-                (change)="captureBasicInput($event, 'combatpoints')" type="number">
+              <mat-label>Combat Points</mat-label>
+              <mat-select (selectionChange)="setPoints($event, 'combatpoints')"
+                [value]="beast.roleInfo[selectedRoleId] ? beast.roleInfo[selectedRoleId].combatpoints : beast.combatpoints">
+                <mat-option *ngFor="let rating of ratingsArray" [value]="rating.value">
+                  {{rating.label}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
 
             <div class="vitals-shell">

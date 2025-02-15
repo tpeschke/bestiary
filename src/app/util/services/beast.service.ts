@@ -128,13 +128,21 @@ export class BeastService {
   getDiceFromPoints (points) {
     const pointDiceDictionary = {
       0: '+0',
+      3: '+0, roll twice; take highest',
       5: '+d10!',
+      8: '+d10!, roll twice; take highest',
       10: '+d20!',
+      13: '+d20!, roll twice; take highest',
       15: '+d20!+d10!',
+      18: '+d20!+d10!, roll twice; take highest',
       20: '+2d20!',
+      23: '+2d20!, roll twice; take highest',
       25: '+2d20!+d10!',
+      28: '+2d20!+d10!, roll twice; take highest',
       30: '+3d20!',
+      33: '+3d20!, roll twice; take highest',
       35: '+4d20!+d10!',
+      38: '+4d20!+d10!, roll twice; take highest',
       40: '+3d20!'
     }
     return pointDiceDictionary[points]

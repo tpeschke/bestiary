@@ -11,6 +11,7 @@ import { DisplayServiceService } from 'src/app/util/services/displayService.serv
 import { MatDialog } from '@angular/material';
 import { ChallengePopUpComponent } from '../../obstacle-index/view/challenge-pop-up/challenge-pop-up.component'
 import { AddToListPopUpComponent } from 'src/app/random-encounters/add-to-list-pop-up/add-to-list-pop-up.component';
+import ratings from '../../util/ratings'
 
 @Component({
   selector: 'app-beast-view-gm',
@@ -54,6 +55,7 @@ export class BeastViewGmComponent implements OnInit {
   public socialSecondaryInfo = roles.socialRoles.secondary
   public skillRolesInfo = roles.skillRoles
   public displayedVitalityRoll = null
+  public ratingDescriptions = ratings.ratingsObject
 
   public selectedObstacleId = null;
 
@@ -96,7 +98,7 @@ export class BeastViewGmComponent implements OnInit {
 
   public modifier = null;
   public modifierDictionary = {
-    'Unique': 3,
+    'Unique': 2,
     'Greater': 5,
     'Dread': 10,
     'THE': 15
@@ -419,6 +421,10 @@ export class BeastViewGmComponent implements OnInit {
         return location
       })
     }
+  }
+
+  formatPoints(pointsType) {
+    return this.ratingDescriptions[this.roundUpRating((this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId][pointsType] : this.beast[pointsType]) + (this.modifier ? this.modifierDictionary[this.modifier] : 0 ))]
   }
 
   findWhatToDisplay = (object, key, toReturn = 'N/A') => {
@@ -1018,7 +1024,7 @@ export class BeastViewGmComponent implements OnInit {
         this.beast.combatStatArray.forEach((combatSquare, index) => {
           combatSquare.combatStats.modifier = this.modifier
           const roleid = combatSquare.roleid
-          const combatpoints = (roleid ? this.beast.roleInfo[roleid].combatpoints : this.beast.combatpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+          const combatpoints = this.roundUpRating((roleid ? this.beast.roleInfo[roleid].combatpoints : this.beast.combatpoints) + this.getModifierRankMod())
           const size = roleid && this.beast.roleInfo[roleid].size ? this.beast.roleInfo[roleid].size : this.beast.size ? this.beast.size : 'Medium'
           const primaryRole = roleid ? this.beast.roleInfo[roleid].role : this.beast.role
           this.beastService.getCombatSquare(combatSquare.combatStats, primaryRole, combatpoints, size).subscribe(res => {
@@ -1044,9 +1050,9 @@ export class BeastViewGmComponent implements OnInit {
             weaponbreakagevitality: roleInfo ? roleInfo.weaponbreakagevitality : this.beast.weaponbreakagevitality,
             noknockback: roleInfo ? roleInfo.noknockback : this.beast.noknockback
           }
-          const combatpoints = (roleInfo ? roleInfo.combatpoints : this.beast.combatpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
-          const skillpoints = (roleInfo ? roleInfo.skillpoints : this.beast.skillpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
-          const socialpoints = (roleInfo ? roleInfo.socialpoints : this.beast.socialpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+          const combatpoints = this.roundUpRating((roleInfo ? roleInfo.combatpoints : this.beast.combatpoints) + this.getModifierRankMod())
+          const skillpoints = this.roundUpRating((roleInfo ? roleInfo.skillpoints : this.beast.skillpoints) + this.getModifierRankMod())
+          const socialpoints = this.roundUpRating((roleInfo ? roleInfo.socialpoints : this.beast.socialpoints) + this.getModifierRankMod())
           const primaryrole = roleInfo ? roleInfo.role : this.beast.role
           const secondaryrole = roleInfo ? roleInfo.secondaryrole : this.beast.secondaryrole
           this.beastService.getVitalityAndStress(combatpoints, Math.max(combatpoints, skillpoints, socialpoints), primaryrole, combatStats, secondaryrole, knockback, size, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(newPhyiscalAndStress => {
@@ -1070,9 +1076,9 @@ export class BeastViewGmComponent implements OnInit {
           weaponbreakagevitality: this.beast.weaponbreakagevitality,
           noknockback: this.beast.noknockback
         }
-        const combatpoints = this.beast.combatpoints + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
-        const skillpoints = this.beast.skillpoints + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
-        const socialpoints = this.beast.socialpoints + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+        const combatpoints = this.roundUpRating(this.beast.combatpoints + this.getModifierRankMod())
+        const skillpoints = this.roundUpRating(this.beast.skillpoints + this.getModifierRankMod())
+        const socialpoints = this.roundUpRating(this.beast.socialpoints + this.getModifierRankMod())
         const primaryrole = this.beast.role
         const secondaryrole = this.beast.secondaryrole
         this.beastService.getVitalityAndStress(combatpoints, Math.max(combatpoints, skillpoints, socialpoints), primaryrole, combatStats, secondaryrole, knockback, size, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].armor : null, this.beast.combatStatArray[0] ? this.beast.combatStatArray[0].shield : null).subscribe(newPhyiscalAndStress => {
@@ -1083,7 +1089,7 @@ export class BeastViewGmComponent implements OnInit {
         })
 
         const newMovements = this.beast.movement.map(movementType => {
-          const points = (movementType.roleid ? this.beast.roleInfo[movementType.roleid].combatpoints : this.beast.combatpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+          const points = this.roundUpRating((movementType.roleid ? this.beast.roleInfo[movementType.roleid].combatpoints : this.beast.combatpoints) + this.getModifierRankMod())
           const role = movementType.roleid ? this.beast.roleInfo[movementType.roleid].role : this.beast.role
           movementType.role = role
           movementType.points = points
@@ -1289,13 +1295,51 @@ export class BeastViewGmComponent implements OnInit {
     this.copyURLFromTextArea(textArea, url)
   }
 
+  getModifierRankMod () {
+    return this.modifier ? this.modifierDictionary[this.modifier] : 0
+  }
+
+  roundUpRating (points) {
+    if (points === 0) {
+      return 0
+    } else if (points > 0 && points <= 3) {
+      return 3
+    } else if (points > 3 && points <= 5) {
+      return 5
+    } else if (points > 5 && points <= 8) {
+      return 8
+    } else if (points > 8 && points <= 10) {
+      return 10
+    } else if (points > 10 && points <= 13) {
+      return 13
+    } else if (points > 13 && points <= 15) {
+      return 15
+    } else if (points > 15 && points <= 18) {
+      return 18
+    } else if (points > 18 && points <= 20) {
+      return 20
+    } else if (points > 20 && points <= 23) {
+      return 23
+    } else if (points > 23 && points <= 25) {
+      return 25
+    } else if (points > 25 && points <= 28) {
+      return 28
+    } else if (points > 28 && points <= 30) {
+      return 30
+    } else if (points > 30 && points <= 33) {
+      return 33
+    } else {
+      return 35
+    }
+  }
+
   getSocialRank(type, strength, adjustment = 0) {
-    const socialPoints = (this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].socialpoints : this.beast.socialpoints) + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+    const socialPoints = this.roundUpRating((this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].socialpoints : this.beast.socialpoints) + this.getModifierRankMod())
     return this.beastService.calculateRankForCharacteristic(type, +socialPoints, strength, adjustment)
   }
 
   getSkillRank(strength, adjustment = 0) {
-    const skillpoints = (this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].skillpoints : this.beast.skillpoints) + + (this.modifier ? this.modifierDictionary[this.modifier] : 0)
+    const skillpoints = this.roundUpRating((this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].skillpoints : this.beast.skillpoints) + this.getModifierRankMod())
     return this.beastService.calculateRankForSkill(+skillpoints, strength, adjustment)
   }
 

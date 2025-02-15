@@ -100,11 +100,28 @@
                 <div>
                     <p>Combat Rating</p>
                     <div>
-                        <mat-form-field class="example-half-width">
-                            <input matInput placeholder="Min" (change)="enterRating($event, 'minComRate')">
+                        <mat-form-field>
+                            <mat-label>Min</mat-label>
+                            <mat-select (selectionChange)="enterRating($event, 'minComRate')">
+                                <mat-option>
+                                    I Don't Care
+                                </mat-option>
+                                <mat-option *ngFor="let rating of ratingDescriptions" [value]="rating.value">
+                                    {{rating.label}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
-                        <mat-form-field class="example-half-width">
-                            <input matInput placeholder="Max" (change)="enterRating($event, 'maxComRate')">
+
+                        <mat-form-field>
+                            <mat-label>Min</mat-label>
+                            <mat-select (selectionChange)="enterRating($event, 'maxComRate')">
+                                <mat-option>
+                                    I Don't Care
+                                </mat-option>
+                                <mat-option *ngFor="let rating of ratingDescriptions" [value]="rating.value">
+                                    {{rating.label}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                 </div>
@@ -112,11 +129,28 @@
                 <div>
                     <p>Challenge Rating</p>
                     <div>
-                        <mat-form-field class="example-half-width">
-                            <input matInput placeholder="Min" (change)="enterRating($event, 'minChalRate')">
+                        <mat-form-field>
+                            <mat-label>Min</mat-label>
+                            <mat-select (selectionChange)="enterRating($event, 'minChalRate')">
+                                <mat-option>
+                                    I Don't Care
+                                </mat-option>
+                                <mat-option *ngFor="let rating of ratingDescriptions" [value]="rating.value">
+                                    {{rating.label}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
-                        <mat-form-field class="example-half-width">
-                            <input matInput placeholder="Max" (change)="enterRating($event, 'maxChalRate')">
+
+                        <mat-form-field>
+                            <mat-label>Min</mat-label>
+                            <mat-select (selectionChange)="enterRating($event, 'maxChalRate')">
+                                <mat-option>
+                                    I Don't Care
+                                </mat-option>
+                                <mat-option *ngFor="let rating of ratingDescriptions" [value]="rating.value">
+                                    {{rating.label}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                 </div>
@@ -124,11 +158,28 @@
                 <div>
                     <p>Confrontation Rating</p>
                     <div>
-                        <mat-form-field class="example-half-width">
-                            <input matInput placeholder="Min" (change)="enterRating($event, 'minConfRate')">
+                        <mat-form-field>
+                            <mat-label>Min</mat-label>
+                            <mat-select (selectionChange)="enterRating($event, 'minConfRate')">
+                                <mat-option>
+                                    I Don't Care
+                                </mat-option>
+                                <mat-option *ngFor="let rating of ratingDescriptions" [value]="rating.value">
+                                    {{rating.label}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
-                        <mat-form-field class="example-half-width">
-                            <input matInput placeholder="Max" (change)="enterRating($event, 'maxConfRate')">
+
+                        <mat-form-field>
+                            <mat-label>Min</mat-label>
+                            <mat-select (selectionChange)="enterRating($event, 'maxConfRate')">
+                                <mat-option>
+                                    I Don't Care
+                                </mat-option>
+                                <mat-option *ngFor="let rating of ratingDescriptions" [value]="rating.value">
+                                    {{rating.label}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                 </div>

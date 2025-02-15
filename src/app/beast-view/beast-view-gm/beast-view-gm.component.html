@@ -812,7 +812,7 @@
                     Unique
                   </mat-option>
                   <mat-option
-                    matTooltip="There is something about this monster that stands out. Example: A bandit captain."
+                    matTooltip="There monster is a dangerous foe. Example: A bandit lord."
                     matTooltipPosition="right" value="Greater">
                     Greater
                   </mat-option>
@@ -833,25 +833,19 @@
             </div>
           </div>
           <div class="flex-row-opposite">
-            <h3>Combat Rating</h3>
-            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].combatpoints :
-              beast.combatpoints) + (modifier ?
-              modifierDictionary[modifier] : 0)}}<span
-                [matTooltip]="returnAtkDefTooltip('Combat')">{{returnAtkDefNotation('Combat')}}</span></p>
-          </div>
-          <div class="flex-row-opposite">
             <h3>Confrontation Rating</h3>
-            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].socialpoints :
-              beast.socialpoints) + (modifier ?
-              modifierDictionary[modifier] : 0)}}<span
+            <p class="with-super-script">{{formatPoints('socialpoints')}}<span
                 [matTooltip]="returnAtkDefTooltip('Confrontation')">{{returnAtkDefNotation('Confrontation')}}</span></p>
           </div>
           <div class="flex-row-opposite">
             <h3>Skill Rating</h3>
-            <p class="with-super-script">{{(selectedRoleId ? beast.roleInfo[selectedRoleId].skillpoints :
-              beast.skillpoints) + (modifier ?
-              modifierDictionary[modifier] : 0)}}<span
+            <p class="with-super-script">{{formatPoints('skillpoints')}}<span
                 [matTooltip]="returnAtkDefTooltip('Skill')">{{returnAtkDefNotation('Skill')}}</span></p>
+          </div>
+          <div class="flex-row-opposite">
+            <h3>Combat Rating</h3>
+            <p class="with-super-script">{{formatPoints('combatpoints')}}<span
+                [matTooltip]="returnAtkDefTooltip('Combat')">{{returnAtkDefNotation('Combat')}}</span></p>
           </div>
           <div class="flex-row-opposite" *ngIf="beast.patreon >= 20">
             <h3>Access</h3>

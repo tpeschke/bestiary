@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { MatCheckbox, MatExpansionPanel } from '@angular/material';
 import { BeastService } from '../../util/services/beast.service';
+import ratings from '../../util/ratings'
 
 class QueryObject {
   name?: string
@@ -42,6 +43,7 @@ export class SearchBarComponent implements OnInit {
   public isCatalog = this.router.url === '/';
   public isCustomCatalog = this.router.url === '/custom';
   public isLists = this.router.url.includes('/list')
+  public ratingDescriptions = ratings.ratingsArray
 
   public climateList = [
     {id: 1, code: 'Af', climate: 'Tropical Rainforest', examples: 'Indonesia, Colombia, North DRC'},
@@ -127,11 +129,11 @@ export class SearchBarComponent implements OnInit {
   }
 
   enterRating(e, type) {
-    if (e.target.value && e.target.value !== '') {
-      this.queryObject = { ...this.queryObject, [type]: e.target.value }
-      this.router.navigate(['/search', { ...this.queryObject, [type]: e.target.value }]);
-    } else if (e.target.value===undefined || e.target.value === '') {
-      delete this.queryObject[type]
+    if (e.value || e.value == 0) {
+      this.queryObject = { ...this.queryObject, [type]: +e.value }
+      this.router.navigate(['/search', { ...this.queryObject }]);
+    } else if (e.value===undefined) {
+      delete this.queryObject.access
       this.router.navigate(['/search', { ...this.queryObject }]);
     }
   }

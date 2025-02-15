@@ -6,6 +6,7 @@ import { Title, Meta } from "@angular/platform-browser";
 import { MatDialog } from '@angular/material';
 import { AddToListPopUpComponent } from '../../random-encounters/add-to-list-pop-up/add-to-list-pop-up.component';
 import { QuickViewService } from 'src/app/util/services/quick-view.service';
+import ratings from '../../util/ratings'
 
 @Component({
   selector: 'app-search-results',
@@ -33,6 +34,7 @@ export class SearchResultsComponent implements OnInit {
   public direction: any = 'asc'
   public checkForAttack = false;
   public checkForDefense = false;
+  public ratingDescriptions = ratings.ratingsObject
 
   ngOnInit() {
     let { params } = this.currentRoute.snapshot
@@ -49,7 +51,6 @@ export class SearchResultsComponent implements OnInit {
         this.filteredBeasts = 'loading'
         let { params } = this.currentRoute.snapshot
         this.adventureService.searchBeasts(params).subscribe(incomingBeasts => {
-          console.log(incomingBeasts)
           this.beasts = incomingBeasts
           this.filterBy()
         })
@@ -263,16 +264,16 @@ export class SearchResultsComponent implements OnInit {
   }
 
   formatPoints(min, max) {
-    return min === max ? min : `${min} - ${max}`
+    return min === max ? this.ratingDescriptions[min] : `${this.ratingDescriptions[min]} - ${this.ratingDescriptions[max]}`
   }
 
   returnAtkDefNotation = (attack, defense) => {
     if (attack && defense) {
-      return 'AD'
+      return ' AD'
     } else if (attack) {
-      return 'A'
+      return ' A'
     } else if (defense) {
-      return 'D'
+      return ' D'
     }
   }
 

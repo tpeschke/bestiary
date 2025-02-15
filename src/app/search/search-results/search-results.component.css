@@ -90,6 +90,7 @@ mat-card {
 
 .with-super-script span {
     font-size: 10px;
+    margin-left: 2px;
 }
 
 img {
@@ -103,7 +104,7 @@ img {
 }
 
 .extra-info {
-    min-width: 200px;
+    min-width: 300px;
     margin-left: 15px;
     padding: 10px 5px;
 }
