@@ -932,12 +932,11 @@ export class BeastViewGmComponent implements OnInit {
     }
 
     let harvestAndDifficulty = this.calculatorService.calculateAverageOfDice(harvest + "+" + difficulty + '+' + this.getRarityModifier(this.beast.rarity))
-      , justDifficulty = this.calculatorService.calculateAverageOfDice(difficulty + "+" + difficulty + '+' + this.getRarityModifier(this.beast.rarity))
       , price;
     if (harvestAndDifficulty === 0) {
       price = 5
     } else {
-      price = harvestAndDifficulty * 2
+      price = harvestAndDifficulty
     }
 
     return price + ' sc'
