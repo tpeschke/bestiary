@@ -119,6 +119,15 @@ export class BeastViewGmComponent implements OnInit {
     'King of the Hill': 'kingofthehill'
   }
 
+  public changeLabelDictionary = {
+    "b": "Low",
+    "c": "Medium",
+    "d": "High",
+    "e": "Low, Nonscaling",
+    "f": "Medium, Nonscaling",
+    "g": "High, Nonscaling"
+  }
+
   ngOnInit() {
     lootTables.itemCategories.forEach(category => {
       this.itemCategories[category.id] = category.label
@@ -424,7 +433,7 @@ export class BeastViewGmComponent implements OnInit {
   }
 
   formatPoints(pointsType) {
-    return this.ratingDescriptions[this.roundUpRating((this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId][pointsType] : this.beast[pointsType]) + (this.modifier ? this.modifierDictionary[this.modifier] : 0 ))]
+    return this.ratingDescriptions[this.roundUpRating((this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId][pointsType] : this.beast[pointsType]) + (this.modifier ? this.modifierDictionary[this.modifier] : 0))]
   }
 
   findWhatToDisplay = (object, key, toReturn = 'N/A') => {
@@ -1294,11 +1303,11 @@ export class BeastViewGmComponent implements OnInit {
     this.copyURLFromTextArea(textArea, url)
   }
 
-  getModifierRankMod () {
+  getModifierRankMod() {
     return this.modifier ? this.modifierDictionary[this.modifier] : 0
   }
 
-  roundUpRating (points) {
+  roundUpRating(points) {
     if (points === 0) {
       return 0
     } else if (points > 0 && points <= 3) {

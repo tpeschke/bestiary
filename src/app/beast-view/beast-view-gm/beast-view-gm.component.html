@@ -968,7 +968,7 @@
               <th>Carried Loot</th>
             </thead>
             <tr *ngFor="let item of beast.carriedloot.items">
-              <td>{{itemCategories[item.itemcategory]}} - {{item.chance}}% x{{item.number}} / <span matTooltip="This is the material rarity of the item(s)
+              <td>{{itemCategories[item.itemcategory]}} - <span matTooltip="This is the chance of having item(s) from this catagory">{{changeLabelDictionary[item.chance]}}</span> x{{item.number}} / <span matTooltip="This is the material rarity of the item(s)
                 C: Common
                 U: Uncommon
                 R: Rare
