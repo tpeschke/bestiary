@@ -185,6 +185,12 @@ export default {
             }
         },
         secondary: {
+            'Elite': {
+                description: "Elites are a real threat to a single character so they must be confrontated by multiple characters at the same time. They have special abilities that keep them dangerous and the Confrontation interesting."
+            },
+            'Solo': {
+                description: "Solos hold their own against the party. They have special abilities that keep them dangerous and the Confrontation interesting."
+            },
             'Feinter': {
                 strengths: ['Longer Confrontations', 'Evidence', 'Using Enemies\ Characteristics Against Them'],
                 weaknesses: ['Shorter Confrontations'],

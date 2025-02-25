@@ -104,7 +104,7 @@ export class BeastViewEditComponent implements OnInit {
   };
   public deletedSpellList = null;
 
-  
+
   public ratingsObject = ratings.ratingsObject
   public ratingsArray = ratings.ratingsArray
   public sizeDictionary = {
@@ -1585,7 +1585,7 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  displayNameForLootValue (value) {
+  displayNameForLootValue(value) {
     const dictionary = {
       a: 'None',
       b: 'Low',
@@ -1593,7 +1593,7 @@ export class BeastViewEditComponent implements OnInit {
       d: 'High',
       e: 'Low, Nonscaling',
       f: 'Medium, Nonscaling',
-      g: 'High, Nonscaling' 
+      g: 'High, Nonscaling'
     }
 
     return dictionary[value]
@@ -1771,34 +1771,52 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  checkIfSoloOrElite () {
+  checkIfSoloOrElite(secondary) {
     let secondaryRole = null
     if (this.selectedRoleId) {
-      secondaryRole = this.beast.roleInfo[this.selectedRoleId].secondaryrole
+      secondaryRole = this.beast.roleInfo[this.selectedRoleId][secondary]
     } else {
-      secondaryRole = this.beast.secondaryrole
+      secondaryRole = this.beast[secondary]
     }
 
     return secondaryRole && (secondaryRole === 'Elite' || secondaryRole === 'Solo')
   }
 
-  produceEliteOrSoloAdditionalExplanation () {
+  produceEliteOrSoloAdditionalExplanation(secondary) {
     let secondaryRole = null
     if (this.selectedRoleId) {
-      secondaryRole = this.beast.roleInfo[this.selectedRoleId].secondaryrole
+      secondaryRole = this.beast.roleInfo[this.selectedRoleId][secondary]
     } else {
-      secondaryRole = this.beast.secondaryrole
+      secondaryRole = this.beast[secondary]
     }
 
     return `${secondaryRole}s should have 1 - ${secondaryRole === 'Solo' ? '3' : '2'} of the following types of abilities:`
   }
 
-  addExtraIfSolo () {
+  produceEliteOrSoloSocialAdditionalExplanation() {
+    let secondaryRole = null
+      , points = 0
+    if (this.selectedRoleId) {
+      secondaryRole = this.beast.roleInfo[this.selectedRoleId].socialsecondary
+      points = this.beast.roleInfo[this.selectedRoleId].socialpoints + 1
+    } else {
+      secondaryRole = this.beast.socialsecondary
+      points = this.beast.socialpoints + 1
+    }
+
+    if (secondaryRole === "Elite") {
+      return `For an Elite of this power, they would need abilities or general Conviction worth ${Math.floor(1.5 * points)} Ranks. They can also provide half this bonus to their allies.`
+    } else {
+      return `For a Solo of this power, they would need abilities or general Conviction worth ${Math.floor(3 * points)} Ranks.\nAnd have an ability that triggers when they reach 3 Emotional States.`
+    }
+  }
+
+  addExtraIfSolo(secondary) {
     let secondaryRole = null
     if (this.selectedRoleId) {
-      secondaryRole = this.beast.roleInfo[this.selectedRoleId].secondaryrole
+      secondaryRole = this.beast.roleInfo[this.selectedRoleId][secondary]
     } else {
-      secondaryRole = this.beast.secondaryrole
+      secondaryRole = this.beast[secondary]
     }
     return secondaryRole === 'Solo'
   }

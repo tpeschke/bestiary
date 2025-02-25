@@ -480,6 +480,10 @@
             {{socialRolesSecondaryInfo[beast.socialsecondary].description}}</p>
         </div>
 
+        <div *ngIf="checkIfSoloOrElite('socialsecondary')" class="top-margin">
+          <p>{{produceEliteOrSoloSocialAdditionalExplanation()}}</p>
+        </div>
+
         <br>
         <mat-form-field>
           <mat-label>Confrontation Points</mat-label>
@@ -1076,7 +1080,7 @@
             <p class="top-margin"><strong>Secondary Description: </strong>
               {{combatRolesSecondaryInfo[beast.secondaryrole].description}}</p>
           </div>
-          <div *ngIf="checkIfSoloOrElite()" class="top-margin">
+          <div *ngIf="checkIfSoloOrElite('secondaryrole')" class="top-margin">
             <p>{{produceEliteOrSoloAdditionalExplanation()}}</p>
             <ul>
               <li>
@@ -1108,7 +1112,7 @@
                 </ul>
               </li>
             </ul>
-            <p *ngIf="addExtraIfSolo()">And have an ability that triggers when they become Wounded / Shaken</p>
+            <p *ngIf="addExtraIfSolo('secondaryrole')">And have an ability that triggers when they become Wounded / Shaken</p>
           </div>
 
           <div
