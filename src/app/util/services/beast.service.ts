@@ -52,36 +52,36 @@ export class BeastService {
 
   calculateRankForCharacteristic = (type, ranks, strength, adjustment = 0) => {
     const typeBase = {
-      Convictions: {
-        majSt: 7,
-        minSt: 5,
-        minWk: 3,
+      Descriptions : {
+        majSt: 5,
+        minSt: 3,
+        minWk: 1,
         majWk: 0
       },
-      Descriptions: {
+      Convictions: {
         majSt: 4,
         minSt: 3,
         minWk: 2,
         majWk: 1
       },
       Devotions: {
-        majSt: 9,
+        majSt: 8,
         minSt: 6,
-        minWk: 3,
-        majWk: 1
+        minWk: 4,
+        majWk: 2
       }
     }
     const typeScalingBonus = {
-      Convictions: 2.75,
-      Descriptions: .25,
-      Devotions: 2
+      Descriptions: 1,
+      Convictions: .1,
+      Devotions: 1
     }
 
     const scaling = {
-      majSt: 1.5,
-      minSt: 1.25,
-      minWk: .75,
-      majWk: .5
+      majSt: 1,
+      minSt: .75,
+      minWk: .5,
+      majWk: .25
     }
 
     if (strength === 'one') {
