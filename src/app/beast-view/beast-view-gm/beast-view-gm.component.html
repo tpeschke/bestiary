@@ -47,7 +47,7 @@
                 <span class="role-select-span">
                   {{role.name}}
                   <p class="role-select-subtitle">{{(displayService.tooltipName(role.role, role.secondaryrole,
-                    role.socialrole, role.socialsecondary, role.skillrole))}}</p>
+                    role.socialrole, role.socialsecondary, role.skillrole, role.skillsecondary))}}</p>
                 </span>
               </mat-option>
             </mat-select>
@@ -71,8 +71,7 @@
             ? ' [' + beast.roleInfo[selectedRoleId].socialsecondary + ']' : '' ) : beast.socialrole +
             (beast.socialsecondary ? ' [' + beast.socialsecondary + ']' : '' )}} <i
               class="fas fa-info-circle icon-small blue"
-              matTooltip="{{socialRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].socialrole : beast.socialrole].description 
-                + (selectedRoleId && beast.roleInfo[selectedRoleId].socialsecondary ? '\n' + socialSecondaryInfo[beast.roleInfo[selectedRoleId].socialsecondary].description : beast.socialsecondary ? '\n' + socialSecondaryInfo[beast.socialsecondary].description : '')}}"
+              matTooltip="{{createSocialToolTipText()}}"
               matTooltipClass="my-tooltip"></i></p>
         </div>
 
@@ -210,9 +209,12 @@
         <div class="role-select"
           *ngIf="(selectedRoleId && beast.roleInfo[selectedRoleId].skillrole) || (!selectedRoleId && beast.skillrole)">
           <h3>Skill Role Type </h3>
-          <p> {{selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole}} <i
+          <p> {{selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole +
+            (beast.roleInfo[selectedRoleId].skillsecondary
+            ? ' [' + beast.roleInfo[selectedRoleId].skillsecondary + ']' : '' ) : beast.socialrole +
+            (beast.skillsecondary ? ' [' + beast.skillsecondary + ']' : '' )}} <i
               class="fas fa-info-circle icon-small blue"
-              matTooltip="{{skillRolesInfo[selectedRoleId ? beast.roleInfo[selectedRoleId].skillrole : beast.skillrole].description}}"
+              matTooltip="{{createSkillToolTipText()}}"
               matTooltipClass="my-tooltip"></i></p>
         </div>
         <div class="conflict-shell unset-width" *ngIf="showSkillSection">

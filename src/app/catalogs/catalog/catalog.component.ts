@@ -40,6 +40,7 @@ export class CatalogComponent implements OnInit {
   targetSocialRole: string;
   targetSkillRole: string;
   targetSocialSecondary: string;
+  targetSkillSecondary: string;
   targetDefaultRole: string
   targetHasToken: any = false
   targetRarity: any
@@ -95,7 +96,7 @@ export class CatalogComponent implements OnInit {
     this.dialog.open(AddToListPopUpComponent, { width: '400px', data: {beastid: this.targetBeast, rarity: this.targetRarity} });
   }
 
-  displayContextMenu(event, beastid, name, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary, defaultrole, rarity) {
+  displayContextMenu(event, beastid, name, hash, roles, role, secondaryrole, socialrole, skillrole, socialsecondary, skillsecondary, defaultrole, rarity) {
     this.isDisplayContextMenu = true;
     this.rightClickMenuPositionX = event.clientX;
     this.rightClickMenuPositionY = event.clientY;
@@ -108,6 +109,7 @@ export class CatalogComponent implements OnInit {
     this.targetSocialRole = socialrole
     this.targetSkillRole = skillrole
     this.targetSocialSecondary = socialsecondary
+    this.targetSkillSecondary = skillsecondary
     this.targetDefaultRole = defaultrole
     this.targetHasToken = false
     this.targetRarity = rarity
@@ -168,7 +170,7 @@ export class CatalogComponent implements OnInit {
     this.targetHasToken = false
   }
 
-  displayName(name, combatrole, secondarycombat, socialrole, skillrole, socialsecondary) {
+  displayName(name, combatrole, secondarycombat, socialrole, skillrole, socialsecondary, skillsecondary) {
     let nameString = ''
     let roles = false
 
@@ -201,6 +203,9 @@ export class CatalogComponent implements OnInit {
         nameString += '/'
       }
       nameString += `<img src="./assets/skillicon.svg" alt="combat role type" width="17" height="17" class="catalogicon">${skillrole}`
+      if (skillsecondary) {
+        nameString += ` (${skillsecondary})`
+      }
     }
 
     if (roles) {

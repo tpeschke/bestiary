@@ -79,7 +79,7 @@ export class DisplayServiceService {
     }
   }
 
-  tooltipName(combatrole, secondarycombat, socialrole, socialsecondary, skillrole) {
+  tooltipName(combatrole, secondarycombat, socialrole, socialsecondary, skillrole, skillsecondary) {
     let nameString = ''
     let roles = false
 
@@ -109,6 +109,9 @@ export class DisplayServiceService {
         nameString += '/'
       }
       nameString += `${skillrole}`
+      if (skillsecondary) {
+        nameString += ` (${skillsecondary})`
+      }
     }
 
     if (roles) {

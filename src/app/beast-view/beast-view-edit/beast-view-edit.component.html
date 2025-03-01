@@ -275,7 +275,7 @@
             <span class="role-select-span">
               {{role.name}}
               <p class="role-select-subtitle">{{(displayService.tooltipName(role.role, role.secondaryrole,
-                role.socialrole, role.socialsecondary, role.skillrole))}}</p>
+                role.socialrole, role.socialsecondary, role.skillrole, role.skillsecondary))}}</p>
             </span>
           </mat-option>
         </mat-select>
@@ -408,6 +408,20 @@
                 None
               </mat-option>
               <mat-option *ngFor="let role of objectKeys(skillRolesInfo)" [value]="role">
+                {{role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="secondary-role-margin">
+            <mat-label>Skill Secondary Role Type</mat-label>
+            <mat-select #newSecondarySkillRoleSelect (selectionChange)="captureNewRole('skillsecondary', $event)"
+              [disabled]="beast.roles.length === 0 && beast.skillsecondary"
+              [value]="beast.roles.length === 0 ? beast.skillsecondary : null">
+              <mat-option>
+                None
+              </mat-option>
+              <mat-option *ngFor="let role of objectKeys(skillRolesSecondaryInfo)" [value]="role">
                 {{role}}
               </mat-option>
             </mat-select>
@@ -771,8 +785,35 @@
             </mat-select>
           </mat-form-field>
 
+          <mat-form-field>
+            <mat-label>Change Secondary Role Type</mat-label>
+            <mat-select [(value)]="selectedRoleId && beast.roleInfo[selectedRoleId] && beast.roleInfo[selectedRoleId].skillsecondary ?
+            beast.roleInfo[selectedRoleId].skillsecondary :
+            selectedRoleId ? null : beast.skillsecondary" (selectionChange)="setSkillSecondaryRoleType($event)">
+              <mat-option>
+                None
+              </mat-option>
+              <mat-option *ngFor="let role of objectKeys(skillRolesSecondaryInfo)" [value]="role">
+                {{role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <div *ngIf="selectedSkillRole && selectedSkillRole.description">
             <p><strong>Description: </strong> {{selectedSkillRole.description}}</p>
+          </div>
+
+          <div *ngIf="selectedRoleId && beast.roleInfo[selectedRoleId].skillsecondary">
+            <p class="top-margin"><strong>Secondary Description: </strong>
+              {{skillRolesSecondaryInfo[beast.roleInfo[selectedRoleId].skillsecondary].description}}</p>
+          </div>
+          <div *ngIf="!selectedRoleId && beast.skillsecondary">
+            <p class="top-margin"><strong>Secondary Description: </strong>
+              {{skillRolesSecondaryInfo[beast.skillsecondary].description}}</p>
+          </div>
+
+          <div *ngIf="checkIfSoloOrElite('skillsecondary')" class="top-margin">
+            <p>{{produceEliteOrSoloSkillAdditionalExplanation()}}</p>
           </div>
 
           <br>
@@ -1112,7 +1153,8 @@
                 </ul>
               </li>
             </ul>
-            <p *ngIf="addExtraIfSolo('secondaryrole')">And have an ability that triggers when they become Wounded / Shaken</p>
+            <p *ngIf="addExtraIfSolo('secondaryrole')">And have an ability that triggers when they become Wounded /
+              Shaken</p>
           </div>
 
           <div

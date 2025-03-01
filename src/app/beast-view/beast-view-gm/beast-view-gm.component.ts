@@ -53,7 +53,8 @@ export class BeastViewGmComponent implements OnInit {
   public combatSecondaryInfo = roles.combatRoles.secondary
   public socialRolesInfo = roles.socialRoles.primary
   public socialSecondaryInfo = roles.socialRoles.secondary
-  public skillRolesInfo = roles.skillRoles
+  public skillRolesInfo = roles.skillRoles.primary
+  public skillSecondaryInfo = roles.skillRoles.secondary
   public displayedVitalityRoll = null
   public ratingDescriptions = ratings.ratingsObject
 
@@ -430,6 +431,34 @@ export class BeastViewGmComponent implements OnInit {
         return location
       })
     }
+  }
+
+  createSkillToolTipText () {
+    const skillRole = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].skillrole : this.beast.skillrole
+    const primaryDescription = this.skillRolesInfo[skillRole].description
+    
+    let secondaryDescription = null
+    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].skillsecondary) {
+      secondaryDescription = this.skillSecondaryInfo[this.beast.roleInfo[this.selectedRoleId].skillsecondary].description
+    } else if (this.beast.skillsecondary) {
+      secondaryDescription = this.skillSecondaryInfo[this.beast.skillsecondary].description
+    }
+
+    return primaryDescription + (secondaryDescription ? '\n' + secondaryDescription : '')
+  }
+
+  createSocialToolTipText () {
+    const socialrole = this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].socialrole : this.beast.socialrole
+    const primaryDescription = this.socialRolesInfo[socialrole].description
+    
+    let secondaryDescription = null
+    if (this.selectedRoleId && this.beast.roleInfo[this.selectedRoleId].socialsecondary) {
+      secondaryDescription = this.socialSecondaryInfo[this.beast.roleInfo[this.selectedRoleId].socialsecondary].description
+    } else if (this.beast.socialsecondary) {
+      secondaryDescription = this.socialSecondaryInfo[this.beast.socialsecondary].description
+    }
+
+    return primaryDescription + (secondaryDescription ? '\n' + secondaryDescription : '')
   }
 
   formatPoints(pointsType) {
@@ -1466,6 +1495,7 @@ export class BeastViewGmComponent implements OnInit {
     this.socialRolesInfo = roles.socialRoles.primary
     this.socialSecondaryInfo = roles.socialRoles.secondary
     this.skillRolesInfo = roles.skillRoles
+    this.skillSecondaryInfo = roles.skillRoles.secondary
     this.displayedVitalityRoll = null;
 
     this.equipmentLists = { weapons: [], armor: [], shields: [] }
@@ -1552,7 +1582,7 @@ export class BeastViewGmComponent implements OnInit {
   downloadJson() {
     const { id, name: basicName, senses, meta, sp_atk, sp_def, tactics, size: basicSize, role: basicRole,
       secondaryrole: basicSecondaryRole, socialrole: basicSocialRole, socialsecondary: basicSocialSecondary,
-      skillrole: basicSkillRole, notes, movement, rolenameorder, roleInfo, hash, combatStatArray,
+      skillrole: basicSkillRole, skillsecondary: baseSkillSecondary, notes, movement, rolenameorder, roleInfo, hash, combatStatArray,
       knockback: basicKnockback, notrauma: basicTrauma, noknockback: basicnoknockback, phyiscalAndStress, locationalvitality,
       spells, skills, challenges, obstacles, conflict, rollundertrauma: basicRollUnderTrauma, atk_skill,
       def_skill, atk_conf, def_conf, isincorporeal: basicisincorporeal, weaponbreakagevitality: basicweaponbreakagevitality,
@@ -1583,6 +1613,7 @@ export class BeastViewGmComponent implements OnInit {
     const socialrole = this.selectedRoleId ? selectedRoleInfo.socialrole : basicSocialRole
     const socialsecondary = this.selectedRoleId ? selectedRoleInfo.socialsecondary : basicSocialSecondary
     const skillrole = this.selectedRoleId ? selectedRoleInfo.skillrole : basicSkillRole
+    const skillsecondary = this.selectedRoleId ? selectedRoleInfo.skillsecondary : baseSkillSecondary
     const knockback = this.selectedRoleId ? selectedRoleInfo.knockback : basicKnockback
     const notrauma = this.selectedRoleId ? selectedRoleInfo.notrauma : basicTrauma
     const rollundertrauma = this.selectedRoleId ? selectedRoleInfo.rollundertrauma : basicRollUnderTrauma
@@ -1643,6 +1674,7 @@ export class BeastViewGmComponent implements OnInit {
       spells: spells.filter(spell => spell.roleid === this.selectedRoleId || spell.allroles),
       skills: {
         challenges, obstacles, skillrole,
+        secondary: skillsecondary,
         skill: skills.filter(skill => skill.skillroleid === this.selectedRoleId || skill.allroles).map(skill => {
           return {
             skill: skill.skill,

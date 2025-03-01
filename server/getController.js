@@ -36,7 +36,7 @@ function sortOutAnyToTheBottom(a, b) {
   }
 }
 
-function displayName(name, combatrole, secondarycombat, socialrole, skillrole, socialsecondary) {
+function displayName(name, combatrole, secondarycombat, socialrole, skillrole, socialsecondary, skillsecondary) {
   let nameString = ''
   let roles = false
 
@@ -70,6 +70,9 @@ function displayName(name, combatrole, secondarycombat, socialrole, skillrole, s
       nameString += '/'
     }
     nameString += `${skillrole}`
+    if (skillsecondary) {
+      nameString += ` (${skillsecondary})`
+    }
   }
 
   if (roles) {
@@ -129,7 +132,7 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons, rolenameorder, mainsocialpoints, rolesocialpoints, mainskillpoints, roleskillpoints, mainrollundertrauma, rolerollundertrauma, mainisincorporeal, roleisincorporeal, mainweaponbreakagevitality, roleweaponbreakagevitality } = result[0]
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, baseskillsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons, rolenameorder, mainsocialpoints, rolesocialpoints, mainskillpoints, roleskillpoints, mainrollundertrauma, rolerollundertrauma, mainisincorporeal, roleisincorporeal, mainweaponbreakagevitality, roleweaponbreakagevitality } = result[0]
       let beast = { name, roleid, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: (rolepoints || rolepoints === 0 ? rolepoints : mainpoints) + modifiers.pointModifier, notrauma }
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
@@ -138,7 +141,7 @@ module.exports = {
       name = formatNameWithCommas(beast.name)
 
       if (!isARole) {
-        beast.name = displayName(beast.name, baseroletype, basesecondaryrole, baseskillrole, basesocialrole, basesocialsecondary)
+        beast.name = displayName(beast.name, baseroletype, basesecondaryrole, baseskillrole, basesocialrole, basesocialsecondary, baseskillsecondary)
         beast.role = baseroletype
         beast.secondaryrole = basesecondaryrole
         beast.singledievitality = mainsingledievitality
@@ -674,6 +677,7 @@ module.exports = {
               skillrole: result[i].skillrole,
               skillpoints: result[i].skillpoints,
               socialsecondary: result[i].socialsecondary,
+              skillsecondary: result[i].skillsecondary,
               size: result[i].size,
               fatigue: result[i].fatiguestrength,
               mental: result[i].mental,

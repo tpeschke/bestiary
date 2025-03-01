@@ -100,7 +100,8 @@ export class BeastViewEditComponent implements OnInit {
     secondaryrole: null,
     socialrole: null,
     skillrole: null,
-    socialsecondary: null
+    socialsecondary: null,
+    skillsecondary: null
   };
   public deletedSpellList = null;
 
@@ -252,7 +253,8 @@ export class BeastViewEditComponent implements OnInit {
   combatRolesSecondaryInfo = roles.combatRoles.secondary
   socialRolesInfo = roles.socialRoles.primary;
   socialRolesSecondaryInfo = roles.socialRoles.secondary
-  skillRolesInfo = roles.skillRoles;
+  skillRolesInfo = roles.skillRoles.primary;
+  skillRolesSecondaryInfo = roles.skillRoles.secondary
 
   public combatSkills = ['Endurance', 'Jumping', 'Climbing', 'Move Silently', 'Hiding', 'Swimming', 'Tumbling', 'Escape Artist', 'Warfare', 'Athletics Skill Suite', 'Strategy Skill Suite']
   public socialSkills = ['Deception', 'Intuition', 'Perception', 'Leadership', 'Articulation', 'Performance', 'Language (All)', 'Language']
@@ -1811,6 +1813,25 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  produceEliteOrSoloSkillAdditionalExplanation() {
+    let secondaryRole = null
+      , points = 0
+    if (this.selectedRoleId) {
+      secondaryRole = this.beast.roleInfo[this.selectedRoleId].skillsecondary
+      points = this.beast.roleInfo[this.selectedRoleId].socialpoints + 1
+    } else {
+      secondaryRole = this.beast.skillsecondary
+      points = this.beast.socialpoints + 1
+    }
+
+    if (secondaryRole === "Elite") {
+      return `For an Elite of this power, they would need abilities worth ${Math.floor(1.5 * points)} Boons. They can also provide half this bonus to their allies.`
+    } else {
+      return `For a Solo of this power, they would need abilities worth ${Math.floor(3 * points)} Boons.\nAnd have an ability that triggers when they become Panicked/Fatigued.`
+    }
+  }
+
+
   addExtraIfSolo(secondary) {
     let secondaryRole = null
     if (this.selectedRoleId) {
@@ -1989,6 +2010,20 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
+  setSkillSecondaryRoleType(event) {
+    if (this.selectedRoleId) {
+      this.beast.roleInfo[this.selectedRoleId].skillsecondary = event.value
+      for (let i = 0; i < this.beast.roles.length; i++) {
+        if (this.selectedRoleId === this.beast.roles[i].id) {
+          this.beast.roles[i].skillsecondary = event.value
+          i = this.beast.roles.length
+        }
+      }
+    } else {
+      this.beast.skillsecondary = event.value
+    }
+  }
+
   setSocialRoleType(event) {
     if (this.selectedRoleId) {
       for (let i = 0; i < this.beast.roles.length; i++) {
@@ -2085,15 +2120,17 @@ export class BeastViewEditComponent implements OnInit {
         socialrole: this.newRole.socialrole,
         socialsecondary: this.newRole.socialsecondary,
         skillrole: this.newRole.skillrole,
+        skillsecondary: this.newRole.skillsecondary
       }
       if (areRolesFilledOutAndAddingFirstRole) {
-        let { role, secondaryrole, socialrole, socialsecondary, skillrole } = this.beast
+        let { role, secondaryrole, socialrole, socialsecondary, skillrole, skillsecondary } = this.beast
         rolesToAdd = {
           role: role ? role : this.newRole.role,
           secondaryrole: secondaryrole ? secondaryrole : this.newRole.secondaryrole,
           socialrole: socialrole ? socialrole : this.newRole.socialrole,
           socialsecondary: socialsecondary ? socialsecondary : this.newRole.socialsecondary,
           skillrole: skillrole ? skillrole : this.newRole.skillrole,
+          skillsecondary: skillsecondary ? skillsecondary : this.newRole.skillsecondary
         }
       }
 
@@ -2128,15 +2165,17 @@ export class BeastViewEditComponent implements OnInit {
         socialrole: this.newRole.socialrole,
         socialsecondary: this.newRole.socialsecondary,
         skillrole: this.newRole.skillrole,
+        skillsecondary: this.newRole.skillsecondary
       }
       if (areRolesFilledOutAndAddingFirstRole) {
-        let { role, secondaryrole, socialrole, socialsecondary, skillrole } = this.beast
+        let { role, secondaryrole, socialrole, socialsecondary, skillrole, skillsecondary } = this.beast
         rolesToAdd = {
           role: role ? role : this.newRole.role,
           secondaryrole: secondaryrole ? secondaryrole : this.newRole.secondaryrole,
           socialrole: socialrole ? socialrole : this.newRole.socialrole,
           socialsecondary: socialsecondary ? socialsecondary : this.newRole.socialsecondary,
           skillrole: skillrole ? skillrole : this.newRole.skillrole,
+          skillsecondary: skillsecondary ? skillsecondary : this.newRole.skillsecondary
         }
       }
 
@@ -2172,7 +2211,8 @@ export class BeastViewEditComponent implements OnInit {
       secondaryrole: null,
       socialrole: null,
       skillrole: null,
-      socialsecondary: null
+      socialsecondary: null,
+      skillsecondary: null
     }
     if (this.beast.roles.length > 0) {
       this.setRole({ value: id })
@@ -2609,8 +2649,9 @@ export class BeastViewEditComponent implements OnInit {
       , combatrole = roleInfo.role
       , secondarycombat = roleInfo.secondaryrole
       , socialrole = roleInfo.socialrole
-      , socialsecondary = roleInfo.socialsecondarysetVitalityAndFatigue
+      , socialsecondary = roleInfo.socialsecondary
       , skillrole = roleInfo.skillrole
+      , skillsecondary = roleInfo.skillsecondary
     let nameString = ''
     let roles = false
 
@@ -2638,6 +2679,9 @@ export class BeastViewEditComponent implements OnInit {
         nameString += '/'
       }
       nameString += `<img src="./assets/skillicon.svg" alt="combat role type" width="17" height="17" class="catalogicon">${skillrole}`
+      if (skillsecondary) {
+        nameString += ` (${skillsecondary})`
+      }
     }
 
     if (roles) {
