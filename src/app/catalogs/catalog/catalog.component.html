@@ -38,7 +38,7 @@
   <div *ngIf="favorites.length > 0" class="beastDiv">
     <div *ngFor="let beast of favorites">
       <div *ngIf="!(loggedIn.id === 1 || loggedIn.id === 21 || loggedIn.patreon > 19) && beast.patreon < 4">
-        <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton" mat-button
+        <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" [matTooltip]="beast.notupdating ? 'This monster isn\t being updated currently. If you need it, let Peschke know and he\'ll update it for you. You can still view it.' : null" [ngClass]="{'notUpdating': beast.notupdating}" class="beastButton" mat-button
           (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.skillsecondary, beast.defaultrole, beast.rarity); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
@@ -53,7 +53,7 @@
       </div>
       <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || !(beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21)">
         <button *ngIf="beast.patreon < 19 || (beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21)"
-          [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
+          [routerLink]="['/beast', beast.id, 'gm']" [matTooltip]="beast.notupdating ? 'This monster isn\t being updated currently. If you need it, let Peschke know and he\'ll update it for you. You can still view it.' : null" [ngClass]="{'notUpdating': beast.notupdating}" class="beastButton" mat-button
           (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.skillsecondary, beast.defaultrole, beast.rarity); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
@@ -66,7 +66,7 @@
             <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
           </div>
         </button>
-        <button *ngIf="!(beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21) && beast.patreon > 19" disabled class="beastButton" mat-button
+        <button *ngIf="!(beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21) && beast.patreon > 19" disabled [matTooltip]="beast.notupdating ? 'This monster isn\t being updated currently. If you need it, let Peschke know and he\'ll update it for you. You can still view it.' : null" [ngClass]="{'notUpdating': beast.notupdating}" class="beastButton" mat-button
           (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.skillsecondary, beast.defaultrole, beast.rarity); false">
           <div class="img-shell">
             <img [ngStyle]="{'object-position': beast.thumbnail ? beast.thumbnail : 'top'}" *ngIf="beast.id"
@@ -89,7 +89,7 @@
     <div class="beastDiv">
       <div *ngFor="let beast of category">
         <div *ngIf="!(beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21) && beast.patreon < 4" class="beast-outer-shell">
-          <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" class="beastButton"
+          <button *ngIf="beast.patreon < 20" [routerLink]="['/beast', beast.id, 'player']" [matTooltip]="beast.notupdating ? 'This monster isn\t being updated currently. If you need it, let Peschke know and he\'ll update it for you. You can still view it.' : null" [ngClass]="{'notUpdating': beast.notupdating}" class="beastButton"
             mat-button
             (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.skillsecondary, beast.defaultrole, beast.rarity); false">
             <div class="img-shell">
@@ -108,7 +108,7 @@
         <div *ngIf="beastService.loggedIn > 3 && beastService.loggedIn < 20 || (beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21)"
           class="beast-outer-shell">
           <button *ngIf="beast.patreon < 19 || (beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21)"
-            [routerLink]="['/beast', beast.id, 'gm']" class="beastButton" mat-button
+            [routerLink]="['/beast', beast.id, 'gm']" [matTooltip]="beast.notupdating ? 'This monster isn\t being updated currently. If you need it, let Peschke know and he\'ll update it for you. You can still view it.' : null" [ngClass]="{'notUpdating': beast.notupdating}" class="beastButton" mat-button
             (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.skillsecondary, beast.defaultrole, beast.rarity); false">
             <div class="img-shell">
               <img [ngStyle]="beast.thumbnail ? {'object-position': beast.thumbnail} : {}" *ngIf="beast.id"
@@ -122,7 +122,7 @@
               <p class="beast-name">{{beast.name.includes('Template, ') ? beast.name.substring(10) : beast.name}}</p>
             </div>
           </button>
-          <button *ngIf="!(beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21) && beast.patreon > 19" disabled class="beastButton"
+          <button *ngIf="!(beastService.loggedIn && beastService.loggedIn.id === 1 || beastService.loggedIn && beastService.loggedIn.id === 21) && beast.patreon > 19" disabled [matTooltip]="beast.notupdating ? 'This monster isn\t being updated currently. If you need it, let Peschke know and he\'ll update it for you. You can still view it.' : null" [ngClass]="{'notUpdating': beast.notupdating}" class="beastButton"
             mat-button
             (contextmenu)="displayContextMenu($event, beast.id, beast.name, beast.hash, beast.roles, beast.role, beast.secondaryrole, beast.socialrole, beast.skillrole, beast.socialsecondary, beast.skillsecondary, beast.defaultrole, beast.rarity); false">
             <div class="img-shell">

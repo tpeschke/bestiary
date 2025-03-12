@@ -172,6 +172,10 @@ div {
   font-size: unset;
 }
 
+.notUpdating {
+  opacity: .35;
+}
+
 @media (max-width: 699px) {
   .img-shell {
     height: 200px;
