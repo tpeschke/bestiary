@@ -56,7 +56,6 @@ export class CatalogComponent implements OnInit {
     this.metaService.updateTag( { name:'og:image', content: "https://bestiary.stone-fish.com/assets/TWRealFire.png"});
     this.route.data.subscribe(data => {
       this.beasts = data['catalog']
-      console.log(this.beasts)
     })
     this.beastService.getFavorites().subscribe((results:any) => {
       if (results.length > 0) {
