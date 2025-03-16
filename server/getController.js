@@ -132,8 +132,8 @@ module.exports = {
     let db
     req.db ? db = req.db : db = req.app.get('db')
     db.get.quickview(hash).then(result => {
-      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, caution, roleattack, roledefense, rolepanic, rolestress, rolecaution, rolehash, basefatigue, basesocialsecondary, baseskillsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, maincautionstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolecautionstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons, rolenameorder, mainsocialpoints, rolesocialpoints, mainskillpoints, roleskillpoints, mainrollundertrauma, rolerollundertrauma, mainisincorporeal, roleisincorporeal, mainweaponbreakagevitality, roleweaponbreakagevitality } = result[0]
-      let beast = { name, roleid, sp_atk, sp_def, vitality, panic, stress, hash, patreon, caution, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: (rolepoints || rolepoints === 0 ? rolepoints : mainpoints) + modifiers.pointModifier, notrauma }
+      let { name, sp_atk, sp_def, vitality, panic, stress, roletype, baseskillrole, basesocialrole, secondaryroletype, skillrole, socialrole, basesecondaryrole, baseroletype, rolename, rolevitality, id: beastid, roleid, patreon, canplayerview, roleattack, roledefense, rolepanic, rolestress, rolehash, basefatigue, basesocialsecondary, baseskillsecondary, socialsecondary, size, rolesize, rolefatigue, mainpoints, rolepoints, notrauma, mainsingledievitality, mainknockback, mainpanicstrength, mainfatiguestrength, mainstressstrength, mainmental, mainlargeweapons, rolesingledievitality, roleknockback, rolepanicstrength, rolefatiguestrength, rolestressstrength, rolemental, rolelargeweapons, rolenameorder, mainsocialpoints, rolesocialpoints, mainskillpoints, roleskillpoints, mainrollundertrauma, rolerollundertrauma, mainisincorporeal, roleisincorporeal, mainweaponbreakagevitality, roleweaponbreakagevitality } = result[0]
+      let beast = { name, roleid, sp_atk, sp_def, vitality, panic, stress, hash, patreon, roleattack, roledefense, size: rolesize ? rolesize : size, basefatigue, combatpoints: (rolepoints || rolepoints === 0 ? rolepoints : mainpoints) + modifiers.pointModifier, notrauma }
       let isARole = rolehash === req.params.hash
       let roleToUse = ''
       let secondaryRoleToUse = ''
@@ -149,7 +149,6 @@ module.exports = {
         beast.weaponbreakagevitality = mainweaponbreakagevitality
         beast.knockback = mainknockback
         beast.panicstrength = mainpanicstrength
-        beast.cautionstrength = maincautionstrength
         beast.fatiguestrength = mainfatiguestrength
         beast.stressstrength = mainstressstrength
         beast.mental = mainmental
@@ -193,7 +192,6 @@ module.exports = {
         beast.weaponbreakagevitality = roleweaponbreakagevitality
         beast.knockback = roleknockback
         beast.panicstrength = rolepanicstrength
-        beast.cautionstrength = rolecautionstrength
         beast.fatiguestrength = rolefatiguestrength
         beast.stressstrength = rolestressstrength
         beast.mental = rolemental
@@ -323,7 +321,7 @@ module.exports = {
             armor = beast.combatStatArray[0].armor
             shield = beast.combatStatArray[0].shield
           }
-          beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, Math.max(beast.combatpoints, beast.skillpoints, beast.socialpoints), beast.role, { mental: beast.mental, panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons, singledievitality: beast.singledievitality, noknockback: beast.noknockback }, beast.secondaryrole, beast.knockback, beast.size ? beast.size : 'Medium', armor, shield)
+          beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, Math.max(beast.combatpoints, beast.skillpoints, beast.socialpoints), beast.role, { mental: beast.mental, panic: beast.panicstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons, singledievitality: beast.singledievitality, noknockback: beast.noknockback }, beast.secondaryrole, beast.knockback, beast.size ? beast.size : 'Medium', armor, shield)
           let { physicalMental } = req.body
           if (physicalMental && physicalMental.currentDamage) {
             beast.phyiscalAndStress.physical.currentDamage = +physicalMental.currentDamage
@@ -374,7 +372,6 @@ module.exports = {
       let patreon = beast.patreon === 0 ? beast.patreon + 3 : beast.patreon
 
       beast.panic = beast.panicstrength
-      beast.caution = beast.cautionstrength
       beast.fatigue = beast.fatiguestrength
 
       if (beast.canplayerview) {
@@ -682,7 +679,6 @@ module.exports = {
               fatigue: result[i].fatiguestrength,
               mental: result[i].mental,
               panic: result[i].panicstrength,
-              caution: result[i].cautionstrength,
               knockback: result[i].knockback,
               largeweapons: result[i].largeweapons,
               singledievitality: result[i].singledievitality,
@@ -778,9 +774,9 @@ module.exports = {
                 armor = beast.combatStatArray[0].armor
                 shield = beast.combatStatArray[0].shield
               }
-              beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, Math.max(beast.combatpoints, beast.skillpoints, beast.socialpoints), beast.role, { mental: beast.mental, panic: beast.panicstrength, caution: beast.cautionstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons, singledievitality: beast.singledievitality, noknockback: beast.noknockback }, beast.secondaryrole, beast.knockback, beast.size ? beast.size : 'Medium', armor, shield)
+              beast.phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.combatpoints, Math.max(beast.combatpoints, beast.skillpoints, beast.socialpoints), beast.role, { mental: beast.mental, panic: beast.panicstrength, fatigue: beast.fatiguestrength, largeweapons: beast.largeweapons, singledievitality: beast.singledievitality, noknockback: beast.noknockback }, beast.secondaryrole, beast.knockback, beast.size ? beast.size : 'Medium', armor, shield)
               for (let role in beast.roleInfo) {
-                beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, Math.max(beast.roleInfo[role].combatpoints, beast.roleInfo[role].skillpoints, beast.roleInfo[role].socialpoints), beast.roleInfo[role].role, { mental: beast.roleInfo[role].mental, panic: beast.roleInfo[role].panic, caution: beast.roleInfo[role].caution, fatigue: beast.roleInfo[role].fatigue, largeweapons: beast.roleInfo[role].largeweapons, singledievitality: beast.roleInfo[role].singledievitality, noknockback: beast.roleInfo[role].noknockback }, beast.roleInfo[role].secondaryrole, beast.roleInfo[role].knockback, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
+                beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, Math.max(beast.roleInfo[role].combatpoints, beast.roleInfo[role].skillpoints, beast.roleInfo[role].socialpoints), beast.roleInfo[role].role, { mental: beast.roleInfo[role].mental, panic: beast.roleInfo[role].panic, fatigue: beast.roleInfo[role].fatigue, largeweapons: beast.roleInfo[role].largeweapons, singledievitality: beast.roleInfo[role].singledievitality, noknockback: beast.roleInfo[role].noknockback }, beast.roleInfo[role].secondaryrole, beast.roleInfo[role].knockback, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
               }
             }
             return result

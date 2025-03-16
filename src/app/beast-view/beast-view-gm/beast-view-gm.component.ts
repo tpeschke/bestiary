@@ -1079,7 +1079,6 @@ export class BeastViewGmComponent implements OnInit {
           const combatStats = {
             panic: roleInfo ? roleInfo.panic : this.beast.panic,
             mental: roleInfo ? roleInfo.mental : this.beast.mental,
-            caution: roleInfo ? roleInfo.caution : this.beast.caution,
             largeweapons: roleInfo ? roleInfo.largeweapons : this.beast.largeweapons,
             fatigue: roleInfo ? roleInfo.fatigue : this.beast.fatigue,
             singledievitality: roleInfo ? roleInfo.singledievitality : this.beast.singledievitality,
@@ -1105,7 +1104,6 @@ export class BeastViewGmComponent implements OnInit {
         const combatStats = {
           panic: this.beast.panic,
           mental: this.beast.mental,
-          caution: this.beast.caution,
           largeweapons: this.beast.largeweapons,
           fatigue: this.beast.fatigue,
           singledievitality: this.beast.singledievitality,
@@ -1370,7 +1368,7 @@ export class BeastViewGmComponent implements OnInit {
     }
   }
 
-  getSocialRank(type, strength, adjustment = 0) {
+  getSocialRank(type, strength, adjustment) {
     const socialPoints = this.roundUpRating((this.selectedRoleId ? this.beast.roleInfo[this.selectedRoleId].socialpoints : this.beast.socialpoints) + this.getModifierRankMod())
     return this.beastService.calculateRankForCharacteristic(type, +socialPoints, strength, adjustment)
   }

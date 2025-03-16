@@ -74,7 +74,6 @@ export class BeastViewEditComponent implements OnInit {
   public mental = {
     stress: null,
     panic: null,
-    caution: null
   }
   public physical = {
     largeweapons: null,
@@ -130,11 +129,7 @@ export class BeastViewEditComponent implements OnInit {
     {
       label: 'Panic',
       stat: 'panic',
-    },
-    {
-      label: 'Caution',
-      stat: 'caution',
-    },
+    }
   ]
   public physicalStats = [
     {
@@ -145,11 +140,7 @@ export class BeastViewEditComponent implements OnInit {
     {
       label: 'Fatigue',
       stat: 'fatigue',
-    },
-    {
-      label: 'Caution',
-      stat: 'caution',
-    },
+    }
   ]
 
   public movementStats = [
@@ -1214,7 +1205,6 @@ export class BeastViewEditComponent implements OnInit {
           armorandshields: null,
           unarmored: null,
           attack: null,
-          caution: null,
           initiative: null,
           measure: null,
           panic: null,
@@ -1395,7 +1385,6 @@ export class BeastViewEditComponent implements OnInit {
 
     this.beast.roles = this.beast.roles.map(role => {
       const roleInfo = this.beast.roleInfo[role.id]
-      role.caution = roleInfo.caution
       role.fatigue = roleInfo.fatigue
       role.largeweapons = roleInfo.largeweapons
       role.mental = roleInfo.mental
@@ -2136,7 +2125,6 @@ export class BeastViewEditComponent implements OnInit {
 
       this.beast.roleInfo[id] = {
         attack: null,
-        caution: this.beast.caution,
         combatpoints: this.beast.combatpoints,
         defense: null,
         hash: null,
@@ -2181,7 +2169,6 @@ export class BeastViewEditComponent implements OnInit {
 
       this.beast.roleInfo[id] = {
         attack: null,
-        caution: null,
         combatpoints: 0,
         defense: null,
         hash: null,
@@ -2428,7 +2415,6 @@ export class BeastViewEditComponent implements OnInit {
     const combatStats = {
       panic: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].panic : this.beast.panic,
       mental: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].mental : this.beast.mental,
-      caution: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].caution : this.beast.caution,
       largeweapons: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].largeweapons : this.beast.largeweapons,
       fatigue: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].fatigue : this.beast.fatigue,
       singledievitality: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].singledievitality : this.beast.singledievitality,

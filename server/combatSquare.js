@@ -14,7 +14,6 @@ const noRole = {
     weaponsmallslashing: null,
     flanks: null,
     attack: null,
-    caution: null,
     fatigue: null,
     initiative: null,
     measure: null,
@@ -130,9 +129,8 @@ const combatSquareController = {
             physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield, sizeMod, combatStats.noknockback)
             deteremineVitalityDice(physical, sizeMod, combatStats.noknockback)
         }
-        let caution = setCaution(combatStats, baseRoleInfo, points, mental, physical)
 
-        return { mental: { ...mental, caution }, physical: { ...physical } }
+        return { mental: { ...mental }, physical: { ...physical } }
     },
     setVitalityAndStress: (req, res) => {
         const { points, mentalpoints, role, combatStats, secondaryrole, knockback, size, armor, shield } = req.body
@@ -293,6 +291,7 @@ setVitalityAndFatigue = (combatStats, baseRoleInfo, combatpoints, secondaryrole,
             physical.largeweapons *= 3.5
         }
     }
+    physical.largeweapons = Math.ceil(physical.largeweapons)
     physical.fatigue = getFatigue(combatStats, baseRoleInfo, combatpoints, armor, shield, physical.largeweapons, sizeMod, noknockback)
     return physical
 }
@@ -321,21 +320,7 @@ getFatigue = (combatStats, baseRoleInfo, combatpoints, armor, shield, largeweapo
         return fatigue
     }
 }
-setCaution = (combatStats, baseRoleInfo, combatpoints, mental, physical) => {
-    if (combatStats.caution === 'one') {
-        return 1
-    }
-    let caution = getModifiedStats('caution', combatStats, baseRoleInfo, combatpoints)
-    if (caution === 'N') {
-        return caution
-    }
-    if (caution > 1) {
-        caution = 1
-    }
-    const largeweapons = physical.largeweapons === 'N' ? 0 : physical.largeweapons
-    const stress = mental.stress === 'N' ? 0 : mental.stress
-    return Math.ceil((stress + largeweapons) * caution)
-}
+
 deteremineVitalityDice = (physical, sizeMod, noknockback) => {
     if (physical.largeweapons - sizeMod > 0) {
         const remainder = roundToNearestEvenNumber(physical.largeweapons - sizeMod)
@@ -1403,22 +1388,6 @@ const scalingAndBases = {
             none: 0,
             minWk: .5,
             majWk: .33
-        }
-    },
-    caution: {
-        scaling: {
-            majSt: .5,
-            minSt: .35,
-            none: .25,
-            minWk: .1,
-            majWk: 0
-        },
-        bonus: {
-            majSt: .15,
-            minSt: .1,
-            none: 0,
-            minWk: .05,
-            majWk: .01
         }
     },
     fatigue: {

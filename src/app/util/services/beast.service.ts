@@ -93,7 +93,7 @@ export class BeastService {
     } else if (strength === 'none' || !strength) {
       return 3
     } else {
-      return Math.ceil(typeBase[type][strength] + ((scaling[strength] * typeScalingBonus[type]) * (ranks + adjustment)))
+      return Math.ceil(typeBase[type][strength] + ((scaling[strength] * typeScalingBonus[type]) * (+ranks + +adjustment)))
     }
   }
 

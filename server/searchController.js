@@ -94,7 +94,7 @@ module.exports = {
                     if (req.query.roles !== '') {
                         req.query.roles.split(',').forEach(val => {
                             let roleName = getRoleName(val)
-                            if (+val < 11) {
+                            if (+val < 11 || +val === 32 || +val === 33) {
                                 idArray.push(db.get.search.roles_confrontation(roleName).then(result => result).catch(e => sendErrorForward('search roles confrontation', e, res)))
                             } else if (+val > 10 && +val < 22) {
                                 idArray.push(db.get.search.roles_combat(roleName).then(result => result).catch(e => sendErrorForward('search roles combat', e, res)))
@@ -225,9 +225,17 @@ getRoleName = (val) => {
         case 29:
             return 'Hazard'
         case 30:
-            return 'Fodder'       
+            return 'Fodder'
         case 31:
             return 'Elite'
+        case 32:
+            return 'Elite'
+        case 33:
+            return 'Solo'
+        case 34:
+            return 'Elite'
+        case 35:
+            return 'Solo'
         default:
             return ''
     }
