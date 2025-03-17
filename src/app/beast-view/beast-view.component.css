@@ -1034,10 +1034,6 @@ mat-form-field.fatigue-field {
     flex-wrap: wrap;
 }
 
-.attack-and-defense-inner-shell {
-    width: 49%;
-}
-
 .table-input, .table-input-clearable {
     border: none;
     border-bottom: transparent;
@@ -1165,10 +1161,6 @@ mat-form-field.fatigue-field {
 
     h1, .fa-star {
         font-size: 6vw;
-    }
-
-    .attack-and-defense-inner-shell {
-        width: 100%;
     }
 
     .right, .left {

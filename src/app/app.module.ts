@@ -84,6 +84,13 @@ import { AddToListPopUpComponent } from './random-encounters/add-to-list-pop-up/
 import { CatalogComponent } from './catalogs/catalog/catalog.component';
 import { ListViewPopUpComponent } from './random-encounters/list-view-pop-up/list-view-pop-up.component';
 import { EquipmentDisplayComponent } from './beast-view/beast-view-edit/equipment-display/equipment-display.component';
+import { CombatDisplayComponent } from './beast-view/beast-view-edit/combat-display/combat-display.component';
+import { VitalityFatigueDisplayComponent } from './beast-view/beast-view-edit/combat-display/vitality-fatigue-display/vitality-fatigue-display.component';
+import { MovementDisplayComponent } from './beast-view/beast-view-edit/combat-display/movement-display/movement-display.component';
+import { DefenseDisplayComponent } from './beast-view/beast-view-edit/combat-display/defense-display/defense-display.component';
+import { AttackDisplayComponent } from './beast-view/beast-view-edit/combat-display/attack-display/attack-display.component';
+import { SingleDefenseDisplayComponent } from './beast-view/beast-view-edit/combat-display/defense-display/single-defense-display/single-defense-display.component';
+import { SingleAttackDisplayComponent } from './beast-view/beast-view-edit/combat-display/attack-display/single-attack-display/single-attack-display.component';
 
 const routes: Routes = [
   {
@@ -165,7 +172,14 @@ const routes: Routes = [
     CustomCatalogComponent,
     PleromaDisplayComponent,
     RandomEncountersListComponent,
-    EquipmentDisplayComponent
+    EquipmentDisplayComponent,
+    CombatDisplayComponent,
+    VitalityFatigueDisplayComponent,
+    MovementDisplayComponent,
+    DefenseDisplayComponent,
+    SingleDefenseDisplayComponent,
+    AttackDisplayComponent,
+    SingleAttackDisplayComponent
   ],
   imports: [
     BrowserModule,

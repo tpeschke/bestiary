@@ -240,7 +240,6 @@ export class SearchBarComponent implements OnInit {
       this.router.navigate(['/search', { ...this.queryObject }]);
     } else {
       this.queryObject = { ...this.queryObject, types: this.types }
-      console.log(this.queryObject)
       this.router.navigate(['/search', { ...this.queryObject }]);
     }
   }

@@ -1,0 +1,39 @@
+<div class="attack-and-defense-inner-shell">
+  <h2>Add. Combat Attack Info</h2>
+  <div class="divider"></div>
+  <br>
+  <h3 *ngIf="roleInfo">Base Abilities</h3>
+  <div>
+    <quill-editor [(ngModel)]="beast.sp_atk" (onContentChanged)="captureHTML($event, 'sp_atk')">
+    </quill-editor>
+    <p class="character-counter">{{beast.sp_atk ? beast.sp_atk.length : 0}} / 3,000 <i
+        class="fas fa-info-circle icon-small" matTooltip="This also counts the HTML tags which are invisible."></i>
+    </p>
+  </div>
+
+  <div *ngIf="roleInfo">
+    <br>
+    <h3>Role-Specific Abilities</h3>
+    <div>
+      <quill-editor [(ngModel)]="roleInfo.attack" (onContentChanged)="captureHTML($event, 'role attack')">
+      </quill-editor>
+      <p class="character-counter">{{roleInfo.attack ?
+        roleInfo.attack.length : 0}} / 3,000 <i class="fas fa-info-circle icon-small"
+          matTooltip="This also counts the HTML tags which are invisible."></i></p>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="combat-shell unset-width">
+  <div *ngFor="let square of attacks; let i = index">
+    <div *ngIf="!square.deleted && selectedRoleId === square.roleid" class="combat-info-shell-outer unset-width">
+      <app-single-attack-display [primaryRole]="beastInfo.role" [combatStats]="square" [points]="points" [physical]="beastInfo"
+      [size]="size" [secondaryRole]="secondaryRole" [setAttackInfo]="setAttackInfo" [defaultname]="square.defaultname"
+      [removeCallback]="removeCombatStatFromArray" [index]="i"></app-single-attack-display>
+    </div>
+  </div>
+  <button mat-raised-button (click)="addNewSecondaryItem('combatStatArray')" color="accent"><i
+      class="fa-solid fa-plus icon-medium"></i> Attack</button>
+</div>

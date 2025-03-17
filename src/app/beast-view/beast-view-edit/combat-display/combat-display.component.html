@@ -1,0 +1,109 @@
+<div class="combat-display-shell">
+  <div>
+    <div (click)="setSectionToDisplay('vitality')" class="section-button">
+      <div class="row subheading two">
+        <p><strong>Vitality (Fatigue)</strong> <span>{{physical.largeweapons}} ({{physical.fatigue}})</span></p>
+        <p *ngIf="!beast.notrauma"><strong>Trauma (<i matTooltip="What you need to roll under for the Trauma Check"
+              class="fa-solid fa-down-long"></i>)</strong> <span>{{+(physical.largeweapons / 4).toFixed(0)}}
+            ({{beastInfo.rollundertrauma}})</span></p>
+        <p *ngIf="beast.notrauma"><strong>Trauma</strong> <span>N/A</span></p>
+      </div>
+      <div class="row two">
+        <p>Initiative {{physical.initiative >= 0 ? '+' + physical.initiative : physical.initiative}}</p>
+        <p>Size Mod {{beastInfo && beastInfo.knockback ? beastInfo.knockback : beastInfo && beastInfo.size ?
+          sizeDictionary[beastInfo.size] : beastInfo.knockback ? beastInfo.knockback : sizeDictionary[beastInfo.size] ?
+          sizeDictionary[beastInfo.size] : null}}</p>
+      </div>
+    </div>
+    <div (click)="setSectionToDisplay('defense')" class="section-button">
+      <div class="row subheading two-items-opposite">
+        <p><strong>Defense Info</strong></p>
+      </div>
+      <quill-view-html *ngIf="beast.sp_def" [content]="beast.sp_def"></quill-view-html>
+      <div *ngFor="let defenseStat of defenseArray; let i = index">
+        <!-- This also needs to appear if the defense has a non-default name -->
+        <div *ngIf="i > 0" class="row sub-subheading">
+          <strong>Condition</strong>
+          <p>Armor & Shield</p>
+        </div>
+        <div class="row three">
+          <p>Def {{defenseStat.defense}}</p>
+          <p>Flanks {{defenseStat.flanks}}</p>
+          <p>Parry {{defenseStat.parry}}</p>
+        </div>
+        <div class="row three">
+          <p>Cover {{defenseStat.cover}}</p>
+          <p>Parry DR {{defenseStat.shieldDr}}</p>
+          <p>DR {{defenseStat.dr}}</p>
+        </div>
+        <quill-view-html *ngIf="defenseStat.info" [content]="defenseStat.info"></quill-view-html>
+      </div>
+    </div>
+    <div (click)="setSectionToDisplay('attack')" class="section-button">
+      <div class="row subheading two-items-opposite">
+        <p><strong>Attack Info</strong></p>
+      </div>
+      <quill-view-html *ngIf="beast.sp_atk" [content]="beast.sp_atk"></quill-view-html>
+      <div *ngFor="let attackStat of attackArray; let i = index">
+        <div class="row sub-subheading">
+          <strong>Condition</strong>
+          <p>{{attackStat.defaultweaponname}}</p>
+        </div>
+        <div class="attack-info-shell">
+          <div>
+            <div class="row two">
+              <p>{{attackStat.weaponType === 'm' ? 'Meas' : 'RI'}} {{attackStat.weaponType === 'm' ? attackStat.measure : attackStat.range}}</p>
+              <p>Atk {{attackStat.attack}}</p>
+            </div>
+            <div class="row two">
+              <p>Type {{attackStat.damageType}}</p>
+              <p>Rec {{attackStat.recovery}}</p>
+            </div>
+          </div>
+          <div>
+            <p>Damage</p>
+            <p>{{attackStat.damage}}</p>
+          </div>
+        </div>
+        <quill-view-html *ngIf="attackStat.info" [content]="attackStat.info"></quill-view-html>
+        <quill-view-html *ngIf="attackStat.equipmentBonuses.weaponInfo" [content]="attackStat.equipmentBonuses.weaponInfo"></quill-view-html>
+      </div>
+    </div>
+    <button (click)="setSectionToDisplay('movement')">Movement</button>
+  </div>
+
+  <div>
+    <div *ngIf="sectionToDisplay && sectionToDisplay === 'vitality'">
+      <app-vitality-fatigue-display [physical]="physical" [beastInfo]="beastInfo" [checkStat]="checkStat"
+        [checkCheckBox]="checkCheckBox" [captureBasicInput]="captureBasicInput" [checkTrauma]="checkTrauma"
+        [captureSliderInput]="captureSliderInput" [captureInput]="captureInput" [checkAllRoles]="checkAllRoles"
+        [removeNewSecondaryItem]="removeNewSecondaryItem" [addNewSecondaryItem]="addNewSecondaryItem"
+        [notrauma]="beast.notrauma" [sizeDictionary]="sizeDictionary">
+      </app-vitality-fatigue-display>
+    </div>
+
+    <div *ngIf="sectionToDisplay && sectionToDisplay === 'defense'">
+      <app-defense-display [beast]="beast" [captureHTML]="captureHTML" [roleInfo]="roleInfo" [removeTable]="removeTable"
+        [addNewTable]="addNewTable" [defenses]="defenses" [points]="points" [beastInfo]="beastInfo"
+        [setDefenseInfo]="setDefenseInfo" [setVitalityAndStress]="setVitalityAndStress" [size]="size"
+        [secondaryRole]="secondaryRole" [selectedRoleId]="selectedRoleId"
+        [removeCombatStatFromArray]="removeCombatStatFromArray" [addNewSecondaryItem]="addNewSecondaryItem">
+      </app-defense-display>
+    </div>
+
+    <div *ngIf="sectionToDisplay && sectionToDisplay === 'attack'">
+      <app-attack-display [beast]="beast" [captureHTML]="captureHTML" [roleInfo]="roleInfo" [removeTable]="removeTable"
+        [addNewTable]="addNewTable" [attacks]="attacks" [points]="points" [beastInfo]="beastInfo"
+        [setVitalityAndStress]="setVitalityAndStress" [size]="size" [secondaryRole]="secondaryRole" [setAttackInfo]="setAttackInfo"
+        [selectedRoleId]="selectedRoleId" [removeCombatStatFromArray]="removeCombatStatFromArray"
+        [addNewSecondaryItem]="addNewSecondaryItem"></app-attack-display>
+    </div>
+
+    <div *ngIf="sectionToDisplay && sectionToDisplay === 'movement'">
+      <app-movement-display [movement]="movement" [selectedRole]="selectedRole" [checkMovementStat]="checkMovementStat"
+        [getAdjustment]="getAdjustment" [selectedRoleId]="selectedRoleId" [captureInput]="captureInput"
+        [checkAllRoles]="checkAllRoles" [removeNewSecondaryItem]="removeNewSecondaryItem"
+        [addNewSecondaryItem]="addNewSecondaryItem"></app-movement-display>
+    </div>
+  </div>
+</div>

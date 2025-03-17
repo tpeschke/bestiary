@@ -1,0 +1,88 @@
+<div class="vitals-shell">
+  <app-mental-physical-display [statInfo]="physicalStats"
+    [primaryRole]="beastInfo.role"
+    [checkStat]="checkStat" [stats]="beastInfo">
+  </app-mental-physical-display>
+
+  <br>
+  
+  <div class="vitality-info-shell">
+    <div>
+      <mat-checkbox
+        [checked]="beastInfo.singledievitality"
+        (change)="checkCheckBox($event.checked, 'singledievitality')">Single Die Vitality
+      </mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox
+        [checked]="beastInfo.isincorporeal"
+        (change)="checkCheckBox($event.checked, 'isincorporeal')">Incorporeal? <i
+          class="fas fa-info-circle icon-small blue"
+          matTooltip="This creature takes no damage from any source except those specifically called out"
+          matTooltipClass="my-tooltip"></i>
+      </mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox
+        [checked]="beastInfo.weaponbreakagevitality"
+        (change)="checkCheckBox($event.checked, 'weaponbreakagevitality')">Weapon Breakage Vitality? <i
+          class="fas fa-info-circle icon-small blue"
+          matTooltip="This creature only takes damage when it would take Wear on a 1-to-1 basis"
+          matTooltipClass="my-tooltip"></i>
+      </mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox
+        [checked]="beastInfo.noknockback"
+        (change)="checkCheckBox($event.checked, 'noknockback')">Immune to Knockbacks?
+      </mat-checkbox>
+      <br *ngIf="!(beastInfo.noknockback)">
+      <br *ngIf="!(beastInfo.noknockback)">
+      <mat-form-field
+        *ngIf="!(beastInfo.noknockback)">
+        <input placeholder="Knock Back Threshold" matInput
+          [value]="beastInfo && beastInfo.knockback ? beastInfo.knockback : beastInfo && beastInfo.size ? sizeDictionary[beastInfo.size] : beastInfo.knockback ? beastInfo.knockback : sizeDictionary[beastInfo.size] ? sizeDictionary[beastInfo.size] : null"
+          (change)="captureBasicInput($event, 'knockback')" type="number">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-checkbox [checked]="notrauma" (change)="checkTrauma($event.checked)">Immune to Trauma?
+      </mat-checkbox>
+      <div *ngIf="!notrauma">
+        <br>
+        <p>Needs to Roll Under: {{beastInfo.rollundertrauma}}</p>
+        <mat-slider (input)="captureSliderInput($event)" min="1" max="20" step="1"
+          [value]="beastInfo.rollundertrauma">
+          <input matSliderThumb>
+        </mat-slider>
+      </div>
+    </div>
+  </div>
+
+  <div class="locational-shell">
+    <div *ngFor="let location of beastInfo.locationalvitality; let i = index" class="locational-id-shell"
+      [ngClass]="{'noDisplay': !(!location.deleted && (selectedRoleId === location.roleid || location.allroles))}">
+      <mat-form-field>
+        <input placeholder="Location" matInput [value]="location.location"
+          (change)="captureInput($event, 'locationalvitality', i, 'location')">
+        <mat-hint align="end">{{location.location.length}}/250</mat-hint>
+      </mat-form-field>
+      <mat-form-field>
+        <input placeholder="Vitality" matInput [value]="location.vitality"
+          (change)="captureInput($event, 'locationalvitality', i, 'vitality')">
+        <mat-hint align="end">{{location.vitality.length}}/250</mat-hint>
+      </mat-form-field>
+      <p>(Ave: {{calculatorService.calculateAverageOfDice(location.vitality)}})</p>
+      <section>
+        <mat-checkbox [checked]="location.allroles"
+          (change)="checkAllRoles('locationalvitality', i, $event.checked)">
+          Add to all Roles</mat-checkbox>
+      </section>
+      <button mat-raised-button (click)="removeNewSecondaryItem('locationalvitality', i)" color="warn"><i
+          class="fa-solid fa-trash"></i></button>
+    </div>
+  </div>
+  <button mat-raised-button (click)="addNewSecondaryItem('locationalvitality')" color="accent"><i
+      class="fa-solid fa-plus icon-medium"></i> Locational
+    Vitality</button>
+</div>

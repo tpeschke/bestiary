@@ -15,7 +15,6 @@ const noRole = {
     flanks: null,
     attack: null,
     fatigue: null,
-    initiative: null,
     measure: null,
     panic: null,
     rangedistance: null,
@@ -51,7 +50,6 @@ const combatSquareController = {
             }
         }
         const damageAndRecovery = setDamageDice(combatStats, roleInfo, adjustedPoints)
-        const initMod = combatStats.armor ? equipmentController.getArmor(combatStats.armor).init + 3 : 3
 
         let equipmentBonuses = { weaponInfo: null, armorInfo: null, shieldInfo: null }
         if (combatStats.weapon) {
@@ -68,7 +66,6 @@ const combatSquareController = {
             weaponType,
             attack: !combatStats.showonlydefenses ? getModifiedStatsRounded('attack', combatStats, roleInfo, adjustedPoints) : '',
             recovery: damageAndRecovery.recovery ? damageAndRecovery.recovery : getRecoveryForSpecial(combatStats, roleInfo, adjustedPoints),
-            initiative: !combatStats.showonlydefenses ? getModifiedStatsRounded('initiative', combatStats, roleInfo, adjustedPoints) + initMod : '',
             defense: getDefense(combatStats, roleInfo, adjustedPoints, size),
             cover: getCover(combatStats, roleInfo, adjustedPoints),
             damageType: damageAndRecovery.damageType,
@@ -129,7 +126,7 @@ const combatSquareController = {
             physical = setVitalityAndFatigue(combatStats, baseRoleInfo, points, secondaryrole, armor, shield, sizeMod, combatStats.noknockback)
             deteremineVitalityDice(physical, sizeMod, combatStats.noknockback)
         }
-
+        physical.initiative = getModifiedStatsRounded('initiative', combatStats, baseRoleInfo)
         return { mental: { ...mental }, physical: { ...physical } }
     },
     setVitalityAndStress: (req, res) => {
@@ -501,11 +498,11 @@ roundToNearestEvenNumber = (x) => {
     return Math.round(x / 2) * 2
 }
 
-getModifiedStatsRounded = function (stat, combatStats, roleInfo, points) {
+getModifiedStatsRounded = function (stat, combatStats, roleInfo, points = 0) {
     return Math.floor(getModifiedStats(stat, combatStats, roleInfo, points))
 }
 
-getModifiedStatsMinZero = function (stat, combatStats, roleInfo, points) {
+getModifiedStatsMinZero = function (stat, combatStats, roleInfo, points = 0) {
     const modifiedStat = getModifiedStats(stat, combatStats, roleInfo, points)
     if (modifiedStat > 0) {
         return modifiedStat

@@ -157,7 +157,6 @@ const saveUpdateFunctions = {
     },
     upsertArtist: (promiseArray, db, id, res, artistInfo) => {
         function updateArtist (artistInfo) {
-            console.log(artistInfo)
             let { id: dbid, artistid, artist, tooltip, link, roleid } = artistInfo;
             if (artist) {
                 if (!artistid) {

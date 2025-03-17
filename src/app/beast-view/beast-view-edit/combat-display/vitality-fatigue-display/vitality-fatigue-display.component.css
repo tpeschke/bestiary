@@ -1,0 +1,7 @@
+.vitality-info-shell {
+    display: flex;
+}
+
+.vitality-info-shell div {
+    margin-right: 15px
+}

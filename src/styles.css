@@ -315,6 +315,15 @@ table {
   white-space: pre-wrap !important;
 }
 
+.combat-display-shell .ql-editor {
+  text-indent: 0;
+  padding: 3px
+}
+
+.section-button .ql-editor {
+  cursor: pointer !important;
+}
+
 .ql-editor a {
   font-size: 16px;
 }

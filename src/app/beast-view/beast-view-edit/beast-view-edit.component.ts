@@ -78,7 +78,8 @@ export class BeastViewEditComponent implements OnInit {
   public physical = {
     largeweapons: null,
     fatigue: null,
-    diceString: ''
+    diceString: '',
+    intiative: null
   }
 
   public selectedRoleId = null;
@@ -107,18 +108,6 @@ export class BeastViewEditComponent implements OnInit {
 
   public ratingsObject = ratings.ratingsObject
   public ratingsArray = ratings.ratingsArray
-  public sizeDictionary = {
-    Fine: 1,
-    Diminutive: 5,
-    Tiny: 5,
-    Small: 10,
-    Medium: 15,
-    Large: 20,
-    Huge: 35,
-    Giant: 55,
-    Enormous: 90,
-    Colossal: 145
-  }
 
   public mentalStats = [
     {
@@ -130,45 +119,6 @@ export class BeastViewEditComponent implements OnInit {
       label: 'Panic',
       stat: 'panic',
     }
-  ]
-  public physicalStats = [
-    {
-      label: 'Vitality',
-      stat: 'largeweapons',
-      tooltip: 'Defense Against Large Weapons'
-    },
-    {
-      label: 'Fatigue',
-      stat: 'fatigue',
-    }
-  ]
-
-  public movementStats = [
-    {
-      label: 'Crawl',
-      stat: 'strollstrength',
-      speed: 'strollspeed',
-    },
-    {
-      label: 'Walk',
-      stat: 'walkstrength',
-      speed: 'walkspeed',
-    },
-    {
-      label: 'Jog',
-      stat: 'jogstrength',
-      speed: 'jogspeed',
-    },
-    {
-      label: 'Run',
-      stat: 'runstrength',
-      speed: 'runspeed',
-    },
-    {
-      label: 'Sprint',
-      stat: 'sprintstrength',
-      speed: 'sprintspeed',
-    },
   ]
 
   public templateIds = [503, 504, 494, 505, 492, 508, 502, 491, 498, 512, 511, 507, 513, 496, 499, 501, 500, 497, 493, 509, 515, 514, 510]
@@ -974,9 +924,10 @@ export class BeastViewEditComponent implements OnInit {
     }
   }
 
-  checkTrauma(checked) {
+  checkTraumaUnbound(checked) {
     this.beast.notrauma = checked
   }
+  checkTrauma = this.checkTraumaUnbound.bind(this)
 
   checkCheckBox = (checked, type) => {
     if (this.selectedRoleId) {
@@ -2420,7 +2371,8 @@ export class BeastViewEditComponent implements OnInit {
       singledievitality: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].singledievitality : this.beast.singledievitality,
       isincorporeal: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].isincorporeal : this.beast.isincorporeal,
       weaponbreakagevitality: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].weaponbreakagevitality : this.beast.weaponbreakagevitality,
-      noknockback: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].noknockback : this.beast.noknockback
+      noknockback: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].noknockback : this.beast.noknockback,
+      initiative: this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].initiative : this.beast.initiative
     }
 
     const combatpoints = this.beast.roleInfo[this.selectedRoleId] ? this.beast.roleInfo[this.selectedRoleId].combatpoints : this.beast.combatpoints

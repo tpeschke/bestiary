@@ -9,10 +9,7 @@
   </h3>
   <div class="combat-stat-shell">
     <div>
-      <app-combat-table [combatSquare]="combatSquare" [editing]="true"></app-combat-table>
-      
-      <br>
-      <mat-form-field>
+      <mat-form-field *ngIf="type === 'attack'">
         <mat-label>Range Type</mat-label>
         <mat-select [disabled]="combatStats.weapon && combatStats.weapon !== ''" [value]="combatSquare.weaponType"
           (selectionChange)="captureSelected($event, 'weapontype')">
@@ -28,11 +25,9 @@
       <mat-checkbox (change)="checkBasicStatOnOff('addsizemod', $event)" [checked]="combatStats.addsizemod">Add Size
         Modifier</mat-checkbox>
 
-      <mat-checkbox (change)="checkBasicStatOnOff('showonlydefenses', $event)" [checked]="combatStats.showonlydefenses">Show Only Defenses</mat-checkbox>
-
       <mat-checkbox (change)="checkBasicStatOnOff('swarmbonus', $event)" [checked]="combatStats.swarmbonus">Swarm Bonus?</mat-checkbox>
 
-      <mat-form-field>
+      <mat-form-field *ngIf="type === 'attack'">
         <input placeholder="Weapon" matInput [value]="combatStats.weapon" [matAutocomplete]="weaponGroup"
           [formControl]="weaponControl">
 
@@ -47,7 +42,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field *ngIf="type === 'defense'">
         <input placeholder="Armor" matInput [value]="combatStats.armor" [matAutocomplete]="armorGroup"
           [formControl]="armorControl">
 
@@ -62,7 +57,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field *ngIf="type === 'defense'">
         <input placeholder="Shield" matInput [value]="combatStats.shield" [matAutocomplete]="shieldGroup"
           [formControl]="shieldControl">
 
@@ -81,6 +76,7 @@
         All
         Equipment</mat-checkbox>
     </div>
+
     <div>
       <table>
         <thead>
@@ -107,14 +103,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr *ngIf="type === 'attack'">
             <th></th>
             <th colspan="7">
               Damage
             </th>
           </tr>
           <tr *ngFor="let stat of attackStats"
-            [ngClass]="{'noDisplay': combatStats.isspecial === 'yes' || combatStats.weapon}">
+            [ngClass]="{'noDisplay': combatStats.isspecial === 'yes' || combatStats.weapon || type !== 'attack'}">
             <td>{{stat.label}} <i *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue"
                 matTooltip="{{stat.tooltip}}" matTooltipClass="my-tooltip"></i>
             </td>
@@ -179,7 +175,7 @@
             </td>
           </tr>
 
-          <tr [ngClass]="{'noDisplay': combatStats.isspecial === 'yes' || !combatStats.weapon}">
+          <tr  *ngIf="type === 'attack'" [ngClass]="{'noDisplay': combatStats.isspecial === 'yes' || !combatStats.weapon}">
             <td>Weapon</td>
             <td>
               <mat-checkbox [ngClass]="roleInfo && roleInfo.damage === 'majSt' ? 'checkmark-role-background' : ''"
@@ -234,8 +230,8 @@
                 [matTooltipDisabled]="roleInfo && roleInfo.damage !== 'noneWk'"></mat-checkbox>
             </td>
           </tr>
-          <tr class="top-border">
-            <td>Is a Special Attack?
+          <tr *ngIf="type === 'attack'" class="top-border">
+            <td colspan="2">Is a Special Attack?
             </td>
             <td colspan="2">
               <mat-checkbox (change)="checkBasicStat('isspecial', null, $event)" [checked]="!combatStats.isspecial">
@@ -255,13 +251,7 @@
             </td>
           </tr>
 
-          <tr>
-            <th></th>
-            <th colspan="7">
-              Defenses
-            </th>
-          </tr>
-          <tr>
+          <tr *ngIf="type === 'defense'">
             <td>All <i class="fas fa-info-circle icon-small blue" matTooltip="Defense" matTooltipClass="my-tooltip"></i>
             </td>
             <td>
@@ -315,7 +305,7 @@
                 [matTooltipDisabled]="roleInfo && roleInfo.alldefense !== 'noneWk'"></mat-checkbox>
             </td>
           </tr>
-          <tr *ngFor="let stat of defenseStats">
+          <tr *ngFor="let stat of defenseStats" [ngClass]="{'noDisplay': type !== 'defense'}">
             <td>{{stat.label}} <i *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue"
                 matTooltip="{{stat.tooltip}}" matTooltipClass="my-tooltip"></i>
             </td>
@@ -371,7 +361,7 @@
             </td>
           </tr>
 
-          <tr *ngIf="!combatStats.eua">
+          <tr *ngIf="!combatStats.eua && type === 'defense'">
             <td>Weapons, Small, Piercing <i class="fas fa-info-circle icon-small blue" matTooltip="Parry"
                 matTooltipClass="my-tooltip"></i>
             </td>
@@ -433,7 +423,7 @@
             </td>
           </tr>
 
-          <tr>
+          <tr *ngIf="type === 'defense'">
             <td colspan="2" [ngClass]="{'justify-right': !combatStats.eua}">Parry Everything Except Unarmed Attacks <i
                 class="fas fa-info-circle icon-small blue" matTooltip="Parries all attacks except unarmed (EUA)" matTooltipClass="my-tooltip"></i></td>
             <td>
@@ -442,7 +432,7 @@
             <td colspan="5"> </td>
           </tr>
 
-          <tr *ngFor="let stat of defenseStatsPartTwo">
+          <tr *ngFor="let stat of defenseStatsPartTwo"  [ngClass]="{'noDisplay': type !== 'defense'}">
             <td [ngClass]="stat.label.includes('& ') || stat.label === 'Flanks' ? 'justify-right' : ''">{{stat.label}}
               <i *ngIf="stat.tooltip" class="fas fa-info-circle icon-small blue" matTooltip="{{stat.tooltip}}"
                 matTooltipClass="my-tooltip"></i>
@@ -499,7 +489,7 @@
             </td>
           </tr>
 
-          <tr>
+          <tr *ngIf="type === 'defense'">
             <td>Threshold DR <i
                 class="fas fa-info-circle icon-small blue" matTooltip="Damage above DR is reduced to 1. Doubling the damage needed, increases it to 2 and so on. So, for 5 TDR, dealing 9 damage only deals 1; dealing 23 damage deals 3." matTooltipClass="my-tooltip"></i></td>
             <td>
@@ -508,13 +498,13 @@
             <td colspan="6"> </td>
           </tr>
 
-          <tr>
+          <tr *ngIf="type === 'attack'">
             <th></th>
             <th colspan="7">
               Other
             </th>
           </tr>
-          <tr *ngFor="let stat of otherStats">
+          <tr *ngFor="let stat of otherStats" [ngClass]="{'noDisplay': type !== 'attack'}">
             <td>{{stat.label}}</td>
             <td>
               <mat-checkbox [ngClass]="roleInfo && roleInfo[stat.stat] === 'majSt' ? 'checkmark-role-background' : ''"
@@ -568,7 +558,7 @@
             </td>
           </tr>
 
-          <tr *ngIf="combatSquare.weaponType === 'm'">
+          <tr *ngIf="combatSquare.weaponType === 'm' && type === 'attack'">
             <td>Measure
             </td>
             <td>
@@ -623,7 +613,7 @@
             </td>
           </tr>
 
-          <tr *ngIf="combatSquare.weaponType !== 'm'">
+          <tr *ngIf="combatSquare.weaponType !== 'm' && type === 'attack'">
             <td>Range, Distance
             </td>
             <td>

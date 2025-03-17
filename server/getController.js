@@ -329,6 +329,20 @@ module.exports = {
           if (physicalMental && physicalMental.currentStress) {
             beast.phyiscalAndStress.mental.currentStress = +physicalMental.currentStress
           }
+
+          beast.combat = {}
+          let defenses = []
+          beast.combatStatArray.forEach(({ beastid, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing, weaponsmallcrushing, weaponsmallpiercing,
+            andslashing, andcrushing, flanks, rangeddefence, alldefense, eua, addsizemod, shield, armor, weaponname, rangeddefense,
+            swarmbonus, adjustment, tdr, info }) => {
+            defenses.push({
+              beastid, roleid, piercingweapons, slashingweapons, crushingweapons, weaponsmallslashing, weaponsmallcrushing, weaponsmallpiercing,
+              andslashing, andcrushing, flanks, rangeddefence, alldefense, eua, addsizemod, shield, armor, defensename: weaponname, rangeddefense,
+              swarmbonus, adjustment, tdr, info
+            })
+          })
+          beast.combat.defenses = defenses
+
           return result
         }).catch(e => sendErrorForward('quick view combat', e, res)))
 
@@ -779,6 +793,29 @@ module.exports = {
                 beast.roleInfo[role].phyiscalAndStress = combatSquareCtrl.setVitalityAndStressDirectly(beast.roleInfo[role].combatpoints, Math.max(beast.roleInfo[role].combatpoints, beast.roleInfo[role].skillpoints, beast.roleInfo[role].socialpoints), beast.roleInfo[role].role, { mental: beast.roleInfo[role].mental, panic: beast.roleInfo[role].panic, fatigue: beast.roleInfo[role].fatigue, largeweapons: beast.roleInfo[role].largeweapons, singledievitality: beast.roleInfo[role].singledievitality, noknockback: beast.roleInfo[role].noknockback }, beast.roleInfo[role].secondaryrole, beast.roleInfo[role].knockback, beast.roleInfo[role].size ? beast.roleInfo[role].size : beast.size ? beast.size : 'Medium', armor, shield)
               }
             }
+
+            beast.combat = {}
+            let defenses = []
+            let attacks = []
+            beast.combatStatArray.forEach(({ beastid, roleid, weaponsmallslashing, weaponsmallcrushing, weaponsmallpiercing,
+              andslashing, andcrushing, flanks, rangeddefence, alldefense, eua, addsizemod, shield, armor, weaponname, rangeddefense,
+              swarmbonus, adjustment, tdr, info, weapontype, piercingweapons, slashingweapons, crushingweapons, attack, isspecial, weapon, measure, recovery,
+            }) => {
+
+              defenses.push({
+                beastid, roleid, weaponsmallslashing, weaponsmallcrushing, weaponsmallpiercing,
+                andslashing, andcrushing, flanks, rangeddefence, alldefense, eua, addsizemod, shield, armor, defensename: weaponname, rangeddefense,
+                swarmbonus, adjustment, tdr, info
+              })
+
+              attacks.push({
+                beastid, roleid, weapontype, piercingweapons, slashingweapons, crushingweapons, attack, isspecial, addsizemod, weapon, weaponname, measure, recovery, swarmbonus, adjustment,
+                info
+              })
+            })
+            beast.combat.defenses = defenses
+            beast.combat.attacks = attacks
+
             return result
           }).catch(e => sendErrorForward('beast combat 2', e, res)))
 

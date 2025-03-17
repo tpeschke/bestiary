@@ -1,0 +1,89 @@
+.combat-display-shell {
+    display: flex;
+}
+
+.combat-display-shell>div {
+    margin: 0 5px;
+}
+
+.combat-display-shell>div:first-child {
+    min-width: 400px;
+    max-width: 400px;
+}
+
+.section-button {
+    cursor: pointer !important;
+    border: 1px solid transparent
+}
+
+.section-button:hover {
+    border: 1px solid #607d8b;
+}
+
+.row {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 3px;
+}
+
+.row.two-items-opposite {
+    justify-content: space-between;
+}
+
+.subheading {
+    background: #e1e7ea;
+}
+
+.sub-subheading {
+    background: #f3f3f3;
+    color: #434343;
+    font-style: italic;
+    justify-content: start;
+}
+
+.fa-down-long {
+    font-size: 11px;
+}
+
+p {
+    text-align: center;
+}
+
+.row.two>p {
+    width: 40%;
+}
+
+.row.three>p {
+    width: 30%
+}
+
+strong {
+    font-family: 'know';
+    font-size: 15px;
+    margin-right: 5px;
+    color: #434343;
+    font-style: normal;
+}
+
+.sub-subheading strong {
+    margin-right: auto;
+}
+
+.attack-info-shell {
+    display: flex;
+}
+
+.attack-info-shell>div {
+    width: 33%;
+}
+
+.attack-info-shell>div:first-child {
+    width: 66%;
+}
+
+.attack-info-shell>div:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-around;
+}
